@@ -65,17 +65,6 @@ public class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LayerSearchSourceFilter? Filter { get; set; }
 
-    /// <summary>
-    ///     The layer queried in the search. This is required. The layer can be a map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer or OGCFeatureLayer. See the SceneLayer Guide page on how to publish SceneLayers with associated feature layers.
-    /// </summary>
-    /// <remarks>
-    ///     You may either specify a LayerId for an existing map layer, or nest a new <see cref = "FeatureLayer"/> inside this Search Source.
-    ///     Feature layers created from client-side graphics are not supported.
-    /// </remarks>
-    [RequiredProperty(nameof(LayerId))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Layer? Layer { get; set; }
-
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
     {

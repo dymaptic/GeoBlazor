@@ -14,12 +14,12 @@ public class LayerInfo : MapComponent
     public string? Title { get; set; }
 
     /// <summary>
-    ///     A layer to display in the legend.
+    ///     The ID for a layer to display in the legend.
     /// </summary>
     [Parameter]
     [EditorRequired]
     [RequiredProperty]
-    public Layer Layer { get; set; } = default !;
+    public Guid LayerId { get; set; }
 
     /// <summary>
     ///     Only applicable if the layer is a MapImageLayer. The IDs of the MapImageLayer sublayers for which to display legend

@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Layers;
+﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 [JsonConverter(typeof(LayerConverter))]
 public abstract partial class Layer : MapComponent
@@ -278,12 +278,15 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
-        if (AbortManager != null)
+        if (AbortManager is not null)
         {
             await AbortManager.DisposeAsync();
         }
 
-        LayerView?.Dispose();
+        if (LayerView is not null)
+        {
+            await LayerView.DisposeAsync();
+        }
 
         if (JsComponentReference is not null)
         {

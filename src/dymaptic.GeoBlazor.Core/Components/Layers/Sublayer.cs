@@ -85,16 +85,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DynamicLayer? Source { get; set; }
 
-
-    /// <summary>
-    ///     The MapImageLayer or TileLayer to which the sublayer belongs.
-    /// </summary>
-    [JsonIgnore]
-    [CodeGenerationIgnore]
-    public Layer? Layer => Parent is Sublayer sublayer
-        ? sublayer.Layer
-        : Parent as Layer;
-
     /// <summary>
     ///     Returns a flattened list of sublayers
     /// </summary>

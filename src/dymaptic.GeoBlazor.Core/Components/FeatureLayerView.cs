@@ -40,7 +40,6 @@ public partial class FeatureLayerView : LayerView
         bool? maximumNumberOfFeaturesExceeded = null)
     {
 #pragma warning disable BL0005
-        JsObjectReference = layerView.JsObjectReference;
         SpatialReferenceSupported = layerView.SpatialReferenceSupported;
         Suspended = layerView.Suspended;
         Updating = layerView.Updating;
@@ -90,7 +89,8 @@ public partial class FeatureLayerView : LayerView
     /// </param>
     public async Task SetFilter(FeatureFilter? filter)
     {
-        IJSObjectReference? filterRef = await JsObjectReference!.InvokeAsync<IJSObjectReference?>(
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+        IJSObjectReference? filterRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>(
             "setFilter", CancellationTokenSource.Token, filter);
 
         if (filter is not null)
@@ -110,7 +110,8 @@ public partial class FeatureLayerView : LayerView
 
     public async Task SetFeatureEffect(FeatureEffect? featureEffect)
     {
-        IJSObjectReference? effectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference?>(
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+        IJSObjectReference? effectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>(
             "setFeatureEffect", CancellationTokenSource.Token, featureEffect);
 
         if (featureEffect is not null)
@@ -132,8 +133,9 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(long objectId)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
+            await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectId);
         return new HighlightHandle(objectRef);
     }
@@ -150,7 +152,8 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(string objectId)
     {
-        IJSObjectReference objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight", 
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+        IJSObjectReference objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight", 
             CancellationTokenSource.Token, objectId);
         return new HighlightHandle(objectRef);
     }
@@ -169,12 +172,13 @@ public partial class FeatureLayerView : LayerView
     /// </exception>
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<long> objectIds)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         if (objectIds.Count == 0)
         {
             throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
         }
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
+            await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
         return new HighlightHandle(objectRef);
@@ -194,12 +198,13 @@ public partial class FeatureLayerView : LayerView
     /// </exception>
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<string> objectIds)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         if (objectIds.Count == 0)
         {
             throw new ArgumentException("At least one ObjectID must be provided.", nameof(objectIds));
         }
         IJSObjectReference objectRef =
-            await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
+            await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, objectIds);
 
         return new HighlightHandle(objectRef);
@@ -219,16 +224,17 @@ public partial class FeatureLayerView : LayerView
     /// </exception>
     public async Task<HighlightHandle> Highlight(Graphic graphic)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
         if (graphic.Attributes.TryGetValue("OBJECTID", out object? objectId))
         {
-            objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
+            objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                     CancellationTokenSource.Token, objectId);
         }
         else
         {
-            objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorId",
-                CancellationTokenSource.Token, graphic.Id);
+            objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorId",
+                CancellationTokenSource.Token, graphic.Id, Layer?.Id);
             
             if (objectRef is null)
             {
@@ -253,6 +259,7 @@ public partial class FeatureLayerView : LayerView
     /// </exception>
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<Graphic> graphics)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
         IJSObjectReference? objectRef;
 
         if (graphics.Count == 0)
@@ -261,13 +268,13 @@ public partial class FeatureLayerView : LayerView
         }
         if (graphics.First().Attributes.TryGetValue("OBJECTID", out _))
         {
-            objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference>("highlight",
+            objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference>("highlight",
                 CancellationTokenSource.Token, graphics.Select(g => g.Attributes["OBJECTID"]).ToArray());
         }
         else
         {
-            objectRef = await JsObjectReference!.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorIds",
-                CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray());
+            objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorIds",
+                CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray(), Layer?.Id);
             
             if (objectRef is null)
             {
@@ -285,7 +292,8 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<Query> CreateQuery()
     {
-        return await JsObjectReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
+        return await JsComponentReference.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -307,8 +315,9 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<ExtentQueryResult?> QueryExtent(Query query, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult? result = await JsObjectReference!.InvokeAsync<ExtentQueryResult?>("queryExtent", cancellationToken, query, new { signal = abortSignal });
+        ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>("queryExtent", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
@@ -335,8 +344,9 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<int?> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsObjectReference!.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query, new { signal = abortSignal });
+        int? result = await JsComponentReference.InvokeAsync<int?>("queryFeatureCount", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
         return result;
     }
@@ -363,11 +373,12 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
-        FeatureSet result = await JsObjectReference!.InvokeAsync<FeatureSet>("queryFeatures", 
+        FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures", 
             cancellationToken, query, new { signal = abortSignal }, DotNetObjectReference.Create(this), 
-            Layer?.View?.Id, queryId);
+            View?.Id, queryId, Layer?.Id);
         if (_activeQueries.ContainsKey(queryId))
         {
             result = result with { Features = _activeQueries[queryId]};
@@ -419,8 +430,9 @@ public partial class FeatureLayerView : LayerView
     [CodeGenerationIgnore]
     public async Task<long[]?> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent", cancellationToken);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? queryResult = await JsObjectReference!.InvokeAsync<long[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+        long[]? queryResult = await JsComponentReference.InvokeAsync<long[]?>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
         return queryResult;
     }

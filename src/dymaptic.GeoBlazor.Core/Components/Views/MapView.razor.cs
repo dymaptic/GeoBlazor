@@ -778,13 +778,13 @@ public partial class MapView : MapComponent
     ///     JS-Invokable method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
+    public async Task<Guid?> OnJavascriptLayerViewCreateComplete(Guid? geoBlazorLayerId, string layerUid,
         IJSObjectReference layerRef, IJSObjectReference layerViewRef, bool isBasemapLayer, bool isReferenceLayer)
     {
-        if (_isDisposed) return;
+        if (_isDisposed) return null;
         try
         {
-            JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
+            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
             Layer layer = JsonSerializer.Deserialize<Layer>(_layerCreateData[layerUid].ToString(), options)!;
 
             LayerView layerView =
@@ -793,11 +793,13 @@ public partial class MapView : MapComponent
             LayerViewCreateInternalEvent createEvent =
                 new(layerRef, layerViewRef, geoBlazorLayerId ?? Guid.Empty, layer,
                     layerView, isBasemapLayer, isReferenceLayer);
-            await OnJavascriptLayerViewCreate(createEvent);
+            return await OnJavascriptLayerViewCreate(createEvent);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
+
+            return null;
         }
     }
 
@@ -808,9 +810,9 @@ public partial class MapView : MapComponent
     ///     The new <see cref="LayerViewCreateEvent" />
     /// </param>
     [JSInvokable]
-    public async Task OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
+    public async Task<Guid?> OnJavascriptLayerViewCreate(LayerViewCreateInternalEvent layerViewCreateEvent)
     {
-        if (_isDisposed) return;
+        if (_isDisposed) return null;
         LayerView? layerView = layerViewCreateEvent.Layer switch
         {
             FeatureLayer => new FeatureLayerView(layerViewCreateEvent.LayerView!, new AbortManager(CoreJsModule!)),
@@ -821,7 +823,8 @@ public partial class MapView : MapComponent
         {
             layerView.View = this;
             layerView.Parent = this;
-            layerView.JsObjectReference = layerViewCreateEvent.LayerViewObjectRef;
+            layerView.CoreJsModule = CoreJsModule;
+            layerView.JsComponentReference = layerViewCreateEvent.LayerViewObjectRef;
         }
 
         Layer? createdLayer = layerViewCreateEvent.IsBasemapLayer
@@ -895,6 +898,8 @@ public partial class MapView : MapComponent
         }
 
         await OnLayerViewCreate.InvokeAsync(new LayerViewCreateEvent(layerView?.Layer, layerView));
+
+        return layerView?.Id;
     }
 
     /// <summary>

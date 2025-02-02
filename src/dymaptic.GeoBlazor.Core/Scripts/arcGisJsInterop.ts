@@ -2,13 +2,6 @@
 
 // region imports
 import {
-    buildJsBaseTileLayer,
-    buildJsFeatureLayer,
-    buildJsImageryTileLayer,
-    buildJsVectorTileLayer,
-    buildJsWebTileLayer
-} from './jsBuilder.gb';
-import {
     buildDotNetBookmark,
     buildDotNetExtent,
     buildDotNetGeometry,
@@ -81,7 +74,6 @@ import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
 import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
-import BingMapsLayerWrapper from "./bingMapsLayer";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Camera from "@arcgis/core/Camera";
 import Color from "@arcgis/core/Color";
@@ -92,8 +84,6 @@ import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import esriConfig from "@arcgis/core/config";
 import Expand from "@arcgis/core/widgets/Expand";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-import FeatureLayerViewWrapper from "./featureLayerView";
-import FeatureLayerWrapper from "./featureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import GeometryEngineWrapper from "./geometryEngine";
@@ -103,7 +93,6 @@ import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Home from "@arcgis/core/widgets/Home";
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
-import ImageryTileLayerWrapper from "./imageryTileLayer";
 import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import LayerList from "@arcgis/core/widgets/LayerList";
@@ -124,7 +113,6 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import Popup from "@arcgis/core/widgets/Popup";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import PopupWidgetWrapper from "./popupWidget";
 import Portal from "@arcgis/core/portal/Portal";
 import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource";
 import ProjectionWrapper from "./projection";
@@ -136,11 +124,9 @@ import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import SceneView from "@arcgis/core/views/SceneView";
 import Search from "@arcgis/core/widgets/Search";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
-import SearchWidgetWrapper from "./searchWidget";
 import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import Slider from "@arcgis/core/widgets/Slider";
-import SliderWidgetWrapper from "./sliderWidget";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
 import TileLayer from "@arcgis/core/layers/TileLayer";
@@ -223,11 +209,7 @@ export async function getProperty(obj: any, prop: string): Promise<any> {
         val = obj[prop];
     }
     
-    if (hasValue(val)) {
-        return await getObjectReference(val);
-    }
-    
-    return null;
+    return val;
 }
 
 // nullable value types cannot be correctly deserialized directly with the current Blazor implementation, so we have to wrap them
@@ -267,7 +249,7 @@ export function removeFromProperty(obj, prop, value) {
 }
 
 export function getJsComponent(id: string) {
-    let component = arcGisObjectRefs[id];
+    let component = jsObjectRefs[id];
     
     if (hasValue(component)) {
         // @ts-ignore
@@ -654,14 +636,22 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
                 isReferenceLayer = true;
             }
         }
-
-        let layerRef;
-        let layerViewRef;
+        
+        let jsLayer: any = evt.layer;
+        let jsLayerView: any = evt.layerView;
+        
+        if (jsLayer.type == 'feature') {
+            let { default: FeatureLayerWrapper } = await import('./featureLayer');
+            jsLayer = new FeatureLayerWrapper(jsLayer);
+            let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+            jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+        }
+        
         // @ts-ignore
-        layerRef = DotNet.createJSObjectReference(await getObjectReference(evt.layer));
+        let layerRef = DotNet.createJSObjectReference(jsLayer); 
         // @ts-ignore
-        layerViewRef = DotNet.createJSObjectReference(await getObjectReference(evt.layerView));
-
+        let layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+        
         let result = {
             layerObjectRef: layerRef,
             layerViewObjectRef: layerViewRef,
@@ -678,9 +668,15 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         }
 
         uploadingLayers.push(layerUid);
+        
+        let layerViewId: string | null = null;
 
         if (!blazorServer) {
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            if (layerViewId !== null) {
+                arcGisObjectRefs[layerViewId] = evt.layerView;
+                jsObjectRefs[layerViewId] = jsLayerView;
+            }
             uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
             return;
         }
@@ -704,8 +700,12 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
         }
 
-        await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
+        layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
             result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
+        if (layerViewId !== null) {
+            arcGisObjectRefs[layerViewId] = evt.layerView;
+            jsObjectRefs[layerViewId] = jsLayerView;
+        }
         uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
     });
 
@@ -806,7 +806,10 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
 }
 
 export async function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
-    arcGisObjectRefs[geoBlazorId] = await getObjectReference(jsObjectRef);
+    if (arcGisObjectRefs.hasOwnProperty(geoBlazorId)) {
+        return;
+    }
+    arcGisObjectRefs[geoBlazorId] = jsObjectRef;
     jsObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap') 
         ? jsObjectRef.unwrap() 
         : jsObjectRef;
@@ -2071,7 +2074,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 view.when(() => {
                     legend.layerInfos = dotNetWidget.layerInfos.map(li => {
                         let jsLayerInfo = {
-                            layer: arcGisObjectRefs[li.layer.id]
+                            layer: arcGisObjectRefs[li.layerId]
                         } as LegendLayerInfos;
                         if (hasValue(li.title)) {
                             jsLayerInfo.title = li.title;
@@ -2537,12 +2540,9 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
 export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId: string | null): Promise<Layer | null> {
     if (arcGisObjectRefs.hasOwnProperty(dotNetLayer.id)) {
-        let oldLayer = arcGisObjectRefs[dotNetLayer.id] as Layer;
-        if (!oldLayer.destroyed) {
-            if (wrap) {
-                return await getObjectReference(arcGisObjectRefs[dotNetLayer.id] as Layer);
-            }
-            return arcGisObjectRefs[dotNetLayer.id] as Layer;
+        let existingLayer = jsObjectRefs[dotNetLayer.id] as any;
+        if (hasValue(existingLayer) && !existingLayer.layer.destroyed) {
+            return jsObjectRefs[dotNetLayer.id] as Layer;
         }
     }
     let newLayer: Layer;
@@ -2568,10 +2568,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             if (hasValue(dotNetLayer.effect)) {
                 graphicsLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
-            break;
-        case 'feature':
-            newLayer = await buildJsFeatureLayer(dotNetLayer, dotNetLayer.id, viewId);
-            
             break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
@@ -2644,10 +2640,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'geo-rss':
             newLayer = new GeoRSSLayer({ url: dotNetLayer.url });
-            break;
-        case 'web-tile':
-            newLayer = await buildJsWebTileLayer(dotNetLayer);
-
             break;
         case 'open-street-map':
             let openStreetMapLayer: OpenStreetMapLayer;
@@ -2820,22 +2812,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
             newLayer = imageryLayer;
             break;
-        case 'BaseTileLayerType':
-            newLayer = await buildJsBaseTileLayer(dotNetLayer);
-
-            break;
-        case 'imagery-tile':
-            newLayer = await buildJsImageryTileLayer(dotNetLayer, dotNetLayer.id, viewId);
-
-            break;
-        case 'vector-tile':
-            newLayer = await buildJsVectorTileLayer(dotNetLayer);
-
-            break;
-        case 'WebTileLayerType':
-            newLayer = await buildJsWebTileLayer(dotNetLayer);
-
-            break;
         default:
             return null;
     }
@@ -2850,115 +2826,10 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
     arcGisObjectRefs[dotNetLayer.id] = newLayer;
     
     if (wrap) {
-        return jsObjectRefs[dotNetLayer.id] ?? await getObjectReference(newLayer);
+        return jsObjectRefs[dotNetLayer.id];
     }
 
     return newLayer;
-}
-
-export async function getObjectReference(objectRef: any) {
-    if (!hasValue(objectRef)) return objectRef;
-    try {
-        // check the class name first, as some esri types fail the `instanceof` check
-        switch (objectRef?.__proto__.declaredClass) {
-            case 'esri.views.2d.layers.FeatureLayerView2D':
-            case 'esri.views.3d.layers.FeatureLayerView3D':
-                return new FeatureLayerViewWrapper(objectRef);
-        }
-
-        if (objectRef instanceof Layer) {
-            if (objectRef instanceof FeatureLayer) {
-                return new FeatureLayerWrapper(objectRef);
-            }
-            if (objectRef instanceof BingMapsLayer) {
-                return new BingMapsLayerWrapper(objectRef);
-            }
-            if (objectRef instanceof ImageryTileLayer) {
-                return new ImageryTileLayerWrapper(objectRef);
-            }
-        }
-        if (objectRef instanceof Popup) {
-            return new PopupWidgetWrapper(objectRef);
-        }
-        if (objectRef instanceof Search) {
-            return new SearchWidgetWrapper(objectRef);
-        }
-        if (objectRef instanceof Slider) {
-            return new SliderWidgetWrapper(objectRef);
-        }
-        
-        let { default: BaseTileLayer } = await import ('@arcgis/core/layers/BaseTileLayer');
-        if (objectRef instanceof BaseTileLayer) {
-            let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
-            return new BaseTileLayerWrapper(objectRef);
-        }
-        let { default: CSVLayer } = await import ('@arcgis/core/layers/CSVLayer');
-        if (objectRef instanceof CSVLayer) {
-            let { default: CSVLayerWrapper } = await import('./cSVLayer');
-            return new CSVLayerWrapper(objectRef);
-        }
-        let { default: ElevationLayer } = await import ('@arcgis/core/layers/ElevationLayer');
-        if (objectRef instanceof ElevationLayer) {
-            let { default: ElevationLayerWrapper } = await import('./elevationLayer');
-            return new ElevationLayerWrapper(objectRef);
-        }
-        let { default: GeoJSONLayer } = await import ('@arcgis/core/layers/GeoJSONLayer');
-        if (objectRef instanceof GeoJSONLayer) {
-            let { default: GeoJSONLayerWrapper } = await import('./geoJSONLayer');
-            return new GeoJSONLayerWrapper(objectRef);
-        }
-        let { default: GeoRSSLayer } = await import ('@arcgis/core/layers/GeoRSSLayer');
-        if (objectRef instanceof GeoRSSLayer) {
-            let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
-            return new GeoRSSLayerWrapper(objectRef);
-        }
-        let { default: GraphicsLayer } = await import ('@arcgis/core/layers/GraphicsLayer');
-        if (objectRef instanceof GraphicsLayer) {
-            let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
-            return new GraphicsLayerWrapper(objectRef);
-        }
-        let { default: ImageryLayer } = await import ('@arcgis/core/layers/ImageryLayer');
-        if (objectRef instanceof ImageryLayer) {
-            let { default: ImageryLayerWrapper } = await import('./imageryLayer');
-            return new ImageryLayerWrapper(objectRef);
-        }
-        let { default: KMLLayer } = await import ('@arcgis/core/layers/KMLLayer');
-        if (objectRef instanceof KMLLayer) {
-            let { default: KMLLayerWrapper } = await import('./kMLLayer');
-            return new KMLLayerWrapper(objectRef);
-        }
-        let { default: MapImageLayer } = await import ('@arcgis/core/layers/MapImageLayer');
-        if (objectRef instanceof MapImageLayer) {
-            let { default: MapImageLayerWrapper } = await import('./mapImageLayer');
-            return new MapImageLayerWrapper(objectRef);
-        }
-        let { default: VectorTileLayer } = await import ('@arcgis/core/layers/VectorTileLayer');
-        if (objectRef instanceof VectorTileLayer) {
-            let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
-            return new VectorTileLayerWrapper(objectRef);
-        }
-        let { default: WCSLayer } = await import ('@arcgis/core/layers/WCSLayer');
-        if (objectRef instanceof WCSLayer) {
-            let { default: WCSLayerWrapper } = await import('./wCSLayer');
-            return new WCSLayerWrapper(objectRef);
-        }
-        let { default: WebTileLayer } = await import ('@arcgis/core/layers/WebTileLayer');
-        if (objectRef instanceof WebTileLayer) {
-            let { default: WebTileLayerWrapper } = await import('./webTileLayer');
-            return new WebTileLayerWrapper(objectRef);
-        }
-        let { default: TileLayer } = await import ('@arcgis/core/layers/TileLayer');
-        if (objectRef instanceof TileLayer) {
-            let { default: TileLayerWrapper } = await import('./tileLayer');
-            return new TileLayerWrapper(objectRef);
-        }
-        // return default arcgis object -- do not remove this comment, necessary for code-gen
-        return objectRef;
-    }
-    catch {
-        // do nothing
-    }
-    return objectRef;
 }
 
 export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean, isReferenceLayer): void {
@@ -3513,4 +3384,12 @@ function base64ToArrayBuffer(base64): Uint8Array {
         bytes[i] = binaryString.charCodeAt(i);
     }
     return bytes;
+}
+
+export function toUpperFirstChar(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function toLowerFirstChar(str: string): string {
+    return str.charAt(0).toLowerCase() + str.slice(1);
 }

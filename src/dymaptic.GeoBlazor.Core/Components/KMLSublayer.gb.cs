@@ -74,16 +74,6 @@ public partial class KMLSublayer : MapComponent
     public long? KMLSublayerId { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">KMLLayer</a> to which the sublayer belongs.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#layer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [AncestorPropertyReference]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public KMLLayer? Layer { get; set; }
-    
-    /// <summary>
     ///     Network link info for the current layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#networkLink">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

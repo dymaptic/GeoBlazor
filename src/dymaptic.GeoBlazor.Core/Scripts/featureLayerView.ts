@@ -1,4 +1,4 @@
-import FeatureLayerViewGenerated from './featureLayerView.gb';
+﻿import FeatureLayerViewGenerated from './featureLayerView.gb';
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
 import {
@@ -19,54 +19,53 @@ import Handle = __esri.Handle;
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
-    private geoBlazorLayerId: string = '';
-
+    
     constructor(component: FeatureLayerView) {
         super(component);
     }
 
     setFeatureEffect(dnfeatureEffect: DotNetFeatureEffect): any {
-        this.featureLayerView.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
-        return this.featureLayerView.featureEffect;
+        this.component.featureEffect = buildJsFeatureEffect(dnfeatureEffect) as FeatureEffect;
+        return this.component.featureEffect;
     }
 
     setFilter(dnDeatureFilter: DotNetFeatureFilter): any {
-        this.featureLayerView.filter = buildJsFeatureFilter(dnDeatureFilter) as FeatureFilter;
-        return this.featureLayerView.filter;
+        this.component.filter = buildJsFeatureFilter(dnDeatureFilter) as FeatureFilter;
+        return this.component.filter;
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {
-        this.featureLayerView.maximumNumberOfFeatures = maximumNumberOfFeatures;
+        this.component.maximumNumberOfFeatures = maximumNumberOfFeatures;
     }
 
     createAggregateQuery(): Query {
-        return this.featureLayerView.createAggregateQuery();
+        return this.component.createAggregateQuery();
     }
 
     createQuery(): Query {
-        return this.featureLayerView.createQuery();
+        return this.component.createQuery();
     }
 
     highlight(target: any): Handle {
-        return this.featureLayerView.highlight(target);
+        return this.component.highlight(target);
     }
     
-    highlightByGeoBlazorId(geoBlazorId: string): Handle | null {
+    highlightByGeoBlazorId(geoBlazorId: string, layerId: string): Handle | null {
         if (!graphicsRefs.hasOwnProperty(geoBlazorId)) {
             return null;
         }
         
-        if (graphicsRefs[this.geoBlazorLayerId].hasOwnProperty(geoBlazorId)) {
-            let graphic = graphicsRefs[this.geoBlazorLayerId][geoBlazorId];
-            return this.featureLayerView.highlight(graphic);
+        if (graphicsRefs[layerId].hasOwnProperty(geoBlazorId)) {
+            let graphic = graphicsRefs[layerId][geoBlazorId];
+            return this.component.highlight(graphic);
         }
         
         return null;
     }
     
-    highlightByGeoBlazorIds(geoBlazorIds: string[]): Handle | null {
+    highlightByGeoBlazorIds(geoBlazorIds: string[], layerId: string): Handle | null {
         let graphics : Graphic[] = [];
-        let group = graphicsRefs[this.geoBlazorLayerId];
+        let group = graphicsRefs[layerId];
         
         geoBlazorIds.forEach(i => {
             if (group.hasOwnProperty(i)) {
@@ -76,12 +75,12 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         if (graphics.length === 0) {
             return null;
         }
-        return this.featureLayerView.highlight(graphics);
+        return this.component.highlight(graphics);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
         let jsQuery = buildJsQuery(query);
-        let result = await this.featureLayerView.queryExtent(jsQuery, options);
+        let result = await this.component.queryExtent(jsQuery, options);
         return {
             count: result.count,
             extent: result.extent
@@ -90,10 +89,10 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
         let jsQuery = buildJsQuery(query);
-        return await this.featureLayerView.queryFeatureCount(jsQuery, options);
+        return await this.component.queryFeatureCount(jsQuery, options);
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string)
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string, layerId: string)
         : Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery: Query | undefined = undefined;
@@ -102,11 +101,11 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
                 jsQuery = buildJsQuery(query as DotNetQuery);
             }
 
-            let featureSet = await this.featureLayerView.queryFeatures(jsQuery, options);
+            let featureSet = await this.component.queryFeatures(jsQuery, options);
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorLayerId, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, layerId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
-                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.featureLayerView.layer);
+                let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
                 dotNetFeatureSet.features = [];
             }
@@ -120,7 +119,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
         let jsQuery = buildJsQuery(query);
-        return await this.featureLayerView.queryObjectIds(jsQuery, options);
+        return await this.component.queryObjectIds(jsQuery, options);
     }
 
 

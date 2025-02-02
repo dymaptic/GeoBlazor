@@ -132,6 +132,7 @@ import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
+import PortalItem from "@arcgis/core/portal/PortalItem";
 
 
 export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, viewId: string | null): DotNetGraphic | null {
@@ -378,7 +379,8 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
         spatialReferenceSupported: layerView.spatialReferenceSupported,
         suspended: layerView.suspended,
         updating: layerView.updating,
-        visible: layerView.visible
+        visible: layerView.visible,
+        type: layerView.layer.type
     }
 }
 
@@ -1503,4 +1505,44 @@ export async function buildDotNetDirectionsFeatureSet(jsFs: DirectionsFeatureSet
         'totalDriveTime', 'totalLength', 'totalTime');
 
     return dotNetFeatureSet;
+}
+
+export async function buildDotNetPortalItem(jsItem: PortalItem): Promise<any> {
+    let dotNetItem = {
+        access: jsItem.access,
+        accessInformation: jsItem.accessInformation,
+        apiKey: jsItem.apiKey,
+        applicationProxies: jsItem.applicationProxies,
+        avgRating: jsItem.avgRating,
+        categories: jsItem.categories,
+        created: jsItem.created,
+        culture: jsItem.culture,
+        description: jsItem.description,
+        extent: buildDotNetExtent(jsItem.extent),
+        groupCategories: jsItem.groupCategories,
+        portalItemId: jsItem.id,
+        isLayer: jsItem.isLayer,
+        isOrgItem: jsItem.isOrgItem,
+        itemControl: jsItem.itemControl,
+        itemPageUrl: jsItem.itemPageUrl,
+        itemUrl: jsItem.itemUrl,
+        loaded: jsItem.loaded,
+        modified: jsItem.modified,
+        name: jsItem.name,
+        numComments: jsItem.numComments,
+        numRatings: jsItem.numRatings,
+        numViews: jsItem.numViews,
+        owner: jsItem.owner,
+        ownerFolder: jsItem.ownerFolder,
+        
+        portal: jsItem.portal,
+        snippet: jsItem.snippet,
+        tags: jsItem.tags,
+        thumbnailUrl: jsItem.thumbnailUrl,
+        title: jsItem.title,
+        type: jsItem.type,
+        typeKeywords: jsItem.typeKeywords,
+        url: jsItem.url
+    };
+    return dotNetItem;
 }

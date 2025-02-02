@@ -42,7 +42,6 @@ import {
 import Graphic from "@arcgis/core/Graphic";
 
 export default class FeatureLayerWrapper extends FeatureLayerGenerated {
-    private readonly geoBlazorId: string = '';
 
     constructor(layer: FeatureLayer) {
         super(layer);

@@ -23,7 +23,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
     public AttributesDictionary(Dictionary<string, object?> dictionary)
     {
         _backingDictionary = new Dictionary<string, object?>();
-        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
 
         foreach (KeyValuePair<string, object?> kvp in dictionary)
         {

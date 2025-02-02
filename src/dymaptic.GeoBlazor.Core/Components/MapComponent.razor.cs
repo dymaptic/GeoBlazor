@@ -55,11 +55,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         get
         {
-            if (_coreJsModule is null && Parent is not null)
-            {
-                _coreJsModule = Parent.CoreJsModule;
-            }
-
+            _coreJsModule ??= Parent?.CoreJsModule;
             return _coreJsModule;
         }
         internal set => _coreJsModule = value;
@@ -73,11 +69,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     {
         get
         {
-            if (_proJsModule is null && Parent is not null)
-            {
-                _proJsModule = Parent.ProJsModule;
-            }
-            
+            _proJsModule ??= Parent?.ProJsModule;
             return _proJsModule;
         }
         internal set => _proJsModule = value;
@@ -95,6 +87,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     [JsonIgnore]
     public MapView? View { get; set; }
     
+    [JsonIgnore]
+    public Layer? Layer { get; set; }
+    
     /// <summary>
     ///     Indicates the visibility of the component. Default value: true.
     /// </summary>
@@ -105,7 +100,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; internal set; } = Guid.NewGuid();
     
     /// <summary>
     ///     Whether the component has been disposed.
@@ -488,198 +483,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             return currentValue;
         }
     }
-    
-    /// <summary>
-    ///     Asynchronously add a value to a property that is a collection.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to add to.
-    /// </param>
-    /// <param name="value">
-    ///     The value to add to the property.
-    /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory collection of the property when adding to ArcGIS JavaScript. Default true.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The type of the value to add.
-    /// </typeparam>
-    /// <exception cref="NotSupportedException">
-    ///     Throws if the component does not support the AddToProperty method.
-    /// </exception>
-    public virtual async Task AddToProperty<T>(string propertyName, T value, bool updateInMemory = true)
-    {
-        if (updateInMemory)
-        {
-            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
-                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
-            object? currentValue = prop?.GetValue(this);
-            if (currentValue is ICollection collection)
-            {
-                MethodInfo? addMethod = collection.GetType().GetMethod("Add");
-                addMethod?.Invoke(collection, [value]);
-            }
-            ModifiedParameters[propertyName] = prop!.GetValue(this);
-        }
-        
-        if (CoreJsModule is null) return;
-        
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
-        }
-        await CoreJsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
-            propertyName.ToLowerFirstChar(), value);
-    }
-    
-    /// <summary>
-    ///     Asynchronously adds a set of values to a property that is a collection.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to add to.
-    /// </param>
-    /// <param name="values">
-    ///     The values to add to the property.
-    /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory collection of the property when adding to ArcGIS JavaScript. Default true.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The type of the values to add.
-    /// </typeparam>
-    /// <exception cref="NotSupportedException">
-    ///     Throws if the component does not support the AddToProperty method.
-    /// </exception>
-    public virtual async Task AddToProperty<T>(string propertyName, IReadOnlyList<T> values, bool updateInMemory = true)
-    {
-        if (updateInMemory)
-        {
-            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
-                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
-            object? currentValue = prop?.GetValue(this);
-            if (currentValue is ICollection collection)
-            {
-                MethodInfo? addMethod = collection.GetType().GetMethod("Add");
-                foreach (T value in values)
-                {
-                    addMethod?.Invoke(collection, [value]);
-                }
-                ModifiedParameters[propertyName] = prop!.GetValue(this);
-            }
-        }
-        
-        if (CoreJsModule is null) return;
-        
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
-        }
-        await CoreJsModule.InvokeVoidAsync("addToProperty", CancellationTokenSource.Token, JsComponentReference, 
-            propertyName.ToLowerFirstChar(), values);
-    }
-
-    /// <summary>
-    ///     Asynchronously remove a value from a property that is a collection.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to remove from.
-    /// </param>
-    /// <param name="value">
-    ///     The value to remove from the property.
-    /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory collection of the property when removing from ArcGIS JavaScript. Default true.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The type of the value to remove.
-    /// </typeparam>
-    /// <exception cref="NotSupportedException">
-    ///     Throws if the component does not support the RemoveFromProperty method.
-    /// </exception>
-    public virtual async Task RemoveFromProperty<T>(string propertyName, T value, bool updateInMemory = true)
-    {
-        if (updateInMemory)
-        {
-            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
-                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
-            object? currentValue = prop?.GetValue(this);
-            if (currentValue is ICollection collection)
-            {
-                MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
-                removeMethod?.Invoke(collection, [value]);
-                ModifiedParameters[propertyName] = prop!.GetValue(this);
-            }
-        }
-        if (CoreJsModule is null) return;
-        
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
-        }
-        await CoreJsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
-            propertyName.ToLowerFirstChar(), value);
-    }
-    
-    /// <summary>
-    ///     Asynchronously remove a set of values from a property that is a collection.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to remove from.
-    /// </param>
-    /// <param name="values">
-    ///     The values to remove from the property.
-    /// </param>
-    /// <param name="updateInMemory">
-    ///     Whether to update the in-memory collection of the property when removing from ArcGIS JavaScript. Default true.
-    /// </param>
-    /// <typeparam name="T">
-    ///     The type of the values to remove.
-    /// </typeparam>
-    /// <exception cref="NotSupportedException">
-    ///     Throws if the component does not support the RemoveFromProperty method.
-    /// </exception>
-    public virtual async Task RemoveFromProperty<T>(string propertyName, IReadOnlyList<T> values, bool updateInMemory = true)
-    {
-        if (updateInMemory)
-        {
-            Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            PropertyInfo? prop = Props.FirstOrDefault(p => p.CanWrite && 
-                (p.Name == propertyName || p.Name == $"_{propertyName.ToLowerFirstChar()}"));
-            object? currentValue = prop?.GetValue(this);
-            if (currentValue is ICollection collection)
-            {
-                MethodInfo? removeMethod = collection.GetType().GetMethod("Remove");
-                foreach (T value in values)
-                {
-                    removeMethod?.Invoke(collection, [value]);
-                }
-                ModifiedParameters[propertyName] = prop!.GetValue(this);
-            }
-        }
-        if (CoreJsModule is null) return;
-        
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            throw new NotSupportedException(
-                $"The component {GetType().Name} does not currently support the AddToProperty method. Please contact dymaptic for support.");
-        }
-        await CoreJsModule.InvokeVoidAsync("removeFromProperty", CancellationTokenSource.Token, JsComponentReference, 
-            propertyName.ToLowerFirstChar(), values);
-    }
 
     /// <summary>
     ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent" /> internally.
@@ -825,7 +628,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     The reference to the JavaScript object that represents the component.
     /// </summary>
-    [JsonIgnore]
     internal IJSObjectReference? JsComponentReference { get; set; }
     
     /// <summary>
@@ -979,6 +781,17 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
                 return;
             }
             await Parent.RegisterChildComponent(this);
+            
+            if (Parent is Layer layer)
+            {
+                Layer = layer;
+            }
+            else
+            {
+                Layer ??= Parent.Layer;
+            }
+            
+            View ??= Parent.View;
             _registered = true;
         }
     }
@@ -1217,7 +1030,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         if (value.HasValue)
         {
             var stringValue = value.Value.ToString();
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
 
             typedValue = value.Value.ValueKind switch
             {
@@ -1326,7 +1139,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         if (value.HasValue)
         {
             var stringValue = value.Value.ToString();
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
 
             typedValue = value.Value.ValueKind switch
             {
@@ -1519,15 +1332,8 @@ internal class MapComponentConverter : JsonConverter<MapComponent>
 
     public override void Write(Utf8JsonWriter writer, MapComponent value, JsonSerializerOptions options)
     {
-        _options ??= new JsonSerializerOptions(options)
-        {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
-        
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), _options));
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), GeoBlazorSerialization.JsonSerializerOptions));
     }
-
-    private JsonSerializerOptions? _options;
 }
 
 /// <summary>

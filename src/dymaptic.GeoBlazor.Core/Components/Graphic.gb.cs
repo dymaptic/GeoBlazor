@@ -21,16 +21,6 @@ public partial class Graphic : IHitTestItem,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsAggregate { get; protected set; }
     
-    /// <summary>
-    ///     If applicable, references the layer in which the graphic is stored.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#layer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [AncestorPropertyReference]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Layer? Layer { get; set; }
-    
 #endregion
 
 #region Property Getters

@@ -57,7 +57,7 @@ internal class LayerConverter : JsonConverter<Layer>
                 default:
                     // look for the type in GeoBlazor Pro
                     string typeName = 
-                        $"dymaptic.GeoBlazor.Core.Components.Layers.{typeValue.ToString()!.KebabToPascalCase()}Layer";
+                        $"dymaptic.GeoBlazor.Pro.Components.Layers.{typeValue.ToString()!.KebabToPascalCase()}Layer";
                     Type? type = Type.GetType(typeName, false, true);
                     if (type is not null)
                     {

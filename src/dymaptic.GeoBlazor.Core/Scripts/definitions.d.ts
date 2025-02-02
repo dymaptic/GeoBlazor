@@ -204,6 +204,7 @@ export interface DotNetLayerView {
     suspended: boolean;
     updating: boolean;
     visible: boolean;
+    type: string;
 }
 
 export interface DotNetHitTestResult {
@@ -807,7 +808,5 @@ export interface DotNetAddressCandidate {
 export interface IPropertyWrapper {
     setProperty(prop: string, value: any): void;
     getProperty(prop: string): any;
-    addToProperty(prop:string, value: any): void;
-    removeFromProperty(prop: string, value: any): void;
     unwrap(): any;
 }
