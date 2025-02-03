@@ -538,20 +538,16 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null {
     if (dnViewpoint === undefined || dnViewpoint === null) return null;
     let viewpoint = new Viewpoint();
-    viewpoint.rotation = dnViewpoint.rotation ?? undefined;
-    viewpoint.scale = dnViewpoint.scale ?? undefined;
+    copyValuesIfExists(dnViewpoint, viewpoint, 'rotation', 'scale');
     viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }
 
 export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (dnPoint === undefined || dnPoint === null) return null;
-    let point = new Point({
-        latitude: dnPoint.latitude ?? undefined,
-        longitude: dnPoint.longitude ?? undefined,
-        x: dnPoint.x ?? undefined,
-        y: dnPoint.y ?? undefined
-    });
+    let point = new Point();
+
+    copyValuesIfExists(dnPoint, point, 'latitude', 'longitude', 'x', 'y', 'z', 'm');
 
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
@@ -720,7 +716,7 @@ export function buildJsImageryRenderer(dnRenderer: any) {
 
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
-    
+
     // Setting this by calling the class constructor breaks the Legend widget for some reason.
     let uniqueValueRenderer: any = {
         type: 'unique-value'
@@ -740,7 +736,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
             title: dnUniqueValueRenderer.legendOptions.title
         };
     }
-    
+
     if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
         uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
