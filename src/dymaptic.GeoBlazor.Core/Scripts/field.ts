@@ -9,3 +9,11 @@ export default class FieldWrapper extends FieldGenerated {
     }
     
 }              
+export async function buildJsField(dotNetObject: any): Promise<any> {
+    let { buildJsFieldGenerated } = await import('./field.gb');
+    return await buildJsFieldGenerated(dotNetObject);
+}
+export async function buildDotNetField(jsObject: any): Promise<any> {
+    let { buildDotNetFieldGenerated } = await import('./field.gb');
+    return await buildDotNetFieldGenerated(jsObject);
+}

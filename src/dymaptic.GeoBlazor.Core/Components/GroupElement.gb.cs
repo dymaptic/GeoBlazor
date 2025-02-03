@@ -102,8 +102,8 @@ public partial class GroupElement
         }
 
         // get the property value
-        IReadOnlyList<FormElement>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elements");
+        IReadOnlyList<FormElement>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
+            CancellationTokenSource.Token, "elements");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -132,8 +132,8 @@ public partial class GroupElement
         }
 
         // get the property value
-        InitialState? result = await CoreJsModule!.InvokeAsync<InitialState?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "initialState");
+        InitialState? result = await JsComponentReference!.InvokeAsync<InitialState?>("getProperty",
+            CancellationTokenSource.Token, "initialState");
         if (result is not null)
         {
 #pragma warning disable BL0005

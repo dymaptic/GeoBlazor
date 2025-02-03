@@ -29,8 +29,8 @@ public abstract partial class LineSymbol
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "width");
         if (result is not null)
         {
 #pragma warning disable BL0005

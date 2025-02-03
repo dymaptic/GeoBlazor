@@ -1028,8 +1028,8 @@ public partial class Portal
         }
 
         // get the property value
-        PortalAccess? result = await CoreJsModule!.InvokeAsync<PortalAccess?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "access");
+        PortalAccess? result = await JsComponentReference!.InvokeAsync<PortalAccess?>("getProperty",
+            CancellationTokenSource.Token, "access");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1088,8 +1088,8 @@ public partial class Portal
         }
 
         // get the property value
-        AuthMode? result = await CoreJsModule!.InvokeAsync<AuthMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "authMode");
+        AuthMode? result = await JsComponentReference!.InvokeAsync<AuthMode?>("getProperty",
+            CancellationTokenSource.Token, "authMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1118,8 +1118,8 @@ public partial class Portal
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "authorizedCrossOriginDomains");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "authorizedCrossOriginDomains");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1148,8 +1148,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "basemapGalleryGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "basemapGalleryGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1178,8 +1178,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "basemapGalleryGroupQuery3D");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "basemapGalleryGroupQuery3D");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1208,8 +1208,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "bingKey");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "bingKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1508,8 +1508,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "colorSetsGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "colorSetsGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1598,8 +1598,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "culture");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "culture");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1628,8 +1628,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "customBaseUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "customBaseUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1658,8 +1658,8 @@ public partial class Portal
         }
 
         // get the property value
-        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "defaultExtent");
+        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
+            CancellationTokenSource.Token, "defaultExtent");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1688,8 +1688,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1718,8 +1718,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "devBasemapGalleryGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "devBasemapGalleryGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1778,8 +1778,8 @@ public partial class Portal
         }
 
         // get the property value
-        IReadOnlyList<PortalFeaturedGroups>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<PortalFeaturedGroups>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featuredGroups");
+        IReadOnlyList<PortalFeaturedGroups>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<PortalFeaturedGroups>?>("getProperty",
+            CancellationTokenSource.Token, "featuredGroups");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1808,8 +1808,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featuredItemsGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "featuredItemsGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1838,8 +1838,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "galleryTemplatesGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "galleryTemplatesGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1898,8 +1898,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "helperServices");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "helperServices");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1928,8 +1928,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "homePageFeaturedContent");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "homePageFeaturedContent");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2048,8 +2048,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "ipCntryCode");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "ipCntryCode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2168,8 +2168,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "layerTemplatesGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "layerTemplatesGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2288,8 +2288,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "name");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2318,8 +2318,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "portalHostname");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "portalHostname");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2348,8 +2348,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "portalId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "portalId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2378,8 +2378,8 @@ public partial class Portal
         }
 
         // get the property value
-        PortalMode? result = await CoreJsModule!.InvokeAsync<PortalMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "portalMode");
+        PortalMode? result = await JsComponentReference!.InvokeAsync<PortalMode?>("getProperty",
+            CancellationTokenSource.Token, "portalMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2408,8 +2408,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "portalProperties");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "portalProperties");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2468,8 +2468,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "region");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "region");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2498,8 +2498,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "restUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "restUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2528,8 +2528,8 @@ public partial class Portal
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotatorPanels");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "rotatorPanels");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2588,8 +2588,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2648,8 +2648,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "symbolSetsGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "symbolSetsGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2678,8 +2678,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "templatesGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "templatesGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2708,8 +2708,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbnailUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2738,8 +2738,8 @@ public partial class Portal
         }
 
         // get the property value
-        PortalUnits? result = await CoreJsModule!.InvokeAsync<PortalUnits?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "units");
+        PortalUnits? result = await JsComponentReference!.InvokeAsync<PortalUnits?>("getProperty",
+            CancellationTokenSource.Token, "units");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2768,8 +2768,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2798,8 +2798,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "urlKey");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "urlKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2918,8 +2918,8 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "vectorBasemapGalleryGroupQuery");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "vectorBasemapGalleryGroupQuery");
         if (result is not null)
         {
 #pragma warning disable BL0005

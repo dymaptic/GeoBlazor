@@ -9,3 +9,11 @@ export default class AlgorithmicColorRampWrapper extends AlgorithmicColorRampGen
     }
     
 }              
+export async function buildJsAlgorithmicColorRamp(dotNetObject: any): Promise<any> {
+    let { buildJsAlgorithmicColorRampGenerated } = await import('./algorithmicColorRamp.gb');
+    return await buildJsAlgorithmicColorRampGenerated(dotNetObject);
+}
+export async function buildDotNetAlgorithmicColorRamp(jsObject: any): Promise<any> {
+    let { buildDotNetAlgorithmicColorRampGenerated } = await import('./algorithmicColorRamp.gb');
+    return await buildDotNetAlgorithmicColorRampGenerated(jsObject);
+}

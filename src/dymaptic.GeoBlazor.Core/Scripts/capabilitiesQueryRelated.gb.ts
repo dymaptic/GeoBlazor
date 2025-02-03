@@ -2,11 +2,12 @@
 
 
 import CapabilitiesQueryRelated = __esri.CapabilitiesQueryRelated;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapper {
     public component: CapabilitiesQueryRelated;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesQueryRelated) {
         this.component = component;
@@ -33,20 +34,40 @@ export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapp
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesQueryRelated = {
+        supportsCacheHint: dotNetObject.supportsCacheHint,
+        supportsCount: dotNetObject.supportsCount,
+        supportsOrderBy: dotNetObject.supportsOrderBy,
+        supportsPagination: dotNetObject.supportsPagination,
+    }
+    let { default: CapabilitiesQueryRelatedWrapper } = await import('./capabilitiesQueryRelated');
+    let capabilitiesQueryRelatedWrapper = new CapabilitiesQueryRelatedWrapper(jsCapabilitiesQueryRelated);
+    jsCapabilitiesQueryRelated.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryRelatedWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesQueryRelatedWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
+    
+    return jsCapabilitiesQueryRelated;
+}
+
+export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesQueryRelated: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesQueryRelated.supportsCacheHint = jsObject.supportsCacheHint;
+        dotNetCapabilitiesQueryRelated.supportsCount = jsObject.supportsCount;
+        dotNetCapabilitiesQueryRelated.supportsOrderBy = jsObject.supportsOrderBy;
+        dotNetCapabilitiesQueryRelated.supportsPagination = jsObject.supportsPagination;
+    return dotNetCapabilitiesQueryRelated;
+}
+

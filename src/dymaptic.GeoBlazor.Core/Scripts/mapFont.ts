@@ -9,3 +9,11 @@ export default class MapFontWrapper extends MapFontGenerated {
     }
     
 }              
+export async function buildJsMapFont(dotNetObject: any): Promise<any> {
+    let { buildJsMapFontGenerated } = await import('./mapFont.gb');
+    return await buildJsMapFontGenerated(dotNetObject);
+}
+export async function buildDotNetMapFont(jsObject: any): Promise<any> {
+    let { buildDotNetMapFontGenerated } = await import('./mapFont.gb');
+    return await buildDotNetMapFontGenerated(jsObject);
+}

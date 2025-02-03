@@ -98,8 +98,8 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        Geometry? result = await CoreJsModule!.InvokeAsync<Geometry?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "areaOfInterest");
+        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>("getProperty",
+            CancellationTokenSource.Token, "areaOfInterest");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -128,8 +128,8 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        IReadOnlyList<SubsetDimension>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<SubsetDimension>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dimensions");
+        IReadOnlyList<SubsetDimension>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SubsetDimension>?>("getProperty",
+            CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -158,8 +158,8 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        IReadOnlyList<DimensionalDefinition>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subsetDefinitions");
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
+            CancellationTokenSource.Token, "subsetDefinitions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -188,8 +188,8 @@ public partial class MultidimensionalSubset
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "variables");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "variables");
         if (result is not null)
         {
 #pragma warning disable BL0005

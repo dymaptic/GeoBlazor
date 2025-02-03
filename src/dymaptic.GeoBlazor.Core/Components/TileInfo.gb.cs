@@ -161,8 +161,8 @@ public partial class TileInfo
         }
 
         // get the property value
-        TileInfoFormat? result = await CoreJsModule!.InvokeAsync<TileInfoFormat?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "format");
+        TileInfoFormat? result = await JsComponentReference!.InvokeAsync<TileInfoFormat?>("getProperty",
+            CancellationTokenSource.Token, "format");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -221,8 +221,8 @@ public partial class TileInfo
         }
 
         // get the property value
-        IReadOnlyList<LOD>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<LOD>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "lods");
+        IReadOnlyList<LOD>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<LOD>?>("getProperty",
+            CancellationTokenSource.Token, "lods");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -251,8 +251,8 @@ public partial class TileInfo
         }
 
         // get the property value
-        Point? result = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "origin");
+        Point? result = await JsComponentReference!.InvokeAsync<Point?>("getProperty",
+            CancellationTokenSource.Token, "origin");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -281,8 +281,8 @@ public partial class TileInfo
         }
 
         // get the property value
-        IReadOnlyList<int>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<int>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
+        IReadOnlyList<int>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<int>?>("getProperty",
+            CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -311,8 +311,8 @@ public partial class TileInfo
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005

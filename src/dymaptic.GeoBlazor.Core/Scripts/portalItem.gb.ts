@@ -2,11 +2,12 @@
 
 
 import PortalItem from '@arcgis/core/portal/PortalItem';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class PortalItemGenerated implements IPropertyWrapper {
     public component: PortalItem;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: PortalItem) {
         this.component = component;
@@ -25,8 +26,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
     
     async addRating(rating: any): Promise<any> {
-        let result = await this.component.addRating(rating);
-        return await createGeoBlazorObject(result);
+        return await this.component.addRating(rating);
     }
 
     async addResource(resource: any,
@@ -48,8 +48,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async fetchRating(options: any): Promise<any> {
-        let result = await this.component.fetchRating(options);
-        return await createGeoBlazorObject(result);
+        return await this.component.fetchRating(options);
     }
 
     async fetchRelatedItems(relationshipType: any,
@@ -58,7 +57,8 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let result = await this.component.fetchRelatedItems(relationshipType,
             direction,
             options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return result.map(async i => await buildDotNetPortalItem(i));
     }
 
     async fetchResources(num: any,
@@ -66,12 +66,11 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         sortOrder: any,
         sortField: any,
         options: any): Promise<any> {
-        let result = await this.component.fetchResources(num,
+        return await this.component.fetchResources(num,
             start,
             sortOrder,
             sortField,
             options);
-        return await createGeoBlazorObject(result);
     }
 
     async getThumbnailUrl(width: any): Promise<any> {
@@ -80,7 +79,8 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async reload(): Promise<any> {
         let result = await this.component.reload();
-        return await createGeoBlazorObject(result);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return buildDotNetPortalItem(result);
     }
 
     async removeAllResources(options: any): Promise<any> {
@@ -95,18 +95,28 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async update(data: any): Promise<any> {
         let result = await this.component.update(data);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return buildDotNetPortalItem(result);
     }
 
     async updateThumbnail(thumbnail: any,
         filename: any): Promise<any> {
         let result = await this.component.updateThumbnail(thumbnail,
             filename);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return buildDotNetPortalItem(result);
     }
 
     // region properties
     
+    async getPortal(): Promise<any> {
+        let { buildDotNetPortal } = await import('./portal');
+        return await buildDotNetPortal(this.component.portal);
+    }
+    async setPortal(value: any): Promise<void> {
+        let { buildJsPortal } = await import('./portal');
+        this.component.portal = await buildJsPortal(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -114,20 +124,163 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsPortalItemGenerated(dotNetObject: any): Promise<any> {
+    let { default: PortalItem } = await import('@arcgis/core/portal/PortalItem');
+    let jsPortalItem = new PortalItem();
+    if (hasValue(dotNetObject.extent)) {
+        let { buildJsExtent } = await import('extent');
+        jsPortalItem.extent = buildJsExtent(dotNetObject.extent) as any;
+
+    }
+    if (hasValue(dotNetObject.portal)) {
+        let { buildJsPortal } = await import('portal');
+        jsPortalItem.portal = await buildJsPortal(dotNetObject.portal) as any;
+
+    }
+    if (hasValue(dotNetObject.access)) {
+        jsPortalItem.access = dotNetObject.access;
+    }
+    if (hasValue(dotNetObject.accessInformation)) {
+        jsPortalItem.accessInformation = dotNetObject.accessInformation;
+    }
+    if (hasValue(dotNetObject.apiKey)) {
+        jsPortalItem.apiKey = dotNetObject.apiKey;
+    }
+    if (hasValue(dotNetObject.avgRating)) {
+        jsPortalItem.avgRating = dotNetObject.avgRating;
+    }
+    if (hasValue(dotNetObject.categories)) {
+        jsPortalItem.categories = dotNetObject.categories;
+    }
+    if (hasValue(dotNetObject.created)) {
+        jsPortalItem.created = dotNetObject.created;
+    }
+    if (hasValue(dotNetObject.culture)) {
+        jsPortalItem.culture = dotNetObject.culture;
+    }
+    if (hasValue(dotNetObject.description)) {
+        jsPortalItem.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.groupCategories)) {
+        jsPortalItem.groupCategories = dotNetObject.groupCategories;
+    }
+    if (hasValue(dotNetObject.licenseInfo)) {
+        jsPortalItem.licenseInfo = dotNetObject.licenseInfo;
+    }
+    if (hasValue(dotNetObject.modified)) {
+        jsPortalItem.modified = dotNetObject.modified;
+    }
+    if (hasValue(dotNetObject.name)) {
+        jsPortalItem.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.numComments)) {
+        jsPortalItem.numComments = dotNetObject.numComments;
+    }
+    if (hasValue(dotNetObject.numRatings)) {
+        jsPortalItem.numRatings = dotNetObject.numRatings;
+    }
+    if (hasValue(dotNetObject.numViews)) {
+        jsPortalItem.numViews = dotNetObject.numViews;
+    }
+    if (hasValue(dotNetObject.owner)) {
+        jsPortalItem.owner = dotNetObject.owner;
+    }
+    if (hasValue(dotNetObject.ownerFolder)) {
+        jsPortalItem.ownerFolder = dotNetObject.ownerFolder;
+    }
+    if (hasValue(dotNetObject.portalItemId)) {
+        jsPortalItem.id = dotNetObject.portalItemId;
+    }
+    if (hasValue(dotNetObject.screenshots)) {
+        jsPortalItem.screenshots = dotNetObject.screenshots;
+    }
+    if (hasValue(dotNetObject.size)) {
+        jsPortalItem.size = dotNetObject.size;
+    }
+    if (hasValue(dotNetObject.snippet)) {
+        jsPortalItem.snippet = dotNetObject.snippet;
+    }
+    if (hasValue(dotNetObject.tags)) {
+        jsPortalItem.tags = dotNetObject.tags;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsPortalItem.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.type)) {
+        jsPortalItem.type = dotNetObject.type;
+    }
+    if (hasValue(dotNetObject.typeKeywords)) {
+        jsPortalItem.typeKeywords = dotNetObject.typeKeywords;
+    }
+    if (hasValue(dotNetObject.url)) {
+        jsPortalItem.url = dotNetObject.url;
+    }
+    let { default: PortalItemWrapper } = await import('./portalItem');
+    let portalItemWrapper = new PortalItemWrapper(jsPortalItem);
+    jsPortalItem.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(portalItemWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = portalItemWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
+    
+    return jsPortalItem;
+}
+
+export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPortalItem: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.extent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetPortalItem.extent = await buildDotNetExtent(jsObject.extent);
+        }
+        if (hasValue(jsObject.portal)) {
+            let { buildDotNetPortal } = await import('./portal');
+            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
+        }
+        dotNetPortalItem.access = jsObject.access;
+        dotNetPortalItem.accessInformation = jsObject.accessInformation;
+        dotNetPortalItem.apiKey = jsObject.apiKey;
+        dotNetPortalItem.applicationProxies = jsObject.applicationProxies;
+        dotNetPortalItem.avgRating = jsObject.avgRating;
+        dotNetPortalItem.categories = jsObject.categories;
+        dotNetPortalItem.created = jsObject.created;
+        dotNetPortalItem.culture = jsObject.culture;
+        dotNetPortalItem.description = jsObject.description;
+        dotNetPortalItem.groupCategories = jsObject.groupCategories;
+        dotNetPortalItem.isLayer = jsObject.isLayer;
+        dotNetPortalItem.isOrgItem = jsObject.isOrgItem;
+        dotNetPortalItem.itemControl = jsObject.itemControl;
+        dotNetPortalItem.itemPageUrl = jsObject.itemPageUrl;
+        dotNetPortalItem.itemUrl = jsObject.itemUrl;
+        dotNetPortalItem.licenseInfo = jsObject.licenseInfo;
+        dotNetPortalItem.loaded = jsObject.loaded;
+        dotNetPortalItem.modified = jsObject.modified;
+        dotNetPortalItem.name = jsObject.name;
+        dotNetPortalItem.numComments = jsObject.numComments;
+        dotNetPortalItem.numRatings = jsObject.numRatings;
+        dotNetPortalItem.numViews = jsObject.numViews;
+        dotNetPortalItem.owner = jsObject.owner;
+        dotNetPortalItem.ownerFolder = jsObject.ownerFolder;
+        dotNetPortalItem.portalItemId = jsObject.id;
+        dotNetPortalItem.screenshots = jsObject.screenshots;
+        dotNetPortalItem.size = jsObject.size;
+        dotNetPortalItem.snippet = jsObject.snippet;
+        dotNetPortalItem.sourceJSON = jsObject.sourceJSON;
+        dotNetPortalItem.tags = jsObject.tags;
+        dotNetPortalItem.thumbnailUrl = jsObject.thumbnailUrl;
+        dotNetPortalItem.title = jsObject.title;
+        dotNetPortalItem.type = jsObject.type;
+        dotNetPortalItem.typeKeywords = jsObject.typeKeywords;
+        dotNetPortalItem.url = jsObject.url;
+    return dotNetPortalItem;
+}
+

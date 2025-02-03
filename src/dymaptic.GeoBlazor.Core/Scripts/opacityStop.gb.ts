@@ -2,11 +2,12 @@
 
 
 import OpacityStop from '@arcgis/core/renderers/visualVariables/support/OpacityStop';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class OpacityStopGenerated implements IPropertyWrapper {
     public component: OpacityStop;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: OpacityStop) {
         this.component = component;
@@ -33,20 +34,44 @@ export default class OpacityStopGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<any> {
+    let { default: OpacityStop } = await import('@arcgis/core/renderers/visualVariables/support/OpacityStop');
+    let jsOpacityStop = new OpacityStop();
+    if (hasValue(dotNetObject.label)) {
+        jsOpacityStop.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsOpacityStop.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.value)) {
+        jsOpacityStop.value = dotNetObject.value;
+    }
+    let { default: OpacityStopWrapper } = await import('./opacityStop');
+    let opacityStopWrapper = new OpacityStopWrapper(jsOpacityStop);
+    jsOpacityStop.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(opacityStopWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = opacityStopWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsOpacityStop;
+    
+    return jsOpacityStop;
+}
+
+export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetOpacityStop: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetOpacityStop.label = jsObject.label;
+        dotNetOpacityStop.opacity = jsObject.opacity;
+        dotNetOpacityStop.value = jsObject.value;
+    return dotNetOpacityStop;
+}
+

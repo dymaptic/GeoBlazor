@@ -53,8 +53,8 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "arcGISLayerId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "arcGISLayerId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -83,8 +83,8 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        ListMode? result = await CoreJsModule!.InvokeAsync<ListMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listMode");
+        ListMode? result = await JsComponentReference!.InvokeAsync<ListMode?>("getProperty",
+            CancellationTokenSource.Token, "listMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -173,8 +173,8 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -202,56 +202,22 @@ public abstract partial class Layer : IHitTestItem,
             return VisibilityTimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "visibilityTimeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getVisibilityTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                VisibilityTimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
-            }
-            
             if (VisibilityTimeExtent is not null)
             {
-                VisibilityTimeExtent.Parent = this;
-                VisibilityTimeExtent.View = View;
-                VisibilityTimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, VisibilityTimeExtent.Id);
-                return VisibilityTimeExtent;
+                result.Id = VisibilityTimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize VisibilityTimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        VisibilityTimeExtent = new TimeExtent();
+            VisibilityTimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
-        VisibilityTimeExtent.Parent = this;
-        VisibilityTimeExtent.View = View;
-        VisibilityTimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, VisibilityTimeExtent.Id);
-        await VisibilityTimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await VisibilityTimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(VisibilityTimeExtent)] = VisibilityTimeExtent;
+        }
+        
         return VisibilityTimeExtent;
     }
     
@@ -405,6 +371,9 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setVisibilityTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         VisibilityTimeExtent.Parent = this;
         VisibilityTimeExtent.View = View;
         

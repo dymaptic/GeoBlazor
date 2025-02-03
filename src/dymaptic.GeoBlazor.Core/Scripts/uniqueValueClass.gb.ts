@@ -2,11 +2,12 @@
 
 
 import UniqueValueClass from '@arcgis/core/renderers/support/UniqueValueClass';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class UniqueValueClassGenerated implements IPropertyWrapper {
     public component: UniqueValueClass;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: UniqueValueClass) {
         this.component = component;
@@ -26,6 +27,24 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getSymbol(): Promise<any> {
+        let { buildDotNetSymbol } = await import('./symbol');
+        return await buildDotNetSymbol(this.component.symbol);
+    }
+    async setSymbol(value: any): Promise<void> {
+        let { buildJsSymbol } = await import('./symbol');
+        this.component.symbol = await buildJsSymbol(value);
+    }
+    async getValues(): Promise<any> {
+        let { buildDotNetUniqueValue } = await import('./uniqueValue');
+        return this.component.values.map(async i => await buildDotNetUniqueValue(i));
+    }
+    
+    async setValues(value: any): Promise<void> {
+        let { buildJsUniqueValue } = await import('./uniqueValue');
+        this.component.values = value.map(async i => await buildJsUniqueValue(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +52,54 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsUniqueValueClassGenerated(dotNetObject: any): Promise<any> {
+    let { default: UniqueValueClass } = await import('@arcgis/core/renderers/support/UniqueValueClass');
+    let jsUniqueValueClass = new UniqueValueClass();
+    if (hasValue(dotNetObject.symbol)) {
+        let { buildJsSymbol } = await import('symbol');
+        jsUniqueValueClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+
+    }
+    if (hasValue(dotNetObject.values)) {
+        let { buildJsUniqueValue } = await import('uniqueValue');
+        jsUniqueValueClass.values = dotNetObject.values.map(async i => await buildJsUniqueValue(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsUniqueValueClass.label = dotNetObject.label;
+    }
+    let { default: UniqueValueClassWrapper } = await import('./uniqueValueClass');
+    let uniqueValueClassWrapper = new UniqueValueClassWrapper(jsUniqueValueClass);
+    jsUniqueValueClass.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(uniqueValueClassWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = uniqueValueClassWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
+    
+    return jsUniqueValueClass;
+}
+
+export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetUniqueValueClass: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.symbol)) {
+            let { buildDotNetSymbol } = await import('./dotNetBuilder');
+            dotNetUniqueValueClass.symbol = await buildDotNetSymbol(jsObject.symbol);
+        }
+        if (hasValue(jsObject.values)) {
+            let { buildDotNetUniqueValue } = await import('./uniqueValue');
+            dotNetUniqueValueClass.values = jsObject.values.map(async i => await buildDotNetUniqueValue(i));
+        }
+        dotNetUniqueValueClass.label = jsObject.label;
+    return dotNetUniqueValueClass;
+}
+

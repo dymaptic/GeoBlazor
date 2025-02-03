@@ -71,8 +71,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-        Algorithm? result = await CoreJsModule!.InvokeAsync<Algorithm?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "algorithm");
+        Algorithm? result = await JsComponentReference!.InvokeAsync<Algorithm?>("getProperty",
+            CancellationTokenSource.Token, "algorithm");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -101,8 +101,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fromColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "fromColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -131,8 +131,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "toColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "toColor");
         if (result is not null)
         {
 #pragma warning disable BL0005

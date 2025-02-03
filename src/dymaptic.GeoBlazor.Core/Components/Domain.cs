@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(DomainConverter))]
+[CodeGenerationIgnore]
 public abstract partial class Domain : MapComponent
 {
     /// <summary>

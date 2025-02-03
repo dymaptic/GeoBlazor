@@ -1,4 +1,4 @@
-﻿import FeatureLayerViewGenerated from './featureLayerView.gb';
+import FeatureLayerViewGenerated from './featureLayerView.gb';
 import FeatureLayerView from "@arcgis/core/views/layers/FeatureLayerView";
 import Query from "@arcgis/core/rest/support/Query";
 import {
@@ -125,4 +125,12 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
 
 
+}
+export async function buildJsFeatureLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
+    return await buildJsFeatureLayerViewGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetFeatureLayerView(jsObject: any): Promise<any> {
+    let { buildDotNetFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
+    return await buildDotNetFeatureLayerViewGenerated(jsObject);
 }

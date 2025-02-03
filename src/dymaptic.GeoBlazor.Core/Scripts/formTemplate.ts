@@ -9,3 +9,11 @@ export default class FormTemplateWrapper extends FormTemplateGenerated {
     }
     
 }              
+export async function buildJsFormTemplate(dotNetObject: any): Promise<any> {
+    let { buildJsFormTemplateGenerated } = await import('./formTemplate.gb');
+    return await buildJsFormTemplateGenerated(dotNetObject);
+}
+export async function buildDotNetFormTemplate(jsObject: any): Promise<any> {
+    let { buildDotNetFormTemplateGenerated } = await import('./formTemplate.gb');
+    return await buildDotNetFormTemplateGenerated(jsObject);
+}

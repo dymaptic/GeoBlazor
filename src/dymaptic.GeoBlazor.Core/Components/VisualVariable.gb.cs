@@ -52,8 +52,8 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -82,8 +82,8 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-        VisualVariableLegendOptions? result = await CoreJsModule!.InvokeAsync<VisualVariableLegendOptions?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendOptions");
+        VisualVariableLegendOptions? result = await JsComponentReference!.InvokeAsync<VisualVariableLegendOptions?>("getProperty",
+            CancellationTokenSource.Token, "legendOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -112,8 +112,8 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -142,8 +142,8 @@ public abstract partial class VisualVariable
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpressionTitle");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpressionTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005

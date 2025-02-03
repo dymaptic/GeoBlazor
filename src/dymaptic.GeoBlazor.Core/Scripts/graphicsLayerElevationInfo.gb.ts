@@ -2,11 +2,12 @@
 
 
 import GraphicsLayerElevationInfo = __esri.GraphicsLayerElevationInfo;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class GraphicsLayerElevationInfoGenerated implements IPropertyWrapper {
     public component: GraphicsLayerElevationInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: GraphicsLayerElevationInfo) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class GraphicsLayerElevationInfoGenerated implements IPropertyWra
     
     // region properties
     
+    async getFeatureExpressionInfo(): Promise<any> {
+        let { buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
+        return await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
+    }
+    async setFeatureExpressionInfo(value: any): Promise<void> {
+        let { buildJsGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
+        this.component.featureExpressionInfo = await buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,47 @@ export default class GraphicsLayerElevationInfoGenerated implements IPropertyWra
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    let jsGraphicsLayerElevationInfo = {
+    if (hasValue(dotNetObject.featureExpressionInfo)) {
+        let { buildJsGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('graphicsLayerElevationInfoFeatureExpressionInfo');
+        jsGraphicsLayerElevationInfo.featureExpressionInfo = await buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
+
+    }
+        mode: dotNetObject.mode,
+        offset: dotNetObject.offset,
+        unit: dotNetObject.unit,
+    }
+    let { default: GraphicsLayerElevationInfoWrapper } = await import('./graphicsLayerElevationInfo');
+    let graphicsLayerElevationInfoWrapper = new GraphicsLayerElevationInfoWrapper(jsGraphicsLayerElevationInfo);
+    jsGraphicsLayerElevationInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerElevationInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = graphicsLayerElevationInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfo;
+    
+    return jsGraphicsLayerElevationInfo;
+}
+
+export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetGraphicsLayerElevationInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.featureExpressionInfo)) {
+            let { buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
+            dotNetGraphicsLayerElevationInfo.featureExpressionInfo = await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+        }
+        dotNetGraphicsLayerElevationInfo.mode = jsObject.mode;
+        dotNetGraphicsLayerElevationInfo.offset = jsObject.offset;
+        dotNetGraphicsLayerElevationInfo.unit = jsObject.unit;
+    return dotNetGraphicsLayerElevationInfo;
+}
+

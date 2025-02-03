@@ -2,11 +2,12 @@
 
 
 import KMLSublayer from '@arcgis/core/layers/support/KMLSublayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class KMLSublayerGenerated implements IPropertyWrapper {
     public component: KMLSublayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: KMLSublayer) {
         this.component = component;
@@ -26,6 +27,24 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getLayer(): Promise<any> {
+        let { buildDotNetKMLLayer } = await import('./kMLLayer');
+        return await buildDotNetKMLLayer(this.component.layer);
+    }
+    async setLayer(value: any): Promise<void> {
+        let { buildJsKMLLayer } = await import('./kMLLayer');
+        this.component.layer = await buildJsKMLLayer(value);
+    }
+    async getSublayers(): Promise<any> {
+        let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
+        return this.component.sublayers.map(async i => await buildDotNetKMLSublayer(i));
+    }
+    
+    async setSublayers(value: any): Promise<void> {
+        let { buildJsKMLSublayer } = await import('./kMLSublayer');
+        this.component.sublayers = value.map(async i => await buildJsKMLSublayer(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +52,49 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsKMLSublayerGenerated(dotNetObject: any): Promise<any> {
+    let { default: KMLSublayer } = await import('@arcgis/core/layers/support/KMLSublayer');
+    let jsKMLSublayer = new KMLSublayer();
+    if (hasValue(dotNetObject.description)) {
+        jsKMLSublayer.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.kMLSublayerId)) {
+        jsKMLSublayer.id = dotNetObject.kMLSublayerId;
+    }
+    if (hasValue(dotNetObject.networkLink)) {
+        jsKMLSublayer.networkLink = dotNetObject.networkLink;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsKMLSublayer.title = dotNetObject.title;
+    }
+    let { default: KMLSublayerWrapper } = await import('./kMLSublayer');
+    let kMLSublayerWrapper = new KMLSublayerWrapper(jsKMLSublayer);
+    jsKMLSublayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(kMLSublayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = kMLSublayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
+    
+    return jsKMLSublayer;
+}
+
+export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetKMLSublayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetKMLSublayer.description = jsObject.description;
+        dotNetKMLSublayer.kMLSublayerId = jsObject.id;
+        dotNetKMLSublayer.networkLink = jsObject.networkLink;
+        dotNetKMLSublayer.sourceJSON = jsObject.sourceJSON;
+        dotNetKMLSublayer.title = jsObject.title;
+    return dotNetKMLSublayer;
+}
+

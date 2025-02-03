@@ -66,8 +66,8 @@ public partial class SizeStop
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -96,8 +96,8 @@ public partial class SizeStop
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005

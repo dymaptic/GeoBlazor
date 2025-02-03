@@ -2,11 +2,12 @@
 
 
 import PixelData = __esri.PixelData;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class PixelDataGenerated implements IPropertyWrapper {
     public component: PixelData;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: PixelData) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class PixelDataGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getPixelBlock(): Promise<any> {
+        let { buildDotNetPixelBlock } = await import('./pixelBlock');
+        return await buildDotNetPixelBlock(this.component.pixelBlock);
+    }
+    async setPixelBlock(value: any): Promise<void> {
+        let { buildJsPixelBlock } = await import('./pixelBlock');
+        this.component.pixelBlock = await buildJsPixelBlock(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,50 @@ export default class PixelDataGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsPixelDataGenerated(dotNetObject: any): Promise<any> {
+    let jsPixelData = {
+    if (hasValue(dotNetObject.extent)) {
+        let { buildJsExtent } = await import('extent');
+        jsPixelData.extent = buildJsExtent(dotNetObject.extent) as any;
+
+    }
+    if (hasValue(dotNetObject.pixelBlock)) {
+        let { buildJsPixelBlock } = await import('pixelBlock');
+        jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock) as any;
+
+    }
+    }
+    let { default: PixelDataWrapper } = await import('./pixelData');
+    let pixelDataWrapper = new PixelDataWrapper(jsPixelData);
+    jsPixelData.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(pixelDataWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = pixelDataWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsPixelData;
+    
+    return jsPixelData;
+}
+
+export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPixelData: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.extent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetPixelData.extent = await buildDotNetExtent(jsObject.extent);
+        }
+        if (hasValue(jsObject.pixelBlock)) {
+            let { buildDotNetPixelBlock } = await import('./pixelBlock');
+            dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
+        }
+    return dotNetPixelData;
+}
+

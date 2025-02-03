@@ -161,8 +161,8 @@ public partial class BaseTileLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -191,8 +191,8 @@ public partial class BaseTileLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -311,8 +311,8 @@ public partial class BaseTileLayer : IBlendLayer,
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -504,6 +504,9 @@ public partial class BaseTileLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
+            CancellationTokenSource.Token, value);
+ 
         TileInfo.Parent = this;
         TileInfo.View = View;
         

@@ -121,8 +121,8 @@ public partial class ImageMediaInfo
         }
 
         // get the property value
-        ImageMediaInfoValue? result = await CoreJsModule!.InvokeAsync<ImageMediaInfoValue?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
+        ImageMediaInfoValue? result = await JsComponentReference!.InvokeAsync<ImageMediaInfoValue?>("getProperty",
+            CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005

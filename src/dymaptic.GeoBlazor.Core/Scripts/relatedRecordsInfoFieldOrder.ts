@@ -9,3 +9,11 @@ export default class RelatedRecordsInfoFieldOrderWrapper extends RelatedRecordsI
     }
     
 }              
+export async function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): Promise<any> {
+    let { buildJsRelatedRecordsInfoFieldOrderGenerated } = await import('./relatedRecordsInfoFieldOrder.gb');
+    return await buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject);
+}
+export async function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): Promise<any> {
+    let { buildDotNetRelatedRecordsInfoFieldOrderGenerated } = await import('./relatedRecordsInfoFieldOrder.gb');
+    return await buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject);
+}

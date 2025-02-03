@@ -86,8 +86,8 @@ public partial class TimeInterval
         }
 
         // get the property value
-        TemporalTime? result = await CoreJsModule!.InvokeAsync<TemporalTime?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
+        TemporalTime? result = await JsComponentReference!.InvokeAsync<TemporalTime?>("getProperty",
+            CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
 #pragma warning disable BL0005

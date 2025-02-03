@@ -2,11 +2,12 @@
 
 
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class BaseTileLayerGenerated implements IPropertyWrapper {
     public layer: BaseTileLayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(layer: BaseTileLayer) {
         this.layer = layer;
@@ -36,7 +37,8 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let result = await this.layer.createLayerView(view,
             options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -67,6 +69,22 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getTileInfo(): Promise<any> {
+        let { buildDotNetTileInfo } = await import('./tileInfo');
+        return await buildDotNetTileInfo(this.layer.tileInfo);
+    }
+    async setTileInfo(value: any): Promise<void> {
+        let { buildJsTileInfo } = await import('./tileInfo');
+        this.layer.tileInfo = await buildJsTileInfo(value);
+    }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -74,20 +92,109 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }
+export async function buildJsBaseTileLayerGenerated(dotNetObject: any): Promise<any> {
+    let { default: BaseTileLayer } = await import('@arcgis/core/layers/BaseTileLayer');
+    let jsBaseTileLayer = new BaseTileLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('extent');
+        jsBaseTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.tileInfo)) {
+        let { buildJsTileInfo } = await import('tileInfo');
+        jsBaseTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
+
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsBaseTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.arcGISLayerId)) {
+        jsBaseTileLayer.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsBaseTileLayer.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        jsBaseTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.listMode)) {
+        jsBaseTileLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsBaseTileLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsBaseTileLayer.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsBaseTileLayer.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.persistenceEnabled)) {
+        jsBaseTileLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsBaseTileLayer.refreshInterval = dotNetObject.refreshInterval;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        jsBaseTileLayer.spatialReference = dotNetObject.spatialReference;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsBaseTileLayer.title = dotNetObject.title;
+    }
+    jsBaseTileLayer.on('refresh', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
+    });
+    
+    let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
+    let baseTileLayerWrapper = new BaseTileLayerWrapper(jsBaseTileLayer);
+    jsBaseTileLayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
+    
+    return jsBaseTileLayer;
+}
+
+export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetBaseTileLayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetBaseTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
+        }
+        if (hasValue(jsObject.tileInfo)) {
+            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            dotNetBaseTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetBaseTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+        }
+        dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
+        dotNetBaseTileLayer.blendMode = jsObject.blendMode;
+        dotNetBaseTileLayer.effect = jsObject.effect;
+        dotNetBaseTileLayer.listMode = jsObject.listMode;
+        dotNetBaseTileLayer.loaded = jsObject.loaded;
+        dotNetBaseTileLayer.maxScale = jsObject.maxScale;
+        dotNetBaseTileLayer.minScale = jsObject.minScale;
+        dotNetBaseTileLayer.opacity = jsObject.opacity;
+        dotNetBaseTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        dotNetBaseTileLayer.refreshInterval = jsObject.refreshInterval;
+        dotNetBaseTileLayer.spatialReference = jsObject.spatialReference;
+        dotNetBaseTileLayer.title = jsObject.title;
+        dotNetBaseTileLayer.type = jsObject.type;
+    return dotNetBaseTileLayer;
+}
+

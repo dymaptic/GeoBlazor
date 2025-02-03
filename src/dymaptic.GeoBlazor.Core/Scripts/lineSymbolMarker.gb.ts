@@ -2,11 +2,12 @@
 
 
 import LineSymbolMarker from '@arcgis/core/symbols/LineSymbolMarker';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     public component: LineSymbolMarker;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: LineSymbolMarker) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await buildJsMapColor(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,49 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any): Promise<any> {
+    let { default: LineSymbolMarker } = await import('@arcgis/core/symbols/LineSymbolMarker');
+    let jsLineSymbolMarker = new LineSymbolMarker();
+    if (hasValue(dotNetObject.color)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsLineSymbolMarker.color = await buildJsColor(dotNetObject.color) as any;
+    }
+    if (hasValue(dotNetObject.placement)) {
+        jsLineSymbolMarker.placement = dotNetObject.placement;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsLineSymbolMarker.style = dotNetObject.style;
+    }
+    let { default: LineSymbolMarkerWrapper } = await import('./lineSymbolMarker');
+    let lineSymbolMarkerWrapper = new LineSymbolMarkerWrapper(jsLineSymbolMarker);
+    jsLineSymbolMarker.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(lineSymbolMarkerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = lineSymbolMarkerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsLineSymbolMarker;
+    
+    return jsLineSymbolMarker;
+}
+
+export async function buildDotNetLineSymbolMarkerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetLineSymbolMarker: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetLineSymbolMarker.color = await buildDotNetMapColor(jsObject.color);
+        }
+        dotNetLineSymbolMarker.placement = jsObject.placement;
+        dotNetLineSymbolMarker.style = jsObject.style;
+        dotNetLineSymbolMarker.type = jsObject.type;
+    return dotNetLineSymbolMarker;
+}
+

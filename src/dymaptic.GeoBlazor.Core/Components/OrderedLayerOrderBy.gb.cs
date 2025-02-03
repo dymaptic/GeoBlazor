@@ -68,8 +68,8 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -98,8 +98,8 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-        SortOrder? result = await CoreJsModule!.InvokeAsync<SortOrder?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "order");
+        SortOrder? result = await JsComponentReference!.InvokeAsync<SortOrder?>("getProperty",
+            CancellationTokenSource.Token, "order");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -128,8 +128,8 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005

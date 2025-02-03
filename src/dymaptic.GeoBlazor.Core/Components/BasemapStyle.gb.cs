@@ -111,8 +111,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "language");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "language");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -141,8 +141,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        BasemapStyleName? result = await CoreJsModule!.InvokeAsync<BasemapStyleName?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "name");
+        BasemapStyleName? result = await JsComponentReference!.InvokeAsync<BasemapStyleName?>("getProperty",
+            CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -171,8 +171,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        BasemapStylePlace? result = await CoreJsModule!.InvokeAsync<BasemapStylePlace?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "places");
+        BasemapStylePlace? result = await JsComponentReference!.InvokeAsync<BasemapStylePlace?>("getProperty",
+            CancellationTokenSource.Token, "places");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -201,8 +201,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "serviceUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "serviceUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -231,8 +231,8 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "worldview");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "worldview");
         if (result is not null)
         {
 #pragma warning disable BL0005

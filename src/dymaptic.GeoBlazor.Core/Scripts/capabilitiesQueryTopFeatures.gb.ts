@@ -2,11 +2,12 @@
 
 
 import CapabilitiesQueryTopFeatures = __esri.CapabilitiesQueryTopFeatures;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyWrapper {
     public component: CapabilitiesQueryTopFeatures;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesQueryTopFeatures) {
         this.component = component;
@@ -33,20 +34,34 @@ export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyW
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesQueryTopFeatures = {
+        supportsCacheHint: dotNetObject.supportsCacheHint,
+    }
+    let { default: CapabilitiesQueryTopFeaturesWrapper } = await import('./capabilitiesQueryTopFeatures');
+    let capabilitiesQueryTopFeaturesWrapper = new CapabilitiesQueryTopFeaturesWrapper(jsCapabilitiesQueryTopFeatures);
+    jsCapabilitiesQueryTopFeatures.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryTopFeaturesWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesQueryTopFeaturesWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
+    
+    return jsCapabilitiesQueryTopFeatures;
+}
+
+export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesQueryTopFeatures: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
+    return dotNetCapabilitiesQueryTopFeatures;
+}
+

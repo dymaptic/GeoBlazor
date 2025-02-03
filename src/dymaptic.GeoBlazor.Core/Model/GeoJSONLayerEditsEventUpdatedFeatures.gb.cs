@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    
+///    An array of successfully updated features.
 /// </summary>
 /// <param name="ObjectId">
 /// </param>

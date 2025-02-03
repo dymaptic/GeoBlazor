@@ -1,8 +1,7 @@
-namespace dymaptic.GeoBlazor.Core.Components;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 public partial class RangeDomain : Domain
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override string Type => "range";
-
 }

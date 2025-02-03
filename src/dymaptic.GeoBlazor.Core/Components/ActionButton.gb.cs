@@ -111,8 +111,8 @@ public partial class ActionButton
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "image");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "image");
         if (result is not null)
         {
 #pragma warning disable BL0005

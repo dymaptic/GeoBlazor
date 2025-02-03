@@ -200,8 +200,8 @@ public partial class Label
         }
 
         // get the property value
-        DeconflictionStrategy? result = await CoreJsModule!.InvokeAsync<DeconflictionStrategy?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
+        DeconflictionStrategy? result = await JsComponentReference!.InvokeAsync<DeconflictionStrategy?>("getProperty",
+            CancellationTokenSource.Token, "deconflictionStrategy");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -230,8 +230,8 @@ public partial class Label
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "labelExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -260,8 +260,8 @@ public partial class Label
         }
 
         // get the property value
-        LabelExpressionInfo? result = await CoreJsModule!.InvokeAsync<LabelExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelExpressionInfo");
+        LabelExpressionInfo? result = await JsComponentReference!.InvokeAsync<LabelExpressionInfo?>("getProperty",
+            CancellationTokenSource.Token, "labelExpressionInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -290,8 +290,8 @@ public partial class Label
         }
 
         // get the property value
-        LabelPlacement? result = await CoreJsModule!.InvokeAsync<LabelPlacement?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
+        LabelPlacement? result = await JsComponentReference!.InvokeAsync<LabelPlacement?>("getProperty",
+            CancellationTokenSource.Token, "labelPlacement");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -320,8 +320,8 @@ public partial class Label
         }
 
         // get the property value
-        LabelPosition? result = await CoreJsModule!.InvokeAsync<LabelPosition?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelPosition");
+        LabelPosition? result = await JsComponentReference!.InvokeAsync<LabelPosition?>("getProperty",
+            CancellationTokenSource.Token, "labelPosition");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -440,8 +440,8 @@ public partial class Label
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "repeatLabelDistance");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "repeatLabelDistance");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -500,8 +500,8 @@ public partial class Label
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "where");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "where");
         if (result is not null)
         {
 #pragma warning disable BL0005

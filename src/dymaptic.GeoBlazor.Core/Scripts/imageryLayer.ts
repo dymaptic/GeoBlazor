@@ -9,3 +9,11 @@ export default class ImageryLayerWrapper extends ImageryLayerGenerated {
     }
     
 }              
+export async function buildJsImageryLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsImageryLayerGenerated } = await import('./imageryLayer.gb');
+    return await buildJsImageryLayerGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetImageryLayer(jsObject: any): Promise<any> {
+    let { buildDotNetImageryLayerGenerated } = await import('./imageryLayer.gb');
+    return await buildDotNetImageryLayerGenerated(jsObject);
+}

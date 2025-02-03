@@ -122,8 +122,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fieldName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -152,8 +152,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        FieldInfoFormat? result = await CoreJsModule!.InvokeAsync<FieldInfoFormat?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "format");
+        FieldInfoFormat? result = await JsComponentReference!.InvokeAsync<FieldInfoFormat?>("getProperty",
+            CancellationTokenSource.Token, "format");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -212,8 +212,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -242,8 +242,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        StatisticType? result = await CoreJsModule!.InvokeAsync<StatisticType?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statisticType");
+        StatisticType? result = await JsComponentReference!.InvokeAsync<StatisticType?>("getProperty",
+            CancellationTokenSource.Token, "statisticType");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -272,8 +272,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        StringFieldOption? result = await CoreJsModule!.InvokeAsync<StringFieldOption?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stringFieldOption");
+        StringFieldOption? result = await JsComponentReference!.InvokeAsync<StringFieldOption?>("getProperty",
+            CancellationTokenSource.Token, "stringFieldOption");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -302,8 +302,8 @@ public partial class FieldInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "tooltip");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "tooltip");
         if (result is not null)
         {
 #pragma warning disable BL0005

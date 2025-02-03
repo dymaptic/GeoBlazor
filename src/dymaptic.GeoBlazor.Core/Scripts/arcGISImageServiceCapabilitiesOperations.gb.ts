@@ -2,11 +2,12 @@
 
 
 import ArcGISImageServiceCapabilitiesOperations = __esri.ArcGISImageServiceCapabilitiesOperations;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class ArcGISImageServiceCapabilitiesOperationsGenerated implements IPropertyWrapper {
     public component: ArcGISImageServiceCapabilitiesOperations;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: ArcGISImageServiceCapabilitiesOperations) {
         this.component = component;
@@ -33,20 +34,68 @@ export default class ArcGISImageServiceCapabilitiesOperationsGenerated implement
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(dotNetObject: any): Promise<any> {
+    let jsArcGISImageServiceCapabilitiesOperations = {
+        supportsCalculateVolume: dotNetObject.supportsCalculateVolume,
+        supportsComputeHistograms: dotNetObject.supportsComputeHistograms,
+        supportsComputePixelLocation: dotNetObject.supportsComputePixelLocation,
+        supportsComputeStatisticsHistograms: dotNetObject.supportsComputeStatisticsHistograms,
+        supportsDownload: dotNetObject.supportsDownload,
+        supportsExportImage: dotNetObject.supportsExportImage,
+        supportsFindImages: dotNetObject.supportsFindImages,
+        supportsGetImageUrl: dotNetObject.supportsGetImageUrl,
+        supportsGetSamples: dotNetObject.supportsGetSamples,
+        supportsIdentify: dotNetObject.supportsIdentify,
+        supportsImageToMap: dotNetObject.supportsImageToMap,
+        supportsImageToMapMultiray: dotNetObject.supportsImageToMapMultiray,
+        supportsMapToImage: dotNetObject.supportsMapToImage,
+        supportsMeasure: dotNetObject.supportsMeasure,
+        supportsProject: dotNetObject.supportsProject,
+        supportsQuery: dotNetObject.supportsQuery,
+        supportsQueryBoundary: dotNetObject.supportsQueryBoundary,
+        supportsQueryGPSInfo: dotNetObject.supportsQueryGPSInfo,
+    }
+    let { default: ArcGISImageServiceCapabilitiesOperationsWrapper } = await import('./arcGISImageServiceCapabilitiesOperations');
+    let arcGISImageServiceCapabilitiesOperationsWrapper = new ArcGISImageServiceCapabilitiesOperationsWrapper(jsArcGISImageServiceCapabilitiesOperations);
+    jsArcGISImageServiceCapabilitiesOperations.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesOperationsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesOperationsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
+    
+    return jsArcGISImageServiceCapabilitiesOperations;
+}
+
+export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetArcGISImageServiceCapabilitiesOperations: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsCalculateVolume = jsObject.supportsCalculateVolume;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeHistograms = jsObject.supportsComputeHistograms;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputePixelLocation = jsObject.supportsComputePixelLocation;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeStatisticsHistograms = jsObject.supportsComputeStatisticsHistograms;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsDownload = jsObject.supportsDownload;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsExportImage = jsObject.supportsExportImage;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsFindImages = jsObject.supportsFindImages;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsGetImageUrl = jsObject.supportsGetImageUrl;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsGetSamples = jsObject.supportsGetSamples;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsIdentify = jsObject.supportsIdentify;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMap = jsObject.supportsImageToMap;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMapMultiray = jsObject.supportsImageToMapMultiray;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsMapToImage = jsObject.supportsMapToImage;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsMeasure = jsObject.supportsMeasure;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsProject = jsObject.supportsProject;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryBoundary = jsObject.supportsQueryBoundary;
+        dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = jsObject.supportsQueryGPSInfo;
+    return dotNetArcGISImageServiceCapabilitiesOperations;
+}
+

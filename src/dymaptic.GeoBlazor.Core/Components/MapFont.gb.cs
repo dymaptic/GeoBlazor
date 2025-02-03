@@ -83,8 +83,8 @@ public partial class MapFont
         }
 
         // get the property value
-        TextDecoration? result = await CoreJsModule!.InvokeAsync<TextDecoration?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "decoration");
+        TextDecoration? result = await JsComponentReference!.InvokeAsync<TextDecoration?>("getProperty",
+            CancellationTokenSource.Token, "decoration");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -113,8 +113,8 @@ public partial class MapFont
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "family");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "family");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -143,8 +143,8 @@ public partial class MapFont
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -173,8 +173,8 @@ public partial class MapFont
         }
 
         // get the property value
-        MapFontStyle? result = await CoreJsModule!.InvokeAsync<MapFontStyle?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        MapFontStyle? result = await JsComponentReference!.InvokeAsync<MapFontStyle?>("getProperty",
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -203,8 +203,8 @@ public partial class MapFont
         }
 
         // get the property value
-        FontWeight? result = await CoreJsModule!.InvokeAsync<FontWeight?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "weight");
+        FontWeight? result = await JsComponentReference!.InvokeAsync<FontWeight?>("getProperty",
+            CancellationTokenSource.Token, "weight");
         if (result is not null)
         {
 #pragma warning disable BL0005

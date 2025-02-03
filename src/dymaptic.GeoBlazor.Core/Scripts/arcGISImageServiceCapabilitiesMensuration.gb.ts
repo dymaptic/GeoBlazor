@@ -2,11 +2,12 @@
 
 
 import ArcGISImageServiceCapabilitiesMensuration = __esri.ArcGISImageServiceCapabilitiesMensuration;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class ArcGISImageServiceCapabilitiesMensurationGenerated implements IPropertyWrapper {
     public component: ArcGISImageServiceCapabilitiesMensuration;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: ArcGISImageServiceCapabilitiesMensuration) {
         this.component = component;
@@ -33,20 +34,46 @@ export default class ArcGISImageServiceCapabilitiesMensurationGenerated implemen
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any): Promise<any> {
+    let jsArcGISImageServiceCapabilitiesMensuration = {
+        supports3D: dotNetObject.supports3D,
+        supportsAreaAndPerimeter: dotNetObject.supportsAreaAndPerimeter,
+        supportsDistanceAndAngle: dotNetObject.supportsDistanceAndAngle,
+        supportsHeightFromBaseAndTop: dotNetObject.supportsHeightFromBaseAndTop,
+        supportsHeightFromBaseAndTopShadow: dotNetObject.supportsHeightFromBaseAndTopShadow,
+        supportsHeightFromTopAndTopShadow: dotNetObject.supportsHeightFromTopAndTopShadow,
+        supportsPointOrCentroid: dotNetObject.supportsPointOrCentroid,
+    }
+    let { default: ArcGISImageServiceCapabilitiesMensurationWrapper } = await import('./arcGISImageServiceCapabilitiesMensuration');
+    let arcGISImageServiceCapabilitiesMensurationWrapper = new ArcGISImageServiceCapabilitiesMensurationWrapper(jsArcGISImageServiceCapabilitiesMensuration);
+    jsArcGISImageServiceCapabilitiesMensuration.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesMensurationWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesMensurationWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
+    
+    return jsArcGISImageServiceCapabilitiesMensuration;
+}
+
+export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetArcGISImageServiceCapabilitiesMensuration: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetArcGISImageServiceCapabilitiesMensuration.supports3D = jsObject.supports3D;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsAreaAndPerimeter = jsObject.supportsAreaAndPerimeter;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsDistanceAndAngle = jsObject.supportsDistanceAndAngle;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTop = jsObject.supportsHeightFromBaseAndTop;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = jsObject.supportsHeightFromBaseAndTopShadow;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = jsObject.supportsHeightFromTopAndTopShadow;
+        dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
+    return dotNetArcGISImageServiceCapabilitiesMensuration;
+}
+

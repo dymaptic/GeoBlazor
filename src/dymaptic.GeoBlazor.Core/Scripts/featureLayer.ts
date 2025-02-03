@@ -25,7 +25,6 @@ import {
     buildDotNetExtent,
     buildDotNetPopupTemplate,
     buildDotNetFields,
-    buildDotNetFeatureLayer,
     buildDotNetDomain,
     buildDotNetFeatureType,
     buildDotNetEditsResult, 
@@ -306,18 +305,16 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return this.layer.capabilities;
     }
 
-    clone(): DotNetFeatureLayer {
+    async clone(): Promise<DotNetFeatureLayer> {
 
         let result = this.layer.clone();
 
-        return buildDotNetFeatureLayer(result);
+        return await buildDotNetFeatureLayer(result);
     }
 
-    refresh(): DotNetFeatureLayer {
+    refresh() {
 
         this.layer.refresh();
-
-        return buildDotNetFeatureLayer(this.layer);
     }
 
     setEffect(dnEffect: any): void {
@@ -330,4 +327,12 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
 
 
+}
+export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsFeatureLayerGenerated } = await import('./featureLayer.gb');
+    return await buildJsFeatureLayerGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetFeatureLayer(jsObject: any): Promise<any> {
+    let { buildDotNetFeatureLayerGenerated } = await import('./featureLayer.gb');
+    return await buildDotNetFeatureLayerGenerated(jsObject);
 }

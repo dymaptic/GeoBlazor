@@ -2,11 +2,12 @@
 
 
 import FieldInfo from '@arcgis/core/popup/FieldInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FieldInfoGenerated implements IPropertyWrapper {
     public component: FieldInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FieldInfo) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getFormat(): Promise<any> {
+        let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
+        return await buildDotNetFieldInfoFormat(this.component.format);
+    }
+    async setFormat(value: any): Promise<void> {
+        let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
+        this.component.format = await buildJsFieldInfoFormat(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,65 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFieldInfoGenerated(dotNetObject: any): Promise<any> {
+    let { default: FieldInfo } = await import('@arcgis/core/popup/FieldInfo');
+    let jsFieldInfo = new FieldInfo();
+    if (hasValue(dotNetObject.format)) {
+        let { buildJsFieldInfoFormat } = await import('fieldInfoFormat');
+        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
+
+    }
+    if (hasValue(dotNetObject.fieldName)) {
+        jsFieldInfo.fieldName = dotNetObject.fieldName;
+    }
+    if (hasValue(dotNetObject.isEditable)) {
+        jsFieldInfo.isEditable = dotNetObject.isEditable;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsFieldInfo.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.statisticType)) {
+        jsFieldInfo.statisticType = dotNetObject.statisticType;
+    }
+    if (hasValue(dotNetObject.stringFieldOption)) {
+        jsFieldInfo.stringFieldOption = dotNetObject.stringFieldOption;
+    }
+    if (hasValue(dotNetObject.tooltip)) {
+        jsFieldInfo.tooltip = dotNetObject.tooltip;
+    }
+    let { default: FieldInfoWrapper } = await import('./fieldInfo');
+    let fieldInfoWrapper = new FieldInfoWrapper(jsFieldInfo);
+    jsFieldInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(fieldInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = fieldInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
+    
+    return jsFieldInfo;
+}
+
+export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFieldInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.format)) {
+            let { buildDotNetFieldInfoFormat } = await import('./dotNetBuilder');
+            dotNetFieldInfo.format = await buildDotNetFieldInfoFormat(jsObject.format);
+        }
+        dotNetFieldInfo.fieldName = jsObject.fieldName;
+        dotNetFieldInfo.isEditable = jsObject.isEditable;
+        dotNetFieldInfo.label = jsObject.label;
+        dotNetFieldInfo.statisticType = jsObject.statisticType;
+        dotNetFieldInfo.stringFieldOption = jsObject.stringFieldOption;
+        dotNetFieldInfo.tooltip = jsObject.tooltip;
+    return dotNetFieldInfo;
+}
+

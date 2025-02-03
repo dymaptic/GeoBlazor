@@ -206,8 +206,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -236,8 +236,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "copyright");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -266,8 +266,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -355,90 +355,22 @@ public partial class WebTileLayer : IBlendLayer,
             return PortalItem;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PortalItem = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-            }
-            
             if (PortalItem is not null)
             {
-                PortalItem.Parent = this;
-                PortalItem.View = View;
-                PortalItem.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PortalItem.Id);
-                return PortalItem;
+                result.Id = PortalItem.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PortalItem = new PortalItem();
+            PortalItem = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        PortalItem.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PortalItem.Id);
-        await PortalItem.GetProperty<PortalItemAccess>(nameof(PortalItem.Access));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.AccessInformation));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ApiKey));
-        await PortalItem.GetProperty<IReadOnlyList<PortalItemApplicationProxies>>(nameof(PortalItem.ApplicationProxies));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.AvgRating));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Categories));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Created));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Culture));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Description));
-        await PortalItem.GetProperty<Extent>(nameof(PortalItem.Extent));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.GroupCategories));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsLayer));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsOrgItem));
-        await PortalItem.GetProperty<ItemControl>(nameof(PortalItem.ItemControl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemPageUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.LicenseInfo));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.Loaded));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Modified));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Name));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumComments));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumRatings));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumViews));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Owner));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.OwnerFolder));
-        await PortalItem.GetProperty<Portal>(nameof(PortalItem.Portal));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.PortalItemId));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Screenshots));
-        await PortalItem.GetProperty<int>(nameof(PortalItem.Size));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Snippet));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.SourceJSON));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Tags));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ThumbnailUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Title));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.TypeKeywords));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Url));
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
         return PortalItem;
     }
     
@@ -489,8 +421,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -519,8 +451,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subDomains");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "subDomains");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -548,61 +480,22 @@ public partial class WebTileLayer : IBlendLayer,
             return TileInfo;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "tileInfo"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TileInfo? result = await JsComponentReference.InvokeAsync<TileInfo?>(
+            "getTileInfo", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TileInfo? result = await CoreJsModule.InvokeAsync<TileInfo?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                TileInfo = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(TileInfo)] = TileInfo;
-            }
-            
             if (TileInfo is not null)
             {
-                TileInfo.Parent = this;
-                TileInfo.View = View;
-                TileInfo.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, TileInfo.Id);
-                return TileInfo;
+                result.Id = TileInfo.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize TileInfo. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        TileInfo = new TileInfo();
+            TileInfo = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(TileInfo)] = TileInfo;
-        TileInfo.Parent = this;
-        TileInfo.View = View;
-        TileInfo.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, TileInfo.Id);
-        await TileInfo.GetProperty<double>(nameof(TileInfo.Dpi));
-        await TileInfo.GetProperty<TileInfoFormat>(nameof(TileInfo.Format));
-        await TileInfo.GetProperty<bool>(nameof(TileInfo.IsWrappable));
-        await TileInfo.GetProperty<IReadOnlyList<LOD>>(nameof(TileInfo.Lods));
-        await TileInfo.GetProperty<Point>(nameof(TileInfo.Origin));
-        await TileInfo.GetProperty<IReadOnlyList<int>>(nameof(TileInfo.Size));
-        await TileInfo.GetProperty<SpatialReference>(nameof(TileInfo.SpatialReference));
+            ModifiedParameters[nameof(TileInfo)] = TileInfo;
+        }
+        
         return TileInfo;
     }
     
@@ -623,8 +516,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "tileServers");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "tileServers");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -653,8 +546,8 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "urlTemplate");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "urlTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -846,6 +739,9 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+            CancellationTokenSource.Token, value);
+ 
         PortalItem.Parent = this;
         PortalItem.View = View;
         
@@ -958,6 +854,9 @@ public partial class WebTileLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
+            CancellationTokenSource.Token, value);
+ 
         TileInfo.Parent = this;
         TileInfo.View = View;
         

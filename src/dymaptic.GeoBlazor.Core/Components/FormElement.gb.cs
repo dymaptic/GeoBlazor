@@ -29,8 +29,8 @@ public abstract partial class FormElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -59,8 +59,8 @@ public abstract partial class FormElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -89,8 +89,8 @@ public abstract partial class FormElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "visibilityExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "visibilityExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005

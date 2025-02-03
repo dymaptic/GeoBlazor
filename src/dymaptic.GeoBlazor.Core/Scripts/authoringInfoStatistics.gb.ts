@@ -2,11 +2,12 @@
 
 
 import AuthoringInfoStatistics = __esri.AuthoringInfoStatistics;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class AuthoringInfoStatisticsGenerated implements IPropertyWrapper {
     public component: AuthoringInfoStatistics;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: AuthoringInfoStatistics) {
         this.component = component;
@@ -33,20 +34,36 @@ export default class AuthoringInfoStatisticsGenerated implements IPropertyWrappe
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any): Promise<any> {
+    let jsAuthoringInfoStatistics = {
+        max: dotNetObject.max,
+        min: dotNetObject.min,
+    }
+    let { default: AuthoringInfoStatisticsWrapper } = await import('./authoringInfoStatistics');
+    let authoringInfoStatisticsWrapper = new AuthoringInfoStatisticsWrapper(jsAuthoringInfoStatistics);
+    jsAuthoringInfoStatistics.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(authoringInfoStatisticsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = authoringInfoStatisticsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
+    
+    return jsAuthoringInfoStatistics;
+}
+
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetAuthoringInfoStatistics: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetAuthoringInfoStatistics.max = jsObject.max;
+        dotNetAuthoringInfoStatistics.min = jsObject.min;
+    return dotNetAuthoringInfoStatistics;
+}
+

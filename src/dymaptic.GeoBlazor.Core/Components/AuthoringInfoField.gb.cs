@@ -112,8 +112,8 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "classBreakInfos");
+        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>("getProperty",
+            CancellationTokenSource.Token, "classBreakInfos");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -142,8 +142,8 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -172,8 +172,8 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -202,8 +202,8 @@ public partial class AuthoringInfoField
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "normalizationField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005

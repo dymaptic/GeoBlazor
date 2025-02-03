@@ -210,8 +210,8 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -240,8 +240,8 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -329,90 +329,22 @@ public partial class KMLLayer : IBlendLayer,
             return PortalItem;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PortalItem = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-            }
-            
             if (PortalItem is not null)
             {
-                PortalItem.Parent = this;
-                PortalItem.View = View;
-                PortalItem.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PortalItem.Id);
-                return PortalItem;
+                result.Id = PortalItem.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PortalItem = new PortalItem();
+            PortalItem = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        PortalItem.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PortalItem.Id);
-        await PortalItem.GetProperty<PortalItemAccess>(nameof(PortalItem.Access));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.AccessInformation));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ApiKey));
-        await PortalItem.GetProperty<IReadOnlyList<PortalItemApplicationProxies>>(nameof(PortalItem.ApplicationProxies));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.AvgRating));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Categories));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Created));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Culture));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Description));
-        await PortalItem.GetProperty<Extent>(nameof(PortalItem.Extent));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.GroupCategories));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsLayer));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsOrgItem));
-        await PortalItem.GetProperty<ItemControl>(nameof(PortalItem.ItemControl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemPageUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.LicenseInfo));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.Loaded));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Modified));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Name));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumComments));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumRatings));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumViews));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Owner));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.OwnerFolder));
-        await PortalItem.GetProperty<Portal>(nameof(PortalItem.Portal));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.PortalItemId));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Screenshots));
-        await PortalItem.GetProperty<int>(nameof(PortalItem.Size));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Snippet));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.SourceJSON));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Tags));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ThumbnailUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Title));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.TypeKeywords));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Url));
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
         return PortalItem;
     }
     
@@ -433,8 +365,8 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<KMLSublayer>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<KMLSublayer>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sublayers");
+        IReadOnlyList<KMLSublayer>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<KMLSublayer>?>("getProperty",
+            CancellationTokenSource.Token, "sublayers");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -463,8 +395,8 @@ public partial class KMLLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -626,6 +558,9 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+            CancellationTokenSource.Token, value);
+ 
         PortalItem.Parent = this;
         PortalItem.View = View;
         

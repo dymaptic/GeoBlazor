@@ -9,3 +9,11 @@ export default class PortalWrapper extends PortalGenerated {
     }
     
 }              
+export async function buildJsPortal(dotNetObject: any): Promise<any> {
+    let { buildJsPortalGenerated } = await import('./portal.gb');
+    return await buildJsPortalGenerated(dotNetObject);
+}
+export async function buildDotNetPortal(jsObject: any): Promise<any> {
+    let { buildDotNetPortalGenerated } = await import('./portal.gb');
+    return await buildDotNetPortalGenerated(jsObject);
+}

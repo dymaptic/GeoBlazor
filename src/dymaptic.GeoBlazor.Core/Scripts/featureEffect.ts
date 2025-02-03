@@ -9,3 +9,11 @@ export default class FeatureEffectWrapper extends FeatureEffectGenerated {
     }
     
 }              
+export async function buildJsFeatureEffect(dotNetObject: any): Promise<any> {
+    let { buildJsFeatureEffectGenerated } = await import('./featureEffect.gb');
+    return await buildJsFeatureEffectGenerated(dotNetObject);
+}
+export async function buildDotNetFeatureEffect(jsObject: any): Promise<any> {
+    let { buildDotNetFeatureEffectGenerated } = await import('./featureEffect.gb');
+    return await buildDotNetFeatureEffectGenerated(jsObject);
+}

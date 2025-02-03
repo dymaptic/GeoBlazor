@@ -112,8 +112,8 @@ public partial class GraphicsLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        GraphicsLayerElevationInfoFeatureExpressionInfo? result = await CoreJsModule!.InvokeAsync<GraphicsLayerElevationInfoFeatureExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureExpressionInfo");
+        GraphicsLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference!.InvokeAsync<GraphicsLayerElevationInfoFeatureExpressionInfo?>("getProperty",
+            CancellationTokenSource.Token, "featureExpressionInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -142,8 +142,8 @@ public partial class GraphicsLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationInfoMode? result = await CoreJsModule!.InvokeAsync<ElevationInfoMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mode");
+        ElevationInfoMode? result = await JsComponentReference!.InvokeAsync<ElevationInfoMode?>("getProperty",
+            CancellationTokenSource.Token, "mode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -202,8 +202,8 @@ public partial class GraphicsLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationUnit? result = await CoreJsModule!.InvokeAsync<ElevationUnit?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
+        ElevationUnit? result = await JsComponentReference!.InvokeAsync<ElevationUnit?>("getProperty",
+            CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -936,8 +936,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "apiKey");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -966,8 +966,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -996,8 +996,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "charts");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "charts");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1026,8 +1026,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "copyright");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1056,8 +1056,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+            CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1086,8 +1086,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dateFieldsTimeZone");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1146,8 +1146,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1176,8 +1176,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "displayField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1206,8 +1206,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        DynamicLayer? result = await CoreJsModule!.InvokeAsync<DynamicLayer?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dynamicDataSource");
+        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+            CancellationTokenSource.Token, "dynamicDataSource");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1236,8 +1236,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        EditFieldsInfo? result = await CoreJsModule!.InvokeAsync<EditFieldsInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editFieldsInfo");
+        EditFieldsInfo? result = await JsComponentReference!.InvokeAsync<EditFieldsInfo?>("getProperty",
+            CancellationTokenSource.Token, "editFieldsInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1296,8 +1296,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        EditingInfo? result = await CoreJsModule!.InvokeAsync<EditingInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editingInfo");
+        EditingInfo? result = await JsComponentReference!.InvokeAsync<EditingInfo?>("getProperty",
+            CancellationTokenSource.Token, "editingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1326,8 +1326,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1356,8 +1356,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        Capabilities? result = await CoreJsModule!.InvokeAsync<Capabilities?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effectiveCapabilities");
+        Capabilities? result = await JsComponentReference!.InvokeAsync<Capabilities?>("getProperty",
+            CancellationTokenSource.Token, "effectiveCapabilities");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1416,8 +1416,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FeatureLayerBaseElevationInfo? result = await CoreJsModule!.InvokeAsync<FeatureLayerBaseElevationInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elevationInfo");
+        FeatureLayerBaseElevationInfo? result = await JsComponentReference!.InvokeAsync<FeatureLayerBaseElevationInfo?>("getProperty",
+            CancellationTokenSource.Token, "elevationInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1446,8 +1446,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FeatureEffect? result = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureEffect");
+        FeatureEffect? result = await JsComponentReference!.InvokeAsync<FeatureEffect?>("getProperty",
+            CancellationTokenSource.Token, "featureEffect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1476,8 +1476,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fields");
+        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+            CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1506,8 +1506,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        FieldsIndex? result = await JsComponentReference!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, "fieldsIndex");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1539,8 +1539,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        LayerFloorInfo? result = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "floorInfo");
+        LayerFloorInfo? result = await JsComponentReference!.InvokeAsync<LayerFloorInfo?>("getProperty",
+            CancellationTokenSource.Token, "floorInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1569,8 +1569,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FormTemplate? result = await CoreJsModule!.InvokeAsync<FormTemplate?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "formTemplate");
+        FormTemplate? result = await JsComponentReference!.InvokeAsync<FormTemplate?>("getProperty",
+            CancellationTokenSource.Token, "formTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1599,8 +1599,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "gdbVersion");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1629,8 +1629,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        GeometryFieldsInfo? result = await CoreJsModule!.InvokeAsync<GeometryFieldsInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometryFieldsInfo");
+        GeometryFieldsInfo? result = await JsComponentReference!.InvokeAsync<GeometryFieldsInfo?>("getProperty",
+            CancellationTokenSource.Token, "geometryFieldsInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1659,8 +1659,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FeatureGeometryType? result = await CoreJsModule!.InvokeAsync<FeatureGeometryType?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        FeatureGeometryType? result = await JsComponentReference!.InvokeAsync<FeatureGeometryType?>("getProperty",
+            CancellationTokenSource.Token, "geometryType");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1809,8 +1809,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<Label>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelingInfo");
+        IReadOnlyList<Label>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
+            CancellationTokenSource.Token, "labelingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1989,8 +1989,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2019,8 +2019,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<OrderedLayerOrderBy>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "orderBy");
+        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
+            CancellationTokenSource.Token, "orderBy");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2049,8 +2049,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "outFields");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2109,8 +2109,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
+            CancellationTokenSource.Token, "popupTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2138,90 +2138,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return PortalItem;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PortalItem = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-            }
-            
             if (PortalItem is not null)
             {
-                PortalItem.Parent = this;
-                PortalItem.View = View;
-                PortalItem.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PortalItem.Id);
-                return PortalItem;
+                result.Id = PortalItem.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PortalItem = new PortalItem();
+            PortalItem = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        PortalItem.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PortalItem.Id);
-        await PortalItem.GetProperty<PortalItemAccess>(nameof(PortalItem.Access));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.AccessInformation));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ApiKey));
-        await PortalItem.GetProperty<IReadOnlyList<PortalItemApplicationProxies>>(nameof(PortalItem.ApplicationProxies));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.AvgRating));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Categories));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Created));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Culture));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Description));
-        await PortalItem.GetProperty<Extent>(nameof(PortalItem.Extent));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.GroupCategories));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsLayer));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsOrgItem));
-        await PortalItem.GetProperty<ItemControl>(nameof(PortalItem.ItemControl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemPageUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.LicenseInfo));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.Loaded));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Modified));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Name));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumComments));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumRatings));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumViews));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Owner));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.OwnerFolder));
-        await PortalItem.GetProperty<Portal>(nameof(PortalItem.Portal));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.PortalItemId));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Screenshots));
-        await PortalItem.GetProperty<int>(nameof(PortalItem.Size));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Snippet));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.SourceJSON));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Tags));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ThumbnailUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Title));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.TypeKeywords));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Url));
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
         return PortalItem;
     }
     
@@ -2242,8 +2174,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "preferredTimeZone");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2272,8 +2204,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        PublishingInfo? result = await CoreJsModule!.InvokeAsync<PublishingInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "publishingInfo");
+        PublishingInfo? result = await JsComponentReference!.InvokeAsync<PublishingInfo?>("getProperty",
+            CancellationTokenSource.Token, "publishingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2332,8 +2264,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<Relationship>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "relationships");
+        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+            CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2362,8 +2294,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        Renderer? result = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "renderer");
+        Renderer? result = await JsComponentReference!.InvokeAsync<Renderer?>("getProperty",
+            CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2482,8 +2414,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "serviceDefinitionExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "serviceDefinitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2512,8 +2444,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "serviceItemId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "serviceItemId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2542,8 +2474,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2572,8 +2504,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2602,8 +2534,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subtypeField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "subtypeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2632,8 +2564,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<Subtype>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Subtype>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "subtypes");
+        IReadOnlyList<Subtype>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Subtype>?>("getProperty",
+            CancellationTokenSource.Token, "subtypes");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2662,8 +2594,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<FeatureTemplate>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureTemplate>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "templates");
+        IReadOnlyList<FeatureTemplate>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FeatureTemplate>?>("getProperty",
+            CancellationTokenSource.Token, "templates");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2691,56 +2623,22 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "timeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                TimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-            }
-            
             if (TimeExtent is not null)
             {
-                TimeExtent.Parent = this;
-                TimeExtent.View = View;
-                TimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, TimeExtent.Id);
-                return TimeExtent;
+                result.Id = TimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        TimeExtent = new TimeExtent();
+            TimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        TimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, TimeExtent.Id);
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+        }
+        
         return TimeExtent;
     }
     
@@ -2761,8 +2659,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
+            CancellationTokenSource.Token, "timeInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2791,8 +2689,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
+            CancellationTokenSource.Token, "timeOffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2821,8 +2719,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "typeIdField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2851,8 +2749,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<FeatureType>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "types");
+        IReadOnlyList<FeatureType>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
+            CancellationTokenSource.Token, "types");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2881,8 +2779,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -3884,6 +3782,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+            CancellationTokenSource.Token, value);
+ 
         PortalItem.Parent = this;
         PortalItem.View = View;
         
@@ -4086,6 +3987,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setSource", 
+            CancellationTokenSource.Token, value);
+ 
         foreach (Graphic item in value)
         {
             item.Parent = this;
@@ -4232,6 +4136,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         TimeExtent.Parent = this;
         TimeExtent.View = View;
         

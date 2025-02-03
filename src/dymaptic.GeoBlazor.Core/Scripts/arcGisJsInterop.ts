@@ -2812,6 +2812,31 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
             newLayer = imageryLayer;
             break;
+        case 'base-tile':
+            let { buildJsBaseTileLayer } = await import('./baseTileLayer');
+            newLayer = await buildJsBaseTileLayer(dotNetLayer);
+
+            break;
+        case 'feature':
+            let { buildJsFeatureLayer } = await import('./featureLayer');
+            newLayer = await buildJsFeatureLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'imagery-tile':
+            let { buildJsImageryTileLayer } = await import('./imageryTileLayer');
+            newLayer = await buildJsImageryTileLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'vector-tile':
+            let { buildJsVectorTileLayer } = await import('./vectorTileLayer');
+            newLayer = await buildJsVectorTileLayer(dotNetLayer);
+
+            break;
+        case 'web-tile':
+            let { buildJsWebTileLayer } = await import('./webTileLayer');
+            newLayer = await buildJsWebTileLayer(dotNetLayer);
+
+            break;
         default:
             return null;
     }

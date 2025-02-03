@@ -324,8 +324,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        ClassificationMethod? result = await CoreJsModule!.InvokeAsync<ClassificationMethod?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "classificationMethod");
+        ClassificationMethod? result = await JsComponentReference!.InvokeAsync<ClassificationMethod?>("getProperty",
+            CancellationTokenSource.Token, "classificationMethod");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -354,8 +354,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        ColorRamp? result = await CoreJsModule!.InvokeAsync<ColorRamp?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "colorRamp");
+        ColorRamp? result = await JsComponentReference!.InvokeAsync<ColorRamp?>("getProperty",
+            CancellationTokenSource.Token, "colorRamp");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -414,8 +414,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoField? result = await CoreJsModule!.InvokeAsync<AuthoringInfoField?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field1");
+        AuthoringInfoField? result = await JsComponentReference!.InvokeAsync<AuthoringInfoField?>("getProperty",
+            CancellationTokenSource.Token, "field1");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -444,8 +444,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoField? result = await CoreJsModule!.InvokeAsync<AuthoringInfoField?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field2");
+        AuthoringInfoField? result = await JsComponentReference!.InvokeAsync<AuthoringInfoField?>("getProperty",
+            CancellationTokenSource.Token, "field2");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -474,8 +474,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fields");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -504,8 +504,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoFlowTheme? result = await CoreJsModule!.InvokeAsync<AuthoringInfoFlowTheme?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "flowTheme");
+        AuthoringInfoFlowTheme? result = await JsComponentReference!.InvokeAsync<AuthoringInfoFlowTheme?>("getProperty",
+            CancellationTokenSource.Token, "flowTheme");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -534,8 +534,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "focus");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "focus");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -594,8 +594,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        LengthUnit? result = await CoreJsModule!.InvokeAsync<LengthUnit?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "lengthUnit");
+        LengthUnit? result = await JsComponentReference!.InvokeAsync<LengthUnit?>("getProperty",
+            CancellationTokenSource.Token, "lengthUnit");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -744,8 +744,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoStatistics? result = await CoreJsModule!.InvokeAsync<AuthoringInfoStatistics?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statistics");
+        AuthoringInfoStatistics? result = await JsComponentReference!.InvokeAsync<AuthoringInfoStatistics?>("getProperty",
+            CancellationTokenSource.Token, "statistics");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -774,8 +774,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateSymbolStyle? result = await CoreJsModule!.InvokeAsync<UnivariateSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "univariateSymbolStyle");
+        UnivariateSymbolStyle? result = await JsComponentReference!.InvokeAsync<UnivariateSymbolStyle?>("getProperty",
+            CancellationTokenSource.Token, "univariateSymbolStyle");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -804,8 +804,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateTheme? result = await CoreJsModule!.InvokeAsync<UnivariateTheme?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "univariateTheme");
+        UnivariateTheme? result = await JsComponentReference!.InvokeAsync<UnivariateTheme?>("getProperty",
+            CancellationTokenSource.Token, "univariateTheme");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -834,8 +834,8 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        IReadOnlyList<AuthoringInfoVisualVariable>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "visualVariables");
+        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>("getProperty",
+            CancellationTokenSource.Token, "visualVariables");
         if (result is not null)
         {
 #pragma warning disable BL0005

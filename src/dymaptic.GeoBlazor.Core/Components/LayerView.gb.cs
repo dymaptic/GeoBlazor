@@ -174,8 +174,8 @@ public partial class LayerView
         }
 
         // get the property value
-        MapView? result = await CoreJsModule!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "view");
+        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
+            CancellationTokenSource.Token, "view");
         if (result is not null)
         {
 #pragma warning disable BL0005

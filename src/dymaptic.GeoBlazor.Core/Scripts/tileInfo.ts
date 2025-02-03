@@ -9,3 +9,11 @@ export default class TileInfoWrapper extends TileInfoGenerated {
     }
     
 }              
+export async function buildJsTileInfo(dotNetObject: any): Promise<any> {
+    let { buildJsTileInfoGenerated } = await import('./tileInfo.gb');
+    return await buildJsTileInfoGenerated(dotNetObject);
+}
+export async function buildDotNetTileInfo(jsObject: any): Promise<any> {
+    let { buildDotNetTileInfoGenerated } = await import('./tileInfo.gb');
+    return await buildDotNetTileInfoGenerated(jsObject);
+}

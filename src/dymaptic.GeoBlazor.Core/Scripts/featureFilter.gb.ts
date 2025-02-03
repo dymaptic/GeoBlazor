@@ -2,11 +2,12 @@
 
 
 import FeatureFilter from '@arcgis/core/layers/support/FeatureFilter';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FeatureFilterGenerated implements IPropertyWrapper {
     public component: FeatureFilter;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FeatureFilter) {
         this.component = component;
@@ -25,12 +26,19 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     }
     
     async createQuery(): Promise<any> {
-        let result = this.component.createQuery();
-        return await createGeoBlazorObject(result);
+        return this.component.createQuery();
     }
 
     // region properties
     
+    async getTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.component.timeExtent);
+    }
+    async setTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.component.timeExtent = await buildJsTimeExtent(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -38,20 +46,65 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFeatureFilterGenerated(dotNetObject: any): Promise<any> {
+    let { default: FeatureFilter } = await import('@arcgis/core/layers/support/FeatureFilter');
+    let jsFeatureFilter = new FeatureFilter();
+    if (hasValue(dotNetObject.timeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.distance)) {
+        jsFeatureFilter.distance = dotNetObject.distance;
+    }
+    if (hasValue(dotNetObject.geometry)) {
+        jsFeatureFilter.geometry = dotNetObject.geometry;
+    }
+    if (hasValue(dotNetObject.objectIds)) {
+        jsFeatureFilter.objectIds = dotNetObject.objectIds;
+    }
+    if (hasValue(dotNetObject.spatialRelationship)) {
+        jsFeatureFilter.spatialRelationship = dotNetObject.spatialRelationship;
+    }
+    if (hasValue(dotNetObject.units)) {
+        jsFeatureFilter.units = dotNetObject.units;
+    }
+    if (hasValue(dotNetObject.where)) {
+        jsFeatureFilter.where = dotNetObject.where;
+    }
+    let { default: FeatureFilterWrapper } = await import('./featureFilter');
+    let featureFilterWrapper = new FeatureFilterWrapper(jsFeatureFilter);
+    jsFeatureFilter.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
+    
+    return jsFeatureFilter;
+}
+
+export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFeatureFilter: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.timeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetFeatureFilter.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent);
+        }
+        dotNetFeatureFilter.distance = jsObject.distance;
+        dotNetFeatureFilter.geometry = jsObject.geometry;
+        dotNetFeatureFilter.objectIds = jsObject.objectIds;
+        dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
+        dotNetFeatureFilter.units = jsObject.units;
+        dotNetFeatureFilter.where = jsObject.where;
+    return dotNetFeatureFilter;
+}
+

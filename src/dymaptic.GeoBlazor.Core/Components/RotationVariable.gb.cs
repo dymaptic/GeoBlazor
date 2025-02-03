@@ -100,8 +100,8 @@ public partial class RotationVariable
         }
 
         // get the property value
-        Axis? result = await CoreJsModule!.InvokeAsync<Axis?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "axis");
+        Axis? result = await JsComponentReference!.InvokeAsync<Axis?>("getProperty",
+            CancellationTokenSource.Token, "axis");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -130,8 +130,8 @@ public partial class RotationVariable
         }
 
         // get the property value
-        RotationType? result = await CoreJsModule!.InvokeAsync<RotationType?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rotationType");
+        RotationType? result = await JsComponentReference!.InvokeAsync<RotationType?>("getProperty",
+            CancellationTokenSource.Token, "rotationType");
         if (result is not null)
         {
 #pragma warning disable BL0005

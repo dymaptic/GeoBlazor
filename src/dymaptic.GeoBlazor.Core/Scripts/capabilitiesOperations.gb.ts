@@ -2,11 +2,12 @@
 
 
 import CapabilitiesOperations = __esri.CapabilitiesOperations;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesOperationsGenerated implements IPropertyWrapper {
     public component: CapabilitiesOperations;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesOperations) {
         this.component = component;
@@ -33,20 +34,52 @@ export default class CapabilitiesOperationsGenerated implements IPropertyWrapper
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesOperations = {
+        supportsAdd: dotNetObject.supportsAdd,
+        supportsCalculate: dotNetObject.supportsCalculate,
+        supportsDelete: dotNetObject.supportsDelete,
+        supportsEditing: dotNetObject.supportsEditing,
+        supportsQuery: dotNetObject.supportsQuery,
+        supportsQueryAttachments: dotNetObject.supportsQueryAttachments,
+        supportsQueryTopFeatures: dotNetObject.supportsQueryTopFeatures,
+        supportsResizeAttachments: dotNetObject.supportsResizeAttachments,
+        supportsUpdate: dotNetObject.supportsUpdate,
+        supportsValidateSql: dotNetObject.supportsValidateSql,
+    }
+    let { default: CapabilitiesOperationsWrapper } = await import('./capabilitiesOperations');
+    let capabilitiesOperationsWrapper = new CapabilitiesOperationsWrapper(jsCapabilitiesOperations);
+    jsCapabilitiesOperations.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesOperationsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesOperationsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
+    
+    return jsCapabilitiesOperations;
+}
+
+export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesOperations: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
+        dotNetCapabilitiesOperations.supportsCalculate = jsObject.supportsCalculate;
+        dotNetCapabilitiesOperations.supportsDelete = jsObject.supportsDelete;
+        dotNetCapabilitiesOperations.supportsEditing = jsObject.supportsEditing;
+        dotNetCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
+        dotNetCapabilitiesOperations.supportsQueryAttachments = jsObject.supportsQueryAttachments;
+        dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
+        dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
+        dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
+        dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
+    return dotNetCapabilitiesOperations;
+}
+

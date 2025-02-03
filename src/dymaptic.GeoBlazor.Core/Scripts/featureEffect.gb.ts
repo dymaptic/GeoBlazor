@@ -2,11 +2,12 @@
 
 
 import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FeatureEffectGenerated implements IPropertyWrapper {
     public component: FeatureEffect;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FeatureEffect) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getFilter(): Promise<any> {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        return await buildDotNetFeatureFilter(this.component.filter);
+    }
+    async setFilter(value: any): Promise<void> {
+        let { buildJsFeatureFilter } = await import('./featureFilter');
+        this.component.filter = await buildJsFeatureFilter(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,53 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFeatureEffectGenerated(dotNetObject: any): Promise<any> {
+    let { default: FeatureEffect } = await import('@arcgis/core/layers/support/FeatureEffect');
+    let jsFeatureEffect = new FeatureEffect();
+    if (hasValue(dotNetObject.filter)) {
+        let { buildJsFeatureFilter } = await import('featureFilter');
+        jsFeatureEffect.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
+
+    }
+    if (hasValue(dotNetObject.excludedEffect)) {
+        jsFeatureEffect.excludedEffect = dotNetObject.excludedEffect;
+    }
+    if (hasValue(dotNetObject.excludedLabelsVisible)) {
+        jsFeatureEffect.excludedLabelsVisible = dotNetObject.excludedLabelsVisible;
+    }
+    if (hasValue(dotNetObject.includedEffect)) {
+        jsFeatureEffect.includedEffect = dotNetObject.includedEffect;
+    }
+    let { default: FeatureEffectWrapper } = await import('./featureEffect');
+    let featureEffectWrapper = new FeatureEffectWrapper(jsFeatureEffect);
+    jsFeatureEffect.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(featureEffectWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = featureEffectWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
+    
+    return jsFeatureEffect;
+}
+
+export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFeatureEffect: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.filter)) {
+            let { buildDotNetFeatureFilter } = await import('./featureFilter');
+            dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
+        }
+        dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect;
+        dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
+        dotNetFeatureEffect.includedEffect = jsObject.includedEffect;
+    return dotNetFeatureEffect;
+}
+

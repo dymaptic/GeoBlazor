@@ -2,11 +2,12 @@
 
 
 import Theme from '@arcgis/core/views/Theme';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class ThemeGenerated implements IPropertyWrapper {
     public component: Theme;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: Theme) {
         this.component = component;
@@ -26,6 +27,22 @@ export default class ThemeGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getAccentColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.accentColor);
+    }
+    async setAccentColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.accentColor = await buildJsMapColor(value);
+    }
+    async getTextColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.textColor);
+    }
+    async setTextColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.textColor = await buildJsMapColor(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +50,48 @@ export default class ThemeGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsThemeGenerated(dotNetObject: any): Promise<any> {
+    let { default: Theme } = await import('@arcgis/core/views/Theme');
+    let jsTheme = new Theme();
+    if (hasValue(dotNetObject.accentColor)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsTheme.accentColor = await buildJsColor(dotNetObject.accentColor) as any;
+    }
+    if (hasValue(dotNetObject.textColor)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsTheme.textColor = await buildJsColor(dotNetObject.textColor) as any;
+    }
+    let { default: ThemeWrapper } = await import('./theme');
+    let themeWrapper = new ThemeWrapper(jsTheme);
+    jsTheme.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(themeWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = themeWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsTheme;
+    
+    return jsTheme;
+}
+
+export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetTheme: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.accentColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTheme.accentColor = await buildDotNetMapColor(jsObject.accentColor);
+        }
+        if (hasValue(jsObject.textColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTheme.textColor = await buildDotNetMapColor(jsObject.textColor);
+        }
+    return dotNetTheme;
+}
+

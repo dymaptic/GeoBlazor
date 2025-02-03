@@ -2,11 +2,12 @@
 
 
 import CSVLayer from '@arcgis/core/layers/CSVLayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CSVLayerGenerated implements IPropertyWrapper {
     public layer: CSVLayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(layer: CSVLayer) {
         this.layer = layer;
@@ -32,17 +33,18 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let result = await this.layer.createLayerView(view,
             options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return buildDotNetLayerView(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return buildDotNetPopupTemplate(result);
     }
 
     async createQuery(): Promise<any> {
-        let result = this.layer.createQuery();
-        return await createGeoBlazorObject(result);
+        return this.layer.createQuery();
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -51,21 +53,20 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
     async getField(fieldName: any): Promise<any> {
         let result = this.layer.getField(fieldName);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetField } = await import('./field');
+        return buildDotNetField(result);
     }
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-        let result = this.layer.getFieldDomain(fieldName,
+        return this.layer.getFieldDomain(fieldName,
             options);
-        return await createGeoBlazorObject(result);
     }
 
     async queryExtent(query: any,
         options: any): Promise<any> {
-        let result = await this.layer.queryExtent(query,
+        return await this.layer.queryExtent(query,
             options);
-        return await createGeoBlazorObject(result);
     }
 
     async queryFeatureCount(query: any,
@@ -76,9 +77,8 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-        let result = await this.layer.queryFeatures(query,
+        return await this.layer.queryFeatures(query,
             options);
-        return await createGeoBlazorObject(result);
     }
 
     async queryObjectIds(query: any,
@@ -93,6 +93,108 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getElevationInfo(): Promise<any> {
+        let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
+        return await buildDotNetCSVLayerElevationInfo(this.layer.elevationInfo);
+    }
+    async setElevationInfo(value: any): Promise<void> {
+        let { buildJsCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
+        this.layer.elevationInfo = await buildJsCSVLayerElevationInfo(value);
+    }
+    async getFeatureEffect(): Promise<any> {
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await buildJsFeatureEffect(value);
+    }
+    async getFields(): Promise<any> {
+        let { buildDotNetField } = await import('./field');
+        return this.layer.fields.map(async i => await buildDotNetField(i));
+    }
+    
+    async setFields(value: any): Promise<void> {
+        let { buildJsField } = await import('./field');
+        this.layer.fields = value.map(async i => await buildJsField(i));
+    }
+    
+    async getLabelingInfo(): Promise<any> {
+        let { buildDotNetLabel } = await import('./label');
+        return this.layer.labelingInfo.map(async i => await buildDotNetLabel(i));
+    }
+    
+    async setLabelingInfo(value: any): Promise<void> {
+        let { buildJsLabel } = await import('./label');
+        this.layer.labelingInfo = value.map(async i => await buildJsLabel(i));
+    }
+    
+    async getOrderBy(): Promise<any> {
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        return this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+    }
+    
+    async setOrderBy(value: any): Promise<void> {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        this.layer.orderBy = value.map(async i => await buildJsOrderedLayerOrderBy(i));
+    }
+    
+    async getPopupTemplate(layerId: string, viewId: string): Promise<any> {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(this.layer.popupTemplate, layerId, viewId);
+    }
+    async setPopupTemplate(value: any, layerId: string, viewId: string): Promise<void> {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        this.layer.popupTemplate = await buildJsPopupTemplate(value, layerId, viewId);
+    }
+    async getPortalItem(): Promise<any> {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(this.layer.portalItem);
+    }
+    async setPortalItem(value: any): Promise<void> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        this.layer.portalItem = await buildJsPortalItem(value);
+    }
+    async getRenderer(): Promise<any> {
+        let { buildDotNetRenderer } = await import('./renderer');
+        return await buildDotNetRenderer(this.layer.renderer);
+    }
+    async setRenderer(value: any): Promise<void> {
+        let { buildJsRenderer } = await import('./renderer');
+        this.layer.renderer = await buildJsRenderer(value);
+    }
+    async getTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.layer.timeExtent);
+    }
+    async setTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.timeExtent = await buildJsTimeExtent(value);
+    }
+    async getTimeInfo(): Promise<any> {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await buildJsTimeInfo(value);
+    }
+    async getTimeOffset(): Promise<any> {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
+    }
+    async setTimeOffset(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.layer.timeOffset = await buildJsTimeInterval(value);
+    }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -100,20 +202,271 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { default: CSVLayer } = await import('@arcgis/core/layers/CSVLayer');
+    let jsCSVLayer = new CSVLayer();
+    if (hasValue(dotNetObject.elevationInfo)) {
+        let { buildJsCSVLayerElevationInfo } = await import('cSVLayerElevationInfo');
+        jsCSVLayer.elevationInfo = await buildJsCSVLayerElevationInfo(dotNetObject.elevationInfo) as any;
+
+    }
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('featureEffect');
+        jsCSVLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
+
+    }
+    if (hasValue(dotNetObject.fields)) {
+        let { buildJsField } = await import('field');
+        jsCSVLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('extent');
+        jsCSVLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.labelingInfo)) {
+        let { buildJsLabel } = await import('label');
+        jsCSVLayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.orderBy)) {
+        let { buildJsOrderedLayerOrderBy } = await import('orderedLayerOrderBy');
+        jsCSVLayer.orderBy = dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('popupTemplate');
+        jsCSVLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+
+    }
+    if (hasValue(dotNetObject.portalItem)) {
+        let { buildJsPortalItem } = await import('portalItem');
+        jsCSVLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
+
+    }
+    if (hasValue(dotNetObject.renderer)) {
+        let { buildJsRenderer } = await import('renderer');
+        jsCSVLayer.renderer = buildJsRenderer(dotNetObject.renderer) as any;
+
+    }
+    if (hasValue(dotNetObject.timeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsCSVLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('timeInfo');
+        jsCSVLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
+
+    }
+    if (hasValue(dotNetObject.timeOffset)) {
+        let { buildJsTimeInterval } = await import('timeInterval');
+        jsCSVLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
+
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsCSVLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.arcGISLayerId)) {
+        jsCSVLayer.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsCSVLayer.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.copyright)) {
+        jsCSVLayer.copyright = dotNetObject.copyright;
+    }
+    if (hasValue(dotNetObject.customParameters)) {
+        jsCSVLayer.customParameters = dotNetObject.customParameters;
+    }
+    if (hasValue(dotNetObject.definitionExpression)) {
+        jsCSVLayer.definitionExpression = dotNetObject.definitionExpression;
+    }
+    if (hasValue(dotNetObject.delimiter)) {
+        jsCSVLayer.delimiter = dotNetObject.delimiter;
+    }
+    if (hasValue(dotNetObject.displayField)) {
+        jsCSVLayer.displayField = dotNetObject.displayField;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        jsCSVLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.featureReduction)) {
+        jsCSVLayer.featureReduction = dotNetObject.featureReduction;
+    }
+    if (hasValue(dotNetObject.geometryType)) {
+        jsCSVLayer.geometryType = dotNetObject.geometryType;
+    }
+    if (hasValue(dotNetObject.labelsVisible)) {
+        jsCSVLayer.labelsVisible = dotNetObject.labelsVisible;
+    }
+    if (hasValue(dotNetObject.latitudeField)) {
+        jsCSVLayer.latitudeField = dotNetObject.latitudeField;
+    }
+    if (hasValue(dotNetObject.legendEnabled)) {
+        jsCSVLayer.legendEnabled = dotNetObject.legendEnabled;
+    }
+    if (hasValue(dotNetObject.listMode)) {
+        jsCSVLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.longitudeField)) {
+        jsCSVLayer.longitudeField = dotNetObject.longitudeField;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsCSVLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsCSVLayer.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.objectIdField)) {
+        jsCSVLayer.objectIdField = dotNetObject.objectIdField;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsCSVLayer.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.outFields)) {
+        jsCSVLayer.outFields = dotNetObject.outFields;
+    }
+    if (hasValue(dotNetObject.persistenceEnabled)) {
+        jsCSVLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.popupEnabled)) {
+        jsCSVLayer.popupEnabled = dotNetObject.popupEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsCSVLayer.refreshInterval = dotNetObject.refreshInterval;
+    }
+    if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
+        jsCSVLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        jsCSVLayer.spatialReference = dotNetObject.spatialReference;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsCSVLayer.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.url)) {
+        jsCSVLayer.url = dotNetObject.url;
+    }
+    if (hasValue(dotNetObject.useViewTime)) {
+        jsCSVLayer.useViewTime = dotNetObject.useViewTime;
+    }
+    jsCSVLayer.on('refresh', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
+    });
+    
+    let { default: CSVLayerWrapper } = await import('./cSVLayer');
+    let cSVLayerWrapper = new CSVLayerWrapper(jsCSVLayer);
+    jsCSVLayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = cSVLayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCSVLayer;
+    
+    return jsCSVLayer;
+}
+
+export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCSVLayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.elevationInfo)) {
+            let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
+            dotNetCSVLayer.elevationInfo = await buildDotNetCSVLayerElevationInfo(jsObject.elevationInfo);
+        }
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetCSVLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
+        if (hasValue(jsObject.fields)) {
+            let { buildDotNetField } = await import('./field');
+            dotNetCSVLayer.fields = jsObject.fields.map(async i => await buildDotNetField(i));
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetCSVLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
+        }
+        if (hasValue(jsObject.labelingInfo)) {
+            let { buildDotNetLabel } = await import('./label');
+            dotNetCSVLayer.labelingInfo = jsObject.labelingInfo.map(async i => await buildDotNetLabel(i));
+        }
+        if (hasValue(jsObject.orderBy)) {
+            let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+            dotNetCSVLayer.orderBy = jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+        }
+        if (hasValue(jsObject.popupTemplate)) {
+            let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
+            dotNetCSVLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        }
+        if (hasValue(jsObject.portalItem)) {
+            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            dotNetCSVLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
+        if (hasValue(jsObject.renderer)) {
+            let { buildDotNetRenderer } = await import('./dotNetBuilder');
+            dotNetCSVLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+        }
+        if (hasValue(jsObject.timeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetCSVLayer.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent);
+        }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
+            dotNetCSVLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
+        if (hasValue(jsObject.timeOffset)) {
+            let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
+            dotNetCSVLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetCSVLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+        }
+        dotNetCSVLayer.arcGISLayerId = jsObject.id;
+        dotNetCSVLayer.blendMode = jsObject.blendMode;
+        dotNetCSVLayer.capabilities = jsObject.capabilities;
+        dotNetCSVLayer.copyright = jsObject.copyright;
+        dotNetCSVLayer.customParameters = jsObject.customParameters;
+        dotNetCSVLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+        dotNetCSVLayer.definitionExpression = jsObject.definitionExpression;
+        dotNetCSVLayer.delimiter = jsObject.delimiter;
+        dotNetCSVLayer.displayField = jsObject.displayField;
+        dotNetCSVLayer.effect = jsObject.effect;
+        dotNetCSVLayer.featureReduction = jsObject.featureReduction;
+        dotNetCSVLayer.fieldsIndex = jsObject.fieldsIndex;
+        dotNetCSVLayer.geometryType = jsObject.geometryType;
+        dotNetCSVLayer.isTable = jsObject.isTable;
+        dotNetCSVLayer.labelsVisible = jsObject.labelsVisible;
+        dotNetCSVLayer.latitudeField = jsObject.latitudeField;
+        dotNetCSVLayer.legendEnabled = jsObject.legendEnabled;
+        dotNetCSVLayer.listMode = jsObject.listMode;
+        dotNetCSVLayer.loaded = jsObject.loaded;
+        dotNetCSVLayer.longitudeField = jsObject.longitudeField;
+        dotNetCSVLayer.maxScale = jsObject.maxScale;
+        dotNetCSVLayer.minScale = jsObject.minScale;
+        dotNetCSVLayer.objectIdField = jsObject.objectIdField;
+        dotNetCSVLayer.opacity = jsObject.opacity;
+        dotNetCSVLayer.outFields = jsObject.outFields;
+        dotNetCSVLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        dotNetCSVLayer.popupEnabled = jsObject.popupEnabled;
+        dotNetCSVLayer.refreshInterval = jsObject.refreshInterval;
+        dotNetCSVLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+        dotNetCSVLayer.spatialReference = jsObject.spatialReference;
+        dotNetCSVLayer.title = jsObject.title;
+        dotNetCSVLayer.type = jsObject.type;
+        dotNetCSVLayer.url = jsObject.url;
+        dotNetCSVLayer.useViewTime = jsObject.useViewTime;
+    return dotNetCSVLayer;
+}
+

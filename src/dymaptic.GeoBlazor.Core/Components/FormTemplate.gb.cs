@@ -101,8 +101,8 @@ public partial class FormTemplate
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -131,8 +131,8 @@ public partial class FormTemplate
         }
 
         // get the property value
-        IReadOnlyList<FormElement>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elements");
+        IReadOnlyList<FormElement>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FormElement>?>("getProperty",
+            CancellationTokenSource.Token, "elements");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -161,8 +161,8 @@ public partial class FormTemplate
         }
 
         // get the property value
-        IReadOnlyList<ExpressionInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "expressionInfos");
+        IReadOnlyList<ExpressionInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
+            CancellationTokenSource.Token, "expressionInfos");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -221,8 +221,8 @@ public partial class FormTemplate
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005

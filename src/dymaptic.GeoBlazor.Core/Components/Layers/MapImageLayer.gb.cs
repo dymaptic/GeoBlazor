@@ -386,110 +386,17 @@ public partial class MapImageLayer : IArcGISMapService,
             return AllSublayers;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "allSublayers"))?.Value;
-            
-        if (refResult is null)
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getAllSublayers", CancellationTokenSource.Token);
+        
+        if (result is not null)
         {
-            return null;
+#pragma warning disable BL0005
+            AllSublayers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(AllSublayers)] = AllSublayers;
         }
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
-        {
-            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                AllSublayers = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(AllSublayers)] = AllSublayers;
-            }
-            
-            if (AllSublayers is not null)
-            {
-                for (int i = 0; i < AllSublayers.Count; i++)
-                {
-                    Sublayer item = AllSublayers[i];
-                    item.Parent = this;
-                    item.View = View;
-                    // register this type in JS
-                    IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                        "at", CancellationTokenSource.Token, i);
-                    if (itemRef is not null)
-                    {
-                        item.JsComponentReference = itemRef;
-                        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                            CancellationTokenSource.Token, itemRef, item.Id);
-                    }
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize AllSublayers. Error: {ex}");
-        }
-        int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
-            CancellationTokenSource.Token, refResult, "length");
-        if (length is null)
-        {
-            return null;
-        }
-        List<Sublayer> newResult = [];
-        for (int i = 0; i < length; i++)
-        {
-            newResult.Add(new Sublayer());
-        }
-#pragma warning disable BL0005
-        AllSublayers = newResult;
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(AllSublayers)] = AllSublayers;
-        for (int i = 0; i < AllSublayers.Count; i++)
-        {
-            Sublayer item = AllSublayers[i];
-            item.Parent = this;
-            item.View = View;
-            // register this type in JS
-            IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                "at", CancellationTokenSource.Token, i);
-            if (itemRef is not null)
-            {
-                item.JsComponentReference = itemRef;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, itemRef, item.Id);
-            }
-            await item.GetProperty<SublayerCapabilities>(nameof(Sublayer.Capabilities));
-            await item.GetProperty<DynamicDataSource>(nameof(Sublayer.DataSource));
-            await item.GetProperty<string>(nameof(Sublayer.DefinitionExpression));
-            await item.GetProperty<IReadOnlyList<Field>>(nameof(Sublayer.Fields));
-            await item.GetProperty<FieldsIndex>(nameof(Sublayer.FieldsIndex));
-            await item.GetProperty<LayerFloorInfo>(nameof(Sublayer.FloorInfo));
-            await item.GetProperty<Extent>(nameof(Sublayer.FullExtent));
-            await item.GetProperty<bool>(nameof(Sublayer.IsTable));
-            await item.GetProperty<IReadOnlyList<Label>>(nameof(Sublayer.LabelingInfo));
-            await item.GetProperty<bool>(nameof(Sublayer.LabelsVisible));
-            await item.GetProperty<bool>(nameof(Sublayer.LegendEnabled));
-            await item.GetProperty<ListMode>(nameof(Sublayer.ListMode));
-            await item.GetProperty<double>(nameof(Sublayer.MaxScale));
-            await item.GetProperty<double>(nameof(Sublayer.MinScale));
-            await item.GetProperty<string>(nameof(Sublayer.ObjectIdField));
-            await item.GetProperty<double>(nameof(Sublayer.Opacity));
-            await item.GetProperty<bool>(nameof(Sublayer.PopupEnabled));
-            await item.GetProperty<PopupTemplate>(nameof(Sublayer.PopupTemplate));
-            await item.GetProperty<IReadOnlyList<Relationship>>(nameof(Sublayer.Relationships));
-            await item.GetProperty<Renderer>(nameof(Sublayer.Renderer));
-            await item.GetProperty<string>(nameof(Sublayer.SourceJSON));
-            await item.GetProperty<SpatialReference>(nameof(Sublayer.SpatialReference));
-            await item.GetProperty<long>(nameof(Sublayer.SublayerId));
-            await item.GetProperty<string>(nameof(Sublayer.Title));
-            await item.GetProperty<string>(nameof(Sublayer.TypeIdField));
-            await item.GetProperty<IReadOnlyList<FeatureType>>(nameof(Sublayer.Types));
-            await item.GetProperty<string>(nameof(Sublayer.Url));
-        }
         return AllSublayers;
     }
     
@@ -510,8 +417,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -540,8 +447,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        ArcGISMapServiceCapabilities? result = await CoreJsModule!.InvokeAsync<ArcGISMapServiceCapabilities?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        ArcGISMapServiceCapabilities? result = await JsComponentReference!.InvokeAsync<ArcGISMapServiceCapabilities?>("getProperty",
+            CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -570,8 +477,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "copyright");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -600,8 +507,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+            CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -630,8 +537,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dateFieldsTimeZone");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "dateFieldsTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -720,8 +627,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -750,8 +657,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "gdbVersion");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "gdbVersion");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -780,8 +687,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        MapImageFormat? result = await CoreJsModule!.InvokeAsync<MapImageFormat?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "imageFormat");
+        MapImageFormat? result = await JsComponentReference!.InvokeAsync<MapImageFormat?>("getProperty",
+            CancellationTokenSource.Token, "imageFormat");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -989,90 +896,22 @@ public partial class MapImageLayer : IArcGISMapService,
             return PortalItem;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PortalItem = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-            }
-            
             if (PortalItem is not null)
             {
-                PortalItem.Parent = this;
-                PortalItem.View = View;
-                PortalItem.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PortalItem.Id);
-                return PortalItem;
+                result.Id = PortalItem.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PortalItem = new PortalItem();
+            PortalItem = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        PortalItem.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PortalItem.Id);
-        await PortalItem.GetProperty<PortalItemAccess>(nameof(PortalItem.Access));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.AccessInformation));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ApiKey));
-        await PortalItem.GetProperty<IReadOnlyList<PortalItemApplicationProxies>>(nameof(PortalItem.ApplicationProxies));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.AvgRating));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Categories));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Created));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Culture));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Description));
-        await PortalItem.GetProperty<Extent>(nameof(PortalItem.Extent));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.GroupCategories));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsLayer));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsOrgItem));
-        await PortalItem.GetProperty<ItemControl>(nameof(PortalItem.ItemControl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemPageUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.LicenseInfo));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.Loaded));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Modified));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Name));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumComments));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumRatings));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumViews));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Owner));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.OwnerFolder));
-        await PortalItem.GetProperty<Portal>(nameof(PortalItem.Portal));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.PortalItemId));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Screenshots));
-        await PortalItem.GetProperty<int>(nameof(PortalItem.Size));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Snippet));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.SourceJSON));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Tags));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ThumbnailUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Title));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.TypeKeywords));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Url));
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
         return PortalItem;
     }
     
@@ -1093,8 +932,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "preferredTimeZone");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "preferredTimeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1153,8 +992,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1183,8 +1022,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1212,110 +1051,17 @@ public partial class MapImageLayer : IArcGISMapService,
             return Sublayers;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "sublayers"))?.Value;
-            
-        if (refResult is null)
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getSublayers", CancellationTokenSource.Token);
+        
+        if (result is not null)
         {
-            return null;
+#pragma warning disable BL0005
+            Sublayers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Sublayers)] = Sublayers;
         }
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
-        {
-            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                Sublayers = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Sublayers)] = Sublayers;
-            }
-            
-            if (Sublayers is not null)
-            {
-                for (int i = 0; i < Sublayers.Count; i++)
-                {
-                    Sublayer item = Sublayers[i];
-                    item.Parent = this;
-                    item.View = View;
-                    // register this type in JS
-                    IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                        "at", CancellationTokenSource.Token, i);
-                    if (itemRef is not null)
-                    {
-                        item.JsComponentReference = itemRef;
-                        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                            CancellationTokenSource.Token, itemRef, item.Id);
-                    }
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize Sublayers. Error: {ex}");
-        }
-        int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
-            CancellationTokenSource.Token, refResult, "length");
-        if (length is null)
-        {
-            return null;
-        }
-        List<Sublayer> newResult = [];
-        for (int i = 0; i < length; i++)
-        {
-            newResult.Add(new Sublayer());
-        }
-#pragma warning disable BL0005
-        Sublayers = newResult;
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(Sublayers)] = Sublayers;
-        for (int i = 0; i < Sublayers.Count; i++)
-        {
-            Sublayer item = Sublayers[i];
-            item.Parent = this;
-            item.View = View;
-            // register this type in JS
-            IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                "at", CancellationTokenSource.Token, i);
-            if (itemRef is not null)
-            {
-                item.JsComponentReference = itemRef;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, itemRef, item.Id);
-            }
-            await item.GetProperty<SublayerCapabilities>(nameof(Sublayer.Capabilities));
-            await item.GetProperty<DynamicDataSource>(nameof(Sublayer.DataSource));
-            await item.GetProperty<string>(nameof(Sublayer.DefinitionExpression));
-            await item.GetProperty<IReadOnlyList<Field>>(nameof(Sublayer.Fields));
-            await item.GetProperty<FieldsIndex>(nameof(Sublayer.FieldsIndex));
-            await item.GetProperty<LayerFloorInfo>(nameof(Sublayer.FloorInfo));
-            await item.GetProperty<Extent>(nameof(Sublayer.FullExtent));
-            await item.GetProperty<bool>(nameof(Sublayer.IsTable));
-            await item.GetProperty<IReadOnlyList<Label>>(nameof(Sublayer.LabelingInfo));
-            await item.GetProperty<bool>(nameof(Sublayer.LabelsVisible));
-            await item.GetProperty<bool>(nameof(Sublayer.LegendEnabled));
-            await item.GetProperty<ListMode>(nameof(Sublayer.ListMode));
-            await item.GetProperty<double>(nameof(Sublayer.MaxScale));
-            await item.GetProperty<double>(nameof(Sublayer.MinScale));
-            await item.GetProperty<string>(nameof(Sublayer.ObjectIdField));
-            await item.GetProperty<double>(nameof(Sublayer.Opacity));
-            await item.GetProperty<bool>(nameof(Sublayer.PopupEnabled));
-            await item.GetProperty<PopupTemplate>(nameof(Sublayer.PopupTemplate));
-            await item.GetProperty<IReadOnlyList<Relationship>>(nameof(Sublayer.Relationships));
-            await item.GetProperty<Renderer>(nameof(Sublayer.Renderer));
-            await item.GetProperty<string>(nameof(Sublayer.SourceJSON));
-            await item.GetProperty<SpatialReference>(nameof(Sublayer.SpatialReference));
-            await item.GetProperty<long>(nameof(Sublayer.SublayerId));
-            await item.GetProperty<string>(nameof(Sublayer.Title));
-            await item.GetProperty<string>(nameof(Sublayer.TypeIdField));
-            await item.GetProperty<IReadOnlyList<FeatureType>>(nameof(Sublayer.Types));
-            await item.GetProperty<string>(nameof(Sublayer.Url));
-        }
         return Sublayers;
     }
     
@@ -1335,110 +1081,17 @@ public partial class MapImageLayer : IArcGISMapService,
             return Subtables;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "subtables"))?.Value;
-            
-        if (refResult is null)
+        IReadOnlyList<Sublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Sublayer>?>(
+            "getSubtables", CancellationTokenSource.Token);
+        
+        if (result is not null)
         {
-            return null;
+#pragma warning disable BL0005
+            Subtables = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Subtables)] = Subtables;
         }
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
-        {
-            IReadOnlyList<Sublayer>? result = await CoreJsModule.InvokeAsync<IReadOnlyList<Sublayer>?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                Subtables = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Subtables)] = Subtables;
-            }
-            
-            if (Subtables is not null)
-            {
-                for (int i = 0; i < Subtables.Count; i++)
-                {
-                    Sublayer item = Subtables[i];
-                    item.Parent = this;
-                    item.View = View;
-                    // register this type in JS
-                    IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                        "at", CancellationTokenSource.Token, i);
-                    if (itemRef is not null)
-                    {
-                        item.JsComponentReference = itemRef;
-                        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                            CancellationTokenSource.Token, itemRef, item.Id);
-                    }
-                }
-            }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize Subtables. Error: {ex}");
-        }
-        int? length = await CoreJsModule.InvokeAsync<int?>("getProperty",
-            CancellationTokenSource.Token, refResult, "length");
-        if (length is null)
-        {
-            return null;
-        }
-        List<Sublayer> newResult = [];
-        for (int i = 0; i < length; i++)
-        {
-            newResult.Add(new Sublayer());
-        }
-#pragma warning disable BL0005
-        Subtables = newResult;
-#pragma warning restore BL0005
-         ModifiedParameters[nameof(Subtables)] = Subtables;
-        for (int i = 0; i < Subtables.Count; i++)
-        {
-            Sublayer item = Subtables[i];
-            item.Parent = this;
-            item.View = View;
-            // register this type in JS
-            IJSObjectReference? itemRef = await refResult.InvokeAsync<IJSObjectReference?>(
-                "at", CancellationTokenSource.Token, i);
-            if (itemRef is not null)
-            {
-                item.JsComponentReference = itemRef;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, itemRef, item.Id);
-            }
-            await item.GetProperty<SublayerCapabilities>(nameof(Sublayer.Capabilities));
-            await item.GetProperty<DynamicDataSource>(nameof(Sublayer.DataSource));
-            await item.GetProperty<string>(nameof(Sublayer.DefinitionExpression));
-            await item.GetProperty<IReadOnlyList<Field>>(nameof(Sublayer.Fields));
-            await item.GetProperty<FieldsIndex>(nameof(Sublayer.FieldsIndex));
-            await item.GetProperty<LayerFloorInfo>(nameof(Sublayer.FloorInfo));
-            await item.GetProperty<Extent>(nameof(Sublayer.FullExtent));
-            await item.GetProperty<bool>(nameof(Sublayer.IsTable));
-            await item.GetProperty<IReadOnlyList<Label>>(nameof(Sublayer.LabelingInfo));
-            await item.GetProperty<bool>(nameof(Sublayer.LabelsVisible));
-            await item.GetProperty<bool>(nameof(Sublayer.LegendEnabled));
-            await item.GetProperty<ListMode>(nameof(Sublayer.ListMode));
-            await item.GetProperty<double>(nameof(Sublayer.MaxScale));
-            await item.GetProperty<double>(nameof(Sublayer.MinScale));
-            await item.GetProperty<string>(nameof(Sublayer.ObjectIdField));
-            await item.GetProperty<double>(nameof(Sublayer.Opacity));
-            await item.GetProperty<bool>(nameof(Sublayer.PopupEnabled));
-            await item.GetProperty<PopupTemplate>(nameof(Sublayer.PopupTemplate));
-            await item.GetProperty<IReadOnlyList<Relationship>>(nameof(Sublayer.Relationships));
-            await item.GetProperty<Renderer>(nameof(Sublayer.Renderer));
-            await item.GetProperty<string>(nameof(Sublayer.SourceJSON));
-            await item.GetProperty<SpatialReference>(nameof(Sublayer.SpatialReference));
-            await item.GetProperty<long>(nameof(Sublayer.SublayerId));
-            await item.GetProperty<string>(nameof(Sublayer.Title));
-            await item.GetProperty<string>(nameof(Sublayer.TypeIdField));
-            await item.GetProperty<IReadOnlyList<FeatureType>>(nameof(Sublayer.Types));
-            await item.GetProperty<string>(nameof(Sublayer.Url));
-        }
         return Subtables;
     }
     
@@ -1458,56 +1111,22 @@ public partial class MapImageLayer : IArcGISMapService,
             return TimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "timeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                TimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-            }
-            
             if (TimeExtent is not null)
             {
-                TimeExtent.Parent = this;
-                TimeExtent.View = View;
-                TimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, TimeExtent.Id);
-                return TimeExtent;
+                result.Id = TimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        TimeExtent = new TimeExtent();
+            TimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        TimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, TimeExtent.Id);
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+        }
+        
         return TimeExtent;
     }
     
@@ -1528,8 +1147,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
+            CancellationTokenSource.Token, "timeInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1558,8 +1177,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
+            CancellationTokenSource.Token, "timeOffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1588,8 +1207,8 @@ public partial class MapImageLayer : IArcGISMapService,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2081,6 +1700,9 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+            CancellationTokenSource.Token, value);
+ 
         PortalItem.Parent = this;
         PortalItem.View = View;
         
@@ -2163,6 +1785,9 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+            CancellationTokenSource.Token, value);
+ 
         foreach (Sublayer item in value)
         {
             item.Parent = this;
@@ -2219,6 +1844,9 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setSubtables", 
+            CancellationTokenSource.Token, value);
+ 
         foreach (Sublayer item in value)
         {
             item.Parent = this;
@@ -2275,6 +1903,9 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         TimeExtent.Parent = this;
         TimeExtent.View = View;
         

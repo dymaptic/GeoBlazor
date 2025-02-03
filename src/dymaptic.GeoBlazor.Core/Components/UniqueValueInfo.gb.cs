@@ -79,8 +79,8 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -109,8 +109,8 @@ public partial class UniqueValueInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005

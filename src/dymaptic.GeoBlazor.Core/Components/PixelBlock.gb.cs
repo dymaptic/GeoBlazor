@@ -202,8 +202,8 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        Stream? result = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mask");
+        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
+            CancellationTokenSource.Token, "mask");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -262,8 +262,8 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        Stream? result = await CoreJsModule!.InvokeAsync<Stream?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "pixels");
+        Stream? result = await JsComponentReference!.InvokeAsync<Stream?>("getProperty",
+            CancellationTokenSource.Token, "pixels");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -292,8 +292,8 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        PixelType? result = await CoreJsModule!.InvokeAsync<PixelType?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        PixelType? result = await JsComponentReference!.InvokeAsync<PixelType?>("getProperty",
+            CancellationTokenSource.Token, "pixelType");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -322,8 +322,8 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<PixelBlockStatistics>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "statistics");
+        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getProperty",
+            CancellationTokenSource.Token, "statistics");
         if (result is not null)
         {
 #pragma warning disable BL0005

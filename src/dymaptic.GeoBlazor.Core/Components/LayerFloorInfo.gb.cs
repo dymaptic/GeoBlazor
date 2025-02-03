@@ -54,8 +54,8 @@ public partial class LayerFloorInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "floorField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "floorField");
         if (result is not null)
         {
 #pragma warning disable BL0005

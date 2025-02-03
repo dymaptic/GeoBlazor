@@ -42,8 +42,8 @@ public partial class Graphic : IHitTestItem,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "aggregateGeometries");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "aggregateGeometries");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -102,8 +102,8 @@ public partial class Graphic : IHitTestItem,
         }
 
         // get the property value
-        GraphicOrigin? result = await CoreJsModule!.InvokeAsync<GraphicOrigin?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "origin");
+        GraphicOrigin? result = await JsComponentReference!.InvokeAsync<GraphicOrigin?>("getProperty",
+            CancellationTokenSource.Token, "origin");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -263,45 +263,4 @@ name,
 
 
 
-
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Layer layer:
-                if (layer != Layer)
-                {
-                    Layer = layer;
-                    
-                    ModifiedParameters[nameof(Layer)] = Layer;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Layer _:
-                Layer = null;
-                
-                ModifiedParameters[nameof(Layer)] = Layer;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Layer?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

@@ -2,11 +2,12 @@
 
 
 import TimeInterval from '@arcgis/core/TimeInterval';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class TimeIntervalGenerated implements IPropertyWrapper {
     public component: TimeInterval;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: TimeInterval) {
         this.component = component;
@@ -33,20 +34,40 @@ export default class TimeIntervalGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<any> {
+    let { default: TimeInterval } = await import('@arcgis/core/TimeInterval');
+    let jsTimeInterval = new TimeInterval();
+    if (hasValue(dotNetObject.unit)) {
+        jsTimeInterval.unit = dotNetObject.unit;
+    }
+    if (hasValue(dotNetObject.value)) {
+        jsTimeInterval.value = dotNetObject.value;
+    }
+    let { default: TimeIntervalWrapper } = await import('./timeInterval');
+    let timeIntervalWrapper = new TimeIntervalWrapper(jsTimeInterval);
+    jsTimeInterval.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(timeIntervalWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = timeIntervalWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
+    
+    return jsTimeInterval;
+}
+
+export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetTimeInterval: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetTimeInterval.unit = jsObject.unit;
+        dotNetTimeInterval.value = jsObject.value;
+    return dotNetTimeInterval;
+}
+

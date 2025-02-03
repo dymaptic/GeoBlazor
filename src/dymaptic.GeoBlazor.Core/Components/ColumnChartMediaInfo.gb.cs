@@ -85,8 +85,8 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
         }
 
         // get the property value
-        ChartMediaInfoValue? result = await CoreJsModule!.InvokeAsync<ChartMediaInfoValue?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
+        ChartMediaInfoValue? result = await JsComponentReference!.InvokeAsync<ChartMediaInfoValue?>("getProperty",
+            CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005

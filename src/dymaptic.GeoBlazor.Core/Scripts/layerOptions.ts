@@ -9,3 +9,11 @@ export default class LayerOptionsWrapper extends LayerOptionsGenerated {
     }
     
 }              
+export async function buildJsLayerOptions(dotNetObject: any): Promise<any> {
+    let { buildJsLayerOptionsGenerated } = await import('./layerOptions.gb');
+    return await buildJsLayerOptionsGenerated(dotNetObject);
+}
+export async function buildDotNetLayerOptions(jsObject: any): Promise<any> {
+    let { buildDotNetLayerOptionsGenerated } = await import('./layerOptions.gb');
+    return await buildDotNetLayerOptionsGenerated(jsObject);
+}

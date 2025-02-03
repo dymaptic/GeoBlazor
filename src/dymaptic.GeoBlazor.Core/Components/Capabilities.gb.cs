@@ -187,8 +187,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesAnalytics? result = await CoreJsModule!.InvokeAsync<CapabilitiesAnalytics?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "analytics");
+        CapabilitiesAnalytics? result = await JsComponentReference!.InvokeAsync<CapabilitiesAnalytics?>("getProperty",
+            CancellationTokenSource.Token, "analytics");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -217,8 +217,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesAttachment? result = await CoreJsModule!.InvokeAsync<CapabilitiesAttachment?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "attachment");
+        CapabilitiesAttachment? result = await JsComponentReference!.InvokeAsync<CapabilitiesAttachment?>("getProperty",
+            CancellationTokenSource.Token, "attachment");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -247,8 +247,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesData? result = await CoreJsModule!.InvokeAsync<CapabilitiesData?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "data");
+        CapabilitiesData? result = await JsComponentReference!.InvokeAsync<CapabilitiesData?>("getProperty",
+            CancellationTokenSource.Token, "data");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -277,8 +277,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesEditing? result = await CoreJsModule!.InvokeAsync<CapabilitiesEditing?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editing");
+        CapabilitiesEditing? result = await JsComponentReference!.InvokeAsync<CapabilitiesEditing?>("getProperty",
+            CancellationTokenSource.Token, "editing");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -307,8 +307,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesMetadata? result = await CoreJsModule!.InvokeAsync<CapabilitiesMetadata?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "metadata");
+        CapabilitiesMetadata? result = await JsComponentReference!.InvokeAsync<CapabilitiesMetadata?>("getProperty",
+            CancellationTokenSource.Token, "metadata");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -337,8 +337,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesOperations? result = await CoreJsModule!.InvokeAsync<CapabilitiesOperations?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "operations");
+        CapabilitiesOperations? result = await JsComponentReference!.InvokeAsync<CapabilitiesOperations?>("getProperty",
+            CancellationTokenSource.Token, "operations");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -367,8 +367,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesQuery? result = await CoreJsModule!.InvokeAsync<CapabilitiesQuery?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "query");
+        CapabilitiesQuery? result = await JsComponentReference!.InvokeAsync<CapabilitiesQuery?>("getProperty",
+            CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -397,8 +397,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesQueryRelated? result = await CoreJsModule!.InvokeAsync<CapabilitiesQueryRelated?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "queryRelated");
+        CapabilitiesQueryRelated? result = await JsComponentReference!.InvokeAsync<CapabilitiesQueryRelated?>("getProperty",
+            CancellationTokenSource.Token, "queryRelated");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -427,8 +427,8 @@ public partial class Capabilities : MapComponent
         }
 
         // get the property value
-        CapabilitiesQueryTopFeatures? result = await CoreJsModule!.InvokeAsync<CapabilitiesQueryTopFeatures?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "queryTopFeatures");
+        CapabilitiesQueryTopFeatures? result = await JsComponentReference!.InvokeAsync<CapabilitiesQueryTopFeatures?>("getProperty",
+            CancellationTokenSource.Token, "queryTopFeatures");
         if (result is not null)
         {
 #pragma warning disable BL0005

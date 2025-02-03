@@ -256,8 +256,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -286,8 +286,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -346,8 +346,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        SimpleLineSymbol? result = await CoreJsModule!.InvokeAsync<SimpleLineSymbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "lineSymbol");
+        SimpleLineSymbol? result = await JsComponentReference!.InvokeAsync<SimpleLineSymbol?>("getProperty",
+            CancellationTokenSource.Token, "lineSymbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -436,8 +436,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        MarkerSymbol? result = await CoreJsModule!.InvokeAsync<MarkerSymbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "pointSymbol");
+        MarkerSymbol? result = await JsComponentReference!.InvokeAsync<MarkerSymbol?>("getProperty",
+            CancellationTokenSource.Token, "pointSymbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -466,8 +466,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        SimpleFillSymbol? result = await CoreJsModule!.InvokeAsync<SimpleFillSymbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "polygonSymbol");
+        SimpleFillSymbol? result = await JsComponentReference!.InvokeAsync<SimpleFillSymbol?>("getProperty",
+            CancellationTokenSource.Token, "polygonSymbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -526,8 +526,8 @@ public partial class GeoRSSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005

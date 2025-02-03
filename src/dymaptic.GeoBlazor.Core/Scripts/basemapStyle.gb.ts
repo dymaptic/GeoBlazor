@@ -2,11 +2,12 @@
 
 
 import BasemapStyle from '@arcgis/core/support/BasemapStyle';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class BasemapStyleGenerated implements IPropertyWrapper {
     public component: BasemapStyle;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: BasemapStyle) {
         this.component = component;
@@ -33,20 +34,52 @@ export default class BasemapStyleGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<any> {
+    let { default: BasemapStyle } = await import('@arcgis/core/support/BasemapStyle');
+    let jsBasemapStyle = new BasemapStyle();
+    if (hasValue(dotNetObject.language)) {
+        jsBasemapStyle.language = dotNetObject.language;
+    }
+    if (hasValue(dotNetObject.name)) {
+        jsBasemapStyle.id = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.places)) {
+        jsBasemapStyle.places = dotNetObject.places;
+    }
+    if (hasValue(dotNetObject.serviceUrl)) {
+        jsBasemapStyle.serviceUrl = dotNetObject.serviceUrl;
+    }
+    if (hasValue(dotNetObject.worldview)) {
+        jsBasemapStyle.worldview = dotNetObject.worldview;
+    }
+    let { default: BasemapStyleWrapper } = await import('./basemapStyle');
+    let basemapStyleWrapper = new BasemapStyleWrapper(jsBasemapStyle);
+    jsBasemapStyle.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(basemapStyleWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = basemapStyleWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
+    
+    return jsBasemapStyle;
+}
+
+export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetBasemapStyle: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetBasemapStyle.language = jsObject.language;
+        dotNetBasemapStyle.name = jsObject.id;
+        dotNetBasemapStyle.places = jsObject.places;
+        dotNetBasemapStyle.serviceUrl = jsObject.serviceUrl;
+        dotNetBasemapStyle.worldview = jsObject.worldview;
+    return dotNetBasemapStyle;
+}
+

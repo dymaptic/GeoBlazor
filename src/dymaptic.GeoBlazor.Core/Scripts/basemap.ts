@@ -9,3 +9,11 @@ export default class BasemapWrapper extends BasemapGenerated {
     }
     
 }              
+export async function buildJsBasemap(dotNetObject: any): Promise<any> {
+    let { buildJsBasemapGenerated } = await import('./basemap.gb');
+    return await buildJsBasemapGenerated(dotNetObject);
+}
+export async function buildDotNetBasemap(jsObject: any): Promise<any> {
+    let { buildDotNetBasemapGenerated } = await import('./basemap.gb');
+    return await buildDotNetBasemapGenerated(jsObject);
+}

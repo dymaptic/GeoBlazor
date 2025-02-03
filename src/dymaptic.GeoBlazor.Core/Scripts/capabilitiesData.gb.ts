@@ -2,11 +2,12 @@
 
 
 import CapabilitiesData = __esri.CapabilitiesData;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesDataGenerated implements IPropertyWrapper {
     public component: CapabilitiesData;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesData) {
         this.component = component;
@@ -33,20 +34,40 @@ export default class CapabilitiesDataGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesData = {
+        isVersioned: dotNetObject.isVersioned,
+        supportsAttachment: dotNetObject.supportsAttachment,
+        supportsM: dotNetObject.supportsM,
+        supportsZ: dotNetObject.supportsZ,
+    }
+    let { default: CapabilitiesDataWrapper } = await import('./capabilitiesData');
+    let capabilitiesDataWrapper = new CapabilitiesDataWrapper(jsCapabilitiesData);
+    jsCapabilitiesData.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesDataWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesDataWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesData;
+    
+    return jsCapabilitiesData;
+}
+
+export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesData: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesData.isVersioned = jsObject.isVersioned;
+        dotNetCapabilitiesData.supportsAttachment = jsObject.supportsAttachment;
+        dotNetCapabilitiesData.supportsM = jsObject.supportsM;
+        dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
+    return dotNetCapabilitiesData;
+}
+

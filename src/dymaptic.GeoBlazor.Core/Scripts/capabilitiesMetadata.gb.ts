@@ -2,11 +2,12 @@
 
 
 import CapabilitiesMetadata = __esri.CapabilitiesMetadata;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
     public component: CapabilitiesMetadata;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesMetadata) {
         this.component = component;
@@ -33,20 +34,34 @@ export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesMetadata = {
+        supportsAdvancedFieldProperties: dotNetObject.supportsAdvancedFieldProperties,
+    }
+    let { default: CapabilitiesMetadataWrapper } = await import('./capabilitiesMetadata');
+    let capabilitiesMetadataWrapper = new CapabilitiesMetadataWrapper(jsCapabilitiesMetadata);
+    jsCapabilitiesMetadata.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesMetadataWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesMetadataWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
+    
+    return jsCapabilitiesMetadata;
+}
+
+export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesMetadata: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
+    return dotNetCapabilitiesMetadata;
+}
+

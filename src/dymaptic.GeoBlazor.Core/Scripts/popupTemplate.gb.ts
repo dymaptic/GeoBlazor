@@ -2,11 +2,12 @@
 
 
 import PopupTemplate from '@arcgis/core/PopupTemplate';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class PopupTemplateGenerated implements IPropertyWrapper {
     public component: PopupTemplate;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: PopupTemplate) {
         this.component = component;
@@ -26,6 +27,54 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getActions(): Promise<any> {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return this.component.actions.map(async i => await buildDotNetActionBase(i));
+    }
+    
+    async setActions(value: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        this.component.actions = value.map(async i => await buildJsActionBase(i));
+    }
+    
+    async getContent(): Promise<any> {
+        let { buildDotNetPopupContent } = await import('./popupContent');
+        return this.component.content.map(async i => await buildDotNetPopupContent(i));
+    }
+    
+    async setContent(value: any): Promise<void> {
+        let { buildJsPopupContent } = await import('./popupContent');
+        this.component.content = value.map(async i => await buildJsPopupContent(i));
+    }
+    
+    async getExpressionInfos(): Promise<any> {
+        let { buildDotNetExpressionInfo } = await import('./expressionInfo');
+        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+    }
+    
+    async setExpressionInfos(value: any): Promise<void> {
+        let { buildJsExpressionInfo } = await import('./expressionInfo');
+        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
+    }
+    
+    async getFieldInfos(): Promise<any> {
+        let { buildDotNetFieldInfo } = await import('./fieldInfo');
+        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+    }
+    
+    async setFieldInfos(value: any): Promise<void> {
+        let { buildJsFieldInfo } = await import('./fieldInfo');
+        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+    }
+    
+    async getLayerOptions(): Promise<any> {
+        let { buildDotNetLayerOptions } = await import('./layerOptions');
+        return await buildDotNetLayerOptions(this.component.layerOptions);
+    }
+    async setLayerOptions(value: any): Promise<void> {
+        let { buildJsLayerOptions } = await import('./layerOptions');
+        this.component.layerOptions = await buildJsLayerOptions(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +82,97 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { default: PopupTemplate } = await import('@arcgis/core/PopupTemplate');
+    let jsPopupTemplate = new PopupTemplate();
+    if (hasValue(dotNetObject.actions)) {
+        let { buildJsActionBase } = await import('actionBase');
+        jsPopupTemplate.actions = dotNetObject.actions.map(async i => await buildJsActionBase(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.content)) {
+        let { buildJsPopupContent } = await import('popupContent');
+        jsPopupTemplate.content = dotNetObject.content.map(i => buildJsPopupContent(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.expressionInfos)) {
+        let { buildJsExpressionInfo } = await import('expressionInfo');
+        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.fieldInfos)) {
+        let { buildJsFieldInfo } = await import('fieldInfo');
+        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.layerOptions)) {
+        let { buildJsLayerOptions } = await import('layerOptions');
+        jsPopupTemplate.layerOptions = await buildJsLayerOptions(dotNetObject.layerOptions) as any;
+
+    }
+    if (hasValue(dotNetObject.lastEditInfoEnabled)) {
+        jsPopupTemplate.lastEditInfoEnabled = dotNetObject.lastEditInfoEnabled;
+    }
+    if (hasValue(dotNetObject.outFields)) {
+        jsPopupTemplate.outFields = dotNetObject.outFields;
+    }
+    if (hasValue(dotNetObject.overwriteActions)) {
+        jsPopupTemplate.overwriteActions = dotNetObject.overwriteActions;
+    }
+    if (hasValue(dotNetObject.returnGeometry)) {
+        jsPopupTemplate.returnGeometry = dotNetObject.returnGeometry;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsPopupTemplate.title = dotNetObject.title;
+    }
+    let { default: PopupTemplateWrapper } = await import('./popupTemplate');
+    let popupTemplateWrapper = new PopupTemplateWrapper(jsPopupTemplate);
+    jsPopupTemplate.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(popupTemplateWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = popupTemplateWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsPopupTemplate;
+    
+    return jsPopupTemplate;
+}
+
+export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPopupTemplate: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.actions)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetPopupTemplate.actions = jsObject.actions.map(async i => await buildDotNetActionBase(i));
+        }
+        if (hasValue(jsObject.content)) {
+            let { buildDotNetPopupContent } = await import('./dotNetBuilder');
+            dotNetPopupTemplate.content = jsObject.content.map(async i => await buildDotNetPopupContent(i));
+        }
+        if (hasValue(jsObject.expressionInfos)) {
+            let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
+            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+        }
+        if (hasValue(jsObject.fieldInfos)) {
+            let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
+            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        }
+        if (hasValue(jsObject.layerOptions)) {
+            let { buildDotNetLayerOptions } = await import('./layerOptions');
+            dotNetPopupTemplate.layerOptions = await buildDotNetLayerOptions(jsObject.layerOptions);
+        }
+        dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
+        dotNetPopupTemplate.outFields = jsObject.outFields;
+        dotNetPopupTemplate.overwriteActions = jsObject.overwriteActions;
+        dotNetPopupTemplate.returnGeometry = jsObject.returnGeometry;
+        dotNetPopupTemplate.title = jsObject.title;
+    return dotNetPopupTemplate;
+}
+

@@ -2,11 +2,12 @@
 
 
 import PortalFolder from '@arcgis/core/portal/PortalFolder';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class PortalFolderGenerated implements IPropertyWrapper {
     public component: PortalFolder;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: PortalFolder) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getPortal(): Promise<any> {
+        let { buildDotNetPortal } = await import('./portal');
+        return await buildDotNetPortal(this.component.portal);
+    }
+    async setPortal(value: any): Promise<void> {
+        let { buildJsPortal } = await import('./portal');
+        this.component.portal = await buildJsPortal(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,45 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<any> {
+    let { default: PortalFolder } = await import('@arcgis/core/portal/PortalFolder');
+    let jsPortalFolder = new PortalFolder();
+    if (hasValue(dotNetObject.created)) {
+        jsPortalFolder.created = dotNetObject.created;
+    }
+    if (hasValue(dotNetObject.portalFolderId)) {
+        jsPortalFolder.id = dotNetObject.portalFolderId;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsPortalFolder.title = dotNetObject.title;
+    }
+    let { default: PortalFolderWrapper } = await import('./portalFolder');
+    let portalFolderWrapper = new PortalFolderWrapper(jsPortalFolder);
+    jsPortalFolder.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(portalFolderWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = portalFolderWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
+    
+    return jsPortalFolder;
+}
+
+export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPortalFolder: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetPortalFolder.created = jsObject.created;
+        dotNetPortalFolder.portalFolderId = jsObject.id;
+        dotNetPortalFolder.title = jsObject.title;
+        dotNetPortalFolder.url = jsObject.url;
+    return dotNetPortalFolder;
+}
+

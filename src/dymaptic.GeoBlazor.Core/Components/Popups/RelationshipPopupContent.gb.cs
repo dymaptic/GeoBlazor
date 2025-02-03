@@ -85,8 +85,8 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -145,8 +145,8 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "displayType");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "displayType");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -175,8 +175,8 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "orderByFields");
+        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>("getProperty",
+            CancellationTokenSource.Token, "orderByFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -205,8 +205,8 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        long? result = await CoreJsModule!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "relationshipId");
+        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
+            CancellationTokenSource.Token, "relationshipId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -235,8 +235,8 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005

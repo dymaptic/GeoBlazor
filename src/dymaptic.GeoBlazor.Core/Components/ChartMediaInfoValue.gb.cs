@@ -109,8 +109,8 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        IReadOnlyList<MapColor>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<MapColor>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "colors");
+        IReadOnlyList<MapColor>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<MapColor>?>("getProperty",
+            CancellationTokenSource.Token, "colors");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -139,8 +139,8 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fields");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -169,8 +169,8 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "normalizeField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "normalizeField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -199,8 +199,8 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        IReadOnlyList<ChartMediaInfoValueSeries>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "series");
+        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getProperty",
+            CancellationTokenSource.Token, "series");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -229,8 +229,8 @@ public partial class ChartMediaInfoValue
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "tooltipField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "tooltipField");
         if (result is not null)
         {
 #pragma warning disable BL0005

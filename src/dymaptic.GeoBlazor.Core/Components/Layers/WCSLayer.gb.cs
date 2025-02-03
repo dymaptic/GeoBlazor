@@ -486,8 +486,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "bandIds");
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+            CancellationTokenSource.Token, "bandIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -516,8 +516,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -546,8 +546,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "copyright");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "copyright");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -576,8 +576,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "coverageId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "coverageId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -606,8 +606,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        CoverageInfo? result = await CoreJsModule!.InvokeAsync<CoverageInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "coverageInfo");
+        CoverageInfo? result = await JsComponentReference!.InvokeAsync<CoverageInfo?>("getProperty",
+            CancellationTokenSource.Token, "coverageInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -636,8 +636,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        Dictionary<string, object>? result = await CoreJsModule!.InvokeAsync<Dictionary<string, object>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "customParameters");
+        Dictionary<string, object>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, object>?>("getProperty",
+            CancellationTokenSource.Token, "customParameters");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -666,8 +666,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -696,8 +696,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        Interpolation? result = await CoreJsModule!.InvokeAsync<Interpolation?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "interpolation");
+        Interpolation? result = await JsComponentReference!.InvokeAsync<Interpolation?>("getProperty",
+            CancellationTokenSource.Token, "interpolation");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -816,8 +816,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<DimensionalDefinition>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "multidimensionalDefinition");
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
+            CancellationTokenSource.Token, "multidimensionalDefinition");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -846,8 +846,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        MultidimensionalSubset? result = await CoreJsModule!.InvokeAsync<MultidimensionalSubset?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "multidimensionalSubset");
+        MultidimensionalSubset? result = await JsComponentReference!.InvokeAsync<MultidimensionalSubset?>("getProperty",
+            CancellationTokenSource.Token, "multidimensionalSubset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -906,8 +906,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
+            CancellationTokenSource.Token, "popupTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -935,90 +935,22 @@ public partial class WCSLayer : IBlendLayer,
             return PortalItem;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portalItem"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PortalItem? result = await JsComponentReference.InvokeAsync<PortalItem?>(
+            "getPortalItem", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PortalItem? result = await CoreJsModule.InvokeAsync<PortalItem?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PortalItem = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PortalItem)] = PortalItem;
-            }
-            
             if (PortalItem is not null)
             {
-                PortalItem.Parent = this;
-                PortalItem.View = View;
-                PortalItem.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PortalItem.Id);
-                return PortalItem;
+                result.Id = PortalItem.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PortalItem. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PortalItem = new PortalItem();
+            PortalItem = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PortalItem)] = PortalItem;
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        PortalItem.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PortalItem.Id);
-        await PortalItem.GetProperty<PortalItemAccess>(nameof(PortalItem.Access));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.AccessInformation));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ApiKey));
-        await PortalItem.GetProperty<IReadOnlyList<PortalItemApplicationProxies>>(nameof(PortalItem.ApplicationProxies));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.AvgRating));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Categories));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Created));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Culture));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Description));
-        await PortalItem.GetProperty<Extent>(nameof(PortalItem.Extent));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.GroupCategories));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsLayer));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.IsOrgItem));
-        await PortalItem.GetProperty<ItemControl>(nameof(PortalItem.ItemControl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemPageUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ItemUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.LicenseInfo));
-        await PortalItem.GetProperty<bool>(nameof(PortalItem.Loaded));
-        await PortalItem.GetProperty<DateTime>(nameof(PortalItem.Modified));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Name));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumComments));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumRatings));
-        await PortalItem.GetProperty<double>(nameof(PortalItem.NumViews));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Owner));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.OwnerFolder));
-        await PortalItem.GetProperty<Portal>(nameof(PortalItem.Portal));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.PortalItemId));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Screenshots));
-        await PortalItem.GetProperty<int>(nameof(PortalItem.Size));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Snippet));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.SourceJSON));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.Tags));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.ThumbnailUrl));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Title));
-        await PortalItem.GetProperty<IReadOnlyList<string>>(nameof(PortalItem.TypeKeywords));
-        await PortalItem.GetProperty<string>(nameof(PortalItem.Url));
+            ModifiedParameters[nameof(PortalItem)] = PortalItem;
+        }
+        
         return PortalItem;
     }
     
@@ -1039,8 +971,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rasterFields");
+        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+            CancellationTokenSource.Token, "rasterFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1069,8 +1001,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        IImageryRenderer? result = await CoreJsModule!.InvokeAsync<IImageryRenderer?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "renderer");
+        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
+            CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1099,8 +1031,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        RasterInfo? result = await CoreJsModule!.InvokeAsync<RasterInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "serviceRasterInfo");
+        RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>("getProperty",
+            CancellationTokenSource.Token, "serviceRasterInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1128,56 +1060,22 @@ public partial class WCSLayer : IBlendLayer,
             return TimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "timeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                TimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-            }
-            
             if (TimeExtent is not null)
             {
-                TimeExtent.Parent = this;
-                TimeExtent.View = View;
-                TimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, TimeExtent.Id);
-                return TimeExtent;
+                result.Id = TimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        TimeExtent = new TimeExtent();
+            TimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        TimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, TimeExtent.Id);
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+        }
+        
         return TimeExtent;
     }
     
@@ -1198,8 +1096,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        TimeInfo? result = await CoreJsModule!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeInfo");
+        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
+            CancellationTokenSource.Token, "timeInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1228,8 +1126,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeOffset");
+        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
+            CancellationTokenSource.Token, "timeOffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1258,8 +1156,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1318,8 +1216,8 @@ public partial class WCSLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "version");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "version");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1811,6 +1709,9 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortalItem", 
+            CancellationTokenSource.Token, value);
+ 
         PortalItem.Parent = this;
         PortalItem.View = View;
         
@@ -1923,6 +1824,9 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         TimeExtent.Parent = this;
         TimeExtent.View = View;
         

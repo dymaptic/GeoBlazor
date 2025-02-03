@@ -9,3 +9,11 @@ export default class FeatureFilterWrapper extends FeatureFilterGenerated {
     }
     
 }              
+export async function buildJsFeatureFilter(dotNetObject: any): Promise<any> {
+    let { buildJsFeatureFilterGenerated } = await import('./featureFilter.gb');
+    return await buildJsFeatureFilterGenerated(dotNetObject);
+}
+export async function buildDotNetFeatureFilter(jsObject: any): Promise<any> {
+    let { buildDotNetFeatureFilterGenerated } = await import('./featureFilter.gb');
+    return await buildDotNetFeatureFilterGenerated(jsObject);
+}

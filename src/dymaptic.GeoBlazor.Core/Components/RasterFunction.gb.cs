@@ -129,8 +129,8 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "functionArguments");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -159,8 +159,8 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "functionName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "functionName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -189,8 +189,8 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        OutputPixelType? result = await CoreJsModule!.InvokeAsync<OutputPixelType?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "outputPixelType");
+        OutputPixelType? result = await JsComponentReference!.InvokeAsync<OutputPixelType?>("getProperty",
+            CancellationTokenSource.Token, "outputPixelType");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -219,8 +219,8 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "rasterFunctionDefinition");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -249,8 +249,8 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "variableName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {
 #pragma warning disable BL0005

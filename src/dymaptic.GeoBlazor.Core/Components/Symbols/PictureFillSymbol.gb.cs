@@ -149,8 +149,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "height");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "height");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -179,8 +179,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -209,8 +209,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "width");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "width");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -239,8 +239,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "xoffset");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -299,8 +299,8 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "yoffset");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005

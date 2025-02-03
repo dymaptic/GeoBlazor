@@ -2,11 +2,12 @@
 
 
 import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class BingMapsLayerGenerated implements IPropertyWrapper {
     public layer: BingMapsLayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(layer: BingMapsLayer) {
         this.layer = layer;
@@ -76,6 +77,10 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async setTileInfo(value: any): Promise<void> {
+        let { buildJsTileInfo } = await import('./tileInfo');
+        this.layer.tileInfo = await buildJsTileInfo(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -83,20 +88,118 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }
+export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<any> {
+    let { default: BingMapsLayer } = await import('@arcgis/core/layers/BingMapsLayer');
+    let jsBingMapsLayer = new BingMapsLayer();
+    if (hasValue(dotNetObject.tileInfo)) {
+        let { buildJsTileInfo } = await import('tileInfo');
+        jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
+
+    }
+    if (hasValue(dotNetObject.arcGISLayerId)) {
+        jsBingMapsLayer.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsBingMapsLayer.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.culture)) {
+        jsBingMapsLayer.culture = dotNetObject.culture;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        jsBingMapsLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsBingMapsLayer.fullExtent = dotNetObject.fullExtent;
+    }
+    if (hasValue(dotNetObject.key)) {
+        jsBingMapsLayer.key = dotNetObject.key;
+    }
+    if (hasValue(dotNetObject.listMode)) {
+        jsBingMapsLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsBingMapsLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsBingMapsLayer.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsBingMapsLayer.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.persistenceEnabled)) {
+        jsBingMapsLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsBingMapsLayer.refreshInterval = dotNetObject.refreshInterval;
+    }
+    if (hasValue(dotNetObject.region)) {
+        jsBingMapsLayer.region = dotNetObject.region;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        jsBingMapsLayer.spatialReference = dotNetObject.spatialReference;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsBingMapsLayer.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsBingMapsLayer.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        jsBingMapsLayer.visibilityTimeExtent = dotNetObject.visibilityTimeExtent;
+    }
+    jsBingMapsLayer.on('refresh', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
+    });
+    
+    let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
+    let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsBingMapsLayer);
+    jsBingMapsLayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
+    
+    return jsBingMapsLayer;
+}
+
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetBingMapsLayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.tileInfo)) {
+            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        }
+        dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
+        dotNetBingMapsLayer.bingLogo = jsObject.bingLogo;
+        dotNetBingMapsLayer.blendMode = jsObject.blendMode;
+        dotNetBingMapsLayer.copyright = jsObject.copyright;
+        dotNetBingMapsLayer.culture = jsObject.culture;
+        dotNetBingMapsLayer.effect = jsObject.effect;
+        dotNetBingMapsLayer.fullExtent = jsObject.fullExtent;
+        dotNetBingMapsLayer.hasAttributionData = jsObject.hasAttributionData;
+        dotNetBingMapsLayer.key = jsObject.key;
+        dotNetBingMapsLayer.listMode = jsObject.listMode;
+        dotNetBingMapsLayer.loaded = jsObject.loaded;
+        dotNetBingMapsLayer.maxScale = jsObject.maxScale;
+        dotNetBingMapsLayer.minScale = jsObject.minScale;
+        dotNetBingMapsLayer.opacity = jsObject.opacity;
+        dotNetBingMapsLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        dotNetBingMapsLayer.refreshInterval = jsObject.refreshInterval;
+        dotNetBingMapsLayer.region = jsObject.region;
+        dotNetBingMapsLayer.spatialReference = jsObject.spatialReference;
+        dotNetBingMapsLayer.style = jsObject.style;
+        dotNetBingMapsLayer.title = jsObject.title;
+        dotNetBingMapsLayer.type = jsObject.type;
+        dotNetBingMapsLayer.visibilityTimeExtent = jsObject.visibilityTimeExtent;
+    return dotNetBingMapsLayer;
+}
+

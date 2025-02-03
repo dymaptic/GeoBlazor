@@ -146,8 +146,8 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        Geometry? result = await CoreJsModule!.InvokeAsync<Geometry?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "geometry");
+        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>("getProperty",
+            CancellationTokenSource.Token, "geometry");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -176,8 +176,8 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        IReadOnlyList<long>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "objectIds");
+        IReadOnlyList<long>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<long>?>("getProperty",
+            CancellationTokenSource.Token, "objectIds");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -206,8 +206,8 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        SpatialRelationship? result = await CoreJsModule!.InvokeAsync<SpatialRelationship?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialRelationship");
+        SpatialRelationship? result = await JsComponentReference!.InvokeAsync<SpatialRelationship?>("getProperty",
+            CancellationTokenSource.Token, "spatialRelationship");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -235,56 +235,22 @@ public partial class FeatureFilter
             return TimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "timeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                TimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-            }
-            
             if (TimeExtent is not null)
             {
-                TimeExtent.Parent = this;
-                TimeExtent.View = View;
-                TimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, TimeExtent.Id);
-                return TimeExtent;
+                result.Id = TimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize TimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        TimeExtent = new TimeExtent();
+            TimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        TimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, TimeExtent.Id);
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await TimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+        }
+        
         return TimeExtent;
     }
     
@@ -305,8 +271,8 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        QueryUnits? result = await CoreJsModule!.InvokeAsync<QueryUnits?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "units");
+        QueryUnits? result = await JsComponentReference!.InvokeAsync<QueryUnits?>("getProperty",
+            CancellationTokenSource.Token, "units");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -335,8 +301,8 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "where");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "where");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -498,6 +464,9 @@ public partial class FeatureFilter
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         TimeExtent.Parent = this;
         TimeExtent.View = View;
         

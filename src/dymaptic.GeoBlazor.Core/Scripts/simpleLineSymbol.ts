@@ -9,3 +9,11 @@ export default class SimpleLineSymbolWrapper extends SimpleLineSymbolGenerated {
     }
     
 }              
+export async function buildJsSimpleLineSymbol(dotNetObject: any): Promise<any> {
+    let { buildJsSimpleLineSymbolGenerated } = await import('./simpleLineSymbol.gb');
+    return await buildJsSimpleLineSymbolGenerated(dotNetObject);
+}
+export async function buildDotNetSimpleLineSymbol(jsObject: any): Promise<any> {
+    let { buildDotNetSimpleLineSymbolGenerated } = await import('./simpleLineSymbol.gb');
+    return await buildDotNetSimpleLineSymbolGenerated(jsObject);
+}

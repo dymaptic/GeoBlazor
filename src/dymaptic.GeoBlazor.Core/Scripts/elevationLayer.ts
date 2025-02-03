@@ -9,3 +9,11 @@ export default class ElevationLayerWrapper extends ElevationLayerGenerated {
     }
     
 }              
+export async function buildJsElevationLayer(dotNetObject: any): Promise<any> {
+    let { buildJsElevationLayerGenerated } = await import('./elevationLayer.gb');
+    return await buildJsElevationLayerGenerated(dotNetObject);
+}
+export async function buildDotNetElevationLayer(jsObject: any): Promise<any> {
+    let { buildDotNetElevationLayerGenerated } = await import('./elevationLayer.gb');
+    return await buildDotNetElevationLayerGenerated(jsObject);
+}

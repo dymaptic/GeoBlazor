@@ -115,8 +115,8 @@ public partial class LOD
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "levelValue");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "levelValue");
         if (result is not null)
         {
 #pragma warning disable BL0005

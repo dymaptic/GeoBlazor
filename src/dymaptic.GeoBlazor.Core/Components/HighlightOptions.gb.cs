@@ -90,8 +90,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "color");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -150,8 +150,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "haloColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "haloColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -210,8 +210,8 @@ public partial class HighlightOptions
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "shadowColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "shadowColor");
         if (result is not null)
         {
 #pragma warning disable BL0005

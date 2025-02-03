@@ -327,8 +327,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        SublayerCapabilities? result = await CoreJsModule!.InvokeAsync<SublayerCapabilities?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "capabilities");
+        SublayerCapabilities? result = await JsComponentReference!.InvokeAsync<SublayerCapabilities?>("getProperty",
+            CancellationTokenSource.Token, "capabilities");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -357,8 +357,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        DynamicDataSource? result = await CoreJsModule!.InvokeAsync<DynamicDataSource?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dataSource");
+        DynamicDataSource? result = await JsComponentReference!.InvokeAsync<DynamicDataSource?>("getProperty",
+            CancellationTokenSource.Token, "dataSource");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -387,8 +387,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "definitionExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "definitionExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -417,8 +417,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        IReadOnlyList<Field>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fields");
+        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
+            CancellationTokenSource.Token, "fields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -447,8 +447,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        FieldsIndex? result = await CoreJsModule!.InvokeAsync<FieldsIndex?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldsIndex");
+        FieldsIndex? result = await JsComponentReference!.InvokeAsync<FieldsIndex?>("getProperty",
+            CancellationTokenSource.Token, "fieldsIndex");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -480,8 +480,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        LayerFloorInfo? result = await CoreJsModule!.InvokeAsync<LayerFloorInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "floorInfo");
+        LayerFloorInfo? result = await JsComponentReference!.InvokeAsync<LayerFloorInfo?>("getProperty",
+            CancellationTokenSource.Token, "floorInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -510,8 +510,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fullExtent");
+        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
+            CancellationTokenSource.Token, "fullExtent");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -570,8 +570,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        IReadOnlyList<Label>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "labelingInfo");
+        IReadOnlyList<Label>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
+            CancellationTokenSource.Token, "labelingInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -660,8 +660,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        ListMode? result = await CoreJsModule!.InvokeAsync<ListMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "listMode");
+        ListMode? result = await JsComponentReference!.InvokeAsync<ListMode?>("getProperty",
+            CancellationTokenSource.Token, "listMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -750,8 +750,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "objectIdField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "objectIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -840,8 +840,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        PopupTemplate? result = await CoreJsModule!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
+            CancellationTokenSource.Token, "popupTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -870,8 +870,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        IReadOnlyList<Relationship>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "relationships");
+        IReadOnlyList<Relationship>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Relationship>?>("getProperty",
+            CancellationTokenSource.Token, "relationships");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -900,8 +900,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        Renderer? result = await CoreJsModule!.InvokeAsync<Renderer?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "renderer");
+        Renderer? result = await JsComponentReference!.InvokeAsync<Renderer?>("getProperty",
+            CancellationTokenSource.Token, "renderer");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -930,8 +930,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -960,8 +960,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        SpatialReference? result = await CoreJsModule!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "spatialReference");
+        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
+            CancellationTokenSource.Token, "spatialReference");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -990,8 +990,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        long? result = await CoreJsModule!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sublayerId");
+        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
+            CancellationTokenSource.Token, "sublayerId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1020,8 +1020,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1050,8 +1050,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "typeIdField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "typeIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1080,8 +1080,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        IReadOnlyList<FeatureType>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "types");
+        IReadOnlyList<FeatureType>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FeatureType>?>("getProperty",
+            CancellationTokenSource.Token, "types");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1110,8 +1110,8 @@ public partial class Sublayer
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005

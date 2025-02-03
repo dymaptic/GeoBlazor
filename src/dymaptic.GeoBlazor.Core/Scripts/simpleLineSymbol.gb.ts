@@ -2,11 +2,12 @@
 
 
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     public component: SimpleLineSymbol;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: SimpleLineSymbol) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getMarker(): Promise<any> {
+        let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
+        return await buildDotNetLineSymbolMarker(this.component.marker);
+    }
+    async setMarker(value: any): Promise<void> {
+        let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');
+        this.component.marker = await buildJsLineSymbolMarker(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,69 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any): Promise<any> {
+    let { default: SimpleLineSymbol } = await import('@arcgis/core/symbols/SimpleLineSymbol');
+    let jsSimpleLineSymbol = new SimpleLineSymbol();
+    if (hasValue(dotNetObject.marker)) {
+        let { buildJsLineSymbolMarker } = await import('lineSymbolMarker');
+        jsSimpleLineSymbol.marker = await buildJsLineSymbolMarker(dotNetObject.marker) as any;
+
+    }
+    if (hasValue(dotNetObject.cap)) {
+        jsSimpleLineSymbol.cap = dotNetObject.cap;
+    }
+    if (hasValue(dotNetObject.color)) {
+        jsSimpleLineSymbol.color = dotNetObject.color;
+    }
+    if (hasValue(dotNetObject.join)) {
+        jsSimpleLineSymbol.join = dotNetObject.join;
+    }
+    if (hasValue(dotNetObject.miterLimit)) {
+        jsSimpleLineSymbol.miterLimit = dotNetObject.miterLimit;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsSimpleLineSymbol.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.type)) {
+        jsSimpleLineSymbol.type = dotNetObject.type;
+    }
+    if (hasValue(dotNetObject.width)) {
+        jsSimpleLineSymbol.width = dotNetObject.width;
+    }
+    let { default: SimpleLineSymbolWrapper } = await import('./simpleLineSymbol');
+    let simpleLineSymbolWrapper = new SimpleLineSymbolWrapper(jsSimpleLineSymbol);
+    jsSimpleLineSymbol.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(simpleLineSymbolWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = simpleLineSymbolWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
+    
+    return jsSimpleLineSymbol;
+}
+
+export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetSimpleLineSymbol: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.marker)) {
+            let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
+            dotNetSimpleLineSymbol.marker = await buildDotNetLineSymbolMarker(jsObject.marker);
+        }
+        dotNetSimpleLineSymbol.cap = jsObject.cap;
+        dotNetSimpleLineSymbol.color = jsObject.color;
+        dotNetSimpleLineSymbol.join = jsObject.join;
+        dotNetSimpleLineSymbol.miterLimit = jsObject.miterLimit;
+        dotNetSimpleLineSymbol.style = jsObject.style;
+        dotNetSimpleLineSymbol.type = jsObject.type;
+        dotNetSimpleLineSymbol.width = jsObject.width;
+    return dotNetSimpleLineSymbol;
+}
+

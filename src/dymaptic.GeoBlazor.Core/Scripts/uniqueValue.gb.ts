@@ -2,11 +2,12 @@
 
 
 import UniqueValue from '@arcgis/core/renderers/support/UniqueValue';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class UniqueValueGenerated implements IPropertyWrapper {
     public component: UniqueValue;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: UniqueValue) {
         this.component = component;
@@ -33,20 +34,44 @@ export default class UniqueValueGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<any> {
+    let { default: UniqueValue } = await import('@arcgis/core/renderers/support/UniqueValue');
+    let jsUniqueValue = new UniqueValue();
+    if (hasValue(dotNetObject.value)) {
+        jsUniqueValue.value = dotNetObject.value;
+    }
+    if (hasValue(dotNetObject.value2)) {
+        jsUniqueValue.value2 = dotNetObject.value2;
+    }
+    if (hasValue(dotNetObject.value3)) {
+        jsUniqueValue.value3 = dotNetObject.value3;
+    }
+    let { default: UniqueValueWrapper } = await import('./uniqueValue');
+    let uniqueValueWrapper = new UniqueValueWrapper(jsUniqueValue);
+    jsUniqueValue.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(uniqueValueWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = uniqueValueWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsUniqueValue;
+    
+    return jsUniqueValue;
+}
+
+export async function buildDotNetUniqueValueGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetUniqueValue: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetUniqueValue.value = jsObject.value;
+        dotNetUniqueValue.value2 = jsObject.value2;
+        dotNetUniqueValue.value3 = jsObject.value3;
+    return dotNetUniqueValue;
+}
+

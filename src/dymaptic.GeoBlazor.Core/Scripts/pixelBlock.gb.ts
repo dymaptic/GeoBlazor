@@ -2,11 +2,12 @@
 
 
 import PixelBlock from '@arcgis/core/layers/support/PixelBlock';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class PixelBlockGenerated implements IPropertyWrapper {
     public component: PixelBlock;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: PixelBlock) {
         this.component = component;
@@ -42,6 +43,16 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getStatistics(): Promise<any> {
+        let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        return this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i));
+    }
+    
+    async setStatistics(value: any): Promise<void> {
+        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        this.component.statistics = value.map(async i => await buildJsPixelBlockStatistics(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -49,20 +60,69 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsPixelBlockGenerated(dotNetObject: any): Promise<any> {
+    let { default: PixelBlock } = await import('@arcgis/core/layers/support/PixelBlock');
+    let jsPixelBlock = new PixelBlock();
+    if (hasValue(dotNetObject.statistics)) {
+        let { buildJsPixelBlockStatistics } = await import('pixelBlockStatistics');
+        jsPixelBlock.statistics = dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.height)) {
+        jsPixelBlock.height = dotNetObject.height;
+    }
+    if (hasValue(dotNetObject.mask)) {
+        jsPixelBlock.mask = dotNetObject.mask;
+    }
+    if (hasValue(dotNetObject.maskIsAlpha)) {
+        jsPixelBlock.maskIsAlpha = dotNetObject.maskIsAlpha;
+    }
+    if (hasValue(dotNetObject.pixels)) {
+        jsPixelBlock.pixels = dotNetObject.pixels;
+    }
+    if (hasValue(dotNetObject.pixelType)) {
+        jsPixelBlock.pixelType = dotNetObject.pixelType;
+    }
+    if (hasValue(dotNetObject.validPixelCount)) {
+        jsPixelBlock.validPixelCount = dotNetObject.validPixelCount;
+    }
+    if (hasValue(dotNetObject.width)) {
+        jsPixelBlock.width = dotNetObject.width;
+    }
+    let { default: PixelBlockWrapper } = await import('./pixelBlock');
+    let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);
+    jsPixelBlock.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
+    
+    return jsPixelBlock;
+}
+
+export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPixelBlock: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.statistics)) {
+            let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
+            dotNetPixelBlock.statistics = jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i));
+        }
+        dotNetPixelBlock.height = jsObject.height;
+        dotNetPixelBlock.mask = jsObject.mask;
+        dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
+        dotNetPixelBlock.pixels = jsObject.pixels;
+        dotNetPixelBlock.pixelType = jsObject.pixelType;
+        dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
+        dotNetPixelBlock.width = jsObject.width;
+    return dotNetPixelBlock;
+}
+

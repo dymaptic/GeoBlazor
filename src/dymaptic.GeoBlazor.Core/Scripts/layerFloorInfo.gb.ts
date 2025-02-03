@@ -2,11 +2,12 @@
 
 
 import LayerFloorInfo from '@arcgis/core/layers/support/LayerFloorInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class LayerFloorInfoGenerated implements IPropertyWrapper {
     public component: LayerFloorInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: LayerFloorInfo) {
         this.component = component;
@@ -33,20 +34,36 @@ export default class LayerFloorInfoGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise<any> {
+    let { default: LayerFloorInfo } = await import('@arcgis/core/layers/support/LayerFloorInfo');
+    let jsLayerFloorInfo = new LayerFloorInfo();
+    if (hasValue(dotNetObject.floorField)) {
+        jsLayerFloorInfo.floorField = dotNetObject.floorField;
+    }
+    let { default: LayerFloorInfoWrapper } = await import('./layerFloorInfo');
+    let layerFloorInfoWrapper = new LayerFloorInfoWrapper(jsLayerFloorInfo);
+    jsLayerFloorInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(layerFloorInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = layerFloorInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
+    
+    return jsLayerFloorInfo;
+}
+
+export async function buildDotNetLayerFloorInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetLayerFloorInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetLayerFloorInfo.floorField = jsObject.floorField;
+    return dotNetLayerFloorInfo;
+}
+

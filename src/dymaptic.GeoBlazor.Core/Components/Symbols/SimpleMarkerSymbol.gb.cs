@@ -135,8 +135,8 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-        Outline? result = await CoreJsModule!.InvokeAsync<Outline?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "outline");
+        Outline? result = await JsComponentReference!.InvokeAsync<Outline?>("getProperty",
+            CancellationTokenSource.Token, "outline");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -165,8 +165,8 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "path");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "path");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -195,8 +195,8 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "size");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "size");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -225,8 +225,8 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-        SimpleMarkerSymbolStyle? result = await CoreJsModule!.InvokeAsync<SimpleMarkerSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        SimpleMarkerSymbolStyle? result = await JsComponentReference!.InvokeAsync<SimpleMarkerSymbolStyle?>("getProperty",
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005

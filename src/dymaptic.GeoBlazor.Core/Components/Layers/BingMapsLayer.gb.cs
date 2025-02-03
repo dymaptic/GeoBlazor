@@ -196,8 +196,8 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-        CultureInfo? result = await CoreJsModule!.InvokeAsync<CultureInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "culture");
+        CultureInfo? result = await JsComponentReference!.InvokeAsync<CultureInfo?>("getProperty",
+            CancellationTokenSource.Token, "culture");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -226,8 +226,8 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "region");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "region");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -256,8 +256,8 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-        BingImageryStyle? result = await CoreJsModule!.InvokeAsync<BingImageryStyle?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        BingImageryStyle? result = await JsComponentReference!.InvokeAsync<BingImageryStyle?>("getProperty",
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005

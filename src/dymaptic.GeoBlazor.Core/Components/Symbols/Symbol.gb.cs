@@ -29,8 +29,8 @@ public abstract partial class Symbol
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "color");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -2,11 +2,12 @@
 
 
 import LayerView from '@arcgis/core/views/layers/LayerView';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class LayerViewGenerated implements IPropertyWrapper {
     public component: LayerView;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: LayerView) {
         this.component = component;
@@ -26,6 +27,10 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getLayer(): Promise<any> {
+        let { buildDotNetLayer } = await import('./layer');
+        return await buildDotNetLayer(this.component.layer);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +38,42 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsLayerViewGenerated(dotNetObject: any): Promise<any> {
+    let { default: LayerView } = await import('@arcgis/core/views/layers/LayerView');
+    let jsLayerView = new LayerView();
+    let { default: LayerViewWrapper } = await import('./layerView');
+    let layerViewWrapper = new LayerViewWrapper(jsLayerView);
+    jsLayerView.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(layerViewWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = layerViewWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsLayerView;
+    
+    return jsLayerView;
+}
+
+export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetLayerView: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.layer)) {
+            let { buildDotNetLayer } = await import('./dotNetBuilder');
+            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer);
+        }
+        dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+        dotNetLayerView.suspended = jsObject.suspended;
+        dotNetLayerView.updating = jsObject.updating;
+        dotNetLayerView.view = jsObject.view;
+        dotNetLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+        dotNetLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    return dotNetLayerView;
+}
+

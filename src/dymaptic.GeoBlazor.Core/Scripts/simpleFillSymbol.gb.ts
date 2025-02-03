@@ -2,11 +2,12 @@
 
 
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
     public component: SimpleFillSymbol;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: SimpleFillSymbol) {
         this.component = component;
@@ -33,20 +34,45 @@ export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any): Promise<any> {
+    let { default: SimpleFillSymbol } = await import('@arcgis/core/symbols/SimpleFillSymbol');
+    let jsSimpleFillSymbol = new SimpleFillSymbol();
+    if (hasValue(dotNetObject.color)) {
+        jsSimpleFillSymbol.color = dotNetObject.color;
+    }
+    if (hasValue(dotNetObject.outline)) {
+        jsSimpleFillSymbol.outline = dotNetObject.outline;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsSimpleFillSymbol.style = dotNetObject.style;
+    }
+    let { default: SimpleFillSymbolWrapper } = await import('./simpleFillSymbol');
+    let simpleFillSymbolWrapper = new SimpleFillSymbolWrapper(jsSimpleFillSymbol);
+    jsSimpleFillSymbol.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(simpleFillSymbolWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = simpleFillSymbolWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
+    
+    return jsSimpleFillSymbol;
+}
+
+export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetSimpleFillSymbol: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetSimpleFillSymbol.color = jsObject.color;
+        dotNetSimpleFillSymbol.outline = jsObject.outline;
+        dotNetSimpleFillSymbol.style = jsObject.style;
+        dotNetSimpleFillSymbol.type = jsObject.type;
+    return dotNetSimpleFillSymbol;
+}
+

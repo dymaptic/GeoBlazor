@@ -60,8 +60,8 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "linkURL");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "linkURL");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -90,8 +90,8 @@ public partial class ImageMediaInfoValue
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceURL");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceURL");
         if (result is not null)
         {
 #pragma warning disable BL0005

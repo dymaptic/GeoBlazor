@@ -2,11 +2,12 @@
 
 
 import AuthoringInfoField1ClassBreakInfos = __esri.AuthoringInfoField1ClassBreakInfos;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPropertyWrapper {
     public component: AuthoringInfoField1ClassBreakInfos;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: AuthoringInfoField1ClassBreakInfos) {
         this.component = component;
@@ -33,20 +34,36 @@ export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPro
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any): Promise<any> {
+    let jsAuthoringInfoField1ClassBreakInfos = {
+        maxValue: dotNetObject.maxValue,
+        minValue: dotNetObject.minValue,
+    }
+    let { default: AuthoringInfoField1ClassBreakInfosWrapper } = await import('./authoringInfoField1ClassBreakInfos');
+    let authoringInfoField1ClassBreakInfosWrapper = new AuthoringInfoField1ClassBreakInfosWrapper(jsAuthoringInfoField1ClassBreakInfos);
+    jsAuthoringInfoField1ClassBreakInfos.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(authoringInfoField1ClassBreakInfosWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = authoringInfoField1ClassBreakInfosWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
+    
+    return jsAuthoringInfoField1ClassBreakInfos;
+}
+
+export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetAuthoringInfoField1ClassBreakInfos: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetAuthoringInfoField1ClassBreakInfos.maxValue = jsObject.maxValue;
+        dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
+    return dotNetAuthoringInfoField1ClassBreakInfos;
+}
+

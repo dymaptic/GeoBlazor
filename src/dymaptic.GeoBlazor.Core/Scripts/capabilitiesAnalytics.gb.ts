@@ -2,11 +2,12 @@
 
 
 import CapabilitiesAnalytics = __esri.CapabilitiesAnalytics;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper {
     public component: CapabilitiesAnalytics;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: CapabilitiesAnalytics) {
         this.component = component;
@@ -33,20 +34,34 @@ export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper 
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): Promise<any> {
+    let jsCapabilitiesAnalytics = {
+        supportsCacheHint: dotNetObject.supportsCacheHint,
+    }
+    let { default: CapabilitiesAnalyticsWrapper } = await import('./capabilitiesAnalytics');
+    let capabilitiesAnalyticsWrapper = new CapabilitiesAnalyticsWrapper(jsCapabilitiesAnalytics);
+    jsCapabilitiesAnalytics.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(capabilitiesAnalyticsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = capabilitiesAnalyticsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAnalytics;
+    
+    return jsCapabilitiesAnalytics;
+}
+
+export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetCapabilitiesAnalytics: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetCapabilitiesAnalytics.supportsCacheHint = jsObject.supportsCacheHint;
+    return dotNetCapabilitiesAnalytics;
+}
+

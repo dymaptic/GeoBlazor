@@ -139,8 +139,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        Domain? result = await CoreJsModule!.InvokeAsync<Domain?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "domain");
+        Domain? result = await JsComponentReference!.InvokeAsync<Domain?>("getProperty",
+            CancellationTokenSource.Token, "domain");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -169,8 +169,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "editableExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "editableExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -199,8 +199,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fieldName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -229,8 +229,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "hint");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "hint");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -259,8 +259,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        IInputElement? result = await CoreJsModule!.InvokeAsync<IInputElement?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "input");
+        IInputElement? result = await JsComponentReference!.InvokeAsync<IInputElement?>("getProperty",
+            CancellationTokenSource.Token, "input");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -289,8 +289,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "requiredExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "requiredExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -319,8 +319,8 @@ public partial class FieldElement
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005

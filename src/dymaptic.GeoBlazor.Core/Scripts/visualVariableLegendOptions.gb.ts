@@ -2,11 +2,12 @@
 
 
 import VisualVariableLegendOptions = __esri.VisualVariableLegendOptions;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class VisualVariableLegendOptionsGenerated implements IPropertyWrapper {
     public component: VisualVariableLegendOptions;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: VisualVariableLegendOptions) {
         this.component = component;
@@ -33,20 +34,36 @@ export default class VisualVariableLegendOptionsGenerated implements IPropertyWr
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any): Promise<any> {
+    let jsVisualVariableLegendOptions = {
+        showLegend: dotNetObject.showLegend,
+        title: dotNetObject.title,
+    }
+    let { default: VisualVariableLegendOptionsWrapper } = await import('./visualVariableLegendOptions');
+    let visualVariableLegendOptionsWrapper = new VisualVariableLegendOptionsWrapper(jsVisualVariableLegendOptions);
+    jsVisualVariableLegendOptions.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(visualVariableLegendOptionsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = visualVariableLegendOptionsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
+    
+    return jsVisualVariableLegendOptions;
+}
+
+export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetVisualVariableLegendOptions: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
+        dotNetVisualVariableLegendOptions.title = jsObject.title;
+    return dotNetVisualVariableLegendOptions;
+}
+

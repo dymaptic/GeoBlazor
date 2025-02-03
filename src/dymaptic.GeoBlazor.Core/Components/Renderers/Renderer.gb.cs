@@ -42,8 +42,8 @@ public abstract partial class Renderer
         }
 
         // get the property value
-        AuthoringInfo? result = await CoreJsModule!.InvokeAsync<AuthoringInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "authoringInfo");
+        AuthoringInfo? result = await JsComponentReference!.InvokeAsync<AuthoringInfo?>("getProperty",
+            CancellationTokenSource.Token, "authoringInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005

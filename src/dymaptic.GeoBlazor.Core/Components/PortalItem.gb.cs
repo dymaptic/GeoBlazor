@@ -10,188 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class PortalItem
 {
 
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public PortalItem()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="access">
-    ///     Indicates the level of access to this item: `private`, `shared`, `org`, or `public`.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#access">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="accessInformation">
-    ///     Information on the source of the item and its copyright status.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#accessInformation">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="apiKey">
-    ///     An authorization string used to access the portal item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="avgRating">
-    ///     Average rating.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#avgRating">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="categories">
-    ///     An array of organization categories that are set on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#categories">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="created">
-    ///     The date the item was created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#created">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="culture">
-    ///     The item's locale information (language and country).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#culture">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="description">
-    ///     The detailed description of the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#description">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="extent">
-    ///     The geographic extent, or bounding rectangle, of the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#extent">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="groupCategories">
-    ///     An array of group categories set on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#groupCategories">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="licenseInfo">
-    ///     Information on license or restrictions related to the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#licenseInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="modified">
-    ///     The date the item was last modified.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#modified">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="name">
-    ///     The name of the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#name">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="numComments">
-    ///     Number of comments on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numComments">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="numRatings">
-    ///     Number of ratings on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numRatings">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="numViews">
-    ///     Number of views on the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numViews">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="owner">
-    ///     The username of the user who owns this item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#owner">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="ownerFolder">
-    ///     The ID of the folder in which the owner has stored the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#ownerFolder">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="portal">
-    ///     The portal that contains the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#portal">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="portalItemId">
-    ///     The unique id for the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="screenshots">
-    ///     An array of string URLs.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#screenshots">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="size">
-    ///     The size of the item (in bytes).
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#size">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="snippet">
-    ///     A summary description of the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#snippet">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="tags">
-    ///     User defined tags that describe the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#tags">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="title">
-    ///     The title for the item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#title">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="typeKeywords">
-    ///     Type keywords that describe the type of content of this item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#typeKeywords">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="url">
-    ///     The service URL of this item.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#url">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public PortalItem(
-        PortalItemAccess? access = null,
-        string? accessInformation = null,
-        string? apiKey = null,
-        double? avgRating = null,
-        IReadOnlyList<string>? categories = null,
-        DateTime? created = null,
-        string? culture = null,
-        string? description = null,
-        Extent? extent = null,
-        IReadOnlyList<string>? groupCategories = null,
-        string? licenseInfo = null,
-        DateTime? modified = null,
-        string? name = null,
-        double? numComments = null,
-        double? numRatings = null,
-        double? numViews = null,
-        string? owner = null,
-        string? ownerFolder = null,
-        Portal? portal = null,
-        string? portalItemId = null,
-        IReadOnlyList<string>? screenshots = null,
-        int? size = null,
-        string? snippet = null,
-        IReadOnlyList<string>? tags = null,
-        string? title = null,
-        IReadOnlyList<string>? typeKeywords = null,
-        string? url = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Access = access;
-        AccessInformation = accessInformation;
-        ApiKey = apiKey;
-        AvgRating = avgRating;
-        Categories = categories;
-        Created = created;
-        Culture = culture;
-        Description = description;
-        Extent = extent;
-        GroupCategories = groupCategories;
-        LicenseInfo = licenseInfo;
-        Modified = modified;
-        Name = name;
-        NumComments = numComments;
-        NumRatings = numRatings;
-        NumViews = numViews;
-        Owner = owner;
-        OwnerFolder = ownerFolder;
-        Portal = portal;
-        PortalItemId = portalItemId;
-        Screenshots = screenshots;
-        Size = size;
-        Snippet = snippet;
-        Tags = tags;
-        Title = title;
-        TypeKeywords = typeKeywords;
-        Url = url;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -419,8 +237,9 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [Parameter]
+    [RequiredProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PortalItemId { get; set; }
+    public string PortalItemId { get; set; } = null!;
     
     /// <summary>
     ///     An array of string URLs.
@@ -523,8 +342,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        PortalItemAccess? result = await CoreJsModule!.InvokeAsync<PortalItemAccess?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "access");
+        PortalItemAccess? result = await JsComponentReference!.InvokeAsync<PortalItemAccess?>("getProperty",
+            CancellationTokenSource.Token, "access");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -553,8 +372,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "accessInformation");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "accessInformation");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -583,8 +402,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "apiKey");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "apiKey");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -613,8 +432,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<PortalItemApplicationProxies>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<PortalItemApplicationProxies>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "applicationProxies");
+        IReadOnlyList<PortalItemApplicationProxies>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<PortalItemApplicationProxies>?>("getProperty",
+            CancellationTokenSource.Token, "applicationProxies");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -673,8 +492,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "categories");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "categories");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -733,8 +552,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "culture");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "culture");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -763,8 +582,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -793,8 +612,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "extent");
+        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
+            CancellationTokenSource.Token, "extent");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -823,8 +642,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "groupCategories");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "groupCategories");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -913,8 +732,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        ItemControl? result = await CoreJsModule!.InvokeAsync<ItemControl?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "itemControl");
+        ItemControl? result = await JsComponentReference!.InvokeAsync<ItemControl?>("getProperty",
+            CancellationTokenSource.Token, "itemControl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -943,8 +762,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "itemPageUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "itemPageUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -973,8 +792,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "itemUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "itemUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1003,8 +822,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "licenseInfo");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "licenseInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1093,8 +912,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "name");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1213,8 +1032,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "owner");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "owner");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1243,8 +1062,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "ownerFolder");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "ownerFolder");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1272,118 +1091,22 @@ public partial class PortalItem
             return Portal;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "portal"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        Portal? result = await JsComponentReference.InvokeAsync<Portal?>(
+            "getPortal", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            Portal? result = await CoreJsModule.InvokeAsync<Portal?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                Portal = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Portal)] = Portal;
-            }
-            
             if (Portal is not null)
             {
-                Portal.Parent = this;
-                Portal.View = View;
-                Portal.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, Portal.Id);
-                return Portal;
+                result.Id = Portal.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize Portal. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        Portal = new Portal();
+            Portal = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(Portal)] = Portal;
-        Portal.Parent = this;
-        Portal.View = View;
-        Portal.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, Portal.Id);
-        await Portal.GetProperty<PortalAccess>(nameof(Portal.Access));
-        await Portal.GetProperty<bool>(nameof(Portal.AllSSL));
-        await Portal.GetProperty<AuthMode>(nameof(Portal.AuthMode));
-        await Portal.GetProperty<IReadOnlyList<string>>(nameof(Portal.AuthorizedCrossOriginDomains));
-        await Portal.GetProperty<string>(nameof(Portal.BasemapGalleryGroupQuery));
-        await Portal.GetProperty<string>(nameof(Portal.BasemapGalleryGroupQuery3D));
-        await Portal.GetProperty<string>(nameof(Portal.BingKey));
-        await Portal.GetProperty<bool>(nameof(Portal.CanListApps));
-        await Portal.GetProperty<bool>(nameof(Portal.CanListData));
-        await Portal.GetProperty<bool>(nameof(Portal.CanListPreProvisionedItems));
-        await Portal.GetProperty<bool>(nameof(Portal.CanProvisionDirectPurchase));
-        await Portal.GetProperty<bool>(nameof(Portal.CanSearchPublic));
-        await Portal.GetProperty<bool>(nameof(Portal.CanShareBingPublic));
-        await Portal.GetProperty<bool>(nameof(Portal.CanSharePublic));
-        await Portal.GetProperty<bool>(nameof(Portal.CanSignInArcGIS));
-        await Portal.GetProperty<bool>(nameof(Portal.CanSignInIDP));
-        await Portal.GetProperty<string>(nameof(Portal.ColorSetsGroupQuery));
-        await Portal.GetProperty<bool>(nameof(Portal.CommentsEnabled));
-        await Portal.GetProperty<DateTime>(nameof(Portal.Created));
-        await Portal.GetProperty<string>(nameof(Portal.Culture));
-        await Portal.GetProperty<string>(nameof(Portal.CustomBaseUrl));
-        await Portal.GetProperty<Extent>(nameof(Portal.DefaultExtent));
-        await Portal.GetProperty<string>(nameof(Portal.Description));
-        await Portal.GetProperty<string>(nameof(Portal.DevBasemapGalleryGroupQuery));
-        await Portal.GetProperty<bool>(nameof(Portal.EueiEnabled));
-        await Portal.GetProperty<IReadOnlyList<PortalFeaturedGroups>>(nameof(Portal.FeaturedGroups));
-        await Portal.GetProperty<string>(nameof(Portal.FeaturedItemsGroupQuery));
-        await Portal.GetProperty<string>(nameof(Portal.GalleryTemplatesGroupQuery));
-        await Portal.GetProperty<bool>(nameof(Portal.HasCategorySchema));
-        await Portal.GetProperty<string>(nameof(Portal.HelperServices));
-        await Portal.GetProperty<string>(nameof(Portal.HomePageFeaturedContent));
-        await Portal.GetProperty<int>(nameof(Portal.HomePageFeaturedContentCount));
-        await Portal.GetProperty<double>(nameof(Portal.HttpPort));
-        await Portal.GetProperty<double>(nameof(Portal.HttpsPort));
-        await Portal.GetProperty<string>(nameof(Portal.IpCntryCode));
-        await Portal.GetProperty<bool>(nameof(Portal.IsOrganization));
-        await Portal.GetProperty<bool>(nameof(Portal.IsPortal));
-        await Portal.GetProperty<bool>(nameof(Portal.IsReadOnly));
-        await Portal.GetProperty<string>(nameof(Portal.LayerTemplatesGroupQuery));
-        await Portal.GetProperty<bool>(nameof(Portal.Loaded));
-        await Portal.GetProperty<double>(nameof(Portal.MaxTokenExpirationMinutes));
-        await Portal.GetProperty<DateTime>(nameof(Portal.Modified));
-        await Portal.GetProperty<string>(nameof(Portal.Name));
-        await Portal.GetProperty<string>(nameof(Portal.PortalHostname));
-        await Portal.GetProperty<string>(nameof(Portal.PortalId));
-        await Portal.GetProperty<PortalMode>(nameof(Portal.PortalMode));
-        await Portal.GetProperty<string>(nameof(Portal.PortalProperties));
-        await Portal.GetProperty<bool>(nameof(Portal.RecycleBinEnabled));
-        await Portal.GetProperty<string>(nameof(Portal.Region));
-        await Portal.GetProperty<string>(nameof(Portal.RestUrl));
-        await Portal.GetProperty<IReadOnlyList<string>>(nameof(Portal.RotatorPanels));
-        await Portal.GetProperty<bool>(nameof(Portal.ShowHomePageDescription));
-        await Portal.GetProperty<string>(nameof(Portal.SourceJSON));
-        await Portal.GetProperty<bool>(nameof(Portal.SupportsHostedServices));
-        await Portal.GetProperty<string>(nameof(Portal.SymbolSetsGroupQuery));
-        await Portal.GetProperty<string>(nameof(Portal.TemplatesGroupQuery));
-        await Portal.GetProperty<string>(nameof(Portal.ThumbnailUrl));
-        await Portal.GetProperty<PortalUnits>(nameof(Portal.Units));
-        await Portal.GetProperty<string>(nameof(Portal.Url));
-        await Portal.GetProperty<string>(nameof(Portal.UrlKey));
-        await Portal.GetProperty<bool>(nameof(Portal.Use3dBasemaps));
-        await Portal.GetProperty<bool>(nameof(Portal.UseStandardizedQuery));
-        await Portal.GetProperty<bool>(nameof(Portal.UseVectorBasemaps));
-        await Portal.GetProperty<string>(nameof(Portal.VectorBasemapGalleryGroupQuery));
+            ModifiedParameters[nameof(Portal)] = Portal;
+        }
+        
         return Portal;
     }
     
@@ -1404,8 +1127,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "portalItemId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "portalItemId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1434,8 +1157,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "screenshots");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "screenshots");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1494,8 +1217,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "snippet");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "snippet");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1524,8 +1247,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1554,8 +1277,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "tags");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "tags");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1584,8 +1307,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbnailUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1614,8 +1337,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1644,8 +1367,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "typeKeywords");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "typeKeywords");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1674,8 +1397,8 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "url");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "url");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2257,6 +1980,9 @@ public partial class PortalItem
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPortal", 
+            CancellationTokenSource.Token, value);
+ 
         Portal.Parent = this;
         Portal.View = View;
         
@@ -3051,9 +2777,9 @@ public partial class PortalItem
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Id is null)
+        if (PortalItemId is null)
         {
-            throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(Id));
+            throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(PortalItemId));
         }
         Portal?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

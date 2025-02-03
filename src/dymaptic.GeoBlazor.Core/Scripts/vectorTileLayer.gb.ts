@@ -2,11 +2,12 @@
 
 
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class VectorTileLayerGenerated implements IPropertyWrapper {
     public layer: VectorTileLayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(layer: VectorTileLayer) {
         this.layer = layer;
@@ -32,7 +33,8 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let result = await this.layer.createLayerView(view,
             options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return buildDotNetLayerView(result);
     }
 
     async deleteStyleLayer(layerId: any): Promise<void> {
@@ -86,8 +88,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     }
 
     async setSpriteSource(spriteSourceInfo: any): Promise<any> {
-        let result = await this.layer.setSpriteSource(spriteSourceInfo);
-        return await createGeoBlazorObject(result);
+        return await this.layer.setSpriteSource(spriteSourceInfo);
     }
 
     async setStyleLayer(layer: any,
@@ -104,6 +105,30 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getPortalItem(): Promise<any> {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(this.layer.portalItem);
+    }
+    async setPortalItem(value: any): Promise<void> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        this.layer.portalItem = await buildJsPortalItem(value);
+    }
+    async getTileInfo(): Promise<any> {
+        let { buildDotNetTileInfo } = await import('./tileInfo');
+        return await buildDotNetTileInfo(this.layer.tileInfo);
+    }
+    async setTileInfo(value: any): Promise<void> {
+        let { buildJsTileInfo } = await import('./tileInfo');
+        this.layer.tileInfo = await buildJsTileInfo(value);
+    }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -111,20 +136,138 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }
+export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promise<any> {
+    let { default: VectorTileLayer } = await import('@arcgis/core/layers/VectorTileLayer');
+    let jsVectorTileLayer = new VectorTileLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsVectorTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.initialExtent)) {
+        let { buildJsExtent } = await import('extent');
+        jsVectorTileLayer.initialExtent = buildJsExtent(dotNetObject.initialExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.portalItem)) {
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsVectorTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
+
+    }
+    if (hasValue(dotNetObject.tileInfo)) {
+        let { buildJsTileInfo } = await import('tileInfo');
+        jsVectorTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
+
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsVectorTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.apiKey)) {
+        jsVectorTileLayer.apiKey = dotNetObject.apiKey;
+    }
+    if (hasValue(dotNetObject.arcGISLayerId)) {
+        jsVectorTileLayer.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsVectorTileLayer.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.customParameters)) {
+        jsVectorTileLayer.customParameters = dotNetObject.customParameters;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        jsVectorTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.listMode)) {
+        jsVectorTileLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsVectorTileLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsVectorTileLayer.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsVectorTileLayer.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.persistenceEnabled)) {
+        jsVectorTileLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        jsVectorTileLayer.spatialReference = dotNetObject.spatialReference;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsVectorTileLayer.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsVectorTileLayer.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.url)) {
+        jsVectorTileLayer.url = dotNetObject.url;
+    }
+    let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
+    let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsVectorTileLayer);
+    jsVectorTileLayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = vectorTileLayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
+    
+    return jsVectorTileLayer;
+}
+
+export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetVectorTileLayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetVectorTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
+        }
+        if (hasValue(jsObject.initialExtent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetVectorTileLayer.initialExtent = await buildDotNetExtent(jsObject.initialExtent);
+        }
+        if (hasValue(jsObject.portalItem)) {
+            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
+        if (hasValue(jsObject.tileInfo)) {
+            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetVectorTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+        }
+        dotNetVectorTileLayer.apiKey = jsObject.apiKey;
+        dotNetVectorTileLayer.arcGISLayerId = jsObject.id;
+        dotNetVectorTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
+        dotNetVectorTileLayer.blendMode = jsObject.blendMode;
+        dotNetVectorTileLayer.capabilities = jsObject.capabilities;
+        dotNetVectorTileLayer.currentStyleInfo = jsObject.currentStyleInfo;
+        dotNetVectorTileLayer.customParameters = jsObject.customParameters;
+        dotNetVectorTileLayer.effect = jsObject.effect;
+        dotNetVectorTileLayer.listMode = jsObject.listMode;
+        dotNetVectorTileLayer.loaded = jsObject.loaded;
+        dotNetVectorTileLayer.maxScale = jsObject.maxScale;
+        dotNetVectorTileLayer.minScale = jsObject.minScale;
+        dotNetVectorTileLayer.opacity = jsObject.opacity;
+        dotNetVectorTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        dotNetVectorTileLayer.spatialReference = jsObject.spatialReference;
+        dotNetVectorTileLayer.style = jsObject.style;
+        dotNetVectorTileLayer.title = jsObject.title;
+        dotNetVectorTileLayer.type = jsObject.type;
+        dotNetVectorTileLayer.url = jsObject.url;
+    return dotNetVectorTileLayer;
+}
+

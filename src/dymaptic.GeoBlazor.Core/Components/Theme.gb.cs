@@ -82,8 +82,8 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "accentColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "accentColor");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -112,8 +112,8 @@ public partial class Theme : MapComponent
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "textColor");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "textColor");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -2,11 +2,12 @@
 
 
 import AuthoringInfo from '@arcgis/core/renderers/support/AuthoringInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class AuthoringInfoGenerated implements IPropertyWrapper {
     public component: AuthoringInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: AuthoringInfo) {
         this.component = component;
@@ -26,6 +27,48 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColorRamp(): Promise<any> {
+        let { buildDotNetColorRamp } = await import('./colorRamp');
+        return await buildDotNetColorRamp(this.component.colorRamp);
+    }
+    async setColorRamp(value: any): Promise<void> {
+        let { buildJsColorRamp } = await import('./colorRamp');
+        this.component.colorRamp = await buildJsColorRamp(value);
+    }
+    async getField1(): Promise<any> {
+        let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+        return await buildDotNetAuthoringInfoField(this.component.field1);
+    }
+    async setField1(value: any): Promise<void> {
+        let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
+        this.component.field1 = await buildJsAuthoringInfoField(value);
+    }
+    async getField2(): Promise<any> {
+        let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+        return await buildDotNetAuthoringInfoField(this.component.field2);
+    }
+    async setField2(value: any): Promise<void> {
+        let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
+        this.component.field2 = await buildJsAuthoringInfoField(value);
+    }
+    async getStatistics(): Promise<any> {
+        let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+        return await buildDotNetAuthoringInfoStatistics(this.component.statistics);
+    }
+    async setStatistics(value: any): Promise<void> {
+        let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+        this.component.statistics = await buildJsAuthoringInfoStatistics(value);
+    }
+    async getVisualVariables(): Promise<any> {
+        let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
+        return this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
+    }
+    
+    async setVisualVariables(value: any): Promise<void> {
+        let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
+        this.component.visualVariables = value.map(async i => await buildJsAuthoringInfoVisualVariable(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +76,133 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<any> {
+    let { default: AuthoringInfo } = await import('@arcgis/core/renderers/support/AuthoringInfo');
+    let jsAuthoringInfo = new AuthoringInfo();
+    if (hasValue(dotNetObject.colorRamp)) {
+        let { buildJsColorRamp } = await import('colorRamp');
+        jsAuthoringInfo.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
+
+    }
+    if (hasValue(dotNetObject.field1)) {
+        let { buildJsAuthoringInfoField } = await import('authoringInfoField');
+        jsAuthoringInfo.field1 = await buildJsAuthoringInfoField(dotNetObject.field1) as any;
+
+    }
+    if (hasValue(dotNetObject.field2)) {
+        let { buildJsAuthoringInfoField } = await import('authoringInfoField');
+        jsAuthoringInfo.field2 = await buildJsAuthoringInfoField(dotNetObject.field2) as any;
+
+    }
+    if (hasValue(dotNetObject.statistics)) {
+        let { buildJsAuthoringInfoStatistics } = await import('authoringInfoStatistics');
+        jsAuthoringInfo.statistics = await buildJsAuthoringInfoStatistics(dotNetObject.statistics) as any;
+
+    }
+    if (hasValue(dotNetObject.visualVariables)) {
+        let { buildJsAuthoringInfoVisualVariable } = await import('authoringInfoVisualVariable');
+        jsAuthoringInfo.visualVariables = dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.classificationMethod)) {
+        jsAuthoringInfo.classificationMethod = dotNetObject.classificationMethod;
+    }
+    if (hasValue(dotNetObject.fadeRatio)) {
+        jsAuthoringInfo.fadeRatio = dotNetObject.fadeRatio;
+    }
+    if (hasValue(dotNetObject.fields)) {
+        jsAuthoringInfo.fields = dotNetObject.fields;
+    }
+    if (hasValue(dotNetObject.flowTheme)) {
+        jsAuthoringInfo.flowTheme = dotNetObject.flowTheme;
+    }
+    if (hasValue(dotNetObject.focus)) {
+        jsAuthoringInfo.focus = dotNetObject.focus;
+    }
+    if (hasValue(dotNetObject.isAutoGenerated)) {
+        jsAuthoringInfo.isAutoGenerated = dotNetObject.isAutoGenerated;
+    }
+    if (hasValue(dotNetObject.lengthUnit)) {
+        jsAuthoringInfo.lengthUnit = dotNetObject.lengthUnit;
+    }
+    if (hasValue(dotNetObject.maxSliderValue)) {
+        jsAuthoringInfo.maxSliderValue = dotNetObject.maxSliderValue;
+    }
+    if (hasValue(dotNetObject.minSliderValue)) {
+        jsAuthoringInfo.minSliderValue = dotNetObject.minSliderValue;
+    }
+    if (hasValue(dotNetObject.numClasses)) {
+        jsAuthoringInfo.numClasses = dotNetObject.numClasses;
+    }
+    if (hasValue(dotNetObject.standardDeviationInterval)) {
+        jsAuthoringInfo.standardDeviationInterval = dotNetObject.standardDeviationInterval;
+    }
+    if (hasValue(dotNetObject.type)) {
+        jsAuthoringInfo.type = dotNetObject.type;
+    }
+    if (hasValue(dotNetObject.univariateSymbolStyle)) {
+        jsAuthoringInfo.univariateSymbolStyle = dotNetObject.univariateSymbolStyle;
+    }
+    if (hasValue(dotNetObject.univariateTheme)) {
+        jsAuthoringInfo.univariateTheme = dotNetObject.univariateTheme;
+    }
+    let { default: AuthoringInfoWrapper } = await import('./authoringInfo');
+    let authoringInfoWrapper = new AuthoringInfoWrapper(jsAuthoringInfo);
+    jsAuthoringInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(authoringInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = authoringInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
+    
+    return jsAuthoringInfo;
+}
+
+export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetAuthoringInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.colorRamp)) {
+            let { buildDotNetColorRamp } = await import('./colorRamp');
+            dotNetAuthoringInfo.colorRamp = await buildDotNetColorRamp(jsObject.colorRamp);
+        }
+        if (hasValue(jsObject.field1)) {
+            let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+            dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
+        }
+        if (hasValue(jsObject.field2)) {
+            let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+            dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2);
+        }
+        if (hasValue(jsObject.statistics)) {
+            let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+            dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics);
+        }
+        if (hasValue(jsObject.visualVariables)) {
+            let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
+            dotNetAuthoringInfo.visualVariables = jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
+        }
+        dotNetAuthoringInfo.classificationMethod = jsObject.classificationMethod;
+        dotNetAuthoringInfo.fadeRatio = jsObject.fadeRatio;
+        dotNetAuthoringInfo.fields = jsObject.fields;
+        dotNetAuthoringInfo.flowTheme = jsObject.flowTheme;
+        dotNetAuthoringInfo.focus = jsObject.focus;
+        dotNetAuthoringInfo.isAutoGenerated = jsObject.isAutoGenerated;
+        dotNetAuthoringInfo.lengthUnit = jsObject.lengthUnit;
+        dotNetAuthoringInfo.maxSliderValue = jsObject.maxSliderValue;
+        dotNetAuthoringInfo.minSliderValue = jsObject.minSliderValue;
+        dotNetAuthoringInfo.numClasses = jsObject.numClasses;
+        dotNetAuthoringInfo.standardDeviationInterval = jsObject.standardDeviationInterval;
+        dotNetAuthoringInfo.type = jsObject.type;
+        dotNetAuthoringInfo.univariateSymbolStyle = jsObject.univariateSymbolStyle;
+        dotNetAuthoringInfo.univariateTheme = jsObject.univariateTheme;
+    return dotNetAuthoringInfo;
+}
+

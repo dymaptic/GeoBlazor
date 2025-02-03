@@ -67,8 +67,8 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        DateFormat? result = await CoreJsModule!.InvokeAsync<DateFormat?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dateFormat");
+        DateFormat? result = await JsComponentReference!.InvokeAsync<DateFormat?>("getProperty",
+            CancellationTokenSource.Token, "dateFormat");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -82,8 +82,8 @@ public partial class PixelData : MapComponent
         }
 
         // get the property value
-        Extent? result = await CoreJsModule!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "extent");
+        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
+            CancellationTokenSource.Token, "extent");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -111,62 +111,22 @@ public partial class PixelData : MapComponent
             return PixelBlock;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "pixelBlock"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        PixelBlock? result = await JsComponentReference.InvokeAsync<PixelBlock?>(
+            "getPixelBlock", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            PixelBlock? result = await CoreJsModule.InvokeAsync<PixelBlock?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                PixelBlock = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
-            }
-            
             if (PixelBlock is not null)
             {
-                PixelBlock.Parent = this;
-                PixelBlock.View = View;
-                PixelBlock.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, PixelBlock.Id);
-                return PixelBlock;
+                result.Id = PixelBlock.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize PixelBlock. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        PixelBlock = new PixelBlock();
+            PixelBlock = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
-        PixelBlock.Parent = this;
-        PixelBlock.View = View;
-        PixelBlock.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, PixelBlock.Id);
-        await PixelBlock.GetProperty<int>(nameof(PixelBlock.Height));
-        await PixelBlock.GetProperty<Stream>(nameof(PixelBlock.Mask));
-        await PixelBlock.GetProperty<bool>(nameof(PixelBlock.MaskIsAlpha));
-        await PixelBlock.GetProperty<Stream>(nameof(PixelBlock.Pixels));
-        await PixelBlock.GetProperty<PixelType>(nameof(PixelBlock.PixelType));
-        await PixelBlock.GetProperty<IReadOnlyList<PixelBlockStatistics>>(nameof(PixelBlock.Statistics));
-        await PixelBlock.GetProperty<int>(nameof(PixelBlock.ValidPixelCount));
-        await PixelBlock.GetProperty<int>(nameof(PixelBlock.Width));
+            ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
+        }
+        
         return PixelBlock;
     }
     
@@ -230,6 +190,9 @@ public partial class PixelData : MapComponent
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPixelBlock", 
+            CancellationTokenSource.Token, value);
+ 
         PixelBlock.Parent = this;
         PixelBlock.View = View;
         

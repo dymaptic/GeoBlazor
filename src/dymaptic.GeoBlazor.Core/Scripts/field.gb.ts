@@ -2,11 +2,12 @@
 
 
 import Field from '@arcgis/core/layers/support/Field';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FieldGenerated implements IPropertyWrapper {
     public component: Field;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: Field) {
         this.component = component;
@@ -33,20 +34,72 @@ export default class FieldGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFieldGenerated(dotNetObject: any): Promise<any> {
+    let { default: Field } = await import('@arcgis/core/layers/support/Field');
+    let jsField = new Field();
+    if (hasValue(dotNetObject.alias)) {
+        jsField.alias = dotNetObject.alias;
+    }
+    if (hasValue(dotNetObject.defaultValue)) {
+        jsField.defaultValue = dotNetObject.defaultValue;
+    }
+    if (hasValue(dotNetObject.description)) {
+        jsField.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.domain)) {
+        jsField.domain = dotNetObject.domain;
+    }
+    if (hasValue(dotNetObject.editable)) {
+        jsField.editable = dotNetObject.editable;
+    }
+    if (hasValue(dotNetObject.length)) {
+        jsField.length = dotNetObject.length;
+    }
+    if (hasValue(dotNetObject.name)) {
+        jsField.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.nullable)) {
+        jsField.nullable = dotNetObject.nullable;
+    }
+    if (hasValue(dotNetObject.type)) {
+        jsField.type = dotNetObject.type;
+    }
+    if (hasValue(dotNetObject.valueType)) {
+        jsField.valueType = dotNetObject.valueType;
+    }
+    let { default: FieldWrapper } = await import('./field');
+    let fieldWrapper = new FieldWrapper(jsField);
+    jsField.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(fieldWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = fieldWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsField;
+    
+    return jsField;
+}
+
+export async function buildDotNetFieldGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetField: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetField.alias = jsObject.alias;
+        dotNetField.defaultValue = jsObject.defaultValue;
+        dotNetField.description = jsObject.description;
+        dotNetField.domain = jsObject.domain;
+        dotNetField.editable = jsObject.editable;
+        dotNetField.length = jsObject.length;
+        dotNetField.name = jsObject.name;
+        dotNetField.nullable = jsObject.nullable;
+        dotNetField.type = jsObject.type;
+        dotNetField.valueType = jsObject.valueType;
+    return dotNetField;
+}
+

@@ -72,8 +72,8 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
         }
 
         // get the property value
-        IReadOnlyList<AlgorithmicColorRamp>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "colorRamps");
+        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getProperty",
+            CancellationTokenSource.Token, "colorRamps");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -92,8 +92,8 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "availableFields");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "availableFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -152,8 +152,8 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        FeatureEffect? result = await CoreJsModule!.InvokeAsync<FeatureEffect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "featureEffect");
+        FeatureEffect? result = await JsComponentReference!.InvokeAsync<FeatureEffect?>("getProperty",
+            CancellationTokenSource.Token, "featureEffect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -181,61 +181,22 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return Filter;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "filter"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        FeatureFilter? result = await JsComponentReference.InvokeAsync<FeatureFilter?>(
+            "getFilter", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            FeatureFilter? result = await CoreJsModule.InvokeAsync<FeatureFilter?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                Filter = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Filter)] = Filter;
-            }
-            
             if (Filter is not null)
             {
-                Filter.Parent = this;
-                Filter.View = View;
-                Filter.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, Filter.Id);
-                return Filter;
+                result.Id = Filter.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize Filter. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        Filter = new FeatureFilter();
+            Filter = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(Filter)] = Filter;
-        Filter.Parent = this;
-        Filter.View = View;
-        Filter.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, Filter.Id);
-        await Filter.GetProperty<double>(nameof(FeatureFilter.Distance));
-        await Filter.GetProperty<Geometry>(nameof(FeatureFilter.Geometry));
-        await Filter.GetProperty<IReadOnlyList<long>>(nameof(FeatureFilter.ObjectIds));
-        await Filter.GetProperty<SpatialRelationship>(nameof(FeatureFilter.SpatialRelationship));
-        await Filter.GetProperty<TimeExtent>(nameof(FeatureFilter.TimeExtent));
-        await Filter.GetProperty<QueryUnits>(nameof(FeatureFilter.Units));
-        await Filter.GetProperty<string>(nameof(FeatureFilter.Where));
+            ModifiedParameters[nameof(Filter)] = Filter;
+        }
+        
         return Filter;
     }
     
@@ -346,8 +307,8 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         }
 
         // get the property value
-        HighlightOptions? result = await CoreJsModule!.InvokeAsync<HighlightOptions?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "highlightOptions");
+        HighlightOptions? result = await JsComponentReference!.InvokeAsync<HighlightOptions?>("getProperty",
+            CancellationTokenSource.Token, "highlightOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005

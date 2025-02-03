@@ -2,11 +2,12 @@
 
 
 import FeatureTemplate from '@arcgis/core/layers/support/FeatureTemplate';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FeatureTemplateGenerated implements IPropertyWrapper {
     public component: FeatureTemplate;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FeatureTemplate) {
         this.component = component;
@@ -26,6 +27,14 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getPrototype(layerId: string, viewId: string): Promise<any> {
+        let { buildDotNetGraphic } = await import('./graphic');
+        return await buildDotNetGraphic(this.component.prototype, layerId, viewId);
+    }
+    async setPrototype(value: any, layerId: string, viewId: string): Promise<void> {
+        let { buildJsGraphic } = await import('./graphic');
+        this.component.prototype = await buildJsGraphic(value, layerId, viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +42,57 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { default: FeatureTemplate } = await import('@arcgis/core/layers/support/FeatureTemplate');
+    let jsFeatureTemplate = new FeatureTemplate();
+    if (hasValue(dotNetObject.prototype)) {
+        let { buildJsGraphic } = await import('graphic');
+        jsFeatureTemplate.prototype = buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
+
+    }
+    if (hasValue(dotNetObject.description)) {
+        jsFeatureTemplate.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.drawingTool)) {
+        jsFeatureTemplate.drawingTool = dotNetObject.drawingTool;
+    }
+    if (hasValue(dotNetObject.name)) {
+        jsFeatureTemplate.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.thumbnail)) {
+        jsFeatureTemplate.thumbnail = dotNetObject.thumbnail;
+    }
+    let { default: FeatureTemplateWrapper } = await import('./featureTemplate');
+    let featureTemplateWrapper = new FeatureTemplateWrapper(jsFeatureTemplate);
+    jsFeatureTemplate.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(featureTemplateWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = featureTemplateWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplate;
+    
+    return jsFeatureTemplate;
+}
+
+export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFeatureTemplate: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.prototype)) {
+            let { buildDotNetGraphic } = await import('./dotNetBuilder');
+            dotNetFeatureTemplate.prototype = await buildDotNetGraphic(jsObject.prototype, layerId, viewId);
+        }
+        dotNetFeatureTemplate.description = jsObject.description;
+        dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
+        dotNetFeatureTemplate.name = jsObject.name;
+        dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
+    return dotNetFeatureTemplate;
+}
+

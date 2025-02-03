@@ -130,8 +130,8 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -160,8 +160,8 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        long? result = await CoreJsModule!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "kMLSublayerId");
+        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
+            CancellationTokenSource.Token, "kMLSublayerId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -190,8 +190,8 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "networkLink");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "networkLink");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -220,8 +220,8 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -250,8 +250,8 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "title");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -397,15 +397,6 @@ public partial class KMLSublayer : MapComponent
     {
         switch (child)
         {
-            case KMLLayer layer:
-                if (layer != Layer)
-                {
-                    Layer = layer;
-                    
-                    ModifiedParameters[nameof(Layer)] = Layer;
-                }
-                
-                return true;
             case KMLSublayer sublayers:
                 Sublayers ??= [];
                 if (!Sublayers.Contains(sublayers))
@@ -425,11 +416,6 @@ public partial class KMLSublayer : MapComponent
     {
         switch (child)
         {
-            case KMLLayer _:
-                Layer = null;
-                
-                ModifiedParameters[nameof(Layer)] = Layer;
-                return true;
             case KMLSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
                 
@@ -444,7 +430,6 @@ public partial class KMLSublayer : MapComponent
     internal override void ValidateRequiredGeneratedChildren()
     {
     
-        Layer?.ValidateRequiredGeneratedChildren();
         if (Sublayers is not null)
         {
             foreach (KMLSublayer child in Sublayers)

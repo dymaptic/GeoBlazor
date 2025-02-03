@@ -2,11 +2,12 @@
 
 
 import ElementExpressionInfo from '@arcgis/core/popup/ElementExpressionInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class ElementExpressionInfoGenerated implements IPropertyWrapper {
     public component: ElementExpressionInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: ElementExpressionInfo) {
         this.component = component;
@@ -33,20 +34,44 @@ export default class ElementExpressionInfoGenerated implements IPropertyWrapper 
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsElementExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+    let { default: ElementExpressionInfo } = await import('@arcgis/core/popup/ElementExpressionInfo');
+    let jsElementExpressionInfo = new ElementExpressionInfo();
+    if (hasValue(dotNetObject.expression)) {
+        jsElementExpressionInfo.expression = dotNetObject.expression;
+    }
+    if (hasValue(dotNetObject.returnType)) {
+        jsElementExpressionInfo.returnType = dotNetObject.returnType;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsElementExpressionInfo.title = dotNetObject.title;
+    }
+    let { default: ElementExpressionInfoWrapper } = await import('./elementExpressionInfo');
+    let elementExpressionInfoWrapper = new ElementExpressionInfoWrapper(jsElementExpressionInfo);
+    jsElementExpressionInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(elementExpressionInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = elementExpressionInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsElementExpressionInfo;
+    
+    return jsElementExpressionInfo;
+}
+
+export async function buildDotNetElementExpressionInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetElementExpressionInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetElementExpressionInfo.expression = jsObject.expression;
+        dotNetElementExpressionInfo.returnType = jsObject.returnType;
+        dotNetElementExpressionInfo.title = jsObject.title;
+    return dotNetElementExpressionInfo;
+}
+

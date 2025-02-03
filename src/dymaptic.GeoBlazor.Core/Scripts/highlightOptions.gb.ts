@@ -2,11 +2,12 @@
 
 
 import HighlightOptions = __esri.HighlightOptions;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class HighlightOptionsGenerated implements IPropertyWrapper {
     public component: HighlightOptions;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: HighlightOptions) {
         this.component = component;
@@ -26,6 +27,30 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await buildJsMapColor(value);
+    }
+    async getHaloColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.haloColor);
+    }
+    async setHaloColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.haloColor = await buildJsMapColor(value);
+    }
+    async getShadowColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return await buildDotNetMapColor(this.component.shadowColor);
+    }
+    async setShadowColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.shadowColor = await buildJsMapColor(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +58,64 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
+    let jsHighlightOptions = {
+    if (hasValue(dotNetObject.color)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsHighlightOptions.color = await buildJsColor(dotNetObject.color) as any;
+    }
+    if (hasValue(dotNetObject.haloColor)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsHighlightOptions.haloColor = await buildJsColor(dotNetObject.haloColor) as any;
+    }
+    if (hasValue(dotNetObject.shadowColor)) {
+        let { buildJsColor } = await import('./mapColor');
+        jsHighlightOptions.shadowColor = await buildJsColor(dotNetObject.shadowColor) as any;
+    }
+        fillOpacity: dotNetObject.fillOpacity,
+        haloOpacity: dotNetObject.haloOpacity,
+        shadowDifference: dotNetObject.shadowDifference,
+        shadowOpacity: dotNetObject.shadowOpacity,
+    }
+    let { default: HighlightOptionsWrapper } = await import('./highlightOptions');
+    let highlightOptionsWrapper = new HighlightOptionsWrapper(jsHighlightOptions);
+    jsHighlightOptions.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(highlightOptionsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = highlightOptionsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
+    
+    return jsHighlightOptions;
+}
+
+export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetHighlightOptions: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.color = await buildDotNetMapColor(jsObject.color);
+        }
+        if (hasValue(jsObject.haloColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.haloColor = await buildDotNetMapColor(jsObject.haloColor);
+        }
+        if (hasValue(jsObject.shadowColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.shadowColor = await buildDotNetMapColor(jsObject.shadowColor);
+        }
+        dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
+        dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
+        dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
+        dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
+    return dotNetHighlightOptions;
+}
+

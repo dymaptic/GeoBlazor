@@ -101,8 +101,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        Cap? result = await CoreJsModule!.InvokeAsync<Cap?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "cap");
+        Cap? result = await JsComponentReference!.InvokeAsync<Cap?>("getProperty",
+            CancellationTokenSource.Token, "cap");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -131,8 +131,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        Join? result = await CoreJsModule!.InvokeAsync<Join?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "join");
+        Join? result = await JsComponentReference!.InvokeAsync<Join?>("getProperty",
+            CancellationTokenSource.Token, "join");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -161,8 +161,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        LineSymbolMarker? result = await CoreJsModule!.InvokeAsync<LineSymbolMarker?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "marker");
+        LineSymbolMarker? result = await JsComponentReference!.InvokeAsync<LineSymbolMarker?>("getProperty",
+            CancellationTokenSource.Token, "marker");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -221,8 +221,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        SimpleLineSymbolStyle? result = await CoreJsModule!.InvokeAsync<SimpleLineSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "style");
+        SimpleLineSymbolStyle? result = await JsComponentReference!.InvokeAsync<SimpleLineSymbolStyle?>("getProperty",
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005

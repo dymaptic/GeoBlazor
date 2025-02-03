@@ -2,11 +2,12 @@
 
 
 import UniqueValueRendererLegendOptions = __esri.UniqueValueRendererLegendOptions;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class UniqueValueRendererLegendOptionsGenerated implements IPropertyWrapper {
     public component: UniqueValueRendererLegendOptions;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: UniqueValueRendererLegendOptions) {
         this.component = component;
@@ -33,20 +34,34 @@ export default class UniqueValueRendererLegendOptionsGenerated implements IPrope
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject: any): Promise<any> {
+    let jsUniqueValueRendererLegendOptions = {
+        title: dotNetObject.title,
+    }
+    let { default: UniqueValueRendererLegendOptionsWrapper } = await import('./uniqueValueRendererLegendOptions');
+    let uniqueValueRendererLegendOptionsWrapper = new UniqueValueRendererLegendOptionsWrapper(jsUniqueValueRendererLegendOptions);
+    jsUniqueValueRendererLegendOptions.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererLegendOptionsWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = uniqueValueRendererLegendOptionsWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
+    
+    return jsUniqueValueRendererLegendOptions;
+}
+
+export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetUniqueValueRendererLegendOptions: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
+    return dotNetUniqueValueRendererLegendOptions;
+}
+

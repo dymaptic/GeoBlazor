@@ -59,8 +59,8 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "xoffset");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "xoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -89,8 +89,8 @@ public abstract partial class MarkerSymbol
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "yoffset");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "yoffset");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -19,189 +19,92 @@
                     </Basemap>
                     <KMLLayer 
                         Url="@("https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8")"
-                        BlendMode="@(BlendMode.Average)"
-                        Effect="@(new Effect("quo",
-                            25014223.1270))"
-                        FullExtent="@(new Extent(-127.8400,
-                                52.6103,
-                                -77.5328,
-                                -53.7492,
-                                861.8038,
-                                953.5199,
-                                625.3390,
-                                136.3078,
-                            new SpatialReference(3,
-                                    "doloremque",
-                                    "distinctio",
-                                    "voluptate"),
+                        BlendMode="@(BlendMode.Luminosity)"
+                        Effect="@(new Effect("ratione",
+                            43459977.4998))"
+                        FullExtent="@(new Extent(123.0739,
+                                116.3218,
+                                -34.1713,
+                                -52.8324,
+                                135.1626,
+                                82.4820,
+                                724.6093,
+                                796.2894,
+                            new SpatialReference(9,
+                                    "voluptatum",
+                                    "et",
+                                    "et"),
                                 true,
                                 true))"
-                        ListMode="@(ListMode.Hide)"
-                        MaxScale="@(9441859.9397)"
-                        MinScale="@(38561.9861)"
-                        Opacity="@(0.8136)"
+                        ListMode="@(ListMode.Show)"
+                        MaxScale="@(44528330.9466)"
+                        MinScale="@(34258.1598)"
+                        Opacity="@(0.8855)"
                         PersistenceEnabled="@(true)"
-                        Title="@("quos amet labore")">
+                        Title="@("mollitia hic nulla")">
                         <TimeExtent 
-                            Start="@(new DateTime(2000, 9, 3, 8, 42, 24))"
-                            End="@(new DateTime(2015, 4, 3, 0, 18, 54))">
+                            Start="@(new DateTime(2011, 11, 7, 7, 25, 8))"
+                            End="@(new DateTime(2017, 8, 10, 7, 6, 56))">
                         </TimeExtent>
                         <KMLSublayer 
-                            Description="@("iure aut sit sunt")"
-                            KMLSublayerId="@(2)"
-                            NetworkLink="@("molestias")"
-                            Title="@("dolore dicta aspernatur")">
+                            Description="@("vel dicta totam in saepe sint rerum")"
+                            KMLSublayerId="@(1)"
+                            NetworkLink="@("quo")"
+                            Title="@("quia dolore debitis")">
                         </KMLSublayer>
-                        <PortalItem 
-                            Access="@(PortalItemAccess.Shared)"
-                            AccessInformation="@("aspernatur")"
-                            ApiKey="@("culpa")"
-                            AvgRating="@(408.1207)"
-                            Categories="@(["aspernatur",
-                                "amet",
-                                "provident"])"
-                            Created="@(new DateTime(2015, 3, 2, 21, 7, 9))"
-                            Culture="@("vel")"
-                            Description="@("numquam laborum molestias debitis quasi voluptas")"
-                            Extent="@(new Extent(4.2036,
-                                    -168.9483,
-                                    -34.4791,
-                                    -52.4814,
-                                    727.6581,
-                                    66.6676,
-                                    163.3922,
-                                    333.5796,
-                                new SpatialReference(6,
-                                        "est",
-                                        "fuga",
-                                        "unde"),
-                                    true,
-                                    true))"
-                            GroupCategories="@(["mollitia",
-                                "ea"])"
-                            LicenseInfo="@("sed")"
-                            Modified="@(new DateTime(2009, 6, 10, 20, 2, 51))"
-                            Name="@("password")"
-                            NumComments="@(875.4226)"
-                            NumRatings="@(631.4712)"
-                            NumViews="@(380.2432)"
-                            Owner="@("Anabel Beier")"
-                            OwnerFolder="@("Michael Ratke")"
-                            Portal="@(new Portal(PortalAccess.Public,
-                                    true,
-                                AuthMode.Auto,
-                                    ["autem",
-                                        "quia",
-                                        "libero"],
-                                    "illo",
-                                    "cumque",
-                                    "quam",
-                                    true,
-                                    true,
-                                    true,
-                                    true,
-                                    true,
-                                    true,
-                                    true))"
-                            PortalItemId="@("totam")"
-                            Screenshots="@(["nihil",
-                                "distinctio",
-                                "mollitia"])"
-                            Size="@(5)"
-                            Snippet="@("exercitationem")"
-                            Tags="@(["rerum",
-                                "ut",
-                                "sed",
-                                "ut"])"
-                            Title="@("autem similique sunt")"
-                            TypeKeywords="@(["harum",
-                                "illo",
-                                "delectus"])"
-                            Url="@("https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/NDFD_Precipitation_v1/FeatureServer/0")">
-                        </PortalItem>
+                        <PortalItem />
                     </KMLLayer>
                 </Map>
             </MapView>);
         await WaitForMapToRender();
         Assert.IsNotNull(kMLLayer!);
         await AssertJavaScript("assertLayerExists", args: "kml");
-        PortalItem testPortalItem = new PortalItem(PortalItemAccess.Public,
-                    "debitis",
-                    "tempore",
-                    4.7408,
-                    ["laboriosam",
-                        "doloremque",
-                        "sit"],
-                    new DateTime(2011, 8, 12, 16, 27, 36),
-                    "quae",
-                    "necessitatibus iure ex ut tenetur ratione ut",
-                new Extent(92.2563,
-                        -169.2408,
-                        15.8804,
-                        46.1564,
-                        660.4746,
-                        72.1376,
-                        426.0800,
-                        990.6001,
-                    new SpatialReference(1,
-                            "sunt",
-                            "consectetur",
-                            "autem"),
-                        true,
-                        true),
-                    ["eos",
-                        "consequatur",
-                        "id",
-                        "sapiente"],
-                    "consequatur",
-                    new DateTime(2008, 9, 13, 9, 38, 7),
-                    "createdAt",
-                    531.7197);
+        PortalItem testPortalItem = new PortalItem();
         await kMLLayer.SetPortalItem(testPortalItem);
         var portalItem = await kMLLayer.GetPortalItem();
         Assert.AreEqual(testPortalItem, portalItem);
-        BlendMode testBlendMode = BlendMode.SoftLight;
+        BlendMode testBlendMode = BlendMode.Lighter;
         await kMLLayer.SetBlendMode(testBlendMode);
         var blendMode = await kMLLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        Extent testFullExtent = new Extent(-150.3372,
-                    -38.9956,
-                    -37.4590,
-                    -84.2260,
-                    64.3011,
-                    491.5941,
-                    869.9413,
-                    384.6442,
-                new SpatialReference(2,
-                        "magnam",
-                        "animi",
-                        "ipsum"),
+        Extent testFullExtent = new Extent(-59.9436,
+                    117.1198,
+                    -86.8902,
+                    61.1349,
+                    884.1257,
+                    887.8150,
+                    370.1161,
+                    909.2513,
+                new SpatialReference(6,
+                        "dolorem",
+                        "voluptatum",
+                        "sed"),
                     true,
                     true);
         await kMLLayer.SetFullExtent(testFullExtent);
         var fullExtent = await kMLLayer.GetFullExtent();
         Assert.AreEqual(testFullExtent, fullExtent);
-        ListMode testListMode = ListMode.Show;
+        ListMode testListMode = ListMode.Hide;
         await kMLLayer.SetListMode(testListMode);
         var listMode = await kMLLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
-        IReadOnlyList<KMLSublayer> testSublayers = [new KMLSublayer("corporis iste voluptatem ducimus in",
+        IReadOnlyList<KMLSublayer> testSublayers = [new KMLSublayer("dolorem provident debitis quos perferendis illum quia",
+                    2,
+                    "et",
+                    "adipisci similique eaque"),
+            new KMLSublayer("ut hic dolorem quia doloribus aut consequatur",
+                    2,
+                    "quia",
+                    "fugiat corporis sed"),
+            new KMLSublayer("quos quidem consectetur in exercitationem voluptatem architecto",
                     3,
-                    "unde",
-                    "nihil harum enim"),
-            new KMLSublayer("dolor quibusdam sed est",
-                    7,
-                    "voluptatem",
-                    "voluptatem iusto voluptates"),
-            new KMLSublayer("pariatur et consequatur nihil voluptatem atque quos",
-                    4,
-                    "nam",
-                    "amet nam provident")];
+                    "doloribus",
+                    "necessitatibus animi voluptatum")];
         await kMLLayer.SetSublayers(testSublayers);
         var sublayers = await kMLLayer.GetSublayers();
         Assert.AreEqual(testSublayers, sublayers);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2013, 8, 8, 18, 41, 39),
-                    new DateTime(2023, 7, 25, 14, 35, 55));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2018, 4, 8, 21, 16, 36),
+                    new DateTime(2013, 7, 14, 13, 33, 6));
         await kMLLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await kMLLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

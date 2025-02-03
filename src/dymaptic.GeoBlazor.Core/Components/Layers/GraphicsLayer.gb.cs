@@ -161,8 +161,8 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await CoreJsModule!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
+            CancellationTokenSource.Token, "blendMode");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -191,8 +191,8 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        Effect? result = await CoreJsModule!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "effect");
+        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
+            CancellationTokenSource.Token, "effect");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -221,8 +221,8 @@ public partial class GraphicsLayer : IBlendLayer,
         }
 
         // get the property value
-        GraphicsLayerElevationInfo? result = await CoreJsModule!.InvokeAsync<GraphicsLayerElevationInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elevationInfo");
+        GraphicsLayerElevationInfo? result = await JsComponentReference!.InvokeAsync<GraphicsLayerElevationInfo?>("getProperty",
+            CancellationTokenSource.Token, "elevationInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005

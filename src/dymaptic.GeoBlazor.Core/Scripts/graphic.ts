@@ -69,3 +69,11 @@ export default class GraphicWrapper extends GraphicGenerated {
 
 
 }
+export async function buildJsGraphic(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsGraphicGenerated } = await import('./graphic.gb');
+    return await buildJsGraphicGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetGraphic(jsObject: any): Promise<any> {
+    let { buildDotNetGraphicGenerated } = await import('./graphic.gb');
+    return await buildDotNetGraphicGenerated(jsObject);
+}

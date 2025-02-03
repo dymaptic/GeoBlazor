@@ -127,8 +127,8 @@ public partial class FeatureTemplate
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -157,8 +157,8 @@ public partial class FeatureTemplate
         }
 
         // get the property value
-        DrawingTool? result = await CoreJsModule!.InvokeAsync<DrawingTool?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "drawingTool");
+        DrawingTool? result = await JsComponentReference!.InvokeAsync<DrawingTool?>("getProperty",
+            CancellationTokenSource.Token, "drawingTool");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -187,8 +187,8 @@ public partial class FeatureTemplate
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "name");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "name");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -216,61 +216,22 @@ public partial class FeatureTemplate
             return Prototype;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "prototype"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
+            "getPrototype", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            Graphic? result = await CoreJsModule.InvokeAsync<Graphic?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                Prototype = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(Prototype)] = Prototype;
-            }
-            
             if (Prototype is not null)
             {
-                Prototype.Parent = this;
-                Prototype.View = View;
-                Prototype.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, Prototype.Id);
-                return Prototype;
+                result.Id = Prototype.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize Prototype. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        Prototype = new Graphic();
+            Prototype = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(Prototype)] = Prototype;
-        Prototype.Parent = this;
-        Prototype.View = View;
-        Prototype.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, Prototype.Id);
-        await Prototype.GetProperty<string>(nameof(Graphic.AggregateGeometries));
-        await Prototype.GetProperty<AttributesDictionary>(nameof(Graphic.Attributes));
-        await Prototype.GetProperty<Geometry>(nameof(Graphic.Geometry));
-        await Prototype.GetProperty<bool>(nameof(Graphic.IsAggregate));
-        await Prototype.GetProperty<GraphicOrigin>(nameof(Graphic.Origin));
-        await Prototype.GetProperty<PopupTemplate>(nameof(Graphic.PopupTemplate));
-        await Prototype.GetProperty<Symbol>(nameof(Graphic.Symbol));
+            ModifiedParameters[nameof(Prototype)] = Prototype;
+        }
+        
         return Prototype;
     }
     
@@ -291,8 +252,8 @@ public partial class FeatureTemplate
         }
 
         // get the property value
-        Thumbnail? result = await CoreJsModule!.InvokeAsync<Thumbnail?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbnail");
+        Thumbnail? result = await JsComponentReference!.InvokeAsync<Thumbnail?>("getProperty",
+            CancellationTokenSource.Token, "thumbnail");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -424,6 +385,9 @@ public partial class FeatureTemplate
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setPrototype", 
+            CancellationTokenSource.Token, value);
+ 
         Prototype.Parent = this;
         Prototype.View = View;
         

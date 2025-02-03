@@ -54,8 +54,8 @@ public partial class TextPopupContent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "text");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "text");
         if (result is not null)
         {
 #pragma warning disable BL0005

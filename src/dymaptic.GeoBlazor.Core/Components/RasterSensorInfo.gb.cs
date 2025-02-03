@@ -232,8 +232,8 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "productName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "productName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -322,8 +322,8 @@ public partial class RasterSensorInfo : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sensorName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sensorName");
         if (result is not null)
         {
 #pragma warning disable BL0005

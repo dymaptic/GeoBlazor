@@ -107,8 +107,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        IReadOnlyList<ActionBase>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "actions");
+        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
+            CancellationTokenSource.Token, "actions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -137,8 +137,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        IReadOnlyList<ExpressionInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "expressionInfos");
+        IReadOnlyList<ExpressionInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
+            CancellationTokenSource.Token, "expressionInfos");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -167,8 +167,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        IReadOnlyList<FieldInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldInfos");
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
+            CancellationTokenSource.Token, "fieldInfos");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -227,8 +227,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        LayerOptions? result = await CoreJsModule!.InvokeAsync<LayerOptions?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "layerOptions");
+        LayerOptions? result = await JsComponentReference!.InvokeAsync<LayerOptions?>("getProperty",
+            CancellationTokenSource.Token, "layerOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -257,8 +257,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "outFields");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "outFields");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -347,8 +347,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stringTitle");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "stringTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -377,8 +377,8 @@ public partial class PopupTemplate
         }
 
         // get the property value
-        Func<Task>? result = await CoreJsModule!.InvokeAsync<Func<Task>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "taskCollectionTitle");
+        Func<Task>? result = await JsComponentReference!.InvokeAsync<Func<Task>?>("getProperty",
+            CancellationTokenSource.Token, "taskCollectionTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005

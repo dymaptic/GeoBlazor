@@ -97,8 +97,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-        ArcGISImageServiceCapabilitiesMensuration? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "mensuration");
+        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getProperty",
+            CancellationTokenSource.Token, "mensuration");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -127,8 +127,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-        ArcGISImageServiceCapabilitiesOperations? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "operations");
+        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getProperty",
+            CancellationTokenSource.Token, "operations");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -157,8 +157,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         }
 
         // get the property value
-        ArcGISImageServiceCapabilitiesQuery? result = await CoreJsModule!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "query");
+        ArcGISImageServiceCapabilitiesQuery? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesQuery?>("getProperty",
+            CancellationTokenSource.Token, "query");
         if (result is not null)
         {
 #pragma warning disable BL0005

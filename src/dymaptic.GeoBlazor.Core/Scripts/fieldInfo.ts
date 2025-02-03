@@ -9,3 +9,11 @@ export default class FieldInfoWrapper extends FieldInfoGenerated {
     }
     
 }              
+export async function buildJsFieldInfo(dotNetObject: any): Promise<any> {
+    let { buildJsFieldInfoGenerated } = await import('./fieldInfo.gb');
+    return await buildJsFieldInfoGenerated(dotNetObject);
+}
+export async function buildDotNetFieldInfo(jsObject: any): Promise<any> {
+    let { buildDotNetFieldInfoGenerated } = await import('./fieldInfo.gb');
+    return await buildDotNetFieldInfoGenerated(jsObject);
+}

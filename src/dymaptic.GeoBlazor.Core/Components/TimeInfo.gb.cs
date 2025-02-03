@@ -163,8 +163,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "endField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "endField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -192,56 +192,22 @@ public partial class TimeInfo
             return FullTimeExtent;
         }
 
-        // get the JS object reference
-        IJSObjectReference? refResult = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-            "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-            "fullTimeExtent"))?.Value;
-            
-        if (refResult is null)
-        {
-            return null;
-        }
+        TimeExtent? result = await JsComponentReference.InvokeAsync<TimeExtent?>(
+            "getFullTimeExtent", CancellationTokenSource.Token);
         
-        // Try to deserialize the object. This might fail if we don't have the
-        // all deserialization edge cases handled.
-        try
+        if (result is not null)
         {
-            TimeExtent? result = await CoreJsModule.InvokeAsync<TimeExtent?>(
-                "createGeoBlazorObject", CancellationTokenSource.Token, refResult);
-            if (result is not null)
-            {
-#pragma warning disable BL0005
-                FullTimeExtent = result;
-#pragma warning restore BL0005
-                ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
-            }
-            
             if (FullTimeExtent is not null)
             {
-                FullTimeExtent.Parent = this;
-                FullTimeExtent.View = View;
-                FullTimeExtent.JsComponentReference = refResult;
-                await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-                    CancellationTokenSource.Token, refResult, FullTimeExtent.Id);
-                return FullTimeExtent;
+                result.Id = FullTimeExtent.Id;
             }
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"Failed to deserialize FullTimeExtent. Error: {ex}");
-        }
+            
 #pragma warning disable BL0005
-        FullTimeExtent = new TimeExtent();
+            FullTimeExtent = result;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
-        FullTimeExtent.Parent = this;
-        FullTimeExtent.View = View;
-        FullTimeExtent.JsComponentReference = refResult;
-        // register this type in JS
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
-            CancellationTokenSource.Token, refResult, FullTimeExtent.Id);
-        await FullTimeExtent.GetProperty<DateTime>(nameof(TimeExtent.End));
-        await FullTimeExtent.GetProperty<DateTime>(nameof(TimeExtent.Start));
+            ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
+        }
+        
         return FullTimeExtent;
     }
     
@@ -262,8 +228,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        TimeInterval? result = await CoreJsModule!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "interval");
+        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
+            CancellationTokenSource.Token, "interval");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -292,8 +258,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "startField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "startField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -322,8 +288,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        IReadOnlyList<DateTime>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<DateTime>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stops");
+        IReadOnlyList<DateTime>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DateTime>?>("getProperty",
+            CancellationTokenSource.Token, "stops");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -352,8 +318,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "timeZone");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "timeZone");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -382,8 +348,8 @@ public partial class TimeInfo
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "trackIdField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "trackIdField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -455,6 +421,9 @@ public partial class TimeInfo
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setFullTimeExtent", 
+            CancellationTokenSource.Token, value);
+ 
         FullTimeExtent.Parent = this;
         FullTimeExtent.View = View;
         

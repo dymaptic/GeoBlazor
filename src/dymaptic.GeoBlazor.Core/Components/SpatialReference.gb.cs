@@ -66,8 +66,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "imageCoordinateSystem");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -126,8 +126,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        SpatialReferenceUnit? result = await CoreJsModule!.InvokeAsync<SpatialReferenceUnit?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "unit");
+        SpatialReferenceUnit? result = await JsComponentReference!.InvokeAsync<SpatialReferenceUnit?>("getProperty",
+            CancellationTokenSource.Token, "unit");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -186,8 +186,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "wkt");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "wkt");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -216,8 +216,8 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "wkt2");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "wkt2");
         if (result is not null)
         {
 #pragma warning disable BL0005

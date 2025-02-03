@@ -2,11 +2,12 @@
 
 
 import FieldInfoFormat from '@arcgis/core/popup/support/FieldInfoFormat';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FieldInfoFormatGenerated implements IPropertyWrapper {
     public component: FieldInfoFormat;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FieldInfoFormat) {
         this.component = component;
@@ -33,20 +34,44 @@ export default class FieldInfoFormatGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFieldInfoFormatGenerated(dotNetObject: any): Promise<any> {
+    let { default: FieldInfoFormat } = await import('@arcgis/core/popup/support/FieldInfoFormat');
+    let jsFieldInfoFormat = new FieldInfoFormat();
+    if (hasValue(dotNetObject.dateFormat)) {
+        jsFieldInfoFormat.dateFormat = dotNetObject.dateFormat;
+    }
+    if (hasValue(dotNetObject.digitSeparator)) {
+        jsFieldInfoFormat.digitSeparator = dotNetObject.digitSeparator;
+    }
+    if (hasValue(dotNetObject.places)) {
+        jsFieldInfoFormat.places = dotNetObject.places;
+    }
+    let { default: FieldInfoFormatWrapper } = await import('./fieldInfoFormat');
+    let fieldInfoFormatWrapper = new FieldInfoFormatWrapper(jsFieldInfoFormat);
+    jsFieldInfoFormat.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(fieldInfoFormatWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = fieldInfoFormatWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
+    
+    return jsFieldInfoFormat;
+}
+
+export async function buildDotNetFieldInfoFormatGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFieldInfoFormat: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;
+        dotNetFieldInfoFormat.digitSeparator = jsObject.digitSeparator;
+        dotNetFieldInfoFormat.places = jsObject.places;
+    return dotNetFieldInfoFormat;
+}
+

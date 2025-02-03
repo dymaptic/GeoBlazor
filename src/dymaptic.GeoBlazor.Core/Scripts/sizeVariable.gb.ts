@@ -2,11 +2,12 @@
 
 
 import SizeVariable from '@arcgis/core/renderers/visualVariables/SizeVariable';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class SizeVariableGenerated implements IPropertyWrapper {
     public component: SizeVariable;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: SizeVariable) {
         this.component = component;
@@ -30,6 +31,24 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getLegendOptions(): Promise<any> {
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
+    }
+    async setLegendOptions(value: any): Promise<void> {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        this.component.legendOptions = await buildJsVisualVariableLegendOptions(value);
+    }
+    async getStops(): Promise<any> {
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        return this.component.stops.map(async i => await buildDotNetSizeStop(i));
+    }
+    
+    async setStops(value: any): Promise<void> {
+        let { buildJsSizeStop } = await import('./sizeStop');
+        this.component.stops = value.map(async i => await buildJsSizeStop(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -37,20 +56,103 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsSizeVariableGenerated(dotNetObject: any): Promise<any> {
+    let { default: SizeVariable } = await import('@arcgis/core/renderers/visualVariables/SizeVariable');
+    let jsSizeVariable = new SizeVariable();
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsVisualVariableLegendOptions } = await import('visualVariableLegendOptions');
+        jsSizeVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
+
+    }
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsSizeStop } = await import('sizeStop');
+        jsSizeVariable.stops = dotNetObject.stops.map(async i => await buildJsSizeStop(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.axis)) {
+        jsSizeVariable.axis = dotNetObject.axis;
+    }
+    if (hasValue(dotNetObject.field)) {
+        jsSizeVariable.field = dotNetObject.field;
+    }
+    if (hasValue(dotNetObject.maxDataValue)) {
+        jsSizeVariable.maxDataValue = dotNetObject.maxDataValue;
+    }
+    if (hasValue(dotNetObject.maxSize)) {
+        jsSizeVariable.maxSize = dotNetObject.maxSize;
+    }
+    if (hasValue(dotNetObject.minDataValue)) {
+        jsSizeVariable.minDataValue = dotNetObject.minDataValue;
+    }
+    if (hasValue(dotNetObject.minSize)) {
+        jsSizeVariable.minSize = dotNetObject.minSize;
+    }
+    if (hasValue(dotNetObject.normalizationField)) {
+        jsSizeVariable.normalizationField = dotNetObject.normalizationField;
+    }
+    if (hasValue(dotNetObject.target)) {
+        jsSizeVariable.target = dotNetObject.target;
+    }
+    if (hasValue(dotNetObject.useSymbolValue)) {
+        jsSizeVariable.useSymbolValue = dotNetObject.useSymbolValue;
+    }
+    if (hasValue(dotNetObject.valueExpression)) {
+        jsSizeVariable.valueExpression = dotNetObject.valueExpression;
+    }
+    if (hasValue(dotNetObject.valueExpressionTitle)) {
+        jsSizeVariable.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+    }
+    if (hasValue(dotNetObject.valueRepresentation)) {
+        jsSizeVariable.valueRepresentation = dotNetObject.valueRepresentation;
+    }
+    if (hasValue(dotNetObject.valueUnit)) {
+        jsSizeVariable.valueUnit = dotNetObject.valueUnit;
+    }
+    let { default: SizeVariableWrapper } = await import('./sizeVariable');
+    let sizeVariableWrapper = new SizeVariableWrapper(jsSizeVariable);
+    jsSizeVariable.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
+    
+    return jsSizeVariable;
+}
+
+export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetSizeVariable: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.legendOptions)) {
+            let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+            dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+        }
+        if (hasValue(jsObject.stops)) {
+            let { buildDotNetSizeStop } = await import('./sizeStop');
+            dotNetSizeVariable.stops = jsObject.stops.map(async i => await buildDotNetSizeStop(i));
+        }
+        dotNetSizeVariable.axis = jsObject.axis;
+        dotNetSizeVariable.field = jsObject.field;
+        dotNetSizeVariable.maxDataValue = jsObject.maxDataValue;
+        dotNetSizeVariable.maxSize = jsObject.maxSize;
+        dotNetSizeVariable.minDataValue = jsObject.minDataValue;
+        dotNetSizeVariable.minSize = jsObject.minSize;
+        dotNetSizeVariable.normalizationField = jsObject.normalizationField;
+        dotNetSizeVariable.target = jsObject.target;
+        dotNetSizeVariable.type = jsObject.type;
+        dotNetSizeVariable.useSymbolValue = jsObject.useSymbolValue;
+        dotNetSizeVariable.valueExpression = jsObject.valueExpression;
+        dotNetSizeVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        dotNetSizeVariable.valueRepresentation = jsObject.valueRepresentation;
+        dotNetSizeVariable.valueUnit = jsObject.valueUnit;
+    return dotNetSizeVariable;
+}
+

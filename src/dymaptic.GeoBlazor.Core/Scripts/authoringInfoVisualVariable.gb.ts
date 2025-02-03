@@ -2,11 +2,12 @@
 
 
 import AuthoringInfoVisualVariable from '@arcgis/core/renderers/support/AuthoringInfoVisualVariable';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class AuthoringInfoVisualVariableGenerated implements IPropertyWrapper {
     public component: AuthoringInfoVisualVariable;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: AuthoringInfoVisualVariable) {
         this.component = component;
@@ -26,6 +27,24 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     
     // region properties
     
+    async getSizeStops(): Promise<any> {
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        return this.component.sizeStops.map(async i => await buildDotNetSizeStop(i));
+    }
+    
+    async setSizeStops(value: any): Promise<void> {
+        let { buildJsSizeStop } = await import('./sizeStop');
+        this.component.sizeStops = value.map(async i => await buildJsSizeStop(i));
+    }
+    
+    async getTheme(): Promise<any> {
+        let { buildDotNetTheme } = await import('./theme');
+        return await buildDotNetTheme(this.component.theme);
+    }
+    async setTheme(value: any): Promise<void> {
+        let { buildJsTheme } = await import('./theme');
+        this.component.theme = await buildJsTheme(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +52,94 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
+    let { default: AuthoringInfoVisualVariable } = await import('@arcgis/core/renderers/support/AuthoringInfoVisualVariable');
+    let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable();
+    if (hasValue(dotNetObject.sizeStops)) {
+        let { buildJsSizeStop } = await import('sizeStop');
+        jsAuthoringInfoVisualVariable.sizeStops = dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('theme');
+        jsAuthoringInfoVisualVariable.theme = await buildJsTheme(dotNetObject.theme) as any;
+
+    }
+    if (hasValue(dotNetObject.endTime)) {
+        jsAuthoringInfoVisualVariable.endTime = dotNetObject.endTime;
+    }
+    if (hasValue(dotNetObject.field)) {
+        jsAuthoringInfoVisualVariable.field = dotNetObject.field;
+    }
+    if (hasValue(dotNetObject.maxSliderValue)) {
+        jsAuthoringInfoVisualVariable.maxSliderValue = dotNetObject.maxSliderValue;
+    }
+    if (hasValue(dotNetObject.minSliderValue)) {
+        jsAuthoringInfoVisualVariable.minSliderValue = dotNetObject.minSliderValue;
+    }
+    if (hasValue(dotNetObject.normalizationField)) {
+        jsAuthoringInfoVisualVariable.normalizationField = dotNetObject.normalizationField;
+    }
+    if (hasValue(dotNetObject.referenceSizeScale)) {
+        jsAuthoringInfoVisualVariable.referenceSizeScale = dotNetObject.referenceSizeScale;
+    }
+    if (hasValue(dotNetObject.referenceSizeSymbolStyle)) {
+        jsAuthoringInfoVisualVariable.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
+    }
+    if (hasValue(dotNetObject.startTime)) {
+        jsAuthoringInfoVisualVariable.startTime = dotNetObject.startTime;
+    }
+    if (hasValue(dotNetObject.style)) {
+        jsAuthoringInfoVisualVariable.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.type)) {
+        jsAuthoringInfoVisualVariable.type = dotNetObject.type;
+    }
+    if (hasValue(dotNetObject.units)) {
+        jsAuthoringInfoVisualVariable.units = dotNetObject.units;
+    }
+    let { default: AuthoringInfoVisualVariableWrapper } = await import('./authoringInfoVisualVariable');
+    let authoringInfoVisualVariableWrapper = new AuthoringInfoVisualVariableWrapper(jsAuthoringInfoVisualVariable);
+    jsAuthoringInfoVisualVariable.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(authoringInfoVisualVariableWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = authoringInfoVisualVariableWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
+    
+    return jsAuthoringInfoVisualVariable;
+}
+
+export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetAuthoringInfoVisualVariable: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.sizeStops)) {
+            let { buildDotNetSizeStop } = await import('./sizeStop');
+            dotNetAuthoringInfoVisualVariable.sizeStops = jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i));
+        }
+        if (hasValue(jsObject.theme)) {
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
+        }
+        dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
+        dotNetAuthoringInfoVisualVariable.field = jsObject.field;
+        dotNetAuthoringInfoVisualVariable.maxSliderValue = jsObject.maxSliderValue;
+        dotNetAuthoringInfoVisualVariable.minSliderValue = jsObject.minSliderValue;
+        dotNetAuthoringInfoVisualVariable.normalizationField = jsObject.normalizationField;
+        dotNetAuthoringInfoVisualVariable.referenceSizeScale = jsObject.referenceSizeScale;
+        dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = jsObject.referenceSizeSymbolStyle;
+        dotNetAuthoringInfoVisualVariable.startTime = jsObject.startTime;
+        dotNetAuthoringInfoVisualVariable.style = jsObject.style;
+        dotNetAuthoringInfoVisualVariable.type = jsObject.type;
+        dotNetAuthoringInfoVisualVariable.units = jsObject.units;
+    return dotNetAuthoringInfoVisualVariable;
+}
+

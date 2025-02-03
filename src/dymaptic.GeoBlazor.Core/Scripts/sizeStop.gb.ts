@@ -2,11 +2,12 @@
 
 
 import SizeStop from '@arcgis/core/renderers/visualVariables/support/SizeStop';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class SizeStopGenerated implements IPropertyWrapper {
     public component: SizeStop;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: SizeStop) {
         this.component = component;
@@ -33,20 +34,44 @@ export default class SizeStopGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> {
+    let { default: SizeStop } = await import('@arcgis/core/renderers/visualVariables/support/SizeStop');
+    let jsSizeStop = new SizeStop();
+    if (hasValue(dotNetObject.label)) {
+        jsSizeStop.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.size)) {
+        jsSizeStop.size = dotNetObject.size;
+    }
+    if (hasValue(dotNetObject.value)) {
+        jsSizeStop.value = dotNetObject.value;
+    }
+    let { default: SizeStopWrapper } = await import('./sizeStop');
+    let sizeStopWrapper = new SizeStopWrapper(jsSizeStop);
+    jsSizeStop.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(sizeStopWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = sizeStopWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
+    
+    return jsSizeStop;
+}
+
+export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetSizeStop: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetSizeStop.label = jsObject.label;
+        dotNetSizeStop.size = jsObject.size;
+        dotNetSizeStop.value = jsObject.value;
+    return dotNetSizeStop;
+}
+

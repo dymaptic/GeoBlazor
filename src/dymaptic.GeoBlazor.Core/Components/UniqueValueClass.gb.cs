@@ -97,8 +97,8 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "label");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "label");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -127,8 +127,8 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-        Symbol? result = await CoreJsModule!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "symbol");
+        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
+            CancellationTokenSource.Token, "symbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -157,8 +157,8 @@ public partial class UniqueValueClass : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<UniqueValue>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValue>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "values");
+        IReadOnlyList<UniqueValue>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValue>?>("getProperty",
+            CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005

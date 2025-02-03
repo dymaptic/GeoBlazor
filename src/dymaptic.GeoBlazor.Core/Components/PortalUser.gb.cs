@@ -311,8 +311,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserAccess? result = await CoreJsModule!.InvokeAsync<PortalUserAccess?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "access");
+        PortalUserAccess? result = await JsComponentReference!.InvokeAsync<PortalUserAccess?>("getProperty",
+            CancellationTokenSource.Token, "access");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -371,8 +371,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "culture");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "culture");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -401,8 +401,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "description");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "description");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -431,8 +431,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "email");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "email");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -461,8 +461,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fullName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fullName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -521,8 +521,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "orgId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "orgId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -551,8 +551,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "preferredView");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "preferredView");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -581,8 +581,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "privileges");
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+            CancellationTokenSource.Token, "privileges");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -611,8 +611,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "region");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "region");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -641,8 +641,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserRole? result = await CoreJsModule!.InvokeAsync<PortalUserRole?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "role");
+        PortalUserRole? result = await JsComponentReference!.InvokeAsync<PortalUserRole?>("getProperty",
+            CancellationTokenSource.Token, "role");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -671,8 +671,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "roleId");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "roleId");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -701,8 +701,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "sourceJSON");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -731,8 +731,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "thumbnailUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "thumbnailUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -761,8 +761,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserUnits? result = await CoreJsModule!.InvokeAsync<PortalUserUnits?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "units");
+        PortalUserUnits? result = await JsComponentReference!.InvokeAsync<PortalUserUnits?>("getProperty",
+            CancellationTokenSource.Token, "units");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -791,8 +791,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "userContentUrl");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "userContentUrl");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -821,8 +821,8 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "username");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "username");
         if (result is not null)
         {
 #pragma warning disable BL0005

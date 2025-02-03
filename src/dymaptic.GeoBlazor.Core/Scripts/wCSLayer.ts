@@ -9,3 +9,11 @@ export default class WCSLayerWrapper extends WCSLayerGenerated {
     }
     
 }              
+export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsWCSLayerGenerated } = await import('./wCSLayer.gb');
+    return await buildJsWCSLayerGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetWCSLayer(jsObject: any): Promise<any> {
+    let { buildDotNetWCSLayerGenerated } = await import('./wCSLayer.gb');
+    return await buildDotNetWCSLayerGenerated(jsObject);
+}

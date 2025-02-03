@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Layers;
+namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 [JsonConverter(typeof(LayerConverter))]
 public abstract partial class Layer : MapComponent

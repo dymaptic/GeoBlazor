@@ -253,8 +253,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        IUniqueValueRendererBackgroundFillSymbol? result = await CoreJsModule!.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "backgroundFillSymbol");
+        IUniqueValueRendererBackgroundFillSymbol? result = await JsComponentReference!.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>("getProperty",
+            CancellationTokenSource.Token, "backgroundFillSymbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -283,8 +283,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "defaultLabel");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "defaultLabel");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -313,8 +313,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        DefaultSymbol? result = await CoreJsModule!.InvokeAsync<DefaultSymbol?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "defaultSymbol");
+        DefaultSymbol? result = await JsComponentReference!.InvokeAsync<DefaultSymbol?>("getProperty",
+            CancellationTokenSource.Token, "defaultSymbol");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -343,8 +343,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -373,8 +373,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field2");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field2");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -403,8 +403,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field3");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field3");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -433,8 +433,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldDelimiter");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fieldDelimiter");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -463,8 +463,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        UniqueValueRendererLegendOptions? result = await CoreJsModule!.InvokeAsync<UniqueValueRendererLegendOptions?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "legendOptions");
+        UniqueValueRendererLegendOptions? result = await JsComponentReference!.InvokeAsync<UniqueValueRendererLegendOptions?>("getProperty",
+            CancellationTokenSource.Token, "legendOptions");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -523,8 +523,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        IReadOnlyList<UniqueValueGroup>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "uniqueValueGroups");
+        IReadOnlyList<UniqueValueGroup>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>("getProperty",
+            CancellationTokenSource.Token, "uniqueValueGroups");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -553,8 +553,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        IReadOnlyList<UniqueValueInfo>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "uniqueValueInfos");
+        IReadOnlyList<UniqueValueInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>("getProperty",
+            CancellationTokenSource.Token, "uniqueValueInfos");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -583,8 +583,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpression");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpression");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -613,8 +613,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueExpressionTitle");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "valueExpressionTitle");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -643,8 +643,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        IReadOnlyList<VisualVariable>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "visualVariables");
+        IReadOnlyList<VisualVariable>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
+            CancellationTokenSource.Token, "visualVariables");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -26,3 +26,11 @@ export default class BingMapsLayerWrapper extends BingMapsLayerGenerated {
         return buildDotNetTileInfo(this.layer.tileInfo);
     }
 }
+export async function buildJsBingMapsLayer(dotNetObject: any): Promise<any> {
+    let { buildJsBingMapsLayerGenerated } = await import('./bingMapsLayer.gb');
+    return await buildJsBingMapsLayerGenerated(dotNetObject);
+}
+export async function buildDotNetBingMapsLayer(jsObject: any): Promise<any> {
+    let { buildDotNetBingMapsLayerGenerated } = await import('./bingMapsLayer.gb');
+    return await buildDotNetBingMapsLayerGenerated(jsObject);
+}

@@ -73,8 +73,8 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "dimensionName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "dimensionName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -133,8 +133,8 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        DimensionalDefinitionValues? result = await CoreJsModule!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "values");
+        DimensionalDefinitionValues? result = await JsComponentReference!.InvokeAsync<DimensionalDefinitionValues?>("getProperty",
+            CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -163,8 +163,8 @@ public partial class DimensionalDefinition
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "variableName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "variableName");
         if (result is not null)
         {
 #pragma warning disable BL0005

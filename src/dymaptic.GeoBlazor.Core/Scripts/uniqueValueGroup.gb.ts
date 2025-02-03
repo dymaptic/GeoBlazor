@@ -2,11 +2,12 @@
 
 
 import UniqueValueGroup from '@arcgis/core/renderers/support/UniqueValueGroup';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     public component: UniqueValueGroup;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: UniqueValueGroup) {
         this.component = component;
@@ -26,6 +27,16 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getClasses(): Promise<any> {
+        let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
+        return this.component.classes.map(async i => await buildDotNetUniqueValueClass(i));
+    }
+    
+    async setClasses(value: any): Promise<void> {
+        let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
+        this.component.classes = value.map(async i => await buildJsUniqueValueClass(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +44,45 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promise<any> {
+    let { default: UniqueValueGroup } = await import('@arcgis/core/renderers/support/UniqueValueGroup');
+    let jsUniqueValueGroup = new UniqueValueGroup();
+    if (hasValue(dotNetObject.classes)) {
+        let { buildJsUniqueValueClass } = await import('uniqueValueClass');
+        jsUniqueValueGroup.classes = dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.heading)) {
+        jsUniqueValueGroup.heading = dotNetObject.heading;
+    }
+    let { default: UniqueValueGroupWrapper } = await import('./uniqueValueGroup');
+    let uniqueValueGroupWrapper = new UniqueValueGroupWrapper(jsUniqueValueGroup);
+    jsUniqueValueGroup.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(uniqueValueGroupWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = uniqueValueGroupWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
+    
+    return jsUniqueValueGroup;
+}
+
+export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetUniqueValueGroup: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.classes)) {
+            let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
+            dotNetUniqueValueGroup.classes = jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i));
+        }
+        dotNetUniqueValueGroup.heading = jsObject.heading;
+    return dotNetUniqueValueGroup;
+}
+

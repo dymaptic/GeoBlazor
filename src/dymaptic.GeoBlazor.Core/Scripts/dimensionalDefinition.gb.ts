@@ -2,11 +2,12 @@
 
 
 import DimensionalDefinition from '@arcgis/core/layers/support/DimensionalDefinition';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class DimensionalDefinitionGenerated implements IPropertyWrapper {
     public component: DimensionalDefinition;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: DimensionalDefinition) {
         this.component = component;
@@ -33,20 +34,48 @@ export default class DimensionalDefinitionGenerated implements IPropertyWrapper 
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): Promise<any> {
+    let { default: DimensionalDefinition } = await import('@arcgis/core/layers/support/DimensionalDefinition');
+    let jsDimensionalDefinition = new DimensionalDefinition();
+    if (hasValue(dotNetObject.dimensionName)) {
+        jsDimensionalDefinition.dimensionName = dotNetObject.dimensionName;
+    }
+    if (hasValue(dotNetObject.isSlice)) {
+        jsDimensionalDefinition.isSlice = dotNetObject.isSlice;
+    }
+    if (hasValue(dotNetObject.values)) {
+        jsDimensionalDefinition.values = dotNetObject.values;
+    }
+    if (hasValue(dotNetObject.variableName)) {
+        jsDimensionalDefinition.variableName = dotNetObject.variableName;
+    }
+    let { default: DimensionalDefinitionWrapper } = await import('./dimensionalDefinition');
+    let dimensionalDefinitionWrapper = new DimensionalDefinitionWrapper(jsDimensionalDefinition);
+    jsDimensionalDefinition.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(dimensionalDefinitionWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = dimensionalDefinitionWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
+    
+    return jsDimensionalDefinition;
+}
+
+export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetDimensionalDefinition: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetDimensionalDefinition.dimensionName = jsObject.dimensionName;
+        dotNetDimensionalDefinition.isSlice = jsObject.isSlice;
+        dotNetDimensionalDefinition.values = jsObject.values;
+        dotNetDimensionalDefinition.variableName = jsObject.variableName;
+    return dotNetDimensionalDefinition;
+}
+

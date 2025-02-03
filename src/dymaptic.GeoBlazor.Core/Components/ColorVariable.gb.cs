@@ -98,8 +98,8 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "normalizationField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -128,8 +128,8 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        IReadOnlyList<ColorStop>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<ColorStop>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stops");
+        IReadOnlyList<ColorStop>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ColorStop>?>("getProperty",
+            CancellationTokenSource.Token, "stops");
         if (result is not null)
         {
 #pragma warning disable BL0005

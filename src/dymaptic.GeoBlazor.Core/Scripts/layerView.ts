@@ -9,3 +9,11 @@ export default class LayerViewWrapper extends LayerViewGenerated {
     }
     
 }              
+export async function buildJsLayerView(dotNetObject: any): Promise<any> {
+    let { buildJsLayerViewGenerated } = await import('./layerView.gb');
+    return await buildJsLayerViewGenerated(dotNetObject);
+}
+export async function buildDotNetLayerView(jsObject: any): Promise<any> {
+    let { buildDotNetLayerViewGenerated } = await import('./layerView.gb');
+    return await buildDotNetLayerViewGenerated(jsObject);
+}

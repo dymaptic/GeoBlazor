@@ -153,8 +153,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualAxis? result = await CoreJsModule!.InvokeAsync<VisualAxis?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "axis");
+        VisualAxis? result = await JsComponentReference!.InvokeAsync<VisualAxis?>("getProperty",
+            CancellationTokenSource.Token, "axis");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -213,8 +213,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "maxSize");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "maxSize");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -273,8 +273,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        Dimension? result = await CoreJsModule!.InvokeAsync<Dimension?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "minSize");
+        Dimension? result = await JsComponentReference!.InvokeAsync<Dimension?>("getProperty",
+            CancellationTokenSource.Token, "minSize");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -303,8 +303,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "normalizationField");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "normalizationField");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -333,8 +333,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        IReadOnlyList<SizeStop>? result = await CoreJsModule!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "stops");
+        IReadOnlyList<SizeStop>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
+            CancellationTokenSource.Token, "stops");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -363,8 +363,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "target");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "target");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -423,8 +423,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualValueRepresentation? result = await CoreJsModule!.InvokeAsync<VisualValueRepresentation?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
+        VisualValueRepresentation? result = await JsComponentReference!.InvokeAsync<VisualValueRepresentation?>("getProperty",
+            CancellationTokenSource.Token, "valueRepresentation");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -453,8 +453,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualValueUnit? result = await CoreJsModule!.InvokeAsync<VisualValueUnit?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "valueUnit");
+        VisualValueUnit? result = await JsComponentReference!.InvokeAsync<VisualValueUnit?>("getProperty",
+            CancellationTokenSource.Token, "valueUnit");
         if (result is not null)
         {
 #pragma warning disable BL0005

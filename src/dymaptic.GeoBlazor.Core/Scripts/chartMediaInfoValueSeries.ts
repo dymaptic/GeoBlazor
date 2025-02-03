@@ -9,3 +9,11 @@ export default class ChartMediaInfoValueSeriesWrapper extends ChartMediaInfoValu
     }
     
 }              
+export async function buildJsChartMediaInfoValueSeries(dotNetObject: any): Promise<any> {
+    let { buildJsChartMediaInfoValueSeriesGenerated } = await import('./chartMediaInfoValueSeries.gb');
+    return await buildJsChartMediaInfoValueSeriesGenerated(dotNetObject);
+}
+export async function buildDotNetChartMediaInfoValueSeries(jsObject: any): Promise<any> {
+    let { buildDotNetChartMediaInfoValueSeriesGenerated } = await import('./chartMediaInfoValueSeries.gb');
+    return await buildDotNetChartMediaInfoValueSeriesGenerated(jsObject);
+}

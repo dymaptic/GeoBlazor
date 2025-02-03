@@ -60,8 +60,8 @@ public partial class RelatedRecordsInfoFieldOrder
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "field");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "field");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -90,8 +90,8 @@ public partial class RelatedRecordsInfoFieldOrder
         }
 
         // get the property value
-        OrderBy? result = await CoreJsModule!.InvokeAsync<OrderBy?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "order");
+        OrderBy? result = await JsComponentReference!.InvokeAsync<OrderBy?>("getProperty",
+            CancellationTokenSource.Token, "order");
         if (result is not null)
         {
 #pragma warning disable BL0005

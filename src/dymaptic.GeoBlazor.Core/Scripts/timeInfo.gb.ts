@@ -2,11 +2,12 @@
 
 
 import TimeInfo from '@arcgis/core/layers/support/TimeInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class TimeInfoGenerated implements IPropertyWrapper {
     public component: TimeInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: TimeInfo) {
         this.component = component;
@@ -26,6 +27,22 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getFullTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.component.fullTimeExtent);
+    }
+    async setFullTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.component.fullTimeExtent = await buildJsTimeExtent(value);
+    }
+    async getInterval(): Promise<any> {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.component.interval);
+    }
+    async setInterval(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.component.interval = await buildJsTimeInterval(value);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +50,70 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> {
+    let { default: TimeInfo } = await import('@arcgis/core/layers/support/TimeInfo');
+    let jsTimeInfo = new TimeInfo();
+    if (hasValue(dotNetObject.fullTimeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsTimeInfo.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.interval)) {
+        let { buildJsTimeInterval } = await import('timeInterval');
+        jsTimeInfo.interval = await buildJsTimeInterval(dotNetObject.interval) as any;
+
+    }
+    if (hasValue(dotNetObject.endField)) {
+        jsTimeInfo.endField = dotNetObject.endField;
+    }
+    if (hasValue(dotNetObject.startField)) {
+        jsTimeInfo.startField = dotNetObject.startField;
+    }
+    if (hasValue(dotNetObject.stops)) {
+        jsTimeInfo.stops = dotNetObject.stops;
+    }
+    if (hasValue(dotNetObject.timeZone)) {
+        jsTimeInfo.timeZone = dotNetObject.timeZone;
+    }
+    if (hasValue(dotNetObject.trackIdField)) {
+        jsTimeInfo.trackIdField = dotNetObject.trackIdField;
+    }
+    let { default: TimeInfoWrapper } = await import('./timeInfo');
+    let timeInfoWrapper = new TimeInfoWrapper(jsTimeInfo);
+    jsTimeInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(timeInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = timeInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
+    
+    return jsTimeInfo;
+}
+
+export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetTimeInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fullTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetTimeInfo.fullTimeExtent = await buildDotNetTimeExtent(jsObject.fullTimeExtent);
+        }
+        if (hasValue(jsObject.interval)) {
+            let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
+            dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
+        }
+        dotNetTimeInfo.endField = jsObject.endField;
+        dotNetTimeInfo.startField = jsObject.startField;
+        dotNetTimeInfo.stops = jsObject.stops;
+        dotNetTimeInfo.timeZone = jsObject.timeZone;
+        dotNetTimeInfo.trackIdField = jsObject.trackIdField;
+    return dotNetTimeInfo;
+}
+

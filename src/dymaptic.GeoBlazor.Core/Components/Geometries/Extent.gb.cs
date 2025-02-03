@@ -57,8 +57,8 @@ public partial class Extent
         }
 
         // get the property value
-        Point? result = await CoreJsModule!.InvokeAsync<Point?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "center");
+        Point? result = await JsComponentReference!.InvokeAsync<Point?>("getProperty",
+            CancellationTokenSource.Token, "center");
         if (result is not null)
         {
 #pragma warning disable BL0005

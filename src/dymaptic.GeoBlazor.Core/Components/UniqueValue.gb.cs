@@ -97,8 +97,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "value");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -127,8 +127,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value2");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "value2");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -157,8 +157,8 @@ public partial class UniqueValue : MapComponent
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "value3");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "value3");
         if (result is not null)
         {
 #pragma warning disable BL0005

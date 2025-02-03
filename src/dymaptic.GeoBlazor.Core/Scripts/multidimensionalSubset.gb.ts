@@ -2,11 +2,12 @@
 
 
 import MultidimensionalSubset from '@arcgis/core/layers/support/MultidimensionalSubset';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class MultidimensionalSubsetGenerated implements IPropertyWrapper {
     public component: MultidimensionalSubset;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: MultidimensionalSubset) {
         this.component = component;
@@ -26,6 +27,16 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
     
     // region properties
     
+    async getSubsetDefinitions(): Promise<any> {
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        return this.component.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i));
+    }
+    
+    async setSubsetDefinitions(value: any): Promise<void> {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        this.component.subsetDefinitions = value.map(async i => await buildJsDimensionalDefinition(i));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -33,20 +44,47 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
+    let { default: MultidimensionalSubset } = await import('@arcgis/core/layers/support/MultidimensionalSubset');
+    let jsMultidimensionalSubset = new MultidimensionalSubset();
+    if (hasValue(dotNetObject.subsetDefinitions)) {
+        let { buildJsDimensionalDefinition } = await import('dimensionalDefinition');
+        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(i => buildJsDimensionalDefinition(i)) as any;
+
+    }
+    if (hasValue(dotNetObject.areaOfInterest)) {
+        jsMultidimensionalSubset.areaOfInterest = dotNetObject.areaOfInterest;
+    }
+    let { default: MultidimensionalSubsetWrapper } = await import('./multidimensionalSubset');
+    let multidimensionalSubsetWrapper = new MultidimensionalSubsetWrapper(jsMultidimensionalSubset);
+    jsMultidimensionalSubset.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(multidimensionalSubsetWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = multidimensionalSubsetWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
+    
+    return jsMultidimensionalSubset;
+}
+
+export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetMultidimensionalSubset: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.subsetDefinitions)) {
+            let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+            dotNetMultidimensionalSubset.subsetDefinitions = jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i));
+        }
+        dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;
+        dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
+        dotNetMultidimensionalSubset.variables = jsObject.variables;
+    return dotNetMultidimensionalSubset;
+}
+

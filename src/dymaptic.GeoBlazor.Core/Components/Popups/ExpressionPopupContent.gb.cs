@@ -54,8 +54,8 @@ public partial class ExpressionPopupContent
         }
 
         // get the property value
-        ElementExpressionInfo? result = await CoreJsModule!.InvokeAsync<ElementExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "expressionInfo");
+        ElementExpressionInfo? result = await JsComponentReference!.InvokeAsync<ElementExpressionInfo?>("getProperty",
+            CancellationTokenSource.Token, "expressionInfo");
         if (result is not null)
         {
 #pragma warning disable BL0005

@@ -2,11 +2,12 @@
 
 
 import FeatureLayerBaseElevationInfoFeatureExpressionInfo = __esri.FeatureLayerBaseElevationInfoFeatureExpressionInfo;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class FeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated implements IPropertyWrapper {
     public component: FeatureLayerBaseElevationInfoFeatureExpressionInfo;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: FeatureLayerBaseElevationInfoFeatureExpressionInfo) {
         this.component = component;
@@ -33,20 +34,36 @@ export default class FeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+    let jsFeatureLayerBaseElevationInfoFeatureExpressionInfo = {
+        expression: dotNetObject.expression,
+        title: dotNetObject.title,
+    }
+    let { default: FeatureLayerBaseElevationInfoFeatureExpressionInfoWrapper } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
+    let featureLayerBaseElevationInfoFeatureExpressionInfoWrapper = new FeatureLayerBaseElevationInfoFeatureExpressionInfoWrapper(jsFeatureLayerBaseElevationInfoFeatureExpressionInfo);
+    jsFeatureLayerBaseElevationInfoFeatureExpressionInfo.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(featureLayerBaseElevationInfoFeatureExpressionInfoWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoFeatureExpressionInfoWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
+    
+    return jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
+}
+
+export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
+        dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = jsObject.title;
+    return dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo;
+}
+

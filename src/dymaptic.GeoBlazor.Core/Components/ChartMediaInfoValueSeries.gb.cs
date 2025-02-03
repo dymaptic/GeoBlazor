@@ -78,8 +78,8 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        MapColor? result = await CoreJsModule!.InvokeAsync<MapColor?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "color");
+        MapColor? result = await JsComponentReference!.InvokeAsync<MapColor?>("getProperty",
+            CancellationTokenSource.Token, "color");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -108,8 +108,8 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "fieldName");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "fieldName");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -138,8 +138,8 @@ public partial class ChartMediaInfoValueSeries
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "tooltip");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "tooltip");
         if (result is not null)
         {
 #pragma warning disable BL0005

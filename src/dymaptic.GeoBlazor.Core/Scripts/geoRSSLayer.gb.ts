@@ -2,11 +2,12 @@
 
 
 import GeoRSSLayer from '@arcgis/core/layers/GeoRSSLayer';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     public layer: GeoRSSLayer;
+    public readonly geoBlazorId: string = '';
 
     constructor(layer: GeoRSSLayer) {
         this.layer = layer;
@@ -32,7 +33,8 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let result = await this.layer.createLayerView(view,
             options);
-        return await createGeoBlazorObject(result);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -45,6 +47,38 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getLineSymbol(): Promise<any> {
+        let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
+        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
+    }
+    async setLineSymbol(value: any): Promise<void> {
+        let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
+        this.layer.lineSymbol = await buildJsSimpleLineSymbol(value);
+    }
+    async getPointSymbol(): Promise<any> {
+        let { buildDotNetMarkerSymbol } = await import('./markerSymbol');
+        return await buildDotNetMarkerSymbol(this.layer.pointSymbol);
+    }
+    async setPointSymbol(value: any): Promise<void> {
+        let { buildJsMarkerSymbol } = await import('./markerSymbol');
+        this.layer.pointSymbol = await buildJsMarkerSymbol(value);
+    }
+    async getPolygonSymbol(): Promise<any> {
+        let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
+        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
+    }
+    async setPolygonSymbol(value: any): Promise<void> {
+        let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
+        this.layer.polygonSymbol = await buildJsSimpleFillSymbol(value);
+    }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -52,20 +86,131 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.layer[prop].addMany(value);
-        } else {
-            this.layer[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.layer[prop].removeMany(value);
-        } else {
-            this.layer[prop].remove(value);
-        }
-    }
 }
+export async function buildJsGeoRSSLayerGenerated(dotNetObject: any): Promise<any> {
+    let { default: GeoRSSLayer } = await import('@arcgis/core/layers/GeoRSSLayer');
+    let jsGeoRSSLayer = new GeoRSSLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('extent');
+        jsGeoRSSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.lineSymbol)) {
+        let { buildJsSimpleLineSymbol } = await import('simpleLineSymbol');
+        jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol) as any;
+
+    }
+    if (hasValue(dotNetObject.pointSymbol)) {
+        let { buildJsMarkerSymbol } = await import('markerSymbol');
+        jsGeoRSSLayer.pointSymbol = await buildJsMarkerSymbol(dotNetObject.pointSymbol) as any;
+
+    }
+    if (hasValue(dotNetObject.polygonSymbol)) {
+        let { buildJsSimpleFillSymbol } = await import('simpleFillSymbol');
+        jsGeoRSSLayer.polygonSymbol = await buildJsSimpleFillSymbol(dotNetObject.polygonSymbol) as any;
+
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('timeExtent');
+        jsGeoRSSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
+
+    }
+    if (hasValue(dotNetObject.arcGISLayerId)) {
+        jsGeoRSSLayer.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsGeoRSSLayer.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        jsGeoRSSLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.legendEnabled)) {
+        jsGeoRSSLayer.legendEnabled = dotNetObject.legendEnabled;
+    }
+    if (hasValue(dotNetObject.listMode)) {
+        jsGeoRSSLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsGeoRSSLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsGeoRSSLayer.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.opacity)) {
+        jsGeoRSSLayer.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.persistenceEnabled)) {
+        jsGeoRSSLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsGeoRSSLayer.refreshInterval = dotNetObject.refreshInterval;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsGeoRSSLayer.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.url)) {
+        jsGeoRSSLayer.url = dotNetObject.url;
+    }
+    jsGeoRSSLayer.on('refresh', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
+    });
+    
+    let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
+    let geoRSSLayerWrapper = new GeoRSSLayerWrapper(jsGeoRSSLayer);
+    jsGeoRSSLayer.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
+    
+    return jsGeoRSSLayer;
+}
+
+export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetGeoRSSLayer: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./dotNetBuilder');
+            dotNetGeoRSSLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
+        }
+        if (hasValue(jsObject.lineSymbol)) {
+            let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
+            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
+        }
+        if (hasValue(jsObject.pointSymbol)) {
+            let { buildDotNetMarkerSymbol } = await import('./markerSymbol');
+            dotNetGeoRSSLayer.pointSymbol = await buildDotNetMarkerSymbol(jsObject.pointSymbol);
+        }
+        if (hasValue(jsObject.polygonSymbol)) {
+            let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
+            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetGeoRSSLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+        }
+        dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
+        dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
+        dotNetGeoRSSLayer.effect = jsObject.effect;
+        dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
+        dotNetGeoRSSLayer.listMode = jsObject.listMode;
+        dotNetGeoRSSLayer.loaded = jsObject.loaded;
+        dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
+        dotNetGeoRSSLayer.minScale = jsObject.minScale;
+        dotNetGeoRSSLayer.opacity = jsObject.opacity;
+        dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
+        dotNetGeoRSSLayer.title = jsObject.title;
+        dotNetGeoRSSLayer.type = jsObject.type;
+        dotNetGeoRSSLayer.url = jsObject.url;
+    return dotNetGeoRSSLayer;
+}
+

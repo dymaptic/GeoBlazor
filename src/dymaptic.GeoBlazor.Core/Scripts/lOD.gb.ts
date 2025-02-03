@@ -2,11 +2,12 @@
 
 
 import LOD from '@arcgis/core/layers/support/LOD';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class LODGenerated implements IPropertyWrapper {
     public component: LOD;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: LOD) {
         this.component = component;
@@ -33,20 +34,48 @@ export default class LODGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
+    let { default: LOD } = await import('@arcgis/core/layers/support/LOD');
+    let jsLOD = new LOD();
+    if (hasValue(dotNetObject.level)) {
+        jsLOD.level = dotNetObject.level;
+    }
+    if (hasValue(dotNetObject.levelValue)) {
+        jsLOD.levelValue = dotNetObject.levelValue;
+    }
+    if (hasValue(dotNetObject.resolution)) {
+        jsLOD.resolution = dotNetObject.resolution;
+    }
+    if (hasValue(dotNetObject.scale)) {
+        jsLOD.scale = dotNetObject.scale;
+    }
+    let { default: LODWrapper } = await import('./lOD');
+    let lODWrapper = new LODWrapper(jsLOD);
+    jsLOD.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(lODWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = lODWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsLOD;
+    
+    return jsLOD;
+}
+
+export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetLOD: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetLOD.level = jsObject.level;
+        dotNetLOD.levelValue = jsObject.levelValue;
+        dotNetLOD.resolution = jsObject.resolution;
+        dotNetLOD.scale = jsObject.scale;
+    return dotNetLOD;
+}
+

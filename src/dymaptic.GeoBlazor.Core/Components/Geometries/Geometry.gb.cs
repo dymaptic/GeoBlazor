@@ -41,8 +41,8 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
         }
 
         // get the property value
-        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "cache");
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "cache");
         if (result is not null)
         {
 #pragma warning disable BL0005

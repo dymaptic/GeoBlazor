@@ -2,11 +2,12 @@
 
 
 import ImageMediaInfoValue from '@arcgis/core/popup/content/support/ImageMediaInfoValue';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class ImageMediaInfoValueGenerated implements IPropertyWrapper {
     public component: ImageMediaInfoValue;
+    public readonly geoBlazorId: string = '';
 
     constructor(component: ImageMediaInfoValue) {
         this.component = component;
@@ -33,20 +34,40 @@ export default class ImageMediaInfoValueGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any): Promise<any> {
+    let { default: ImageMediaInfoValue } = await import('@arcgis/core/popup/content/support/ImageMediaInfoValue');
+    let jsImageMediaInfoValue = new ImageMediaInfoValue();
+    if (hasValue(dotNetObject.linkURL)) {
+        jsImageMediaInfoValue.linkURL = dotNetObject.linkURL;
+    }
+    if (hasValue(dotNetObject.sourceURL)) {
+        jsImageMediaInfoValue.sourceURL = dotNetObject.sourceURL;
+    }
+    let { default: ImageMediaInfoValueWrapper } = await import('./imageMediaInfoValue');
+    let imageMediaInfoValueWrapper = new ImageMediaInfoValueWrapper(jsImageMediaInfoValue);
+    jsImageMediaInfoValue.id = dotNetObject.id;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoValueWrapper);
+    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    jsObjectRefs[dotNetObject.id] = imageMediaInfoValueWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfoValue;
+    
+    return jsImageMediaInfoValue;
+}
+
+export async function buildDotNetImageMediaInfoValueGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetImageMediaInfoValue: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        dotNetImageMediaInfoValue.linkURL = jsObject.linkURL;
+        dotNetImageMediaInfoValue.sourceURL = jsObject.sourceURL;
+    return dotNetImageMediaInfoValue;
+}
+
