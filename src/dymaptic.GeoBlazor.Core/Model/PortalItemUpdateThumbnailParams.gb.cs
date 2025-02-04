@@ -18,10 +18,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalItemUpdateThumbnailParams(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Filename = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Stream? StreamThumbnail = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringThumbnail = null);
+    string? StringThumbnail = null)
+{
+}
 
