@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FieldGenerated implements IPropertyWrapper {
     public component: Field;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: Field) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class FieldGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFieldGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsFieldGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: Field } = await import('@arcgis/core/layers/support/Field');
     let jsField = new Field();
     if (hasValue(dotNetObject.alias)) {
@@ -70,7 +73,9 @@ export async function buildJsFieldGenerated(dotNetObject: any): Promise<any> {
     }
     let { default: FieldWrapper } = await import('./field');
     let fieldWrapper = new FieldWrapper(jsField);
-    jsField.id = dotNetObject.id;
+    fieldWrapper.geoBlazorId = dotNetObject.id;
+    fieldWrapper.viewId = viewId;
+    fieldWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldWrapper);
@@ -81,7 +86,7 @@ export async function buildJsFieldGenerated(dotNetObject: any): Promise<any> {
     return jsField;
 }
 
-export async function buildDotNetFieldGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

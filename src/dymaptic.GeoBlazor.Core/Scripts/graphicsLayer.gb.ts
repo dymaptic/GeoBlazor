@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GraphicsLayerGenerated implements IPropertyWrapper {
     public layer: GraphicsLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: GraphicsLayer) {
         this.layer = layer;
@@ -31,13 +33,13 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async add(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, layerId, viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.add(jsGraphic);
     }
 
     async addMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = await buildJsGraphic(graphics) as any;
+        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.addMany(jsGraphics);
     }
 
@@ -55,7 +57,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async remove(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, layerId, viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.remove(jsGraphic);
     }
 
@@ -65,7 +67,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async removeMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = await buildJsGraphic(graphics) as any;
+        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.removeMany(jsGraphics);
     }
 
@@ -81,7 +83,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
     async getGraphics(layerId: string, viewId: string): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics.map(async i => await buildDotNetGraphic(i, layerId, viewId));
+        return this.layer.graphics.map(async i => await buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setGraphics(value: any, layerId: string, viewId: string): Promise<void> {
@@ -109,22 +111,22 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     let { default: GraphicsLayer } = await import('@arcgis/core/layers/GraphicsLayer');
     let jsGraphicsLayer = new GraphicsLayer();
     if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsGraphicsLayerElevationInfo } = await import('graphicsLayerElevationInfo');
+        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
         jsGraphicsLayer.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo) as any;
 
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsGraphicsLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
 
     }
     if (hasValue(dotNetObject.graphics)) {
-        let { buildJsGraphic } = await import('graphic');
+        let { buildJsGraphic } = await import('./graphic');
         jsGraphicsLayer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i, layerId, viewId)) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsGraphicsLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }

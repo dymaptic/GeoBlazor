@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPropertyWrapper {
     public component: AuthoringInfoField1ClassBreakInfos;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: AuthoringInfoField1ClassBreakInfos) {
         this.component = component;
@@ -35,14 +37,20 @@ export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPro
         this.component[prop] = value;
     }
 }
-export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any): Promise<any> {
-    let jsAuthoringInfoField1ClassBreakInfos = {
-        maxValue: dotNetObject.maxValue,
-        minValue: dotNetObject.minValue,
+
+export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsAuthoringInfoField1ClassBreakInfos: any = {}
+    if (hasValue(dotNetObject.maxValue)) {
+        jsAuthoringInfoField1ClassBreakInfos.maxValue = dotNetObject.maxValue;
+    }
+    if (hasValue(dotNetObject.minValue)) {
+        jsAuthoringInfoField1ClassBreakInfos.minValue = dotNetObject.minValue;
     }
     let { default: AuthoringInfoField1ClassBreakInfosWrapper } = await import('./authoringInfoField1ClassBreakInfos');
     let authoringInfoField1ClassBreakInfosWrapper = new AuthoringInfoField1ClassBreakInfosWrapper(jsAuthoringInfoField1ClassBreakInfos);
-    jsAuthoringInfoField1ClassBreakInfos.id = dotNetObject.id;
+    authoringInfoField1ClassBreakInfosWrapper.geoBlazorId = dotNetObject.id;
+    authoringInfoField1ClassBreakInfosWrapper.viewId = viewId;
+    authoringInfoField1ClassBreakInfosWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoField1ClassBreakInfosWrapper);
@@ -53,7 +61,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     return jsAuthoringInfoField1ClassBreakInfos;
 }
 
-export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

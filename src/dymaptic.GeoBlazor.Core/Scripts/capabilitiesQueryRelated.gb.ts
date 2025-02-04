@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapper {
     public component: CapabilitiesQueryRelated;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesQueryRelated) {
         this.component = component;
@@ -35,16 +37,26 @@ export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapp
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesQueryRelated = {
-        supportsCacheHint: dotNetObject.supportsCacheHint,
-        supportsCount: dotNetObject.supportsCount,
-        supportsOrderBy: dotNetObject.supportsOrderBy,
-        supportsPagination: dotNetObject.supportsPagination,
+
+export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesQueryRelated: any = {}
+    if (hasValue(dotNetObject.supportsCacheHint)) {
+        jsCapabilitiesQueryRelated.supportsCacheHint = dotNetObject.supportsCacheHint;
+    }
+    if (hasValue(dotNetObject.supportsCount)) {
+        jsCapabilitiesQueryRelated.supportsCount = dotNetObject.supportsCount;
+    }
+    if (hasValue(dotNetObject.supportsOrderBy)) {
+        jsCapabilitiesQueryRelated.supportsOrderBy = dotNetObject.supportsOrderBy;
+    }
+    if (hasValue(dotNetObject.supportsPagination)) {
+        jsCapabilitiesQueryRelated.supportsPagination = dotNetObject.supportsPagination;
     }
     let { default: CapabilitiesQueryRelatedWrapper } = await import('./capabilitiesQueryRelated');
     let capabilitiesQueryRelatedWrapper = new CapabilitiesQueryRelatedWrapper(jsCapabilitiesQueryRelated);
-    jsCapabilitiesQueryRelated.id = dotNetObject.id;
+    capabilitiesQueryRelatedWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesQueryRelatedWrapper.viewId = viewId;
+    capabilitiesQueryRelatedWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryRelatedWrapper);
@@ -55,7 +67,7 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     return jsCapabilitiesQueryRelated;
 }
 
-export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

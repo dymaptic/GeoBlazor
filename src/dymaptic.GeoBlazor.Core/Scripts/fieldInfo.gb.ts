@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FieldInfoGenerated implements IPropertyWrapper {
     public component: FieldInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FieldInfo) {
         this.component = component;
@@ -27,13 +29,13 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getFormat(): Promise<any> {
+    async getFormat(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
-        return await buildDotNetFieldInfoFormat(this.component.format);
+        return await buildDotNetFieldInfoFormat(this.component.format, layerId, viewId);
     }
-    async setFormat(value: any): Promise<void> {
+    async setFormat(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format = await buildJsFieldInfoFormat(value);
+        this.component.format = await buildJsFieldInfoFormat(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,13 +45,13 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFieldInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FieldInfo } = await import('@arcgis/core/popup/FieldInfo');
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
-        let { buildJsFieldInfoFormat } = await import('fieldInfoFormat');
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
-
+        let { buildJsFieldInfoFormat } = await import('./jsBuilder');
+        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fieldName)) {
         jsFieldInfo.fieldName = dotNetObject.fieldName;
@@ -71,7 +73,9 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any): Promise<any>
     }
     let { default: FieldInfoWrapper } = await import('./fieldInfo');
     let fieldInfoWrapper = new FieldInfoWrapper(jsFieldInfo);
-    jsFieldInfo.id = dotNetObject.id;
+    fieldInfoWrapper.geoBlazorId = dotNetObject.id;
+    fieldInfoWrapper.viewId = viewId;
+    fieldInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldInfoWrapper);
@@ -82,7 +86,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any): Promise<any>
     return jsFieldInfo;
 }
 
-export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFieldInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -93,7 +97,7 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any>
     };
         if (hasValue(jsObject.format)) {
             let { buildDotNetFieldInfoFormat } = await import('./dotNetBuilder');
-            dotNetFieldInfo.format = await buildDotNetFieldInfoFormat(jsObject.format);
+            dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format, layerId, viewId);
         }
         dotNetFieldInfo.fieldName = jsObject.fieldName;
         dotNetFieldInfo.isEditable = jsObject.isEditable;

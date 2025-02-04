@@ -9,11 +9,11 @@ export default class BasemapStyleWrapper extends BasemapStyleGenerated {
     }
     
 }              
-export async function buildJsBasemapStyle(dotNetObject: any): Promise<any> {
+export async function buildJsBasemapStyle(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsBasemapStyleGenerated } = await import('./basemapStyle.gb');
-    return await buildJsBasemapStyleGenerated(dotNetObject);
+    return await buildJsBasemapStyleGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetBasemapStyle(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapStyle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBasemapStyleGenerated } = await import('./basemapStyle.gb');
-    return await buildDotNetBasemapStyleGenerated(jsObject);
+    return await buildDotNetBasemapStyleGenerated(jsObject, layerId, viewId);
 }

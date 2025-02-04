@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     public layer: ImageryTileLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: ImageryTileLayer) {
         this.layer = layer;
@@ -46,7 +48,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result);
+        return buildDotNetPopupTemplate(result, this.layerId, this.viewId);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -84,17 +86,17 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result);
+        return buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem) as any;
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result);
+        return buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     // region properties
@@ -127,11 +129,11 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value);
+        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getRasterFields(): Promise<any> {
         let { buildDotNetField } = await import('./field');
@@ -198,57 +200,57 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     let { default: ImageryTileLayer } = await import('@arcgis/core/layers/ImageryTileLayer');
     let jsImageryTileLayer = new ImageryTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsImageryTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
 
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        let { buildJsDimensionalDefinition } = await import('dimensionalDefinition');
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         jsImageryTileLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(i => buildJsDimensionalDefinition(i)) as any;
 
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
-        let { buildJsMultidimensionalSubset } = await import('multidimensionalSubset');
+        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
         jsImageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
 
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('popupTemplate');
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsImageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
 
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
-        jsImageryTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsImageryTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
 
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        let { buildJsRasterFunction } = await import('rasterFunction');
+        let { buildJsRasterFunction } = await import('./rasterFunction');
         jsImageryTileLayer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
 
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
+        let { buildJsTileInfo } = await import('./tileInfo');
         jsImageryTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
 
     }
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsImageryTileLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
 
     }
     if (hasValue(dotNetObject.timeInfo)) {
-        let { buildJsTimeInfo } = await import('timeInfo');
+        let { buildJsTimeInfo } = await import('./timeInfo');
         jsImageryTileLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
 
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        let { buildJsTimeInterval } = await import('timeInterval');
+        let { buildJsTimeInterval } = await import('./timeInterval');
         jsImageryTileLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsImageryTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }

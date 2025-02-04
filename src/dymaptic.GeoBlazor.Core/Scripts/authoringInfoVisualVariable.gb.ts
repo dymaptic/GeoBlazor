@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AuthoringInfoVisualVariableGenerated implements IPropertyWrapper {
     public component: AuthoringInfoVisualVariable;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: AuthoringInfoVisualVariable) {
         this.component = component;
@@ -27,23 +29,23 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     
     // region properties
     
-    async getSizeStops(): Promise<any> {
+    async getSizeStops(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        return this.component.sizeStops.map(async i => await buildDotNetSizeStop(i));
+        return this.component.sizeStops.map(async i => await buildDotNetSizeStop(i, layerId, viewId));
     }
     
-    async setSizeStops(value: any): Promise<void> {
+    async setSizeStops(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.sizeStops = value.map(async i => await buildJsSizeStop(i));
+        this.component.sizeStops = value.map(async i => await buildJsSizeStop(i, layerId, viewId));
     }
     
-    async getTheme(): Promise<any> {
+    async getTheme(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTheme } = await import('./theme');
-        return await buildDotNetTheme(this.component.theme);
+        return await buildDotNetTheme(this.component.theme, layerId, viewId);
     }
-    async setTheme(value: any): Promise<void> {
+    async setTheme(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTheme } = await import('./theme');
-        this.component.theme = await buildJsTheme(value);
+        this.component.theme = await buildJsTheme(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -53,18 +55,17 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
         this.component[prop] = value;
     }
 }
-export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: AuthoringInfoVisualVariable } = await import('@arcgis/core/renderers/support/AuthoringInfoVisualVariable');
     let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable();
     if (hasValue(dotNetObject.sizeStops)) {
-        let { buildJsSizeStop } = await import('sizeStop');
-        jsAuthoringInfoVisualVariable.sizeStops = dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i)) as any;
-
+        let { buildJsSizeStop } = await import('./sizeStop');
+        jsAuthoringInfoVisualVariable.sizeStops = dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.theme)) {
-        let { buildJsTheme } = await import('theme');
-        jsAuthoringInfoVisualVariable.theme = await buildJsTheme(dotNetObject.theme) as any;
-
+        let { buildJsTheme } = await import('./theme');
+        jsAuthoringInfoVisualVariable.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.endTime)) {
         jsAuthoringInfoVisualVariable.endTime = dotNetObject.endTime;
@@ -101,7 +102,9 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     }
     let { default: AuthoringInfoVisualVariableWrapper } = await import('./authoringInfoVisualVariable');
     let authoringInfoVisualVariableWrapper = new AuthoringInfoVisualVariableWrapper(jsAuthoringInfoVisualVariable);
-    jsAuthoringInfoVisualVariable.id = dotNetObject.id;
+    authoringInfoVisualVariableWrapper.geoBlazorId = dotNetObject.id;
+    authoringInfoVisualVariableWrapper.viewId = viewId;
+    authoringInfoVisualVariableWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoVisualVariableWrapper);
@@ -112,7 +115,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     return jsAuthoringInfoVisualVariable;
 }
 
-export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -123,11 +126,11 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     };
         if (hasValue(jsObject.sizeStops)) {
             let { buildDotNetSizeStop } = await import('./sizeStop');
-            dotNetAuthoringInfoVisualVariable.sizeStops = jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i));
+            dotNetAuthoringInfoVisualVariable.sizeStops = jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i, layerId, viewId));
         }
         if (hasValue(jsObject.theme)) {
             let { buildDotNetTheme } = await import('./theme');
-            dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
+            dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme, layerId, viewId);
         }
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
         dotNetAuthoringInfoVisualVariable.field = jsObject.field;

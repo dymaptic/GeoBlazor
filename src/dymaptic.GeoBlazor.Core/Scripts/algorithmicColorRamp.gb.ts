@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     public component: AlgorithmicColorRamp;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
 
     constructor(component: AlgorithmicColorRamp) {
         this.component = component;
@@ -67,7 +67,7 @@ export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any): P
     }
     let { default: AlgorithmicColorRampWrapper } = await import('./algorithmicColorRamp');
     let algorithmicColorRampWrapper = new AlgorithmicColorRampWrapper(jsAlgorithmicColorRamp);
-    jsAlgorithmicColorRamp.id = dotNetObject.id;
+    algorithmicColorRampWrapper.geoBlazorId = dotNetObject.id;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);

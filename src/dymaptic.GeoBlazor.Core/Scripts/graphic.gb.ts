@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GraphicGenerated implements IPropertyWrapper {
     public component: Graphic;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: Graphic) {
         this.component = component;
@@ -37,13 +39,13 @@ export default class GraphicGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getLayer(): Promise<any> {
+    async getLayer(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer);
+        return await buildDotNetLayer(this.component.layer, layerId, viewId);
     }
-    async setLayer(value: any): Promise<void> {
+    async setLayer(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLayer } = await import('./layer');
-        this.component.layer = await buildJsLayer(value);
+        this.component.layer = await buildJsLayer(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -53,18 +55,17 @@ export default class GraphicGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
+
 export async function buildJsGraphicGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: Graphic } = await import('@arcgis/core/Graphic');
     let jsGraphic = new Graphic();
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('popupTemplate');
+        let { buildJsPopupTemplate } = await import('./jsBuilder');
         jsGraphic.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
-
     }
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('symbol');
-        jsGraphic.symbol = buildJsSymbol(dotNetObject.symbol) as any;
-
+        let { buildJsSymbol } = await import('./jsBuilder');
+        jsGraphic.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.aggregateGeometries)) {
         jsGraphic.aggregateGeometries = dotNetObject.aggregateGeometries;
@@ -80,7 +81,9 @@ export async function buildJsGraphicGenerated(dotNetObject: any, layerId: string
     }
     let { default: GraphicWrapper } = await import('./graphic');
     let graphicWrapper = new GraphicWrapper(jsGraphic);
-    jsGraphic.id = dotNetObject.id;
+    graphicWrapper.geoBlazorId = dotNetObject.id;
+    graphicWrapper.viewId = viewId;
+    graphicWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicWrapper);
@@ -102,11 +105,11 @@ export async function buildDotNetGraphicGenerated(jsObject: any, layerId: string
     };
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetGraphic.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetGraphic.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
         }
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetGraphic.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetGraphic.symbol = buildDotNetSymbol(jsObject.symbol, layerId, viewId);
         }
         dotNetGraphic.aggregateGeometries = jsObject.aggregateGeometries;
         dotNetGraphic.attributes = jsObject.attributes;

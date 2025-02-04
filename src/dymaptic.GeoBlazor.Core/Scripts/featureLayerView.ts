@@ -50,22 +50,22 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return this.component.highlight(target);
     }
     
-    highlightByGeoBlazorId(geoBlazorId: string, layerId: string): Handle | null {
+    highlightByGeoBlazorId(geoBlazorId: string): Handle | null {
         if (!graphicsRefs.hasOwnProperty(geoBlazorId)) {
             return null;
         }
         
-        if (graphicsRefs[layerId].hasOwnProperty(geoBlazorId)) {
-            let graphic = graphicsRefs[layerId][geoBlazorId];
+        if (graphicsRefs[this.layerId!].hasOwnProperty(geoBlazorId)) {
+            let graphic = graphicsRefs[this.layerId!][geoBlazorId];
             return this.component.highlight(graphic);
         }
         
         return null;
     }
     
-    highlightByGeoBlazorIds(geoBlazorIds: string[], layerId: string): Handle | null {
+    highlightByGeoBlazorIds(geoBlazorIds: string[]): Handle | null {
         let graphics : Graphic[] = [];
-        let group = graphicsRefs[layerId];
+        let group = graphicsRefs[this.layerId!];
         
         geoBlazorIds.forEach(i => {
             if (group.hasOwnProperty(i)) {
@@ -92,7 +92,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return await this.component.queryFeatureCount(jsQuery, options);
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string, layerId: string)
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, queryId: string)
         : Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery: Query | undefined = undefined;
@@ -103,7 +103,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
             let featureSet = await this.component.queryFeatures(jsQuery, options);
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, layerId, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
@@ -130,7 +130,7 @@ export async function buildJsFeatureLayerView(dotNetObject: any, layerId: string
     let { buildJsFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
     return await buildJsFeatureLayerViewGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetFeatureLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
-    return await buildDotNetFeatureLayerViewGenerated(jsObject);
+    return await buildDotNetFeatureLayerViewGenerated(jsObject, layerId, viewId);
 }

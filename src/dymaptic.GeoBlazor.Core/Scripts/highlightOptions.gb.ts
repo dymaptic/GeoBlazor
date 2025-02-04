@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class HighlightOptionsGenerated implements IPropertyWrapper {
     public component: HighlightOptions;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: HighlightOptions) {
         this.component = component;
@@ -60,7 +62,7 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     }
 }
 export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
-    let jsHighlightOptions = {
+    let jsHighlightOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsColor } = await import('./mapColor');
         jsHighlightOptions.color = await buildJsColor(dotNetObject.color) as any;
@@ -73,14 +75,16 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promi
         let { buildJsColor } = await import('./mapColor');
         jsHighlightOptions.shadowColor = await buildJsColor(dotNetObject.shadowColor) as any;
     }
-        fillOpacity: dotNetObject.fillOpacity,
-        haloOpacity: dotNetObject.haloOpacity,
-        shadowDifference: dotNetObject.shadowDifference,
-        shadowOpacity: dotNetObject.shadowOpacity,
-    }
+    jsHighlightOptions.fillOpacity = dotNetObject.fillOpacity;
+    jsHighlightOptions.haloOpacity = dotNetObject.haloOpacity;
+    jsHighlightOptions.shadowDifference = dotNetObject.shadowDifference;
+    jsHighlightOptions.shadowOpacity = dotNetObject.shadowOpacity;
+    
     let { default: HighlightOptionsWrapper } = await import('./highlightOptions');
     let highlightOptionsWrapper = new HighlightOptionsWrapper(jsHighlightOptions);
-    jsHighlightOptions.id = dotNetObject.id;
+    highlightOptionsWrapper.geoBlazorId = dotNetObject.id;
+    highlightOptionsWrapper.viewId = dotNetObject.viewId;
+    highlightOptionsWrapper.layerId = dotNetObject.layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(highlightOptionsWrapper);

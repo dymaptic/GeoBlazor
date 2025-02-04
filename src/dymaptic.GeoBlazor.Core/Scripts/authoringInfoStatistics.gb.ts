@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AuthoringInfoStatisticsGenerated implements IPropertyWrapper {
     public component: AuthoringInfoStatistics;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: AuthoringInfoStatistics) {
         this.component = component;
@@ -35,14 +37,20 @@ export default class AuthoringInfoStatisticsGenerated implements IPropertyWrappe
         this.component[prop] = value;
     }
 }
-export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any): Promise<any> {
-    let jsAuthoringInfoStatistics = {
-        max: dotNetObject.max,
-        min: dotNetObject.min,
+
+export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsAuthoringInfoStatistics: any = {}
+    if (hasValue(dotNetObject.max)) {
+        jsAuthoringInfoStatistics.max = dotNetObject.max;
+    }
+    if (hasValue(dotNetObject.min)) {
+        jsAuthoringInfoStatistics.min = dotNetObject.min;
     }
     let { default: AuthoringInfoStatisticsWrapper } = await import('./authoringInfoStatistics');
     let authoringInfoStatisticsWrapper = new AuthoringInfoStatisticsWrapper(jsAuthoringInfoStatistics);
-    jsAuthoringInfoStatistics.id = dotNetObject.id;
+    authoringInfoStatisticsWrapper.geoBlazorId = dotNetObject.id;
+    authoringInfoStatisticsWrapper.viewId = viewId;
+    authoringInfoStatisticsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoStatisticsWrapper);
@@ -53,7 +61,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any)
     return jsAuthoringInfoStatistics;
 }
 
-export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

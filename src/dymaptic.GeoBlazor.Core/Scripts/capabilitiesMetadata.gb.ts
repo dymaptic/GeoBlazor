@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
     public component: CapabilitiesMetadata;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesMetadata) {
         this.component = component;
@@ -35,13 +37,17 @@ export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesMetadata = {
-        supportsAdvancedFieldProperties: dotNetObject.supportsAdvancedFieldProperties,
+
+export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesMetadata: any = {}
+    if (hasValue(dotNetObject.supportsAdvancedFieldProperties)) {
+        jsCapabilitiesMetadata.supportsAdvancedFieldProperties = dotNetObject.supportsAdvancedFieldProperties;
     }
     let { default: CapabilitiesMetadataWrapper } = await import('./capabilitiesMetadata');
     let capabilitiesMetadataWrapper = new CapabilitiesMetadataWrapper(jsCapabilitiesMetadata);
-    jsCapabilitiesMetadata.id = dotNetObject.id;
+    capabilitiesMetadataWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesMetadataWrapper.viewId = viewId;
+    capabilitiesMetadataWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesMetadataWrapper);
@@ -52,7 +58,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): P
     return jsCapabilitiesMetadata;
 }
 
-export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

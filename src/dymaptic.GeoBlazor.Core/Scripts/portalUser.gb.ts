@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PortalUserGenerated implements IPropertyWrapper {
     public component: PortalUser;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PortalUser) {
         this.component = component;
@@ -29,7 +31,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         data: any,
         folder: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, layerId, viewId) as any;
         let result = await this.component.addItem(jsItem,
             data,
             folder);
@@ -40,7 +42,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async deleteItem(item: any,
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, layerId, viewId) as any;
         return await this.component.deleteItem(jsItem,
             permanentDelete);
     }
@@ -48,7 +50,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async deleteItems(items: any,
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItems = await buildJsPortalItem(items) as any;
+        let jsItems = await buildJsPortalItem(items, layerId, viewId) as any;
         return await this.component.deleteItems(jsItems,
             permanentDelete);
     }
@@ -71,7 +73,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         sortOrder: any,
         start: any): Promise<any> {
         let { buildJsPortalFolder } = await import('./portalFolder');
-        let jsFolder = await buildJsPortalFolder(folder) as any;
+        let jsFolder = await buildJsPortalFolder(folder, layerId, viewId) as any;
         return await this.component.fetchItems(jsFolder,
             inRecycleBin,
             includeSubfolderItems,
@@ -96,22 +98,22 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async restoreItem(item: any,
         folder: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, layerId, viewId) as any;
         let { buildJsPortalFolder } = await import('./portalFolder');
-        let jsFolder = await buildJsPortalFolder(folder) as any;
+        let jsFolder = await buildJsPortalFolder(folder, layerId, viewId) as any;
         return await this.component.restoreItem(jsItem,
             jsFolder);
     }
 
     // region properties
     
-    async getPortal(): Promise<any> {
+    async getPortal(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, layerId, viewId);
     }
-    async setPortal(value: any): Promise<void> {
+    async setPortal(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await buildJsPortal(value);
+        this.component.portal = await buildJsPortal(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -121,7 +123,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPortalUserGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: PortalUser } = await import('@arcgis/core/portal/PortalUser');
     let jsPortalUser = new PortalUser();
     if (hasValue(dotNetObject.access)) {
@@ -171,7 +174,9 @@ export async function buildJsPortalUserGenerated(dotNetObject: any): Promise<any
     }
     let { default: PortalUserWrapper } = await import('./portalUser');
     let portalUserWrapper = new PortalUserWrapper(jsPortalUser);
-    jsPortalUser.id = dotNetObject.id;
+    portalUserWrapper.geoBlazorId = dotNetObject.id;
+    portalUserWrapper.viewId = viewId;
+    portalUserWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalUserWrapper);
@@ -182,7 +187,7 @@ export async function buildJsPortalUserGenerated(dotNetObject: any): Promise<any
     return jsPortalUser;
 }
 
-export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

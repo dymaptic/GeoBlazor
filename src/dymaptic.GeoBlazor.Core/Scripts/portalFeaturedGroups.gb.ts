@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PortalFeaturedGroupsGenerated implements IPropertyWrapper {
     public component: PortalFeaturedGroups;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PortalFeaturedGroups) {
         this.component = component;
@@ -35,14 +37,20 @@ export default class PortalFeaturedGroupsGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): Promise<any> {
-    let jsPortalFeaturedGroups = {
-        owner: dotNetObject.owner,
-        title: dotNetObject.title,
+
+export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsPortalFeaturedGroups: any = {}
+    if (hasValue(dotNetObject.owner)) {
+        jsPortalFeaturedGroups.owner = dotNetObject.owner;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsPortalFeaturedGroups.title = dotNetObject.title;
     }
     let { default: PortalFeaturedGroupsWrapper } = await import('./portalFeaturedGroups');
     let portalFeaturedGroupsWrapper = new PortalFeaturedGroupsWrapper(jsPortalFeaturedGroups);
-    jsPortalFeaturedGroups.id = dotNetObject.id;
+    portalFeaturedGroupsWrapper.geoBlazorId = dotNetObject.id;
+    portalFeaturedGroupsWrapper.viewId = viewId;
+    portalFeaturedGroupsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalFeaturedGroupsWrapper);
@@ -53,7 +61,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): P
     return jsPortalFeaturedGroups;
 }
 
-export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

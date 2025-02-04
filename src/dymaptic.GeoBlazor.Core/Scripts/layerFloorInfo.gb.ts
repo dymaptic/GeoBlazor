@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LayerFloorInfoGenerated implements IPropertyWrapper {
     public component: LayerFloorInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LayerFloorInfo) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class LayerFloorInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LayerFloorInfo } = await import('@arcgis/core/layers/support/LayerFloorInfo');
     let jsLayerFloorInfo = new LayerFloorInfo();
     if (hasValue(dotNetObject.floorField)) {
@@ -43,7 +46,9 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise
     }
     let { default: LayerFloorInfoWrapper } = await import('./layerFloorInfo');
     let layerFloorInfoWrapper = new LayerFloorInfoWrapper(jsLayerFloorInfo);
-    jsLayerFloorInfo.id = dotNetObject.id;
+    layerFloorInfoWrapper.geoBlazorId = dotNetObject.id;
+    layerFloorInfoWrapper.viewId = viewId;
+    layerFloorInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerFloorInfoWrapper);
@@ -54,7 +59,7 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise
     return jsLayerFloorInfo;
 }
 
-export async function buildDotNetLayerFloorInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

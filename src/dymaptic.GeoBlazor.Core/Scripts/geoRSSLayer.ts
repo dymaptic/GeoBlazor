@@ -7,7 +7,30 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
     constructor(layer: GeoRSSLayer) {
         super(layer);
     }
+
+    async getPointSymbol(): Promise<any> {
+        switch (this.layer.pointSymbol.type) {
+            case 'picture-marker':
+                let { buildDotNetPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
+                return await buildDotNetPictureMarkerSymbol(this.layer.pointSymbol);
+            case 'simple-marker':
+                let { buildDotNetSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
+                return await buildDotNetSimpleMarkerSymbol(this.layer.pointSymbol);
+        }
+    }
     
+    async setPointSymbol(value: any): Promise<void> {
+        switch (value.type) {
+            case 'picture-marker':
+                let { buildJsPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
+                this.layer.pointSymbol = await buildJsPictureMarkerSymbol(value);
+                break;
+            case 'simple-marker':
+                let { buildJsSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
+                this.layer.pointSymbol = await buildJsSimpleMarkerSymbol(value);
+                break;
+        }
+    }
 }              
 export async function buildJsGeoRSSLayer(dotNetObject: any): Promise<any> {
     let { buildJsGeoRSSLayerGenerated } = await import('./geoRSSLayer.gb');

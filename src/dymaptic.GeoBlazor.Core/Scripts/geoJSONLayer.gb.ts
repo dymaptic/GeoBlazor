@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     public layer: GeoJSONLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
 
     constructor(layer: GeoJSONLayer) {
         this.layer = layer;

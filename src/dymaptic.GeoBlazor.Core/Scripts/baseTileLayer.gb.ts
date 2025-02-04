@@ -97,22 +97,22 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any): Promise<
     let { default: BaseTileLayer } = await import('@arcgis/core/layers/BaseTileLayer');
     let jsBaseTileLayer = new BaseTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsBaseTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
 
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
+        let { buildJsTileInfo } = await import('./tileInfo');
         jsBaseTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsBaseTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsBaseTileLayer.id = dotNetObject.arcGISLayerId;
+        jsBaseTileLayer.id = dotNetObject.arcGISLayerId;f
     }
     if (hasValue(dotNetObject.blendMode)) {
         jsBaseTileLayer.blendMode = dotNetObject.blendMode;

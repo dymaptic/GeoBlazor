@@ -1,6 +1,6 @@
 import GraphicGenerated from './graphic.gb';
 import Graphic from "@arcgis/core/Graphic";
-import {DotNetGeometry, DotNetPopupTemplate, IPropertyWrapper} from "./definitions";
+import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
 import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
 import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
 
@@ -54,8 +54,8 @@ export default class GraphicWrapper extends GraphicGenerated {
         return this.component.visible;
     }
 
-    setPopupTemplate(popupTemplate: DotNetPopupTemplate, layerId: string | null, viewId: string): void {
-        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId);
+    setPopupTemplate(popupTemplate: DotNetPopupTemplate): void {
+        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, this.layerId, this.viewId);
         if (jsPopupTemplate !== null && this.component.popupTemplate !== jsPopupTemplate) {
             this.component.popupTemplate = jsPopupTemplate;
         }
@@ -73,7 +73,7 @@ export async function buildJsGraphic(dotNetObject: any, layerId: string | null, 
     let { buildJsGraphicGenerated } = await import('./graphic.gb');
     return await buildJsGraphicGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetGraphic(jsObject: any): Promise<any> {
+export async function buildDotNetGraphic(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGraphicGenerated } = await import('./graphic.gb');
-    return await buildDotNetGraphicGenerated(jsObject);
+    return await buildDotNetGraphicGenerated(jsObject, layerId, viewId);
 }

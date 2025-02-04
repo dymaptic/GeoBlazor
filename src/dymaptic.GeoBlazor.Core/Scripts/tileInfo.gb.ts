@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TileInfoGenerated implements IPropertyWrapper {
     public component: TileInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: TileInfo) {
         this.component = component;
@@ -35,14 +37,14 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getLods(): Promise<any> {
+    async getLods(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLOD } = await import('./lOD');
-        return this.component.lods.map(async i => await buildDotNetLOD(i));
+        return this.component.lods.map(async i => await buildDotNetLOD(i, layerId, viewId));
     }
     
-    async setLods(value: any): Promise<void> {
+    async setLods(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLOD } = await import('./lOD');
-        this.component.lods = value.map(async i => await buildJsLOD(i));
+        this.component.lods = value.map(async i => await buildJsLOD(i, layerId, viewId));
     }
     
     getProperty(prop: string): any {
@@ -53,18 +55,17 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsTileInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TileInfo } = await import('@arcgis/core/layers/support/TileInfo');
     let jsTileInfo = new TileInfo();
     if (hasValue(dotNetObject.lods)) {
-        let { buildJsLOD } = await import('lOD');
-        jsTileInfo.lods = dotNetObject.lods.map(async i => await buildJsLOD(i)) as any;
-
+        let { buildJsLOD } = await import('./lOD');
+        jsTileInfo.lods = dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.origin)) {
-        let { buildJsPoint } = await import('point');
-        jsTileInfo.origin = buildJsPoint(dotNetObject.origin) as any;
-
+        let { buildJsPoint } = await import('./jsBuilder');
+        jsTileInfo.origin = buildJsPoint(dotNetObject.origin, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.dpi)) {
         jsTileInfo.dpi = dotNetObject.dpi;
@@ -83,7 +84,9 @@ export async function buildJsTileInfoGenerated(dotNetObject: any): Promise<any> 
     }
     let { default: TileInfoWrapper } = await import('./tileInfo');
     let tileInfoWrapper = new TileInfoWrapper(jsTileInfo);
-    jsTileInfo.id = dotNetObject.id;
+    tileInfoWrapper.geoBlazorId = dotNetObject.id;
+    tileInfoWrapper.viewId = viewId;
+    tileInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
@@ -94,7 +97,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any): Promise<any> 
     return jsTileInfo;
 }
 
-export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -105,15 +108,12 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     };
         if (hasValue(jsObject.lods)) {
             let { buildDotNetLOD } = await import('./lOD');
-            dotNetTileInfo.lods = jsObject.lods.map(async i => await buildDotNetLOD(i));
-        }
-        if (hasValue(jsObject.origin)) {
-            let { buildDotNetPoint } = await import('./dotNetBuilder');
-            dotNetTileInfo.origin = await buildDotNetPoint(jsObject.origin);
+            dotNetTileInfo.lods = jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId));
         }
         dotNetTileInfo.dpi = jsObject.dpi;
         dotNetTileInfo.format = jsObject.format;
         dotNetTileInfo.isWrappable = jsObject.isWrappable;
+        dotNetTileInfo.origin = jsObject.origin;
         dotNetTileInfo.size = jsObject.size;
         dotNetTileInfo.spatialReference = jsObject.spatialReference;
     return dotNetTileInfo;

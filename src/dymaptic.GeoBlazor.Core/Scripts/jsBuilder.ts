@@ -169,6 +169,7 @@ import TickConfig = __esri.TickConfig;
 import MapView from "@arcgis/core/views/MapView";
 import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass";
 import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup";
+import {buildJsColor} from "./mapColor";
 
 
 // region functions
@@ -1525,7 +1526,7 @@ export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElement
     return info;
 }
 
-export function buildJsPortalItem(dotNetPortalItem: any): any {
+export function buildJsPortalItem(dotNetPortalItem: anys): any {
     if (dotNetPortalItem?.Id === null) return null;
     let portalItem: any = {
         id: dotNetPortalItem.id
@@ -1689,16 +1690,6 @@ export function buildJsFormInput(dotNetFormInput: any): any {
     }
 
     return undefined;
-}
-
-export function buildJsColor(color: any) {
-    if (!hasValue(color)) return null;
-    // @ts-ignore
-    if (typeof color === "string" || color instanceof Array<number>) return color;
-    if (hasValue(color?.hexOrNameValue)) {
-        return color.hexOrNameValue;
-    }
-    return color.values;
 }
 
 export function buildJsPathsOrRings(pathsOrRings: any) {

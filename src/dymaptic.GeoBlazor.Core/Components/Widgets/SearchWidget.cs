@@ -269,7 +269,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     /// </summary>
     public async Task<SearchSource?> GetActiveSource()
     {
-        return await JsComponentReference!.InvokeAsync<SearchSource?>("getActiveSource");
+        return await JsComponentReference!.InvokeAsync<SearchSource?>("getActiveSource", View?.Id);
     }
     
     /// <summary>
@@ -293,7 +293,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     /// </summary>
     public async Task<IReadOnlyList<SearchSource>> GetAllSources()
     {
-        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources");
+        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources", View?.Id);
     }
 
     /// <summary>
@@ -301,7 +301,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     /// </summary>
     public async Task<IReadOnlyList<SearchSource>> GetDefaultSources()
     {
-        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources");
+        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources", View?.Id);
     }
 
     /// <summary>
@@ -312,7 +312,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     /// </remarks>
     public async Task<Graphic?> GetResultGraphic()
     {
-        return await JsComponentReference!.InvokeAsync<Graphic?>("getResultGraphic");
+        return await JsComponentReference!.InvokeAsync<Graphic?>("getResultGraphic", View?.Id);
     }
 
     /// <summary>
@@ -321,7 +321,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     [CodeGenerationIgnore]
 public async Task<SearchResultResponse[]> GetResults()
     {
-        return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults");
+        return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults", View?.Id);
     }
 
     /// <summary>

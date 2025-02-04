@@ -384,15 +384,15 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     }
 }
 
-export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
+export function buildDotNetLayer(layer: Layer, layerId: string | null, viewId: string | null)
     : DotNetLayer {
     switch (layer.type) {
         case 'feature':
-            return buildDotNetFeatureLayer(layer as FeatureLayer);
+            return buildDotNetFeatureLayer(layer as FeatureLayer, layerId, viewId);
         case 'map-image':
             return buildDotNetMapImageLayer(layer as MapImageLayer);
         case 'graphics':
-            return buildDotNetGraphicsLayer(layer as GraphicsLayer, includeGraphics);
+            return buildDotNetGraphicsLayer(layer as GraphicsLayer);
         case 'tile':
             return buildDotNetTileLayer(layer as TileLayer);
         default:
@@ -421,7 +421,7 @@ export function buildDotNetLayer(layer: Layer, includeGraphics: boolean = true)
     }
 }
 
-export function buildDotNetFeatureLayer(layer: FeatureLayer)
+export function buildDotNetFeatureLayer(layer: FeatureLayer, layerId: string | null, viewId: string | null)
     : DotNetFeatureLayer {
 
     let dotNetLayer = {

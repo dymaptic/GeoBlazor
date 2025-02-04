@@ -158,51 +158,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
             }
         }
     }
-
-
-    /// <summary>
-    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
-    /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to set.
-    /// </param>
-    /// <param name="value">
-    ///     The new value.
-    /// </param>
-    public async Task SetProperty(string propertyName, object? value)
-    {
-        if (CoreJsModule is null) return;
-        ModifiedParameters[propertyName] = value;
-        await CoreJsModule!.InvokeVoidAsync("setSublayerProperty", Layer?.JsComponentReference, 
-            SublayerId, propertyName.ToLowerFirstChar(), value);
-    }
-    
-    /// <summary>
-    ///     Update LegendEnabled after render.
-    /// </summary>
-    public async Task SetLegendEnabled(bool enabled)
-    {
-        await SetProperty(nameof(LegendEnabled).ToLowerFirstChar(), enabled);
-    }
-
-    /// <summary>
-    ///     Update PopupEnabled after render.
-    /// </summary>
-    public async Task SetPopupEnabled(bool enabled)
-    {
-        await SetProperty(nameof(PopupEnabled).ToLowerFirstChar(), enabled);
-    }
-    
-    /// <summary>
-    ///     Update PopupTemplate after render.
-    /// </summary>
-    public async Task SetPopupTemplate(PopupTemplate popupTemplate)
-    {
-        if (CoreJsModule is null) return;
-        ModifiedParameters[nameof(PopupTemplate)] = popupTemplate;
-        await CoreJsModule!.InvokeVoidAsync("setSublayerPopupTemplate", Layer?.JsComponentReference, 
-            SublayerId, popupTemplate, Layer?.Id, View?.Id);
-    }
     
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

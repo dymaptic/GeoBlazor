@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     public component: FeatureLayerView;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FeatureLayerView) {
         this.component = component;
@@ -65,17 +67,17 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     let { default: FeatureLayerView } = await import('@arcgis/core/views/layers/FeatureLayerView');
     let jsFeatureLayerView = new FeatureLayerView();
     if (hasValue(dotNetObject.featureEffect)) {
-        let { buildJsFeatureEffect } = await import('featureEffect');
+        let { buildJsFeatureEffect } = await import('./featureEffect');
         jsFeatureLayerView.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
 
     }
     if (hasValue(dotNetObject.filter)) {
-        let { buildJsFeatureFilter } = await import('featureFilter');
+        let { buildJsFeatureFilter } = await import('./featureFilter');
         jsFeatureLayerView.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
 
     }
     if (hasValue(dotNetObject.highlightOptions)) {
-        let { buildJsHighlightOptions } = await import('highlightOptions');
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
         jsFeatureLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
 
     }
@@ -87,7 +89,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     }
     let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
     let featureLayerViewWrapper = new FeatureLayerViewWrapper(jsFeatureLayerView);
-    jsFeatureLayerView.id = dotNetObject.id;
+    featureLayerViewWrapper.geoBlazorId = dotNetObject.id;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);

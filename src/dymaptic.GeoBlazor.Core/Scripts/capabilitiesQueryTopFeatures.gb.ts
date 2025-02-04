@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyWrapper {
     public component: CapabilitiesQueryTopFeatures;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesQueryTopFeatures) {
         this.component = component;
@@ -35,13 +37,17 @@ export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyW
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesQueryTopFeatures = {
-        supportsCacheHint: dotNetObject.supportsCacheHint,
+
+export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesQueryTopFeatures: any = {}
+    if (hasValue(dotNetObject.supportsCacheHint)) {
+        jsCapabilitiesQueryTopFeatures.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
     let { default: CapabilitiesQueryTopFeaturesWrapper } = await import('./capabilitiesQueryTopFeatures');
     let capabilitiesQueryTopFeaturesWrapper = new CapabilitiesQueryTopFeaturesWrapper(jsCapabilitiesQueryTopFeatures);
-    jsCapabilitiesQueryTopFeatures.id = dotNetObject.id;
+    capabilitiesQueryTopFeaturesWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesQueryTopFeaturesWrapper.viewId = viewId;
+    capabilitiesQueryTopFeaturesWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryTopFeaturesWrapper);
@@ -52,7 +58,7 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     return jsCapabilitiesQueryTopFeatures;
 }
 
-export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

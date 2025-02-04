@@ -397,7 +397,7 @@ public partial class FeatureTemplate
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsGraphic", CancellationTokenSource.Token, 
-                    Prototype, View?.Id);
+                    Prototype, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             Prototype.JsComponentReference ??= jsObjectReference;
             

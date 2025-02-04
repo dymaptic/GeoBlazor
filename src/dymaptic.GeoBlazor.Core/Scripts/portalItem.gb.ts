@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PortalItemGenerated implements IPropertyWrapper {
     public component: PortalItem;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PortalItem) {
         this.component = component;
@@ -109,13 +111,13 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getPortal(): Promise<any> {
+    async getPortal(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, layerId, viewId);
     }
-    async setPortal(value: any): Promise<void> {
+    async setPortal(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await buildJsPortal(value);
+        this.component.portal = await buildJsPortal(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -125,18 +127,17 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPortalItemGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: PortalItem } = await import('@arcgis/core/portal/PortalItem');
     let jsPortalItem = new PortalItem();
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('extent');
-        jsPortalItem.extent = buildJsExtent(dotNetObject.extent) as any;
-
+        let { buildJsExtent } = await import('./jsBuilder');
+        jsPortalItem.extent = buildJsExtent(dotNetObject.extent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portal)) {
-        let { buildJsPortal } = await import('portal');
-        jsPortalItem.portal = await buildJsPortal(dotNetObject.portal) as any;
-
+        let { buildJsPortal } = await import('./portal');
+        jsPortalItem.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.access)) {
         jsPortalItem.access = dotNetObject.access;
@@ -218,7 +219,9 @@ export async function buildJsPortalItemGenerated(dotNetObject: any): Promise<any
     }
     let { default: PortalItemWrapper } = await import('./portalItem');
     let portalItemWrapper = new PortalItemWrapper(jsPortalItem);
-    jsPortalItem.id = dotNetObject.id;
+    portalItemWrapper.geoBlazorId = dotNetObject.id;
+    portalItemWrapper.viewId = viewId;
+    portalItemWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalItemWrapper);
@@ -229,7 +232,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any): Promise<any
     return jsPortalItem;
 }
 
-export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -238,13 +241,9 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetPortalItem.extent = await buildDotNetExtent(jsObject.extent);
-        }
         if (hasValue(jsObject.portal)) {
             let { buildDotNetPortal } = await import('./portal');
-            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
+            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
         }
         dotNetPortalItem.access = jsObject.access;
         dotNetPortalItem.accessInformation = jsObject.accessInformation;
@@ -255,6 +254,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
         dotNetPortalItem.created = jsObject.created;
         dotNetPortalItem.culture = jsObject.culture;
         dotNetPortalItem.description = jsObject.description;
+        dotNetPortalItem.extent = jsObject.extent;
         dotNetPortalItem.groupCategories = jsObject.groupCategories;
         dotNetPortalItem.isLayer = jsObject.isLayer;
         dotNetPortalItem.isOrgItem = jsObject.isOrgItem;

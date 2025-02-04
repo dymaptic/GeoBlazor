@@ -234,7 +234,7 @@ public partial class FeatureLayerView : LayerView
         else
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorId",
-                CancellationTokenSource.Token, graphic.Id, Layer?.Id);
+                CancellationTokenSource.Token, graphic.Id);
             
             if (objectRef is null)
             {
@@ -274,7 +274,7 @@ public partial class FeatureLayerView : LayerView
         else
         {
             objectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>("highlightByGeoBlazorIds",
-                CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray(), Layer?.Id);
+                CancellationTokenSource.Token, graphics.Select(g => g.Id).ToArray());
             
             if (objectRef is null)
             {
@@ -377,8 +377,7 @@ public partial class FeatureLayerView : LayerView
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures", 
-            cancellationToken, query, new { signal = abortSignal }, DotNetObjectReference.Create(this), 
-            View?.Id, queryId, Layer?.Id);
+            cancellationToken, query, new { signal = abortSignal }, DotNetObjectReference.Create(this), queryId);
         if (_activeQueries.ContainsKey(queryId))
         {
             result = result with { Features = _activeQueries[queryId]};

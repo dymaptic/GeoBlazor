@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PixelDataGenerated implements IPropertyWrapper {
     public component: PixelData;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PixelData) {
         this.component = component;
@@ -44,21 +46,22 @@ export default class PixelDataGenerated implements IPropertyWrapper {
     }
 }
 export async function buildJsPixelDataGenerated(dotNetObject: any): Promise<any> {
-    let jsPixelData = {
+    let jsPixelData: any = {};
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsPixelData.extent = buildJsExtent(dotNetObject.extent) as any;
 
     }
     if (hasValue(dotNetObject.pixelBlock)) {
-        let { buildJsPixelBlock } = await import('pixelBlock');
+        let { buildJsPixelBlock } = await import('./pixelBlock');
         jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock) as any;
-
     }
-    }
+    
     let { default: PixelDataWrapper } = await import('./pixelData');
     let pixelDataWrapper = new PixelDataWrapper(jsPixelData);
-    jsPixelData.id = dotNetObject.id;
+    pixelDataWrapper.geoBlazorId = dotNetObject.id;
+    pixelDataWrapper.viewId = dotNetObject.viewId;
+    pixelDataWrapper.layerId = dotNetObject.layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelDataWrapper);

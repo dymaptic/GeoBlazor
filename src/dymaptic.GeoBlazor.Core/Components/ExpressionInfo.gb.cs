@@ -137,7 +137,7 @@ public partial class ExpressionInfo
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ReturnType = result.Value;
+             ReturnType = result;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReturnType)] = ReturnType;
         }

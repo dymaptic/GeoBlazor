@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FieldInfoFormatGenerated implements IPropertyWrapper {
     public component: FieldInfoFormat;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FieldInfoFormat) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class FieldInfoFormatGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFieldInfoFormatGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FieldInfoFormat } = await import('@arcgis/core/popup/support/FieldInfoFormat');
     let jsFieldInfoFormat = new FieldInfoFormat();
     if (hasValue(dotNetObject.dateFormat)) {
@@ -49,7 +52,9 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any): Promis
     }
     let { default: FieldInfoFormatWrapper } = await import('./fieldInfoFormat');
     let fieldInfoFormatWrapper = new FieldInfoFormatWrapper(jsFieldInfoFormat);
-    jsFieldInfoFormat.id = dotNetObject.id;
+    fieldInfoFormatWrapper.geoBlazorId = dotNetObject.id;
+    fieldInfoFormatWrapper.viewId = viewId;
+    fieldInfoFormatWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldInfoFormatWrapper);
@@ -60,7 +65,7 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any): Promis
     return jsFieldInfoFormat;
 }
 
-export async function buildDotNetFieldInfoFormatGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFieldInfoFormatGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

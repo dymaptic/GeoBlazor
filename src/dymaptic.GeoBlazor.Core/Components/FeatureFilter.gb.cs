@@ -276,7 +276,7 @@ public partial class FeatureFilter
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Units = result.Value;
+             Units = result;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Units)] = Units;
         }
@@ -476,7 +476,7 @@ public partial class FeatureFilter
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, View?.Id);
+                    TimeExtent, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             TimeExtent.JsComponentReference ??= jsObjectReference;
             

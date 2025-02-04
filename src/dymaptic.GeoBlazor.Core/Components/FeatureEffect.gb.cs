@@ -306,7 +306,7 @@ public partial class FeatureEffect
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsFeatureFilter", CancellationTokenSource.Token, 
-                    Filter, View?.Id);
+                    Filter, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             Filter.JsComponentReference ??= jsObjectReference;
             

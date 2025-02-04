@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BasemapStyleGenerated implements IPropertyWrapper {
     public component: BasemapStyle;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: BasemapStyle) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class BasemapStyleGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: BasemapStyle } = await import('@arcgis/core/support/BasemapStyle');
     let jsBasemapStyle = new BasemapStyle();
     if (hasValue(dotNetObject.language)) {
@@ -55,7 +58,9 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<a
     }
     let { default: BasemapStyleWrapper } = await import('./basemapStyle');
     let basemapStyleWrapper = new BasemapStyleWrapper(jsBasemapStyle);
-    jsBasemapStyle.id = dotNetObject.id;
+    basemapStyleWrapper.geoBlazorId = dotNetObject.id;
+    basemapStyleWrapper.viewId = viewId;
+    basemapStyleWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapStyleWrapper);
@@ -66,7 +71,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<a
     return jsBasemapStyle;
 }
 
-export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

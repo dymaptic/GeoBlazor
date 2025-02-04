@@ -10,68 +10,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class BasemapStyle
 {
 
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public BasemapStyle()
-    {
-    }
-
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="language">
-    ///     The language of the place labels in the basemap style.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#language">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="name">
-    ///     The id of the basemap style.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="places">
-    ///     Indicates whether to display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-places.html">places</a> with the basemap style.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#places">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="serviceUrl">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/basemap-styles/#service-url">URL</a> to the basemap styles service.
-    ///     default "https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/webmaps"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#serviceUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="worldview">
-    ///     Displays country boundaries and labels based on a specific view of a country.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#worldview">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public BasemapStyle(
-        string? language = null,
-        BasemapStyleName? name = null,
-        BasemapStylePlace? places = null,
-        string? serviceUrl = null,
-        string? worldview = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Language = language;
-        Name = name;
-        Places = places;
-        ServiceUrl = serviceUrl;
-        Worldview = worldview;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
-    /// <summary>
-    ///     The id of the basemap style.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [RequiredProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapStyleName? Name { get; set; }
-    
     /// <summary>
     ///     Indicates whether to display <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-places.html">places</a> with the basemap style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html#places">ArcGIS Maps SDK for JavaScript</a>
@@ -122,36 +62,6 @@ public partial class BasemapStyle
         }
          
         return Language;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Name property.
-    /// </summary>
-    public async Task<BasemapStyleName?> GetName()
-    {
-        if (CoreJsModule is null)
-        {
-            return Name;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return Name;
-        }
-
-        // get the property value
-        BasemapStyleName? result = await JsComponentReference!.InvokeAsync<BasemapStyleName?>("getProperty",
-            CancellationTokenSource.Token, "name");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Name = result.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Name)] = Name;
-        }
-         
-        return Name;
     }
     
     /// <summary>
@@ -276,36 +186,6 @@ public partial class BasemapStyle
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "language", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Name property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetName(BasemapStyleName value)
-    {
-#pragma warning disable BL0005
-        Name = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Name)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "name", value);
     }
     
     /// <summary>

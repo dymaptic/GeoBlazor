@@ -97,26 +97,27 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
+
 export async function buildJsWebTileLayerGenerated(dotNetObject: any): Promise<any> {
     let { default: WebTileLayer } = await import('@arcgis/core/layers/WebTileLayer');
     let jsWebTileLayer = new WebTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsWebTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
 
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsWebTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
 
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
+        let { buildJsTileInfo } = await import('./tileInfo');
         jsWebTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsWebTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }

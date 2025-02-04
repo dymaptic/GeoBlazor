@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FeatureLayerGenerated implements IPropertyWrapper {
     public layer: FeatureLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: FeatureLayer) {
         this.layer = layer;
@@ -32,7 +34,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature) as any;
+        let jsFeature = await buildJsGraphic(feature, layerId, viewId) as any;
         return await this.layer.addAttachment(jsFeature,
             attachment);
     }
@@ -54,7 +56,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async deleteAttachments(feature: any,
         attachmentIds: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature) as any;
+        let jsFeature = await buildJsGraphic(feature, layerId, viewId) as any;
         return await this.layer.deleteAttachments(jsFeature,
             attachmentIds);
     }
@@ -78,7 +80,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async saveAs(portalItem: any,
         options: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem) as any;
+        let jsPortalItem = await buildJsPortalItem(portalItem, layerId, viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -89,7 +91,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         attachmentId: any,
         attachment: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature) as any;
+        let jsFeature = await buildJsGraphic(feature, layerId, viewId) as any;
         return await this.layer.updateAttachment(jsFeature,
             attachmentId,
             attachment);
@@ -97,147 +99,147 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getEffectiveCapabilities(): Promise<any> {
+    async getEffectiveCapabilities(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetCapabilities } = await import('./capabilities');
-        return await buildDotNetCapabilities(this.layer.effectiveCapabilities);
+        return await buildDotNetCapabilities(this.layer.effectiveCapabilities, layerId, viewId);
     }
-    async getElevationInfo(): Promise<any> {
+    async getElevationInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        return await buildDotNetFeatureLayerBaseElevationInfo(this.layer.elevationInfo);
+        return await buildDotNetFeatureLayerBaseElevationInfo(this.layer.elevationInfo, layerId, viewId);
     }
-    async setElevationInfo(value: any): Promise<void> {
+    async setElevationInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        this.layer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(value);
+        this.layer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(value, layerId, viewId);
     }
-    async getFeatureEffect(): Promise<any> {
+    async getFeatureEffect(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+        return await buildDotNetFeatureEffect(this.layer.featureEffect, layerId, viewId);
     }
-    async setFeatureEffect(value: any): Promise<void> {
+    async setFeatureEffect(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        this.layer.featureEffect = await buildJsFeatureEffect(value);
+        this.layer.featureEffect = await buildJsFeatureEffect(value, layerId, viewId);
     }
-    async getFields(): Promise<any> {
+    async getFields(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields.map(async i => await buildDotNetField(i));
+        return this.layer.fields.map(async i => await buildDotNetField(i, layerId, viewId));
     }
     
-    async setFields(value: any): Promise<void> {
+    async setFields(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = value.map(async i => await buildJsField(i));
+        this.layer.fields = value.map(async i => await buildJsField(i, layerId, viewId));
     }
     
-    async getFloorInfo(): Promise<any> {
+    async getFloorInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        return await buildDotNetLayerFloorInfo(this.layer.floorInfo);
+        return await buildDotNetLayerFloorInfo(this.layer.floorInfo, layerId, viewId);
     }
-    async setFloorInfo(value: any): Promise<void> {
+    async setFloorInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        this.layer.floorInfo = await buildJsLayerFloorInfo(value);
+        this.layer.floorInfo = await buildJsLayerFloorInfo(value, layerId, viewId);
     }
-    async getFormTemplate(): Promise<any> {
+    async getFormTemplate(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFormTemplate } = await import('./formTemplate');
-        return await buildDotNetFormTemplate(this.layer.formTemplate);
+        return await buildDotNetFormTemplate(this.layer.formTemplate, layerId, viewId);
     }
-    async setFormTemplate(value: any): Promise<void> {
+    async setFormTemplate(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFormTemplate } = await import('./formTemplate');
-        this.layer.formTemplate = await buildJsFormTemplate(value);
+        this.layer.formTemplate = await buildJsFormTemplate(value, layerId, viewId);
     }
-    async getLabelingInfo(): Promise<any> {
+    async getLabelingInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLabel } = await import('./label');
-        return this.layer.labelingInfo.map(async i => await buildDotNetLabel(i));
+        return this.layer.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId));
     }
     
-    async setLabelingInfo(value: any): Promise<void> {
+    async setLabelingInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLabel } = await import('./label');
-        this.layer.labelingInfo = value.map(async i => await buildJsLabel(i));
+        this.layer.labelingInfo = value.map(async i => await buildJsLabel(i, layerId, viewId));
     }
     
-    async getOrderBy(): Promise<any> {
+    async getOrderBy(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        return this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+        return this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId));
     }
     
-    async setOrderBy(value: any): Promise<void> {
+    async setOrderBy(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        this.layer.orderBy = value.map(async i => await buildJsOrderedLayerOrderBy(i));
+        this.layer.orderBy = value.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId));
     }
     
-    async getPopupTemplate(layerId: string, viewId: string): Promise<any> {
+    async getPopupTemplate(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.layer.popupTemplate, layerId, viewId);
     }
-    async setPopupTemplate(value: any, layerId: string, viewId: string): Promise<void> {
+    async setPopupTemplate(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.layer.popupTemplate = await buildJsPopupTemplate(value, layerId, viewId);
     }
-    async getPortalItem(): Promise<any> {
+    async getPortalItem(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, layerId, viewId);
     }
-    async setPortalItem(value: any): Promise<void> {
+    async setPortalItem(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value);
+        this.layer.portalItem = await buildJsPortalItem(value, layerId, viewId);
     }
-    async getRenderer(): Promise<any> {
+    async getRenderer(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetRenderer } = await import('./renderer');
-        return await buildDotNetRenderer(this.layer.renderer);
+        return await buildDotNetRenderer(this.layer.renderer, layerId, viewId);
     }
-    async setRenderer(value: any): Promise<void> {
+    async setRenderer(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
-        this.layer.renderer = await buildJsRenderer(value);
+        this.layer.renderer = await buildJsRenderer(value, layerId, viewId);
     }
-    async getSource(layerId: string, viewId: string): Promise<any> {
+    async getSource(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
         return this.layer.source.map(async i => await buildDotNetGraphic(i, layerId, viewId));
     }
     
-    async setSource(value: any, layerId: string, viewId: string): Promise<void> {
+    async setSource(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
         this.layer.source = value.map(async i => await buildJsGraphic(i, layerId, viewId));
     }
     
-    async getTemplates(layerId: string, viewId: string): Promise<any> {
+    async getTemplates(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
         return this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId));
     }
     
-    async setTemplates(value: any, layerId: string, viewId: string): Promise<void> {
+    async setTemplates(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
         this.layer.templates = value.map(async i => await buildJsFeatureTemplate(i, layerId, viewId));
     }
     
-    async getTimeExtent(): Promise<any> {
+    async getTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.timeExtent);
+        return await buildDotNetTimeExtent(this.layer.timeExtent, layerId, viewId);
     }
-    async setTimeExtent(value: any): Promise<void> {
+    async setTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await buildJsTimeExtent(value);
+        this.layer.timeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
-    async getTimeInfo(): Promise<any> {
+    async getTimeInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return await buildDotNetTimeInfo(this.layer.timeInfo, layerId, viewId);
     }
-    async setTimeInfo(value: any): Promise<void> {
+    async setTimeInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        this.layer.timeInfo = await buildJsTimeInfo(value);
+        this.layer.timeInfo = await buildJsTimeInfo(value, layerId, viewId);
     }
-    async getTimeOffset(): Promise<any> {
+    async getTimeOffset(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset);
+        return await buildDotNetTimeInterval(this.layer.timeOffset, layerId, viewId);
     }
-    async setTimeOffset(value: any): Promise<void> {
+    async setTimeOffset(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.layer.timeOffset = await buildJsTimeInterval(value);
+        this.layer.timeOffset = await buildJsTimeInterval(value, layerId, viewId);
     }
-    async getVisibilityTimeExtent(): Promise<any> {
+    async getVisibilityTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent, layerId, viewId);
     }
-    async setVisibilityTimeExtent(value: any): Promise<void> {
+    async setVisibilityTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -247,93 +249,77 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
+
 export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FeatureLayer } = await import('@arcgis/core/layers/FeatureLayer');
     let jsFeatureLayer = new FeatureLayer();
     if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsFeatureLayerBaseElevationInfo } = await import('featureLayerBaseElevationInfo');
-        jsFeatureLayer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo) as any;
-
+        let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
+        jsFeatureLayer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureEffect)) {
-        let { buildJsFeatureEffect } = await import('featureEffect');
-        jsFeatureLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
-
+        let { buildJsFeatureEffect } = await import('./jsBuilder');
+        jsFeatureLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fields)) {
-        let { buildJsField } = await import('field');
-        jsFeatureLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
-
+        let { buildJsField } = await import('./jsBuilder');
+        jsFeatureLayer.fields = dotNetObject.fields.map(i => buildJsField(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.floorInfo)) {
-        let { buildJsLayerFloorInfo } = await import('layerFloorInfo');
-        jsFeatureLayer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
-
+        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
+        jsFeatureLayer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.formTemplate)) {
-        let { buildJsFormTemplate } = await import('formTemplate');
-        jsFeatureLayer.formTemplate = buildJsFormTemplate(dotNetObject.formTemplate) as any;
-
+        let { buildJsFormTemplate } = await import('./jsBuilder');
+        jsFeatureLayer.formTemplate = buildJsFormTemplate(dotNetObject.formTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
-        jsFeatureLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        let { buildJsExtent } = await import('./jsBuilder');
+        jsFeatureLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
-        let { buildJsLabel } = await import('label');
-        jsFeatureLayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i)) as any;
-
+        let { buildJsLabel } = await import('./label');
+        jsFeatureLayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.orderBy)) {
-        let { buildJsOrderedLayerOrderBy } = await import('orderedLayerOrderBy');
-        jsFeatureLayer.orderBy = dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i)) as any;
-
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        jsFeatureLayer.orderBy = dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('popupTemplate');
+        let { buildJsPopupTemplate } = await import('./jsBuilder');
         jsFeatureLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
-
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
-        jsFeatureLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsFeatureLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('renderer');
-        jsFeatureLayer.renderer = buildJsRenderer(dotNetObject.renderer) as any;
-
+        let { buildJsRenderer } = await import('./jsBuilder');
+        jsFeatureLayer.renderer = buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.source)) {
-        let { buildJsGraphic } = await import('graphic');
+        let { buildJsGraphic } = await import('./jsBuilder');
         jsFeatureLayer.source = dotNetObject.source.map(i => buildJsGraphic(i, layerId, viewId)) as any;
-
     }
     if (hasValue(dotNetObject.templates)) {
-        let { buildJsFeatureTemplate } = await import('featureTemplate');
+        let { buildJsFeatureTemplate } = await import('./jsBuilder');
         jsFeatureLayer.templates = dotNetObject.templates.map(i => buildJsFeatureTemplate(i, layerId, viewId)) as any;
-
     }
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
-        jsFeatureLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
-
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsFeatureLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
-        let { buildJsTimeInfo } = await import('timeInfo');
-        jsFeatureLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
-
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsFeatureLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        let { buildJsTimeInterval } = await import('timeInterval');
-        jsFeatureLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
-
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        jsFeatureLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
-        jsFeatureLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsFeatureLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.apiKey)) {
         jsFeatureLayer.apiKey = dotNetObject.apiKey;
@@ -465,7 +451,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     
     let { default: FeatureLayerWrapper } = await import('./featureLayer');
     let featureLayerWrapper = new FeatureLayerWrapper(jsFeatureLayer);
-    jsFeatureLayer.id = dotNetObject.id;
+    featureLayerWrapper.geoBlazorId = dotNetObject.id;
+    featureLayerWrapper.viewId = viewId;
+    featureLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerWrapper);
@@ -487,75 +475,71 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     };
         if (hasValue(jsObject.effectiveCapabilities)) {
             let { buildDotNetCapabilities } = await import('./capabilities');
-            dotNetFeatureLayer.effectiveCapabilities = await buildDotNetCapabilities(jsObject.effectiveCapabilities);
+            dotNetFeatureLayer.effectiveCapabilities = await buildDotNetCapabilities(jsObject.effectiveCapabilities, layerId, viewId);
         }
         if (hasValue(jsObject.elevationInfo)) {
             let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-            dotNetFeatureLayer.elevationInfo = await buildDotNetFeatureLayerBaseElevationInfo(jsObject.elevationInfo);
+            dotNetFeatureLayer.elevationInfo = await buildDotNetFeatureLayerBaseElevationInfo(jsObject.elevationInfo, layerId, viewId);
         }
         if (hasValue(jsObject.featureEffect)) {
             let { buildDotNetFeatureEffect } = await import('./featureEffect');
-            dotNetFeatureLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+            dotNetFeatureLayer.featureEffect = buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
         }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetFeatureLayer.fields = jsObject.fields.map(async i => await buildDotNetField(i));
+            dotNetFeatureLayer.fields = jsObject.fields.map(i => buildDotNetField(i, layerId, viewId));
         }
         if (hasValue(jsObject.floorInfo)) {
             let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-            dotNetFeatureLayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
+            dotNetFeatureLayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo, layerId, viewId);
         }
         if (hasValue(jsObject.formTemplate)) {
             let { buildDotNetFormTemplate } = await import('./formTemplate');
-            dotNetFeatureLayer.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
+            dotNetFeatureLayer.formTemplate = buildDotNetFormTemplate(jsObject.formTemplate, layerId, viewId);
         }
         if (hasValue(jsObject.labelingInfo)) {
             let { buildDotNetLabel } = await import('./label');
-            dotNetFeatureLayer.labelingInfo = jsObject.labelingInfo.map(async i => await buildDotNetLabel(i));
+            dotNetFeatureLayer.labelingInfo = jsObject.labelingInfo.map(async i => await buildDotNetLabel(i, layerId, viewId));
         }
         if (hasValue(jsObject.orderBy)) {
             let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-            dotNetFeatureLayer.orderBy = jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+            dotNetFeatureLayer.orderBy = jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId));
         }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetFeatureLayer.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetFeatureLayer.portalItem = buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.renderer)) {
             let { buildDotNetRenderer } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+            dotNetFeatureLayer.renderer = buildDotNetRenderer(jsObject.renderer, layerId, viewId);
         }
         if (hasValue(jsObject.source)) {
             let { buildDotNetGraphic } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.source = jsObject.source.map(async i => await buildDotNetGraphic(i, layerId, viewId));
+            dotNetFeatureLayer.source = jsObject.source.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.templates = jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId));
+            dotNetFeatureLayer.templates = jsObject.templates.map(i => buildDotNetFeatureTemplate(i, layerId, viewId));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent);
+            dotNetFeatureLayer.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent, layerId, viewId);
         }
         if (hasValue(jsObject.timeInfo)) {
             let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+            dotNetFeatureLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
         }
         if (hasValue(jsObject.timeOffset)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+            dotNetFeatureLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetFeatureLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetFeatureLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent, layerId, viewId);
         }
         dotNetFeatureLayer.apiKey = jsObject.apiKey;
         dotNetFeatureLayer.arcGISLayerId = jsObject.id;
@@ -576,6 +560,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         dotNetFeatureLayer.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
         dotNetFeatureLayer.featureReduction = jsObject.featureReduction;
         dotNetFeatureLayer.fieldsIndex = jsObject.fieldsIndex;
+        dotNetFeatureLayer.fullExtent = jsObject.fullExtent;
         dotNetFeatureLayer.gdbVersion = jsObject.gdbVersion;
         dotNetFeatureLayer.geometryFieldsInfo = jsObject.geometryFieldsInfo;
         dotNetFeatureLayer.geometryType = jsObject.geometryType;

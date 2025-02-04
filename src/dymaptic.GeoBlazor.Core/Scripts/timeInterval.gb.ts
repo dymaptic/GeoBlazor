@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TimeIntervalGenerated implements IPropertyWrapper {
     public component: TimeInterval;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: TimeInterval) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class TimeIntervalGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeInterval } = await import('@arcgis/core/TimeInterval');
     let jsTimeInterval = new TimeInterval();
     if (hasValue(dotNetObject.unit)) {
@@ -46,7 +49,9 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<a
     }
     let { default: TimeIntervalWrapper } = await import('./timeInterval');
     let timeIntervalWrapper = new TimeIntervalWrapper(jsTimeInterval);
-    jsTimeInterval.id = dotNetObject.id;
+    timeIntervalWrapper.geoBlazorId = dotNetObject.id;
+    timeIntervalWrapper.viewId = viewId;
+    timeIntervalWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeIntervalWrapper);
@@ -57,7 +62,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<a
     return jsTimeInterval;
 }
 
-export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

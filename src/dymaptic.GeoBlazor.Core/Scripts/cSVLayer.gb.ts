@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CSVLayerGenerated implements IPropertyWrapper {
     public layer: CSVLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: CSVLayer) {
         this.layer = layer;
@@ -40,7 +42,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result);
+        return buildDotNetPopupTemplate(result, this.layerId, this.viewId);
     }
 
     async createQuery(): Promise<any> {
@@ -149,11 +151,11 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value);
+        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         let { buildDotNetRenderer } = await import('./renderer');
@@ -207,67 +209,67 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     let { default: CSVLayer } = await import('@arcgis/core/layers/CSVLayer');
     let jsCSVLayer = new CSVLayer();
     if (hasValue(dotNetObject.elevationInfo)) {
-        let { buildJsCSVLayerElevationInfo } = await import('cSVLayerElevationInfo');
+        let { buildJsCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
         jsCSVLayer.elevationInfo = await buildJsCSVLayerElevationInfo(dotNetObject.elevationInfo) as any;
 
     }
     if (hasValue(dotNetObject.featureEffect)) {
-        let { buildJsFeatureEffect } = await import('featureEffect');
+        let { buildJsFeatureEffect } = await import('./featureEffect');
         jsCSVLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
 
     }
     if (hasValue(dotNetObject.fields)) {
-        let { buildJsField } = await import('field');
+        let { buildJsField } = await import('./field');
         jsCSVLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
 
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsCSVLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
 
     }
     if (hasValue(dotNetObject.labelingInfo)) {
-        let { buildJsLabel } = await import('label');
+        let { buildJsLabel } = await import('./label');
         jsCSVLayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i)) as any;
 
     }
     if (hasValue(dotNetObject.orderBy)) {
-        let { buildJsOrderedLayerOrderBy } = await import('orderedLayerOrderBy');
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         jsCSVLayer.orderBy = dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i)) as any;
 
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('popupTemplate');
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsCSVLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
 
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
-        jsCSVLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsCSVLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
 
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('renderer');
+        let { buildJsRenderer } = await import('./renderer');
         jsCSVLayer.renderer = buildJsRenderer(dotNetObject.renderer) as any;
 
     }
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsCSVLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
 
     }
     if (hasValue(dotNetObject.timeInfo)) {
-        let { buildJsTimeInfo } = await import('timeInfo');
+        let { buildJsTimeInfo } = await import('./timeInfo');
         jsCSVLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
 
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        let { buildJsTimeInterval } = await import('timeInterval');
+        let { buildJsTimeInterval } = await import('./timeInterval');
         jsCSVLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsCSVLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }

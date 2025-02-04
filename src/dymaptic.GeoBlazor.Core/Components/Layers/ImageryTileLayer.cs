@@ -123,7 +123,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
     public async Task<RasterInfo?> GetServiceRasterInfo()
     {
         if (JsComponentReference is null) return null;
-        return await JsComponentReference.InvokeAsync<RasterInfo>("getServiceRasterInfo", View?.Id);    
+        return await JsComponentReference.InvokeAsync<RasterInfo>("getServiceRasterInfo");    
     }
 
     /// <summary>

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LODGenerated implements IPropertyWrapper {
     public component: LOD;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LOD) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class LODGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsLODGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LOD } = await import('@arcgis/core/layers/support/LOD');
     let jsLOD = new LOD();
     if (hasValue(dotNetObject.level)) {
@@ -52,7 +55,9 @@ export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     }
     let { default: LODWrapper } = await import('./lOD');
     let lODWrapper = new LODWrapper(jsLOD);
-    jsLOD.id = dotNetObject.id;
+    lODWrapper.geoBlazorId = dotNetObject.id;
+    lODWrapper.viewId = viewId;
+    lODWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lODWrapper);
@@ -63,7 +68,7 @@ export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     return jsLOD;
 }
 
-export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLODGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

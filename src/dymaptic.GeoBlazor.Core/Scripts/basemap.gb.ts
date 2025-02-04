@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BasemapGenerated implements IPropertyWrapper {
     public component: Basemap;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: Basemap) {
         this.component = component;
@@ -33,41 +35,41 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getBaseLayers(): Promise<any> {
+    async getBaseLayers(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.baseLayers.map(async i => await buildDotNetLayer(i));
+        return this.component.baseLayers.map(async i => await buildDotNetLayer(i, layerId, viewId));
     }
     
-    async setBaseLayers(value: any): Promise<void> {
+    async setBaseLayers(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLayer } = await import('./layer');
-        this.component.baseLayers = value.map(async i => await buildJsLayer(i));
+        this.component.baseLayers = value.map(async i => await buildJsLayer(i, layerId, viewId));
     }
     
-    async getPortalItem(): Promise<any> {
+    async getPortalItem(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem);
+        return await buildDotNetPortalItem(this.component.portalItem, layerId, viewId);
     }
-    async setPortalItem(value: any): Promise<void> {
+    async setPortalItem(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.component.portalItem = await buildJsPortalItem(value);
+        this.component.portalItem = await buildJsPortalItem(value, layerId, viewId);
     }
-    async getReferenceLayers(): Promise<any> {
+    async getReferenceLayers(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.referenceLayers.map(async i => await buildDotNetLayer(i));
+        return this.component.referenceLayers.map(async i => await buildDotNetLayer(i, layerId, viewId));
     }
     
-    async setReferenceLayers(value: any): Promise<void> {
+    async setReferenceLayers(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLayer } = await import('./layer');
-        this.component.referenceLayers = value.map(async i => await buildJsLayer(i));
+        this.component.referenceLayers = value.map(async i => await buildJsLayer(i, layerId, viewId));
     }
     
-    async getStyle(): Promise<any> {
+    async getStyle(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        return await buildDotNetBasemapStyle(this.component.style);
+        return await buildDotNetBasemapStyle(this.component.style, layerId, viewId);
     }
-    async setStyle(value: any): Promise<void> {
+    async setStyle(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
-        this.component.style = await buildJsBasemapStyle(value);
+        this.component.style = await buildJsBasemapStyle(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -77,28 +79,25 @@ export default class BasemapGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsBasemapGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: Basemap } = await import('@arcgis/core/Basemap');
     let jsBasemap = new Basemap();
     if (hasValue(dotNetObject.baseLayers)) {
-        let { buildJsLayer } = await import('layer');
-        jsBasemap.baseLayers = dotNetObject.baseLayers.map(async i => await buildJsLayer(i)) as any;
-
+        let { buildJsLayer } = await import('./layer');
+        jsBasemap.baseLayers = dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
-        jsBasemap.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsBasemap.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.referenceLayers)) {
-        let { buildJsLayer } = await import('layer');
-        jsBasemap.referenceLayers = dotNetObject.referenceLayers.map(async i => await buildJsLayer(i)) as any;
-
+        let { buildJsLayer } = await import('./layer');
+        jsBasemap.referenceLayers = dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.style)) {
-        let { buildJsBasemapStyle } = await import('basemapStyle');
-        jsBasemap.style = await buildJsBasemapStyle(dotNetObject.style) as any;
-
+        let { buildJsBasemapStyle } = await import('./basemapStyle');
+        jsBasemap.style = await buildJsBasemapStyle(dotNetObject.style, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.basemapId)) {
         jsBasemap.id = dotNetObject.basemapId;
@@ -114,7 +113,9 @@ export async function buildJsBasemapGenerated(dotNetObject: any): Promise<any> {
     }
     let { default: BasemapWrapper } = await import('./basemap');
     let basemapWrapper = new BasemapWrapper(jsBasemap);
-    jsBasemap.id = dotNetObject.id;
+    basemapWrapper.geoBlazorId = dotNetObject.id;
+    basemapWrapper.viewId = viewId;
+    basemapWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
@@ -125,7 +126,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any): Promise<any> {
     return jsBasemap;
 }
 
-export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -136,19 +137,19 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
     };
         if (hasValue(jsObject.baseLayers)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.baseLayers = jsObject.baseLayers.map(async i => await buildDotNetLayer(i));
+            dotNetBasemap.baseLayers = jsObject.baseLayers.map(async i => await buildDotNetLayer(i, layerId, viewId));
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetBasemap.portalItem = buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.referenceLayers)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.referenceLayers = jsObject.referenceLayers.map(async i => await buildDotNetLayer(i));
+            dotNetBasemap.referenceLayers = jsObject.referenceLayers.map(async i => await buildDotNetLayer(i, layerId, viewId));
         }
         if (hasValue(jsObject.style)) {
             let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-            dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
+            dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
         }
         dotNetBasemap.basemapId = jsObject.id;
         dotNetBasemap.loaded = jsObject.loaded;

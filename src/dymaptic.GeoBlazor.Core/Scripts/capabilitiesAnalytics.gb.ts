@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper {
     public component: CapabilitiesAnalytics;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesAnalytics) {
         this.component = component;
@@ -35,13 +37,17 @@ export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper 
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesAnalytics = {
-        supportsCacheHint: dotNetObject.supportsCacheHint,
+
+export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesAnalytics: any = {}
+    if (hasValue(dotNetObject.supportsCacheHint)) {
+        jsCapabilitiesAnalytics.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
     let { default: CapabilitiesAnalyticsWrapper } = await import('./capabilitiesAnalytics');
     let capabilitiesAnalyticsWrapper = new CapabilitiesAnalyticsWrapper(jsCapabilitiesAnalytics);
-    jsCapabilitiesAnalytics.id = dotNetObject.id;
+    capabilitiesAnalyticsWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesAnalyticsWrapper.viewId = viewId;
+    capabilitiesAnalyticsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesAnalyticsWrapper);
@@ -52,7 +58,7 @@ export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): 
     return jsCapabilitiesAnalytics;
 }
 
-export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

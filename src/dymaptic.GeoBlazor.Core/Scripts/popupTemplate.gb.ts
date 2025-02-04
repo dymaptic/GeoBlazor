@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PopupTemplateGenerated implements IPropertyWrapper {
     public component: PopupTemplate;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PopupTemplate) {
         this.component = component;
@@ -27,53 +29,48 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getActions(): Promise<any> {
+    async getActions(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetActionBase } = await import('./actionBase');
-        return this.component.actions.map(async i => await buildDotNetActionBase(i));
+        return this.component.actions.map(async i => await buildDotNetActionBase(i, layerId, viewId));
     }
     
-    async setActions(value: any): Promise<void> {
+    async setActions(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');
-        this.component.actions = value.map(async i => await buildJsActionBase(i));
+        this.component.actions = value.map(async i => await buildJsActionBase(i, layerId, viewId));
     }
     
-    async getContent(): Promise<any> {
-        let { buildDotNetPopupContent } = await import('./popupContent');
-        return this.component.content.map(async i => await buildDotNetPopupContent(i));
-    }
-    
-    async setContent(value: any): Promise<void> {
+    async setContent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPopupContent } = await import('./popupContent');
-        this.component.content = value.map(async i => await buildJsPopupContent(i));
+        this.component.content = value.map(async i => await buildJsPopupContent(i, layerId, viewId));
     }
     
-    async getExpressionInfos(): Promise<any> {
+    async getExpressionInfos(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i, layerId, viewId));
     }
     
-    async setExpressionInfos(value: any): Promise<void> {
+    async setExpressionInfos(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
+        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i, layerId, viewId));
     }
     
-    async getFieldInfos(): Promise<any> {
+    async getFieldInfos(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i, layerId, viewId));
     }
     
-    async setFieldInfos(value: any): Promise<void> {
+    async setFieldInfos(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i, layerId, viewId));
     }
     
-    async getLayerOptions(): Promise<any> {
+    async getLayerOptions(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayerOptions } = await import('./layerOptions');
-        return await buildDotNetLayerOptions(this.component.layerOptions);
+        return await buildDotNetLayerOptions(this.component.layerOptions, layerId, viewId);
     }
-    async setLayerOptions(value: any): Promise<void> {
+    async setLayerOptions(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsLayerOptions } = await import('./layerOptions');
-        this.component.layerOptions = await buildJsLayerOptions(value);
+        this.component.layerOptions = await buildJsLayerOptions(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -83,33 +80,29 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
+
 export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: PopupTemplate } = await import('@arcgis/core/PopupTemplate');
     let jsPopupTemplate = new PopupTemplate();
     if (hasValue(dotNetObject.actions)) {
-        let { buildJsActionBase } = await import('actionBase');
-        jsPopupTemplate.actions = dotNetObject.actions.map(async i => await buildJsActionBase(i)) as any;
-
+        let { buildJsActionBase } = await import('./actionBase');
+        jsPopupTemplate.actions = dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.content)) {
-        let { buildJsPopupContent } = await import('popupContent');
-        jsPopupTemplate.content = dotNetObject.content.map(i => buildJsPopupContent(i)) as any;
-
+        let { buildJsPopupContent } = await import('./jsBuilder');
+        jsPopupTemplate.content = dotNetObject.content.map(i => buildJsPopupContent(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.expressionInfos)) {
-        let { buildJsExpressionInfo } = await import('expressionInfo');
-        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
-
+        let { buildJsExpressionInfo } = await import('./jsBuilder');
+        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.fieldInfos)) {
-        let { buildJsFieldInfo } = await import('fieldInfo');
-        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
-
+        let { buildJsFieldInfo } = await import('./jsBuilder');
+        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.layerOptions)) {
-        let { buildJsLayerOptions } = await import('layerOptions');
-        jsPopupTemplate.layerOptions = await buildJsLayerOptions(dotNetObject.layerOptions) as any;
-
+        let { buildJsLayerOptions } = await import('./layerOptions');
+        jsPopupTemplate.layerOptions = await buildJsLayerOptions(dotNetObject.layerOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.lastEditInfoEnabled)) {
         jsPopupTemplate.lastEditInfoEnabled = dotNetObject.lastEditInfoEnabled;
@@ -128,7 +121,9 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     }
     let { default: PopupTemplateWrapper } = await import('./popupTemplate');
     let popupTemplateWrapper = new PopupTemplateWrapper(jsPopupTemplate);
-    jsPopupTemplate.id = dotNetObject.id;
+    popupTemplateWrapper.geoBlazorId = dotNetObject.id;
+    popupTemplateWrapper.viewId = viewId;
+    popupTemplateWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupTemplateWrapper);
@@ -139,7 +134,7 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     return jsPopupTemplate;
 }
 
-export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPopupTemplateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -150,23 +145,23 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
     };
         if (hasValue(jsObject.actions)) {
             let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupTemplate.actions = jsObject.actions.map(async i => await buildDotNetActionBase(i));
+            dotNetPopupTemplate.actions = jsObject.actions.map(async i => await buildDotNetActionBase(i, layerId, viewId));
         }
         if (hasValue(jsObject.content)) {
             let { buildDotNetPopupContent } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.content = jsObject.content.map(async i => await buildDotNetPopupContent(i));
+            dotNetPopupTemplate.content = jsObject.content.map(i => buildDotNetPopupContent(i, layerId, viewId));
         }
         if (hasValue(jsObject.expressionInfos)) {
             let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i, layerId, viewId));
         }
         if (hasValue(jsObject.fieldInfos)) {
             let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i, layerId, viewId));
         }
         if (hasValue(jsObject.layerOptions)) {
             let { buildDotNetLayerOptions } = await import('./layerOptions');
-            dotNetPopupTemplate.layerOptions = await buildDotNetLayerOptions(jsObject.layerOptions);
+            dotNetPopupTemplate.layerOptions = await buildDotNetLayerOptions(jsObject.layerOptions, layerId, viewId);
         }
         dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
         dotNetPopupTemplate.outFields = jsObject.outFields;

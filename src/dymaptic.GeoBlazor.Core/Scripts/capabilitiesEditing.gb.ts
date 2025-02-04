@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesEditingGenerated implements IPropertyWrapper {
     public component: CapabilitiesEditing;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesEditing) {
         this.component = component;
@@ -35,21 +37,41 @@ export default class CapabilitiesEditingGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesEditing = {
-        supportsDeleteByAnonymous: dotNetObject.supportsDeleteByAnonymous,
-        supportsDeleteByOthers: dotNetObject.supportsDeleteByOthers,
-        supportsGeometryUpdate: dotNetObject.supportsGeometryUpdate,
-        supportsGlobalId: dotNetObject.supportsGlobalId,
-        supportsRollbackOnFailure: dotNetObject.supportsRollbackOnFailure,
-        supportsUpdateByAnonymous: dotNetObject.supportsUpdateByAnonymous,
-        supportsUpdateByOthers: dotNetObject.supportsUpdateByOthers,
-        supportsUpdateWithoutM: dotNetObject.supportsUpdateWithoutM,
-        supportsUploadWithItemId: dotNetObject.supportsUploadWithItemId,
+
+export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesEditing: any = {}
+    if (hasValue(dotNetObject.supportsDeleteByAnonymous)) {
+        jsCapabilitiesEditing.supportsDeleteByAnonymous = dotNetObject.supportsDeleteByAnonymous;
+    }
+    if (hasValue(dotNetObject.supportsDeleteByOthers)) {
+        jsCapabilitiesEditing.supportsDeleteByOthers = dotNetObject.supportsDeleteByOthers;
+    }
+    if (hasValue(dotNetObject.supportsGeometryUpdate)) {
+        jsCapabilitiesEditing.supportsGeometryUpdate = dotNetObject.supportsGeometryUpdate;
+    }
+    if (hasValue(dotNetObject.supportsGlobalId)) {
+        jsCapabilitiesEditing.supportsGlobalId = dotNetObject.supportsGlobalId;
+    }
+    if (hasValue(dotNetObject.supportsRollbackOnFailure)) {
+        jsCapabilitiesEditing.supportsRollbackOnFailure = dotNetObject.supportsRollbackOnFailure;
+    }
+    if (hasValue(dotNetObject.supportsUpdateByAnonymous)) {
+        jsCapabilitiesEditing.supportsUpdateByAnonymous = dotNetObject.supportsUpdateByAnonymous;
+    }
+    if (hasValue(dotNetObject.supportsUpdateByOthers)) {
+        jsCapabilitiesEditing.supportsUpdateByOthers = dotNetObject.supportsUpdateByOthers;
+    }
+    if (hasValue(dotNetObject.supportsUpdateWithoutM)) {
+        jsCapabilitiesEditing.supportsUpdateWithoutM = dotNetObject.supportsUpdateWithoutM;
+    }
+    if (hasValue(dotNetObject.supportsUploadWithItemId)) {
+        jsCapabilitiesEditing.supportsUploadWithItemId = dotNetObject.supportsUploadWithItemId;
     }
     let { default: CapabilitiesEditingWrapper } = await import('./capabilitiesEditing');
     let capabilitiesEditingWrapper = new CapabilitiesEditingWrapper(jsCapabilitiesEditing);
-    jsCapabilitiesEditing.id = dotNetObject.id;
+    capabilitiesEditingWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesEditingWrapper.viewId = viewId;
+    capabilitiesEditingWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesEditingWrapper);
@@ -60,7 +82,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any): Pr
     return jsCapabilitiesEditing;
 }
 
-export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

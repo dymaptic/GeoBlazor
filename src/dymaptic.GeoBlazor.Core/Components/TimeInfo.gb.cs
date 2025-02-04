@@ -433,7 +433,7 @@ public partial class TimeInfo
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    FullTimeExtent, View?.Id);
+                    FullTimeExtent, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             FullTimeExtent.JsComponentReference ??= jsObjectReference;
             

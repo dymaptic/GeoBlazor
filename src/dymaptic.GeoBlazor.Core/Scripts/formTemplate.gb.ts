@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FormTemplateGenerated implements IPropertyWrapper {
     public component: FormTemplate;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FormTemplate) {
         this.component = component;
@@ -27,24 +29,24 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getElements(): Promise<any> {
+    async getElements(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFormElement } = await import('./formElement');
-        return this.component.elements.map(async i => await buildDotNetFormElement(i));
+        return this.component.elements.map(async i => await buildDotNetFormElement(i, layerId, viewId));
     }
     
-    async setElements(value: any): Promise<void> {
+    async setElements(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = value.map(async i => await buildJsFormElement(i));
+        this.component.elements = value.map(async i => await buildJsFormElement(i, layerId, viewId));
     }
     
-    async getExpressionInfos(): Promise<any> {
+    async getExpressionInfos(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i, layerId, viewId));
     }
     
-    async setExpressionInfos(value: any): Promise<void> {
+    async setExpressionInfos(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
+        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i, layerId, viewId));
     }
     
     getProperty(prop: string): any {
@@ -55,18 +57,17 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFormTemplateGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FormTemplate } = await import('@arcgis/core/form/FormTemplate');
     let jsFormTemplate = new FormTemplate();
     if (hasValue(dotNetObject.elements)) {
-        let { buildJsFormElement } = await import('formElement');
-        jsFormTemplate.elements = dotNetObject.elements.map(async i => await buildJsFormElement(i)) as any;
-
+        let { buildJsFormElement } = await import('./formElement');
+        jsFormTemplate.elements = dotNetObject.elements.map(async i => await buildJsFormElement(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.expressionInfos)) {
-        let { buildJsExpressionInfo } = await import('expressionInfo');
-        jsFormTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
-
+        let { buildJsExpressionInfo } = await import('./jsBuilder');
+        jsFormTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.description)) {
         jsFormTemplate.description = dotNetObject.description;
@@ -79,7 +80,9 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any): Promise<a
     }
     let { default: FormTemplateWrapper } = await import('./formTemplate');
     let formTemplateWrapper = new FormTemplateWrapper(jsFormTemplate);
-    jsFormTemplate.id = dotNetObject.id;
+    formTemplateWrapper.geoBlazorId = dotNetObject.id;
+    formTemplateWrapper.viewId = viewId;
+    formTemplateWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(formTemplateWrapper);
@@ -90,7 +93,7 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any): Promise<a
     return jsFormTemplate;
 }
 
-export async function buildDotNetFormTemplateGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFormTemplateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -101,11 +104,11 @@ export async function buildDotNetFormTemplateGenerated(jsObject: any): Promise<a
     };
         if (hasValue(jsObject.elements)) {
             let { buildDotNetFormElement } = await import('./formElement');
-            dotNetFormTemplate.elements = jsObject.elements.map(async i => await buildDotNetFormElement(i));
+            dotNetFormTemplate.elements = jsObject.elements.map(async i => await buildDotNetFormElement(i, layerId, viewId));
         }
         if (hasValue(jsObject.expressionInfos)) {
             let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
-            dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+            dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i, layerId, viewId));
         }
         dotNetFormTemplate.description = jsObject.description;
         dotNetFormTemplate.preserveFieldValuesWhenHidden = jsObject.preserveFieldValuesWhenHidden;

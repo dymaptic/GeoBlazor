@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SizeStopGenerated implements IPropertyWrapper {
     public component: SizeStop;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: SizeStop) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class SizeStopGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: SizeStop } = await import('@arcgis/core/renderers/visualVariables/support/SizeStop');
     let jsSizeStop = new SizeStop();
     if (hasValue(dotNetObject.label)) {
@@ -49,7 +52,9 @@ export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> 
     }
     let { default: SizeStopWrapper } = await import('./sizeStop');
     let sizeStopWrapper = new SizeStopWrapper(jsSizeStop);
-    jsSizeStop.id = dotNetObject.id;
+    sizeStopWrapper.geoBlazorId = dotNetObject.id;
+    sizeStopWrapper.viewId = viewId;
+    sizeStopWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeStopWrapper);
@@ -60,7 +65,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> 
     return jsSizeStop;
 }
 
-export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSizeStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

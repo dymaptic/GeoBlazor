@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PortalFolderGenerated implements IPropertyWrapper {
     public component: PortalFolder;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PortalFolder) {
         this.component = component;
@@ -27,13 +29,13 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getPortal(): Promise<any> {
+    async getPortal(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, layerId, viewId);
     }
-    async setPortal(value: any): Promise<void> {
+    async setPortal(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await buildJsPortal(value);
+        this.component.portal = await buildJsPortal(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,7 +45,8 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: PortalFolder } = await import('@arcgis/core/portal/PortalFolder');
     let jsPortalFolder = new PortalFolder();
     if (hasValue(dotNetObject.created)) {
@@ -57,7 +60,9 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<a
     }
     let { default: PortalFolderWrapper } = await import('./portalFolder');
     let portalFolderWrapper = new PortalFolderWrapper(jsPortalFolder);
-    jsPortalFolder.id = dotNetObject.id;
+    portalFolderWrapper.geoBlazorId = dotNetObject.id;
+    portalFolderWrapper.viewId = viewId;
+    portalFolderWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalFolderWrapper);
@@ -68,7 +73,7 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<a
     return jsPortalFolder;
 }
 
-export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalFolderGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

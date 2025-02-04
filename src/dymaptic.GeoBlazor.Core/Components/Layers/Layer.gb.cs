@@ -383,7 +383,7 @@ public abstract partial class Layer : IHitTestItem,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    VisibilityTimeExtent, View?.Id);
+                    VisibilityTimeExtent, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             VisibilityTimeExtent.JsComponentReference ??= jsObjectReference;
             

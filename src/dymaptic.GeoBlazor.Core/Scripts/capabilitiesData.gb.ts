@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesDataGenerated implements IPropertyWrapper {
     public component: CapabilitiesData;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesData) {
         this.component = component;
@@ -35,16 +37,26 @@ export default class CapabilitiesDataGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesData = {
-        isVersioned: dotNetObject.isVersioned,
-        supportsAttachment: dotNetObject.supportsAttachment,
-        supportsM: dotNetObject.supportsM,
-        supportsZ: dotNetObject.supportsZ,
+
+export async function buildJsCapabilitiesDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesData: any = {}
+    if (hasValue(dotNetObject.isVersioned)) {
+        jsCapabilitiesData.isVersioned = dotNetObject.isVersioned;
+    }
+    if (hasValue(dotNetObject.supportsAttachment)) {
+        jsCapabilitiesData.supportsAttachment = dotNetObject.supportsAttachment;
+    }
+    if (hasValue(dotNetObject.supportsM)) {
+        jsCapabilitiesData.supportsM = dotNetObject.supportsM;
+    }
+    if (hasValue(dotNetObject.supportsZ)) {
+        jsCapabilitiesData.supportsZ = dotNetObject.supportsZ;
     }
     let { default: CapabilitiesDataWrapper } = await import('./capabilitiesData');
     let capabilitiesDataWrapper = new CapabilitiesDataWrapper(jsCapabilitiesData);
-    jsCapabilitiesData.id = dotNetObject.id;
+    capabilitiesDataWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesDataWrapper.viewId = viewId;
+    capabilitiesDataWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesDataWrapper);
@@ -55,7 +67,7 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promi
     return jsCapabilitiesData;
 }
 
-export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesDataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LayerOptionsGenerated implements IPropertyWrapper {
     public component: LayerOptions;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LayerOptions) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class LayerOptionsGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLayerOptionsGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LayerOptions } = await import('@arcgis/core/popup/LayerOptions');
     let jsLayerOptions = new LayerOptions();
     if (hasValue(dotNetObject.returnTopmostRaster)) {
@@ -46,7 +49,9 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any): Promise<a
     }
     let { default: LayerOptionsWrapper } = await import('./layerOptions');
     let layerOptionsWrapper = new LayerOptionsWrapper(jsLayerOptions);
-    jsLayerOptions.id = dotNetObject.id;
+    layerOptionsWrapper.geoBlazorId = dotNetObject.id;
+    layerOptionsWrapper.viewId = viewId;
+    layerOptionsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerOptionsWrapper);
@@ -57,7 +62,7 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any): Promise<a
     return jsLayerOptions;
 }
 
-export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

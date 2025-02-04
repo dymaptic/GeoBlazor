@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FeatureFilterGenerated implements IPropertyWrapper {
     public component: FeatureFilter;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FeatureFilter) {
         this.component = component;
@@ -31,13 +33,13 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getTimeExtent(): Promise<any> {
+    async getTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.component.timeExtent);
+        return await buildDotNetTimeExtent(this.component.timeExtent, layerId, viewId);
     }
-    async setTimeExtent(value: any): Promise<void> {
+    async setTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.timeExtent = await buildJsTimeExtent(value);
+        this.component.timeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,13 +49,13 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFeatureFilterGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: FeatureFilter } = await import('@arcgis/core/layers/support/FeatureFilter');
     let jsFeatureFilter = new FeatureFilter();
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
-        jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
-
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.distance)) {
         jsFeatureFilter.distance = dotNetObject.distance;
@@ -75,7 +77,9 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any): Promise<
     }
     let { default: FeatureFilterWrapper } = await import('./featureFilter');
     let featureFilterWrapper = new FeatureFilterWrapper(jsFeatureFilter);
-    jsFeatureFilter.id = dotNetObject.id;
+    featureFilterWrapper.geoBlazorId = dotNetObject.id;
+    featureFilterWrapper.viewId = viewId;
+    featureFilterWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
@@ -86,7 +90,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any): Promise<
     return jsFeatureFilter;
 }
 
-export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -97,7 +101,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
     };
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetFeatureFilter.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent);
+            dotNetFeatureFilter.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent, layerId, viewId);
         }
         dotNetFeatureFilter.distance = jsObject.distance;
         dotNetFeatureFilter.geometry = jsObject.geometry;

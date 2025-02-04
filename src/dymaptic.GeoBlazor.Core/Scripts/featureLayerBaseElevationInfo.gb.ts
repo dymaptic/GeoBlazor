@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FeatureLayerBaseElevationInfoGenerated implements IPropertyWrapper {
     public component: FeatureLayerBaseElevationInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FeatureLayerBaseElevationInfo) {
         this.component = component;
@@ -27,13 +29,13 @@ export default class FeatureLayerBaseElevationInfoGenerated implements IProperty
     
     // region properties
     
-    async getFeatureExpressionInfo(): Promise<any> {
+    async getFeatureExpressionInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-        return await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
+        return await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo, layerId, viewId);
     }
-    async setFeatureExpressionInfo(value: any): Promise<void> {
+    async setFeatureExpressionInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-        this.component.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(value);
+        this.component.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,20 +45,27 @@ export default class FeatureLayerBaseElevationInfoGenerated implements IProperty
         this.component[prop] = value;
     }
 }
-export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject: any): Promise<any> {
-    let jsFeatureLayerBaseElevationInfo = {
-    if (hasValue(dotNetObject.featureExpressionInfo)) {
-        let { buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('featureLayerBaseElevationInfoFeatureExpressionInfo');
-        jsFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
 
+export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsFeatureLayerBaseElevationInfo: any = {}
+    if (hasValue(dotNetObject.featureExpressionInfo)) {
+        let { buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
+        jsFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
     }
-        mode: dotNetObject.mode,
-        offset: dotNetObject.offset,
-        unit: dotNetObject.unit,
+    if (hasValue(dotNetObject.mode)) {
+        jsFeatureLayerBaseElevationInfo.mode = dotNetObject.mode;
+    }
+    if (hasValue(dotNetObject.offset)) {
+        jsFeatureLayerBaseElevationInfo.offset = dotNetObject.offset;
+    }
+    if (hasValue(dotNetObject.unit)) {
+        jsFeatureLayerBaseElevationInfo.unit = dotNetObject.unit;
     }
     let { default: FeatureLayerBaseElevationInfoWrapper } = await import('./featureLayerBaseElevationInfo');
     let featureLayerBaseElevationInfoWrapper = new FeatureLayerBaseElevationInfoWrapper(jsFeatureLayerBaseElevationInfo);
-    jsFeatureLayerBaseElevationInfo.id = dotNetObject.id;
+    featureLayerBaseElevationInfoWrapper.geoBlazorId = dotNetObject.id;
+    featureLayerBaseElevationInfoWrapper.viewId = viewId;
+    featureLayerBaseElevationInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerBaseElevationInfoWrapper);
@@ -67,7 +76,7 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     return jsFeatureLayerBaseElevationInfo;
 }
 
-export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -78,7 +87,7 @@ export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject
     };
         if (hasValue(jsObject.featureExpressionInfo)) {
             let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-            dotNetFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+            dotNetFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
         }
         dotNetFeatureLayerBaseElevationInfo.mode = jsObject.mode;
         dotNetFeatureLayerBaseElevationInfo.offset = jsObject.offset;

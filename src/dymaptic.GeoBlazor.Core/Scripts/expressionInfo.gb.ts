@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ExpressionInfoGenerated implements IPropertyWrapper {
     public component: ExpressionInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ExpressionInfo) {
         this.component = component;
@@ -35,7 +37,8 @@ export default class ExpressionInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: ExpressionInfo } = await import('@arcgis/core/form/ExpressionInfo');
     let jsExpressionInfo = new ExpressionInfo();
     if (hasValue(dotNetObject.expression)) {
@@ -52,7 +55,9 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any): Promise
     }
     let { default: ExpressionInfoWrapper } = await import('./expressionInfo');
     let expressionInfoWrapper = new ExpressionInfoWrapper(jsExpressionInfo);
-    jsExpressionInfo.id = dotNetObject.id;
+    expressionInfoWrapper.geoBlazorId = dotNetObject.id;
+    expressionInfoWrapper.viewId = viewId;
+    expressionInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expressionInfoWrapper);
@@ -63,7 +68,7 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any): Promise
     return jsExpressionInfo;
 }
 
-export async function buildDotNetExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

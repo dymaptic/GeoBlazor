@@ -44,16 +44,13 @@ export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper 
     }
 }
 export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
-    let jsCSVLayerElevationInfo = {
+    let jsCSVLayerElevationInfo: any = {}
     if (hasValue(dotNetObject.featureExpressionInfo)) {
-        let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('cSVLayerElevationInfoFeatureExpressionInfo');
+        let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
         jsCSVLayerElevationInfo.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
 
     }
-        mode: dotNetObject.mode,
-        offset: dotNetObject.offset,
-        unit: dotNetObject.unit,
-    }
+
     let { default: CSVLayerElevationInfoWrapper } = await import('./cSVLayerElevationInfo');
     let cSVLayerElevationInfoWrapper = new CSVLayerElevationInfoWrapper(jsCSVLayerElevationInfo);
     jsCSVLayerElevationInfo.id = dotNetObject.id;

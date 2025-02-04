@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ElevationLayerGenerated implements IPropertyWrapper {
     public layer: ElevationLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: ElevationLayer) {
         this.layer = layer;
@@ -73,29 +75,29 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getPortalItem(): Promise<any> {
+    async getPortalItem(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, layerId, viewId);
     }
-    async setPortalItem(value: any): Promise<void> {
+    async setPortalItem(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value);
+        this.layer.portalItem = await buildJsPortalItem(value, layerId, viewId);
     }
-    async getTileInfo(): Promise<any> {
+    async getTileInfo(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo, layerId, viewId);
     }
-    async setTileInfo(value: any): Promise<void> {
+    async setTileInfo(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await buildJsTileInfo(value, layerId, viewId);
     }
-    async getVisibilityTimeExtent(): Promise<any> {
+    async getVisibilityTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent, layerId, viewId);
     }
-    async setVisibilityTimeExtent(value: any): Promise<void> {
+    async setVisibilityTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -105,28 +107,25 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-export async function buildJsElevationLayerGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: ElevationLayer } = await import('@arcgis/core/layers/ElevationLayer');
     let jsElevationLayer = new ElevationLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('extent');
-        jsElevationLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        let { buildJsExtent } = await import('./jsBuilder');
+        jsElevationLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('portalItem');
-        jsElevationLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsElevationLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
-        jsElevationLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        let { buildJsTileInfo } = await import('./tileInfo');
+        jsElevationLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
-        jsElevationLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsElevationLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsElevationLayer.id = dotNetObject.arcGISLayerId;
@@ -151,7 +150,9 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any): Promise
     }
     let { default: ElevationLayerWrapper } = await import('./elevationLayer');
     let elevationLayerWrapper = new ElevationLayerWrapper(jsElevationLayer);
-    jsElevationLayer.id = dotNetObject.id;
+    elevationLayerWrapper.geoBlazorId = dotNetObject.id;
+    elevationLayerWrapper.viewId = viewId;
+    elevationLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elevationLayerWrapper);
@@ -162,7 +163,7 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any): Promise
     return jsElevationLayer;
 }
 
-export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -171,24 +172,21 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetElevationLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetElevationLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetElevationLayer.portalItem = buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetElevationLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetElevationLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent, layerId, viewId);
         }
         dotNetElevationLayer.arcGISLayerId = jsObject.id;
         dotNetElevationLayer.copyright = jsObject.copyright;
+        dotNetElevationLayer.fullExtent = jsObject.fullExtent;
         dotNetElevationLayer.listMode = jsObject.listMode;
         dotNetElevationLayer.loaded = jsObject.loaded;
         dotNetElevationLayer.opacity = jsObject.opacity;

@@ -1992,7 +1992,7 @@ public partial class PortalItem
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsPortal", CancellationTokenSource.Token, 
-                    Portal, View?.Id);
+                    Portal, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             Portal.JsComponentReference ??= jsObjectReference;
             

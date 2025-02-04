@@ -146,7 +146,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promis
 
     }
     if (hasValue(dotNetObject.initialExtent)) {
-        let { buildJsExtent } = await import('extent');
+        let { buildJsExtent } = await import('./extent');
         jsVectorTileLayer.initialExtent = buildJsExtent(dotNetObject.initialExtent) as any;
 
     }
@@ -156,12 +156,12 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promis
 
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
+        let { buildJsTileInfo } = await import('./tileInfo');
         jsVectorTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
 
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
+        let { buildJsTimeExtent } = await import('./timeExtent');
         jsVectorTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
 
     }

@@ -7,8 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BingMapsLayerGenerated implements IPropertyWrapper {
     public layer: BingMapsLayer;
-    public readonly geoBlazorId: string = '';
-
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
     constructor(layer: BingMapsLayer) {
         this.layer = layer;
         // set all properties from layer
@@ -93,7 +94,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     let { default: BingMapsLayer } = await import('@arcgis/core/layers/BingMapsLayer');
     let jsBingMapsLayer = new BingMapsLayer();
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('tileInfo');
+        let { buildJsTileInfo } = await import('./tileInfo');
         jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
 
     }
@@ -154,7 +155,9 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     
     let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
     let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsBingMapsLayer);
-    jsBingMapsLayer.id = dotNetObject.id;
+    bingMapsLayerWrapper.geoBlazorId = dotNetObject.id;
+    bingMapsLayerWrapper.viewId = dotNetObject.viewId;
+    bingMapsLayerWrapper.layerId = dotNetObject.layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);

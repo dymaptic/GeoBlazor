@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesOperationsGenerated implements IPropertyWrapper {
     public component: CapabilitiesOperations;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesOperations) {
         this.component = component;
@@ -35,22 +37,44 @@ export default class CapabilitiesOperationsGenerated implements IPropertyWrapper
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesOperations = {
-        supportsAdd: dotNetObject.supportsAdd,
-        supportsCalculate: dotNetObject.supportsCalculate,
-        supportsDelete: dotNetObject.supportsDelete,
-        supportsEditing: dotNetObject.supportsEditing,
-        supportsQuery: dotNetObject.supportsQuery,
-        supportsQueryAttachments: dotNetObject.supportsQueryAttachments,
-        supportsQueryTopFeatures: dotNetObject.supportsQueryTopFeatures,
-        supportsResizeAttachments: dotNetObject.supportsResizeAttachments,
-        supportsUpdate: dotNetObject.supportsUpdate,
-        supportsValidateSql: dotNetObject.supportsValidateSql,
+
+export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesOperations: any = {}
+    if (hasValue(dotNetObject.supportsAdd)) {
+        jsCapabilitiesOperations.supportsAdd = dotNetObject.supportsAdd;
+    }
+    if (hasValue(dotNetObject.supportsCalculate)) {
+        jsCapabilitiesOperations.supportsCalculate = dotNetObject.supportsCalculate;
+    }
+    if (hasValue(dotNetObject.supportsDelete)) {
+        jsCapabilitiesOperations.supportsDelete = dotNetObject.supportsDelete;
+    }
+    if (hasValue(dotNetObject.supportsEditing)) {
+        jsCapabilitiesOperations.supportsEditing = dotNetObject.supportsEditing;
+    }
+    if (hasValue(dotNetObject.supportsQuery)) {
+        jsCapabilitiesOperations.supportsQuery = dotNetObject.supportsQuery;
+    }
+    if (hasValue(dotNetObject.supportsQueryAttachments)) {
+        jsCapabilitiesOperations.supportsQueryAttachments = dotNetObject.supportsQueryAttachments;
+    }
+    if (hasValue(dotNetObject.supportsQueryTopFeatures)) {
+        jsCapabilitiesOperations.supportsQueryTopFeatures = dotNetObject.supportsQueryTopFeatures;
+    }
+    if (hasValue(dotNetObject.supportsResizeAttachments)) {
+        jsCapabilitiesOperations.supportsResizeAttachments = dotNetObject.supportsResizeAttachments;
+    }
+    if (hasValue(dotNetObject.supportsUpdate)) {
+        jsCapabilitiesOperations.supportsUpdate = dotNetObject.supportsUpdate;
+    }
+    if (hasValue(dotNetObject.supportsValidateSql)) {
+        jsCapabilitiesOperations.supportsValidateSql = dotNetObject.supportsValidateSql;
     }
     let { default: CapabilitiesOperationsWrapper } = await import('./capabilitiesOperations');
     let capabilitiesOperationsWrapper = new CapabilitiesOperationsWrapper(jsCapabilitiesOperations);
-    jsCapabilitiesOperations.id = dotNetObject.id;
+    capabilitiesOperationsWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesOperationsWrapper.viewId = viewId;
+    capabilitiesOperationsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesOperationsWrapper);
@@ -61,7 +85,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any):
     return jsCapabilitiesOperations;
 }
 
-export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class OrderedLayerOrderByGenerated implements IPropertyWrapper {
     public component: OrderedLayerOrderBy;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: OrderedLayerOrderBy) {
         this.component = component;
@@ -35,15 +37,23 @@ export default class OrderedLayerOrderByGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any): Promise<any> {
-    let jsOrderedLayerOrderBy = {
-        field: dotNetObject.field,
-        order: dotNetObject.order,
-        valueExpression: dotNetObject.valueExpression,
+
+export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsOrderedLayerOrderBy: any = {}
+    if (hasValue(dotNetObject.field)) {
+        jsOrderedLayerOrderBy.field = dotNetObject.field;
+    }
+    if (hasValue(dotNetObject.order)) {
+        jsOrderedLayerOrderBy.order = dotNetObject.order;
+    }
+    if (hasValue(dotNetObject.valueExpression)) {
+        jsOrderedLayerOrderBy.valueExpression = dotNetObject.valueExpression;
     }
     let { default: OrderedLayerOrderByWrapper } = await import('./orderedLayerOrderBy');
     let orderedLayerOrderByWrapper = new OrderedLayerOrderByWrapper(jsOrderedLayerOrderBy);
-    jsOrderedLayerOrderBy.id = dotNetObject.id;
+    orderedLayerOrderByWrapper.geoBlazorId = dotNetObject.id;
+    orderedLayerOrderByWrapper.viewId = viewId;
+    orderedLayerOrderByWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(orderedLayerOrderByWrapper);
@@ -54,7 +64,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any): Pr
     return jsOrderedLayerOrderBy;
 }
 
-export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

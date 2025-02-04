@@ -279,15 +279,6 @@ export function setAssetsPath(path: string) {
     }
 }
 
-export function getSerializedDotNetObject(id: string): any {
-    let objectRef = arcGisObjectRefs[id];
-    if (objectRef instanceof Layer) {
-        return buildDotNetLayer(objectRef);
-    }
-    
-    return objectRef;
-}
-
 export async function getProjectionEngineWrapper(dotNetRef: any): Promise<ProjectionWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
@@ -450,7 +441,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
 
-        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
+        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
 
         // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
         let popupWidget = widgets.find(w => w.type === 'popup');
@@ -531,7 +522,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-    activeEventHandlers: Array<string>): void {
+    activeEventHandlers: Array<string>, viewId: string): void {
     view.on('click', (evt) => {
         evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
         dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
@@ -656,7 +647,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             layerObjectRef: layerRef,
             layerViewObjectRef: layerViewRef,
             layerView: buildDotNetLayerView(evt.layerView),
-            layer: buildDotNetLayer(evt.layer, false),
+            layer: buildDotNetLayer(evt.layer, layerGeoBlazorId ?? null, viewId),
             layerGeoBlazorId: layerGeoBlazorId,
             isBasemapLayer: isBasemapLayer,
             isReferenceLayer: isReferenceLayer

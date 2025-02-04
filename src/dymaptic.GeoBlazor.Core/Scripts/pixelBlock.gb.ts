@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PixelBlockGenerated implements IPropertyWrapper {
     public component: PixelBlock;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PixelBlock) {
         this.component = component;
@@ -65,7 +67,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any): Promise<any
     let { default: PixelBlock } = await import('@arcgis/core/layers/support/PixelBlock');
     let jsPixelBlock = new PixelBlock();
     if (hasValue(dotNetObject.statistics)) {
-        let { buildJsPixelBlockStatistics } = await import('pixelBlockStatistics');
+        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
         jsPixelBlock.statistics = dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i)) as any;
 
     }
@@ -92,7 +94,9 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any): Promise<any
     }
     let { default: PixelBlockWrapper } = await import('./pixelBlock');
     let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);
-    jsPixelBlock.id = dotNetObject.id;
+    pixelBlockWrapper.geoBlazorId = dotNetObject.id;
+    pixelBlockWrapper.viewId = dotNetObject.viewId;
+    pixelBlockWrapper.layerId = dotNetObject.layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);

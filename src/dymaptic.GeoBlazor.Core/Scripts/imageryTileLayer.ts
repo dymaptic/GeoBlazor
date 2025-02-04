@@ -12,10 +12,10 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
     }
 
 
-    getServiceRasterInfo(viewId: string) {
+    getServiceRasterInfo() {
         let jsInfo = this.layer.serviceRasterInfo;
         return {
-            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, null, viewId) : null,
+            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, null, this.viewId) : null,
             bandCount: jsInfo.bandCount,
             bandInfos: jsInfo.bandInfos,
             colormap: jsInfo.colormap,

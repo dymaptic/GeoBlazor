@@ -330,10 +330,8 @@ public abstract partial class Layer : MapComponent
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
 
-        await JsComponentReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        Layer loadedLayer = await JsComponentReference.InvokeAsync<Layer>("load", cancellationToken, abortSignal);
 
-        Layer loadedLayer = await CoreJsModule.InvokeAsync<Layer>("getSerializedDotNetObject",
-            cancellationToken, Id);
         await UpdateFromJavaScript(loadedLayer);
         await AbortManager.DisposeAbortController(cancellationToken);
     }

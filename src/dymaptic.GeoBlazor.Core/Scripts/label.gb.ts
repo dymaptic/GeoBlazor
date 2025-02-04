@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LabelGenerated implements IPropertyWrapper {
     public component: LabelClass;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LabelClass) {
         this.component = component;
@@ -27,13 +29,13 @@ export default class LabelGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getSymbol(): Promise<any> {
+    async getSymbol(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return await buildDotNetSymbol(this.component.symbol, layerId, viewId);
     }
-    async setSymbol(value: any): Promise<void> {
+    async setSymbol(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await buildJsSymbol(value);
+        this.component.symbol = await buildJsSymbol(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,13 +45,13 @@ export default class LabelGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let LabelClass = __esri.LabelClass;
     let jsLabelClass = new LabelClass();
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('symbol');
-        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
-
+        let { buildJsSymbol } = await import('./jsBuilder');
+        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.allowOverrun)) {
         jsLabelClass.allowOverrun = dotNetObject.allowOverrun;
@@ -89,7 +91,9 @@ export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
     }
     let { default: LabelWrapper } = await import('./label');
     let labelWrapper = new LabelWrapper(jsLabelClass);
-    jsLabelClass.id = dotNetObject.id;
+    labelWrapper.geoBlazorId = dotNetObject.id;
+    labelWrapper.viewId = viewId;
+    labelWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(labelWrapper);
@@ -100,7 +104,7 @@ export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
     return jsLabelClass;
 }
 
-export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLabelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -111,7 +115,7 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetLabel.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol, layerId, viewId);
         }
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
         dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;

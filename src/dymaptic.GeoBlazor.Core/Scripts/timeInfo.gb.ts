@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TimeInfoGenerated implements IPropertyWrapper {
     public component: TimeInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: TimeInfo) {
         this.component = component;
@@ -27,21 +29,21 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getFullTimeExtent(): Promise<any> {
+    async getFullTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.component.fullTimeExtent);
+        return await buildDotNetTimeExtent(this.component.fullTimeExtent, layerId, viewId);
     }
-    async setFullTimeExtent(value: any): Promise<void> {
+    async setFullTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.fullTimeExtent = await buildJsTimeExtent(value);
+        this.component.fullTimeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
-    async getInterval(): Promise<any> {
+    async getInterval(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.component.interval);
+        return await buildDotNetTimeInterval(this.component.interval, layerId, viewId);
     }
-    async setInterval(value: any): Promise<void> {
+    async setInterval(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.component.interval = await buildJsTimeInterval(value);
+        this.component.interval = await buildJsTimeInterval(value, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -51,18 +53,17 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeInfo } = await import('@arcgis/core/layers/support/TimeInfo');
     let jsTimeInfo = new TimeInfo();
     if (hasValue(dotNetObject.fullTimeExtent)) {
-        let { buildJsTimeExtent } = await import('timeExtent');
-        jsTimeInfo.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent) as any;
-
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsTimeInfo.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.interval)) {
-        let { buildJsTimeInterval } = await import('timeInterval');
-        jsTimeInfo.interval = await buildJsTimeInterval(dotNetObject.interval) as any;
-
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        jsTimeInfo.interval = await buildJsTimeInterval(dotNetObject.interval, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.endField)) {
         jsTimeInfo.endField = dotNetObject.endField;
@@ -81,7 +82,9 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> 
     }
     let { default: TimeInfoWrapper } = await import('./timeInfo');
     let timeInfoWrapper = new TimeInfoWrapper(jsTimeInfo);
-    jsTimeInfo.id = dotNetObject.id;
+    timeInfoWrapper.geoBlazorId = dotNetObject.id;
+    timeInfoWrapper.viewId = viewId;
+    timeInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeInfoWrapper);
@@ -92,7 +95,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> 
     return jsTimeInfo;
 }
 
-export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -103,11 +106,11 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
     };
         if (hasValue(jsObject.fullTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetTimeInfo.fullTimeExtent = await buildDotNetTimeExtent(jsObject.fullTimeExtent);
+            dotNetTimeInfo.fullTimeExtent = await buildDotNetTimeExtent(jsObject.fullTimeExtent, layerId, viewId);
         }
         if (hasValue(jsObject.interval)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
+            dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval, layerId, viewId);
         }
         dotNetTimeInfo.endField = jsObject.endField;
         dotNetTimeInfo.startField = jsObject.startField;

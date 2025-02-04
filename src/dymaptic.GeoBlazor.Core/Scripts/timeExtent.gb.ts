@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TimeExtentGenerated implements IPropertyWrapper {
     public component: TimeExtent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: TimeExtent) {
         this.component = component;
@@ -27,7 +29,7 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
     
     async intersection(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent) as any;
+        let jsTimeExtent = await buildJsTimeExtent(timeExtent, layerId, viewId) as any;
         let result = this.component.intersection(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
@@ -35,7 +37,7 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
 
     async union(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent) as any;
+        let jsTimeExtent = await buildJsTimeExtent(timeExtent, layerId, viewId) as any;
         let result = this.component.union(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
@@ -51,7 +53,8 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsTimeExtentGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeExtent } = await import('@arcgis/core/TimeExtent');
     let jsTimeExtent = new TimeExtent();
     if (hasValue(dotNetObject.end)) {
@@ -62,7 +65,9 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any): Promise<any
     }
     let { default: TimeExtentWrapper } = await import('./timeExtent');
     let timeExtentWrapper = new TimeExtentWrapper(jsTimeExtent);
-    jsTimeExtent.id = dotNetObject.id;
+    timeExtentWrapper.geoBlazorId = dotNetObject.id;
+    timeExtentWrapper.viewId = viewId;
+    timeExtentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeExtentWrapper);
@@ -73,7 +78,7 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any): Promise<any
     return jsTimeExtent;
 }
 
-export async function buildDotNetTimeExtentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimeExtentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

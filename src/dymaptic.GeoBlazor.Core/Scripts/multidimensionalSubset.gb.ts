@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class MultidimensionalSubsetGenerated implements IPropertyWrapper {
     public component: MultidimensionalSubset;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string = '';
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: MultidimensionalSubset) {
         this.component = component;
@@ -49,7 +51,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any):
     let { default: MultidimensionalSubset } = await import('@arcgis/core/layers/support/MultidimensionalSubset');
     let jsMultidimensionalSubset = new MultidimensionalSubset();
     if (hasValue(dotNetObject.subsetDefinitions)) {
-        let { buildJsDimensionalDefinition } = await import('dimensionalDefinition');
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(i => buildJsDimensionalDefinition(i)) as any;
 
     }
@@ -58,7 +60,9 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any):
     }
     let { default: MultidimensionalSubsetWrapper } = await import('./multidimensionalSubset');
     let multidimensionalSubsetWrapper = new MultidimensionalSubsetWrapper(jsMultidimensionalSubset);
-    jsMultidimensionalSubset.id = dotNetObject.id;
+    multidimensionalSubsetWrapper.geoBlazorId = dotNetObject.id;
+    multidimensionalSubsetWrapper.viewId = dotNetObject.viewId;
+    multidimensionalSubsetWrapper.layerId = dotNetObject.layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multidimensionalSubsetWrapper);

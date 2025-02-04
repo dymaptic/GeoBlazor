@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LayerViewGenerated implements IPropertyWrapper {
     public component: LayerView;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LayerView) {
         this.component = component;
@@ -27,9 +29,9 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getLayer(): Promise<any> {
+    async getLayer(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer);
+        return await buildDotNetLayer(this.component.layer, layerId, viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -39,12 +41,15 @@ export default class LayerViewGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLayerViewGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LayerView } = await import('@arcgis/core/views/layers/LayerView');
     let jsLayerView = new LayerView();
     let { default: LayerViewWrapper } = await import('./layerView');
     let layerViewWrapper = new LayerViewWrapper(jsLayerView);
-    jsLayerView.id = dotNetObject.id;
+    layerViewWrapper.geoBlazorId = dotNetObject.id;
+    layerViewWrapper.viewId = viewId;
+    layerViewWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerViewWrapper);
@@ -55,7 +60,7 @@ export async function buildJsLayerViewGenerated(dotNetObject: any): Promise<any>
     return jsLayerView;
 }
 
-export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -66,7 +71,7 @@ export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any>
     };
         if (hasValue(jsObject.layer)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer);
+            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer, layerId, viewId);
         }
         dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
         dotNetLayerView.suspended = jsObject.suspended;

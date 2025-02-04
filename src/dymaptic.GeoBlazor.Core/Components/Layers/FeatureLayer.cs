@@ -393,7 +393,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     public async Task<FeatureLayer> Clone()
     {
-        return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone");
+        return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone", View?.Id);
     }
 
     /// <summary>
@@ -679,7 +679,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         Guid queryId = Guid.NewGuid();
         RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
             "queryRelatedFeatures", cancellationToken, query, new { signal = abortSignal },
-            DotNetComponentReference, View?.Id, queryId))!;
+            DotNetComponentReference, queryId))!;
 
         if (_activeRelatedQueries.ContainsKey(queryId))
         {
@@ -803,7 +803,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, View?.Id, queryId))!;
+            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
 
         if (_activeQueries.ContainsKey(queryId))
         {

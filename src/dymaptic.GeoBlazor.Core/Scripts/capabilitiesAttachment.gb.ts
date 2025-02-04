@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CapabilitiesAttachmentGenerated implements IPropertyWrapper {
     public component: CapabilitiesAttachment;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CapabilitiesAttachment) {
         this.component = component;
@@ -35,19 +37,35 @@ export default class CapabilitiesAttachmentGenerated implements IPropertyWrapper
         this.component[prop] = value;
     }
 }
-export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any): Promise<any> {
-    let jsCapabilitiesAttachment = {
-        supportsCacheHint: dotNetObject.supportsCacheHint,
-        supportsContentType: dotNetObject.supportsContentType,
-        supportsExifInfo: dotNetObject.supportsExifInfo,
-        supportsKeywords: dotNetObject.supportsKeywords,
-        supportsName: dotNetObject.supportsName,
-        supportsResize: dotNetObject.supportsResize,
-        supportsSize: dotNetObject.supportsSize,
+
+export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCapabilitiesAttachment: any = {}
+    if (hasValue(dotNetObject.supportsCacheHint)) {
+        jsCapabilitiesAttachment.supportsCacheHint = dotNetObject.supportsCacheHint;
+    }
+    if (hasValue(dotNetObject.supportsContentType)) {
+        jsCapabilitiesAttachment.supportsContentType = dotNetObject.supportsContentType;
+    }
+    if (hasValue(dotNetObject.supportsExifInfo)) {
+        jsCapabilitiesAttachment.supportsExifInfo = dotNetObject.supportsExifInfo;
+    }
+    if (hasValue(dotNetObject.supportsKeywords)) {
+        jsCapabilitiesAttachment.supportsKeywords = dotNetObject.supportsKeywords;
+    }
+    if (hasValue(dotNetObject.supportsName)) {
+        jsCapabilitiesAttachment.supportsName = dotNetObject.supportsName;
+    }
+    if (hasValue(dotNetObject.supportsResize)) {
+        jsCapabilitiesAttachment.supportsResize = dotNetObject.supportsResize;
+    }
+    if (hasValue(dotNetObject.supportsSize)) {
+        jsCapabilitiesAttachment.supportsSize = dotNetObject.supportsSize;
     }
     let { default: CapabilitiesAttachmentWrapper } = await import('./capabilitiesAttachment');
     let capabilitiesAttachmentWrapper = new CapabilitiesAttachmentWrapper(jsCapabilitiesAttachment);
-    jsCapabilitiesAttachment.id = dotNetObject.id;
+    capabilitiesAttachmentWrapper.geoBlazorId = dotNetObject.id;
+    capabilitiesAttachmentWrapper.viewId = viewId;
+    capabilitiesAttachmentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesAttachmentWrapper);
@@ -58,7 +76,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any):
     return jsCapabilitiesAttachment;
 }
 
-export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
