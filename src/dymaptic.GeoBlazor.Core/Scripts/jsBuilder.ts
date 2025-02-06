@@ -286,13 +286,9 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, v
             }
         }
     }
-    let template = new PopupTemplate({
-        title: popupTemplateObject.title ?? undefined,
-        content: content ?? undefined,
-        outFields: popupTemplateObject.outFields ?? undefined,
-        overwriteActions: popupTemplateObject.overwriteActions ?? false,
-        returnGeometry: popupTemplateObject.returnGeometry ?? false
-    });
+    let template = new PopupTemplate();
+
+    copyValuesIfExists(popupTemplateObject, template, 'title', 'content', 'outFields', 'overwriteActions', 'returnGeometry');
 
     if (hasValue(popupTemplateObject.fieldInfos)) {
         template.fieldInfos = popupTemplateObject.fieldInfos.map(buildJsFieldInfo);
@@ -387,11 +383,12 @@ export function buildJsFieldInfoFormat(formatObject: DotNetFieldInfoFormat): Fie
 }
 
 export function buildJsExpressionInfo(expressionInfoObject: DotNetExpressionInfo): popupExpressionInfo {
-    return {
-        name: expressionInfoObject.name ?? undefined,
-        title: expressionInfoObject.title ?? undefined,
-        expression: expressionInfoObject.expression ?? undefined
-    } as popupExpressionInfo;
+
+    let expressionInfo = new popupExpressionInfo();
+
+    copyValuesIfExists(expressionInfoObject, expressionInfo, 'name', 'title', 'expression');
+
+    return expressionInfo;
 }
 
 export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
@@ -401,30 +398,35 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
     switch (symbol.type) {
         case "simple-marker":
             let dnSimpleMarkerSymbol = symbol as DotNetSimpleMarkerSymbol;
-            let jsSimpleMarkerSymbol = new SimpleMarkerSymbol({
-                color: buildJsColor(dnSimpleMarkerSymbol.color) ?? [255, 255, 255, 0.25],
-                path: dnSimpleMarkerSymbol.path ?? undefined,
-                size: dnSimpleMarkerSymbol.size ?? 12, // undefined breaks this
-                style: dnSimpleMarkerSymbol.style as any ?? 'circle', // undefined breaks this
-                xoffset: dnSimpleMarkerSymbol.xOffset ?? 0,
-                yoffset: dnSimpleMarkerSymbol.yOffset ?? 0
-            });
+            let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
+
+            copyValuesIfExists(dnSimpleMarkerSymbol, jsSimpleMarkerSymbol, 'path', 'size', 'style');
+            jsSimpleMarkerSymbol.xoffset = dnSimpleMarkerSymbol.xOffset ?? 0;
+            jsSimpleMarkerSymbol.yoffset = dnSimpleMarkerSymbol.yOffset ?? 0;
 
             if (hasValue(dnSimpleMarkerSymbol.outline)) {
                 jsSimpleMarkerSymbol.outline = buildJsSymbol(dnSimpleMarkerSymbol.outline) as any;
             }
+            if (hasValue(dnSimpleMarkerSymbol.color)) {
+                jsSimpleMarkerSymbol.color = buildJsColor(dnSimpleMarkerSymbol.color);
+            }
             return jsSimpleMarkerSymbol;
         case "simple-line":
             let dnSimpleLineSymbol = symbol as DotNetSimpleLineSymbol;
-            return new SimpleLineSymbol({
-                color: buildJsColor(dnSimpleLineSymbol.color) ?? "black",
-                cap: dnSimpleLineSymbol.cap as any ?? "round",
-                join: dnSimpleLineSymbol.join as any ?? "round",
-                marker: dnSimpleLineSymbol.marker as any ?? null,
-                miterLimit: dnSimpleLineSymbol.miterLimit ?? 2,
-                style: dnSimpleLineSymbol.lineStyle as any ?? dnSimpleLineSymbol.style as any ?? "solid",
-                width: dnSimpleLineSymbol.width ?? 0.75
-            });
+            let simpleLineSymbol = new SimpleLineSymbol()
+
+            simpleLineSymbol.color = buildJsColor(dnSimpleLineSymbol.color) ?? "black"
+
+            //lineStyle is used in c#, but it should serialize as 'style'
+            simpleLineSymbol.style = dnSimpleLineSymbol.lineStyle as any ?? dnSimpleLineSymbol.style as any ?? "solid";
+
+            copyValuesIfExists(dnSimpleLineSymbol, simpleLineSymbol, 'cap', 'join', 'marker', 'miterLimit', 'width');
+
+            if (hasValue(dnSimpleLineSymbol.color)) {
+                simpleLineSymbol.color = buildJsColor(dnSimpleLineSymbol.color);
+            }
+            return simpleLineSymbol;
+
         case "picture-marker":
             let dnPictureMarkerSymbol = symbol as DotNetPictureMarkerSymbol;
             return new PictureMarkerSymbol({
@@ -466,9 +468,8 @@ export function buildJsSymbol(symbol: DotNetSymbol | null): Symbol | null {
             return jsSimpleFillSymbol;
         case "text":
             let dotNetTextSymbol = symbol as DotNetTextSymbol;
-            let jsTextSymbol = new TextSymbol({
-                text: dotNetTextSymbol.text ?? undefined
-            });
+            let jsTextSymbol = new TextSymbol();
+
             copyValuesIfExists(dotNetTextSymbol, jsTextSymbol, 'angle', 'borderLineSize', 'haloSize',
                 'horizontalAlignment', 'kerning', 'lineHeight', 'lineWidth', 'rotated', 'text', 'verticalAlignment');
 
@@ -520,8 +521,8 @@ export function buildJsGeometry(geometry: DotNetGeometry): Geometry | null {
 export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
     if (dnBookmark === undefined || dnBookmark === null) return null;
     let bookmark = new Bookmark();
-    bookmark.name = dnBookmark.name ?? undefined;
-    bookmark.timeExtent = dnBookmark.timeExtent ?? undefined;
+
+    copyValuesIfExists(dnBookmark, bookmark, 'name', 'timeExtent');
 
     if (!(dnBookmark.thumbnail == null)) {
         //ESRI has this as an "object" with url property
@@ -538,20 +539,16 @@ export function buildJsBookmark(dnBookmark: DotNetBookmark): Bookmark | null {
 export function buildJsViewpoint(dnViewpoint: DotNetViewpoint): Viewpoint | null {
     if (dnViewpoint === undefined || dnViewpoint === null) return null;
     let viewpoint = new Viewpoint();
-    viewpoint.rotation = dnViewpoint.rotation ?? undefined;
-    viewpoint.scale = dnViewpoint.scale ?? undefined;
+    copyValuesIfExists(dnViewpoint, viewpoint, 'rotation', 'scale');
     viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }
 
 export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (dnPoint === undefined || dnPoint === null) return null;
-    let point = new Point({
-        latitude: dnPoint.latitude ?? undefined,
-        longitude: dnPoint.longitude ?? undefined,
-        x: dnPoint.x ?? undefined,
-        y: dnPoint.y ?? undefined
-    });
+    let point = new Point();
+
+    copyValuesIfExists(dnPoint, point, 'latitude', 'longitude', 'x', 'y', 'z', 'm');
 
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
@@ -720,7 +717,7 @@ export function buildJsImageryRenderer(dnRenderer: any) {
 
 export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueValueRenderer): UniqueValueRenderer | null {
     if (dnUniqueValueRenderer === undefined) return null;
-    
+
     // Setting this by calling the class constructor breaks the Legend widget for some reason.
     let uniqueValueRenderer: any = {
         type: 'unique-value'
@@ -740,7 +737,7 @@ export function buildJsUniqueValueRenderer(dnUniqueValueRenderer: DotNetUniqueVa
             title: dnUniqueValueRenderer.legendOptions.title
         };
     }
-    
+
     if (hasValue(dnUniqueValueRenderer.defaultSymbol?.symbol)) {
         uniqueValueRenderer.defaultSymbol = buildJsSymbol(dnUniqueValueRenderer.defaultSymbol.symbol) as Symbol;
     }
@@ -973,7 +970,7 @@ export function buildVisualVariable(dnVV: any): VisualVariable | null {
     switch (dnVV.type) {
         case "color":
             let colorVariable = variable as ColorVariable;
-            colorVariable.normalizationField = dnVV.normalizationField ?? undefined;
+            copyValuesIfExists(dnVV, colorVariable, 'normalizationField');
             if (hasValue(dnVV.stops) && dnVV.stops.length > 0) {
                 colorVariable.stops = dnVV.stops.map((stop: any) => {
                     let dnStop: any = {};
@@ -1135,33 +1132,25 @@ function buildJsField(dotNetField: any): Field {
 }
 
 export function buildJsViewClickEvent(dotNetClickEvent: any): ViewClickEvent {
-    return {
-        type: dotNetClickEvent.type,
+
+    let viewClickEvent = {
+
         mapPoint: buildJsPoint(dotNetClickEvent.mapPoint) as Point,
-        x: dotNetClickEvent.x,
-        y: dotNetClickEvent.y,
-        button: dotNetClickEvent.button ?? undefined,
-        buttons: dotNetClickEvent.buttons ?? undefined,
-        timestamp: dotNetClickEvent.timestamp ?? undefined
     } as ViewClickEvent;
+
+    copyValuesIfExists(dotNetClickEvent, viewClickEvent, 'type', 'x', 'y', 'button', 'buttons', 'timestamp');
+
+    return viewClickEvent;
+
 }
 
 export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Popup> {
 
-    let popup = new Popup({
-        alignment: dotNetPopup.alignment ?? "auto",
-        content: dotNetPopup.content ?? null,
-        title: dotNetPopup.title ?? null,
-        visible: dotNetPopup.visible ?? false,
-        dockEnabled: dotNetPopup.dockEnabled ?? false,
-        autoCloseEnabled: dotNetPopup.autoCloseEnabled ?? false,
-        collapseEnabled: dotNetPopup.collapseEnabled ?? true,
-        defaultPopupTemplateEnabled: dotNetPopup.defaultPopupTemplateEnabled ?? false,
-        headingLevel: dotNetPopup.headingLevel ?? 2,
-        highlightEnabled: dotNetPopup.highlightEnabled ?? true,
-        label: dotNetPopup.label ?? '',
-        spinnerEnabled: dotNetPopup.spinnerEnabled ?? true
-    });
+    let popup = new Popup();
+
+    copyValuesIfExists(dotNetPopup, popup, 'alignment', 'content', 'title', 'visible', 'dockEnabled', 'autoCloseEnabled',
+        'collapseEnabled', 'defaultPopupTemplateEnabled', 'headingLevel', 'highlightEnabled', 'label', 'spinnerEnabled'
+    );
 
     if (hasValue(dotNetPopup.autoOpenEnabled)) {
         let view = arcGisObjectRefs[viewId] as MapView;
@@ -1200,43 +1189,19 @@ export async function buildJsPopup(dotNetPopup: any, viewId: string): Promise<Po
 }
 
 function buildJsDockOptions(dotNetDockOptions: any): PopupDockOptions {
-    let dockOptions: PopupDockOptions = {
-        buttonEnabled: dotNetDockOptions.buttonEnabled ?? undefined,
-        position: dotNetDockOptions.position ?? undefined,
+    let dockOptions = {
         breakpoint: dotNetDockOptions.breakPoint ?? true
     };
 
+    copyValuesIfExists(dotNetDockOptions, dockOptions, 'buttonEnabled', 'position');
     return dockOptions as PopupDockOptions;
 }
 
 export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<PopupOpenOptions> {
     let options: PopupOpenOptions = {};
 
-    if (hasValue(dotNetPopupOptions.title)) {
-        options.title = dotNetPopupOptions.title;
-    }
-    if (hasValue(dotNetPopupOptions.stringContent)) {
-        options.content = dotNetPopupOptions.content;
-    }
-    if (hasValue(dotNetPopupOptions.fetchFeatures)) {
-        options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
-    }
-
-    if (hasValue(dotNetPopupOptions.featureMenuOpen)) {
-        options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
-    }
-
-    if (hasValue(dotNetPopupOptions.updateLocationEnabled)) {
-        options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
-    }
-
-    if (hasValue(dotNetPopupOptions.collapsed)) {
-        options.collapsed = dotNetPopupOptions.collapsed;
-    }
-
-    if (hasValue(dotNetPopupOptions.shouldFocus)) {
-        options.shouldFocus = dotNetPopupOptions.shouldFocus;
-    }
+    copyValuesIfExists(dotNetPopupOptions, options, 'title', 'stringContent', 'fetchFeatures', 'featureMenuOpen',
+        'updateLocationEnabled', 'collapsed', 'shouldFocus');
 
     if (hasValue(dotNetPopupOptions.location)) {
         options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
@@ -1257,10 +1222,7 @@ export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<Popu
 
 function buildJsFont(dotNetFont: any): Font {
     let font = new Font();
-    font.size = dotNetFont.size ?? 9;
-    font.family = dotNetFont.family ?? "sans-serif";
-    font.style = dotNetFont.style ?? "normal";
-    font.weight = dotNetFont.weight ?? "normal";
+    copyValuesIfExists(dotNetFont, font, 'size', 'family', 'style', 'weight');
 
     return font;
 }
@@ -1316,22 +1278,10 @@ export function buildJsQuery(dotNetQuery: DotNetQuery): Query {
 
 export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelationshipQuery): RelationshipQuery {
     // copy all values from the dotnet object to the js object
-    let relationshipQuery = new RelationshipQuery({
-        cacheHint: dotNetRelationshipQuery.cacheHint ?? undefined,
-        gdbVersion: dotNetRelationshipQuery.gdbVersion ?? undefined,
-        geometryPrecision: dotNetRelationshipQuery.geometryPrecision ?? undefined,
-        historicMoment: dotNetRelationshipQuery.historicMoment ?? undefined,
-        maxAllowableOffset: dotNetRelationshipQuery.maxAllowableOffset ?? undefined,
-        num: dotNetRelationshipQuery.num ?? undefined,
-        objectIds: dotNetRelationshipQuery.objectIds ?? undefined,
-        orderByFields: dotNetRelationshipQuery.orderByFields ?? undefined,
-        outFields: dotNetRelationshipQuery.outFields ?? undefined,
-        returnGeometry: dotNetRelationshipQuery.returnGeometry ?? undefined,
-        returnM: dotNetRelationshipQuery.returnM ?? undefined,
-        returnZ: dotNetRelationshipQuery.returnZ ?? undefined,
-        start: dotNetRelationshipQuery.start ?? undefined,
-        where: dotNetRelationshipQuery.where ?? undefined
-    });
+    let relationshipQuery = new RelationshipQuery();
+    copyValuesIfExists(dotNetRelationshipQuery, relationshipQuery, 'cacheHint', 'gdbVersion', 'geometryPrecision',
+        'historicMoment', 'maxAllowableOffset', 'num', 'objectIds', 'orderByFields', 'outFields', 'returnGeometry',
+        'returnM', 'returnZ', 'start', 'where');
 
     if (hasValue(dotNetRelationshipQuery.outSpatialReference)) {
         relationshipQuery.outSpatialReference = buildJsSpatialReference(dotNetRelationshipQuery.outSpatialReference);
@@ -1341,24 +1291,11 @@ export function buildJsRelationshipQuery(dotNetRelationshipQuery: DotNetRelation
 }
 
 export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFeaturesQuery {
-    let query = new TopFeaturesQuery({
-        cacheHint: dnQuery.cacheHint ?? undefined,
-        distance: dnQuery.distance ?? undefined,
-        geometryPrecision: dnQuery.geometryPrecision ?? undefined,
-        maxAllowableOffset: dnQuery.maxAllowableOffset ?? undefined,
-        num: dnQuery.num ?? undefined,
-        objectIds: dnQuery.objectIds ?? undefined,
-        orderByFields: dnQuery.orderByFields ?? undefined,
-        outFields: dnQuery.outFields ?? null,
-        returnGeometry: dnQuery.returnGeometry ?? false,
-        returnM: dnQuery.returnM ?? undefined,
-        returnZ: dnQuery.returnZ ?? undefined,
-        spatialRelationship: dnQuery.spatialRelationship as any ?? "intersects",
-        start: dnQuery.start ?? undefined,
-        timeExtent: dnQuery.timeExtent ?? undefined,
-        topFilter: dnQuery.topFilter as any ?? undefined,
-        units: dnQuery.units as any ?? null
-    });
+    let query = new TopFeaturesQuery();
+
+    copyValuesIfExists(dnQuery, query, 'cacheHint', 'distance', 'geometryPrecision', 'maxAllowableOffset',
+        'num', 'objectIds', 'orderByFields', 'outFields', 'returnGeometry', 'returnM', 'returnZ',
+        'spatialRelationship', 'start', 'timeExtent', 'topFilter', 'units');
 
     if (hasValue(dnQuery.where)) {
         query.where = dnQuery.where;
@@ -1379,49 +1316,34 @@ export function buildJsMediaInfo(dotNetMediaInfo: DotNetMediaInfo): any {
     switch (dotNetMediaInfo?.type) {
         case "bar-chart":
             let dotNetBarChartMediaInfo = dotNetMediaInfo as DotNetBarChartMediaInfo;
-            return {
-                type: "bar-chart",
-                altText: dotNetBarChartMediaInfo.altText ?? undefined,
-                caption: dotNetBarChartMediaInfo.caption ?? undefined,
-                value: buildJsChartMediaInfoValue(dotNetBarChartMediaInfo.value)
-            } as BarChartMediaInfo;
+            let barChartMediaInfo = new BarChartMediaInfo();
+            copyValuesIfExists(dotNetBarChartMediaInfo, barChartMediaInfo, 'type', 'altText', 'caption', 'title');
+            barChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetBarChartMediaInfo.value)
+            return barChartMediaInfo;
         case "column-chart":
             let dotNetColumnChartMediaInfo = dotNetMediaInfo as DotNetColumnChartMediaInfo;
-            return {
-                type: "column-chart",
-                altText: dotNetColumnChartMediaInfo.altText ?? undefined,
-                caption: dotNetColumnChartMediaInfo.caption ?? undefined,
-                title: dotNetColumnChartMediaInfo.title ?? undefined,
-                value: buildJsChartMediaInfoValue(dotNetColumnChartMediaInfo.value)
-            } as ColumnChartMediaInfo;
-        case "image":
-            let dotNetImageMediaInfo = dotNetMediaInfo as DotNetImageMediaInfo;
-            return {
-                type: "image",
-                altText: dotNetImageMediaInfo.altText ?? undefined,
-                caption: dotNetImageMediaInfo.caption ?? undefined,
-                title: dotNetImageMediaInfo.title ?? undefined,
-                refreshInterval: dotNetImageMediaInfo.refreshInterval ?? undefined,
-                value: buildJsImageMediaInfoValue(dotNetImageMediaInfo.value)
-            } as ImageMediaInfo;
+            let columnChartMediaInfo = new ColumnChartMediaInfo();
+            copyValuesIfExists(dotNetColumnChartMediaInfo, columnChartMediaInfo, 'type', 'altText', 'caption', 'title');
+            columnChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetColumnChartMediaInfo.value);
+            return columnChartMediaInfo;
         case "line-chart":
             let dotNetLineChartMediaInfo = dotNetMediaInfo as DotNetLineChartMediaInfo;
-            return {
-                type: "line-chart",
-                altText: dotNetLineChartMediaInfo.altText ?? undefined,
-                caption: dotNetLineChartMediaInfo.caption ?? undefined,
-                title: dotNetLineChartMediaInfo.title ?? undefined,
-                value: buildJsChartMediaInfoValue(dotNetLineChartMediaInfo.value)
-            } as LineChartMediaInfo;
+            let lineChartMediaInfo = new LineChartMediaInfo();
+            copyValuesIfExists(dotNetLineChartMediaInfo, lineChartMediaInfo, 'type', 'altText', 'caption', 'title');
+            lineChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetLineChartMediaInfo.value);
+            return lineChartMediaInfo;
         case "pie-chart":
             let dotNetPieChartMediaInfo = dotNetMediaInfo as DotNetPieChartMediaInfo;
-            return {
-                type: "pie-chart",
-                altText: dotNetPieChartMediaInfo.altText ?? undefined,
-                caption: dotNetPieChartMediaInfo.caption ?? undefined,
-                title: dotNetPieChartMediaInfo.title ?? undefined,
-                value: buildJsChartMediaInfoValue(dotNetPieChartMediaInfo.value)
-            } as PieChartMediaInfo;
+            let pieChartMediaInfo = new PieChartMediaInfo();
+            copyValuesIfExists(dotNetPieChartMediaInfo, pieChartMediaInfo, 'type', 'altText', 'caption', 'title');
+            pieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetPieChartMediaInfo.value);
+            return pieChartMediaInfo;
+        case "image":
+            let dotNetImageMediaInfo = dotNetMediaInfo as DotNetImageMediaInfo;
+            let imageMediaInfo = new ImageMediaInfo();
+            copyValuesIfExists(dotNetImageMediaInfo, imageMediaInfo, 'type', 'altText', 'caption', 'title', 'refreshInterval');
+            imageMediaInfo.value = buildJsImageMediaInfoValue(dotNetImageMediaInfo.value)
+            return imageMediaInfo;
     }
 }
 
@@ -1434,11 +1356,8 @@ export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChar
 
     if (hasValue(dotNetChartMediaInfoValue?.series)) {
         value.series = dotNetChartMediaInfoValue.series.map(s => {
-            let series = new ChartMediaInfoValueSeries({
-                tooltip: s.tooltip ?? undefined,
-                value: s.value ?? undefined,
-                fieldName: s.fieldName ?? undefined
-            });
+            let series = new ChartMediaInfoValueSeries();
+            copyValuesIfExists(s, series, 'tooltip', 'value', 'fieldName');
             return series;
         });
     }
@@ -1446,18 +1365,14 @@ export function buildJsChartMediaInfoValue(dotNetChartMediaInfoValue: DotNetChar
 }
 
 export function buildJsImageMediaInfoValue(dotNetImageMediaInfoValue: DotNetImageMediaInfoValue): ImageMediaInfoValue {
-    return {
-        sourceURL: dotNetImageMediaInfoValue.sourceURL ?? undefined,
-        linkURL: dotNetImageMediaInfoValue.linkURL ?? undefined
-    } as ImageMediaInfoValue;
+    let imageMediaInfoValue = new ImageMediaInfoValue();
+    copyValuesIfExists(dotNetImageMediaInfoValue, imageMediaInfoValue, 'sourceURL', 'linkURL');
+    return imageMediaInfoValue;
 }
 
 export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElementExpressionInfo): ElementExpressionInfo {
-    let info = new ElementExpressionInfo({
-        expression: dotNetExpressionInfo.expression ?? undefined,
-        title: dotNetExpressionInfo.title ?? undefined
-    });
-
+    let info = new ElementExpressionInfo();
+    copyValuesIfExists(dotNetExpressionInfo, info, 'expression', 'title');
     return info;
 }
 
@@ -1479,11 +1394,9 @@ export function buildJsPortalItem(dotNetPortalItem: any): any {
 }
 
 export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
-    let formTemplate = new FormTemplate({
-        title: dotNetFormTemplate.title ?? undefined,
-        description: dotNetFormTemplate.description ?? undefined,
-        preserveFieldValuesWhenHidden: dotNetFormTemplate.preserveFieldValuesWhenHidden ?? undefined
-    });
+    let formTemplate = new FormTemplate();
+    copyValuesIfExists(dotNetFormTemplate, formTemplate, 'title', 'description', 'preserveFieldValuesWhenHidden');
+
     if (hasValue(dotNetFormTemplate?.elements)) {
         formTemplate.elements = dotNetFormTemplate.elements.map(buildJsFormTemplateElement);
     }
@@ -1517,39 +1430,17 @@ export function buildJsTimeSliderStops(dotNetStop: any): any | null {
 function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
     switch (dotNetFormTemplateElement.type) {
         case 'group':
-            return new GroupElement({
-                label: dotNetFormTemplateElement.label ?? undefined,
-                description: dotNetFormTemplateElement.description ?? undefined,
-                elements: dotNetFormTemplateElement.elements?.map(e => buildJsFormTemplateElement(e)) ?? []
-            });
+            let groupElement = new GroupElement();
+            copyValuesIfExists(dotNetFormTemplateElement, groupElement, 'label', 'description');
+            groupElement.elements = dotNetFormTemplateElement.elements?.map(e => buildJsFormTemplateElement(e)) ?? []
+            return groupElement;
     }
     let fieldElement: any = {
         type: 'field'
     };
-    if (hasValue(dotNetFormTemplateElement.description)) {
-        fieldElement.description = dotNetFormTemplateElement.description;
-    }
-    if (hasValue(dotNetFormTemplateElement.label)) {
-        fieldElement.label = dotNetFormTemplateElement.label;
-    }
-    if (hasValue(dotNetFormTemplateElement.visibilityExpression)) {
-        fieldElement.visibilityExpression = dotNetFormTemplateElement.visibilityExpression;
-    }
-    if (hasValue(dotNetFormTemplateElement.editableExpression)) {
-        fieldElement.editableExpression = dotNetFormTemplateElement.editableExpression;
-    }
-    if (hasValue(dotNetFormTemplateElement.requiredExpression)) {
-        fieldElement.requiredExpression = dotNetFormTemplateElement.requiredExpression;
-    }
-    if (hasValue(dotNetFormTemplateElement.fieldName)) {
-        fieldElement.fieldName = dotNetFormTemplateElement.fieldName;
-    }
-    if (hasValue(dotNetFormTemplateElement.hint)) {
-        fieldElement.hint = dotNetFormTemplateElement.hint;
-    }
-    if (hasValue(dotNetFormTemplateElement.valueExpression)) {
-        fieldElement.valueExpression = dotNetFormTemplateElement.valueExpression;
-    }
+    copyValuesIfExists(dotNetFormTemplateElement, fieldElement, 'description', 'label', 'visibilityExpression',
+        'editableExpression', 'requiredExpression', 'fieldName', 'hint', 'valueExpression');
+
     if (hasValue(dotNetFormTemplateElement?.domain)) {
         fieldElement.domain = buildJsDomain(dotNetFormTemplateElement.domain);
     }
@@ -1562,16 +1453,15 @@ function buildJsFormTemplateElement(dotNetFormTemplateElement: any): Element {
 function buildJsDomain(dotNetDomain: any): any {
     switch (dotNetDomain?.type) {
         case 'coded-value':
-            return new CodedValueDomain({
-                name: dotNetDomain.name ?? undefined,
-                codedValues: dotNetDomain.codedValues?.map(c => buildJsCodedValue(c)) ?? undefined
-            });
+            let codedValueDomain = new CodedValueDomain();
+            copyValuesIfExists(dotNetDomain, codedValueDomain, 'name');
+            if (hasValue(dotNetDomain?.codedValues))
+                codedValueDomain.codedValues = dotNetDomain.codedValues.map(buildJsCodedValue);
+            return codedValueDomain;
         case 'range':
-            return new RangeDomain({
-                name: dotNetDomain.name ?? undefined,
-                maxValue: dotNetDomain.maxValue ?? undefined,
-                minValue: dotNetDomain.minValue ?? undefined
-            });
+            let rangeDomain = new RangeDomain();
+            copyValuesIfExists(dotNetDomain, rangeDomain, 'name', 'maxValue', 'minValue');
+            return rangeDomain;
     }
 
     return undefined;
@@ -1587,41 +1477,33 @@ function buildJsCodedValue(dotNetCodedValue: any): CodedValue {
 function buildJsFormInput(dotNetFormInput: any): any {
     switch (dotNetFormInput?.type) {
         case 'text-box':
-            return new TextBoxInput({
-                maxLength: dotNetFormInput.maxLength ?? undefined,
-                minLength: dotNetFormInput.minLength ?? undefined
-            });
+            let textBox = new TextBoxInput();
+            copyValuesIfExists(dotNetFormInput, textBox, 'maxLength', 'minLength');
+            return textBox;
         case 'text-area':
-            return new TextAreaInput({
-                maxLength: dotNetFormInput.maxLength ?? undefined,
-                minLength: dotNetFormInput.minLength ?? undefined
-            });
+            let textArea = new TextAreaInput();
+            copyValuesIfExists(dotNetFormInput, textArea, 'maxLength', 'minLength');
+            return textArea;
         case 'datetime-picker':
-            return new DateTimePickerInput({
-                includeTime: dotNetFormInput.includeTime ?? undefined,
-                max: dotNetFormInput.max ?? undefined,
-                min: dotNetFormInput.min ?? undefined
-            });
+            let dateTimePicker = new DateTimePickerInput();
+            copyValuesIfExists(dotNetFormInput, dateTimePicker, 'includeTime', 'max', 'min');
+            return dateTimePicker;
         case 'barcode-scanner':
-            return new BarcodeScannerInput({
-                maxLength: dotNetFormInput.maxLength ?? undefined,
-                minLength: dotNetFormInput.minLength ?? undefined
-            });
+            let barcodeScanner = new BarcodeScannerInput();
+            copyValuesIfExists(dotNetFormInput, barcodeScanner, 'maxLength', 'minLength');
+            return barcodeScanner;
         case 'combo-box':
-            return new ComboBoxInput({
-                noValueOptionLabel: dotNetFormInput.noValueOptionLabel ?? undefined,
-                showNoValueOption: dotNetFormInput.showNoValueOption ?? undefined
-            });
+            let comboBox = new ComboBoxInput();
+            copyValuesIfExists(dotNetFormInput, comboBox, 'noValueOptionLabel', 'showNoValueOption');
+            return comboBox;
         case 'radio-buttons':
-            return new RadioButtonsInput({
-                noValueOptionLabel: dotNetFormInput.noValueOptionLabel ?? undefined,
-                showNoValueOption: dotNetFormInput.showNoValueOption ?? undefined
-            });
+            let radioButton = new RadioButtonsInput();
+            copyValuesIfExists(dotNetFormInput, radioButton, 'noValueOptionLabel', 'showNoValueOption');
+            return radioButton;
         case 'switch':
-            return new SwitchInput({
-                offValue: dotNetFormInput.offValue ?? undefined,
-                onValue: dotNetFormInput.onValue ?? undefined
-            });
+            let switchInput = new SwitchInput();
+            copyValuesIfExists(dotNetFormInput, switchInput, 'offValue', 'onValue');
+            return switchInput;
     }
 
     return undefined;
@@ -1662,6 +1544,7 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
     if (dnFeatureEffect === undefined || dnFeatureEffect === null) return null;
     let featureEffect = new FeatureEffect();
 
+    copyValuesIfExists(dnFeatureEffect, featureEffect, 'excludedLabelsVisible');
     //if there is a single effect, its a string, if there are effects based on scale its an array and has scale and value.
     if (dnFeatureEffect.excludedEffect != null) {
         if (dnFeatureEffect.excludedEffect.length === 1) {
@@ -1670,7 +1553,7 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
             featureEffect.excludedEffect = dnFeatureEffect.excludedEffect.map(buildJsEffect);
         }
     }
-    featureEffect.excludedLabelsVisible = dnFeatureEffect.excludedLabelsVisible ?? undefined;
+
     if (hasValue(dnFeatureEffect?.filter)) {
         featureEffect.filter = buildJsFeatureFilter(dnFeatureEffect.filter) as FeatureFilter;
     }
@@ -1700,17 +1583,16 @@ export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): Feat
     if (dnFeatureFilter === undefined || dnFeatureFilter === null) return null;
 
     let featureFilter = new FeatureFilter();
-    featureFilter.distance = dnFeatureFilter.distance ?? undefined;
+
+    copyValuesIfExists(dnFeatureFilter, featureFilter, 'distance', 'objectIds', 'spatialRelationship', 'timeExtent', 'where');
+
     if (hasValue(dnFeatureFilter.geometry)) {
         featureFilter.geometry = buildJsGeometry(dnFeatureFilter.geometry) as Geometry;
     }
-    featureFilter.objectIds = dnFeatureFilter.objectIds ?? undefined;
-    featureFilter.spatialRelationship = dnFeatureFilter.spatialRelationship ?? undefined;
-    featureFilter.timeExtent = dnFeatureFilter.timeExtent ?? undefined;
+
     if (hasValue(dnFeatureFilter.where)) {
         featureFilter.units = dnFeatureFilter.units as any;
     }
-    featureFilter.where = dnFeatureFilter.where ?? undefined;
     return featureFilter;
 }
 
@@ -1739,34 +1621,22 @@ export function buildJsTickConfigs(dotNetTickConfig: any): any {
         labelFormatFunction = new Function(dotNetTickConfig.labelFormatFunction);
     }
 
-    let tickConfig = {
-        mode: dotNetTickConfig.mode ?? undefined,
-        count: dotNetTickConfig.count ?? undefined,
-        values: dotNetTickConfig.values ?? undefined,
-        labelsVisible: dotNetTickConfig.labelsVisible ?? undefined,
-        tickCreatedFunction: tickCreatedFunction ?? undefined,
-        labelFormatFunction: labelFormatFunction ?? undefined
-    }
+    let tickConfig = {};
+
+    copyValuesIfExists(dotNetTickConfig, tickConfig, 'mode', 'count', 'values', 'labelsVisible', 'tickCreatedFunction', 'labelFormatFunction');
+
     return tickConfig;
 }
 
 export async function buildJsSearchSource(dotNetSource: any, viewId: string): Promise<SearchSource> {
-    let source: any = {
-        autoNavigate: dotNetSource.autoNavigate ?? undefined,
-        filter: buildJsSearchSourceFilter(dotNetSource.filter) ?? undefined,
-        maxResults: dotNetSource.maxResults ?? undefined,
-        minSuggestCharacters: dotNetSource.minSuggestCharacters ?? undefined,
-        name: dotNetSource.name ?? undefined,
-        outFields: dotNetSource.outFields ?? undefined,
-        placeholder: dotNetSource.placeholder ?? undefined,
-        popupEnabled: dotNetSource.popupEnabled ?? undefined,
-        prefix: dotNetSource.prefix ?? undefined,
-        resultGraphicEnabled: dotNetSource.resultGraphicEnabled ?? undefined,
-        searchTemplate: dotNetSource.searchTemplate ?? undefined,
-        suffix: dotNetSource.suffix ?? undefined,
-        suggestionsEnabled: dotNetSource.suggestionsEnabled ?? undefined,
-        zoomScale: dotNetSource.zoomScale ?? undefined
-    };
+    let source: any = {};
+
+    copyValuesIfExists(dotNetSource, source, 'autoNavigate', 'maxResults', 'minSuggestCharacters', 'name', 'outFields',
+        'placeholder', 'popupEnabled', 'prefix', 'resultGraphicEnabled', 'searchTemplate', 'suffix', 'suggestionsEnabled', 'zoomScale');
+
+    if (hasValue(dotNetSource.filter)) {
+        source.filter = buildJsSearchSourceFilter(dotNetSource.filter)
+    }
 
     if (hasValue(dotNetSource.popupTemplate)) {
         source.popupTemplate = buildJsPopupTemplate(dotNetSource.popupTemplate, viewId);
@@ -1863,23 +1733,13 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
                 layer = await createLayer(dotNetSource.layer, false, viewId);
             }
             source.layer = layer;
-            source.displayField = dotNetSource.displayField ?? undefined;
-            source.exactMatch = dotNetSource.exactMatch ?? undefined;
-            source.orderByFields = dotNetSource.orderByFields ?? undefined;
-            source.searchFields = dotNetSource.searchFields ?? undefined;
-            source.suggestionTemplate = dotNetSource.suggestionTemplate ?? undefined;
+            copyValuesIfExists(dotNetSource, source, 'displayField', 'exactMatch', 'orderByFields', 'searchFields',
+                'suggestionTemplate');
 
             break;
         case "locator":
-            source.apiKey = dotNetSource.apiKey ?? undefined;
-            source.categories = dotNetSource.categories ?? undefined;
-            source.countryCode = dotNetSource.countryCode ?? undefined;
-            source.defaultZoomScale = dotNetSource.defaultZoomScale ?? undefined;
-            source.localSearchDisabled = dotNetSource.localSearchDisabled ?? undefined;
-            source.locationType = dotNetSource.locationType ?? undefined;
-            source.singleLineFieldName = dotNetSource.singleLineFieldName ?? undefined;
-            source.url = dotNetSource.url ?? undefined;
-
+            copyValuesIfExists(dotNetSource, source, 'apiKey', 'categories', 'countryCode', 'defaultZoomScale',
+                'localSearchDisabled', 'locationType', 'singleLineFieldName', 'url');
             break;
     }
 
@@ -1889,10 +1749,11 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
 function buildJsSearchSourceFilter(dotNetFilter: any): SearchSourceFilter | null {
     if (!hasValue(dotNetFilter)) return null;
 
-    let filter: SearchSourceFilter = {
-        where: dotNetFilter.where ?? undefined,
-        geometry: buildJsGeometry(dotNetFilter.geometry) ?? undefined
-    };
+    let filter: SearchSourceFilter = {};
+
+    copyValuesIfExists(dotNetFilter, filter, 'where');
+    if (hasValue(dotNetFilter.geometry))
+        filter.geometry = buildJsGeometry(dotNetFilter.geometry) as Geometry;
 
     return filter;
 }
@@ -1921,23 +1782,16 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
                 'labelsVisible', 'maxScale', 'popupEnabled');
             return cluster;
         case 'binning':
-            return {
-                type: 'binning',
-                fields: dnFeatureReduction.fields?.map(buildJsAggregateField) ?? undefined,
-                fixedBinLevel: dnFeatureReduction.fixedBinLevel ?? undefined,
-                labelingInfo: dnFeatureReduction.labelingInfo?.map(buildJsLabelClass) ?? undefined,
-                labelsVisible: dnFeatureReduction.labelsVisible ?? undefined,
-                maxScale: dnFeatureReduction.maxScale ?? undefined,
-                popupEnabled: dnFeatureReduction.popupEnabled ?? true,
-                popupTemplate: buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) ?? undefined,
-                renderer: buildJsRenderer(dnFeatureReduction.renderer) ?? undefined
-            } as FeatureReductionBinning;
             let binning = new FeatureReductionBinning();
-            if (hasValue(dnFeatureReduction.fields) && dnFeatureReduction.fields.length > 0) {
+            copyValuesIfExists(dnFeatureReduction, binning, 'type', 'fixedBinLevel', 'labelsVisible', 'maxScale', 'popupEnabled');
+            if (hasValue(dnFeatureReduction.fields)) {
                 binning.fields = dnFeatureReduction.fields.map(buildJsAggregateField);
             }
-            if (hasValue(dnFeatureReduction.labelingInfo) && dnFeatureReduction.labelingInfo.length > 0) {
-                binning.labelingInfo = dnFeatureReduction.labelingInfo.map(buildJsLabelClass);
+            if (hasValue(dnFeatureReduction.fields)) {
+                binning.labelingInfo = dnFeatureReduction.labelingInfo?.map(buildJsLabelClass)
+            }
+            if (hasValue(dnFeatureReduction.popupTemplate)) {
+                binning.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
             }
             if (hasValue(dnFeatureReduction.popupTemplate)) {
                 binning.popupTemplate = buildJsPopupTemplate(dnFeatureReduction.popupTemplate, viewId) as PopupTemplate;
@@ -1945,29 +1799,27 @@ export function buildJsFeatureReduction(dnFeatureReduction: any, viewId: string 
             if (hasValue(dnFeatureReduction.renderer)) {
                 binning.renderer = buildJsRenderer(dnFeatureReduction.renderer) as Renderer;
             }
+
+            return binning
         case 'selection':
             return new FeatureReductionSelection();
     }
 }
 
 function buildJsAggregateField(dnAggregateField: any): AggregateField {
-    return new AggregateField({
-        alias: dnAggregateField.alias ?? undefined,
-        isAutoGenerated: dnAggregateField.isAutoGenerated ?? undefined,
-        name: dnAggregateField.name ?? undefined,
-        onStatisticExpression: buildJsSupportExpressionInfo(dnAggregateField.onStatisticExpression) ?? undefined,
-        onStatisticField: dnAggregateField.onStatisticField ?? undefined,
-        statisticType: dnAggregateField.statisticType ?? undefined
-    });
+    let aggregateField = new AggregateField();
+    copyValuesIfExists(dnAggregateField, aggregateField, 'alias', 'isAutoGenerated', 'name', 'onStatisticField', 'statisticType');
+    if (hasValue(dnAggregateField.onStatisticExpression))
+        aggregateField.onStatisticExpression = buildJsSupportExpressionInfo(dnAggregateField.onStatisticExpression) as supportExpressionInfo
+
+    return aggregateField;
 }
 
 function buildJsSupportExpressionInfo(dnEI: any): supportExpressionInfo | null {
     if (!hasValue(dnEI)) return null;
-    return {
-        expression: dnEI.expression ?? undefined,
-        returnType: dnEI.returnType ?? undefined,
-        title: dnEI.title ?? undefined
-    } as supportExpressionInfo;
+    let esriSupportExpressionInfo = new supportExpressionInfo();
+    copyValuesIfExists(dnEI, esriSupportExpressionInfo, 'expression', 'returnType', 'title');
+    return esriSupportExpressionInfo;
 }
 
 export function buildJsFeatureSet(dnFs: DotNetFeatureSet, viewId: string | null): FeatureSet {
@@ -2054,38 +1906,23 @@ function buildJsDynamicLayer(dotNetSource: any): DynamicMapLayer | DynamicDataLa
 function buildJsDynamicDataSource(dotNetSource: any): any {
     switch (dotNetSource.type) {
         case 'table':
-            return {
-                type: 'table',
-                workspaceId: dotNetSource.workspaceId,
-                dataSourceName: dotNetSource.dataSourceName,
-                gdbVersion: dotNetSource.gdbVersion ?? undefined
-            } as TableDataSource;
+            let table = {} as TableDataSource;
+            copyValuesIfExists(dotNetSource, table, 'type', 'workspaceId', 'dataSourceName', 'gdbVersion');
+            return table;
         case 'query-table':
-            let queryTable = {
-                type: 'query-table',
-                workspaceId: dotNetSource.workspaceId,
-                query: dotNetSource.query,
-                oidFields: dotNetSource.oidFields ?? undefined,
-                geometryType: dotNetSource.geometryType ?? undefined
-            } as QueryTableDataSource;
+            let queryTable = {} as QueryTableDataSource;
+            copyValuesIfExists(dotNetSource, queryTable, 'type', 'workspaceId', 'query', 'oidFields', 'geometryType');
             if (hasValue(dotNetSource.spatialReference)) {
                 queryTable.spatialReference = buildJsSpatialReference(dotNetSource.spatialReference);
             }
             return queryTable;
         case 'raster':
-            return {
-                type: 'raster',
-                workspaceId: dotNetSource.workspaceId,
-                dataSourceName: dotNetSource.dataSourceName
-            } as RasterDataSource;
+            let raster = {} as RasterDataSource;
+            copyValuesIfExists(dotNetSource, raster, 'type', 'workspaceId', 'dataSourceName');
+            return raster;
         default:
-            let joinTable = {
-                type: 'join-table',
-                leftTableKey: dotNetSource.leftTableKey,
-                rightTableKey: dotNetSource.rightTableKey,
-                joinType: dotNetSource.joinType
-            } as JoinTableDataSource;
-
+            let joinTable = {} as JoinTableDataSource;
+            copyValuesIfExists(dotNetSource, joinTable, 'type', 'leftTableKey', 'rightTableKey', 'joinType');
             if (hasValue(dotNetSource?.leftTableSource)) {
                 joinTable.leftTableSource = buildJsDynamicLayer(dotNetSource.leftTableSource);
             }
@@ -2109,7 +1946,7 @@ export function buildJsTickConfig(dnTickConfig: any): TickConfig {
         mode: dnTickConfig.mode ?? undefined,
         values: dnTickConfig.values ?? undefined
     };
-    copyValuesIfExists(dnTickConfig, tickConfig, 'labelsVisible');
+    copyValuesIfExists(dnTickConfig, tickConfig, 'mode', 'values', 'labelsVisible');
     if (hasValue(dnTickConfig.tickCreatedFunction)) {
         tickConfig.tickCreatedFunction = (value, tickElement, labelElement) => {
             return new Function('value', 'tickElement', 'labelElement', dnTickConfig.tickCreatedFunction)(value, tickElement, labelElement);
