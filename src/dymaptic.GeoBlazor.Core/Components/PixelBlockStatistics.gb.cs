@@ -266,7 +266,4 @@ public partial class PixelBlockStatistics : MapComponent
     
 #endregion
 
-
-
-
 }

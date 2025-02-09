@@ -235,7 +235,4 @@ public partial class OpacityStop
     
 #endregion
 
-
-
-
 }

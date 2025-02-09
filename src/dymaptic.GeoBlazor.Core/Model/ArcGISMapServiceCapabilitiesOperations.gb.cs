@@ -37,4 +37,3 @@ public partial record ArcGISMapServiceCapabilitiesOperations(
     bool? SupportsQuery = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsTileMap = null);
-

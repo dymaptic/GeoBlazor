@@ -85,4 +85,3 @@ public partial record ImageInspectionInfo(
     string? ReferenceUri = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Rows = null);
-

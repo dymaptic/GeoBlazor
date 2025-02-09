@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-sql-WhereClause.html#BinaryNode">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(BinaryNodeOperatorConverter))]
+[CodeGenerationIgnore]
 public enum BinaryNodeOperator
 {
 #pragma warning disable CS1591

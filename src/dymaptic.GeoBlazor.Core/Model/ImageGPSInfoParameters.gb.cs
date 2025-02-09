@@ -66,4 +66,3 @@ public partial record ImageGPSInfoParameters(
     public string? Where { get; set; } = Where;
     
 }
-

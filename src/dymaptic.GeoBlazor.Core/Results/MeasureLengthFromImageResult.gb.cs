@@ -19,4 +19,3 @@ public partial record MeasureLengthFromImageResult(
     Polyline? Geometry = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Length = null);
-

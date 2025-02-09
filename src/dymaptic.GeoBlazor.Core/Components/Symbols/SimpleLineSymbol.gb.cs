@@ -390,7 +390,4 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     
 #endregion
 
-
-
-
 }

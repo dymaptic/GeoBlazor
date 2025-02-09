@@ -19,4 +19,3 @@ public partial record FeatureEditResultError(
     string? Message = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null);
-

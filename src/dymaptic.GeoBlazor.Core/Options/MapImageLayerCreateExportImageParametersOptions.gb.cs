@@ -41,4 +41,3 @@ public partial record MapImageLayerCreateExportImageParametersOptions(
     public string? TimeExtent { get; set; } = TimeExtent;
     
 }
-

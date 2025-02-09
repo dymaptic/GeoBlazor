@@ -77,4 +77,3 @@ public partial record MosaicRule(
     Point? Viewpoint = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Where = null);
-

@@ -37,4 +37,3 @@ public partial record CSVLayerCapabilities(
     CSVLayerCapabilitiesQuery? Query = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CSVLayerCapabilitiesQueryRelated? QueryRelated = null);
-

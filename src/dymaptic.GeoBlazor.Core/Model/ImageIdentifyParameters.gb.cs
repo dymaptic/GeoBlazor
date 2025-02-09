@@ -134,4 +134,3 @@ public partial record ImageIdentifyParameters(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
 }
-

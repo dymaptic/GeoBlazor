@@ -19,4 +19,3 @@ public partial record GeoJSONLayerGetFieldDomainOptions(
     public Graphic? Feature { get; set; } = Feature;
     
 }
-

@@ -10,4 +10,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record WebTileLayerRefreshEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? DataChanged = null);
-

@@ -31,4 +31,3 @@ public partial record FetchResourcesParams(
     PortalQuerySortOrder? SortOrder = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Start = null);
-

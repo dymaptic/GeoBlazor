@@ -288,9 +288,6 @@ public partial class PictureMarkerSymbol : IRouteStopSymbolsBreak,
     
 #endregion
 
-
-
-
     /// <inheritdoc />
     internal override void ValidateRequiredGeneratedChildren()
     {

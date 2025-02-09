@@ -31,4 +31,3 @@ public partial record ImageAreaResult(
     MeasurementValue? Perimeter = null) : BaseImageMeasureResult(
     Name,
     SensorName);
-

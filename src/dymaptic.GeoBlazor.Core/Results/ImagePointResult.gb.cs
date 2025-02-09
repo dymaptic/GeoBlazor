@@ -25,4 +25,3 @@ public partial record ImagePointResult(
     Point? Point = null) : BaseImageMeasureResult(
     Name,
     SensorName);
-

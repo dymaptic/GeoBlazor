@@ -19,4 +19,3 @@ public partial record PortalRating(
     DateTime? Created = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Rating = null);
-

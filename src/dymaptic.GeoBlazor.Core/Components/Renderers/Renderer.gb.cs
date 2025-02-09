@@ -92,9 +92,6 @@ public abstract partial class Renderer
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

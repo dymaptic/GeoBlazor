@@ -52,4 +52,3 @@ public partial record PortalUserFetchItemsParams(
     string? SortOrder = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Start = null);
-

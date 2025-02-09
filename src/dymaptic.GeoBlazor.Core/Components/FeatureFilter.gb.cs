@@ -593,7 +593,6 @@ public partial class FeatureFilter
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -611,7 +610,5 @@ public partial class FeatureFilter
     }
     
 #endregion
-
-
 
 }

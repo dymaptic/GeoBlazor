@@ -36,4 +36,3 @@ public partial record ElevationLayerCreateElevationSamplerOptions(
     public double? NoDataValue { get; set; } = NoDataValue;
     
 }
-

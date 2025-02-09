@@ -25,4 +25,3 @@ public partial record CSVLayerCapabilitiesData(
     bool? SupportsM = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsZ = null);
-

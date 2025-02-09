@@ -353,9 +353,6 @@ public partial class MediaPopupContent
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

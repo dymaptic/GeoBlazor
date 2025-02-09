@@ -342,9 +342,6 @@ public partial class FeatureLayerBaseElevationInfo : MapComponent
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

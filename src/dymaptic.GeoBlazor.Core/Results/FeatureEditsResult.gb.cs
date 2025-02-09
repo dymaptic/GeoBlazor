@@ -49,4 +49,3 @@ public partial record FeatureEditsResult(
     EditedFeatureResult[]? EditedFeatureResults = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? EditMoment = null);
-

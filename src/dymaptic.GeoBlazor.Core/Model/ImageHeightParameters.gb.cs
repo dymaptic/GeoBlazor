@@ -69,4 +69,3 @@ public partial record ImageHeightParameters(
     public Point? ToGeometry { get; set; } = ToGeometry;
     
 }
-

@@ -1118,7 +1118,6 @@ public partial class VectorTileLayer : IBlendLayer,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -1399,8 +1398,6 @@ layerId,
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

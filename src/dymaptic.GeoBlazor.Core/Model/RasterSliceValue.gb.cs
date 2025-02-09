@@ -25,4 +25,3 @@ public partial record RasterSliceValue(
     IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<double>? Value = null);
-

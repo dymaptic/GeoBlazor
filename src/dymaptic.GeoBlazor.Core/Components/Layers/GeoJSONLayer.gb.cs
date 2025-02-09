@@ -2941,7 +2941,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -3173,7 +3172,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -3209,7 +3207,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

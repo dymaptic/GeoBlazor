@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record RasterMultidimensionalInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<RasterMultidimensionalInfoVariables>? Variables = null);
-

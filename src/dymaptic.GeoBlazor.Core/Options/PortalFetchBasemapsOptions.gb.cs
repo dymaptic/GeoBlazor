@@ -23,4 +23,3 @@ public partial record PortalFetchBasemapsOptions(
     public bool? Include3d { get; set; } = Include3d;
     
 }
-

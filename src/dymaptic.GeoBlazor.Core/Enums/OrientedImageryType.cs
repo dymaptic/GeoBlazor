@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OrientedImageryLayer.html#orientedImageryType">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(OrientedImageryTypeConverter))]
+[CodeGenerationIgnore]
 public enum OrientedImageryType
 {
 #pragma warning disable CS1591

@@ -180,7 +180,4 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
     
 #endregion
 
-
-
-
 }

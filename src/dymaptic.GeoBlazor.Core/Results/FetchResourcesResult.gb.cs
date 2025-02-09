@@ -25,4 +25,3 @@ public partial record FetchResourcesResult(
     IReadOnlyCollection<FetchResource>? Resources = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Total = null);
-

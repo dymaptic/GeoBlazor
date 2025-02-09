@@ -25,4 +25,3 @@ public partial record QueryRangeValues(
     double? DoubleValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null);
-

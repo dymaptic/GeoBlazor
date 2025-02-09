@@ -23,4 +23,3 @@ public partial record ImageryTileMixinFetchPixelsOptions(
     public Interpolation? Interpolation { get; set; } = Interpolation;
     
 }
-

@@ -52,4 +52,3 @@ public partial record FeatureLayerEditsEvent(
     IReadOnlyCollection<FeatureEditResult>? UpdatedAttachments = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<FeatureEditResult>? UpdatedFeatures = null);
-

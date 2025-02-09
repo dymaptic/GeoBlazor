@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Results;
 public partial record ImageSampleResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ImageSample>? Samples = null);
-

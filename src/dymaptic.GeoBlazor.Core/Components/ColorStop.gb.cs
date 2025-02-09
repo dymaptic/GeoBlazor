@@ -249,9 +249,6 @@ public partial class ColorStop
     
 #endregion
 
-
-
-
     /// <inheritdoc />
     internal override void ValidateRequiredGeneratedChildren()
     {

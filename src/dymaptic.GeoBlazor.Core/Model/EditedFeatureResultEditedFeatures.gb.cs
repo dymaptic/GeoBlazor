@@ -31,4 +31,3 @@ public partial record EditedFeatureResultEditedFeatures(
     SpatialReference? SpatialReference = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<EditedFeatureResultEditedFeaturesUpdates>? Updates = null);
-

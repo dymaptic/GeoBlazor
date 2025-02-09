@@ -376,7 +376,6 @@ public partial class Extent
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -533,7 +532,5 @@ public partial class Extent
     }
     
 #endregion
-
-
 
 }

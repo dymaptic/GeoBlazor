@@ -355,9 +355,6 @@ public partial class SpatialReference
     
 #endregion
 
-
-
-
     /// <inheritdoc />
     internal override void ValidateRequiredGeneratedChildren()
     {

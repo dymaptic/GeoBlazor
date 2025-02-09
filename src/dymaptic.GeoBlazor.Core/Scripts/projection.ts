@@ -1,8 +1,9 @@
 ﻿import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
-import {buildJsExtent, buildJsSpatialReference} from "./jsBuilder";
+import {buildJsSpatialReference} from "./jsBuilder";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
+import { buildJsExtent } from "./extent";
 
 export default class ProjectionWrapper {
     private dotNetRef: any;

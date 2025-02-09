@@ -3198,7 +3198,6 @@ public partial class ImageryLayer : IArcGISImageService,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -3854,7 +3853,6 @@ public partial class ImageryLayer : IArcGISImageService,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -3874,7 +3872,6 @@ public partial class ImageryLayer : IArcGISImageService,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

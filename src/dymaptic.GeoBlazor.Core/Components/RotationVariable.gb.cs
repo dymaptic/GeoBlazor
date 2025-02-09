@@ -209,7 +209,4 @@ public partial class RotationVariable
     
 #endregion
 
-
-
-
 }

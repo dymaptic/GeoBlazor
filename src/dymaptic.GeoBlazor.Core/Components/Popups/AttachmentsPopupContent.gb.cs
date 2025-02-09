@@ -176,7 +176,4 @@ public partial class AttachmentsPopupContent
     
 #endregion
 
-
-
-
 }

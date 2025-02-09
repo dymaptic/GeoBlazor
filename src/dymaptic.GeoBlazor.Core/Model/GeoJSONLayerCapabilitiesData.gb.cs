@@ -25,4 +25,3 @@ public partial record GeoJSONLayerCapabilitiesData(
     bool? SupportsM = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsZ = null);
-

@@ -364,7 +364,4 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     
 #endregion
 
-
-
-
 }

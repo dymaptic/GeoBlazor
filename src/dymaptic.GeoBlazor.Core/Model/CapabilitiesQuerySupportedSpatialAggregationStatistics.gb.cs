@@ -25,4 +25,3 @@ public partial record CapabilitiesQuerySupportedSpatialAggregationStatistics(
     bool? ConvexHull = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Envelope = null);
-

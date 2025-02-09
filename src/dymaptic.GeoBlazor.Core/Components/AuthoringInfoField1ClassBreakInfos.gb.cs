@@ -191,7 +191,4 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
     
 #endregion
 
-
-
-
 }

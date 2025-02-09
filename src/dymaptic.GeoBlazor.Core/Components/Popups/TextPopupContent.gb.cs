@@ -103,7 +103,4 @@ public partial class TextPopupContent
     
 #endregion
 
-
-
-
 }

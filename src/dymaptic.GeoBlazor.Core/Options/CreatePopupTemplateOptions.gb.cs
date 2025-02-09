@@ -31,4 +31,3 @@ public partial record CreatePopupTemplateOptions(
     public IReadOnlyCollection<string>? VisibleFieldNames { get; set; } = VisibleFieldNames;
     
 }
-

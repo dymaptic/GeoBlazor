@@ -402,7 +402,6 @@ public abstract partial class Layer : IHitTestItem,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -448,7 +447,5 @@ public abstract partial class Layer : IHitTestItem,
     }
     
 #endregion
-
-
 
 }

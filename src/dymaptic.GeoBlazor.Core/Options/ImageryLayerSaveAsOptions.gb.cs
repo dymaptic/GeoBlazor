@@ -30,4 +30,3 @@ public partial record ImageryLayerSaveAsOptions(
     public ImageryLayerSaveAsOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
     
 }
-

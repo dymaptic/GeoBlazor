@@ -23,4 +23,3 @@ public partial record ElevationLayerFetchTileOptions(
     public double? NoDataValue { get; set; } = NoDataValue;
     
 }
-

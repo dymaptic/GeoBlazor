@@ -1180,7 +1180,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -1245,8 +1244,6 @@ value);
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

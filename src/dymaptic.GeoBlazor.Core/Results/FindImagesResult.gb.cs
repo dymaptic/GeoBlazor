@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Results;
 public partial record FindImagesResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ImageInspectionInfo>? Images = null);
-

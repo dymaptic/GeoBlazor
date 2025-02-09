@@ -83,4 +83,3 @@ public partial record ElevationSampler(
 #endregion
 
 }
-

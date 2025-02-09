@@ -24,4 +24,3 @@ public partial record PortalItemUpdateThumbnailParams(
     Stream? StreamThumbnail = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StringThumbnail = null);
-

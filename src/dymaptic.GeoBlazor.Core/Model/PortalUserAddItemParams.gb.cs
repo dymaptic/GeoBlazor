@@ -30,4 +30,3 @@ public partial record PortalUserAddItemParams(
     PortalFolder? PortalFolderFolder = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StringFolder = null);
-

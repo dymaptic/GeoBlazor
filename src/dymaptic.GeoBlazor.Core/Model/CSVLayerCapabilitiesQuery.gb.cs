@@ -115,4 +115,3 @@ public partial record CSVLayerCapabilitiesQuery(
     bool? SupportsStandardizedQueriesOnly = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStatistics = null);
-

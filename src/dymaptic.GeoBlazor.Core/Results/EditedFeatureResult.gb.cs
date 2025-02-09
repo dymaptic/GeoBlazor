@@ -19,4 +19,3 @@ public partial record EditedFeatureResult(
     long? LayerId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     EditedFeatureResultEditedFeatures? EditedFeatures = null);
-

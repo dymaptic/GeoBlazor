@@ -10,7 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 public abstract partial class PopupContent
 {
 
-
-
-
 }

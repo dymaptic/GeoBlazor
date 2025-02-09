@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-sql-WhereClause.html#IntervalNode">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(IntervalNodeSignConverter))]
+[CodeGenerationIgnore]
 public enum IntervalNodeSign
 {
 #pragma warning disable CS1591

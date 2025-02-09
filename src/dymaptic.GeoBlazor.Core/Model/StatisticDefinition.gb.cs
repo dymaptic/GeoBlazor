@@ -28,4 +28,3 @@ public partial record StatisticDefinition(
     string OutStatisticFieldName,
     StatisticType StatisticType,
     StatisticDefinitionStatisticParameters StatisticParameters);
-

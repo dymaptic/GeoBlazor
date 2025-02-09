@@ -31,4 +31,3 @@ public partial record PortalQueryResult(
     IReadOnlyCollection<string>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Total = null);
-

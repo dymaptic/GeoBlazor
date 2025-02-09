@@ -19,4 +19,3 @@ public partial record ElevationSamplerDemResolution(
     double? Max = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Min = null);
-

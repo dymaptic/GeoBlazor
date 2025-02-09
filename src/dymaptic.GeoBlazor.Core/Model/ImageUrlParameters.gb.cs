@@ -31,4 +31,3 @@ public partial record ImageUrlParameters(
     public string? ReferenceUri { get; set; } = ReferenceUri;
     
 }
-

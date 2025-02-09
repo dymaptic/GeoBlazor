@@ -22,7 +22,6 @@ import {
     buildJsBookmark,
     buildJsDimensionalDefinition,
     buildJsEffect,
-    buildJsExtent,
     buildJsFields,
     buildJsGeometry,
     buildJsGraphic,
@@ -141,6 +140,7 @@ import LegendLayerInfos = __esri.LegendLayerInfos;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
 import {dot} from "node:test/reporters";
+import { buildJsExtent } from './extent';
 
 // region exports
 
@@ -161,7 +161,6 @@ export {
 
 
 export * from './jsBuilder';
-export * from './jsBuilder.gb';
 
 export let arcGisObjectRefs: Record<string, any> = {};
 // this could be either the arcGIS object or a "wrapper" class
@@ -2746,16 +2745,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
         case 'wcs':
             let { buildJsWCSLayer } = await import('./wCSLayer');
             newLayer = await buildJsWCSLayer(dotNetLayer, dotNetLayer.id, viewId);
-
-            break;
-        case 'base-tile':
-            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
-            newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
-
-            break;
-        case 'base-tile':
-            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
-            newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         default:

@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     An enum of all the possible ArcGIS Layer types.
 /// </summary>
 [JsonConverter(typeof(LayerTypeConverter))]
+[CodeGenerationIgnore]
 public enum LayerType
 {
     BaseDynamic,

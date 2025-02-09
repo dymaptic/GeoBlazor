@@ -845,7 +845,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -864,7 +863,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     }
     
 #endregion
-
 
 #region Event Handlers
 
@@ -885,7 +883,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

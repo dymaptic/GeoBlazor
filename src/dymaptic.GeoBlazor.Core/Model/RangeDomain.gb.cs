@@ -8,8 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class RangeDomain : IFieldColumnTemplateDomain,
-    IFieldInputDomain,
-    ISubtypeDomains
+    IFieldInputDomain
 {
 
     /// <summary>
@@ -31,14 +30,20 @@ public partial class RangeDomain : IFieldColumnTemplateDomain,
     ///     The minimum valid value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="name">
+    ///     The domain name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html#name">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public RangeDomain(
         string? maxValue = null,
-        string? minValue = null)
+        string? minValue = null,
+        string? name = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         MaxValue = maxValue;
         MinValue = minValue;
+        Name = name;
 #pragma warning restore BL0005    
     }
     
@@ -192,8 +197,5 @@ public partial class RangeDomain : IFieldColumnTemplateDomain,
     }
     
 #endregion
-
-
-
 
 }

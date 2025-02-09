@@ -25,4 +25,3 @@ public partial record ImageAngleResult(
     SpatialReference? SpatialReference = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Up = null);
-

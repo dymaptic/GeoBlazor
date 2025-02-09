@@ -52,4 +52,3 @@ public partial record GeoJSONLayerApplyEditsEdits(
     public IReadOnlyCollection<Graphic>? UpdateFeatures { get; set; } = UpdateFeatures;
     
 }
-

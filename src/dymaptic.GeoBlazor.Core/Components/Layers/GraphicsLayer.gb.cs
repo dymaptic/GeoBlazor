@@ -510,7 +510,6 @@ public partial class GraphicsLayer : IBlendLayer,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -564,8 +563,6 @@ graphics);
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

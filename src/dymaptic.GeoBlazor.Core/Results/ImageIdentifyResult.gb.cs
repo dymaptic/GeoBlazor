@@ -49,4 +49,3 @@ public partial record ImageIdentifyResult(
     string? Properties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Value = null);
-

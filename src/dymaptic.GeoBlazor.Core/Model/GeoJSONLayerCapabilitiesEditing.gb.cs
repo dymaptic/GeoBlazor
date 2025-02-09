@@ -61,4 +61,3 @@ public partial record GeoJSONLayerCapabilitiesEditing(
     bool? SupportsUpdateWithoutM = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsUploadWithItemId = null);
-

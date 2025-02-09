@@ -161,6 +161,9 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         jsBingMapsLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsBingMapsLayer.type = dotNetObject.type;
+    }
     jsBingMapsLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });

@@ -44,4 +44,3 @@ public partial record MapToImageParameters(
     public bool? VisibleOnly { get; set; } = VisibleOnly;
     
 }
-

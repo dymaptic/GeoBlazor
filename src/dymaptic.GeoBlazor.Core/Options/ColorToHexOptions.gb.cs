@@ -32,4 +32,3 @@ public partial record ColorToHexOptions(
     public double? Digits { get; set; } = Digits;
     
 }
-

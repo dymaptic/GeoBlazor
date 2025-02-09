@@ -60,4 +60,3 @@ public partial record TileInfoCreateOptions(
     public SpatialReference? SpatialReference { get; set; } = SpatialReference;
     
 }
-

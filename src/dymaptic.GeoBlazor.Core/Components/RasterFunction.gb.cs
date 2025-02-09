@@ -418,7 +418,4 @@ public partial class RasterFunction : MapComponent
     
 #endregion
 
-
-
-
 }

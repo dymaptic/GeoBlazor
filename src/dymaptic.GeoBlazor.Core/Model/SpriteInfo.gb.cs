@@ -43,4 +43,3 @@ public partial record SpriteInfo(
     double? X = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Y = null);
-

@@ -194,7 +194,6 @@ public partial class Polygon
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -375,7 +374,5 @@ public partial class Polygon
     }
     
 #endregion
-
-
 
 }

@@ -19,4 +19,3 @@ public partial record PixelSizeSpatialReference(
     long? Wkid = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Wkt = null);
-

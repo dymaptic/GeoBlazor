@@ -641,7 +641,4 @@ public partial class RasterSensorInfo : MapComponent
     
 #endregion
 
-
-
-
 }

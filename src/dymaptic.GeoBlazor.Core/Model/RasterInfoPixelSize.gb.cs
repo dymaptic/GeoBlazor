@@ -19,4 +19,3 @@ public partial record RasterInfoPixelSize(
     double? X = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Y = null);
-

@@ -840,7 +840,6 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -858,8 +857,6 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

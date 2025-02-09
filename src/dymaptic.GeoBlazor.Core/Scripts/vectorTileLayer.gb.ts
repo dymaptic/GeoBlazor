@@ -36,7 +36,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async deleteStyleLayer(layerId: any): Promise<void> {
@@ -236,7 +236,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');

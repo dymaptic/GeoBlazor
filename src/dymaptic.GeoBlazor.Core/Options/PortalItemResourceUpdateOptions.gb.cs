@@ -25,4 +25,3 @@ public partial record PortalItemResourceUpdateOptions(
     public PortalItemResourceUpdateOptionsAccess? Access { get; set; } = Access;
     
 }
-

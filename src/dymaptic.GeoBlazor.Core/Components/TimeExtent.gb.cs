@@ -195,7 +195,6 @@ public partial class TimeExtent
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -236,7 +235,5 @@ public partial class TimeExtent
     }
     
 #endregion
-
-
 
 }

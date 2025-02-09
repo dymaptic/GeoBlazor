@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Options;
 public partial record ImageryLayerSaveAsOptionsValidationOptions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? IgnoreUnsupported = null);
-

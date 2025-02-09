@@ -228,4 +228,3 @@ public partial record TopFeaturesQuery(
     public string? Where { get; set; } = Where;
     
 }
-

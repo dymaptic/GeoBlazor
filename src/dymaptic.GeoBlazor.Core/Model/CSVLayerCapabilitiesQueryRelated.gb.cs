@@ -25,4 +25,3 @@ public partial record CSVLayerCapabilitiesQueryRelated(
     bool? SupportsOrderBy = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsPagination = null);
-

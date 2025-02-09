@@ -45,4 +45,3 @@ public partial record MapImageLayerFetchImageOptions(
     public string? TimeExtent { get; set; } = TimeExtent;
     
 }
-

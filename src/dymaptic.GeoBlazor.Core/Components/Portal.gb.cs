@@ -4805,7 +4805,6 @@ public partial class Portal
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -5035,8 +5034,6 @@ public partial class Portal
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

@@ -456,7 +456,6 @@ public partial class Point
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -510,7 +509,5 @@ public partial class Point
     }
     
 #endregion
-
-
 
 }

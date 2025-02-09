@@ -49,4 +49,3 @@ public partial record QueryParameterValues(
     IReadOnlyCollection<string>? StringCollectionValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StringValue = null);
-

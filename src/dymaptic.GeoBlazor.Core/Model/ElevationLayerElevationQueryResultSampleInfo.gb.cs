@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record ElevationLayerElevationQueryResultSampleInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DemResolution = null);
-

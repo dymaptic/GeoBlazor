@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Results;
 public partial record ImagePixelLocationResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<string>? Geometries = null);
-

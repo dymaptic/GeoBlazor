@@ -73,4 +73,3 @@ public partial record CoverageInfo(
     bool? UseEPSGAxis = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CoverageInfoVersion? Version = null);
-

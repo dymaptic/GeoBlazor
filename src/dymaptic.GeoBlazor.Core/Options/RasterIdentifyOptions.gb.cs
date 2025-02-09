@@ -35,4 +35,3 @@ public partial record RasterIdentifyOptions(
     public string? TransposedVariableName { get; set; } = TransposedVariableName;
     
 }
-

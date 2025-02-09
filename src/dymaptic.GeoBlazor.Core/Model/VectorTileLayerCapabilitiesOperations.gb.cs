@@ -19,4 +19,3 @@ public partial record VectorTileLayerCapabilitiesOperations(
     bool? SupportsExportTiles = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsTileMap = null);
-

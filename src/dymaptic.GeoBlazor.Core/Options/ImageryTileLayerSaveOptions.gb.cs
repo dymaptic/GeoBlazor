@@ -19,4 +19,3 @@ public partial record ImageryTileLayerSaveOptions(
     public ImageryTileLayerSaveOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
     
 }
-

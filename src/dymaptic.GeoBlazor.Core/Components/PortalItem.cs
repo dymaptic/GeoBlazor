@@ -3,6 +3,14 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class PortalItem : MapComponent
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public PortalItem()
+    {
+    }
+    
+    /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="portalItemId">

@@ -30,4 +30,3 @@ public partial record PixelBlockAddDataPlaneData(
     public IReadOnlyCollection<string>? Statistics { get; set; } = Statistics;
     
 }
-

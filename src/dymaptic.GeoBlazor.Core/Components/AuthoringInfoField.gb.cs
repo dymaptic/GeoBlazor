@@ -380,9 +380,6 @@ public partial class AuthoringInfoField
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -548,7 +548,4 @@ public partial class FieldElement
     
 #endregion
 
-
-
-
 }

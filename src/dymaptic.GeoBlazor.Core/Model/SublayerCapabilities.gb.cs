@@ -23,4 +23,3 @@ public partial record SublayerCapabilities(
     SublayerCapabilitiesOperations Operations,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SublayerCapabilitiesQueryRelated? QueryRelated = null);
-

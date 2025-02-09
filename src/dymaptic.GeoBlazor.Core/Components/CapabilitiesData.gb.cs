@@ -341,7 +341,4 @@ public partial class CapabilitiesData : MapComponent
     
 #endregion
 
-
-
-
 }

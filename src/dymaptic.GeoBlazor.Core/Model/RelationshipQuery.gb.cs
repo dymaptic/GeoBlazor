@@ -178,4 +178,3 @@ public partial record RelationshipQuery(
     public string? Where { get; set; } = Where;
     
 }
-

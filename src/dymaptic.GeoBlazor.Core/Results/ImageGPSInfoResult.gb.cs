@@ -19,4 +19,3 @@ public partial record ImageGPSInfoResult(
     IReadOnlyCollection<CameraInfo>? Cameras = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ImageGPSInfo>? Images = null);
-

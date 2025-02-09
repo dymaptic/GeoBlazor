@@ -25,4 +25,3 @@ public partial record DeleteItemsResult(
     PortalItem? Item = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? Success = null);
-

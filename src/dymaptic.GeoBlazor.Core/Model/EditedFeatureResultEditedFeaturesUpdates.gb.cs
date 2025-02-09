@@ -19,4 +19,3 @@ public partial record EditedFeatureResultEditedFeaturesUpdates(
     IReadOnlyCollection<Graphic>? Current = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<Graphic>? Original = null);
-

@@ -78,7 +78,4 @@ public abstract partial class Domain
     
 #endregion
 
-
-
-
 }

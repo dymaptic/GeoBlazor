@@ -424,9 +424,6 @@ public partial class FeatureEffect
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

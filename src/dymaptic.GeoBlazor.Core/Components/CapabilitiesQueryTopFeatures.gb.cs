@@ -116,7 +116,4 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
     
 #endregion
 
-
-
-
 }

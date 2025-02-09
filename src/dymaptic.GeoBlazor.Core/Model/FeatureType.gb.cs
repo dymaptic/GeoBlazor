@@ -31,4 +31,3 @@ public partial record FeatureType(
     Dictionary<string, Domain> Domains,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? FeatureTypeId = null);
-

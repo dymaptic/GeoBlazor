@@ -47,4 +47,3 @@ public partial record ElevationLayerQueryElevationOptions(
     public bool? ReturnSampleInfo { get; set; } = ReturnSampleInfo;
     
 }
-

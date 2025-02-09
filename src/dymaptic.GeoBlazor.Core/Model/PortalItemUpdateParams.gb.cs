@@ -12,4 +12,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record PortalItemUpdateParams(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Data = null);
-

@@ -49,4 +49,3 @@ public partial record FeatureSet(
     Geometry? QueryGeometry = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpatialReference? SpatialReference = null) : IClosestFacilityParametersFacilities, IClosestFacilityParametersIncidents, IServiceAreaParametersFacilities;
-

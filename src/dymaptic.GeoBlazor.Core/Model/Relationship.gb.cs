@@ -61,4 +61,3 @@ public partial record Relationship(
     long? RelationshipTableId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Role? Role = null);
-

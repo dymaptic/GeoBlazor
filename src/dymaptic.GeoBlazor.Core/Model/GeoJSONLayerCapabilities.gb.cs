@@ -37,4 +37,3 @@ public partial record GeoJSONLayerCapabilities(
     GeoJSONLayerCapabilitiesQuery? Query = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     GeoJSONLayerCapabilitiesQueryRelated? QueryRelated = null);
-

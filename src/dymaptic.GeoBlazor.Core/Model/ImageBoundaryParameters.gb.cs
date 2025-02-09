@@ -20,4 +20,3 @@ public partial record ImageBoundaryParameters(
     public SpatialReference? OutSpatialReference { get; set; } = OutSpatialReference;
     
 }
-

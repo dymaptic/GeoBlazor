@@ -116,7 +116,4 @@ public partial class CapabilitiesAnalytics : MapComponent
     
 #endregion
 
-
-
-
 }

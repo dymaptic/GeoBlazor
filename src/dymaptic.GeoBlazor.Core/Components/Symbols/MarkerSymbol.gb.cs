@@ -198,7 +198,4 @@ public abstract partial class MarkerSymbol
     
 #endregion
 
-
-
-
 }

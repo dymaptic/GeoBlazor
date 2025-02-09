@@ -249,7 +249,4 @@ public partial class LayerView
     
 #endregion
 
-
-
-
 }

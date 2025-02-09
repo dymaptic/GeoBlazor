@@ -31,4 +31,3 @@ public partial record RasterIdentifyResult(
     IReadOnlyCollection<double>? ProcessedValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<double>? Value = null);
-

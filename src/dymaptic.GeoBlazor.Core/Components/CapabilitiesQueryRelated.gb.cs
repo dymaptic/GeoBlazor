@@ -341,7 +341,4 @@ public partial class CapabilitiesQueryRelated : MapComponent
     
 #endregion
 
-
-
-
 }

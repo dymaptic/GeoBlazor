@@ -116,7 +116,4 @@ public partial class CapabilitiesMetadata : MapComponent
     
 #endregion
 
-
-
-
 }

@@ -42,4 +42,3 @@ public partial record ImageToMapMultirayParameters(
     public IReadOnlyCollection<long>? RasterIds { get; set; } = RasterIds;
     
 }
-

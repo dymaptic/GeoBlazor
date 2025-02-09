@@ -451,4 +451,3 @@ public partial record Query(
     public string? Where { get; set; } = Where;
     
 }
-

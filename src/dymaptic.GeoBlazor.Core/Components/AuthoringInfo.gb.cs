@@ -1462,9 +1462,6 @@ public partial class AuthoringInfo
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -49,7 +49,4 @@ public partial class LineSymbolMarker
     }
     
     
-
-
-
 }

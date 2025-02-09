@@ -679,7 +679,6 @@ public partial class PixelBlock : MapComponent
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -743,8 +742,6 @@ planeData);
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

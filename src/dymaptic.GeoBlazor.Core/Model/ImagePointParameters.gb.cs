@@ -45,4 +45,3 @@ public partial record ImagePointParameters(
     public bool? Is3D { get; set; } = Is3D;
     
 }
-

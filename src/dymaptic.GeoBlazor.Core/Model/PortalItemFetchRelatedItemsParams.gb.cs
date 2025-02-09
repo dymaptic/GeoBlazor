@@ -18,4 +18,3 @@ public partial record PortalItemFetchRelatedItemsParams(
     RelationshipDirection? Direction = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? RelationshipType = null);
-

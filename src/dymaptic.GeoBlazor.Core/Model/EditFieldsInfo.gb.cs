@@ -31,4 +31,3 @@ public partial record EditFieldsInfo(
     string? EditDateField = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? EditorField = null);
-

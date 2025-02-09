@@ -169,7 +169,4 @@ public partial class VisualVariableLegendOptions
     
 #endregion
 
-
-
-
 }

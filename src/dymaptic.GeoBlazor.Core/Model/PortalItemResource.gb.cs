@@ -98,4 +98,3 @@ public partial record PortalItemResource(
 #endregion
 
 }
-

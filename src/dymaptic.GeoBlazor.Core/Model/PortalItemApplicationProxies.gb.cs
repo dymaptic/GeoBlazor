@@ -25,4 +25,3 @@ public partial record PortalItemApplicationProxies(
     string? ProxyUrl = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SourceUrl = null);
-

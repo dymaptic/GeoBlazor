@@ -64,4 +64,3 @@ public partial record ImageHistogramParameters(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
 }
-

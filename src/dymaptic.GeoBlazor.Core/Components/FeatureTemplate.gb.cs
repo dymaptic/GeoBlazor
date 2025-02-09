@@ -447,9 +447,6 @@ public partial class FeatureTemplate
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

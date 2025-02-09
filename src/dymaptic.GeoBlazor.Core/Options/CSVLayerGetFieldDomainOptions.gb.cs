@@ -19,4 +19,3 @@ public partial record CSVLayerGetFieldDomainOptions(
     public Graphic? Feature { get; set; } = Feature;
     
 }
-

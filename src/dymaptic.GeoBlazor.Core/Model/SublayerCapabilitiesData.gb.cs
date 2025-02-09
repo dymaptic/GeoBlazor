@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record SublayerCapabilitiesData(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsAttachment = null);
-

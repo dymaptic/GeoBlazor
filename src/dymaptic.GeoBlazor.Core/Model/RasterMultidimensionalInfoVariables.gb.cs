@@ -43,4 +43,3 @@ public partial record RasterMultidimensionalInfoVariables(
     IReadOnlyCollection<RasterBandStatistics>? Statistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Unit = null);
-

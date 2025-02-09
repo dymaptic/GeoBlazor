@@ -688,9 +688,6 @@ public partial class KMLLayer : IBlendLayer,
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

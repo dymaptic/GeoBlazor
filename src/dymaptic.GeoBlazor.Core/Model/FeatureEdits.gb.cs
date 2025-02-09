@@ -74,4 +74,3 @@ public partial record FeatureEdits(
     public IReadOnlyList<Graphic>? UpdateFeatures { get; set; } = UpdateFeatures;
     
 }
-

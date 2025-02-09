@@ -64,4 +64,3 @@ public partial record FindImagesParameters(
     public string? Where { get; set; } = Where;
     
 }
-

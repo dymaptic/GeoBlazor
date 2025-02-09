@@ -55,4 +55,3 @@ public partial record RasterBandInfo(
     double? ReflectanceGain = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? SolarIrradiance = null);
-

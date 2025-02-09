@@ -55,4 +55,3 @@ public partial record RasterBandStatistics(
     double? Stddev = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Sum = null);
-

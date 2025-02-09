@@ -19,4 +19,3 @@ public partial record SubsetDimension(
     IReadOnlyCollection<double>? Extent = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null);
-

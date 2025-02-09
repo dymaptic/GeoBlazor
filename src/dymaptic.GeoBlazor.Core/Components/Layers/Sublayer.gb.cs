@@ -1647,7 +1647,6 @@ public partial class Sublayer
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -1917,8 +1916,6 @@ public partial class Sublayer
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

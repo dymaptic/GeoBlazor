@@ -68,4 +68,3 @@ public partial record ImageToMapParameters(
     public long? RasterId { get; set; } = RasterId;
     
 }
-

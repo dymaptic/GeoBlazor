@@ -21,4 +21,3 @@ public partial record GeoJSONLayerEditsEvent(
     IReadOnlyCollection<GeoJSONLayerEditsEventDeletedFeatures>? DeletedFeatures = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<GeoJSONLayerEditsEventUpdatedFeatures>? UpdatedFeatures = null);
-

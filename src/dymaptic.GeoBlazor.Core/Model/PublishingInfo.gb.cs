@@ -8,4 +8,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </summary>
 public partial record PublishingInfo(
 );
-

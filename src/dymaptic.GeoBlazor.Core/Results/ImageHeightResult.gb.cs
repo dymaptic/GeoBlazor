@@ -25,4 +25,3 @@ public partial record ImageHeightResult(
     MeasurementValue? Height = null) : BaseImageMeasureResult(
     Name,
     SensorName);
-

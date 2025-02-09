@@ -20,4 +20,3 @@ public partial record StatisticDefinitionStatisticParameters(
     OrderBy? OrderBy = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Value = null);
-

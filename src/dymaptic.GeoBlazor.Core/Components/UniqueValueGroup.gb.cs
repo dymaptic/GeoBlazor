@@ -230,9 +230,6 @@ public partial class UniqueValueGroup : MapComponent
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -31,4 +31,3 @@ public partial record MeasureFromImageParameters(
     public long? RasterId { get; set; } = RasterId;
     
 }
-

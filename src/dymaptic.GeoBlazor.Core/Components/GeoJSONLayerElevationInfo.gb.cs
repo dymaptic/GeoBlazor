@@ -342,9 +342,6 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

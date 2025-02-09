@@ -54,7 +54,6 @@ public partial class Polyline
     }
     
     
-
 #region Public Methods
 
     /// <summary>
@@ -197,7 +196,5 @@ public partial class Polyline
     }
     
 #endregion
-
-
 
 }

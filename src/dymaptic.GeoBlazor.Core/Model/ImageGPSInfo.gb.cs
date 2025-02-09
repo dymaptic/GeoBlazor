@@ -49,4 +49,3 @@ public partial record ImageGPSInfo(
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Orientation = null);
-

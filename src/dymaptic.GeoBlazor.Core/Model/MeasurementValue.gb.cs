@@ -31,4 +31,3 @@ public partial record MeasurementValue(
     string? Unit = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Value = null);
-

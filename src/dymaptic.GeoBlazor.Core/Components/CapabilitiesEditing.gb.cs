@@ -716,7 +716,4 @@ public partial class CapabilitiesEditing : MapComponent
     
 #endregion
 
-
-
-
 }

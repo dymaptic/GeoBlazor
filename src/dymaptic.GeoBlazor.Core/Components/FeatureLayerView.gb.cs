@@ -476,7 +476,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -521,8 +520,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

@@ -1,5 +1,5 @@
 import * as locator from "@arcgis/core/rest/locator";
-import {buildJsExtent, buildJsPoint, buildJsSpatialReference} from "./jsBuilder";
+import {buildJsPoint, buildJsSpatialReference} from "./jsBuilder";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
 import {buildDotNetAddressCandidate} from "./dotNetBuilder";
 import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
@@ -10,6 +10,7 @@ import locatorAddressesToLocationsParams = __esri.locatorAddressesToLocationsPar
 import SuggestionResult = __esri.SuggestionResult;
 import AddressCandidate from "@arcgis/core/rest/support/AddressCandidate";
 import Point from "@arcgis/core/geometry/Point";
+import { buildJsExtent } from "./extent";
 
 export default class LocatorWrapper {
     private dotNetRef: any;

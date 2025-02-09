@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-HeightModelInfo.html#heightUnit">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(HeightUnitConverter))]
+[CodeGenerationIgnore]
 public enum HeightUnit
 {
 #pragma warning disable CS1591

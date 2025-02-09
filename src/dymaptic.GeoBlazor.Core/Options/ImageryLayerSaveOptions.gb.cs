@@ -19,4 +19,3 @@ public partial record ImageryLayerSaveOptions(
     public ImageryLayerSaveOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
     
 }
-

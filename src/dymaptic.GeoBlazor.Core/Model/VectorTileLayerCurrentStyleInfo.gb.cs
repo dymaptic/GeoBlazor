@@ -43,4 +43,3 @@ public partial record VectorTileLayerCurrentStyleInfo(
     string? Style = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StyleUrl = null);
-

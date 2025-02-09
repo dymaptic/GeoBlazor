@@ -267,9 +267,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

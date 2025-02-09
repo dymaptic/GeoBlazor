@@ -25,4 +25,3 @@ public partial record FetchItemsResult(
     double? NextStart = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Total = null);
-

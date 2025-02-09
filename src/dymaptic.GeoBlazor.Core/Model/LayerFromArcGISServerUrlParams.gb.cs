@@ -30,4 +30,3 @@ public partial record LayerFromArcGISServerUrlParams(
     public string? Url { get; set; } = Url;
     
 }
-

@@ -1585,7 +1585,6 @@ public partial class TileLayer : IAPIKeyMixin,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -1701,7 +1700,6 @@ public partial class TileLayer : IAPIKeyMixin,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -1721,7 +1719,6 @@ public partial class TileLayer : IAPIKeyMixin,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

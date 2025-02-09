@@ -18,4 +18,3 @@ public partial record BaseImageMeasureResult(
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SensorName = null);
-

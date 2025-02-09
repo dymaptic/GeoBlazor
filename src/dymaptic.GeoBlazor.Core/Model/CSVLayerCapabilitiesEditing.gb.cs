@@ -61,4 +61,3 @@ public partial record CSVLayerCapabilitiesEditing(
     bool? SupportsUpdateWithoutM = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsUploadWithItemId = null);
-

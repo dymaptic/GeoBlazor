@@ -31,4 +31,3 @@ public partial record RasterInfoStatistics(
     double? Min = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Stddev = null);
-

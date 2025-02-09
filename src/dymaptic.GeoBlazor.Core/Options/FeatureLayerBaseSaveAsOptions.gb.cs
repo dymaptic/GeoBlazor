@@ -30,4 +30,3 @@ public partial record FeatureLayerBaseSaveAsOptions(
     public FeatureLayerBaseSaveAsOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
     
 }
-

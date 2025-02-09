@@ -18,4 +18,3 @@ public partial record BaseImageMeasureParameters(
     MosaicRule? MosaicRule = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PixelSize? PixelSize = null);
-

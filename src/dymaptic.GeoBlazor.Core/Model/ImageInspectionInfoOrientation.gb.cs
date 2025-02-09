@@ -31,4 +31,3 @@ public partial record ImageInspectionInfoOrientation(
     double? Omega = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Phi = null);
-

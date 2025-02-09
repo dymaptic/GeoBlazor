@@ -11,7 +11,4 @@ public abstract partial class FillSymbol : IClassBreaksRendererBackgroundFillSym
     IUniqueValueRendererBackgroundFillSymbol
 {
 
-
-
-
 }

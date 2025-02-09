@@ -37,4 +37,3 @@ public partial record RasterHistogram(
     double? Min = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Size = null);
-

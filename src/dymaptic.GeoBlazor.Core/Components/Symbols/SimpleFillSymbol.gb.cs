@@ -121,7 +121,4 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
     
 #endregion
 
-
-
-
 }

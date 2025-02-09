@@ -280,9 +280,6 @@ public partial class BasemapStyle
     
 #endregion
 
-
-
-
     /// <inheritdoc />
     internal override void ValidateRequiredGeneratedChildren()
     {

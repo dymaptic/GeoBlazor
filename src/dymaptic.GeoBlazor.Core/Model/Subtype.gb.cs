@@ -28,7 +28,6 @@ public partial record Subtype(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? DefaultValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<ISubtypeDomains>? Domains = null,
+    Dictionary<string, Domain>? Domains = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null);
-

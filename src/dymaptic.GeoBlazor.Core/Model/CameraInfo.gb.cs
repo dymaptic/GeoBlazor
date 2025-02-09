@@ -49,4 +49,3 @@ public partial record CameraInfo(
     int? PixelSize = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Rows = null);
-

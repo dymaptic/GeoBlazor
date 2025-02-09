@@ -135,9 +135,6 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

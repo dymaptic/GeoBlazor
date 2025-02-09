@@ -19,4 +19,3 @@ public partial record SublayerGetFieldDomainOptions(
     public Graphic? Feature { get; set; } = Feature;
     
 }
-

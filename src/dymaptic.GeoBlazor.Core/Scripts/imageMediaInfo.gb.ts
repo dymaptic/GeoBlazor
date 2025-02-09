@@ -35,7 +35,7 @@ export default class ImageMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsImageMediaInfoValue } = await import('./imageMediaInfoValue');
-        this.component.value = await  buildJsImageMediaInfoValue(value);
+        this.component.value =  buildJsImageMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];

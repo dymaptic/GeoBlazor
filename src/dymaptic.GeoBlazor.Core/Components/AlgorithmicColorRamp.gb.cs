@@ -240,7 +240,4 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
     
 #endregion
 
-
-
-
 }

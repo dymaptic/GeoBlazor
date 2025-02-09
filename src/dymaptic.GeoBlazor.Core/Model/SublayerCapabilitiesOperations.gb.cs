@@ -19,4 +19,3 @@ public partial record SublayerCapabilitiesOperations(
     bool? SupportsQuery = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsQueryAttachments = null);
-

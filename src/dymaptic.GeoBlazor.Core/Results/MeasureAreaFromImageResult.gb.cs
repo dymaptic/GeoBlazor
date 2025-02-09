@@ -31,4 +31,3 @@ public partial record MeasureAreaFromImageResult(
     Polygon? Geometry = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Length = null);
-

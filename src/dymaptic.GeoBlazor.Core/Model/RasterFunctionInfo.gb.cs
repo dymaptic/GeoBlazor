@@ -37,4 +37,3 @@ public partial record RasterFunctionInfo(
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Thumbnail = null);
-

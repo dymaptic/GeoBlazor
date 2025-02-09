@@ -82,4 +82,3 @@ public partial record ImageDistanceParameters(
     public Point? ToGeometry { get; set; } = ToGeometry;
     
 }
-

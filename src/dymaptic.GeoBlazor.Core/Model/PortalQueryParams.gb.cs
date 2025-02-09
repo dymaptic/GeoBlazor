@@ -92,4 +92,3 @@ public partial record PortalQueryParams(
     public double? Start { get; set; } = Start;
     
 }
-

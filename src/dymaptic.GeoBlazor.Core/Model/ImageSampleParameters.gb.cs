@@ -136,4 +136,3 @@ public partial record ImageSampleParameters(
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
     
 }
-

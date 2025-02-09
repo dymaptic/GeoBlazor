@@ -535,7 +535,6 @@ public partial class BaseTileLayer : IBlendLayer,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -629,7 +628,6 @@ public partial class BaseTileLayer : IBlendLayer,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -649,7 +647,6 @@ public partial class BaseTileLayer : IBlendLayer,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

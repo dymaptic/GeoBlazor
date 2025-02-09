@@ -37,4 +37,3 @@ public partial record ElevationTileData(
     IReadOnlyCollection<double>? Values = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);
-

@@ -566,7 +566,4 @@ public partial class CapabilitiesAttachment : MapComponent
     
 #endregion
 
-
-
-
 }

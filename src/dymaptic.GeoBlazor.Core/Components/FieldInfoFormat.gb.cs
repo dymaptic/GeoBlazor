@@ -236,7 +236,4 @@ public partial class FieldInfoFormat
     
 #endregion
 
-
-
-
 }

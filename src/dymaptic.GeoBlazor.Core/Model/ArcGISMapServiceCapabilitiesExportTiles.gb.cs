@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record ArcGISMapServiceCapabilitiesExportTiles(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? MaxExportTilesCount = null);
-

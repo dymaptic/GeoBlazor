@@ -195,7 +195,4 @@ public partial class TimeInterval
     
 #endregion
 
-
-
-
 }

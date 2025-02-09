@@ -306,9 +306,6 @@ public partial class MultidimensionalSubset
 #endregion
 
 
-
-
-
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

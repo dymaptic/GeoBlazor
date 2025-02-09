@@ -566,7 +566,4 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     
 #endregion
 
-
-
-
 }

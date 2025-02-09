@@ -55,4 +55,3 @@ public partial record ImageAngleParameters(
     public SpatialReference? SpatialReference { get; set; } = SpatialReference;
     
 }
-

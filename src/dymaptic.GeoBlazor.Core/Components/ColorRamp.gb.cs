@@ -10,7 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public abstract partial class ColorRamp
 {
 
-
-
-
 }

@@ -109,4 +109,3 @@ public partial record RasterInfo(
     IReadOnlyCollection<RasterInfoStatistics>? Statistics = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);
-

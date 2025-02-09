@@ -61,4 +61,3 @@ public partial record GeoJSONLayerCapabilitiesOperations(
     bool? SupportsUpdate = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsValidateSql = null);
-

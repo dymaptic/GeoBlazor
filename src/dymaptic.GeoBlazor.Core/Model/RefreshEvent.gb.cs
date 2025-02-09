@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Event result type for the OGCFeatureLayer.OnRefresh event.
+///    Event result type for the BaseDynamicLayer.OnRefresh event.
 /// </summary>
 /// <param name="DataChanged">
 ///     Indicates if the layer's data has changed.
@@ -11,4 +11,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record RefreshEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? DataChanged = null);
-

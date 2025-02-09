@@ -63,4 +63,3 @@ public partial record FeatureEditOptions(
     public bool? RollbackOnFailureEnabled { get; set; } = RollbackOnFailureEnabled;
     
 }
-

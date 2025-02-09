@@ -499,7 +499,4 @@ public partial class HighlightOptions
     
 #endregion
 
-
-
-
 }

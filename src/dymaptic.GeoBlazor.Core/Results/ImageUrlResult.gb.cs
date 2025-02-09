@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Results;
 public partial record ImageUrlResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Url = null);
-

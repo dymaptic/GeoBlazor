@@ -13,4 +13,3 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record EditingInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? LastEditDate = null);
-

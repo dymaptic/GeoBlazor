@@ -43,4 +43,3 @@ public partial record ArcGISMapServiceCapabilitiesExportMap(
     bool? SupportsSublayersChanges = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSublayerVisibility = null);
-

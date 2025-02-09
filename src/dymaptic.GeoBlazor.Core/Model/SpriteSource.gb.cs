@@ -49,4 +49,3 @@ public partial record SpriteSource(
     string? LoadStatus = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);
-

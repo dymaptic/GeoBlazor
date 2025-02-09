@@ -191,7 +191,4 @@ public partial class PortalFeaturedGroups : MapComponent
     
 #endregion
 
-
-
-
 }

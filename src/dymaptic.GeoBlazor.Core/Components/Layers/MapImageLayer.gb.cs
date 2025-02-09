@@ -2122,7 +2122,6 @@ public partial class MapImageLayer : IArcGISMapService,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -2247,7 +2246,6 @@ public partial class MapImageLayer : IArcGISMapService,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -2267,7 +2265,6 @@ public partial class MapImageLayer : IArcGISMapService,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

@@ -776,7 +776,6 @@ public partial class Basemap
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -794,8 +793,6 @@ public partial class Basemap
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

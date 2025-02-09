@@ -25,4 +25,3 @@ public partial record ArcGISMapServiceCapabilities(
     ArcGISMapServiceCapabilitiesExportTiles? ExportTiles = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     ArcGISMapServiceCapabilitiesOperations? Operations = null);
-

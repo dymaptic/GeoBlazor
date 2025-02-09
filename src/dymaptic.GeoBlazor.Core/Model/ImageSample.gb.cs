@@ -43,4 +43,3 @@ public partial record ImageSample(
     long? RasterId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Resolution = null);
-

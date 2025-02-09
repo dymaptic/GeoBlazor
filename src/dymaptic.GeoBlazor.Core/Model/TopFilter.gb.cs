@@ -42,4 +42,3 @@ public partial record TopFilter(
     public int? TopCount { get; set; } = TopCount;
     
 }
-

@@ -25,4 +25,3 @@ public partial record FetchResource(
     PortalItemResource? Resource = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Size = null);
-

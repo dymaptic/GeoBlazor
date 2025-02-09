@@ -19,4 +19,3 @@ public partial record ImageBoundaryResult(
     double? Area = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Geometry? Geometry = null);
-

@@ -23,4 +23,3 @@ public partial record PixelSize(
     double Y,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PixelSizeSpatialReference? SpatialReference = null);
-

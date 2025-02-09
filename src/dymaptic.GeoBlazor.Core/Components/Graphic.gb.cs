@@ -181,7 +181,6 @@ public partial class Graphic : IHitTestItem,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -260,7 +259,5 @@ name,
     }
     
 #endregion
-
-
 
 }

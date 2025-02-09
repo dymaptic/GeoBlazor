@@ -4595,7 +4595,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -4690,7 +4689,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     
 #endregion
 
-
 #region Event Handlers
 
     /// <summary>
@@ -4727,7 +4725,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
 #endregion
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

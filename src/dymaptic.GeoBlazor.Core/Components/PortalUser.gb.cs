@@ -1328,7 +1328,6 @@ public partial class PortalUser : MapComponent
     
 #endregion
 
-
 #region Public Methods
 
     /// <summary>
@@ -1564,8 +1563,6 @@ public partial class PortalUser : MapComponent
     }
     
 #endregion
-
-
 
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

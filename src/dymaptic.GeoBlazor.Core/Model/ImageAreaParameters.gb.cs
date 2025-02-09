@@ -71,4 +71,3 @@ public partial record ImageAreaParameters(
     public LengthUnit? LinearUnit { get; set; } = LinearUnit;
     
 }
-

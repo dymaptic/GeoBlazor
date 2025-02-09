@@ -25,4 +25,3 @@ public partial record ElevationLayerElevationQueryResult(
     double? NoDataValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ElevationLayerElevationQueryResultSampleInfo>? SampleInfo = null);
-

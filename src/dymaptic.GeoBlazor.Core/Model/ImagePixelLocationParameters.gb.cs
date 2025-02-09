@@ -31,4 +31,3 @@ public partial record ImagePixelLocationParameters(
     public long? RasterId { get; set; } = RasterId;
     
 }
-

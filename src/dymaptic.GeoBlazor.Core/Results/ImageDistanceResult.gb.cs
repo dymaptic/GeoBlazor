@@ -37,4 +37,3 @@ public partial record ImageDistanceResult(
     MeasurementValue? ElevationAngle = null) : BaseImageMeasureResult(
     Name,
     SensorName);
-
