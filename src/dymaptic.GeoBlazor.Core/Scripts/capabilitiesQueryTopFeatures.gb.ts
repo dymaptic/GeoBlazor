@@ -40,6 +40,7 @@ export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyW
 
 export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesQueryTopFeatures: any = {}
+
     if (hasValue(dotNetObject.supportsCacheHint)) {
         jsCapabilitiesQueryTopFeatures.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
@@ -58,7 +59,7 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     return jsCapabilitiesQueryTopFeatures;
 }
 
-export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,6 +69,7 @@ export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject:
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
+
     return dotNetCapabilitiesQueryTopFeatures;
 }
 

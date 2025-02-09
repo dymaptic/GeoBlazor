@@ -10,9 +10,9 @@ export default class PieChartMediaInfoWrapper extends PieChartMediaInfoGenerated
     
 }
 
-export async function buildJsPieChartMediaInfo(dotNetObject: any): Promise<any> {
+export async function buildJsPieChartMediaInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPieChartMediaInfoGenerated } = await import('./pieChartMediaInfo.gb');
-    return await buildJsPieChartMediaInfoGenerated(dotNetObject);
+    return await buildJsPieChartMediaInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetPieChartMediaInfo(jsObject: any): Promise<any> {

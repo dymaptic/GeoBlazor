@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueClassGenerated implements IPropertyWrapper {
     public component: UniqueValueClass;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValueClass) {
         this.component = component;
@@ -29,11 +31,11 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     
     async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     async getValues(): Promise<any> {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
@@ -42,7 +44,7 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     
     async setValues(value: any): Promise<void> {
         let { buildJsUniqueValue } = await import('./uniqueValue');
-        this.component.values = value.map(async i => await buildJsUniqueValue(i));
+        this.component.values = value.map(async i => await buildJsUniqueValue(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -53,25 +55,26 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsUniqueValueClassGenerated(dotNetObject: any): Promise<any> {
-    let { default: UniqueValueClass } = await import('@arcgis/core/renderers/support/UniqueValueClass');
+
+export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueClass = new UniqueValueClass();
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('symbol');
+        let { buildJsSymbol } = await import('./jsBuilder');
         jsUniqueValueClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
-
     }
     if (hasValue(dotNetObject.values)) {
-        let { buildJsUniqueValue } = await import('uniqueValue');
-        jsUniqueValueClass.values = dotNetObject.values.map(async i => await buildJsUniqueValue(i)) as any;
-
+        let { buildJsUniqueValue } = await import('./uniqueValue');
+        jsUniqueValueClass.values = dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.label)) {
         jsUniqueValueClass.label = dotNetObject.label;
     }
     let { default: UniqueValueClassWrapper } = await import('./uniqueValueClass');
     let uniqueValueClassWrapper = new UniqueValueClassWrapper(jsUniqueValueClass);
-    jsUniqueValueClass.id = dotNetObject.id;
+    uniqueValueClassWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueClassWrapper.viewId = viewId;
+    uniqueValueClassWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueClassWrapper);
@@ -93,13 +96,14 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetUniqueValueClass.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.values)) {
             let { buildDotNetUniqueValue } = await import('./uniqueValue');
             dotNetUniqueValueClass.values = jsObject.values.map(async i => await buildDotNetUniqueValue(i));
         }
         dotNetUniqueValueClass.label = jsObject.label;
+
     return dotNetUniqueValueClass;
 }
 

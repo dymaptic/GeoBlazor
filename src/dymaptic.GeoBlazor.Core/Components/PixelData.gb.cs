@@ -202,7 +202,7 @@ public partial class PixelData : MapComponent
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsPixelBlock", CancellationTokenSource.Token, 
-                    PixelBlock, View?.Id);
+                    PixelBlock, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             PixelBlock.JsComponentReference ??= jsObjectReference;
             

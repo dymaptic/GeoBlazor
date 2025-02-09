@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ColorStopGenerated implements IPropertyWrapper {
     public component: ColorStop;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ColorStop) {
         this.component = component;
@@ -27,14 +29,6 @@ export default class ColorStopGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.color);
-    }
-    async setColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await buildJsMapColor(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -43,12 +37,12 @@ export default class ColorStopGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any> {
-    let { default: ColorStop } = await import('@arcgis/core/renderers/visualVariables/support/ColorStop');
+
+export async function buildJsColorStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorStop = new ColorStop();
+
     if (hasValue(dotNetObject.color)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsColorStop.color = await buildJsColor(dotNetObject.color) as any;
+        jsColorStop.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.label)) {
         jsColorStop.label = dotNetObject.label;
@@ -58,7 +52,9 @@ export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any>
     }
     let { default: ColorStopWrapper } = await import('./colorStop');
     let colorStopWrapper = new ColorStopWrapper(jsColorStop);
-    jsColorStop.id = dotNetObject.id;
+    colorStopWrapper.geoBlazorId = dotNetObject.id;
+    colorStopWrapper.viewId = viewId;
+    colorStopWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorStopWrapper);
@@ -78,12 +74,10 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetColorStop.color = await buildDotNetMapColor(jsObject.color);
-        }
+        dotNetColorStop.color = jsObject.color;
         dotNetColorStop.label = jsObject.label;
         dotNetColorStop.value = jsObject.value;
+
     return dotNetColorStop;
 }
 

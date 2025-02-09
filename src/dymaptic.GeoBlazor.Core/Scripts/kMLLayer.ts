@@ -9,11 +9,11 @@ export default class KMLLayerWrapper extends KMLLayerGenerated {
     }
     
 }              
-export async function buildJsKMLLayer(dotNetObject: any): Promise<any> {
+export async function buildJsKMLLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsKMLLayerGenerated } = await import('./kMLLayer.gb');
-    return await buildJsKMLLayerGenerated(dotNetObject);
+    return await buildJsKMLLayerGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetKMLLayer(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetKMLLayerGenerated } = await import('./kMLLayer.gb');
-    return await buildDotNetKMLLayerGenerated(jsObject);
+    return await buildDotNetKMLLayerGenerated(jsObject, layerId, viewId);
 }

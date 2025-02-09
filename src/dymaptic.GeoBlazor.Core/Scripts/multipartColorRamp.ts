@@ -10,9 +10,9 @@ export default class MultipartColorRampWrapper extends MultipartColorRampGenerat
     
 }
 
-export async function buildJsMultipartColorRamp(dotNetObject: any): Promise<any> {
+export async function buildJsMultipartColorRamp(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsMultipartColorRampGenerated } = await import('./multipartColorRamp.gb');
-    return await buildJsMultipartColorRampGenerated(dotNetObject);
+    return await buildJsMultipartColorRampGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetMultipartColorRamp(jsObject: any): Promise<any> {

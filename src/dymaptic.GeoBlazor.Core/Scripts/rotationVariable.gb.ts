@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class RotationVariableGenerated implements IPropertyWrapper {
     public component: RotationVariable;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: RotationVariable) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class RotationVariableGenerated implements IPropertyWrapper {
     }
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        this.component.legendOptions = await buildJsVisualVariableLegendOptions(value);
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class RotationVariableGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsRotationVariableGenerated(dotNetObject: any): Promise<any> {
-    let { default: RotationVariable } = await import('@arcgis/core/renderers/visualVariables/RotationVariable');
+
+export async function buildJsRotationVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRotationVariable = new RotationVariable();
     if (hasValue(dotNetObject.legendOptions)) {
-        let { buildJsVisualVariableLegendOptions } = await import('visualVariableLegendOptions');
-        jsRotationVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
-
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        jsRotationVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.axis)) {
         jsRotationVariable.axis = dotNetObject.axis;
     }
@@ -68,7 +70,9 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any): Promi
     }
     let { default: RotationVariableWrapper } = await import('./rotationVariable');
     let rotationVariableWrapper = new RotationVariableWrapper(jsRotationVariable);
-    jsRotationVariable.id = dotNetObject.id;
+    rotationVariableWrapper.geoBlazorId = dotNetObject.id;
+    rotationVariableWrapper.viewId = viewId;
+    rotationVariableWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rotationVariableWrapper);
@@ -98,6 +102,7 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
         dotNetRotationVariable.type = jsObject.type;
         dotNetRotationVariable.valueExpression = jsObject.valueExpression;
         dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+
     return dotNetRotationVariable;
 }
 

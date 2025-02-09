@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ElementExpressionInfoGenerated implements IPropertyWrapper {
     public component: ElementExpressionInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ElementExpressionInfo) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class ElementExpressionInfoGenerated implements IPropertyWrapper 
         this.component[prop] = value;
     }
 }
-export async function buildJsElementExpressionInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: ElementExpressionInfo } = await import('@arcgis/core/popup/ElementExpressionInfo');
+
+export async function buildJsElementExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsElementExpressionInfo = new ElementExpressionInfo();
+
     if (hasValue(dotNetObject.expression)) {
         jsElementExpressionInfo.expression = dotNetObject.expression;
     }
@@ -49,7 +52,9 @@ export async function buildJsElementExpressionInfoGenerated(dotNetObject: any): 
     }
     let { default: ElementExpressionInfoWrapper } = await import('./elementExpressionInfo');
     let elementExpressionInfoWrapper = new ElementExpressionInfoWrapper(jsElementExpressionInfo);
-    jsElementExpressionInfo.id = dotNetObject.id;
+    elementExpressionInfoWrapper.geoBlazorId = dotNetObject.id;
+    elementExpressionInfoWrapper.viewId = viewId;
+    elementExpressionInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elementExpressionInfoWrapper);
@@ -60,7 +65,7 @@ export async function buildJsElementExpressionInfoGenerated(dotNetObject: any): 
     return jsElementExpressionInfo;
 }
 
-export async function buildDotNetElementExpressionInfoGenerated(jsObject: any): Promise<any> {
+export function buildDotNetElementExpressionInfoGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,6 +77,7 @@ export async function buildDotNetElementExpressionInfoGenerated(jsObject: any): 
         dotNetElementExpressionInfo.expression = jsObject.expression;
         dotNetElementExpressionInfo.returnType = jsObject.returnType;
         dotNetElementExpressionInfo.title = jsObject.title;
+
     return dotNetElementExpressionInfo;
 }
 

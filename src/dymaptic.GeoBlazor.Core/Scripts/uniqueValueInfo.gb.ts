@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueInfoGenerated implements IPropertyWrapper {
     public component: UniqueValueInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValueInfo) {
         this.component = component;
@@ -29,11 +31,11 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
     
     async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: UniqueValueInfo } = await import('@arcgis/core/renderers/support/UniqueValueInfo');
+
+export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueInfo = new UniqueValueInfo();
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('symbol');
+        let { buildJsSymbol } = await import('./jsBuilder');
         jsUniqueValueInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
-
     }
+
     if (hasValue(dotNetObject.label)) {
         jsUniqueValueInfo.label = dotNetObject.label;
     }
@@ -59,7 +61,9 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promis
     }
     let { default: UniqueValueInfoWrapper } = await import('./uniqueValueInfo');
     let uniqueValueInfoWrapper = new UniqueValueInfoWrapper(jsUniqueValueInfo);
-    jsUniqueValueInfo.id = dotNetObject.id;
+    uniqueValueInfoWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueInfoWrapper.viewId = viewId;
+    uniqueValueInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueInfoWrapper);
@@ -81,10 +85,11 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetUniqueValueInfo.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         dotNetUniqueValueInfo.label = jsObject.label;
         dotNetUniqueValueInfo.value = jsObject.value;
+
     return dotNetUniqueValueInfo;
 }
 

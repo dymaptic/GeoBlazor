@@ -7,9 +7,10 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BingMapsLayerGenerated implements IPropertyWrapper {
     public layer: BingMapsLayer;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
+
     constructor(layer: BingMapsLayer) {
         this.layer = layer;
         // set all properties from layer
@@ -36,8 +37,10 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
     async createLayerView(view: any,
         options: any): Promise<any> {
-        return await this.layer.createLayerView(view,
+        let result = await this.layer.createLayerView(view,
             options);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -80,7 +83,15 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
+    }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -90,14 +101,21 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<any> {
-    let { default: BingMapsLayer } = await import('@arcgis/core/layers/BingMapsLayer');
+
+export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBingMapsLayer = new BingMapsLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsBingMapsLayer.fullExtent = dotNetObject.extent;
+    }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsBingMapsLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+    }
+
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsBingMapsLayer.id = dotNetObject.arcGISLayerId;
     }
@@ -109,9 +127,6 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     }
     if (hasValue(dotNetObject.effect)) {
         jsBingMapsLayer.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsBingMapsLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.key)) {
         jsBingMapsLayer.key = dotNetObject.key;
@@ -146,9 +161,6 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     if (hasValue(dotNetObject.title)) {
         jsBingMapsLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        jsBingMapsLayer.visibilityTimeExtent = dotNetObject.visibilityTimeExtent;
-    }
     jsBingMapsLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -156,8 +168,8 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     let { default: BingMapsLayerWrapper } = await import('./bingMapsLayer');
     let bingMapsLayerWrapper = new BingMapsLayerWrapper(jsBingMapsLayer);
     bingMapsLayerWrapper.geoBlazorId = dotNetObject.id;
-    bingMapsLayerWrapper.viewId = dotNetObject.viewId;
-    bingMapsLayerWrapper.layerId = dotNetObject.layerId;
+    bingMapsLayerWrapper.viewId = viewId;
+    bingMapsLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
@@ -168,7 +180,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any): Promise<
     return jsBingMapsLayer;
 }
 
-export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -179,7 +191,11 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
     };
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetBingMapsLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            dotNetBingMapsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
         dotNetBingMapsLayer.bingLogo = jsObject.bingLogo;
@@ -202,7 +218,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         dotNetBingMapsLayer.style = jsObject.style;
         dotNetBingMapsLayer.title = jsObject.title;
         dotNetBingMapsLayer.type = jsObject.type;
-        dotNetBingMapsLayer.visibilityTimeExtent = jsObject.visibilityTimeExtent;
+
     return dotNetBingMapsLayer;
 }
 

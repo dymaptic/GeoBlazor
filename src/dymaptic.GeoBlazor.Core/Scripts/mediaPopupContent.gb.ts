@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class MediaPopupContentGenerated implements IPropertyWrapper {
     public component: MediaContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: MediaContent) {
         this.component = component;
@@ -29,12 +31,12 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
     
     async getMediaInfos(): Promise<any> {
         let { buildDotNetMediaInfo } = await import('./mediaInfo');
-        return this.component.mediaInfos.map(async i => await buildDotNetMediaInfo(i));
+        return this.component.mediaInfos.map(i => buildDotNetMediaInfo(i));
     }
     
     async setMediaInfos(value: any): Promise<void> {
         let { buildJsMediaInfo } = await import('./mediaInfo');
-        this.component.mediaInfos = value.map(async i => await buildJsMediaInfo(i));
+        this.component.mediaInfos = value.map(i => buildJsMediaInfo(i));
     }
     
     getProperty(prop: string): any {
@@ -45,14 +47,14 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsMediaPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let MediaContent = __esri.MediaContent;
+
+export async function buildJsMediaPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMediaContent = new MediaContent();
     if (hasValue(dotNetObject.mediaInfos)) {
-        let { buildJsMediaInfo } = await import('mediaInfo');
+        let { buildJsMediaInfo } = await import('./jsBuilder');
         jsMediaContent.mediaInfos = dotNetObject.mediaInfos.map(i => buildJsMediaInfo(i)) as any;
-
     }
+
     if (hasValue(dotNetObject.activeMediaInfoIndex)) {
         jsMediaContent.activeMediaInfoIndex = dotNetObject.activeMediaInfoIndex;
     }
@@ -64,7 +66,9 @@ export async function buildJsMediaPopupContentGenerated(dotNetObject: any): Prom
     }
     let { default: MediaPopupContentWrapper } = await import('./mediaPopupContent');
     let mediaPopupContentWrapper = new MediaPopupContentWrapper(jsMediaContent);
-    jsMediaContent.id = dotNetObject.id;
+    mediaPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    mediaPopupContentWrapper.viewId = viewId;
+    mediaPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mediaPopupContentWrapper);
@@ -86,12 +90,13 @@ export async function buildDotNetMediaPopupContentGenerated(jsObject: any): Prom
     };
         if (hasValue(jsObject.mediaInfos)) {
             let { buildDotNetMediaInfo } = await import('./dotNetBuilder');
-            dotNetMediaPopupContent.mediaInfos = jsObject.mediaInfos.map(async i => await buildDotNetMediaInfo(i));
+            dotNetMediaPopupContent.mediaInfos = jsObject.mediaInfos.map(i => buildDotNetMediaInfo(i));
         }
         dotNetMediaPopupContent.activeMediaInfoIndex = jsObject.activeMediaInfoIndex;
         dotNetMediaPopupContent.description = jsObject.description;
         dotNetMediaPopupContent.title = jsObject.title;
         dotNetMediaPopupContent.type = jsObject.type;
+
     return dotNetMediaPopupContent;
 }
 

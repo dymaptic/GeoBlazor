@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ActionToggleGenerated implements IPropertyWrapper {
     public component: ActionToggle;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ActionToggle) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class ActionToggleGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsActionToggleGenerated(dotNetObject: any): Promise<any> {
-    let { default: ActionToggle } = await import('@arcgis/core/support/actions/ActionToggle');
+
+export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsActionToggle = new ActionToggle();
+
     if (hasValue(dotNetObject.actionId)) {
         jsActionToggle.id = dotNetObject.actionId;
     }
@@ -61,7 +64,9 @@ export async function buildJsActionToggleGenerated(dotNetObject: any): Promise<a
     }
     let { default: ActionToggleWrapper } = await import('./actionToggle');
     let actionToggleWrapper = new ActionToggleWrapper(jsActionToggle);
-    jsActionToggle.id = dotNetObject.id;
+    actionToggleWrapper.geoBlazorId = dotNetObject.id;
+    actionToggleWrapper.viewId = viewId;
+    actionToggleWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionToggleWrapper);
@@ -89,6 +94,7 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
         dotNetActionToggle.title = jsObject.title;
         dotNetActionToggle.type = jsObject.type;
         dotNetActionToggle.value = jsObject.value;
+
     return dotNetActionToggle;
 }
 

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GeoJSONLayerElevationInfoGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerElevationInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: GeoJSONLayerElevationInfo) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class GeoJSONLayerElevationInfoGenerated implements IPropertyWrap
     }
     async setFeatureExpressionInfo(value: any): Promise<void> {
         let { buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
-        this.component.featureExpressionInfo = await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(value);
+        this.component.featureExpressionInfo = await  buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,20 +45,28 @@ export default class GeoJSONLayerElevationInfoGenerated implements IPropertyWrap
         this.component[prop] = value;
     }
 }
-export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
-    let jsGeoJSONLayerElevationInfo = {
-    if (hasValue(dotNetObject.featureExpressionInfo)) {
-        let { buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('geoJSONLayerElevationInfoFeatureExpressionInfo');
-        jsGeoJSONLayerElevationInfo.featureExpressionInfo = await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
 
+export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsGeoJSONLayerElevationInfo: any = {}
+    if (hasValue(dotNetObject.featureExpressionInfo)) {
+        let { buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
+        jsGeoJSONLayerElevationInfo.featureExpressionInfo = await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
     }
-        mode: dotNetObject.mode,
-        offset: dotNetObject.offset,
-        unit: dotNetObject.unit,
+
+    if (hasValue(dotNetObject.mode)) {
+        jsGeoJSONLayerElevationInfo.mode = dotNetObject.mode;
+    }
+    if (hasValue(dotNetObject.offset)) {
+        jsGeoJSONLayerElevationInfo.offset = dotNetObject.offset;
+    }
+    if (hasValue(dotNetObject.unit)) {
+        jsGeoJSONLayerElevationInfo.unit = dotNetObject.unit;
     }
     let { default: GeoJSONLayerElevationInfoWrapper } = await import('./geoJSONLayerElevationInfo');
     let geoJSONLayerElevationInfoWrapper = new GeoJSONLayerElevationInfoWrapper(jsGeoJSONLayerElevationInfo);
-    jsGeoJSONLayerElevationInfo.id = dotNetObject.id;
+    geoJSONLayerElevationInfoWrapper.geoBlazorId = dotNetObject.id;
+    geoJSONLayerElevationInfoWrapper.viewId = viewId;
+    geoJSONLayerElevationInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerElevationInfoWrapper);
@@ -83,6 +93,7 @@ export async function buildDotNetGeoJSONLayerElevationInfoGenerated(jsObject: an
         dotNetGeoJSONLayerElevationInfo.mode = jsObject.mode;
         dotNetGeoJSONLayerElevationInfo.offset = jsObject.offset;
         dotNetGeoJSONLayerElevationInfo.unit = jsObject.unit;
+
     return dotNetGeoJSONLayerElevationInfo;
 }
 

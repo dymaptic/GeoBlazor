@@ -10,9 +10,9 @@ export default class ActionButtonWrapper extends ActionButtonGenerated {
     
 }
 
-export async function buildJsActionButton(dotNetObject: any): Promise<any> {
+export async function buildJsActionButton(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsActionButtonGenerated } = await import('./actionButton.gb');
-    return await buildJsActionButtonGenerated(dotNetObject);
+    return await buildJsActionButtonGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetActionButton(jsObject: any): Promise<any> {

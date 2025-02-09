@@ -10,9 +10,9 @@ export default class SymbolWrapper extends SymbolGenerated {
     
 }
 
-export async function buildJsSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSymbolGenerated } = await import('./symbol.gb');
-    return await buildJsSymbolGenerated(dotNetObject);
+    return await buildJsSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetSymbol(jsObject: any): Promise<any> {

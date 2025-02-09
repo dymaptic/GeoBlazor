@@ -170,6 +170,7 @@ import MapView from "@arcgis/core/views/MapView";
 import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass";
 import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup";
 import {buildJsColor} from "./mapColor";
+import {buildJsExtent} from "./extent";
 
 
 // region functions
@@ -190,19 +191,6 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
     }
 
     return jsSpatialRef;
-}
-
-export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null = null): Extent {
-    let extent = new Extent();
-    copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
-
-    if (hasValue(dotNetExtent.spatialReference)) {
-        extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
-    } else if (currentSpatialReference !== null) {
-        extent.spatialReference = currentSpatialReference;
-    }
-
-    return extent;
 }
 
 export function buildJsGraphic(graphicObject: any, layerId: string | null, viewId: string | null)
@@ -1526,7 +1514,7 @@ export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElement
     return info;
 }
 
-export function buildJsPortalItem(dotNetPortalItem: anys): any {
+export function buildJsPortalItem(dotNetPortalItem: any): any {
     if (dotNetPortalItem?.Id === null) return null;
     let portalItem: any = {
         id: dotNetPortalItem.id

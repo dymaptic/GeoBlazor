@@ -29,46 +29,42 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getColorRamp(layerId: string | null, viewId: string | null): Promise<any> {
-        let { buildDotNetColorRamp } = await import('./colorRamp');
-        return await buildDotNetColorRamp(this.component.colorRamp, layerId, viewId);
-    }
-    async setColorRamp(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setColorRamp(value: any): Promise<void> {
         let { buildJsColorRamp } = await import('./colorRamp');
-        this.component.colorRamp = await buildJsColorRamp(value, layerId, viewId);
+        this.component.colorRamp =  buildJsColorRamp(value);
     }
-    async getField1(layerId: string | null, viewId: string | null): Promise<any> {
+    async getField1(): Promise<any> {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        return await buildDotNetAuthoringInfoField(this.component.field1, layerId, viewId);
+        return await buildDotNetAuthoringInfoField(this.component.field1);
     }
-    async setField1(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setField1(value: any): Promise<void> {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
-        this.component.field1 = await buildJsAuthoringInfoField(value, layerId, viewId);
+        this.component.field1 = await  buildJsAuthoringInfoField(value, this.layerId, this.viewId);
     }
-    async getField2(layerId: string | null, viewId: string | null): Promise<any> {
+    async getField2(): Promise<any> {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        return await buildDotNetAuthoringInfoField(this.component.field2, layerId, viewId);
+        return await buildDotNetAuthoringInfoField(this.component.field2);
     }
-    async setField2(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setField2(value: any): Promise<void> {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
-        this.component.field2 = await buildJsAuthoringInfoField(value, layerId, viewId);
+        this.component.field2 = await  buildJsAuthoringInfoField(value, this.layerId, this.viewId);
     }
-    async getStatistics(layerId: string | null, viewId: string | null): Promise<any> {
+    async getStatistics(): Promise<any> {
         let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        return await buildDotNetAuthoringInfoStatistics(this.component.statistics, layerId, viewId);
+        return await buildDotNetAuthoringInfoStatistics(this.component.statistics);
     }
-    async setStatistics(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setStatistics(value: any): Promise<void> {
         let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        this.component.statistics = await buildJsAuthoringInfoStatistics(value, layerId, viewId);
+        this.component.statistics = await  buildJsAuthoringInfoStatistics(value, this.layerId, this.viewId);
     }
-    async getVisualVariables(layerId: string | null, viewId: string | null): Promise<any> {
+    async getVisualVariables(): Promise<any> {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        return this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i, layerId, viewId));
+        return this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
     }
     
-    async setVisualVariables(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setVisualVariables(value: any): Promise<void> {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        this.component.visualVariables = value.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId));
+        this.component.visualVariables = value.map(async i => await buildJsAuthoringInfoVisualVariable(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -81,11 +77,10 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: AuthoringInfo } = await import('@arcgis/core/renderers/support/AuthoringInfo');
     let jsAuthoringInfo = new AuthoringInfo();
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./jsBuilder');
-        jsAuthoringInfo.colorRamp = buildJsColorRamp(dotNetObject.colorRamp, layerId, viewId) as any;
+        jsAuthoringInfo.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
     }
     if (hasValue(dotNetObject.field1)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
@@ -103,6 +98,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
         jsAuthoringInfo.visualVariables = dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.classificationMethod)) {
         jsAuthoringInfo.classificationMethod = dotNetObject.classificationMethod;
     }
@@ -160,7 +156,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     return jsAuthoringInfo;
 }
 
-export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -169,25 +165,22 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorRamp)) {
-            let { buildDotNetColorRamp } = await import('./colorRamp');
-            dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp, layerId, viewId);
-        }
+        dotNetAuthoringInfo.colorRamp = jsObject.colorRamp;
         if (hasValue(jsObject.field1)) {
             let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-            dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1, layerId, viewId);
+            dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
         }
         if (hasValue(jsObject.field2)) {
             let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-            dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2, layerId, viewId);
+            dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2);
         }
         if (hasValue(jsObject.statistics)) {
             let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-            dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics, layerId, viewId);
+            dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics);
         }
         if (hasValue(jsObject.visualVariables)) {
             let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-            dotNetAuthoringInfo.visualVariables = jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i, layerId, viewId));
+            dotNetAuthoringInfo.visualVariables = jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
         }
         dotNetAuthoringInfo.classificationMethod = jsObject.classificationMethod;
         dotNetAuthoringInfo.fadeRatio = jsObject.fadeRatio;
@@ -203,6 +196,7 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: 
         dotNetAuthoringInfo.type = jsObject.type;
         dotNetAuthoringInfo.univariateSymbolStyle = jsObject.univariateSymbolStyle;
         dotNetAuthoringInfo.univariateTheme = jsObject.univariateTheme;
+
     return dotNetAuthoringInfo;
 }
 

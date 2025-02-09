@@ -37,14 +37,14 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getLods(layerId: string | null, viewId: string | null): Promise<any> {
+    async getLods(): Promise<any> {
         let { buildDotNetLOD } = await import('./lOD');
-        return this.component.lods.map(async i => await buildDotNetLOD(i, layerId, viewId));
+        return this.component.lods.map(async i => await buildDotNetLOD(i));
     }
     
-    async setLods(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setLods(value: any): Promise<void> {
         let { buildJsLOD } = await import('./lOD');
-        this.component.lods = value.map(async i => await buildJsLOD(i, layerId, viewId));
+        this.component.lods = value.map(async i => await buildJsLOD(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -57,7 +57,6 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: TileInfo } = await import('@arcgis/core/layers/support/TileInfo');
     let jsTileInfo = new TileInfo();
     if (hasValue(dotNetObject.lods)) {
         let { buildJsLOD } = await import('./lOD');
@@ -65,8 +64,9 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./jsBuilder');
-        jsTileInfo.origin = buildJsPoint(dotNetObject.origin, layerId, viewId) as any;
+        jsTileInfo.origin = buildJsPoint(dotNetObject.origin) as any;
     }
+
     if (hasValue(dotNetObject.dpi)) {
         jsTileInfo.dpi = dotNetObject.dpi;
     }
@@ -97,7 +97,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     return jsTileInfo;
 }
 
-export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -108,7 +108,7 @@ export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.lods)) {
             let { buildDotNetLOD } = await import('./lOD');
-            dotNetTileInfo.lods = jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId));
+            dotNetTileInfo.lods = jsObject.lods.map(async i => await buildDotNetLOD(i));
         }
         dotNetTileInfo.dpi = jsObject.dpi;
         dotNetTileInfo.format = jsObject.format;
@@ -116,6 +116,7 @@ export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: strin
         dotNetTileInfo.origin = jsObject.origin;
         dotNetTileInfo.size = jsObject.size;
         dotNetTileInfo.spatialReference = jsObject.spatialReference;
+
     return dotNetTileInfo;
 }
 

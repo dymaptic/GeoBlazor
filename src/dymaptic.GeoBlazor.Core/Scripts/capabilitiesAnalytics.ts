@@ -9,9 +9,9 @@ export default class CapabilitiesAnalyticsWrapper extends CapabilitiesAnalyticsG
     }
     
 }              
-export async function buildJsCapabilitiesAnalytics(dotNetObject: any): Promise<any> {
+export async function buildJsCapabilitiesAnalytics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsCapabilitiesAnalyticsGenerated } = await import('./capabilitiesAnalytics.gb');
-    return await buildJsCapabilitiesAnalyticsGenerated(dotNetObject);
+    return await buildJsCapabilitiesAnalyticsGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetCapabilitiesAnalytics(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesAnalyticsGenerated } = await import('./capabilitiesAnalytics.gb');

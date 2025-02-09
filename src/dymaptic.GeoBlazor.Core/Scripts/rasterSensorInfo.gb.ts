@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class RasterSensorInfoGenerated implements IPropertyWrapper {
     public component: RasterSensorInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: RasterSensorInfo) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class RasterSensorInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsRasterSensorInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: RasterSensorInfo } = await import('@arcgis/core/layers/support/RasterSensorInfo');
+
+export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterSensorInfo = new RasterSensorInfo();
+
     if (hasValue(dotNetObject.acquisitionDate)) {
         jsRasterSensorInfo.acquisitionDate = dotNetObject.acquisitionDate;
     }
@@ -64,7 +67,9 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any): Promi
     }
     let { default: RasterSensorInfoWrapper } = await import('./rasterSensorInfo');
     let rasterSensorInfoWrapper = new RasterSensorInfoWrapper(jsRasterSensorInfo);
-    jsRasterSensorInfo.id = dotNetObject.id;
+    rasterSensorInfoWrapper.geoBlazorId = dotNetObject.id;
+    rasterSensorInfoWrapper.viewId = viewId;
+    rasterSensorInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterSensorInfoWrapper);
@@ -92,6 +97,7 @@ export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promi
         dotNetRasterSensorInfo.sensorName = jsObject.sensorName;
         dotNetRasterSensorInfo.sunAzimuth = jsObject.sunAzimuth;
         dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
+
     return dotNetRasterSensorInfo;
 }
 

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TextPopupContentGenerated implements IPropertyWrapper {
     public component: TextContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: TextContent) {
         this.component = component;
@@ -35,15 +37,18 @@ export default class TextPopupContentGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsTextPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let TextContent = __esri.TextContent;
+
+export async function buildJsTextPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTextContent = new TextContent();
+
     if (hasValue(dotNetObject.text)) {
         jsTextContent.text = dotNetObject.text;
     }
     let { default: TextPopupContentWrapper } = await import('./textPopupContent');
     let textPopupContentWrapper = new TextPopupContentWrapper(jsTextContent);
-    jsTextContent.id = dotNetObject.id;
+    textPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    textPopupContentWrapper.viewId = viewId;
+    textPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(textPopupContentWrapper);
@@ -65,6 +70,7 @@ export async function buildDotNetTextPopupContentGenerated(jsObject: any): Promi
     };
         dotNetTextPopupContent.text = jsObject.text;
         dotNetTextPopupContent.type = jsObject.type;
+
     return dotNetTextPopupContent;
 }
 

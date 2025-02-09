@@ -516,7 +516,7 @@ public partial class BaseTileLayer : IBlendLayer,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTileInfo", CancellationTokenSource.Token, 
-                    TileInfo, View?.Id);
+                    TileInfo, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             TileInfo.JsComponentReference ??= jsObjectReference;
             

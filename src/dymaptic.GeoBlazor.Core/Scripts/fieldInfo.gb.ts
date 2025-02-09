@@ -29,13 +29,13 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getFormat(layerId: string | null, viewId: string | null): Promise<any> {
+    async getFormat(): Promise<any> {
         let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
-        return await buildDotNetFieldInfoFormat(this.component.format, layerId, viewId);
+        return buildDotNetFieldInfoFormat(this.component.format);
     }
-    async setFormat(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format = await buildJsFieldInfoFormat(value, layerId, viewId);
+        this.component.format =  buildJsFieldInfoFormat(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,12 +47,12 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: FieldInfo } = await import('@arcgis/core/popup/FieldInfo');
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
         let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format, layerId, viewId) as any;
+        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
+
     if (hasValue(dotNetObject.fieldName)) {
         jsFieldInfo.fieldName = dotNetObject.fieldName;
     }
@@ -86,7 +86,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     return jsFieldInfo;
 }
 
-export async function buildDotNetFieldInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -97,7 +97,7 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any, layerId: stri
     };
         if (hasValue(jsObject.format)) {
             let { buildDotNetFieldInfoFormat } = await import('./dotNetBuilder');
-            dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format, layerId, viewId);
+            dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format);
         }
         dotNetFieldInfo.fieldName = jsObject.fieldName;
         dotNetFieldInfo.isEditable = jsObject.isEditable;
@@ -105,6 +105,7 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any, layerId: stri
         dotNetFieldInfo.statisticType = jsObject.statisticType;
         dotNetFieldInfo.stringFieldOption = jsObject.stringFieldOption;
         dotNetFieldInfo.tooltip = jsObject.tooltip;
+
     return dotNetFieldInfo;
 }
 

@@ -10,9 +10,9 @@ export default class RendererWrapper extends RendererGenerated {
     
 }
 
-export async function buildJsRenderer(dotNetObject: any): Promise<any> {
+export async function buildJsRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsRendererGenerated } = await import('./renderer.gb');
-    return await buildJsRendererGenerated(dotNetObject);
+    return await buildJsRendererGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetRenderer(jsObject: any): Promise<any> {

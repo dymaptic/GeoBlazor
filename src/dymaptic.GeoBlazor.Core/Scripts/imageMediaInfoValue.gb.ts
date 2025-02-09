@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ImageMediaInfoValueGenerated implements IPropertyWrapper {
     public component: ImageMediaInfoValue;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ImageMediaInfoValue) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class ImageMediaInfoValueGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any): Promise<any> {
-    let { default: ImageMediaInfoValue } = await import('@arcgis/core/popup/content/support/ImageMediaInfoValue');
+
+export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsImageMediaInfoValue = new ImageMediaInfoValue();
+
     if (hasValue(dotNetObject.linkURL)) {
         jsImageMediaInfoValue.linkURL = dotNetObject.linkURL;
     }
@@ -46,7 +49,9 @@ export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any): Pr
     }
     let { default: ImageMediaInfoValueWrapper } = await import('./imageMediaInfoValue');
     let imageMediaInfoValueWrapper = new ImageMediaInfoValueWrapper(jsImageMediaInfoValue);
-    jsImageMediaInfoValue.id = dotNetObject.id;
+    imageMediaInfoValueWrapper.geoBlazorId = dotNetObject.id;
+    imageMediaInfoValueWrapper.viewId = viewId;
+    imageMediaInfoValueWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoValueWrapper);
@@ -57,7 +62,7 @@ export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any): Pr
     return jsImageMediaInfoValue;
 }
 
-export async function buildDotNetImageMediaInfoValueGenerated(jsObject: any): Promise<any> {
+export function buildDotNetImageMediaInfoValueGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,6 +73,7 @@ export async function buildDotNetImageMediaInfoValueGenerated(jsObject: any): Pr
     };
         dotNetImageMediaInfoValue.linkURL = jsObject.linkURL;
         dotNetImageMediaInfoValue.sourceURL = jsObject.sourceURL;
+
     return dotNetImageMediaInfoValue;
 }
 

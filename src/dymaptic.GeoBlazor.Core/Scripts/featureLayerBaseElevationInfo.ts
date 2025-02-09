@@ -9,9 +9,9 @@ export default class FeatureLayerBaseElevationInfoWrapper extends FeatureLayerBa
     }
     
 }              
-export async function buildJsFeatureLayerBaseElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsFeatureLayerBaseElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsFeatureLayerBaseElevationInfoGenerated } = await import('./featureLayerBaseElevationInfo.gb');
-    return await buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject);
+    return await buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetFeatureLayerBaseElevationInfo(jsObject: any): Promise<any> {
     let { buildDotNetFeatureLayerBaseElevationInfoGenerated } = await import('./featureLayerBaseElevationInfo.gb');

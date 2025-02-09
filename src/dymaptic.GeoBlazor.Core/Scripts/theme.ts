@@ -9,9 +9,9 @@ export default class ThemeWrapper extends ThemeGenerated {
     }
     
 }              
-export async function buildJsTheme(dotNetObject: any): Promise<any> {
+export async function buildJsTheme(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsThemeGenerated } = await import('./theme.gb');
-    return await buildJsThemeGenerated(dotNetObject);
+    return await buildJsThemeGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetTheme(jsObject: any): Promise<any> {
     let { buildDotNetThemeGenerated } = await import('./theme.gb');

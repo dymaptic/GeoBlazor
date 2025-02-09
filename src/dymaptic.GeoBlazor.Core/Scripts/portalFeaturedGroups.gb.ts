@@ -40,6 +40,7 @@ export default class PortalFeaturedGroupsGenerated implements IPropertyWrapper {
 
 export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortalFeaturedGroups: any = {}
+
     if (hasValue(dotNetObject.owner)) {
         jsPortalFeaturedGroups.owner = dotNetObject.owner;
     }
@@ -61,7 +62,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     return jsPortalFeaturedGroups;
 }
 
-export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,6 +73,7 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, la
     };
         dotNetPortalFeaturedGroups.owner = jsObject.owner;
         dotNetPortalFeaturedGroups.title = jsObject.title;
+
     return dotNetPortalFeaturedGroups;
 }
 

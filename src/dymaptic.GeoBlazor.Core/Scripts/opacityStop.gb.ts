@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class OpacityStopGenerated implements IPropertyWrapper {
     public component: OpacityStop;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: OpacityStop) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class OpacityStopGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<any> {
-    let { default: OpacityStop } = await import('@arcgis/core/renderers/visualVariables/support/OpacityStop');
+
+export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOpacityStop = new OpacityStop();
+
     if (hasValue(dotNetObject.label)) {
         jsOpacityStop.label = dotNetObject.label;
     }
@@ -49,7 +52,9 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<an
     }
     let { default: OpacityStopWrapper } = await import('./opacityStop');
     let opacityStopWrapper = new OpacityStopWrapper(jsOpacityStop);
-    jsOpacityStop.id = dotNetObject.id;
+    opacityStopWrapper.geoBlazorId = dotNetObject.id;
+    opacityStopWrapper.viewId = viewId;
+    opacityStopWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityStopWrapper);
@@ -72,6 +77,7 @@ export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<an
         dotNetOpacityStop.label = jsObject.label;
         dotNetOpacityStop.opacity = jsObject.opacity;
         dotNetOpacityStop.value = jsObject.value;
+
     return dotNetOpacityStop;
 }
 

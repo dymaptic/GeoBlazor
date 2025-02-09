@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class RelationshipPopupContentGenerated implements IPropertyWrapper {
     public component: RelationshipContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: RelationshipContent) {
         this.component = component;
@@ -34,7 +36,7 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
     
     async setOrderByFields(value: any): Promise<void> {
         let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        this.component.orderByFields = value.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i));
+        this.component.orderByFields = value.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -45,14 +47,14 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
         this.component[prop] = value;
     }
 }
-export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let RelationshipContent = __esri.RelationshipContent;
+
+export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelationshipContent = new RelationshipContent();
     if (hasValue(dotNetObject.orderByFields)) {
-        let { buildJsRelatedRecordsInfoFieldOrder } = await import('relatedRecordsInfoFieldOrder');
-        jsRelationshipContent.orderByFields = dotNetObject.orderByFields.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i)) as any;
-
+        let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
+        jsRelationshipContent.orderByFields = dotNetObject.orderByFields.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.description)) {
         jsRelationshipContent.description = dotNetObject.description;
     }
@@ -70,7 +72,9 @@ export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any
     }
     let { default: RelationshipPopupContentWrapper } = await import('./relationshipPopupContent');
     let relationshipPopupContentWrapper = new RelationshipPopupContentWrapper(jsRelationshipContent);
-    jsRelationshipContent.id = dotNetObject.id;
+    relationshipPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    relationshipPopupContentWrapper.viewId = viewId;
+    relationshipPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(relationshipPopupContentWrapper);
@@ -100,6 +104,7 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
         dotNetRelationshipPopupContent.relationshipId = jsObject.relationshipId;
         dotNetRelationshipPopupContent.title = jsObject.title;
         dotNetRelationshipPopupContent.type = jsObject.type;
+
     return dotNetRelationshipPopupContent;
 }
 

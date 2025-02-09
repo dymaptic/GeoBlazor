@@ -29,22 +29,6 @@ export default class ThemeGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getAccentColor(layerId: string | null, viewId: string | null): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.accentColor, layerId, viewId);
-    }
-    async setAccentColor(value: any, layerId: string | null, viewId: string | null): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.accentColor = await buildJsMapColor(value, layerId, viewId);
-    }
-    async getTextColor(layerId: string | null, viewId: string | null): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.textColor, layerId, viewId);
-    }
-    async setTextColor(value: any, layerId: string | null, viewId: string | null): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.textColor = await buildJsMapColor(value, layerId, viewId);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -55,15 +39,13 @@ export default class ThemeGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsThemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Theme } = await import('@arcgis/core/views/Theme');
     let jsTheme = new Theme();
+
     if (hasValue(dotNetObject.accentColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.accentColor = await buildJsMapColor(dotNetObject.accentColor, layerId, viewId) as any;
+        jsTheme.accentColor = dotNetObject.accentColor;
     }
     if (hasValue(dotNetObject.textColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.textColor = await buildJsMapColor(dotNetObject.textColor, layerId, viewId) as any;
+        jsTheme.textColor = dotNetObject.textColor;
     }
     let { default: ThemeWrapper } = await import('./theme');
     let themeWrapper = new ThemeWrapper(jsTheme);
@@ -80,7 +62,7 @@ export async function buildJsThemeGenerated(dotNetObject: any, layerId: string |
     return jsTheme;
 }
 
-export async function buildDotNetThemeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -89,14 +71,9 @@ export async function buildDotNetThemeGenerated(jsObject: any, layerId: string |
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.accentColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetTheme.accentColor = await buildDotNetMapColor(jsObject.accentColor, layerId, viewId);
-        }
-        if (hasValue(jsObject.textColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetTheme.textColor = await buildDotNetMapColor(jsObject.textColor, layerId, viewId);
-        }
+        dotNetTheme.accentColor = jsObject.accentColor;
+        dotNetTheme.textColor = jsObject.textColor;
+
     return dotNetTheme;
 }
 

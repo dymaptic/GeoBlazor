@@ -40,6 +40,7 @@ export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapp
 
 export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesQueryRelated: any = {}
+
     if (hasValue(dotNetObject.supportsCacheHint)) {
         jsCapabilitiesQueryRelated.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
@@ -67,7 +68,7 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     return jsCapabilitiesQueryRelated;
 }
 
-export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -80,6 +81,7 @@ export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any
         dotNetCapabilitiesQueryRelated.supportsCount = jsObject.supportsCount;
         dotNetCapabilitiesQueryRelated.supportsOrderBy = jsObject.supportsOrderBy;
         dotNetCapabilitiesQueryRelated.supportsPagination = jsObject.supportsPagination;
+
     return dotNetCapabilitiesQueryRelated;
 }
 

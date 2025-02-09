@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ExpressionPopupContentGenerated implements IPropertyWrapper {
     public component: ExpressionContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ExpressionContent) {
         this.component = component;
@@ -29,11 +31,11 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
     
     async getExpressionInfo(): Promise<any> {
         let { buildDotNetElementExpressionInfo } = await import('./elementExpressionInfo');
-        return await buildDotNetElementExpressionInfo(this.component.expressionInfo);
+        return buildDotNetElementExpressionInfo(this.component.expressionInfo);
     }
     async setExpressionInfo(value: any): Promise<void> {
         let { buildJsElementExpressionInfo } = await import('./elementExpressionInfo');
-        this.component.expressionInfo = await buildJsElementExpressionInfo(value);
+        this.component.expressionInfo =  buildJsElementExpressionInfo(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,17 +45,19 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
         this.component[prop] = value;
     }
 }
-export async function buildJsExpressionPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let ExpressionContent = __esri.ExpressionContent;
+
+export async function buildJsExpressionPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsExpressionContent = new ExpressionContent();
     if (hasValue(dotNetObject.expressionInfo)) {
-        let { buildJsElementExpressionInfo } = await import('elementExpressionInfo');
+        let { buildJsElementExpressionInfo } = await import('./jsBuilder');
         jsExpressionContent.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
-
     }
+
     let { default: ExpressionPopupContentWrapper } = await import('./expressionPopupContent');
     let expressionPopupContentWrapper = new ExpressionPopupContentWrapper(jsExpressionContent);
-    jsExpressionContent.id = dotNetObject.id;
+    expressionPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    expressionPopupContentWrapper.viewId = viewId;
+    expressionPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expressionPopupContentWrapper);
@@ -75,9 +79,10 @@ export async function buildDotNetExpressionPopupContentGenerated(jsObject: any):
     };
         if (hasValue(jsObject.expressionInfo)) {
             let { buildDotNetElementExpressionInfo } = await import('./dotNetBuilder');
-            dotNetExpressionPopupContent.expressionInfo = await buildDotNetElementExpressionInfo(jsObject.expressionInfo);
+            dotNetExpressionPopupContent.expressionInfo = buildDotNetElementExpressionInfo(jsObject.expressionInfo);
         }
         dotNetExpressionPopupContent.type = jsObject.type;
+
     return dotNetExpressionPopupContent;
 }
 

@@ -40,6 +40,7 @@ export default class OrderedLayerOrderByGenerated implements IPropertyWrapper {
 
 export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOrderedLayerOrderBy: any = {}
+
     if (hasValue(dotNetObject.field)) {
         jsOrderedLayerOrderBy.field = dotNetObject.field;
     }
@@ -64,7 +65,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     return jsOrderedLayerOrderBy;
 }
 
-export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -76,6 +77,7 @@ export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, lay
         dotNetOrderedLayerOrderBy.field = jsObject.field;
         dotNetOrderedLayerOrderBy.order = jsObject.order;
         dotNetOrderedLayerOrderBy.valueExpression = jsObject.valueExpression;
+
     return dotNetOrderedLayerOrderBy;
 }
 

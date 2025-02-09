@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ArcGISImageServiceCapabilitiesMensurationGenerated implements IPropertyWrapper {
     public component: ArcGISImageServiceCapabilitiesMensuration;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ArcGISImageServiceCapabilitiesMensuration) {
         this.component = component;
@@ -35,19 +37,36 @@ export default class ArcGISImageServiceCapabilitiesMensurationGenerated implemen
         this.component[prop] = value;
     }
 }
-export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any): Promise<any> {
-    let jsArcGISImageServiceCapabilitiesMensuration = {
-        supports3D: dotNetObject.supports3D,
-        supportsAreaAndPerimeter: dotNetObject.supportsAreaAndPerimeter,
-        supportsDistanceAndAngle: dotNetObject.supportsDistanceAndAngle,
-        supportsHeightFromBaseAndTop: dotNetObject.supportsHeightFromBaseAndTop,
-        supportsHeightFromBaseAndTopShadow: dotNetObject.supportsHeightFromBaseAndTopShadow,
-        supportsHeightFromTopAndTopShadow: dotNetObject.supportsHeightFromTopAndTopShadow,
-        supportsPointOrCentroid: dotNetObject.supportsPointOrCentroid,
+
+export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsArcGISImageServiceCapabilitiesMensuration: any = {}
+
+    if (hasValue(dotNetObject.supports3D)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supports3D = dotNetObject.supports3D;
+    }
+    if (hasValue(dotNetObject.supportsAreaAndPerimeter)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsAreaAndPerimeter = dotNetObject.supportsAreaAndPerimeter;
+    }
+    if (hasValue(dotNetObject.supportsDistanceAndAngle)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsDistanceAndAngle = dotNetObject.supportsDistanceAndAngle;
+    }
+    if (hasValue(dotNetObject.supportsHeightFromBaseAndTop)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTop = dotNetObject.supportsHeightFromBaseAndTop;
+    }
+    if (hasValue(dotNetObject.supportsHeightFromBaseAndTopShadow)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = dotNetObject.supportsHeightFromBaseAndTopShadow;
+    }
+    if (hasValue(dotNetObject.supportsHeightFromTopAndTopShadow)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = dotNetObject.supportsHeightFromTopAndTopShadow;
+    }
+    if (hasValue(dotNetObject.supportsPointOrCentroid)) {
+        jsArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = dotNetObject.supportsPointOrCentroid;
     }
     let { default: ArcGISImageServiceCapabilitiesMensurationWrapper } = await import('./arcGISImageServiceCapabilitiesMensuration');
     let arcGISImageServiceCapabilitiesMensurationWrapper = new ArcGISImageServiceCapabilitiesMensurationWrapper(jsArcGISImageServiceCapabilitiesMensuration);
-    jsArcGISImageServiceCapabilitiesMensuration.id = dotNetObject.id;
+    arcGISImageServiceCapabilitiesMensurationWrapper.geoBlazorId = dotNetObject.id;
+    arcGISImageServiceCapabilitiesMensurationWrapper.viewId = viewId;
+    arcGISImageServiceCapabilitiesMensurationWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesMensurationWrapper);
@@ -74,6 +93,7 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = jsObject.supportsHeightFromBaseAndTopShadow;
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = jsObject.supportsHeightFromTopAndTopShadow;
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
+
     return dotNetArcGISImageServiceCapabilitiesMensuration;
 }
 

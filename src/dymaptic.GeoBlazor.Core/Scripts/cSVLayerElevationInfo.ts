@@ -9,9 +9,9 @@ export default class CSVLayerElevationInfoWrapper extends CSVLayerElevationInfoG
     }
     
 }              
-export async function buildJsCSVLayerElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsCSVLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsCSVLayerElevationInfoGenerated } = await import('./cSVLayerElevationInfo.gb');
-    return await buildJsCSVLayerElevationInfoGenerated(dotNetObject);
+    return await buildJsCSVLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetCSVLayerElevationInfo(jsObject: any): Promise<any> {
     let { buildDotNetCSVLayerElevationInfoGenerated } = await import('./cSVLayerElevationInfo.gb');

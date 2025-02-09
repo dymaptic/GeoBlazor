@@ -9,9 +9,9 @@ export default class ExpressionInfoWrapper extends ExpressionInfoGenerated {
     }
     
 }              
-export async function buildJsExpressionInfo(dotNetObject: any): Promise<any> {
+export async function buildJsExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsExpressionInfoGenerated } = await import('./expressionInfo.gb');
-    return await buildJsExpressionInfoGenerated(dotNetObject);
+    return await buildJsExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetExpressionInfoGenerated } = await import('./expressionInfo.gb');

@@ -39,8 +39,8 @@ export default class FieldGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFieldGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Field } = await import('@arcgis/core/layers/support/Field');
     let jsField = new Field();
+
     if (hasValue(dotNetObject.alias)) {
         jsField.alias = dotNetObject.alias;
     }
@@ -86,7 +86,7 @@ export async function buildJsFieldGenerated(dotNetObject: any, layerId: string |
     return jsField;
 }
 
-export async function buildDotNetFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFieldGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -105,6 +105,7 @@ export async function buildDotNetFieldGenerated(jsObject: any, layerId: string |
         dotNetField.nullable = jsObject.nullable;
         dotNetField.type = jsObject.type;
         dotNetField.valueType = jsObject.valueType;
+
     return dotNetField;
 }
 

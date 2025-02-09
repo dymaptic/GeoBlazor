@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BaseTileLayerGenerated implements IPropertyWrapper {
     public layer: BaseTileLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: BaseTileLayer) {
         this.layer = layer;
@@ -38,7 +40,7 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -75,15 +77,15 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -93,26 +95,23 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-export async function buildJsBaseTileLayerGenerated(dotNetObject: any): Promise<any> {
-    let { default: BaseTileLayer } = await import('@arcgis/core/layers/BaseTileLayer');
+
+export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseTileLayer = new BaseTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsBaseTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsBaseTileLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsBaseTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        jsBaseTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsBaseTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsBaseTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsBaseTileLayer.id = dotNetObject.arcGISLayerId;f
+        jsBaseTileLayer.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
         jsBaseTileLayer.blendMode = dotNetObject.blendMode;
@@ -144,13 +143,18 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any): Promise<
     if (hasValue(dotNetObject.title)) {
         jsBaseTileLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsBaseTileLayer.type = dotNetObject.type;
+    }
     jsBaseTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
     
     let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');
     let baseTileLayerWrapper = new BaseTileLayerWrapper(jsBaseTileLayer);
-    jsBaseTileLayer.id = dotNetObject.id;
+    baseTileLayerWrapper.geoBlazorId = dotNetObject.id;
+    baseTileLayerWrapper.viewId = viewId;
+    baseTileLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
@@ -170,21 +174,18 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetBaseTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
             dotNetBaseTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetBaseTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetBaseTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
         dotNetBaseTileLayer.blendMode = jsObject.blendMode;
         dotNetBaseTileLayer.effect = jsObject.effect;
+        dotNetBaseTileLayer.fullExtent = jsObject.fullExtent;
         dotNetBaseTileLayer.listMode = jsObject.listMode;
         dotNetBaseTileLayer.loaded = jsObject.loaded;
         dotNetBaseTileLayer.maxScale = jsObject.maxScale;
@@ -195,6 +196,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
         dotNetBaseTileLayer.spatialReference = jsObject.spatialReference;
         dotNetBaseTileLayer.title = jsObject.title;
         dotNetBaseTileLayer.type = jsObject.type;
+
     return dotNetBaseTileLayer;
 }
 

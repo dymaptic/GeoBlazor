@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PictureFillSymbolGenerated implements IPropertyWrapper {
     public component: PictureFillSymbol;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PictureFillSymbol) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class PictureFillSymbolGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPictureFillSymbolGenerated(dotNetObject: any): Promise<any> {
-    let { default: PictureFillSymbol } = await import('@arcgis/core/symbols/PictureFillSymbol');
+
+export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPictureFillSymbol = new PictureFillSymbol();
+
     if (hasValue(dotNetObject.color)) {
         jsPictureFillSymbol.color = dotNetObject.color;
     }
@@ -67,7 +70,9 @@ export async function buildJsPictureFillSymbolGenerated(dotNetObject: any): Prom
     }
     let { default: PictureFillSymbolWrapper } = await import('./pictureFillSymbol');
     let pictureFillSymbolWrapper = new PictureFillSymbolWrapper(jsPictureFillSymbol);
-    jsPictureFillSymbol.id = dotNetObject.id;
+    pictureFillSymbolWrapper.geoBlazorId = dotNetObject.id;
+    pictureFillSymbolWrapper.viewId = viewId;
+    pictureFillSymbolWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pictureFillSymbolWrapper);
@@ -97,6 +102,7 @@ export async function buildDotNetPictureFillSymbolGenerated(jsObject: any): Prom
         dotNetPictureFillSymbol.xscale = jsObject.xscale;
         dotNetPictureFillSymbol.yoffset = jsObject.yoffset;
         dotNetPictureFillSymbol.yscale = jsObject.yscale;
+
     return dotNetPictureFillSymbol;
 }
 

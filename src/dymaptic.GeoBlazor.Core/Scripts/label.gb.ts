@@ -29,13 +29,13 @@ export default class LabelGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getSymbol(layerId: string | null, viewId: string | null): Promise<any> {
+    async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol, layerId, viewId);
+        return buildDotNetSymbol(this.component.symbol);
     }
-    async setSymbol(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await buildJsSymbol(value, layerId, viewId);
+        this.component.symbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,12 +47,12 @@ export default class LabelGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let LabelClass = __esri.LabelClass;
     let jsLabelClass = new LabelClass();
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./jsBuilder');
-        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
+        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
+
     if (hasValue(dotNetObject.allowOverrun)) {
         jsLabelClass.allowOverrun = dotNetObject.allowOverrun;
     }
@@ -104,7 +104,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     return jsLabelClass;
 }
 
-export async function buildDotNetLabelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -115,7 +115,7 @@ export async function buildDotNetLabelGenerated(jsObject: any, layerId: string |
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol, layerId, viewId);
+            dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
         dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
@@ -129,6 +129,7 @@ export async function buildDotNetLabelGenerated(jsObject: any, layerId: string |
         dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
         dotNetLabel.useCodedValues = jsObject.useCodedValues;
         dotNetLabel.where = jsObject.where;
+
     return dotNetLabel;
 }
 

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     public component: UniqueValueRenderer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValueRenderer) {
         this.component = component;
@@ -28,17 +30,17 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        let jsSymbol = await buildJsSymbol(symbol) as any;
+        let jsSymbol = buildJsSymbol(symbol) as any;
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, layerId, viewId) as any;
+        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         let result = await this.component.getUniqueValueInfo(jsGraphic);
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
-        return buildDotNetUniqueValueInfo(result);
+        return await buildDotNetUniqueValueInfo(result);
     }
 
     async removeUniqueValueInfo(value: any): Promise<void> {
@@ -49,11 +51,11 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async getAuthoringInfo(): Promise<any> {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        return await buildDotNetAuthoringInfo(this.component.authoringInfo);
+        return buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await buildJsAuthoringInfo(value);
+        this.component.authoringInfo =  buildJsAuthoringInfo(value);
     }
     async getLegendOptions(): Promise<any> {
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
@@ -61,7 +63,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
-        this.component.legendOptions = await buildJsUniqueValueRendererLegendOptions(value);
+        this.component.legendOptions = await  buildJsUniqueValueRendererLegendOptions(value, this.layerId, this.viewId);
     }
     async getUniqueValueGroups(): Promise<any> {
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
@@ -70,7 +72,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setUniqueValueGroups(value: any): Promise<void> {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
-        this.component.uniqueValueGroups = value.map(async i => await buildJsUniqueValueGroup(i));
+        this.component.uniqueValueGroups = value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId));
     }
     
     async getUniqueValueInfos(): Promise<any> {
@@ -80,17 +82,12 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setUniqueValueInfos(value: any): Promise<void> {
         let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
-        this.component.uniqueValueInfos = value.map(async i => await buildJsUniqueValueInfo(i));
-    }
-    
-    async getVisualVariables(): Promise<any> {
-        let { buildDotNetVisualVariable } = await import('./visualVariable');
-        return this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i));
+        this.component.uniqueValueInfos = value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId));
     }
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        this.component.visualVariables = value.map(async i => await buildJsVisualVariable(i));
+        this.component.visualVariables = value.map(i => buildJsVisualVariable(i));
     }
     
     getProperty(prop: string): any {
@@ -101,34 +98,30 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
+
 export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: UniqueValueRenderer } = await import('@arcgis/core/renderers/UniqueValueRenderer');
     let jsUniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
-        let { buildJsAuthoringInfo } = await import('authoringInfo');
+        let { buildJsAuthoringInfo } = await import('./jsBuilder');
         jsUniqueValueRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
-
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        let { buildJsUniqueValueRendererLegendOptions } = await import('uniqueValueRendererLegendOptions');
-        jsUniqueValueRenderer.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions) as any;
-
+        let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        jsUniqueValueRenderer.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
-        let { buildJsUniqueValueGroup } = await import('uniqueValueGroup');
-        jsUniqueValueRenderer.uniqueValueGroups = dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i)) as any;
-
+        let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
+        jsUniqueValueRenderer.uniqueValueGroups = dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.uniqueValueInfos)) {
-        let { buildJsUniqueValueInfo } = await import('uniqueValueInfo');
-        jsUniqueValueRenderer.uniqueValueInfos = dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i)) as any;
-
+        let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
+        jsUniqueValueRenderer.uniqueValueInfos = dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
-        let { buildJsVisualVariable } = await import('visualVariable');
+        let { buildJsVisualVariable } = await import('./jsBuilder');
         jsUniqueValueRenderer.visualVariables = dotNetObject.visualVariables.map(i => buildJsVisualVariable(i)) as any;
-
     }
+
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
         jsUniqueValueRenderer.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
     }
@@ -161,7 +154,9 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     }
     let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
     let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsUniqueValueRenderer);
-    jsUniqueValueRenderer.id = dotNetObject.id;
+    uniqueValueRendererWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueRendererWrapper.viewId = viewId;
+    uniqueValueRendererWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererWrapper);
@@ -172,7 +167,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     return jsUniqueValueRenderer;
 }
 
-export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -183,7 +178,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
     };
         if (hasValue(jsObject.authoringInfo)) {
             let { buildDotNetAuthoringInfo } = await import('./dotNetBuilder');
-            dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+            dotNetUniqueValueRenderer.authoringInfo = buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
         if (hasValue(jsObject.legendOptions)) {
             let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
@@ -197,10 +192,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
             let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
             dotNetUniqueValueRenderer.uniqueValueInfos = jsObject.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i));
         }
-        if (hasValue(jsObject.visualVariables)) {
-            let { buildDotNetVisualVariable } = await import('./visualVariable');
-            dotNetUniqueValueRenderer.visualVariables = jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i));
-        }
+        dotNetUniqueValueRenderer.visualVariables = jsObject.visualVariables;
         dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
         dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
         dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
@@ -212,6 +204,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
         dotNetUniqueValueRenderer.type = jsObject.type;
         dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
         dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+
     return dotNetUniqueValueRenderer;
 }
 

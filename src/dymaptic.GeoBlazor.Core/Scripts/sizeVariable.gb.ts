@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SizeVariableGenerated implements IPropertyWrapper {
     public component: SizeVariable;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: SizeVariable) {
         this.component = component;
@@ -37,7 +39,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     }
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        this.component.legendOptions = await buildJsVisualVariableLegendOptions(value);
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     async getStops(): Promise<any> {
         let { buildDotNetSizeStop } = await import('./sizeStop');
@@ -46,7 +48,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.stops = value.map(async i => await buildJsSizeStop(i));
+        this.component.stops = value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -57,19 +59,18 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsSizeVariableGenerated(dotNetObject: any): Promise<any> {
-    let { default: SizeVariable } = await import('@arcgis/core/renderers/visualVariables/SizeVariable');
+
+export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSizeVariable = new SizeVariable();
     if (hasValue(dotNetObject.legendOptions)) {
-        let { buildJsVisualVariableLegendOptions } = await import('visualVariableLegendOptions');
-        jsSizeVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
-
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        jsSizeVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.stops)) {
-        let { buildJsSizeStop } = await import('sizeStop');
-        jsSizeVariable.stops = dotNetObject.stops.map(async i => await buildJsSizeStop(i)) as any;
-
+        let { buildJsSizeStop } = await import('./sizeStop');
+        jsSizeVariable.stops = dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.axis)) {
         jsSizeVariable.axis = dotNetObject.axis;
     }
@@ -111,7 +112,9 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any): Promise<a
     }
     let { default: SizeVariableWrapper } = await import('./sizeVariable');
     let sizeVariableWrapper = new SizeVariableWrapper(jsSizeVariable);
-    jsSizeVariable.id = dotNetObject.id;
+    sizeVariableWrapper.geoBlazorId = dotNetObject.id;
+    sizeVariableWrapper.viewId = viewId;
+    sizeVariableWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
@@ -153,6 +156,7 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
         dotNetSizeVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
         dotNetSizeVariable.valueRepresentation = jsObject.valueRepresentation;
         dotNetSizeVariable.valueUnit = jsObject.valueUnit;
+
     return dotNetSizeVariable;
 }
 

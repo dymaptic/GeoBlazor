@@ -10,9 +10,9 @@ export default class ExpressionPopupContentWrapper extends ExpressionPopupConten
     
 }
 
-export async function buildJsExpressionPopupContent(dotNetObject: any): Promise<any> {
+export async function buildJsExpressionPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsExpressionPopupContentGenerated } = await import('./expressionPopupContent.gb');
-    return await buildJsExpressionPopupContentGenerated(dotNetObject);
+    return await buildJsExpressionPopupContentGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetExpressionPopupContent(jsObject: any): Promise<any> {

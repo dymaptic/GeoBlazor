@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PixelBlockStatisticsGenerated implements IPropertyWrapper {
     public component: PixelBlockStatistics;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PixelBlockStatistics) {
         this.component = component;
@@ -35,15 +37,24 @@ export default class PixelBlockStatisticsGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any): Promise<any> {
-    let jsPixelBlockStatistics = {
-        maxValue: dotNetObject.maxValue,
-        minValue: dotNetObject.minValue,
-        noDataValue: dotNetObject.noDataValue,
+
+export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsPixelBlockStatistics: any = {}
+
+    if (hasValue(dotNetObject.maxValue)) {
+        jsPixelBlockStatistics.maxValue = dotNetObject.maxValue;
+    }
+    if (hasValue(dotNetObject.minValue)) {
+        jsPixelBlockStatistics.minValue = dotNetObject.minValue;
+    }
+    if (hasValue(dotNetObject.noDataValue)) {
+        jsPixelBlockStatistics.noDataValue = dotNetObject.noDataValue;
     }
     let { default: PixelBlockStatisticsWrapper } = await import('./pixelBlockStatistics');
     let pixelBlockStatisticsWrapper = new PixelBlockStatisticsWrapper(jsPixelBlockStatistics);
-    jsPixelBlockStatistics.id = dotNetObject.id;
+    pixelBlockStatisticsWrapper.geoBlazorId = dotNetObject.id;
+    pixelBlockStatisticsWrapper.viewId = viewId;
+    pixelBlockStatisticsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockStatisticsWrapper);
@@ -66,6 +77,7 @@ export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): P
         dotNetPixelBlockStatistics.maxValue = jsObject.maxValue;
         dotNetPixelBlockStatistics.minValue = jsObject.minValue;
         dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
+
     return dotNetPixelBlockStatistics;
 }
 

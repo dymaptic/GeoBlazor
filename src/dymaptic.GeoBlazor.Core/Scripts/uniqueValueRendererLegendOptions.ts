@@ -9,9 +9,9 @@ export default class UniqueValueRendererLegendOptionsWrapper extends UniqueValue
     }
     
 }              
-export async function buildJsUniqueValueRendererLegendOptions(dotNetObject: any): Promise<any> {
+export async function buildJsUniqueValueRendererLegendOptions(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsUniqueValueRendererLegendOptionsGenerated } = await import('./uniqueValueRendererLegendOptions.gb');
-    return await buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject);
+    return await buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetUniqueValueRendererLegendOptions(jsObject: any): Promise<any> {
     let { buildDotNetUniqueValueRendererLegendOptionsGenerated } = await import('./uniqueValueRendererLegendOptions.gb');

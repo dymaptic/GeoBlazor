@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class MultidimensionalSubsetGenerated implements IPropertyWrapper {
     public component: MultidimensionalSubset;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -47,22 +47,22 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
         this.component[prop] = value;
     }
 }
-export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
-    let { default: MultidimensionalSubset } = await import('@arcgis/core/layers/support/MultidimensionalSubset');
+
+export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMultidimensionalSubset = new MultidimensionalSubset();
     if (hasValue(dotNetObject.subsetDefinitions)) {
-        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(i => buildJsDimensionalDefinition(i)) as any;
-
+        let { buildJsDimensionalDefinition } = await import('./jsBuilder');
+        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i)) as any;
     }
+
     if (hasValue(dotNetObject.areaOfInterest)) {
         jsMultidimensionalSubset.areaOfInterest = dotNetObject.areaOfInterest;
     }
     let { default: MultidimensionalSubsetWrapper } = await import('./multidimensionalSubset');
     let multidimensionalSubsetWrapper = new MultidimensionalSubsetWrapper(jsMultidimensionalSubset);
     multidimensionalSubsetWrapper.geoBlazorId = dotNetObject.id;
-    multidimensionalSubsetWrapper.viewId = dotNetObject.viewId;
-    multidimensionalSubsetWrapper.layerId = dotNetObject.layerId;
+    multidimensionalSubsetWrapper.viewId = viewId;
+    multidimensionalSubsetWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multidimensionalSubsetWrapper);
@@ -89,6 +89,7 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
         dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;
         dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
         dotNetMultidimensionalSubset.variables = jsObject.variables;
+
     return dotNetMultidimensionalSubset;
 }
 

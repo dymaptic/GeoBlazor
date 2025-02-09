@@ -1712,7 +1712,7 @@ public partial class MapImageLayer : IArcGISMapService,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, View?.Id);
+                    PortalItem, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             PortalItem.JsComponentReference ??= jsObjectReference;
             
@@ -1799,7 +1799,7 @@ public partial class MapImageLayer : IArcGISMapService,
                 // this also calls back to OnJsComponentCreated
                 IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                     $"buildJsSublayer", CancellationTokenSource.Token, 
-                        item, View?.Id);
+                        item, Layer?.Id, View?.Id);
                 // in case the fallback failed, set this here.
                 item.JsComponentReference ??= jsObjectReference;
                 
@@ -1858,7 +1858,7 @@ public partial class MapImageLayer : IArcGISMapService,
                 // this also calls back to OnJsComponentCreated
                 IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                     $"buildJsSublayer", CancellationTokenSource.Token, 
-                        item, View?.Id);
+                        item, Layer?.Id, View?.Id);
                 // in case the fallback failed, set this here.
                 item.JsComponentReference ??= jsObjectReference;
                 
@@ -1915,7 +1915,7 @@ public partial class MapImageLayer : IArcGISMapService,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, View?.Id);
+                    TimeExtent, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             TimeExtent.JsComponentReference ??= jsObjectReference;
             

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ArcGISImageServiceCapabilitiesGenerated implements IPropertyWrapper {
     public component: ArcGISImageServiceCapabilities;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ArcGISImageServiceCapabilities) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
     }
     async setMensuration(value: any): Promise<void> {
         let { buildJsArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-        this.component.mensuration = await buildJsArcGISImageServiceCapabilitiesMensuration(value);
+        this.component.mensuration = await  buildJsArcGISImageServiceCapabilitiesMensuration(value, this.layerId, this.viewId);
     }
     async getOperations(): Promise<any> {
         let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
@@ -41,7 +43,7 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
     }
     async setOperations(value: any): Promise<void> {
         let { buildJsArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
-        this.component.operations = await buildJsArcGISImageServiceCapabilitiesOperations(value);
+        this.component.operations = await  buildJsArcGISImageServiceCapabilitiesOperations(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -51,23 +53,26 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
         this.component[prop] = value;
     }
 }
-export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObject: any): Promise<any> {
-    let jsArcGISImageServiceCapabilities = {
-    if (hasValue(dotNetObject.mensuration)) {
-        let { buildJsArcGISImageServiceCapabilitiesMensuration } = await import('arcGISImageServiceCapabilitiesMensuration');
-        jsArcGISImageServiceCapabilities.mensuration = await buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObject.mensuration) as any;
 
+export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsArcGISImageServiceCapabilities: any = {}
+    if (hasValue(dotNetObject.mensuration)) {
+        let { buildJsArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
+        jsArcGISImageServiceCapabilities.mensuration = await buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObject.mensuration, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.operations)) {
-        let { buildJsArcGISImageServiceCapabilitiesOperations } = await import('arcGISImageServiceCapabilitiesOperations');
-        jsArcGISImageServiceCapabilities.operations = await buildJsArcGISImageServiceCapabilitiesOperations(dotNetObject.operations) as any;
-
+        let { buildJsArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
+        jsArcGISImageServiceCapabilities.operations = await buildJsArcGISImageServiceCapabilitiesOperations(dotNetObject.operations, layerId, viewId) as any;
     }
-        query: dotNetObject.query,
+
+    if (hasValue(dotNetObject.query)) {
+        jsArcGISImageServiceCapabilities.query = dotNetObject.query;
     }
     let { default: ArcGISImageServiceCapabilitiesWrapper } = await import('./arcGISImageServiceCapabilities');
     let arcGISImageServiceCapabilitiesWrapper = new ArcGISImageServiceCapabilitiesWrapper(jsArcGISImageServiceCapabilities);
-    jsArcGISImageServiceCapabilities.id = dotNetObject.id;
+    arcGISImageServiceCapabilitiesWrapper.geoBlazorId = dotNetObject.id;
+    arcGISImageServiceCapabilitiesWrapper.viewId = viewId;
+    arcGISImageServiceCapabilitiesWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesWrapper);
@@ -96,6 +101,7 @@ export async function buildDotNetArcGISImageServiceCapabilitiesGenerated(jsObjec
             dotNetArcGISImageServiceCapabilities.operations = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsObject.operations);
         }
         dotNetArcGISImageServiceCapabilities.query = jsObject.query;
+
     return dotNetArcGISImageServiceCapabilities;
 }
 

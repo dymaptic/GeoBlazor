@@ -10,9 +10,9 @@ export default class PictureFillSymbolWrapper extends PictureFillSymbolGenerated
     
 }
 
-export async function buildJsPictureFillSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsPictureFillSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPictureFillSymbolGenerated } = await import('./pictureFillSymbol.gb');
-    return await buildJsPictureFillSymbolGenerated(dotNetObject);
+    return await buildJsPictureFillSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetPictureFillSymbol(jsObject: any): Promise<any> {

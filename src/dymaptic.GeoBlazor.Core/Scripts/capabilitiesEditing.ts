@@ -9,9 +9,9 @@ export default class CapabilitiesEditingWrapper extends CapabilitiesEditingGener
     }
     
 }              
-export async function buildJsCapabilitiesEditing(dotNetObject: any): Promise<any> {
+export async function buildJsCapabilitiesEditing(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsCapabilitiesEditingGenerated } = await import('./capabilitiesEditing.gb');
-    return await buildJsCapabilitiesEditingGenerated(dotNetObject);
+    return await buildJsCapabilitiesEditingGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetCapabilitiesEditing(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesEditingGenerated } = await import('./capabilitiesEditing.gb');

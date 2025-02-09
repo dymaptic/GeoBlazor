@@ -39,8 +39,8 @@ export default class FieldInfoFormatGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: FieldInfoFormat } = await import('@arcgis/core/popup/support/FieldInfoFormat');
     let jsFieldInfoFormat = new FieldInfoFormat();
+
     if (hasValue(dotNetObject.dateFormat)) {
         jsFieldInfoFormat.dateFormat = dotNetObject.dateFormat;
     }
@@ -65,7 +65,7 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId
     return jsFieldInfoFormat;
 }
 
-export async function buildDotNetFieldInfoFormatGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export function buildDotNetFieldInfoFormatGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -77,6 +77,7 @@ export async function buildDotNetFieldInfoFormatGenerated(jsObject: any, layerId
         dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;
         dotNetFieldInfoFormat.digitSeparator = jsObject.digitSeparator;
         dotNetFieldInfoFormat.places = jsObject.places;
+
     return dotNetFieldInfoFormat;
 }
 

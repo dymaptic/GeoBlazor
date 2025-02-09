@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
     public component: BarChartMediaInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: BarChartMediaInfo) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await buildJsChartMediaInfoValue(value);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: BarChartMediaInfo } = await import('@arcgis/core/popup/content/BarChartMediaInfo');
+
+export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBarChartMediaInfo = new BarChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
-        let { buildJsChartMediaInfoValue } = await import('chartMediaInfoValue');
+        let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
         jsBarChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
-
     }
+
     if (hasValue(dotNetObject.altText)) {
         jsBarChartMediaInfo.altText = dotNetObject.altText;
     }
@@ -62,7 +64,9 @@ export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any): Prom
     }
     let { default: BarChartMediaInfoWrapper } = await import('./barChartMediaInfo');
     let barChartMediaInfoWrapper = new BarChartMediaInfoWrapper(jsBarChartMediaInfo);
-    jsBarChartMediaInfo.id = dotNetObject.id;
+    barChartMediaInfoWrapper.geoBlazorId = dotNetObject.id;
+    barChartMediaInfoWrapper.viewId = viewId;
+    barChartMediaInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(barChartMediaInfoWrapper);
@@ -90,6 +94,7 @@ export async function buildDotNetBarChartMediaInfoGenerated(jsObject: any): Prom
         dotNetBarChartMediaInfo.caption = jsObject.caption;
         dotNetBarChartMediaInfo.title = jsObject.title;
         dotNetBarChartMediaInfo.type = jsObject.type;
+
     return dotNetBarChartMediaInfo;
 }
 

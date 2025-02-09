@@ -751,7 +751,7 @@ public partial class WebTileLayer : IBlendLayer,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, View?.Id);
+                    PortalItem, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             PortalItem.JsComponentReference ??= jsObjectReference;
             
@@ -866,7 +866,7 @@ public partial class WebTileLayer : IBlendLayer,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsTileInfo", CancellationTokenSource.Token, 
-                    TileInfo, View?.Id);
+                    TileInfo, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             TileInfo.JsComponentReference ??= jsObjectReference;
             

@@ -40,6 +40,7 @@ export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
 
 export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesMetadata: any = {}
+
     if (hasValue(dotNetObject.supportsAdvancedFieldProperties)) {
         jsCapabilitiesMetadata.supportsAdvancedFieldProperties = dotNetObject.supportsAdvancedFieldProperties;
     }
@@ -58,7 +59,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     return jsCapabilitiesMetadata;
 }
 
-export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,6 +69,7 @@ export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any, la
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
+
     return dotNetCapabilitiesMetadata;
 }
 

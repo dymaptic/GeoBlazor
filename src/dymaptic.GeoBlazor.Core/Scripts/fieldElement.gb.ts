@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FieldElementGenerated implements IPropertyWrapper {
     public component: FieldElement;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FieldElement) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class FieldElementGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFieldElementGenerated(dotNetObject: any): Promise<any> {
-    let { default: FieldElement } = await import('@arcgis/core/form/elements/FieldElement');
+
+export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldElement = new FieldElement();
+
     if (hasValue(dotNetObject.description)) {
         jsFieldElement.description = dotNetObject.description;
     }
@@ -70,7 +73,9 @@ export async function buildJsFieldElementGenerated(dotNetObject: any): Promise<a
     }
     let { default: FieldElementWrapper } = await import('./fieldElement');
     let fieldElementWrapper = new FieldElementWrapper(jsFieldElement);
-    jsFieldElement.id = dotNetObject.id;
+    fieldElementWrapper.geoBlazorId = dotNetObject.id;
+    fieldElementWrapper.viewId = viewId;
+    fieldElementWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldElementWrapper);
@@ -101,6 +106,7 @@ export async function buildDotNetFieldElementGenerated(jsObject: any): Promise<a
         dotNetFieldElement.type = jsObject.type;
         dotNetFieldElement.valueExpression = jsObject.valueExpression;
         dotNetFieldElement.visibilityExpression = jsObject.visibilityExpression;
+
     return dotNetFieldElement;
 }
 

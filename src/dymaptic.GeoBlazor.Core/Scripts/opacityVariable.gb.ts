@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class OpacityVariableGenerated implements IPropertyWrapper {
     public component: OpacityVariable;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: OpacityVariable) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
     }
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        this.component.legendOptions = await buildJsVisualVariableLegendOptions(value);
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     async getStops(): Promise<any> {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
@@ -42,7 +44,7 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        this.component.stops = value.map(async i => await buildJsOpacityStop(i));
+        this.component.stops = value.map(async i => await buildJsOpacityStop(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -53,19 +55,18 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
-    let { default: OpacityVariable } = await import('@arcgis/core/renderers/visualVariables/OpacityVariable');
+
+export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOpacityVariable = new OpacityVariable();
     if (hasValue(dotNetObject.legendOptions)) {
-        let { buildJsVisualVariableLegendOptions } = await import('visualVariableLegendOptions');
-        jsOpacityVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
-
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        jsOpacityVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.stops)) {
-        let { buildJsOpacityStop } = await import('opacityStop');
-        jsOpacityVariable.stops = dotNetObject.stops.map(async i => await buildJsOpacityStop(i)) as any;
-
+        let { buildJsOpacityStop } = await import('./opacityStop');
+        jsOpacityVariable.stops = dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.field)) {
         jsOpacityVariable.field = dotNetObject.field;
     }
@@ -80,7 +81,9 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promis
     }
     let { default: OpacityVariableWrapper } = await import('./opacityVariable');
     let opacityVariableWrapper = new OpacityVariableWrapper(jsOpacityVariable);
-    jsOpacityVariable.id = dotNetObject.id;
+    opacityVariableWrapper.geoBlazorId = dotNetObject.id;
+    opacityVariableWrapper.viewId = viewId;
+    opacityVariableWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityVariableWrapper);
@@ -113,6 +116,7 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         dotNetOpacityVariable.type = jsObject.type;
         dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
         dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+
     return dotNetOpacityVariable;
 }
 

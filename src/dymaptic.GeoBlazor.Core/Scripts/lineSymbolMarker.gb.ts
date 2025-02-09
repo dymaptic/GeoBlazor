@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     public component: LineSymbolMarker;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LineSymbolMarker) {
         this.component = component;
@@ -27,14 +29,6 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.color);
-    }
-    async setColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await buildJsMapColor(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -43,12 +37,12 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any): Promise<any> {
-    let { default: LineSymbolMarker } = await import('@arcgis/core/symbols/LineSymbolMarker');
+
+export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLineSymbolMarker = new LineSymbolMarker();
+
     if (hasValue(dotNetObject.color)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsLineSymbolMarker.color = await buildJsColor(dotNetObject.color) as any;
+        jsLineSymbolMarker.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.placement)) {
         jsLineSymbolMarker.placement = dotNetObject.placement;
@@ -58,7 +52,9 @@ export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any): Promi
     }
     let { default: LineSymbolMarkerWrapper } = await import('./lineSymbolMarker');
     let lineSymbolMarkerWrapper = new LineSymbolMarkerWrapper(jsLineSymbolMarker);
-    jsLineSymbolMarker.id = dotNetObject.id;
+    lineSymbolMarkerWrapper.geoBlazorId = dotNetObject.id;
+    lineSymbolMarkerWrapper.viewId = viewId;
+    lineSymbolMarkerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lineSymbolMarkerWrapper);
@@ -78,13 +74,11 @@ export async function buildDotNetLineSymbolMarkerGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetLineSymbolMarker.color = await buildDotNetMapColor(jsObject.color);
-        }
+        dotNetLineSymbolMarker.color = jsObject.color;
         dotNetLineSymbolMarker.placement = jsObject.placement;
         dotNetLineSymbolMarker.style = jsObject.style;
         dotNetLineSymbolMarker.type = jsObject.type;
+
     return dotNetLineSymbolMarker;
 }
 

@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     public layer: ImageryTileLayer;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -48,7 +48,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result, this.layerId, this.viewId);
+        return buildDotNetPopupTemplate(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -64,7 +64,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
             height,
             options);
         let { buildDotNetPixelData } = await import('./pixelData');
-        return buildDotNetPixelData(result);
+        return await buildDotNetPixelData(result);
     }
 
     async fetchTile(level: any,
@@ -86,17 +86,17 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let jsPortalItem = buildJsPortalItem(portalItem) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     // region properties
@@ -108,7 +108,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.layer.multidimensionalDefinition = value.map(async i => await buildJsDimensionalDefinition(i));
+        this.layer.multidimensionalDefinition = value.map(i => buildJsDimensionalDefinition(i));
     }
     
     async getMultidimensionalSubset(): Promise<any> {
@@ -117,23 +117,23 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset =  buildJsMultidimensionalSubset(value);
     }
-    async getPopupTemplate(layerId: string, viewId: string): Promise<any> {
+    async getPopupTemplate(): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate, layerId, viewId);
+        return buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
-    async setPopupTemplate(value: any, layerId: string, viewId: string): Promise<void> {
+    async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await buildJsPopupTemplate(value, layerId, viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
+        this.layer.portalItem =  buildJsPortalItem(value);
     }
     async getRasterFields(): Promise<any> {
         let { buildDotNetField } = await import('./field');
@@ -146,47 +146,47 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setRasterFunction(value: any): Promise<void> {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        this.layer.rasterFunction = await buildJsRasterFunction(value);
+        this.layer.rasterFunction = await  buildJsRasterFunction(value, this.layerId, this.viewId);
     }
     async getTileInfo(): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return buildDotNetTileInfo(this.layer.tileInfo);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.timeExtent);
+        return buildDotNetTimeExtent(this.layer.timeExtent);
     }
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await buildJsTimeExtent(value);
+        this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     async getTimeInfo(): Promise<any> {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return buildDotNetTimeInfo(this.layer.timeInfo);
     }
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        this.layer.timeInfo = await buildJsTimeInfo(value);
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getTimeOffset(): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset);
+        return buildDotNetTimeInterval(this.layer.timeOffset);
     }
     async setTimeOffset(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.layer.timeOffset = await buildJsTimeInterval(value);
+        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -196,64 +196,53 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
+
 export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: ImageryTileLayer } = await import('@arcgis/core/layers/ImageryTileLayer');
     let jsImageryTileLayer = new ImageryTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsImageryTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsImageryTileLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        let { buildJsDimensionalDefinition } = await import('./jsBuilder');
         jsImageryTileLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(i => buildJsDimensionalDefinition(i)) as any;
-
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
-        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+        let { buildJsMultidimensionalSubset } = await import('./jsBuilder');
         jsImageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
-
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let { buildJsPopupTemplate } = await import('./jsBuilder');
         jsImageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
-
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
-        jsImageryTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsImageryTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        jsImageryTileLayer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
-
+        jsImageryTileLayer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsImageryTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        jsImageryTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageryTileLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
-
+        jsImageryTileLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsImageryTileLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
-
+        jsImageryTileLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        jsImageryTileLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
-
+        jsImageryTileLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageryTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsImageryTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsImageryTileLayer.id = dotNetObject.arcGISLayerId;
     }
@@ -305,6 +294,9 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.title)) {
         jsImageryTileLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsImageryTileLayer.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.url)) {
         jsImageryTileLayer.url = dotNetObject.url;
     }
@@ -313,7 +305,9 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     let { default: ImageryTileLayerWrapper } = await import('./imageryTileLayer');
     let imageryTileLayerWrapper = new ImageryTileLayerWrapper(jsImageryTileLayer);
-    jsImageryTileLayer.id = dotNetObject.id;
+    imageryTileLayerWrapper.geoBlazorId = dotNetObject.id;
+    imageryTileLayerWrapper.viewId = viewId;
+    imageryTileLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
@@ -324,7 +318,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     return jsImageryTileLayer;
 }
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -333,10 +327,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.multidimensionalDefinition)) {
             let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
             dotNetImageryTileLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i));
@@ -347,11 +337,11 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetImageryTileLayer.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
@@ -363,23 +353,23 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetImageryTileLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent);
+            dotNetImageryTileLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
         if (hasValue(jsObject.timeInfo)) {
             let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+            dotNetImageryTileLayer.timeInfo = buildDotNetTimeInfo(jsObject.timeInfo);
         }
         if (hasValue(jsObject.timeOffset)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+            dotNetImageryTileLayer.timeOffset = buildDotNetTimeInterval(jsObject.timeOffset);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetImageryTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetImageryTileLayer.arcGISLayerId = jsObject.id;
         dotNetImageryTileLayer.bandIds = jsObject.bandIds;
@@ -387,6 +377,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         dotNetImageryTileLayer.copyright = jsObject.copyright;
         dotNetImageryTileLayer.customParameters = jsObject.customParameters;
         dotNetImageryTileLayer.effect = jsObject.effect;
+        dotNetImageryTileLayer.fullExtent = jsObject.fullExtent;
         dotNetImageryTileLayer.interpolation = jsObject.interpolation;
         dotNetImageryTileLayer.legendEnabled = jsObject.legendEnabled;
         dotNetImageryTileLayer.listMode = jsObject.listMode;
@@ -406,6 +397,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         dotNetImageryTileLayer.url = jsObject.url;
         dotNetImageryTileLayer.useViewTime = jsObject.useViewTime;
         dotNetImageryTileLayer.version = jsObject.version;
+
     return dotNetImageryTileLayer;
 }
 

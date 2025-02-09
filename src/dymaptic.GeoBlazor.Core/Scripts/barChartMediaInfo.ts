@@ -10,9 +10,9 @@ export default class BarChartMediaInfoWrapper extends BarChartMediaInfoGenerated
     
 }
 
-export async function buildJsBarChartMediaInfo(dotNetObject: any): Promise<any> {
+export async function buildJsBarChartMediaInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsBarChartMediaInfoGenerated } = await import('./barChartMediaInfo.gb');
-    return await buildJsBarChartMediaInfoGenerated(dotNetObject);
+    return await buildJsBarChartMediaInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetBarChartMediaInfo(jsObject: any): Promise<any> {

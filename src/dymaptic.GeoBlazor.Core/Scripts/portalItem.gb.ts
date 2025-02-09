@@ -82,7 +82,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async reload(): Promise<any> {
         let result = await this.component.reload();
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result);
     }
 
     async removeAllResources(options: any): Promise<any> {
@@ -98,7 +98,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async update(data: any): Promise<any> {
         let result = await this.component.update(data);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result);
     }
 
     async updateThumbnail(thumbnail: any,
@@ -106,18 +106,18 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let result = await this.component.updateThumbnail(thumbnail,
             filename);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result);
     }
 
     // region properties
     
-    async getPortal(layerId: string | null, viewId: string | null): Promise<any> {
+    async getPortal(): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, layerId, viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
-    async setPortal(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await buildJsPortal(value, layerId, viewId);
+        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -129,16 +129,15 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: PortalItem } = await import('@arcgis/core/portal/PortalItem');
     let jsPortalItem = new PortalItem();
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./jsBuilder');
-        jsPortalItem.extent = buildJsExtent(dotNetObject.extent, layerId, viewId) as any;
+        jsPortalItem.extent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
         jsPortalItem.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.access)) {
         jsPortalItem.access = dotNetObject.access;
     }
@@ -281,6 +280,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
         dotNetPortalItem.type = jsObject.type;
         dotNetPortalItem.typeKeywords = jsObject.typeKeywords;
         dotNetPortalItem.url = jsObject.url;
+
     return dotNetPortalItem;
 }
 

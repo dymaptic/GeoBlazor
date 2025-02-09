@@ -9,9 +9,9 @@ export default class SizeVariableWrapper extends SizeVariableGenerated {
     }
     
 }              
-export async function buildJsSizeVariable(dotNetObject: any): Promise<any> {
+export async function buildJsSizeVariable(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSizeVariableGenerated } = await import('./sizeVariable.gb');
-    return await buildJsSizeVariableGenerated(dotNetObject);
+    return await buildJsSizeVariableGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetSizeVariable(jsObject: any): Promise<any> {
     let { buildDotNetSizeVariableGenerated } = await import('./sizeVariable.gb');

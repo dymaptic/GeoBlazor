@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class DimensionalDefinitionGenerated implements IPropertyWrapper {
     public component: DimensionalDefinition;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: DimensionalDefinition) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class DimensionalDefinitionGenerated implements IPropertyWrapper 
         this.component[prop] = value;
     }
 }
-export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): Promise<any> {
-    let { default: DimensionalDefinition } = await import('@arcgis/core/layers/support/DimensionalDefinition');
+
+export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDimensionalDefinition = new DimensionalDefinition();
+
     if (hasValue(dotNetObject.dimensionName)) {
         jsDimensionalDefinition.dimensionName = dotNetObject.dimensionName;
     }
@@ -52,7 +55,9 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): 
     }
     let { default: DimensionalDefinitionWrapper } = await import('./dimensionalDefinition');
     let dimensionalDefinitionWrapper = new DimensionalDefinitionWrapper(jsDimensionalDefinition);
-    jsDimensionalDefinition.id = dotNetObject.id;
+    dimensionalDefinitionWrapper.geoBlazorId = dotNetObject.id;
+    dimensionalDefinitionWrapper.viewId = viewId;
+    dimensionalDefinitionWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(dimensionalDefinitionWrapper);
@@ -76,6 +81,7 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): 
         dotNetDimensionalDefinition.isSlice = jsObject.isSlice;
         dotNetDimensionalDefinition.values = jsObject.values;
         dotNetDimensionalDefinition.variableName = jsObject.variableName;
+
     return dotNetDimensionalDefinition;
 }
 

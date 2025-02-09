@@ -40,6 +40,7 @@ export default class CapabilitiesDataGenerated implements IPropertyWrapper {
 
 export async function buildJsCapabilitiesDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesData: any = {}
+
     if (hasValue(dotNetObject.isVersioned)) {
         jsCapabilitiesData.isVersioned = dotNetObject.isVersioned;
     }
@@ -67,7 +68,7 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any, layerI
     return jsCapabilitiesData;
 }
 
-export async function buildDotNetCapabilitiesDataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -80,6 +81,7 @@ export async function buildDotNetCapabilitiesDataGenerated(jsObject: any, layerI
         dotNetCapabilitiesData.supportsAttachment = jsObject.supportsAttachment;
         dotNetCapabilitiesData.supportsM = jsObject.supportsM;
         dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
+
     return dotNetCapabilitiesData;
 }
 

@@ -10,9 +10,9 @@ export default class OpacityVariableWrapper extends OpacityVariableGenerated {
     
 }
 
-export async function buildJsOpacityVariable(dotNetObject: any): Promise<any> {
+export async function buildJsOpacityVariable(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsOpacityVariableGenerated } = await import('./opacityVariable.gb');
-    return await buildJsOpacityVariableGenerated(dotNetObject);
+    return await buildJsOpacityVariableGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetOpacityVariable(jsObject: any): Promise<any> {

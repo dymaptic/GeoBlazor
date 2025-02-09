@@ -10,9 +10,9 @@ export default class TextSymbolWrapper extends TextSymbolGenerated {
     
 }
 
-export async function buildJsTextSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsTextSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsTextSymbolGenerated } = await import('./textSymbol.gb');
-    return await buildJsTextSymbolGenerated(dotNetObject);
+    return await buildJsTextSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetTextSymbol(jsObject: any): Promise<any> {

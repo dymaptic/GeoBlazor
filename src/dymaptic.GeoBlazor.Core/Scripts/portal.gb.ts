@@ -77,47 +77,47 @@ export default class PortalGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getDefaultBasemap(layerId: string | null, viewId: string | null): Promise<any> {
+    async getDefaultBasemap(): Promise<any> {
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultBasemap, layerId, viewId);
+        return await buildDotNetBasemap(this.component.defaultBasemap);
     }
-    async setDefaultBasemap(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setDefaultBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
-        this.component.defaultBasemap = await buildJsBasemap(value, layerId, viewId);
+        this.component.defaultBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
-    async getDefaultDevBasemap(layerId: string | null, viewId: string | null): Promise<any> {
+    async getDefaultDevBasemap(): Promise<any> {
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultDevBasemap, layerId, viewId);
+        return await buildDotNetBasemap(this.component.defaultDevBasemap);
     }
-    async setDefaultDevBasemap(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setDefaultDevBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
-        this.component.defaultDevBasemap = await buildJsBasemap(value, layerId, viewId);
+        this.component.defaultDevBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
-    async getDefaultVectorBasemap(layerId: string | null, viewId: string | null): Promise<any> {
+    async getDefaultVectorBasemap(): Promise<any> {
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultVectorBasemap, layerId, viewId);
+        return await buildDotNetBasemap(this.component.defaultVectorBasemap);
     }
-    async setDefaultVectorBasemap(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setDefaultVectorBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
-        this.component.defaultVectorBasemap = await buildJsBasemap(value, layerId, viewId);
+        this.component.defaultVectorBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
-    async getFeaturedGroups(layerId: string | null, viewId: string | null): Promise<any> {
+    async getFeaturedGroups(): Promise<any> {
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        return this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i, layerId, viewId));
+        return this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i));
     }
     
-    async setFeaturedGroups(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setFeaturedGroups(value: any): Promise<void> {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        this.component.featuredGroups = value.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId));
+        this.component.featuredGroups = value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId));
     }
     
-    async getUser(layerId: string | null, viewId: string | null): Promise<any> {
+    async getUser(): Promise<any> {
         let { buildDotNetPortalUser } = await import('./portalUser');
-        return await buildDotNetPortalUser(this.component.user, layerId, viewId);
+        return await buildDotNetPortalUser(this.component.user);
     }
-    async setUser(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setUser(value: any): Promise<void> {
         let { buildJsPortalUser } = await import('./portalUser');
-        this.component.user = await buildJsPortalUser(value, layerId, viewId);
+        this.component.user = await  buildJsPortalUser(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -129,16 +129,15 @@ export default class PortalGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Portal } = await import('@arcgis/core/portal/Portal');
     let jsPortal = new Portal();
     if (hasValue(dotNetObject.defaultExtent)) {
-        let { buildJsExtent } = await import('./jsBuilder');
-        jsPortal.defaultExtent = buildJsExtent(dotNetObject.defaultExtent, layerId, viewId) as any;
+        jsPortal.defaultExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.featuredGroups)) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         jsPortal.featuredGroups = dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.access)) {
         jsPortal.access = dotNetObject.access;
     }
@@ -336,7 +335,7 @@ export async function buildDotNetPortalGenerated(jsObject: any, layerId: string 
     };
         if (hasValue(jsObject.featuredGroups)) {
             let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-            dotNetPortal.featuredGroups = jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i, layerId, viewId));
+            dotNetPortal.featuredGroups = jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i));
         }
         dotNetPortal.access = jsObject.access;
         dotNetPortal.allSSL = jsObject.allSSL;
@@ -401,6 +400,7 @@ export async function buildDotNetPortalGenerated(jsObject: any, layerId: string 
         dotNetPortal.useStandardizedQuery = jsObject.useStandardizedQuery;
         dotNetPortal.useVectorBasemaps = jsObject.useVectorBasemaps;
         dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
+
     return dotNetPortal;
 }
 

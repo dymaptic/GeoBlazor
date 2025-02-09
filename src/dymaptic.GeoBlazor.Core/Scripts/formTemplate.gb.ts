@@ -29,24 +29,14 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getElements(layerId: string | null, viewId: string | null): Promise<any> {
-        let { buildDotNetFormElement } = await import('./formElement');
-        return this.component.elements.map(async i => await buildDotNetFormElement(i, layerId, viewId));
-    }
-    
-    async setElements(value: any, layerId: string | null, viewId: string | null): Promise<void> {
-        let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = value.map(async i => await buildJsFormElement(i, layerId, viewId));
-    }
-    
-    async getExpressionInfos(layerId: string | null, viewId: string | null): Promise<any> {
+    async getExpressionInfos(): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i, layerId, viewId));
+        return this.component.expressionInfos.map(i => buildDotNetExpressionInfo(i));
     }
     
-    async setExpressionInfos(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i, layerId, viewId));
+        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
     }
     
     getProperty(prop: string): any {
@@ -59,16 +49,15 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: FormTemplate } = await import('@arcgis/core/form/FormTemplate');
     let jsFormTemplate = new FormTemplate();
     if (hasValue(dotNetObject.elements)) {
-        let { buildJsFormElement } = await import('./formElement');
-        jsFormTemplate.elements = dotNetObject.elements.map(async i => await buildJsFormElement(i, layerId, viewId)) as any;
+        jsFormTemplate.elements = dotNetObject.formElement;
     }
     if (hasValue(dotNetObject.expressionInfos)) {
         let { buildJsExpressionInfo } = await import('./jsBuilder');
-        jsFormTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i, layerId, viewId)) as any;
+        jsFormTemplate.expressionInfos = dotNetObject.expressionInfos.map(async i => await buildJsExpressionInfo(i)) as any;
     }
+
     if (hasValue(dotNetObject.description)) {
         jsFormTemplate.description = dotNetObject.description;
     }
@@ -93,7 +82,7 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     return jsFormTemplate;
 }
 
-export async function buildDotNetFormTemplateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFormTemplateGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -102,17 +91,15 @@ export async function buildDotNetFormTemplateGenerated(jsObject: any, layerId: s
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.elements)) {
-            let { buildDotNetFormElement } = await import('./formElement');
-            dotNetFormTemplate.elements = jsObject.elements.map(async i => await buildDotNetFormElement(i, layerId, viewId));
-        }
+        dotNetFormTemplate.elements = jsObject.elements;
         if (hasValue(jsObject.expressionInfos)) {
             let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
-            dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i, layerId, viewId));
+            dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
         }
         dotNetFormTemplate.description = jsObject.description;
         dotNetFormTemplate.preserveFieldValuesWhenHidden = jsObject.preserveFieldValuesWhenHidden;
         dotNetFormTemplate.title = jsObject.title;
+
     return dotNetFormTemplate;
 }
 

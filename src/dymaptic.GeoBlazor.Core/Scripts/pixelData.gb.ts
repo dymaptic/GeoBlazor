@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PixelDataGenerated implements IPropertyWrapper {
     public component: PixelData;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -35,7 +35,7 @@ export default class PixelDataGenerated implements IPropertyWrapper {
     }
     async setPixelBlock(value: any): Promise<void> {
         let { buildJsPixelBlock } = await import('./pixelBlock');
-        this.component.pixelBlock = await buildJsPixelBlock(value);
+        this.component.pixelBlock = await  buildJsPixelBlock(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -45,23 +45,22 @@ export default class PixelDataGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPixelDataGenerated(dotNetObject: any): Promise<any> {
-    let jsPixelData: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsPixelData.extent = buildJsExtent(dotNetObject.extent) as any;
 
+export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsPixelData: any = {}
+    if (hasValue(dotNetObject.extent)) {
+        jsPixelData.extent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.pixelBlock)) {
         let { buildJsPixelBlock } = await import('./pixelBlock');
-        jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock) as any;
+        jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock, layerId, viewId) as any;
     }
-    
+
     let { default: PixelDataWrapper } = await import('./pixelData');
     let pixelDataWrapper = new PixelDataWrapper(jsPixelData);
     pixelDataWrapper.geoBlazorId = dotNetObject.id;
-    pixelDataWrapper.viewId = dotNetObject.viewId;
-    pixelDataWrapper.layerId = dotNetObject.layerId;
+    pixelDataWrapper.viewId = viewId;
+    pixelDataWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelDataWrapper);
@@ -81,14 +80,12 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetPixelData.extent = await buildDotNetExtent(jsObject.extent);
-        }
         if (hasValue(jsObject.pixelBlock)) {
             let { buildDotNetPixelBlock } = await import('./pixelBlock');
             dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
         }
+        dotNetPixelData.extent = jsObject.extent;
+
     return dotNetPixelData;
 }
 

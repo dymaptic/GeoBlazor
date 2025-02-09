@@ -9,9 +9,9 @@ export default class OrderedLayerOrderByWrapper extends OrderedLayerOrderByGener
     }
     
 }              
-export async function buildJsOrderedLayerOrderBy(dotNetObject: any): Promise<any> {
+export async function buildJsOrderedLayerOrderBy(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsOrderedLayerOrderByGenerated } = await import('./orderedLayerOrderBy.gb');
-    return await buildJsOrderedLayerOrderByGenerated(dotNetObject);
+    return await buildJsOrderedLayerOrderByGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetOrderedLayerOrderBy(jsObject: any): Promise<any> {
     let { buildDotNetOrderedLayerOrderByGenerated } = await import('./orderedLayerOrderBy.gb');

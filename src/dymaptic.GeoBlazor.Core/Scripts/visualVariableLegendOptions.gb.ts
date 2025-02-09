@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class VisualVariableLegendOptionsGenerated implements IPropertyWrapper {
     public component: VisualVariableLegendOptions;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: VisualVariableLegendOptions) {
         this.component = component;
@@ -35,14 +37,21 @@ export default class VisualVariableLegendOptionsGenerated implements IPropertyWr
         this.component[prop] = value;
     }
 }
-export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any): Promise<any> {
-    let jsVisualVariableLegendOptions = {
-        showLegend: dotNetObject.showLegend,
-        title: dotNetObject.title,
+
+export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsVisualVariableLegendOptions: any = {}
+
+    if (hasValue(dotNetObject.showLegend)) {
+        jsVisualVariableLegendOptions.showLegend = dotNetObject.showLegend;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsVisualVariableLegendOptions.title = dotNetObject.title;
     }
     let { default: VisualVariableLegendOptionsWrapper } = await import('./visualVariableLegendOptions');
     let visualVariableLegendOptionsWrapper = new VisualVariableLegendOptionsWrapper(jsVisualVariableLegendOptions);
-    jsVisualVariableLegendOptions.id = dotNetObject.id;
+    visualVariableLegendOptionsWrapper.geoBlazorId = dotNetObject.id;
+    visualVariableLegendOptionsWrapper.viewId = viewId;
+    visualVariableLegendOptionsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(visualVariableLegendOptionsWrapper);
@@ -64,6 +73,7 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
     };
         dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
         dotNetVisualVariableLegendOptions.title = jsObject.title;
+
     return dotNetVisualVariableLegendOptions;
 }
 

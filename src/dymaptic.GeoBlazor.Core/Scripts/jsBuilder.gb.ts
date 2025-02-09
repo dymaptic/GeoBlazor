@@ -18,7 +18,7 @@ import {
 } from './jsBuilder';
 
 // region functions
-export async function buildJsWebTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsWebTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: WebTileLayer } = await import('@arcgis/core/layers/WebTileLayer');
     let jsWebTileLayer = new WebTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -86,7 +86,7 @@ export async function buildJsWebTileLayer(dotNetObject: any): Promise<any> {
     return jsWebTileLayer;
 }
 
-export async function buildJsTileInfo(dotNetObject: any): Promise<any> {
+export async function buildJsTileInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TileInfo } = await import('@arcgis/core/layers/support/TileInfo');
     let jsTileInfo = new TileInfo();
     if (hasValue(dotNetObject.lods)) {
@@ -120,7 +120,7 @@ export async function buildJsTileInfo(dotNetObject: any): Promise<any> {
     return jsTileInfo;
 }
 
-export async function buildJsLOD(dotNetObject: any): Promise<any> {
+export async function buildJsLOD(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LOD } = await import('@arcgis/core/layers/support/LOD');
     let jsLOD = new LOD();
     if (hasValue(dotNetObject.level)) {
@@ -143,7 +143,7 @@ export async function buildJsLOD(dotNetObject: any): Promise<any> {
     return jsLOD;
 }
 
-export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
+export async function buildJsTimeExtent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeExtent } = await import('@arcgis/core/TimeExtent');
     let jsTimeExtent = new TimeExtent();
     if (hasValue(dotNetObject.end)) {
@@ -162,7 +162,7 @@ export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
     return jsTimeExtent;
 }
 
-export async function buildJsPortalFolder(dotNetObject: any): Promise<any> {
+export async function buildJsPortalFolder(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: PortalFolder } = await import('@arcgis/core/portal/PortalFolder');
     let jsPortalFolder = new PortalFolder();
     if (hasValue(dotNetObject.created)) {
@@ -322,7 +322,7 @@ export async function buildJsCSVLayer(dotNetObject: any, layerId: string | null,
     return jsCSVLayer;
 }
 
-export async function buildJsCSVLayerElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsCSVLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayerElevationInfo = {
     featureExpressionInfo: await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any,
         mode: dotNetObject.mode,
@@ -337,7 +337,7 @@ export async function buildJsCSVLayerElevationInfo(dotNetObject: any): Promise<a
     return jsCSVLayerElevationInfo;
 }
 
-export async function buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
+export async function buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayerElevationInfoFeatureExpressionInfo = {
         expression: dotNetObject.expression,
         title: dotNetObject.title,
@@ -350,7 +350,7 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetOb
     return jsCSVLayerElevationInfoFeatureExpressionInfo;
 }
 
-export async function buildJsLabel(dotNetObject: any): Promise<any> {
+export async function buildJsLabel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let Label = __esri.LabelClass;
     let jsLabel = new Label();
     if (hasValue(dotNetObject.symbol)) {
@@ -400,7 +400,7 @@ export async function buildJsLabel(dotNetObject: any): Promise<any> {
     return jsLabel;
 }
 
-export async function buildJsOrderedLayerOrderBy(dotNetObject: any): Promise<any> {
+export async function buildJsOrderedLayerOrderBy(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOrderedLayerOrderBy = {
         field: dotNetObject.field,
         order: dotNetObject.order,
@@ -414,7 +414,7 @@ export async function buildJsOrderedLayerOrderBy(dotNetObject: any): Promise<any
     return jsOrderedLayerOrderBy;
 }
 
-export async function buildJsTimeInfo(dotNetObject: any): Promise<any> {
+export async function buildJsTimeInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeInfo } = await import('@arcgis/core/layers/support/TimeInfo');
     let jsTimeInfo = new TimeInfo();
     if (hasValue(dotNetObject.fullTimeExtent)) {
@@ -446,7 +446,7 @@ export async function buildJsTimeInfo(dotNetObject: any): Promise<any> {
     return jsTimeInfo;
 }
 
-export async function buildJsTimeInterval(dotNetObject: any): Promise<any> {
+export async function buildJsTimeInterval(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TimeInterval } = await import('@arcgis/core/TimeInterval');
     let jsTimeInterval = new TimeInterval();
     if (hasValue(dotNetObject.unit)) {
@@ -463,7 +463,7 @@ export async function buildJsTimeInterval(dotNetObject: any): Promise<any> {
     return jsTimeInterval;
 }
 
-export async function buildJsGraphicsLayer(dotNetObject: any): Promise<any> {
+export async function buildJsGraphicsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: GraphicsLayer } = await import('@arcgis/core/layers/GraphicsLayer');
     let jsGraphicsLayer = new GraphicsLayer();
     if (hasValue(dotNetObject.elevationInfo)) {
@@ -518,7 +518,7 @@ export async function buildJsGraphicsLayer(dotNetObject: any): Promise<any> {
     return jsGraphicsLayer;
 }
 
-export async function buildJsGraphicsLayerElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsGraphicsLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphicsLayerElevationInfo = {
     featureExpressionInfo: await buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any,
         mode: dotNetObject.mode,
@@ -533,7 +533,7 @@ export async function buildJsGraphicsLayerElevationInfo(dotNetObject: any): Prom
     return jsGraphicsLayerElevationInfo;
 }
 
-export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
+export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphicsLayerElevationInfoFeatureExpressionInfo = {
         expression: dotNetObject.expression,
         title: dotNetObject.title,
@@ -546,7 +546,7 @@ export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dot
     return jsGraphicsLayerElevationInfoFeatureExpressionInfo;
 }
 
-export async function buildJsGeoRSSLayer(dotNetObject: any): Promise<any> {
+export async function buildJsGeoRSSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: GeoRSSLayer } = await import('@arcgis/core/layers/GeoRSSLayer');
     let jsGeoRSSLayer = new GeoRSSLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -614,7 +614,7 @@ export async function buildJsGeoRSSLayer(dotNetObject: any): Promise<any> {
     return jsGeoRSSLayer;
 }
 
-export async function buildJsSimpleLineSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsSimpleLineSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: SimpleLineSymbol } = await import('@arcgis/core/symbols/SimpleLineSymbol');
     let jsSimpleLineSymbol = new SimpleLineSymbol();
     if (hasValue(dotNetObject.marker)) {
@@ -649,7 +649,7 @@ export async function buildJsSimpleLineSymbol(dotNetObject: any): Promise<any> {
     return jsSimpleLineSymbol;
 }
 
-export async function buildJsLineSymbolMarker(dotNetObject: any): Promise<any> {
+export async function buildJsLineSymbolMarker(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LineSymbolMarker } = await import('@arcgis/core/symbols/LineSymbolMarker');
     let jsLineSymbolMarker = new LineSymbolMarker();
     if (hasValue(dotNetObject.color)) {
@@ -669,7 +669,7 @@ export async function buildJsLineSymbolMarker(dotNetObject: any): Promise<any> {
     return jsLineSymbolMarker;
 }
 
-export async function buildJsMarkerSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsMarkerSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: MarkerSymbol } = await import('@arcgis/core/symbols/MarkerSymbol');
     let jsMarkerSymbol = new MarkerSymbol();
     if (hasValue(dotNetObject.color)) {
@@ -695,7 +695,7 @@ export async function buildJsMarkerSymbol(dotNetObject: any): Promise<any> {
     return jsMarkerSymbol;
 }
 
-export async function buildJsSimpleFillSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsSimpleFillSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: SimpleFillSymbol } = await import('@arcgis/core/symbols/SimpleFillSymbol');
     let jsSimpleFillSymbol = new SimpleFillSymbol();
     if (hasValue(dotNetObject.color)) {
@@ -715,7 +715,7 @@ export async function buildJsSimpleFillSymbol(dotNetObject: any): Promise<any> {
     return jsSimpleFillSymbol;
 }
 
-export async function buildJsBaseTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: BaseTileLayer } = await import('@arcgis/core/layers/BaseTileLayer');
     let jsBaseTileLayer = new BaseTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -966,7 +966,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
     return jsFeatureLayer;
 }
 
-export async function buildJsFeatureLayerBaseElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsFeatureLayerBaseElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseElevationInfo = {
     featureExpressionInfo: await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any,
         mode: dotNetObject.mode,
@@ -981,7 +981,7 @@ export async function buildJsFeatureLayerBaseElevationInfo(dotNetObject: any): P
     return jsFeatureLayerBaseElevationInfo;
 }
 
-export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
+export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseElevationInfoFeatureExpressionInfo = {
         expression: dotNetObject.expression,
         title: dotNetObject.title,
@@ -994,7 +994,7 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(
     return jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
 }
 
-export async function buildJsLayerFloorInfo(dotNetObject: any): Promise<any> {
+export async function buildJsLayerFloorInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: LayerFloorInfo } = await import('@arcgis/core/layers/support/LayerFloorInfo');
     let jsLayerFloorInfo = new LayerFloorInfo();
     if (hasValue(dotNetObject.floorField)) {
@@ -1008,7 +1008,7 @@ export async function buildJsLayerFloorInfo(dotNetObject: any): Promise<any> {
     return jsLayerFloorInfo;
 }
 
-export async function buildJsKMLLayer(dotNetObject: any): Promise<any> {
+export async function buildJsKMLLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: KMLLayer } = await import('@arcgis/core/layers/KMLLayer');
     let jsKMLLayer = new KMLLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -1063,7 +1063,7 @@ export async function buildJsKMLLayer(dotNetObject: any): Promise<any> {
     return jsKMLLayer;
 }
 
-export async function buildJsKMLSublayer(dotNetObject: any): Promise<any> {
+export async function buildJsKMLSublayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: KMLSublayer } = await import('@arcgis/core/layers/support/KMLSublayer');
     let jsKMLSublayer = new KMLSublayer();
     if (hasValue(dotNetObject.description)) {
@@ -1086,7 +1086,7 @@ export async function buildJsKMLSublayer(dotNetObject: any): Promise<any> {
     return jsKMLSublayer;
 }
 
-export async function buildJsVectorTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsVectorTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: VectorTileLayer } = await import('@arcgis/core/layers/VectorTileLayer');
     let jsVectorTileLayer = new VectorTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -1156,7 +1156,7 @@ export async function buildJsVectorTileLayer(dotNetObject: any): Promise<any> {
     return jsVectorTileLayer;
 }
 
-export async function buildJsTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: TileLayer } = await import('@arcgis/core/layers/TileLayer');
     let jsTileLayer = new TileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -1380,7 +1380,7 @@ export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | n
     return jsGeoJSONLayer;
 }
 
-export async function buildJsGeoJSONLayerElevationInfo(dotNetObject: any): Promise<any> {
+export async function buildJsGeoJSONLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayerElevationInfo = {
     featureExpressionInfo: await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any,
         mode: dotNetObject.mode,
@@ -1395,7 +1395,7 @@ export async function buildJsGeoJSONLayerElevationInfo(dotNetObject: any): Promi
     return jsGeoJSONLayerElevationInfo;
 }
 
-export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
+export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayerElevationInfoFeatureExpressionInfo = {
         expression: dotNetObject.expression,
         title: dotNetObject.title,
@@ -1408,7 +1408,7 @@ export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotN
     return jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
 }
 
-export async function buildJsElevationLayer(dotNetObject: any): Promise<any> {
+export async function buildJsElevationLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: ElevationLayer } = await import('@arcgis/core/layers/ElevationLayer');
     let jsElevationLayer = new ElevationLayer();
     if (hasValue(dotNetObject.fullExtent)) {
@@ -1557,7 +1557,7 @@ export async function buildJsImageryTileLayer(dotNetObject: any, layerId: string
     return jsImageryTileLayer;
 }
 
-export async function buildJsRasterFunction(dotNetObject: any): Promise<any> {
+export async function buildJsRasterFunction(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: RasterFunction } = await import('@arcgis/core/layers/support/RasterFunction');
     let jsRasterFunction = new RasterFunction();
     if (hasValue(dotNetObject.functionArguments)) {
@@ -1737,7 +1737,7 @@ export async function buildJsImageryLayer(dotNetObject: any, layerId: string | n
     return jsImageryLayer;
 }
 
-export async function buildJsArcGISImageServiceCapabilities(dotNetObject: any): Promise<any> {
+export async function buildJsArcGISImageServiceCapabilities(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArcGISImageServiceCapabilities = {
     mensuration: await buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObject.mensuration) as any,
     operations: await buildJsArcGISImageServiceCapabilitiesOperations(dotNetObject.operations) as any,
@@ -1751,7 +1751,7 @@ export async function buildJsArcGISImageServiceCapabilities(dotNetObject: any): 
     return jsArcGISImageServiceCapabilities;
 }
 
-export async function buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObject: any): Promise<any> {
+export async function buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArcGISImageServiceCapabilitiesMensuration = {
         supports3D: dotNetObject.supports3D,
         supportsAreaAndPerimeter: dotNetObject.supportsAreaAndPerimeter,
@@ -1769,7 +1769,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObj
     return jsArcGISImageServiceCapabilitiesMensuration;
 }
 
-export async function buildJsArcGISImageServiceCapabilitiesOperations(dotNetObject: any): Promise<any> {
+export async function buildJsArcGISImageServiceCapabilitiesOperations(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArcGISImageServiceCapabilitiesOperations = {
         supportsCalculateVolume: dotNetObject.supportsCalculateVolume,
         supportsComputeHistograms: dotNetObject.supportsComputeHistograms,
@@ -1798,7 +1798,7 @@ export async function buildJsArcGISImageServiceCapabilitiesOperations(dotNetObje
     return jsArcGISImageServiceCapabilitiesOperations;
 }
 
-export async function buildJsPixelFilterFunction(dotNetObject: any): Promise<any> {
+export async function buildJsPixelFilterFunction(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPixelFilterFunction = {
     }
     // @ts-ignore
@@ -1915,7 +1915,7 @@ export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null,
     return jsWCSLayer;
 }
 
-export async function buildJsBingMapsLayer(dotNetObject: any): Promise<any> {
+export async function buildJsBingMapsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: BingMapsLayer } = await import('@arcgis/core/layers/BingMapsLayer');
     let jsBingMapsLayer = new BingMapsLayer();
     if (hasValue(dotNetObject.tileInfo)) {
@@ -1986,7 +1986,7 @@ export async function buildJsBingMapsLayer(dotNetObject: any): Promise<any> {
     return jsBingMapsLayer;
 }
 
-export async function buildJsMapImageLayer(dotNetObject: any): Promise<any> {
+export async function buildJsMapImageLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { default: MapImageLayer } = await import('@arcgis/core/layers/MapImageLayer');
     let jsMapImageLayer = new MapImageLayer();
     if (hasValue(dotNetObject.fullExtent)) {

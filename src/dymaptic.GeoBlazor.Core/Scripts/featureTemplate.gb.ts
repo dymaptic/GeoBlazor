@@ -29,13 +29,13 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getPrototype(layerId: string | null, viewId: string | null): Promise<any> {
+    async getPrototype(): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return await buildDotNetGraphic(this.component.prototype, layerId, viewId);
+        return await buildDotNetGraphic(this.component.prototype, this.layerId, this.viewId);
     }
-    async setPrototype(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setPrototype(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.component.prototype = await buildJsGraphic(value, layerId, viewId);
+        this.component.prototype = await  buildJsGraphic(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,12 +47,12 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: FeatureTemplate } = await import('@arcgis/core/layers/support/FeatureTemplate');
     let jsFeatureTemplate = new FeatureTemplate();
     if (hasValue(dotNetObject.prototype)) {
         let { buildJsGraphic } = await import('./jsBuilder');
-        jsFeatureTemplate.prototype = buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
+        jsFeatureTemplate.prototype = await buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.description)) {
         jsFeatureTemplate.description = dotNetObject.description;
     }
@@ -91,12 +91,13 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
     };
         if (hasValue(jsObject.prototype)) {
             let { buildDotNetGraphic } = await import('./dotNetBuilder');
-            dotNetFeatureTemplate.prototype = buildDotNetGraphic(jsObject.prototype, layerId, viewId);
+            dotNetFeatureTemplate.prototype = await buildDotNetGraphic(jsObject.prototype, layerId, viewId);
         }
         dotNetFeatureTemplate.description = jsObject.description;
         dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
         dotNetFeatureTemplate.name = jsObject.name;
         dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
+
     return dotNetFeatureTemplate;
 }
 

@@ -39,8 +39,8 @@ export default class ExpressionInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: ExpressionInfo } = await import('@arcgis/core/form/ExpressionInfo');
     let jsExpressionInfo = new ExpressionInfo();
+
     if (hasValue(dotNetObject.expression)) {
         jsExpressionInfo.expression = dotNetObject.expression;
     }
@@ -68,7 +68,7 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId:
     return jsExpressionInfo;
 }
 
-export async function buildDotNetExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export function buildDotNetExpressionInfoGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -81,6 +81,7 @@ export async function buildDotNetExpressionInfoGenerated(jsObject: any, layerId:
         dotNetExpressionInfo.name = jsObject.name;
         dotNetExpressionInfo.returnType = jsObject.returnType;
         dotNetExpressionInfo.title = jsObject.title;
+
     return dotNetExpressionInfo;
 }
 

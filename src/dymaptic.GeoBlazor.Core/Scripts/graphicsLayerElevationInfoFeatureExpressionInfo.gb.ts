@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GraphicsLayerElevationInfoFeatureExpressionInfoGenerated implements IPropertyWrapper {
     public component: GraphicsLayerElevationInfoFeatureExpressionInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: GraphicsLayerElevationInfoFeatureExpressionInfo) {
         this.component = component;
@@ -35,14 +37,21 @@ export default class GraphicsLayerElevationInfoFeatureExpressionInfoGenerated im
         this.component[prop] = value;
     }
 }
-export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
-    let jsGraphicsLayerElevationInfoFeatureExpressionInfo = {
-        expression: dotNetObject.expression,
-        title: dotNetObject.title,
+
+export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsGraphicsLayerElevationInfoFeatureExpressionInfo: any = {}
+
+    if (hasValue(dotNetObject.expression)) {
+        jsGraphicsLayerElevationInfoFeatureExpressionInfo.expression = dotNetObject.expression;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsGraphicsLayerElevationInfoFeatureExpressionInfo.title = dotNetObject.title;
     }
     let { default: GraphicsLayerElevationInfoFeatureExpressionInfoWrapper } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
     let graphicsLayerElevationInfoFeatureExpressionInfoWrapper = new GraphicsLayerElevationInfoFeatureExpressionInfoWrapper(jsGraphicsLayerElevationInfoFeatureExpressionInfo);
-    jsGraphicsLayerElevationInfoFeatureExpressionInfo.id = dotNetObject.id;
+    graphicsLayerElevationInfoFeatureExpressionInfoWrapper.geoBlazorId = dotNetObject.id;
+    graphicsLayerElevationInfoFeatureExpressionInfoWrapper.viewId = viewId;
+    graphicsLayerElevationInfoFeatureExpressionInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerElevationInfoFeatureExpressionInfoWrapper);
@@ -64,6 +73,7 @@ export async function buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo
     };
         dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
         dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+
     return dotNetGraphicsLayerElevationInfoFeatureExpressionInfo;
 }
 

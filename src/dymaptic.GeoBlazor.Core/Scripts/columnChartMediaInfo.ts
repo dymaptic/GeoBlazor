@@ -10,9 +10,9 @@ export default class ColumnChartMediaInfoWrapper extends ColumnChartMediaInfoGen
     
 }
 
-export async function buildJsColumnChartMediaInfo(dotNetObject: any): Promise<any> {
+export async function buildJsColumnChartMediaInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsColumnChartMediaInfoGenerated } = await import('./columnChartMediaInfo.gb');
-    return await buildJsColumnChartMediaInfoGenerated(dotNetObject);
+    return await buildJsColumnChartMediaInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetColumnChartMediaInfo(jsObject: any): Promise<any> {

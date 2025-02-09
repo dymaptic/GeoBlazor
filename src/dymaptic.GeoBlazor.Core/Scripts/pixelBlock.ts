@@ -9,9 +9,9 @@ export default class PixelBlockWrapper extends PixelBlockGenerated {
     }
     
 }              
-export async function buildJsPixelBlock(dotNetObject: any): Promise<any> {
+export async function buildJsPixelBlock(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPixelBlockGenerated } = await import('./pixelBlock.gb');
-    return await buildJsPixelBlockGenerated(dotNetObject);
+    return await buildJsPixelBlockGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetPixelBlock(jsObject: any): Promise<any> {
     let { buildDotNetPixelBlockGenerated } = await import('./pixelBlock.gb');

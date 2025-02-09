@@ -9,9 +9,9 @@ export default class PortalFeaturedGroupsWrapper extends PortalFeaturedGroupsGen
     }
     
 }              
-export async function buildJsPortalFeaturedGroups(dotNetObject: any): Promise<any> {
+export async function buildJsPortalFeaturedGroups(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPortalFeaturedGroupsGenerated } = await import('./portalFeaturedGroups.gb');
-    return await buildJsPortalFeaturedGroupsGenerated(dotNetObject);
+    return await buildJsPortalFeaturedGroupsGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetPortalFeaturedGroups(jsObject: any): Promise<any> {
     let { buildDotNetPortalFeaturedGroupsGenerated } = await import('./portalFeaturedGroups.gb');

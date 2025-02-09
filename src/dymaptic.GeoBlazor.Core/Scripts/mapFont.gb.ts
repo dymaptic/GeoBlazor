@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class MapFontGenerated implements IPropertyWrapper {
     public component: Font;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: Font) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class MapFontGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsMapFontGenerated(dotNetObject: any): Promise<any> {
-    let Font = __esri.Font;
+
+export async function buildJsMapFontGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFont = new Font();
+
     if (hasValue(dotNetObject.decoration)) {
         jsFont.decoration = dotNetObject.decoration;
     }
@@ -55,7 +58,9 @@ export async function buildJsMapFontGenerated(dotNetObject: any): Promise<any> {
     }
     let { default: MapFontWrapper } = await import('./mapFont');
     let mapFontWrapper = new MapFontWrapper(jsFont);
-    jsFont.id = dotNetObject.id;
+    mapFontWrapper.geoBlazorId = dotNetObject.id;
+    mapFontWrapper.viewId = viewId;
+    mapFontWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapFontWrapper);
@@ -80,6 +85,7 @@ export async function buildDotNetMapFontGenerated(jsObject: any): Promise<any> {
         dotNetMapFont.size = jsObject.size;
         dotNetMapFont.style = jsObject.style;
         dotNetMapFont.weight = jsObject.weight;
+
     return dotNetMapFont;
 }
 

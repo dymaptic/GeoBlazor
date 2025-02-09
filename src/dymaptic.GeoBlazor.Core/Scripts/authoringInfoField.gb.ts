@@ -29,14 +29,14 @@ export default class AuthoringInfoFieldGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getClassBreakInfos(layerId: string | null, viewId: string | null): Promise<any> {
+    async getClassBreakInfos(): Promise<any> {
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        return this.component.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i, layerId, viewId));
+        return this.component.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i));
     }
     
-    async setClassBreakInfos(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setClassBreakInfos(value: any): Promise<void> {
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        this.component.classBreakInfos = value.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, layerId, viewId));
+        this.component.classBreakInfos = value.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -54,6 +54,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
         jsAuthoringInfoField1.classBreakInfos = dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.field)) {
         jsAuthoringInfoField1.field = dotNetObject.field;
     }
@@ -78,7 +79,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     return jsAuthoringInfoField1;
 }
 
-export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -89,11 +90,12 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, laye
     };
         if (hasValue(jsObject.classBreakInfos)) {
             let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-            dotNetAuthoringInfoField.classBreakInfos = jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i, layerId, viewId));
+            dotNetAuthoringInfoField.classBreakInfos = jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i));
         }
         dotNetAuthoringInfoField.field = jsObject.field;
         dotNetAuthoringInfoField.label = jsObject.label;
         dotNetAuthoringInfoField.normalizationField = jsObject.normalizationField;
+
     return dotNetAuthoringInfoField;
 }
 

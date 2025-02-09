@@ -39,8 +39,8 @@ export default class LayerFloorInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: LayerFloorInfo } = await import('@arcgis/core/layers/support/LayerFloorInfo');
     let jsLayerFloorInfo = new LayerFloorInfo();
+
     if (hasValue(dotNetObject.floorField)) {
         jsLayerFloorInfo.floorField = dotNetObject.floorField;
     }
@@ -59,7 +59,7 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
     return jsLayerFloorInfo;
 }
 
-export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerFloorInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -69,6 +69,7 @@ export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId:
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetLayerFloorInfo.floorField = jsObject.floorField;
+
     return dotNetLayerFloorInfo;
 }
 

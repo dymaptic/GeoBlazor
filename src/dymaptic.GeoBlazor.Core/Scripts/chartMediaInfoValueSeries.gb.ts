@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrapper {
     public component: ChartMediaInfoValueSeries;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ChartMediaInfoValueSeries) {
         this.component = component;
@@ -27,10 +29,6 @@ export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrap
     
     // region properties
     
-    async getColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.color);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -39,12 +37,15 @@ export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrap
         this.component[prop] = value;
     }
 }
-export async function buildJsChartMediaInfoValueSeriesGenerated(dotNetObject: any): Promise<any> {
-    let { default: ChartMediaInfoValueSeries } = await import('@arcgis/core/popup/content/support/ChartMediaInfoValueSeries');
+
+export async function buildJsChartMediaInfoValueSeriesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsChartMediaInfoValueSeries = new ChartMediaInfoValueSeries();
+
     let { default: ChartMediaInfoValueSeriesWrapper } = await import('./chartMediaInfoValueSeries');
     let chartMediaInfoValueSeriesWrapper = new ChartMediaInfoValueSeriesWrapper(jsChartMediaInfoValueSeries);
-    jsChartMediaInfoValueSeries.id = dotNetObject.id;
+    chartMediaInfoValueSeriesWrapper.geoBlazorId = dotNetObject.id;
+    chartMediaInfoValueSeriesWrapper.viewId = viewId;
+    chartMediaInfoValueSeriesWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueSeriesWrapper);
@@ -64,13 +65,11 @@ export async function buildDotNetChartMediaInfoValueSeriesGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetChartMediaInfoValueSeries.color = await buildDotNetMapColor(jsObject.color);
-        }
+        dotNetChartMediaInfoValueSeries.color = jsObject.color;
         dotNetChartMediaInfoValueSeries.fieldName = jsObject.fieldName;
         dotNetChartMediaInfoValueSeries.tooltip = jsObject.tooltip;
         dotNetChartMediaInfoValueSeries.value = jsObject.value;
+
     return dotNetChartMediaInfoValueSeries;
 }
 

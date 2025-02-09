@@ -10,9 +10,9 @@ export default class FieldsPopupContentWrapper extends FieldsPopupContentGenerat
     
 }
 
-export async function buildJsFieldsPopupContent(dotNetObject: any): Promise<any> {
+export async function buildJsFieldsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsFieldsPopupContentGenerated } = await import('./fieldsPopupContent.gb');
-    return await buildJsFieldsPopupContentGenerated(dotNetObject);
+    return await buildJsFieldsPopupContentGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetFieldsPopupContent(jsObject: any): Promise<any> {

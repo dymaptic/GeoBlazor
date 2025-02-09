@@ -9,9 +9,9 @@ export default class FieldInfoFormatWrapper extends FieldInfoFormatGenerated {
     }
     
 }              
-export async function buildJsFieldInfoFormat(dotNetObject: any): Promise<any> {
+export async function buildJsFieldInfoFormat(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsFieldInfoFormatGenerated } = await import('./fieldInfoFormat.gb');
-    return await buildJsFieldInfoFormatGenerated(dotNetObject);
+    return await buildJsFieldInfoFormatGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetFieldInfoFormat(jsObject: any): Promise<any> {
     let { buildDotNetFieldInfoFormatGenerated } = await import('./fieldInfoFormat.gb');

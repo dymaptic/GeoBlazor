@@ -9,9 +9,9 @@ export default class AuthoringInfoVisualVariableWrapper extends AuthoringInfoVis
     }
     
 }              
-export async function buildJsAuthoringInfoVisualVariable(dotNetObject: any): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariable(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsAuthoringInfoVisualVariableGenerated } = await import('./authoringInfoVisualVariable.gb');
-    return await buildJsAuthoringInfoVisualVariableGenerated(dotNetObject);
+    return await buildJsAuthoringInfoVisualVariableGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetAuthoringInfoVisualVariable(jsObject: any): Promise<any> {
     let { buildDotNetAuthoringInfoVisualVariableGenerated } = await import('./authoringInfoVisualVariable.gb');

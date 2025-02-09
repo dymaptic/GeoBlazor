@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ActionButtonGenerated implements IPropertyWrapper {
     public component: ActionButton;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ActionButton) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class ActionButtonGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsActionButtonGenerated(dotNetObject: any): Promise<any> {
-    let { default: ActionButton } = await import('@arcgis/core/support/actions/ActionButton');
+
+export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsActionButton = new ActionButton();
+
     if (hasValue(dotNetObject.actionId)) {
         jsActionButton.id = dotNetObject.actionId;
     }
@@ -61,7 +64,9 @@ export async function buildJsActionButtonGenerated(dotNetObject: any): Promise<a
     }
     let { default: ActionButtonWrapper } = await import('./actionButton');
     let actionButtonWrapper = new ActionButtonWrapper(jsActionButton);
-    jsActionButton.id = dotNetObject.id;
+    actionButtonWrapper.geoBlazorId = dotNetObject.id;
+    actionButtonWrapper.viewId = viewId;
+    actionButtonWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionButtonWrapper);
@@ -89,6 +94,7 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
         dotNetActionButton.image = jsObject.image;
         dotNetActionButton.title = jsObject.title;
         dotNetActionButton.type = jsObject.type;
+
     return dotNetActionButton;
 }
 

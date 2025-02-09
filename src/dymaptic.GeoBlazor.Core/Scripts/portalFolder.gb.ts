@@ -29,13 +29,13 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getPortal(layerId: string | null, viewId: string | null): Promise<any> {
+    async getPortal(): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, layerId, viewId);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
-    async setPortal(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
-        this.component.portal = await buildJsPortal(value, layerId, viewId);
+        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,8 +47,8 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: PortalFolder } = await import('@arcgis/core/portal/PortalFolder');
     let jsPortalFolder = new PortalFolder();
+
     if (hasValue(dotNetObject.created)) {
         jsPortalFolder.created = dotNetObject.created;
     }
@@ -73,7 +73,7 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: s
     return jsPortalFolder;
 }
 
-export async function buildDotNetPortalFolderGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -86,6 +86,7 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any, layerId: s
         dotNetPortalFolder.portalFolderId = jsObject.id;
         dotNetPortalFolder.title = jsObject.title;
         dotNetPortalFolder.url = jsObject.url;
+
     return dotNetPortalFolder;
 }
 

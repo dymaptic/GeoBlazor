@@ -140,6 +140,7 @@ import HitTestResult = __esri.HitTestResult;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
+import {dot} from "node:test/reporters";
 
 // region exports
 
@@ -660,7 +661,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
         uploadingLayers.push(layerUid);
         
-        let layerViewId: string | null = null;
+        let layerViewId: string | null;
 
         if (!blazorServer) {
             layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
@@ -2609,29 +2610,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 });
             }
             break;
-        case 'geojson':
-            newLayer = new GeoJSONLayer({
-                url: dotNetLayer.url
-            });
-            let gjLayer = newLayer as GeoJSONLayer;
-            if (hasValue(dotNetLayer.renderer)) {
-                gjLayer.renderer = buildJsRenderer(dotNetLayer.renderer) as Renderer;
-            }
-            if (hasValue(dotNetLayer.spatialReference)) {
-                gjLayer.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
-            }
-            if (hasValue(dotNetLayer.popupTemplate)) {
-                gjLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
-            }
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
-                await Pro.addFeatureReduction(gjLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
-            }
-            
-            copyValuesIfExists(dotNetLayer, gjLayer, 'copyright');
-            break;
-        case 'geo-rss':
-            newLayer = new GeoRSSLayer({ url: dotNetLayer.url });
-            break;
         case 'open-street-map':
             let openStreetMapLayer: OpenStreetMapLayer;
             if (hasValue(dotNetLayer.urlTemplate)) {
@@ -2671,94 +2649,6 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 }
             }
 
-            break;
-        case 'csv':
-            newLayer = new CSVLayer({
-                url: dotNetLayer.url,
-                copyright: dotNetLayer.copyright
-            });
-            let csvLayer = newLayer as CSVLayer;
-            if (hasValue(dotNetLayer.renderer)) {
-                csvLayer.renderer = buildJsRenderer(dotNetLayer.renderer) as Renderer;
-            }
-            if (hasValue(dotNetLayer.spatialReference)) {
-                csvLayer.spatialReference = new SpatialReference({
-                    wkid: dotNetLayer.spatialReference.wkid
-                });
-            }
-            if (hasValue(dotNetLayer.popupTemplate)) {
-                csvLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
-            }
-            if (hasValue(dotNetLayer.proProperties?.FeatureReduction) && hasValue(Pro)) {
-                await Pro.addFeatureReduction(newLayer, dotNetLayer.proProperties.FeatureReduction, viewId);
-            }
-
-            copyValuesIfExists(dotNetLayer, csvLayer, 'blendMode', 'copyright', 'delimiter', 'displayField');
-            break;
-        case 'kml':
-            let kmlLayer: KMLLayer;
-            if (hasValue(dotNetLayer.url)) {
-                kmlLayer = new KMLLayer({
-                    url: dotNetLayer.url
-                });
-            } else {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
-                kmlLayer = new KMLLayer({ portalItem: portalItem });
-            }
-            newLayer = kmlLayer;
-            copyValuesIfExists(dotNetLayer, kmlLayer, 'sublayers', 'blendMode', 'maxScale', 'minScale', 'title', 'visible');
-            break;
-        case 'wcs':
-            newLayer = new WCSLayer({
-                url: dotNetLayer.url,
-                title: dotNetLayer.title
-            });
-            let wcsLayer = newLayer as WCSLayer;
-
-            if (hasValue(dotNetLayer.renderer) && (dotNetLayer.renderer.type == 'raster-stretch')) {
-                wcsLayer.renderer = buildJsRasterStretchRenderer(dotNetLayer.renderer) as RasterStretchRenderer;
-            }
-            if (hasValue(dotNetLayer.multidimensionalDefinition) && dotNetLayer.multidimensionalDefinition.length > 0) {
-                wcsLayer.multidimensionalDefinition = [];
-                for (let i = 0; i < dotNetLayer.multidimensionalDefinition.length; i++) {
-
-                    let wcsMDD = new DimensionalDefinition;
-                    if (hasValue(dotNetLayer.multidimensionalDefinition.VariableName)) {
-                        wcsMDD.variableName = dotNetLayer.multidimensionalDefinition.VariableName;
-                    }
-                    if (hasValue(dotNetLayer.multidimensionalDefinition.DimensionName)) {
-                        wcsMDD.dimensionName = dotNetLayer.multidimensionalDefinition.DimensionName;
-                    }
-                    if (hasValue(dotNetLayer.multidimensionalDefinition.Values)) {
-                        wcsMDD.values = dotNetLayer.multidimensionalDefinition.Values;
-                    }
-                    if (hasValue(dotNetLayer.multidimensionalDefinition.isSlice)) {
-                        wcsMDD.isSlice = dotNetLayer.multidimensionalDefinition.isSlice;
-                    }
-                    wcsLayer.multidimensionalDefinition.push(wcsMDD);
-                }
-            }
-            copyValuesIfExists(dotNetLayer, 'bandIds', 'copyright', 'coverageId', 'coverageInfo', 'customParameters', 'fields', 'interpolation', 'maxScale', 'minscale', 'rasterInfo');
-
-            newLayer = wcsLayer;
-            break;
-        case 'bing-maps':
-            const bing = new BingMapsLayer({
-                key: dotNetLayer.key,
-                style: dotNetLayer.style
-            });
-
-            newLayer = bing;
-
-            if (hasValue(dotNetLayer.spatialReference)) {
-                bing.spatialReference = buildJsSpatialReference(dotNetLayer.spatialReference);
-            }
-
-            if (hasValue(dotNetLayer.effect)) {
-                bing.effect = buildJsEffect(dotNetLayer.effect);
-            }
-
-            copyValuesIfExists('blendMode', 'maxScale', 'minScale', 'refreshInterval');
             break;
         case 'imagery':
             if (hasValue(dotNetLayer.url)) {
@@ -2805,7 +2695,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'base-tile':
             let { buildJsBaseTileLayer } = await import('./baseTileLayer');
-            newLayer = await buildJsBaseTileLayer(dotNetLayer);
+            newLayer = await buildJsBaseTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'feature':
@@ -2820,12 +2710,52 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'vector-tile':
             let { buildJsVectorTileLayer } = await import('./vectorTileLayer');
-            newLayer = await buildJsVectorTileLayer(dotNetLayer);
+            newLayer = await buildJsVectorTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'web-tile':
             let { buildJsWebTileLayer } = await import('./webTileLayer');
-            newLayer = await buildJsWebTileLayer(dotNetLayer);
+            newLayer = await buildJsWebTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
+
+            break;
+        case 'bing-maps':
+            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+            newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'csv':
+            let { buildJsCSVLayer } = await import('./cSVLayer');
+            newLayer = await buildJsCSVLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'geojson':
+            let { buildJsGeoJSONLayer } = await import('./geoJSONLayer');
+            newLayer = await buildJsGeoJSONLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'geo-rss':
+            let { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
+            newLayer = await buildJsGeoRSSLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'kml':
+            let { buildJsKMLLayer } = await import('./kMLLayer');
+            newLayer = await buildJsKMLLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'wcs':
+            let { buildJsWCSLayer } = await import('./wCSLayer');
+            newLayer = await buildJsWCSLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'base-tile':
+            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+            newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
+
+            break;
+        case 'base-tile':
+            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+            newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         default:

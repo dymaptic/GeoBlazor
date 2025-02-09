@@ -10,9 +10,9 @@ export default class ActionToggleWrapper extends ActionToggleGenerated {
     
 }
 
-export async function buildJsActionToggle(dotNetObject: any): Promise<any> {
+export async function buildJsActionToggle(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsActionToggleGenerated } = await import('./actionToggle.gb');
-    return await buildJsActionToggleGenerated(dotNetObject);
+    return await buildJsActionToggleGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetActionToggle(jsObject: any): Promise<any> {

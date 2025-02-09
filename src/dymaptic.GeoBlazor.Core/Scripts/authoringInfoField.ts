@@ -9,9 +9,9 @@ export default class AuthoringInfoFieldWrapper extends AuthoringInfoFieldGenerat
     }
     
 }              
-export async function buildJsAuthoringInfoField(dotNetObject: any): Promise<any> {
+export async function buildJsAuthoringInfoField(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsAuthoringInfoFieldGenerated } = await import('./authoringInfoField.gb');
-    return await buildJsAuthoringInfoFieldGenerated(dotNetObject);
+    return await buildJsAuthoringInfoFieldGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetAuthoringInfoField(jsObject: any): Promise<any> {
     let { buildDotNetAuthoringInfoFieldGenerated } = await import('./authoringInfoField.gb');

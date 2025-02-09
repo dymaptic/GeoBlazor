@@ -166,7 +166,7 @@ public partial class TileInfo
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Format = result;
+             Format = result.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Format)] = Format;
         }

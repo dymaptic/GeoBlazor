@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class VectorTileLayerGenerated implements IPropertyWrapper {
     public layer: VectorTileLayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(layer: VectorTileLayer) {
         this.layer = layer;
@@ -107,27 +109,27 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value);
+        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getTileInfo(): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return buildDotNetTileInfo(this.layer.tileInfo);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -137,34 +139,28 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promise<any> {
-    let { default: VectorTileLayer } = await import('@arcgis/core/layers/VectorTileLayer');
+
+export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsVectorTileLayer = new VectorTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsVectorTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsVectorTileLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.initialExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsVectorTileLayer.initialExtent = buildJsExtent(dotNetObject.initialExtent) as any;
-
+        jsVectorTileLayer.initialExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
-        jsVectorTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsVectorTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsVectorTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        jsVectorTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsVectorTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsVectorTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.apiKey)) {
         jsVectorTileLayer.apiKey = dotNetObject.apiKey;
     }
@@ -204,12 +200,17 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promis
     if (hasValue(dotNetObject.title)) {
         jsVectorTileLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsVectorTileLayer.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.url)) {
         jsVectorTileLayer.url = dotNetObject.url;
     }
     let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
     let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsVectorTileLayer);
-    jsVectorTileLayer.id = dotNetObject.id;
+    vectorTileLayerWrapper.geoBlazorId = dotNetObject.id;
+    vectorTileLayerWrapper.viewId = viewId;
+    vectorTileLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
@@ -220,7 +221,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any): Promis
     return jsVectorTileLayer;
 }
 
-export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -229,25 +230,17 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.initialExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.initialExtent = await buildDotNetExtent(jsObject.initialExtent);
-        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetVectorTileLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetVectorTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetVectorTileLayer.apiKey = jsObject.apiKey;
         dotNetVectorTileLayer.arcGISLayerId = jsObject.id;
@@ -257,6 +250,8 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         dotNetVectorTileLayer.currentStyleInfo = jsObject.currentStyleInfo;
         dotNetVectorTileLayer.customParameters = jsObject.customParameters;
         dotNetVectorTileLayer.effect = jsObject.effect;
+        dotNetVectorTileLayer.fullExtent = jsObject.fullExtent;
+        dotNetVectorTileLayer.initialExtent = jsObject.initialExtent;
         dotNetVectorTileLayer.listMode = jsObject.listMode;
         dotNetVectorTileLayer.loaded = jsObject.loaded;
         dotNetVectorTileLayer.maxScale = jsObject.maxScale;
@@ -268,6 +263,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         dotNetVectorTileLayer.title = jsObject.title;
         dotNetVectorTileLayer.type = jsObject.type;
         dotNetVectorTileLayer.url = jsObject.url;
+
     return dotNetVectorTileLayer;
 }
 

@@ -10,9 +10,9 @@ export default class FormElementWrapper extends FormElementGenerated {
     
 }
 
-export async function buildJsFormElement(dotNetObject: any): Promise<any> {
+export async function buildJsFormElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsFormElementGenerated } = await import('./formElement.gb');
-    return await buildJsFormElementGenerated(dotNetObject);
+    return await buildJsFormElementGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetFormElement(jsObject: any): Promise<any> {

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class ColorVariableGenerated implements IPropertyWrapper {
     public component: ColorVariable;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: ColorVariable) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
     }
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        this.component.legendOptions = await buildJsVisualVariableLegendOptions(value);
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     async getStops(): Promise<any> {
         let { buildDotNetColorStop } = await import('./colorStop');
@@ -42,7 +44,7 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsColorStop } = await import('./colorStop');
-        this.component.stops = value.map(async i => await buildJsColorStop(i));
+        this.component.stops = value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -53,19 +55,18 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<any> {
-    let { default: ColorVariable } = await import('@arcgis/core/renderers/visualVariables/ColorVariable');
+
+export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorVariable = new ColorVariable();
     if (hasValue(dotNetObject.legendOptions)) {
-        let { buildJsVisualVariableLegendOptions } = await import('visualVariableLegendOptions');
-        jsColorVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
-
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        jsColorVariable.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.stops)) {
-        let { buildJsColorStop } = await import('colorStop');
-        jsColorVariable.stops = dotNetObject.stops.map(async i => await buildJsColorStop(i)) as any;
-
+        let { buildJsColorStop } = await import('./colorStop');
+        jsColorVariable.stops = dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.field)) {
         jsColorVariable.field = dotNetObject.field;
     }
@@ -80,7 +81,9 @@ export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<
     }
     let { default: ColorVariableWrapper } = await import('./colorVariable');
     let colorVariableWrapper = new ColorVariableWrapper(jsColorVariable);
-    jsColorVariable.id = dotNetObject.id;
+    colorVariableWrapper.geoBlazorId = dotNetObject.id;
+    colorVariableWrapper.viewId = viewId;
+    colorVariableWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorVariableWrapper);
@@ -113,6 +116,7 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         dotNetColorVariable.type = jsObject.type;
         dotNetColorVariable.valueExpression = jsObject.valueExpression;
         dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+
     return dotNetColorVariable;
 }
 

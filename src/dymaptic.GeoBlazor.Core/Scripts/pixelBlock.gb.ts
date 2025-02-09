@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PixelBlockGenerated implements IPropertyWrapper {
     public component: PixelBlock;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -52,7 +52,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     
     async setStatistics(value: any): Promise<void> {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        this.component.statistics = value.map(async i => await buildJsPixelBlockStatistics(i));
+        this.component.statistics = value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -63,14 +63,14 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPixelBlockGenerated(dotNetObject: any): Promise<any> {
-    let { default: PixelBlock } = await import('@arcgis/core/layers/support/PixelBlock');
+
+export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPixelBlock = new PixelBlock();
     if (hasValue(dotNetObject.statistics)) {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        jsPixelBlock.statistics = dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i)) as any;
-
+        jsPixelBlock.statistics = dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.height)) {
         jsPixelBlock.height = dotNetObject.height;
     }
@@ -95,8 +95,8 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any): Promise<any
     let { default: PixelBlockWrapper } = await import('./pixelBlock');
     let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);
     pixelBlockWrapper.geoBlazorId = dotNetObject.id;
-    pixelBlockWrapper.viewId = dotNetObject.viewId;
-    pixelBlockWrapper.layerId = dotNetObject.layerId;
+    pixelBlockWrapper.viewId = viewId;
+    pixelBlockWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
@@ -127,6 +127,7 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
         dotNetPixelBlock.pixelType = jsObject.pixelType;
         dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
         dotNetPixelBlock.width = jsObject.width;
+
     return dotNetPixelBlock;
 }
 

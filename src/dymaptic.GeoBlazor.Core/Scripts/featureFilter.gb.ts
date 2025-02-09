@@ -33,13 +33,13 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
+    async getTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.component.timeExtent, layerId, viewId);
+        return buildDotNetTimeExtent(this.component.timeExtent);
     }
-    async setTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.timeExtent = await buildJsTimeExtent(value, layerId, viewId);
+        this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -51,12 +51,12 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: FeatureFilter } = await import('@arcgis/core/layers/support/FeatureFilter');
     let jsFeatureFilter = new FeatureFilter();
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.distance)) {
         jsFeatureFilter.distance = dotNetObject.distance;
     }
@@ -101,7 +101,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
     };
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetFeatureFilter.timeExtent = await buildDotNetTimeExtent(jsObject.timeExtent, layerId, viewId);
+            dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
         dotNetFeatureFilter.distance = jsObject.distance;
         dotNetFeatureFilter.geometry = jsObject.geometry;
@@ -109,6 +109,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
         dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
         dotNetFeatureFilter.units = jsObject.units;
         dotNetFeatureFilter.where = jsObject.where;
+
     return dotNetFeatureFilter;
 }
 

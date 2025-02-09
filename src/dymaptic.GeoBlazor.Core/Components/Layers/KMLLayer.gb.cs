@@ -570,7 +570,7 @@ public partial class KMLLayer : IBlendLayer,
             // this also calls back to OnJsComponentCreated
             IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
                 $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, View?.Id);
+                    PortalItem, Layer?.Id, View?.Id);
             // in case the fallback failed, set this here.
             PortalItem.JsComponentReference ??= jsObjectReference;
             

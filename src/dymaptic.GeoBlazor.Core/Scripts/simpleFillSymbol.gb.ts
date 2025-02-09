@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
     public component: SimpleFillSymbol;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: SimpleFillSymbol) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any): Promise<any> {
-    let { default: SimpleFillSymbol } = await import('@arcgis/core/symbols/SimpleFillSymbol');
+
+export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleFillSymbol = new SimpleFillSymbol();
+
     if (hasValue(dotNetObject.color)) {
         jsSimpleFillSymbol.color = dotNetObject.color;
     }
@@ -49,7 +52,9 @@ export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any): Promi
     }
     let { default: SimpleFillSymbolWrapper } = await import('./simpleFillSymbol');
     let simpleFillSymbolWrapper = new SimpleFillSymbolWrapper(jsSimpleFillSymbol);
-    jsSimpleFillSymbol.id = dotNetObject.id;
+    simpleFillSymbolWrapper.geoBlazorId = dotNetObject.id;
+    simpleFillSymbolWrapper.viewId = viewId;
+    simpleFillSymbolWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleFillSymbolWrapper);
@@ -60,7 +65,7 @@ export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any): Promi
     return jsSimpleFillSymbol;
 }
 
-export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -73,6 +78,7 @@ export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any): Promi
         dotNetSimpleFillSymbol.outline = jsObject.outline;
         dotNetSimpleFillSymbol.style = jsObject.style;
         dotNetSimpleFillSymbol.type = jsObject.type;
+
     return dotNetSimpleFillSymbol;
 }
 

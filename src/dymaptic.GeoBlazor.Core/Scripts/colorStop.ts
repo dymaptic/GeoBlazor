@@ -9,9 +9,9 @@ export default class ColorStopWrapper extends ColorStopGenerated {
     }
     
 }              
-export async function buildJsColorStop(dotNetObject: any): Promise<any> {
+export async function buildJsColorStop(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsColorStopGenerated } = await import('./colorStop.gb');
-    return await buildJsColorStopGenerated(dotNetObject);
+    return await buildJsColorStopGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetColorStop(jsObject: any): Promise<any> {
     let { buildDotNetColorStopGenerated } = await import('./colorStop.gb');

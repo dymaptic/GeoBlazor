@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class RasterFunctionGenerated implements IPropertyWrapper {
     public component: RasterFunction;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: RasterFunction) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class RasterFunctionGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsRasterFunctionGenerated(dotNetObject: any): Promise<any> {
-    let { default: RasterFunction } = await import('@arcgis/core/layers/support/RasterFunction');
+
+export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterFunction = new RasterFunction();
+
     if (hasValue(dotNetObject.functionArguments)) {
         jsRasterFunction.functionArguments = dotNetObject.functionArguments;
     }
@@ -55,7 +58,9 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any): Promise
     }
     let { default: RasterFunctionWrapper } = await import('./rasterFunction');
     let rasterFunctionWrapper = new RasterFunctionWrapper(jsRasterFunction);
-    jsRasterFunction.id = dotNetObject.id;
+    rasterFunctionWrapper.geoBlazorId = dotNetObject.id;
+    rasterFunctionWrapper.viewId = viewId;
+    rasterFunctionWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterFunctionWrapper);
@@ -80,6 +85,7 @@ export async function buildDotNetRasterFunctionGenerated(jsObject: any): Promise
         dotNetRasterFunction.outputPixelType = jsObject.outputPixelType;
         dotNetRasterFunction.rasterFunctionDefinition = jsObject.rasterFunctionDefinition;
         dotNetRasterFunction.variableName = jsObject.variableName;
+
     return dotNetRasterFunction;
 }
 

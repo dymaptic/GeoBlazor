@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GroupElementGenerated implements IPropertyWrapper {
     public component: GroupElement;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: GroupElement) {
         this.component = component;
@@ -27,16 +29,6 @@ export default class GroupElementGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getElements(): Promise<any> {
-        let { buildDotNetFormElement } = await import('./formElement');
-        return this.component.elements.map(async i => await buildDotNetFormElement(i));
-    }
-    
-    async setElements(value: any): Promise<void> {
-        let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = value.map(async i => await buildJsFormElement(i));
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -45,14 +37,13 @@ export default class GroupElementGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsGroupElementGenerated(dotNetObject: any): Promise<any> {
-    let { default: GroupElement } = await import('@arcgis/core/form/elements/GroupElement');
+
+export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGroupElement = new GroupElement();
     if (hasValue(dotNetObject.elements)) {
-        let { buildJsFormElement } = await import('formElement');
-        jsGroupElement.elements = dotNetObject.elements.map(async i => await buildJsFormElement(i)) as any;
-
+        jsGroupElement.elements = dotNetObject.formElement;
     }
+
     if (hasValue(dotNetObject.description)) {
         jsGroupElement.description = dotNetObject.description;
     }
@@ -67,7 +58,9 @@ export async function buildJsGroupElementGenerated(dotNetObject: any): Promise<a
     }
     let { default: GroupElementWrapper } = await import('./groupElement');
     let groupElementWrapper = new GroupElementWrapper(jsGroupElement);
-    jsGroupElement.id = dotNetObject.id;
+    groupElementWrapper.geoBlazorId = dotNetObject.id;
+    groupElementWrapper.viewId = viewId;
+    groupElementWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(groupElementWrapper);
@@ -87,15 +80,13 @@ export async function buildDotNetGroupElementGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.elements)) {
-            let { buildDotNetFormElement } = await import('./formElement');
-            dotNetGroupElement.elements = jsObject.elements.map(async i => await buildDotNetFormElement(i));
-        }
+        dotNetGroupElement.elements = jsObject.elements;
         dotNetGroupElement.description = jsObject.description;
         dotNetGroupElement.initialState = jsObject.initialState;
         dotNetGroupElement.label = jsObject.label;
         dotNetGroupElement.type = jsObject.type;
         dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
+
     return dotNetGroupElement;
 }
 

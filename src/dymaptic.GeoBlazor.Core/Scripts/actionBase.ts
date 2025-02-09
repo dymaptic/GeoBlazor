@@ -10,9 +10,9 @@ export default class ActionBaseWrapper extends ActionBaseGenerated {
     
 }
 
-export async function buildJsActionBase(dotNetObject: any): Promise<any> {
+export async function buildJsActionBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsActionBaseGenerated } = await import('./actionBase.gb');
-    return await buildJsActionBaseGenerated(dotNetObject);
+    return await buildJsActionBaseGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetActionBase(jsObject: any): Promise<any> {

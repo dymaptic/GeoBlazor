@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CSVLayerElevationInfoFeatureExpressionInfoGenerated implements IPropertyWrapper {
     public component: CSVLayerElevationInfoFeatureExpressionInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CSVLayerElevationInfoFeatureExpressionInfo) {
         this.component = component;
@@ -35,14 +37,21 @@ export default class CSVLayerElevationInfoFeatureExpressionInfoGenerated impleme
         this.component[prop] = value;
     }
 }
-export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
-    let jsCSVLayerElevationInfoFeatureExpressionInfo = {
-        expression: dotNetObject.expression,
-        title: dotNetObject.title,
+
+export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsCSVLayerElevationInfoFeatureExpressionInfo: any = {}
+
+    if (hasValue(dotNetObject.expression)) {
+        jsCSVLayerElevationInfoFeatureExpressionInfo.expression = dotNetObject.expression;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsCSVLayerElevationInfoFeatureExpressionInfo.title = dotNetObject.title;
     }
     let { default: CSVLayerElevationInfoFeatureExpressionInfoWrapper } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
     let cSVLayerElevationInfoFeatureExpressionInfoWrapper = new CSVLayerElevationInfoFeatureExpressionInfoWrapper(jsCSVLayerElevationInfoFeatureExpressionInfo);
-    jsCSVLayerElevationInfoFeatureExpressionInfo.id = dotNetObject.id;
+    cSVLayerElevationInfoFeatureExpressionInfoWrapper.geoBlazorId = dotNetObject.id;
+    cSVLayerElevationInfoFeatureExpressionInfoWrapper.viewId = viewId;
+    cSVLayerElevationInfoFeatureExpressionInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerElevationInfoFeatureExpressionInfoWrapper);
@@ -64,6 +73,7 @@ export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGener
     };
         dotNetCSVLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
         dotNetCSVLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+
     return dotNetCSVLayerElevationInfoFeatureExpressionInfo;
 }
 

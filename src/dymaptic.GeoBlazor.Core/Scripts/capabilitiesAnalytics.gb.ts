@@ -40,6 +40,7 @@ export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper 
 
 export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesAnalytics: any = {}
+
     if (hasValue(dotNetObject.supportsCacheHint)) {
         jsCapabilitiesAnalytics.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
@@ -58,7 +59,7 @@ export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any, l
     return jsCapabilitiesAnalytics;
 }
 
-export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,6 +69,7 @@ export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any, l
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetCapabilitiesAnalytics.supportsCacheHint = jsObject.supportsCacheHint;
+
     return dotNetCapabilitiesAnalytics;
 }
 

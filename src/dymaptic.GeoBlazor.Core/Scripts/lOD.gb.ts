@@ -39,8 +39,8 @@ export default class LODGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLODGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: LOD } = await import('@arcgis/core/layers/support/LOD');
     let jsLOD = new LOD();
+
     if (hasValue(dotNetObject.level)) {
         jsLOD.level = dotNetObject.level;
     }
@@ -68,7 +68,7 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     return jsLOD;
 }
 
-export async function buildDotNetLODGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -81,6 +81,7 @@ export async function buildDotNetLODGenerated(jsObject: any, layerId: string | n
         dotNetLOD.levelValue = jsObject.levelValue;
         dotNetLOD.resolution = jsObject.resolution;
         dotNetLOD.scale = jsObject.scale;
+
     return dotNetLOD;
 }
 

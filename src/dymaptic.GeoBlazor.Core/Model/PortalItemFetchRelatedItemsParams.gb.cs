@@ -14,20 +14,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRelatedItems">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalItemFetchRelatedItemsParams(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RelationshipDirection? Direction = null,
-    string? RelationshipType = null)
-{
-    /// <summary>
-    ///     The direction of the relationship.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRelatedItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public RelationshipDirection? Direction { get; set; } = Direction;
-    
-    /// <summary>
-    ///     The type of relationship between the two items.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRelatedItems">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public string? RelationshipType { get; set; } = RelationshipType;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? RelationshipType = null);
 

@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     public component: UniqueValueGroup;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValueGroup) {
         this.component = component;
@@ -34,7 +36,7 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     
     async setClasses(value: any): Promise<void> {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        this.component.classes = value.map(async i => await buildJsUniqueValueClass(i));
+        this.component.classes = value.map(async i => await buildJsUniqueValueClass(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -45,20 +47,22 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promise<any> {
-    let { default: UniqueValueGroup } = await import('@arcgis/core/renderers/support/UniqueValueGroup');
+
+export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueGroup = new UniqueValueGroup();
     if (hasValue(dotNetObject.classes)) {
-        let { buildJsUniqueValueClass } = await import('uniqueValueClass');
-        jsUniqueValueGroup.classes = dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i)) as any;
-
+        let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
+        jsUniqueValueGroup.classes = dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId)) as any;
     }
+
     if (hasValue(dotNetObject.heading)) {
         jsUniqueValueGroup.heading = dotNetObject.heading;
     }
     let { default: UniqueValueGroupWrapper } = await import('./uniqueValueGroup');
     let uniqueValueGroupWrapper = new UniqueValueGroupWrapper(jsUniqueValueGroup);
-    jsUniqueValueGroup.id = dotNetObject.id;
+    uniqueValueGroupWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueGroupWrapper.viewId = viewId;
+    uniqueValueGroupWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueGroupWrapper);
@@ -83,6 +87,7 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
             dotNetUniqueValueGroup.classes = jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i));
         }
         dotNetUniqueValueGroup.heading = jsObject.heading;
+
     return dotNetUniqueValueGroup;
 }
 

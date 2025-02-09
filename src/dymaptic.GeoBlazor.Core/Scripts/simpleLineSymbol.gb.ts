@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     public component: SimpleLineSymbol;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: SimpleLineSymbol) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     }
     async setMarker(value: any): Promise<void> {
         let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');
-        this.component.marker = await buildJsLineSymbolMarker(value);
+        this.component.marker = await  buildJsLineSymbolMarker(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any): Promise<any> {
-    let { default: SimpleLineSymbol } = await import('@arcgis/core/symbols/SimpleLineSymbol');
+
+export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleLineSymbol = new SimpleLineSymbol();
     if (hasValue(dotNetObject.marker)) {
-        let { buildJsLineSymbolMarker } = await import('lineSymbolMarker');
-        jsSimpleLineSymbol.marker = await buildJsLineSymbolMarker(dotNetObject.marker) as any;
-
+        let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');
+        jsSimpleLineSymbol.marker = await buildJsLineSymbolMarker(dotNetObject.marker, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.cap)) {
         jsSimpleLineSymbol.cap = dotNetObject.cap;
     }
@@ -74,7 +76,9 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any): Promi
     }
     let { default: SimpleLineSymbolWrapper } = await import('./simpleLineSymbol');
     let simpleLineSymbolWrapper = new SimpleLineSymbolWrapper(jsSimpleLineSymbol);
-    jsSimpleLineSymbol.id = dotNetObject.id;
+    simpleLineSymbolWrapper.geoBlazorId = dotNetObject.id;
+    simpleLineSymbolWrapper.viewId = viewId;
+    simpleLineSymbolWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleLineSymbolWrapper);
@@ -85,7 +89,7 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any): Promi
     return jsSimpleLineSymbol;
 }
 
-export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -105,6 +109,7 @@ export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any): Promi
         dotNetSimpleLineSymbol.style = jsObject.style;
         dotNetSimpleLineSymbol.type = jsObject.type;
         dotNetSimpleLineSymbol.width = jsObject.width;
+
     return dotNetSimpleLineSymbol;
 }
 

@@ -39,8 +39,8 @@ export default class BasemapStyleGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: BasemapStyle } = await import('@arcgis/core/support/BasemapStyle');
     let jsBasemapStyle = new BasemapStyle();
+
     if (hasValue(dotNetObject.language)) {
         jsBasemapStyle.language = dotNetObject.language;
     }
@@ -85,6 +85,7 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: s
         dotNetBasemapStyle.places = jsObject.places;
         dotNetBasemapStyle.serviceUrl = jsObject.serviceUrl;
         dotNetBasemapStyle.worldview = jsObject.worldview;
+
     return dotNetBasemapStyle;
 }
 

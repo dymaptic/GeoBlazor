@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueRendererLegendOptionsGenerated implements IPropertyWrapper {
     public component: UniqueValueRendererLegendOptions;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValueRendererLegendOptions) {
         this.component = component;
@@ -35,13 +37,18 @@ export default class UniqueValueRendererLegendOptionsGenerated implements IPrope
         this.component[prop] = value;
     }
 }
-export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject: any): Promise<any> {
-    let jsUniqueValueRendererLegendOptions = {
-        title: dotNetObject.title,
+
+export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsUniqueValueRendererLegendOptions: any = {}
+
+    if (hasValue(dotNetObject.title)) {
+        jsUniqueValueRendererLegendOptions.title = dotNetObject.title;
     }
     let { default: UniqueValueRendererLegendOptionsWrapper } = await import('./uniqueValueRendererLegendOptions');
     let uniqueValueRendererLegendOptionsWrapper = new UniqueValueRendererLegendOptionsWrapper(jsUniqueValueRendererLegendOptions);
-    jsUniqueValueRendererLegendOptions.id = dotNetObject.id;
+    uniqueValueRendererLegendOptionsWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueRendererLegendOptionsWrapper.viewId = viewId;
+    uniqueValueRendererLegendOptionsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererLegendOptionsWrapper);
@@ -62,6 +69,7 @@ export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObj
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
+
     return dotNetUniqueValueRendererLegendOptions;
 }
 

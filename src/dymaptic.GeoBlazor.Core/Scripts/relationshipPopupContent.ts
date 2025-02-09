@@ -10,9 +10,9 @@ export default class RelationshipPopupContentWrapper extends RelationshipPopupCo
     
 }
 
-export async function buildJsRelationshipPopupContent(dotNetObject: any): Promise<any> {
+export async function buildJsRelationshipPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsRelationshipPopupContentGenerated } = await import('./relationshipPopupContent.gb');
-    return await buildJsRelationshipPopupContentGenerated(dotNetObject);
+    return await buildJsRelationshipPopupContentGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetRelationshipPopupContent(jsObject: any): Promise<any> {

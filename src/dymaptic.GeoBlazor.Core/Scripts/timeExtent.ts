@@ -9,9 +9,9 @@ export default class TimeExtentWrapper extends TimeExtentGenerated {
     }
     
 }              
-export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
+export async function buildJsTimeExtent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsTimeExtentGenerated } = await import('./timeExtent.gb');
-    return await buildJsTimeExtentGenerated(dotNetObject);
+    return await buildJsTimeExtentGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetTimeExtent(jsObject: any): Promise<any> {
     let { buildDotNetTimeExtentGenerated } = await import('./timeExtent.gb');

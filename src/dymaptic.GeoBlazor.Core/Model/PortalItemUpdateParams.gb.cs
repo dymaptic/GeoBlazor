@@ -10,13 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalItemUpdateParams(
-    string? Data = null)
-{
-    /// <summary>
-    ///     Optional.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public string? Data { get; set; } = Data;
-    
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? Data = null);
 

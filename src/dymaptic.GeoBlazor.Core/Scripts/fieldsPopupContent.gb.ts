@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     public component: FieldsContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: FieldsContent) {
         this.component = component;
@@ -29,12 +31,12 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(i => buildDotNetFieldInfo(i));
     }
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
     }
     
     getProperty(prop: string): any {
@@ -45,14 +47,14 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsFieldsPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let FieldsContent = __esri.FieldsContent;
+
+export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldsContent = new FieldsContent();
     if (hasValue(dotNetObject.fieldInfos)) {
-        let { buildJsFieldInfo } = await import('fieldInfo');
+        let { buildJsFieldInfo } = await import('./jsBuilder');
         jsFieldsContent.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
-
     }
+
     if (hasValue(dotNetObject.description)) {
         jsFieldsContent.description = dotNetObject.description;
     }
@@ -61,7 +63,9 @@ export async function buildJsFieldsPopupContentGenerated(dotNetObject: any): Pro
     }
     let { default: FieldsPopupContentWrapper } = await import('./fieldsPopupContent');
     let fieldsPopupContentWrapper = new FieldsPopupContentWrapper(jsFieldsContent);
-    jsFieldsContent.id = dotNetObject.id;
+    fieldsPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    fieldsPopupContentWrapper.viewId = viewId;
+    fieldsPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldsPopupContentWrapper);
@@ -83,11 +87,12 @@ export async function buildDotNetFieldsPopupContentGenerated(jsObject: any): Pro
     };
         if (hasValue(jsObject.fieldInfos)) {
             let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+            dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
         }
         dotNetFieldsPopupContent.description = jsObject.description;
         dotNetFieldsPopupContent.title = jsObject.title;
         dotNetFieldsPopupContent.type = jsObject.type;
+
     return dotNetFieldsPopupContent;
 }
 

@@ -7,9 +7,10 @@ import {IPropertyWrapper} from './definitions';
 
 export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     public layer: GeoRSSLayer;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
+
     constructor(layer: GeoRSSLayer) {
         this.layer = layer;
         // set all properties from layer
@@ -50,27 +51,27 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     
     async getLineSymbol(): Promise<any> {
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
+        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol, this.layerId, this.viewId);
     }
     async setLineSymbol(value: any): Promise<void> {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        this.layer.lineSymbol = await buildJsSimpleLineSymbol(value);
+        this.layer.lineSymbol = await  buildJsSimpleLineSymbol(value, this.layerId, this.viewId);
     }
     async getPolygonSymbol(): Promise<any> {
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
+        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol, this.layerId, this.viewId);
     }
     async setPolygonSymbol(value: any): Promise<void> {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        this.layer.polygonSymbol = await buildJsSimpleFillSymbol(value);
+        this.layer.polygonSymbol = await  buildJsSimpleFillSymbol(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -80,41 +81,28 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-export async function buildJsGeoRSSLayerGenerated(dotNetObject: any): Promise<any> {
-    let { default: GeoRSSLayer } = await import('@arcgis/core/layers/GeoRSSLayer');
+
+export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoRSSLayer = new GeoRSSLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsGeoRSSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsGeoRSSLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol) as any;
-
+        jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.pointSymbol)) {
-        switch (dotNetObject.pointSymbol.type) {
-            case 'picture-marker':
-                let { buildJsPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
-                jsGeoRSSLayer.pointSymbol = await buildJsPictureMarkerSymbol(dotNetObject.pointSymbol) as any;
-                break;
-            case 'simple-marker':
-                let { buildJsSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
-                jsGeoRSSLayer.pointSymbol = await buildJsSimpleMarkerSymbol(dotNetObject.pointSymbol) as any;
-                break;
-        }
+        jsGeoRSSLayer.pointSymbol = dotNetObject.markerSymbol;
     }
     if (hasValue(dotNetObject.polygonSymbol)) {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        jsGeoRSSLayer.polygonSymbol = await buildJsSimpleFillSymbol(dotNetObject.polygonSymbol) as any;
-
+        jsGeoRSSLayer.polygonSymbol = await buildJsSimpleFillSymbol(dotNetObject.polygonSymbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsGeoRSSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsGeoRSSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsGeoRSSLayer.id = dotNetObject.arcGISLayerId;
     }
@@ -148,6 +136,9 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any): Promise<an
     if (hasValue(dotNetObject.title)) {
         jsGeoRSSLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsGeoRSSLayer.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.url)) {
         jsGeoRSSLayer.url = dotNetObject.url;
     }
@@ -157,7 +148,9 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any): Promise<an
     
     let { default: GeoRSSLayerWrapper } = await import('./geoRSSLayer');
     let geoRSSLayerWrapper = new GeoRSSLayerWrapper(jsGeoRSSLayer);
-    jsGeoRSSLayer.id = dotNetObject.id;
+    geoRSSLayerWrapper.geoBlazorId = dotNetObject.id;
+    geoRSSLayerWrapper.viewId = viewId;
+    geoRSSLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
@@ -168,7 +161,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any): Promise<an
     return jsGeoRSSLayer;
 }
 
-export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -177,37 +170,23 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetGeoRSSLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.lineSymbol)) {
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
+            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol, layerId, viewId);
         }
-        if (hasValue(jsObject.pointSymbol)) {
-            switch (jsObject.pointSymbol.type) {
-                case 'picture-marker':
-                    let { buildDotNetPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
-                    dotNetGeoRSSLayer.pointSymbol = await buildDotNetPictureMarkerSymbol(jsObject.pointSymbol);
-                    break;
-                case 'simple-marker':
-                    let { buildDotNetSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
-                    dotNetGeoRSSLayer.pointSymbol = await buildDotNetSimpleMarkerSymbol(jsObject.pointSymbol);
-                    break;
-            }
-        }
+        dotNetGeoRSSLayer.pointSymbol = jsObject.pointSymbol;
         if (hasValue(jsObject.polygonSymbol)) {
             let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
+            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol, layerId, viewId);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetGeoRSSLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetGeoRSSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
         dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
         dotNetGeoRSSLayer.effect = jsObject.effect;
+        dotNetGeoRSSLayer.fullExtent = jsObject.fullExtent;
         dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
         dotNetGeoRSSLayer.listMode = jsObject.listMode;
         dotNetGeoRSSLayer.loaded = jsObject.loaded;
@@ -219,6 +198,7 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         dotNetGeoRSSLayer.title = jsObject.title;
         dotNetGeoRSSLayer.type = jsObject.type;
         dotNetGeoRSSLayer.url = jsObject.url;
+
     return dotNetGeoRSSLayer;
 }
 

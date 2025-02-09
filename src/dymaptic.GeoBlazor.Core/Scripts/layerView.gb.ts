@@ -29,9 +29,9 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getLayer(layerId: string | null, viewId: string | null): Promise<any> {
+    async getLayer(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, layerId, viewId);
+        return buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,8 +43,8 @@ export default class LayerViewGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: LayerView } = await import('@arcgis/core/views/layers/LayerView');
     let jsLayerView = new LayerView();
+
     let { default: LayerViewWrapper } = await import('./layerView');
     let layerViewWrapper = new LayerViewWrapper(jsLayerView);
     layerViewWrapper.geoBlazorId = dotNetObject.id;
@@ -71,7 +71,7 @@ export async function buildDotNetLayerViewGenerated(jsObject: any, layerId: stri
     };
         if (hasValue(jsObject.layer)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer, layerId, viewId);
+            dotNetLayerView.layer = buildDotNetLayer(jsObject.layer, layerId, viewId);
         }
         dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
         dotNetLayerView.suspended = jsObject.suspended;
@@ -79,6 +79,7 @@ export async function buildDotNetLayerViewGenerated(jsObject: any, layerId: stri
         dotNetLayerView.view = jsObject.view;
         dotNetLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
         dotNetLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+
     return dotNetLayerView;
 }
 

@@ -1278,6 +1278,36 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the LegendEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetLegendEnabled(bool value)
+    {
+#pragma warning disable BL0005
+        LegendEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(LegendEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the ListMode property after render.
     /// </summary>
     /// <param name="value">
@@ -1395,6 +1425,66 @@ public partial class Sublayer
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "opacity", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PopupEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPopupEnabled(bool value)
+    {
+#pragma warning disable BL0005
+        PopupEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PopupEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PopupTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPopupTemplate(PopupTemplate value)
+    {
+#pragma warning disable BL0005
+        PopupTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PopupTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>

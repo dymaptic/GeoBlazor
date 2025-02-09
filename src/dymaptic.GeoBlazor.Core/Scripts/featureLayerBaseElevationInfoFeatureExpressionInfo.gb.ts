@@ -40,6 +40,7 @@ export default class FeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated
 
 export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseElevationInfoFeatureExpressionInfo: any = {}
+
     if (hasValue(dotNetObject.expression)) {
         jsFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = dotNetObject.expression;
     }
@@ -61,7 +62,7 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
     return jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
 }
 
-export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,6 +73,7 @@ export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionI
     };
         dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
         dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = jsObject.title;
+
     return dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo;
 }
 

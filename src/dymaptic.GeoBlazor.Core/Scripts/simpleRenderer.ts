@@ -10,9 +10,9 @@ export default class SimpleRendererWrapper extends SimpleRendererGenerated {
     
 }
 
-export async function buildJsSimpleRenderer(dotNetObject: any): Promise<any> {
+export async function buildJsSimpleRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSimpleRendererGenerated } = await import('./simpleRenderer.gb');
-    return await buildJsSimpleRendererGenerated(dotNetObject);
+    return await buildJsSimpleRendererGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetSimpleRenderer(jsObject: any): Promise<any> {

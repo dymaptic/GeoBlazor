@@ -40,6 +40,7 @@ export default class AuthoringInfoStatisticsGenerated implements IPropertyWrappe
 
 export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAuthoringInfoStatistics: any = {}
+
     if (hasValue(dotNetObject.max)) {
         jsAuthoringInfoStatistics.max = dotNetObject.max;
     }
@@ -61,7 +62,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     return jsAuthoringInfoStatistics;
 }
 
-export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,6 +73,7 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any,
     };
         dotNetAuthoringInfoStatistics.max = jsObject.max;
         dotNetAuthoringInfoStatistics.min = jsObject.min;
+
     return dotNetAuthoringInfoStatistics;
 }
 

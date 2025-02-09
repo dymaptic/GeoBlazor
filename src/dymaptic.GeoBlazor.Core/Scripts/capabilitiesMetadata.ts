@@ -9,9 +9,9 @@ export default class CapabilitiesMetadataWrapper extends CapabilitiesMetadataGen
     }
     
 }              
-export async function buildJsCapabilitiesMetadata(dotNetObject: any): Promise<any> {
+export async function buildJsCapabilitiesMetadata(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsCapabilitiesMetadataGenerated } = await import('./capabilitiesMetadata.gb');
-    return await buildJsCapabilitiesMetadataGenerated(dotNetObject);
+    return await buildJsCapabilitiesMetadataGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetCapabilitiesMetadata(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesMetadataGenerated } = await import('./capabilitiesMetadata.gb');

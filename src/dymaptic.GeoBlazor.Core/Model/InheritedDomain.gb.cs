@@ -18,23 +18,6 @@ public partial class InheritedDomain : ISubtypeDomains
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="name">
-    ///     The domain name.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html#name">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public InheritedDomain(
-        string? name = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Name = name;
-#pragma warning restore BL0005    
-    }
-    
-    
 
 
 

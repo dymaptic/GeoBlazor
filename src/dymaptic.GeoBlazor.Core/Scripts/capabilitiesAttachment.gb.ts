@@ -40,6 +40,7 @@ export default class CapabilitiesAttachmentGenerated implements IPropertyWrapper
 
 export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesAttachment: any = {}
+
     if (hasValue(dotNetObject.supportsCacheHint)) {
         jsCapabilitiesAttachment.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
@@ -76,7 +77,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     return jsCapabilitiesAttachment;
 }
 
-export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -92,6 +93,7 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, 
         dotNetCapabilitiesAttachment.supportsName = jsObject.supportsName;
         dotNetCapabilitiesAttachment.supportsResize = jsObject.supportsResize;
         dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
+
     return dotNetCapabilitiesAttachment;
 }
 

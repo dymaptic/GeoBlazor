@@ -10,9 +10,9 @@ export default class PopupContentWrapper extends PopupContentGenerated {
     
 }
 
-export async function buildJsPopupContent(dotNetObject: any): Promise<any> {
+export async function buildJsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPopupContentGenerated } = await import('./popupContent.gb');
-    return await buildJsPopupContentGenerated(dotNetObject);
+    return await buildJsPopupContentGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetPopupContent(jsObject: any): Promise<any> {

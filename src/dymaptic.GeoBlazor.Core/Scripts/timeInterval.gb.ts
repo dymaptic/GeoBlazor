@@ -39,8 +39,8 @@ export default class TimeIntervalGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: TimeInterval } = await import('@arcgis/core/TimeInterval');
     let jsTimeInterval = new TimeInterval();
+
     if (hasValue(dotNetObject.unit)) {
         jsTimeInterval.unit = dotNetObject.unit;
     }
@@ -62,7 +62,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     return jsTimeInterval;
 }
 
-export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export function buildDotNetTimeIntervalGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -73,6 +73,7 @@ export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: s
     };
         dotNetTimeInterval.unit = jsObject.unit;
         dotNetTimeInterval.value = jsObject.value;
+
     return dotNetTimeInterval;
 }
 

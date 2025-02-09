@@ -39,8 +39,8 @@ export default class LayerOptionsGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: LayerOptions } = await import('@arcgis/core/popup/LayerOptions');
     let jsLayerOptions = new LayerOptions();
+
     if (hasValue(dotNetObject.returnTopmostRaster)) {
         jsLayerOptions.returnTopmostRaster = dotNetObject.returnTopmostRaster;
     }
@@ -62,7 +62,7 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: s
     return jsLayerOptions;
 }
 
-export async function buildDotNetLayerOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -73,6 +73,7 @@ export async function buildDotNetLayerOptionsGenerated(jsObject: any, layerId: s
     };
         dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;
         dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
+
     return dotNetLayerOptions;
 }
 

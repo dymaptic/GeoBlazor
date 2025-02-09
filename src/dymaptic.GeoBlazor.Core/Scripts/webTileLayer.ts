@@ -9,9 +9,9 @@ export default class WebTileLayerWrapper extends WebTileLayerGenerated {
     }
     
 }              
-export async function buildJsWebTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsWebTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsWebTileLayerGenerated } = await import('./webTileLayer.gb');
-    return await buildJsWebTileLayerGenerated(dotNetObject);
+    return await buildJsWebTileLayerGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetWebTileLayer(jsObject: any): Promise<any> {
     let { buildDotNetWebTileLayerGenerated } = await import('./webTileLayer.gb');

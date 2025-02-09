@@ -40,6 +40,7 @@ export default class CapabilitiesEditingGenerated implements IPropertyWrapper {
 
 export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesEditing: any = {}
+
     if (hasValue(dotNetObject.supportsDeleteByAnonymous)) {
         jsCapabilitiesEditing.supportsDeleteByAnonymous = dotNetObject.supportsDeleteByAnonymous;
     }
@@ -82,7 +83,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     return jsCapabilitiesEditing;
 }
 
-export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -100,6 +101,7 @@ export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, lay
         dotNetCapabilitiesEditing.supportsUpdateByOthers = jsObject.supportsUpdateByOthers;
         dotNetCapabilitiesEditing.supportsUpdateWithoutM = jsObject.supportsUpdateWithoutM;
         dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
+
     return dotNetCapabilitiesEditing;
 }
 

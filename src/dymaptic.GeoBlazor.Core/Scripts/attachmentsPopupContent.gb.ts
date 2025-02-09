@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AttachmentsPopupContentGenerated implements IPropertyWrapper {
     public component: AttachmentsContent;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: AttachmentsContent) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class AttachmentsPopupContentGenerated implements IPropertyWrappe
         this.component[prop] = value;
     }
 }
-export async function buildJsAttachmentsPopupContentGenerated(dotNetObject: any): Promise<any> {
-    let AttachmentsContent = __esri.AttachmentsContent;
+
+export async function buildJsAttachmentsPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAttachmentsContent = new AttachmentsContent();
+
     if (hasValue(dotNetObject.description)) {
         jsAttachmentsContent.description = dotNetObject.description;
     }
@@ -49,7 +52,9 @@ export async function buildJsAttachmentsPopupContentGenerated(dotNetObject: any)
     }
     let { default: AttachmentsPopupContentWrapper } = await import('./attachmentsPopupContent');
     let attachmentsPopupContentWrapper = new AttachmentsPopupContentWrapper(jsAttachmentsContent);
-    jsAttachmentsContent.id = dotNetObject.id;
+    attachmentsPopupContentWrapper.geoBlazorId = dotNetObject.id;
+    attachmentsPopupContentWrapper.viewId = viewId;
+    attachmentsPopupContentWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsPopupContentWrapper);
@@ -73,6 +78,7 @@ export async function buildDotNetAttachmentsPopupContentGenerated(jsObject: any)
         dotNetAttachmentsPopupContent.displayType = jsObject.displayType;
         dotNetAttachmentsPopupContent.title = jsObject.title;
         dotNetAttachmentsPopupContent.type = jsObject.type;
+
     return dotNetAttachmentsPopupContent;
 }
 

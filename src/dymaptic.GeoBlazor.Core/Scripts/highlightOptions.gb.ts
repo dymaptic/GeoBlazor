@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class HighlightOptionsGenerated implements IPropertyWrapper {
     public component: HighlightOptions;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -29,30 +29,6 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.color);
-    }
-    async setColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await buildJsMapColor(value);
-    }
-    async getHaloColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.haloColor);
-    }
-    async setHaloColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.haloColor = await buildJsMapColor(value);
-    }
-    async getShadowColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.shadowColor);
-    }
-    async setShadowColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.shadowColor = await buildJsMapColor(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -61,30 +37,36 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
-    let jsHighlightOptions: any = {};
+
+export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsHighlightOptions: any = {}
+
     if (hasValue(dotNetObject.color)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsHighlightOptions.color = await buildJsColor(dotNetObject.color) as any;
+        jsHighlightOptions.color = dotNetObject.color;
+    }
+    if (hasValue(dotNetObject.fillOpacity)) {
+        jsHighlightOptions.fillOpacity = dotNetObject.fillOpacity;
     }
     if (hasValue(dotNetObject.haloColor)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsHighlightOptions.haloColor = await buildJsColor(dotNetObject.haloColor) as any;
+        jsHighlightOptions.haloColor = dotNetObject.haloColor;
+    }
+    if (hasValue(dotNetObject.haloOpacity)) {
+        jsHighlightOptions.haloOpacity = dotNetObject.haloOpacity;
     }
     if (hasValue(dotNetObject.shadowColor)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsHighlightOptions.shadowColor = await buildJsColor(dotNetObject.shadowColor) as any;
+        jsHighlightOptions.shadowColor = dotNetObject.shadowColor;
     }
-    jsHighlightOptions.fillOpacity = dotNetObject.fillOpacity;
-    jsHighlightOptions.haloOpacity = dotNetObject.haloOpacity;
-    jsHighlightOptions.shadowDifference = dotNetObject.shadowDifference;
-    jsHighlightOptions.shadowOpacity = dotNetObject.shadowOpacity;
-    
+    if (hasValue(dotNetObject.shadowDifference)) {
+        jsHighlightOptions.shadowDifference = dotNetObject.shadowDifference;
+    }
+    if (hasValue(dotNetObject.shadowOpacity)) {
+        jsHighlightOptions.shadowOpacity = dotNetObject.shadowOpacity;
+    }
     let { default: HighlightOptionsWrapper } = await import('./highlightOptions');
     let highlightOptionsWrapper = new HighlightOptionsWrapper(jsHighlightOptions);
     highlightOptionsWrapper.geoBlazorId = dotNetObject.id;
-    highlightOptionsWrapper.viewId = dotNetObject.viewId;
-    highlightOptionsWrapper.layerId = dotNetObject.layerId;
+    highlightOptionsWrapper.viewId = viewId;
+    highlightOptionsWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(highlightOptionsWrapper);
@@ -104,22 +86,14 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.color = await buildDotNetMapColor(jsObject.color);
-        }
-        if (hasValue(jsObject.haloColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.haloColor = await buildDotNetMapColor(jsObject.haloColor);
-        }
-        if (hasValue(jsObject.shadowColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.shadowColor = await buildDotNetMapColor(jsObject.shadowColor);
-        }
+        dotNetHighlightOptions.color = jsObject.color;
         dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
+        dotNetHighlightOptions.haloColor = jsObject.haloColor;
         dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
+        dotNetHighlightOptions.shadowColor = jsObject.shadowColor;
         dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
         dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
+
     return dotNetHighlightOptions;
 }
 

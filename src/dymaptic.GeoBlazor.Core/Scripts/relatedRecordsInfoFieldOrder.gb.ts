@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class RelatedRecordsInfoFieldOrderGenerated implements IPropertyWrapper {
     public component: RelatedRecordsInfoFieldOrder;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: RelatedRecordsInfoFieldOrder) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class RelatedRecordsInfoFieldOrderGenerated implements IPropertyW
         this.component[prop] = value;
     }
 }
-export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject: any): Promise<any> {
-    let { default: RelatedRecordsInfoFieldOrder } = await import('@arcgis/core/popup/support/RelatedRecordsInfoFieldOrder');
+
+export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelatedRecordsInfoFieldOrder = new RelatedRecordsInfoFieldOrder();
+
     if (hasValue(dotNetObject.field)) {
         jsRelatedRecordsInfoFieldOrder.field = dotNetObject.field;
     }
@@ -46,7 +49,9 @@ export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject:
     }
     let { default: RelatedRecordsInfoFieldOrderWrapper } = await import('./relatedRecordsInfoFieldOrder');
     let relatedRecordsInfoFieldOrderWrapper = new RelatedRecordsInfoFieldOrderWrapper(jsRelatedRecordsInfoFieldOrder);
-    jsRelatedRecordsInfoFieldOrder.id = dotNetObject.id;
+    relatedRecordsInfoFieldOrderWrapper.geoBlazorId = dotNetObject.id;
+    relatedRecordsInfoFieldOrderWrapper.viewId = viewId;
+    relatedRecordsInfoFieldOrderWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(relatedRecordsInfoFieldOrderWrapper);
@@ -68,6 +73,7 @@ export async function buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject:
     };
         dotNetRelatedRecordsInfoFieldOrder.field = jsObject.field;
         dotNetRelatedRecordsInfoFieldOrder.order = jsObject.order;
+
     return dotNetRelatedRecordsInfoFieldOrder;
 }
 

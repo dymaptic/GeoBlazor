@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SublayerGenerated implements IPropertyWrapper {
     public component: Sublayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: Sublayer) {
         this.component = component;
@@ -28,7 +30,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return buildDotNetFeatureLayer(result);
+        return buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -43,7 +45,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     async getFeatureType(feature: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature) as any;
+        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
@@ -102,7 +104,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
     async setFloorInfo(value: any): Promise<void> {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        this.component.floorInfo = await buildJsLayerFloorInfo(value);
+        this.component.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
     }
     async getLabelingInfo(): Promise<any> {
         let { buildDotNetLabel } = await import('./label');
@@ -111,37 +113,37 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
-        this.component.labelingInfo = value.map(async i => await buildJsLabel(i));
+        this.component.labelingInfo = value.map(async i => await buildJsLabel(i, this.layerId, this.viewId));
     }
     
     async getLayer(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer);
+        return buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
     }
-    async getPopupTemplate(layerId: string, viewId: string): Promise<any> {
+    async getPopupTemplate(): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate, layerId, viewId);
+        return buildDotNetPopupTemplate(this.component.popupTemplate);
     }
-    async setPopupTemplate(value: any, layerId: string, viewId: string): Promise<void> {
+    async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate = await buildJsPopupTemplate(value, layerId, viewId);
+        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         let { buildDotNetRenderer } = await import('./renderer');
-        return await buildDotNetRenderer(this.component.renderer);
+        return buildDotNetRenderer(this.component.renderer);
     }
     async setRenderer(value: any): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
-        this.component.renderer = await buildJsRenderer(value);
+        this.component.renderer =  buildJsRenderer(value);
     }
-    async getSublayers(layerId: string, viewId: string): Promise<any> {
+    async getSublayers(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.component.sublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId));
+        return this.component.sublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId));
     }
     
-    async setSublayers(value: any, layerId: string, viewId: string): Promise<void> {
+    async setSublayers(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.component.sublayers = value.map(async i => await buildJsSublayer(i, layerId, viewId));
+        this.component.sublayers = value.map(i => buildJsSublayer(i));
     }
     
     getProperty(prop: string): any {
@@ -152,29 +154,26 @@ export default class SublayerGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
+
 export async function buildJsSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Sublayer } = await import('@arcgis/core/layers/support/Sublayer');
     let jsSublayer = new Sublayer();
     if (hasValue(dotNetObject.floorInfo)) {
-        let { buildJsLayerFloorInfo } = await import('layerFloorInfo');
-        jsSublayer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
-
+        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
+        jsSublayer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
-        let { buildJsLabel } = await import('label');
-        jsSublayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i)) as any;
-
+        let { buildJsLabel } = await import('./label');
+        jsSublayer.labelingInfo = dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('popupTemplate');
+        let { buildJsPopupTemplate } = await import('./jsBuilder');
         jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
-
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('renderer');
+        let { buildJsRenderer } = await import('./jsBuilder');
         jsSublayer.renderer = buildJsRenderer(dotNetObject.renderer) as any;
-
     }
+
     if (hasValue(dotNetObject.dataSource)) {
         jsSublayer.source = dotNetObject.dataSource;
     }
@@ -213,7 +212,9 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     let { default: SublayerWrapper } = await import('./sublayer');
     let sublayerWrapper = new SublayerWrapper(jsSublayer);
-    jsSublayer.id = dotNetObject.id;
+    sublayerWrapper.geoBlazorId = dotNetObject.id;
+    sublayerWrapper.viewId = viewId;
+    sublayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
@@ -241,26 +242,23 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
             let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
             dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
         }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetSublayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.labelingInfo)) {
             let { buildDotNetLabel } = await import('./label');
             dotNetSublayer.labelingInfo = jsObject.labelingInfo.map(async i => await buildDotNetLabel(i));
         }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetSublayer.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.renderer)) {
             let { buildDotNetRenderer } = await import('./dotNetBuilder');
-            dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+            dotNetSublayer.renderer = buildDotNetRenderer(jsObject.renderer);
         }
         dotNetSublayer.capabilities = jsObject.capabilities;
         dotNetSublayer.dataSource = jsObject.source;
         dotNetSublayer.definitionExpression = jsObject.definitionExpression;
         dotNetSublayer.fieldsIndex = jsObject.fieldsIndex;
+        dotNetSublayer.fullExtent = jsObject.fullExtent;
         dotNetSublayer.isTable = jsObject.isTable;
         dotNetSublayer.labelsVisible = jsObject.labelsVisible;
         dotNetSublayer.legendEnabled = jsObject.legendEnabled;
@@ -278,6 +276,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         dotNetSublayer.typeIdField = jsObject.typeIdField;
         dotNetSublayer.types = jsObject.types;
         dotNetSublayer.url = jsObject.url;
+
     return dotNetSublayer;
 }
 

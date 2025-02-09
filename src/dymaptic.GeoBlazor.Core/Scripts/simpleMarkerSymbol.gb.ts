@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
     public component: SimpleMarkerSymbol;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: SimpleMarkerSymbol) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any): Promise<any> {
-    let { default: SimpleMarkerSymbol } = await import('@arcgis/core/symbols/SimpleMarkerSymbol');
+
+export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
+
     if (hasValue(dotNetObject.angle)) {
         jsSimpleMarkerSymbol.angle = dotNetObject.angle;
     }
@@ -64,7 +67,9 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any): Pro
     }
     let { default: SimpleMarkerSymbolWrapper } = await import('./simpleMarkerSymbol');
     let simpleMarkerSymbolWrapper = new SimpleMarkerSymbolWrapper(jsSimpleMarkerSymbol);
-    jsSimpleMarkerSymbol.id = dotNetObject.id;
+    simpleMarkerSymbolWrapper.geoBlazorId = dotNetObject.id;
+    simpleMarkerSymbolWrapper.viewId = viewId;
+    simpleMarkerSymbolWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleMarkerSymbolWrapper);
@@ -75,7 +80,7 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any): Pro
     return jsSimpleMarkerSymbol;
 }
 
-export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -93,6 +98,7 @@ export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any): Pro
         dotNetSimpleMarkerSymbol.type = jsObject.type;
         dotNetSimpleMarkerSymbol.xoffset = jsObject.xoffset;
         dotNetSimpleMarkerSymbol.yoffset = jsObject.yoffset;
+
     return dotNetSimpleMarkerSymbol;
 }
 

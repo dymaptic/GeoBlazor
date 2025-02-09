@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class UniqueValueGenerated implements IPropertyWrapper {
     public component: UniqueValue;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: UniqueValue) {
         this.component = component;
@@ -35,9 +37,10 @@ export default class UniqueValueGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<any> {
-    let { default: UniqueValue } = await import('@arcgis/core/renderers/support/UniqueValue');
+
+export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValue = new UniqueValue();
+
     if (hasValue(dotNetObject.value)) {
         jsUniqueValue.value = dotNetObject.value;
     }
@@ -49,7 +52,9 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<an
     }
     let { default: UniqueValueWrapper } = await import('./uniqueValue');
     let uniqueValueWrapper = new UniqueValueWrapper(jsUniqueValue);
-    jsUniqueValue.id = dotNetObject.id;
+    uniqueValueWrapper.geoBlazorId = dotNetObject.id;
+    uniqueValueWrapper.viewId = viewId;
+    uniqueValueWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueWrapper);
@@ -72,6 +77,7 @@ export async function buildDotNetUniqueValueGenerated(jsObject: any): Promise<an
         dotNetUniqueValue.value = jsObject.value;
         dotNetUniqueValue.value2 = jsObject.value2;
         dotNetUniqueValue.value3 = jsObject.value3;
+
     return dotNetUniqueValue;
 }
 

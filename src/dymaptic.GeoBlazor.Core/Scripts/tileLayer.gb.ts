@@ -7,7 +7,7 @@ import {IPropertyWrapper} from './definitions';
 
 export default class TileLayerGenerated implements IPropertyWrapper {
     public layer: TileLayer;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
 
@@ -62,7 +62,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     async findSublayerById(id: any): Promise<any> {
         let result = this.layer.findSublayerById(id);
         let { buildDotNetSublayer } = await import('./sublayer');
-        return buildDotNetSublayer(result, this.layerId, this.viewId);
+        return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
 
     async getTileUrl(level: any,
@@ -76,7 +76,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     async loadAll(): Promise<any> {
         let result = await this.layer.loadAll();
         let { buildDotNetSublayer } = await import('./sublayer');
-        return buildDotNetSublayer(result, this.layerId, this.viewId);
+        return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
 
     async refresh(): Promise<void> {
@@ -85,9 +85,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getAllSublayers(layerId: string, viewId: string): Promise<any> {
+    async getAllSublayers(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.allSublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId));
+        return this.layer.allSublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId));
     }
     
     async getPortalItem(): Promise<any> {
@@ -96,21 +96,21 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
+        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
-    async getSublayers(layerId: string, viewId: string): Promise<any> {
+    async getSublayers(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.sublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId));
+        return this.layer.sublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId));
     }
     
-    async getSubtables(layerId: string, viewId: string): Promise<any> {
+    async getSubtables(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.subtables.map(async i => await buildDotNetSublayer(i, layerId, viewId));
+        return this.layer.subtables.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId));
     }
     
-    async setSubtables(value: any, layerId: string, viewId: string): Promise<void> {
+    async setSubtables(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.subtables = value.map(async i => await buildJsSublayer(i, layerId, viewId));
+        this.layer.subtables = value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId));
     }
     
     async getTileInfo(): Promise<any> {
@@ -119,15 +119,15 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await buildJsTileInfo(value);
+        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -137,34 +137,29 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
+
 export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: TileLayer } = await import('@arcgis/core/layers/TileLayer');
     let jsTileLayer = new TileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsTileLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
-        jsTileLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.subtables)) {
-        let { buildJsSublayer } = await import('./sublayer');
-        jsTileLayer.subtables = dotNetObject.subtables.map(i => buildJsSublayer(i, layerId, viewId)) as any;
-
+        let { buildJsSublayer } = await import('./jsBuilder');
+        jsTileLayer.subtables = dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo) as any;
-
+        jsTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.apiKey)) {
         jsTileLayer.apiKey = dotNetObject.apiKey;
     }
@@ -213,6 +208,9 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.title)) {
         jsTileLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsTileLayer.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.url)) {
         jsTileLayer.url = dotNetObject.url;
     }
@@ -222,7 +220,9 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     
     let { default: TileLayerWrapper } = await import('./tileLayer');
     let tileLayerWrapper = new TileLayerWrapper(jsTileLayer);
-    jsTileLayer.id = dotNetObject.id;
+    tileLayerWrapper.geoBlazorId = dotNetObject.id;
+    tileLayerWrapper.viewId = viewId;
+    tileLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileLayerWrapper);
@@ -246,13 +246,9 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
             let { buildDotNetSublayer } = await import('./sublayer');
             dotNetTileLayer.allSublayers = jsObject.allSublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId));
         }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetTileLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
@@ -268,7 +264,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetTileLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetTileLayer.apiKey = jsObject.apiKey;
         dotNetTileLayer.arcGISLayerId = jsObject.id;
@@ -278,6 +274,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         dotNetTileLayer.copyright = jsObject.copyright;
         dotNetTileLayer.customParameters = jsObject.customParameters;
         dotNetTileLayer.effect = jsObject.effect;
+        dotNetTileLayer.fullExtent = jsObject.fullExtent;
         dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;
         dotNetTileLayer.legendEnabled = jsObject.legendEnabled;
         dotNetTileLayer.listMode = jsObject.listMode;
@@ -295,6 +292,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         dotNetTileLayer.type = jsObject.type;
         dotNetTileLayer.url = jsObject.url;
         dotNetTileLayer.version = jsObject.version;
+
     return dotNetTileLayer;
 }
 

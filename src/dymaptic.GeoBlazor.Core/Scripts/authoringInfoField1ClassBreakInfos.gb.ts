@@ -40,6 +40,7 @@ export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPro
 
 export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAuthoringInfoField1ClassBreakInfos: any = {}
+
     if (hasValue(dotNetObject.maxValue)) {
         jsAuthoringInfoField1ClassBreakInfos.maxValue = dotNetObject.maxValue;
     }
@@ -61,7 +62,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     return jsAuthoringInfoField1ClassBreakInfos;
 }
 
-export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,6 +73,7 @@ export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsO
     };
         dotNetAuthoringInfoField1ClassBreakInfos.maxValue = jsObject.maxValue;
         dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
+
     return dotNetAuthoringInfoField1ClassBreakInfos;
 }
 

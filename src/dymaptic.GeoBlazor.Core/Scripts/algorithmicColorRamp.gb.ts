@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     public component: AlgorithmicColorRamp;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: AlgorithmicColorRamp) {
         this.component = component;
@@ -27,22 +29,6 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getFromColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.fromColor);
-    }
-    async setFromColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.fromColor = await buildJsMapColor(value);
-    }
-    async getToColor(): Promise<any> {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return await buildDotNetMapColor(this.component.toColor);
-    }
-    async setToColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.toColor = await buildJsMapColor(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -51,23 +37,24 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any): Promise<any> {
-    let { default: AlgorithmicColorRamp } = await import('@arcgis/core/rest/support/AlgorithmicColorRamp');
+
+export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAlgorithmicColorRamp = new AlgorithmicColorRamp();
-    if (hasValue(dotNetObject.fromColor)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsAlgorithmicColorRamp.fromColor = await buildJsColor(dotNetObject.fromColor) as any;
-    }
-    if (hasValue(dotNetObject.toColor)) {
-        let { buildJsColor } = await import('./mapColor');
-        jsAlgorithmicColorRamp.toColor = await buildJsColor(dotNetObject.toColor) as any;
-    }
+
     if (hasValue(dotNetObject.algorithm)) {
         jsAlgorithmicColorRamp.algorithm = dotNetObject.algorithm;
+    }
+    if (hasValue(dotNetObject.fromColor)) {
+        jsAlgorithmicColorRamp.fromColor = dotNetObject.fromColor;
+    }
+    if (hasValue(dotNetObject.toColor)) {
+        jsAlgorithmicColorRamp.toColor = dotNetObject.toColor;
     }
     let { default: AlgorithmicColorRampWrapper } = await import('./algorithmicColorRamp');
     let algorithmicColorRampWrapper = new AlgorithmicColorRampWrapper(jsAlgorithmicColorRamp);
     algorithmicColorRampWrapper.geoBlazorId = dotNetObject.id;
+    algorithmicColorRampWrapper.viewId = viewId;
+    algorithmicColorRampWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);
@@ -87,16 +74,11 @@ export async function buildDotNetAlgorithmicColorRampGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fromColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetAlgorithmicColorRamp.fromColor = await buildDotNetMapColor(jsObject.fromColor);
-        }
-        if (hasValue(jsObject.toColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetAlgorithmicColorRamp.toColor = await buildDotNetMapColor(jsObject.toColor);
-        }
         dotNetAlgorithmicColorRamp.algorithm = jsObject.algorithm;
+        dotNetAlgorithmicColorRamp.fromColor = jsObject.fromColor;
+        dotNetAlgorithmicColorRamp.toColor = jsObject.toColor;
         dotNetAlgorithmicColorRamp.type = jsObject.type;
+
     return dotNetAlgorithmicColorRamp;
 }
 

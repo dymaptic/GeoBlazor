@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class MultipartColorRampGenerated implements IPropertyWrapper {
     public component: MultipartColorRamp;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: MultipartColorRamp) {
         this.component = component;
@@ -34,7 +36,7 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
     
     async setColorRamps(value: any): Promise<void> {
         let { buildJsAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
-        this.component.colorRamps = value.map(async i => await buildJsAlgorithmicColorRamp(i));
+        this.component.colorRamps = value.map(i => buildJsAlgorithmicColorRamp(i));
     }
     
     getProperty(prop: string): any {
@@ -45,17 +47,19 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsMultipartColorRampGenerated(dotNetObject: any): Promise<any> {
-    let { default: MultipartColorRamp } = await import('@arcgis/core/rest/support/MultipartColorRamp');
+
+export async function buildJsMultipartColorRampGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMultipartColorRamp = new MultipartColorRamp();
     if (hasValue(dotNetObject.colorRamps)) {
-        let { buildJsAlgorithmicColorRamp } = await import('algorithmicColorRamp');
+        let { buildJsAlgorithmicColorRamp } = await import('./jsBuilder');
         jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(i => buildJsAlgorithmicColorRamp(i)) as any;
-
     }
+
     let { default: MultipartColorRampWrapper } = await import('./multipartColorRamp');
     let multipartColorRampWrapper = new MultipartColorRampWrapper(jsMultipartColorRamp);
-    jsMultipartColorRamp.id = dotNetObject.id;
+    multipartColorRampWrapper.geoBlazorId = dotNetObject.id;
+    multipartColorRampWrapper.viewId = viewId;
+    multipartColorRampWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multipartColorRampWrapper);
@@ -80,6 +84,7 @@ export async function buildDotNetMultipartColorRampGenerated(jsObject: any): Pro
             dotNetMultipartColorRamp.colorRamps = jsObject.colorRamps.map(async i => await buildDotNetAlgorithmicColorRamp(i));
         }
         dotNetMultipartColorRamp.type = jsObject.type;
+
     return dotNetMultipartColorRamp;
 }
 

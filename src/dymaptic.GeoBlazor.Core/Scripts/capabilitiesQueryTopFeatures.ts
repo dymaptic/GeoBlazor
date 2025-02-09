@@ -9,9 +9,9 @@ export default class CapabilitiesQueryTopFeaturesWrapper extends CapabilitiesQue
     }
     
 }              
-export async function buildJsCapabilitiesQueryTopFeatures(dotNetObject: any): Promise<any> {
+export async function buildJsCapabilitiesQueryTopFeatures(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsCapabilitiesQueryTopFeaturesGenerated } = await import('./capabilitiesQueryTopFeatures.gb');
-    return await buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject);
+    return await buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetCapabilitiesQueryTopFeatures(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesQueryTopFeaturesGenerated } = await import('./capabilitiesQueryTopFeatures.gb');

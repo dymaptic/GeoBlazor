@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class KMLSublayerGenerated implements IPropertyWrapper {
     public component: KMLSublayer;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: KMLSublayer) {
         this.component = component;
@@ -29,11 +31,11 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     
     async getLayer(): Promise<any> {
         let { buildDotNetKMLLayer } = await import('./kMLLayer');
-        return await buildDotNetKMLLayer(this.component.layer);
+        return await buildDotNetKMLLayer(this.component.layer, this.layerId, this.viewId);
     }
     async setLayer(value: any): Promise<void> {
         let { buildJsKMLLayer } = await import('./kMLLayer');
-        this.component.layer = await buildJsKMLLayer(value);
+        this.component.layer = await  buildJsKMLLayer(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
@@ -42,7 +44,7 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        this.component.sublayers = value.map(async i => await buildJsKMLSublayer(i));
+        this.component.sublayers = value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId));
     }
     
     getProperty(prop: string): any {
@@ -53,9 +55,10 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsKMLSublayerGenerated(dotNetObject: any): Promise<any> {
-    let { default: KMLSublayer } = await import('@arcgis/core/layers/support/KMLSublayer');
+
+export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsKMLSublayer = new KMLSublayer();
+
     if (hasValue(dotNetObject.description)) {
         jsKMLSublayer.description = dotNetObject.description;
     }
@@ -70,7 +73,9 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any): Promise<an
     }
     let { default: KMLSublayerWrapper } = await import('./kMLSublayer');
     let kMLSublayerWrapper = new KMLSublayerWrapper(jsKMLSublayer);
-    jsKMLSublayer.id = dotNetObject.id;
+    kMLSublayerWrapper.geoBlazorId = dotNetObject.id;
+    kMLSublayerWrapper.viewId = viewId;
+    kMLSublayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLSublayerWrapper);
@@ -95,6 +100,7 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
         dotNetKMLSublayer.networkLink = jsObject.networkLink;
         dotNetKMLSublayer.sourceJSON = jsObject.sourceJSON;
         dotNetKMLSublayer.title = jsObject.title;
+
     return dotNetKMLSublayer;
 }
 

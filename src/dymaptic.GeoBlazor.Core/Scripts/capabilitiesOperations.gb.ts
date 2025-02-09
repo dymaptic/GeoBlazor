@@ -40,6 +40,7 @@ export default class CapabilitiesOperationsGenerated implements IPropertyWrapper
 
 export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCapabilitiesOperations: any = {}
+
     if (hasValue(dotNetObject.supportsAdd)) {
         jsCapabilitiesOperations.supportsAdd = dotNetObject.supportsAdd;
     }
@@ -85,7 +86,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, 
     return jsCapabilitiesOperations;
 }
 
-export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -104,6 +105,7 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any, 
         dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
         dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
         dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
+
     return dotNetCapabilitiesOperations;
 }
 

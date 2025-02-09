@@ -29,21 +29,21 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getFullTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
+    async getFullTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.component.fullTimeExtent, layerId, viewId);
+        return buildDotNetTimeExtent(this.component.fullTimeExtent);
     }
-    async setFullTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setFullTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.fullTimeExtent = await buildJsTimeExtent(value, layerId, viewId);
+        this.component.fullTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
-    async getInterval(layerId: string | null, viewId: string | null): Promise<any> {
+    async getInterval(): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.component.interval, layerId, viewId);
+        return buildDotNetTimeInterval(this.component.interval);
     }
-    async setInterval(value: any, layerId: string | null, viewId: string | null): Promise<void> {
+    async setInterval(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.component.interval = await buildJsTimeInterval(value, layerId, viewId);
+        this.component.interval = await  buildJsTimeInterval(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -55,7 +55,6 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: TimeInfo } = await import('@arcgis/core/layers/support/TimeInfo');
     let jsTimeInfo = new TimeInfo();
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -65,6 +64,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
         let { buildJsTimeInterval } = await import('./timeInterval');
         jsTimeInfo.interval = await buildJsTimeInterval(dotNetObject.interval, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.endField)) {
         jsTimeInfo.endField = dotNetObject.endField;
     }
@@ -95,7 +95,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     return jsTimeInfo;
 }
 
-export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -106,17 +106,18 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.fullTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetTimeInfo.fullTimeExtent = await buildDotNetTimeExtent(jsObject.fullTimeExtent, layerId, viewId);
+            dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
         }
         if (hasValue(jsObject.interval)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval, layerId, viewId);
+            dotNetTimeInfo.interval = buildDotNetTimeInterval(jsObject.interval);
         }
         dotNetTimeInfo.endField = jsObject.endField;
         dotNetTimeInfo.startField = jsObject.startField;
         dotNetTimeInfo.stops = jsObject.stops;
         dotNetTimeInfo.timeZone = jsObject.timeZone;
         dotNetTimeInfo.trackIdField = jsObject.trackIdField;
+
     return dotNetTimeInfo;
 }
 

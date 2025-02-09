@@ -39,8 +39,8 @@ export default class SizeStopGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: SizeStop } = await import('@arcgis/core/renderers/visualVariables/support/SizeStop');
     let jsSizeStop = new SizeStop();
+
     if (hasValue(dotNetObject.label)) {
         jsSizeStop.label = dotNetObject.label;
     }
@@ -65,7 +65,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     return jsSizeStop;
 }
 
-export async function buildDotNetSizeStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -77,6 +77,7 @@ export async function buildDotNetSizeStopGenerated(jsObject: any, layerId: strin
         dotNetSizeStop.label = jsObject.label;
         dotNetSizeStop.size = jsObject.size;
         dotNetSizeStop.value = jsObject.value;
+
     return dotNetSizeStop;
 }
 

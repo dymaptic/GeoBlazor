@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
     public component: PieChartMediaInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: PieChartMediaInfo) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await buildJsChartMediaInfoValue(value);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: PieChartMediaInfo } = await import('@arcgis/core/popup/content/PieChartMediaInfo');
+
+export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPieChartMediaInfo = new PieChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
-        let { buildJsChartMediaInfoValue } = await import('chartMediaInfoValue');
+        let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
         jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
-
     }
+
     if (hasValue(dotNetObject.altText)) {
         jsPieChartMediaInfo.altText = dotNetObject.altText;
     }
@@ -62,7 +64,9 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any): Prom
     }
     let { default: PieChartMediaInfoWrapper } = await import('./pieChartMediaInfo');
     let pieChartMediaInfoWrapper = new PieChartMediaInfoWrapper(jsPieChartMediaInfo);
-    jsPieChartMediaInfo.id = dotNetObject.id;
+    pieChartMediaInfoWrapper.geoBlazorId = dotNetObject.id;
+    pieChartMediaInfoWrapper.viewId = viewId;
+    pieChartMediaInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pieChartMediaInfoWrapper);
@@ -90,6 +94,7 @@ export async function buildDotNetPieChartMediaInfoGenerated(jsObject: any): Prom
         dotNetPieChartMediaInfo.caption = jsObject.caption;
         dotNetPieChartMediaInfo.title = jsObject.title;
         dotNetPieChartMediaInfo.type = jsObject.type;
+
     return dotNetPieChartMediaInfo;
 }
 

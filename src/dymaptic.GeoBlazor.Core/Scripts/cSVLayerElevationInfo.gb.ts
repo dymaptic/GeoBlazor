@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper {
     public component: CSVLayerElevationInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: CSVLayerElevationInfo) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper 
     }
     async setFeatureExpressionInfo(value: any): Promise<void> {
         let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-        this.component.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(value);
+        this.component.featureExpressionInfo = await  buildJsCSVLayerElevationInfoFeatureExpressionInfo(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,17 +45,28 @@ export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper 
         this.component[prop] = value;
     }
 }
-export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+
+export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayerElevationInfo: any = {}
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-        jsCSVLayerElevationInfo.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
-
+        jsCSVLayerElevationInfo.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.mode)) {
+        jsCSVLayerElevationInfo.mode = dotNetObject.mode;
+    }
+    if (hasValue(dotNetObject.offset)) {
+        jsCSVLayerElevationInfo.offset = dotNetObject.offset;
+    }
+    if (hasValue(dotNetObject.unit)) {
+        jsCSVLayerElevationInfo.unit = dotNetObject.unit;
+    }
     let { default: CSVLayerElevationInfoWrapper } = await import('./cSVLayerElevationInfo');
     let cSVLayerElevationInfoWrapper = new CSVLayerElevationInfoWrapper(jsCSVLayerElevationInfo);
-    jsCSVLayerElevationInfo.id = dotNetObject.id;
+    cSVLayerElevationInfoWrapper.geoBlazorId = dotNetObject.id;
+    cSVLayerElevationInfoWrapper.viewId = viewId;
+    cSVLayerElevationInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerElevationInfoWrapper);
@@ -80,6 +93,7 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): 
         dotNetCSVLayerElevationInfo.mode = jsObject.mode;
         dotNetCSVLayerElevationInfo.offset = jsObject.offset;
         dotNetCSVLayerElevationInfo.unit = jsObject.unit;
+
     return dotNetCSVLayerElevationInfo;
 }
 

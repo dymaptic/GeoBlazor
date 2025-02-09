@@ -9,9 +9,9 @@ export default class PortalUserWrapper extends PortalUserGenerated {
     }
     
 }              
-export async function buildJsPortalUser(dotNetObject: any): Promise<any> {
+export async function buildJsPortalUser(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPortalUserGenerated } = await import('./portalUser.gb');
-    return await buildJsPortalUserGenerated(dotNetObject);
+    return await buildJsPortalUserGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetPortalUser(jsObject: any): Promise<any> {
     let { buildDotNetPortalUserGenerated } = await import('./portalUser.gb');

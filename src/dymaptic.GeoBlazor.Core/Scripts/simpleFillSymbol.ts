@@ -9,11 +9,11 @@ export default class SimpleFillSymbolWrapper extends SimpleFillSymbolGenerated {
     }
     
 }              
-export async function buildJsSimpleFillSymbol(dotNetObject: any): Promise<any> {
+export async function buildJsSimpleFillSymbol(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSimpleFillSymbolGenerated } = await import('./simpleFillSymbol.gb');
-    return await buildJsSimpleFillSymbolGenerated(dotNetObject);
+    return await buildJsSimpleFillSymbolGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetSimpleFillSymbol(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleFillSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSimpleFillSymbolGenerated } = await import('./simpleFillSymbol.gb');
-    return await buildDotNetSimpleFillSymbolGenerated(jsObject);
+    return await buildDotNetSimpleFillSymbolGenerated(jsObject, layerId, viewId);
 }

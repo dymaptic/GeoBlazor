@@ -7,7 +7,9 @@ import {IPropertyWrapper} from './definitions';
 
 export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
     public component: LineChartMediaInfo;
-    public readonly geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: LineChartMediaInfo) {
         this.component = component;
@@ -33,7 +35,7 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await buildJsChartMediaInfoValue(value);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,14 +45,14 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
         this.component[prop] = value;
     }
 }
-export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any): Promise<any> {
-    let { default: LineChartMediaInfo } = await import('@arcgis/core/popup/content/LineChartMediaInfo');
+
+export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLineChartMediaInfo = new LineChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
-        let { buildJsChartMediaInfoValue } = await import('chartMediaInfoValue');
+        let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
         jsLineChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
-
     }
+
     if (hasValue(dotNetObject.altText)) {
         jsLineChartMediaInfo.altText = dotNetObject.altText;
     }
@@ -62,7 +64,9 @@ export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any): Pro
     }
     let { default: LineChartMediaInfoWrapper } = await import('./lineChartMediaInfo');
     let lineChartMediaInfoWrapper = new LineChartMediaInfoWrapper(jsLineChartMediaInfo);
-    jsLineChartMediaInfo.id = dotNetObject.id;
+    lineChartMediaInfoWrapper.geoBlazorId = dotNetObject.id;
+    lineChartMediaInfoWrapper.viewId = viewId;
+    lineChartMediaInfoWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lineChartMediaInfoWrapper);
@@ -90,6 +94,7 @@ export async function buildDotNetLineChartMediaInfoGenerated(jsObject: any): Pro
         dotNetLineChartMediaInfo.caption = jsObject.caption;
         dotNetLineChartMediaInfo.title = jsObject.title;
         dotNetLineChartMediaInfo.type = jsObject.type;
+
     return dotNetLineChartMediaInfo;
 }
 

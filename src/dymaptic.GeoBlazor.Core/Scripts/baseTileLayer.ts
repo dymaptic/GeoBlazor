@@ -22,9 +22,9 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
 
 }
-export async function buildJsBaseTileLayer(dotNetObject: any): Promise<any> {
+export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsBaseTileLayerGenerated } = await import('./baseTileLayer.gb');
-    return await buildJsBaseTileLayerGenerated(dotNetObject);
+    return await buildJsBaseTileLayerGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetBaseTileLayer(jsObject: any): Promise<any> {
     let { buildDotNetBaseTileLayerGenerated } = await import('./baseTileLayer.gb');

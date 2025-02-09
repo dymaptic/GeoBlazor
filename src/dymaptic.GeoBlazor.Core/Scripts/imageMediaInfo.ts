@@ -10,9 +10,9 @@ export default class ImageMediaInfoWrapper extends ImageMediaInfoGenerated {
     
 }
 
-export async function buildJsImageMediaInfo(dotNetObject: any): Promise<any> {
+export async function buildJsImageMediaInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsImageMediaInfoGenerated } = await import('./imageMediaInfo.gb');
-    return await buildJsImageMediaInfoGenerated(dotNetObject);
+    return await buildJsImageMediaInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetImageMediaInfo(jsObject: any): Promise<any> {

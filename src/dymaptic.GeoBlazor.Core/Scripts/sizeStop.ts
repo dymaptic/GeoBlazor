@@ -9,9 +9,9 @@ export default class SizeStopWrapper extends SizeStopGenerated {
     }
     
 }              
-export async function buildJsSizeStop(dotNetObject: any): Promise<any> {
+export async function buildJsSizeStop(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSizeStopGenerated } = await import('./sizeStop.gb');
-    return await buildJsSizeStopGenerated(dotNetObject);
+    return await buildJsSizeStopGenerated(dotNetObject, layerId, viewId);
 }
 export async function buildDotNetSizeStop(jsObject: any): Promise<any> {
     let { buildDotNetSizeStopGenerated } = await import('./sizeStop.gb');

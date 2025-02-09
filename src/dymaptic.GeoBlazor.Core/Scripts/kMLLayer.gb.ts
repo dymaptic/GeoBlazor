@@ -7,9 +7,10 @@ import {IPropertyWrapper} from './definitions';
 
 export default class KMLLayerGenerated implements IPropertyWrapper {
     public layer: KMLLayer;
-    public geoBlazorId: string = '';
+    public geoBlazorId: string | null = null;
     public viewId: string | null = null;
     public layerId: string | null = null;
+
     constructor(layer: KMLLayer) {
         this.layer = layer;
         // set all properties from layer
@@ -35,7 +36,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result, this.layerId, this.viewId);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -46,11 +47,11 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layer.id, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await buildJsPortalItem(value, this.layer.id, this.viewId);
+        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
@@ -59,16 +60,16 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        this.layer.sublayers = value.map(async i => await buildJsKMLSublayer(i));
+        this.layer.sublayers = value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId));
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value);
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.layer[prop];
@@ -78,29 +79,25 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
+
 export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: KMLLayer } = await import('@arcgis/core/layers/KMLLayer');
     let jsKMLLayer = new KMLLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsKMLLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-
+        jsKMLLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
-        jsKMLLayer.portalItem = buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
-
+        let { buildJsPortalItem } = await import('./jsBuilder');
+        jsKMLLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        jsKMLLayer.sublayers = dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i)) as any;
-
+        jsKMLLayer.sublayers = dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsKMLLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
-
+        jsKMLLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsKMLLayer.id = dotNetObject.arcGISLayerId;
     }
@@ -128,12 +125,17 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.title)) {
         jsKMLLayer.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsKMLLayer.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.url)) {
         jsKMLLayer.url = dotNetObject.url;
     }
     let { default: KMLLayerWrapper } = await import('./kMLLayer');
     let kMLLayerWrapper = new KMLLayerWrapper(jsKMLLayer);
-    jsKMLLayer.id = dotNetObject.id;
+    kMLLayerWrapper.geoBlazorId = dotNetObject.id;
+    kMLLayerWrapper.viewId = viewId;
+    kMLLayerWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
@@ -144,7 +146,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     return jsKMLLayer;
 }
 
-export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -153,13 +155,9 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./dotNetBuilder');
-            dotNetKMLLayer.fullExtent = await buildDotNetExtent(jsObject.fullExtent);
-        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./dotNetBuilder');
-            dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+            dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
@@ -167,11 +165,12 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
-            dotNetKMLLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+            dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         dotNetKMLLayer.arcGISLayerId = jsObject.id;
         dotNetKMLLayer.blendMode = jsObject.blendMode;
         dotNetKMLLayer.effect = jsObject.effect;
+        dotNetKMLLayer.fullExtent = jsObject.fullExtent;
         dotNetKMLLayer.listMode = jsObject.listMode;
         dotNetKMLLayer.loaded = jsObject.loaded;
         dotNetKMLLayer.maxScale = jsObject.maxScale;
@@ -181,6 +180,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         dotNetKMLLayer.title = jsObject.title;
         dotNetKMLLayer.type = jsObject.type;
         dotNetKMLLayer.url = jsObject.url;
+
     return dotNetKMLLayer;
 }
 

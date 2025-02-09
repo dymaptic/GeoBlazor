@@ -10,9 +10,9 @@ export default class AttachmentsPopupContentWrapper extends AttachmentsPopupCont
     
 }
 
-export async function buildJsAttachmentsPopupContent(dotNetObject: any): Promise<any> {
+export async function buildJsAttachmentsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsAttachmentsPopupContentGenerated } = await import('./attachmentsPopupContent.gb');
-    return await buildJsAttachmentsPopupContentGenerated(dotNetObject);
+    return await buildJsAttachmentsPopupContentGenerated(dotNetObject, layerId, viewId);
 }     
 
 export async function buildDotNetAttachmentsPopupContent(jsObject: any): Promise<any> {

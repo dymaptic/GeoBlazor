@@ -29,7 +29,7 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
     
     async intersection(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent, layerId, viewId) as any;
+        let jsTimeExtent = await buildJsTimeExtent(timeExtent, this.layerId, this.viewId) as any;
         let result = this.component.intersection(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
@@ -37,7 +37,7 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
 
     async union(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent, layerId, viewId) as any;
+        let jsTimeExtent = await buildJsTimeExtent(timeExtent, this.layerId, this.viewId) as any;
         let result = this.component.union(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
@@ -55,8 +55,8 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: TimeExtent } = await import('@arcgis/core/TimeExtent');
     let jsTimeExtent = new TimeExtent();
+
     if (hasValue(dotNetObject.end)) {
         jsTimeExtent.end = dotNetObject.end;
     }
@@ -78,7 +78,7 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
     return jsTimeExtent;
 }
 
-export async function buildDotNetTimeExtentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export function buildDotNetTimeExtentGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -89,6 +89,7 @@ export async function buildDotNetTimeExtentGenerated(jsObject: any, layerId: str
     };
         dotNetTimeExtent.end = jsObject.end;
         dotNetTimeExtent.start = jsObject.start;
+
     return dotNetTimeExtent;
 }
 
