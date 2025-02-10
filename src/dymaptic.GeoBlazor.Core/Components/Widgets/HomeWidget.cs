@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using dymaptic.GeoBlazor.Core.Components.Views;
+using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 
 
@@ -19,4 +20,11 @@ public class HomeWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Label { get; set; }
+
+    /// <summary>
+    ///     The Viewpoint, or point of view, to zoom to when going home.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Viewpoint? ViewPoint { get; set; }
 }
