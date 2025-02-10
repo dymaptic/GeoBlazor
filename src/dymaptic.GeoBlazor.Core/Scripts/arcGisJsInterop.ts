@@ -2966,7 +2966,8 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 notifyExtentChanged = true;
                 // listen for click on widgets. This prevents the extent from being re-set when the user clicks on a widget
                 if (!widgetListenerAdded) {
-                    let widgetButtons = document.querySelectorAll('[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"]');
+                    let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
+                    let widgetButtons = document.querySelectorAll(widgetQuery);
                     for (let i = 0; i < widgetButtons.length; i++) {
                         widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
                         widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
