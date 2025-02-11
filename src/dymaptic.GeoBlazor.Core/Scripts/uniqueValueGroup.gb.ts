@@ -13,12 +13,6 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
 
     constructor(component: UniqueValueGroup) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -66,9 +60,14 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueGroupWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = uniqueValueGroupWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for UniqueValueGroup', e);
+    }
     
     return jsUniqueValueGroup;
 }
@@ -86,7 +85,9 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
             let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
             dotNetUniqueValueGroup.classes = jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i));
         }
-        dotNetUniqueValueGroup.heading = jsObject.heading;
+        if (hasValue(jsObject.heading)) {
+            dotNetUniqueValueGroup.heading = jsObject.heading;
+        }
 
     return dotNetUniqueValueGroup;
 }

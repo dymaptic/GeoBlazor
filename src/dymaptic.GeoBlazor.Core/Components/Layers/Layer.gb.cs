@@ -83,12 +83,12 @@ public abstract partial class Layer : IHitTestItem,
         }
 
         // get the property value
-        ListMode? result = await JsComponentReference!.InvokeAsync<ListMode?>("getProperty",
-            CancellationTokenSource.Token, "listMode");
-        if (result is not null)
+        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "listMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ListMode = result.Value;
+             ListMode = (ListMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ListMode)] = ListMode;
         }

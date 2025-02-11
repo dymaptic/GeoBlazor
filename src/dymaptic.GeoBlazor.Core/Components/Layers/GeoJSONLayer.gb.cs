@@ -661,12 +661,12 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
@@ -1054,12 +1054,12 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
 
         // get the property value
-        SimpleGeometryType? result = await JsComponentReference!.InvokeAsync<SimpleGeometryType?>("getProperty",
-            CancellationTokenSource.Token, "geometryType");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             GeometryType = result.Value;
+             GeometryType = (SimpleGeometryType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }

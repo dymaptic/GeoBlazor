@@ -13,12 +13,6 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
 
     constructor(component: LineSymbolMarker) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lineSymbolMarkerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = lineSymbolMarkerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbolMarker;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LineSymbolMarker', e);
+    }
     
     return jsLineSymbolMarker;
 }
@@ -74,10 +73,18 @@ export async function buildDotNetLineSymbolMarkerGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetLineSymbolMarker.color = jsObject.color;
-        dotNetLineSymbolMarker.placement = jsObject.placement;
-        dotNetLineSymbolMarker.style = jsObject.style;
-        dotNetLineSymbolMarker.type = jsObject.type;
+        if (hasValue(jsObject.color)) {
+            dotNetLineSymbolMarker.color = jsObject.color;
+        }
+        if (hasValue(jsObject.placement)) {
+            dotNetLineSymbolMarker.placement = jsObject.placement;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetLineSymbolMarker.style = jsObject.style;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetLineSymbolMarker.type = jsObject.type;
+        }
 
     return dotNetLineSymbolMarker;
 }

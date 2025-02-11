@@ -342,12 +342,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        PortalItemAccess? result = await JsComponentReference!.InvokeAsync<PortalItemAccess?>("getProperty",
-            CancellationTokenSource.Token, "access");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalItemAccess>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalItemAccess>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "access");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Access = result.Value;
+             Access = (PortalItemAccess)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Access)] = Access;
         }
@@ -732,12 +732,12 @@ public partial class PortalItem
         }
 
         // get the property value
-        ItemControl? result = await JsComponentReference!.InvokeAsync<ItemControl?>("getProperty",
-            CancellationTokenSource.Token, "itemControl");
-        if (result is not null)
+        JsNullableEnumWrapper<ItemControl>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ItemControl>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "itemControl");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ItemControl = result.Value;
+             ItemControl = (ItemControl)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ItemControl)] = ItemControl;
         }
@@ -1288,36 +1288,6 @@ public partial class PortalItem
         }
          
         return Tags;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
-    /// </summary>
-    public async Task<string?> GetThumbnailUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return ThumbnailUrl;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return ThumbnailUrl;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "thumbnailUrl");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ThumbnailUrl = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
-        }
-         
-        return ThumbnailUrl;
     }
     
     /// <summary>

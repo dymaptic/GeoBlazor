@@ -13,12 +13,6 @@ export default class ImageMediaInfoGenerated implements IPropertyWrapper {
 
     constructor(component: ImageMediaInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -50,7 +44,7 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     let jsImageMediaInfo = new ImageMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsImageMediaInfoValue } = await import('./jsBuilder');
-        jsImageMediaInfo.value = await buildJsImageMediaInfoValue(dotNetObject.value) as any;
+        jsImageMediaInfo.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -73,9 +67,14 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = imageMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ImageMediaInfo', e);
+    }
     
     return jsImageMediaInfo;
 }
@@ -93,11 +92,21 @@ export async function buildDotNetImageMediaInfoGenerated(jsObject: any): Promise
             let { buildDotNetImageMediaInfoValue } = await import('./dotNetBuilder');
             dotNetImageMediaInfo.value = buildDotNetImageMediaInfoValue(jsObject.value);
         }
-        dotNetImageMediaInfo.altText = jsObject.altText;
-        dotNetImageMediaInfo.caption = jsObject.caption;
-        dotNetImageMediaInfo.refreshInterval = jsObject.refreshInterval;
-        dotNetImageMediaInfo.title = jsObject.title;
-        dotNetImageMediaInfo.type = jsObject.type;
+        if (hasValue(jsObject.altText)) {
+            dotNetImageMediaInfo.altText = jsObject.altText;
+        }
+        if (hasValue(jsObject.caption)) {
+            dotNetImageMediaInfo.caption = jsObject.caption;
+        }
+        if (hasValue(jsObject.refreshInterval)) {
+            dotNetImageMediaInfo.refreshInterval = jsObject.refreshInterval;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetImageMediaInfo.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetImageMediaInfo.type = jsObject.type;
+        }
 
     return dotNetImageMediaInfo;
 }

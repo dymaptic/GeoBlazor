@@ -13,12 +13,6 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: BaseTileLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -40,7 +34,7 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -143,9 +137,6 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         jsBaseTileLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsBaseTileLayer.type = dotNetObject.type;
-    }
     jsBaseTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -158,9 +149,14 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for BaseTileLayer', e);
+    }
     
     return jsBaseTileLayer;
 }
@@ -182,20 +178,48 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetBaseTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
-        dotNetBaseTileLayer.blendMode = jsObject.blendMode;
-        dotNetBaseTileLayer.effect = jsObject.effect;
-        dotNetBaseTileLayer.fullExtent = jsObject.fullExtent;
-        dotNetBaseTileLayer.listMode = jsObject.listMode;
-        dotNetBaseTileLayer.loaded = jsObject.loaded;
-        dotNetBaseTileLayer.maxScale = jsObject.maxScale;
-        dotNetBaseTileLayer.minScale = jsObject.minScale;
-        dotNetBaseTileLayer.opacity = jsObject.opacity;
-        dotNetBaseTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetBaseTileLayer.refreshInterval = jsObject.refreshInterval;
-        dotNetBaseTileLayer.spatialReference = jsObject.spatialReference;
-        dotNetBaseTileLayer.title = jsObject.title;
-        dotNetBaseTileLayer.type = jsObject.type;
+        if (hasValue(jsObject.id)) {
+            dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetBaseTileLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetBaseTileLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetBaseTileLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetBaseTileLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetBaseTileLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetBaseTileLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetBaseTileLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetBaseTileLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetBaseTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.refreshInterval)) {
+            dotNetBaseTileLayer.refreshInterval = jsObject.refreshInterval;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetBaseTileLayer.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetBaseTileLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetBaseTileLayer.type = jsObject.type;
+        }
 
     return dotNetBaseTileLayer;
 }

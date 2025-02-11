@@ -6,7 +6,6 @@ import {
     DotNetExpressionInfo,
     DotNetExpressionPopupContent,
     DotNetExtent,
-    DotNetFeature,
     DotNetFeatureLayer,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
@@ -86,8 +85,7 @@ import {
     copyValuesIfExists, 
     dotNetRefs, 
     graphicsRefs, 
-    hasValue,
-    createGeoBlazorObject
+    hasValue
 } from "./arcGisJsInterop";
 import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 import Symbol from "@arcgis/core/symbols/Symbol";
@@ -132,7 +130,6 @@ import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import Sublayer from "@arcgis/core/layers/support/Sublayer.js";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import PieChartMediaInfo from "@arcgis/core/popup/content/PieChartMediaInfo";
-import PortalItem from "@arcgis/core/portal/PortalItem";
 
 
 export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, viewId: string | null): DotNetGraphic | null {
@@ -384,11 +381,11 @@ export function buildDotNetLayerView(layerView: LayerView): DotNetLayerView {
     }
 }
 
-export function buildDotNetLayer(layer: Layer, layerId: string | null, viewId: string | null)
+export function buildDotNetLayer(layer: Layer)
     : DotNetLayer {
     switch (layer.type) {
         case 'feature':
-            return buildDotNetFeatureLayer(layer as FeatureLayer, layerId, viewId);
+            return buildDotNetFeatureLayer(layer as FeatureLayer);
         case 'map-image':
             return buildDotNetMapImageLayer(layer as MapImageLayer);
         case 'graphics':
@@ -421,7 +418,7 @@ export function buildDotNetLayer(layer: Layer, layerId: string | null, viewId: s
     }
 }
 
-export function buildDotNetFeatureLayer(layer: FeatureLayer, layerId: string | null, viewId: string | null)
+export function buildDotNetFeatureLayer(layer: FeatureLayer)
     : DotNetFeatureLayer {
 
     let dotNetLayer = {
@@ -659,7 +656,6 @@ function buildDotNetSublayer(sublayer: Sublayer): any {
 }
 
 function buildDotNetDynamicLayer(source: any): any {
-    
 }
 
 export function buildDotNetFields(fields: Array<Field>): Array<DotNetField> {
@@ -824,7 +820,7 @@ export function buildDotNetPopupContent(popupContent: Content): DotNetPopupConte
         case "media":
             let mediaContent = content as DotNetMediaPopupContent;
             let jsMediaContent = popupContent as MediaContent;
-            if (mediaContent.mediaInfos instanceof MediaInfo) {
+            if (jsMediaContent.mediaInfos instanceof MediaInfo) {
                 mediaContent.mediaInfos = [buildDotNetMediaInfo(jsMediaContent.mediaInfos as any)];
             } else {
                 mediaContent.mediaInfos = (jsMediaContent.mediaInfos as MediaInfo[])?.map(m => buildDotNetMediaInfo(m));
@@ -1505,44 +1501,4 @@ export async function buildDotNetDirectionsFeatureSet(jsFs: DirectionsFeatureSet
         'totalDriveTime', 'totalLength', 'totalTime');
 
     return dotNetFeatureSet;
-}
-
-export async function buildDotNetPortalItem(jsItem: PortalItem): Promise<any> {
-    let dotNetItem = {
-        access: jsItem.access,
-        accessInformation: jsItem.accessInformation,
-        apiKey: jsItem.apiKey,
-        applicationProxies: jsItem.applicationProxies,
-        avgRating: jsItem.avgRating,
-        categories: jsItem.categories,
-        created: jsItem.created,
-        culture: jsItem.culture,
-        description: jsItem.description,
-        extent: buildDotNetExtent(jsItem.extent),
-        groupCategories: jsItem.groupCategories,
-        portalItemId: jsItem.id,
-        isLayer: jsItem.isLayer,
-        isOrgItem: jsItem.isOrgItem,
-        itemControl: jsItem.itemControl,
-        itemPageUrl: jsItem.itemPageUrl,
-        itemUrl: jsItem.itemUrl,
-        loaded: jsItem.loaded,
-        modified: jsItem.modified,
-        name: jsItem.name,
-        numComments: jsItem.numComments,
-        numRatings: jsItem.numRatings,
-        numViews: jsItem.numViews,
-        owner: jsItem.owner,
-        ownerFolder: jsItem.ownerFolder,
-        
-        portal: jsItem.portal,
-        snippet: jsItem.snippet,
-        tags: jsItem.tags,
-        thumbnailUrl: jsItem.thumbnailUrl,
-        title: jsItem.title,
-        type: jsItem.type,
-        typeKeywords: jsItem.typeKeywords,
-        url: jsItem.url
-    };
-    return dotNetItem;
 }

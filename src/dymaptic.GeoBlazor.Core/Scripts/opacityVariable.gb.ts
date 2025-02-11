@@ -13,12 +13,6 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
 
     constructor(component: OpacityVariable) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -87,9 +81,14 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityVariableWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = opacityVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for OpacityVariable', e);
+    }
     
     return jsOpacityVariable;
 }
@@ -111,11 +110,21 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
             let { buildDotNetOpacityStop } = await import('./opacityStop');
             dotNetOpacityVariable.stops = jsObject.stops.map(async i => await buildDotNetOpacityStop(i));
         }
-        dotNetOpacityVariable.field = jsObject.field;
-        dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
-        dotNetOpacityVariable.type = jsObject.type;
-        dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
-        dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        if (hasValue(jsObject.field)) {
+            dotNetOpacityVariable.field = jsObject.field;
+        }
+        if (hasValue(jsObject.normalizationField)) {
+            dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetOpacityVariable.type = jsObject.type;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
+        }
+        if (hasValue(jsObject.valueExpressionTitle)) {
+            dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        }
 
     return dotNetOpacityVariable;
 }

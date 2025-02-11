@@ -132,12 +132,12 @@ public partial class GroupElement
         }
 
         // get the property value
-        InitialState? result = await JsComponentReference!.InvokeAsync<InitialState?>("getProperty",
-            CancellationTokenSource.Token, "initialState");
-        if (result is not null)
+        JsNullableEnumWrapper<InitialState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "initialState");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             InitialState = result.Value;
+             InitialState = (InitialState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(InitialState)] = InitialState;
         }

@@ -13,12 +13,6 @@ export default class CapabilitiesAnalyticsGenerated implements IPropertyWrapper 
 
     constructor(component: CapabilitiesAnalytics) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -52,9 +46,14 @@ export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any, l
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesAnalyticsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesAnalyticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAnalytics;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesAnalytics', e);
+    }
     
     return jsCapabilitiesAnalytics;
 }
@@ -68,7 +67,9 @@ export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesAnalytics.supportsCacheHint = jsObject.supportsCacheHint;
+        if (hasValue(jsObject.supportsCacheHint)) {
+            dotNetCapabilitiesAnalytics.supportsCacheHint = jsObject.supportsCacheHint;
+        }
 
     return dotNetCapabilitiesAnalytics;
 }

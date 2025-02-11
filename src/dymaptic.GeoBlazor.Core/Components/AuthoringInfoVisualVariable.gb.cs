@@ -412,12 +412,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        ReferenceSizeSymbolStyle? result = await JsComponentReference!.InvokeAsync<ReferenceSizeSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, "referenceSizeSymbolStyle");
-        if (result is not null)
+        JsNullableEnumWrapper<ReferenceSizeSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ReferenceSizeSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "referenceSizeSymbolStyle");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReferenceSizeSymbolStyle = result.Value;
+             ReferenceSizeSymbolStyle = (ReferenceSizeSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReferenceSizeSymbolStyle)] = ReferenceSizeSymbolStyle;
         }
@@ -502,12 +502,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        AuthoringInfoVisualVariableStyle? result = await JsComponentReference!.InvokeAsync<AuthoringInfoVisualVariableStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<AuthoringInfoVisualVariableStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoVisualVariableStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (AuthoringInfoVisualVariableStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }
@@ -562,12 +562,12 @@ public partial class AuthoringInfoVisualVariable
         }
 
         // get the property value
-        AuthoringInfoVisualVariableUnits? result = await JsComponentReference!.InvokeAsync<AuthoringInfoVisualVariableUnits?>("getProperty",
-            CancellationTokenSource.Token, "units");
-        if (result is not null)
+        JsNullableEnumWrapper<AuthoringInfoVisualVariableUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoVisualVariableUnits>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "units");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Units = result.Value;
+             Units = (AuthoringInfoVisualVariableUnits)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Units)] = Units;
         }

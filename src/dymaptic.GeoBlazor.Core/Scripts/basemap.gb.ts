@@ -13,12 +13,6 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
     constructor(component: Basemap) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -37,7 +31,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     
     async getBaseLayers(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.baseLayers.map(i => buildDotNetLayer(i, this.layerId, this.viewId));
+        return this.component.baseLayers.map(i => buildDotNetLayer(i));
     }
     
     async getPortalItem(): Promise<any> {
@@ -50,7 +44,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     async getReferenceLayers(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.referenceLayers.map(i => buildDotNetLayer(i, this.layerId, this.viewId));
+        return this.component.referenceLayers.map(i => buildDotNetLayer(i));
     }
     
     async getStyle(): Promise<any> {
@@ -76,7 +70,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         jsBasemap.baseLayers = dotNetObject.layer;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsBasemap.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.referenceLayers)) {
@@ -107,9 +101,14 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Basemap', e);
+    }
     
     return jsBasemap;
 }
@@ -125,25 +124,35 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
     };
         if (hasValue(jsObject.baseLayers)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.baseLayers = jsObject.baseLayers.map(i => buildDotNetLayer(i, layerId, viewId));
+            dotNetBasemap.baseLayers = jsObject.baseLayers.map(i => buildDotNetLayer(i));
         }
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.referenceLayers)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.referenceLayers = jsObject.referenceLayers.map(i => buildDotNetLayer(i, layerId, viewId));
+            dotNetBasemap.referenceLayers = jsObject.referenceLayers.map(i => buildDotNetLayer(i));
         }
         if (hasValue(jsObject.style)) {
             let { buildDotNetBasemapStyle } = await import('./basemapStyle');
             dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
         }
-        dotNetBasemap.basemapId = jsObject.id;
-        dotNetBasemap.loaded = jsObject.loaded;
-        dotNetBasemap.spatialReference = jsObject.spatialReference;
-        dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;
-        dotNetBasemap.title = jsObject.title;
+        if (hasValue(jsObject.id)) {
+            dotNetBasemap.basemapId = jsObject.id;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetBasemap.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetBasemap.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.thumbnailUrl)) {
+            dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetBasemap.title = jsObject.title;
+        }
 
     return dotNetBasemap;
 }

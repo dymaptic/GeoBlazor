@@ -256,12 +256,12 @@ public partial class BingMapsLayer : IBlendLayer,
         }
 
         // get the property value
-        BingImageryStyle? result = await JsComponentReference!.InvokeAsync<BingImageryStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<BingImageryStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BingImageryStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (BingImageryStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }

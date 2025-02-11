@@ -12,6 +12,10 @@ internal record struct JsNullableFloatWrapper(float? Value);
 
 internal record struct JsNullableIntWrapper(int? Value);    
 
+internal record struct JsNullableLongWrapper(long? Value);
+
 internal record struct JsNullableBoolWrapper(bool? Value);
 
 internal record struct JsNullableDateTimeWrapper(DateTime? Value);
+
+internal record struct JsNullableEnumWrapper<T>(T? Value) where T : struct, Enum;

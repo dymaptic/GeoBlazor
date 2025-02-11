@@ -13,12 +13,6 @@ export default class UniqueValueRendererLegendOptionsGenerated implements IPrope
 
     constructor(component: UniqueValueRendererLegendOptions) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -52,9 +46,14 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererLegendOptionsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererLegendOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for UniqueValueRendererLegendOptions', e);
+    }
     
     return jsUniqueValueRendererLegendOptions;
 }
@@ -68,7 +67,9 @@ export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObj
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
+        if (hasValue(jsObject.title)) {
+            dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
+        }
 
     return dotNetUniqueValueRendererLegendOptions;
 }

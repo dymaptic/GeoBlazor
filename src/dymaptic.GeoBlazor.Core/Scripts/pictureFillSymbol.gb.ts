@@ -13,12 +13,6 @@ export default class PictureFillSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: PictureFillSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -76,9 +70,14 @@ export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layer
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pictureFillSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pictureFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPictureFillSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PictureFillSymbol', e);
+    }
     
     return jsPictureFillSymbol;
 }
@@ -92,16 +91,36 @@ export async function buildDotNetPictureFillSymbolGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPictureFillSymbol.color = jsObject.color;
-        dotNetPictureFillSymbol.height = jsObject.height;
-        dotNetPictureFillSymbol.outline = jsObject.outline;
-        dotNetPictureFillSymbol.type = jsObject.type;
-        dotNetPictureFillSymbol.url = jsObject.url;
-        dotNetPictureFillSymbol.width = jsObject.width;
-        dotNetPictureFillSymbol.xoffset = jsObject.xoffset;
-        dotNetPictureFillSymbol.xscale = jsObject.xscale;
-        dotNetPictureFillSymbol.yoffset = jsObject.yoffset;
-        dotNetPictureFillSymbol.yscale = jsObject.yscale;
+        if (hasValue(jsObject.color)) {
+            dotNetPictureFillSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.height)) {
+            dotNetPictureFillSymbol.height = jsObject.height;
+        }
+        if (hasValue(jsObject.outline)) {
+            dotNetPictureFillSymbol.outline = jsObject.outline;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetPictureFillSymbol.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetPictureFillSymbol.url = jsObject.url;
+        }
+        if (hasValue(jsObject.width)) {
+            dotNetPictureFillSymbol.width = jsObject.width;
+        }
+        if (hasValue(jsObject.xoffset)) {
+            dotNetPictureFillSymbol.xoffset = jsObject.xoffset;
+        }
+        if (hasValue(jsObject.xscale)) {
+            dotNetPictureFillSymbol.xscale = jsObject.xscale;
+        }
+        if (hasValue(jsObject.yoffset)) {
+            dotNetPictureFillSymbol.yoffset = jsObject.yoffset;
+        }
+        if (hasValue(jsObject.yscale)) {
+            dotNetPictureFillSymbol.yscale = jsObject.yscale;
+        }
 
     return dotNetPictureFillSymbol;
 }

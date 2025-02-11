@@ -13,12 +13,6 @@ export default class PortalFeaturedGroupsGenerated implements IPropertyWrapper {
 
     constructor(component: PortalFeaturedGroups) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalFeaturedGroupsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = portalFeaturedGroupsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PortalFeaturedGroups', e);
+    }
     
     return jsPortalFeaturedGroups;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPortalFeaturedGroups.owner = jsObject.owner;
-        dotNetPortalFeaturedGroups.title = jsObject.title;
+        if (hasValue(jsObject.owner)) {
+            dotNetPortalFeaturedGroups.owner = jsObject.owner;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetPortalFeaturedGroups.title = jsObject.title;
+        }
 
     return dotNetPortalFeaturedGroups;
 }

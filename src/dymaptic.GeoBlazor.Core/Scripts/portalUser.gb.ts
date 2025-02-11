@@ -13,12 +13,6 @@ export default class PortalUserGenerated implements IPropertyWrapper {
 
     constructor(component: PortalUser) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -31,18 +25,18 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         data: any,
         folder: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsItem,
             data,
             folder);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async deleteItem(item: any,
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         return await this.component.deleteItem(jsItem,
             permanentDelete);
     }
@@ -50,7 +44,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async deleteItems(items: any,
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItems = buildJsPortalItem(items) as any;
+        let jsItems = await buildJsPortalItem(items, this.layerId, this.viewId) as any;
         return await this.component.deleteItems(jsItems,
             permanentDelete);
     }
@@ -98,7 +92,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async restoreItem(item: any,
         folder: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = buildJsPortalItem(item) as any;
+        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         let { buildJsPortalFolder } = await import('./portalFolder');
         let jsFolder = await buildJsPortalFolder(folder, this.layerId, this.viewId) as any;
         return await this.component.restoreItem(jsItem,
@@ -180,9 +174,14 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalUserWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PortalUser', e);
+    }
     
     return jsPortalUser;
 }
@@ -196,24 +195,60 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPortalUser.access = jsObject.access;
-        dotNetPortalUser.created = jsObject.created;
-        dotNetPortalUser.culture = jsObject.culture;
-        dotNetPortalUser.description = jsObject.description;
-        dotNetPortalUser.email = jsObject.email;
-        dotNetPortalUser.fullName = jsObject.fullName;
-        dotNetPortalUser.modified = jsObject.modified;
-        dotNetPortalUser.orgId = jsObject.orgId;
-        dotNetPortalUser.preferredView = jsObject.preferredView;
-        dotNetPortalUser.privileges = jsObject.privileges;
-        dotNetPortalUser.region = jsObject.region;
-        dotNetPortalUser.role = jsObject.role;
-        dotNetPortalUser.roleId = jsObject.roleId;
-        dotNetPortalUser.sourceJSON = jsObject.sourceJSON;
-        dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
-        dotNetPortalUser.units = jsObject.units;
-        dotNetPortalUser.userContentUrl = jsObject.userContentUrl;
-        dotNetPortalUser.username = jsObject.username;
+        if (hasValue(jsObject.access)) {
+            dotNetPortalUser.access = jsObject.access;
+        }
+        if (hasValue(jsObject.created)) {
+            dotNetPortalUser.created = jsObject.created;
+        }
+        if (hasValue(jsObject.culture)) {
+            dotNetPortalUser.culture = jsObject.culture;
+        }
+        if (hasValue(jsObject.description)) {
+            dotNetPortalUser.description = jsObject.description;
+        }
+        if (hasValue(jsObject.email)) {
+            dotNetPortalUser.email = jsObject.email;
+        }
+        if (hasValue(jsObject.fullName)) {
+            dotNetPortalUser.fullName = jsObject.fullName;
+        }
+        if (hasValue(jsObject.modified)) {
+            dotNetPortalUser.modified = jsObject.modified;
+        }
+        if (hasValue(jsObject.orgId)) {
+            dotNetPortalUser.orgId = jsObject.orgId;
+        }
+        if (hasValue(jsObject.preferredView)) {
+            dotNetPortalUser.preferredView = jsObject.preferredView;
+        }
+        if (hasValue(jsObject.privileges)) {
+            dotNetPortalUser.privileges = jsObject.privileges;
+        }
+        if (hasValue(jsObject.region)) {
+            dotNetPortalUser.region = jsObject.region;
+        }
+        if (hasValue(jsObject.role)) {
+            dotNetPortalUser.role = jsObject.role;
+        }
+        if (hasValue(jsObject.roleId)) {
+            dotNetPortalUser.roleId = jsObject.roleId;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetPortalUser.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.thumbnailUrl)) {
+            dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
+        }
+        if (hasValue(jsObject.units)) {
+            dotNetPortalUser.units = jsObject.units;
+        }
+        if (hasValue(jsObject.userContentUrl)) {
+            dotNetPortalUser.userContentUrl = jsObject.userContentUrl;
+        }
+        if (hasValue(jsObject.username)) {
+            dotNetPortalUser.username = jsObject.username;
+        }
 
     return dotNetPortalUser;
 }

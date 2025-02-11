@@ -13,12 +13,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: WCSLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -42,7 +36,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result);
+        return await buildDotNetPopupTemplate(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -89,11 +83,11 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     }
     async getPopupTemplate(): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(this.layer.popupTemplate);
+        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -169,10 +163,10 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsWCSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsWCSLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsWCSLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.rasterFields)) {
@@ -250,9 +244,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.title)) {
         jsWCSLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsWCSLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsWCSLayer.url = dotNetObject.url;
     }
@@ -270,9 +261,14 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for WCSLayer', e);
+    }
     
     return jsWCSLayer;
 }
@@ -296,10 +292,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
         }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetWCSLayer.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetWCSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.rasterFields)) {
@@ -322,32 +318,84 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetWCSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetWCSLayer.arcGISLayerId = jsObject.id;
-        dotNetWCSLayer.bandIds = jsObject.bandIds;
-        dotNetWCSLayer.blendMode = jsObject.blendMode;
-        dotNetWCSLayer.copyright = jsObject.copyright;
-        dotNetWCSLayer.coverageId = jsObject.coverageId;
-        dotNetWCSLayer.coverageInfo = jsObject.coverageInfo;
-        dotNetWCSLayer.customParameters = jsObject.customParameters;
-        dotNetWCSLayer.effect = jsObject.effect;
-        dotNetWCSLayer.fullExtent = jsObject.fullExtent;
-        dotNetWCSLayer.interpolation = jsObject.interpolation;
-        dotNetWCSLayer.legendEnabled = jsObject.legendEnabled;
-        dotNetWCSLayer.listMode = jsObject.listMode;
-        dotNetWCSLayer.loaded = jsObject.loaded;
-        dotNetWCSLayer.maxScale = jsObject.maxScale;
-        dotNetWCSLayer.minScale = jsObject.minScale;
-        dotNetWCSLayer.opacity = jsObject.opacity;
-        dotNetWCSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
-        dotNetWCSLayer.rasterInfo = jsObject.rasterInfo;
-        dotNetWCSLayer.renderer = jsObject.renderer;
-        dotNetWCSLayer.serviceRasterInfo = jsObject.serviceRasterInfo;
-        dotNetWCSLayer.title = jsObject.title;
-        dotNetWCSLayer.type = jsObject.type;
-        dotNetWCSLayer.url = jsObject.url;
-        dotNetWCSLayer.useViewTime = jsObject.useViewTime;
-        dotNetWCSLayer.version = jsObject.version;
+        if (hasValue(jsObject.id)) {
+            dotNetWCSLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.bandIds)) {
+            dotNetWCSLayer.bandIds = jsObject.bandIds;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetWCSLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.copyright)) {
+            dotNetWCSLayer.copyright = jsObject.copyright;
+        }
+        if (hasValue(jsObject.coverageId)) {
+            dotNetWCSLayer.coverageId = jsObject.coverageId;
+        }
+        if (hasValue(jsObject.coverageInfo)) {
+            dotNetWCSLayer.coverageInfo = jsObject.coverageInfo;
+        }
+        if (hasValue(jsObject.customParameters)) {
+            dotNetWCSLayer.customParameters = jsObject.customParameters;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetWCSLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetWCSLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.interpolation)) {
+            dotNetWCSLayer.interpolation = jsObject.interpolation;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetWCSLayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetWCSLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetWCSLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetWCSLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetWCSLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetWCSLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetWCSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.popupEnabled)) {
+            dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
+        }
+        if (hasValue(jsObject.rasterInfo)) {
+            dotNetWCSLayer.rasterInfo = jsObject.rasterInfo;
+        }
+        if (hasValue(jsObject.renderer)) {
+            dotNetWCSLayer.renderer = jsObject.renderer;
+        }
+        if (hasValue(jsObject.serviceRasterInfo)) {
+            dotNetWCSLayer.serviceRasterInfo = jsObject.serviceRasterInfo;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetWCSLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetWCSLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetWCSLayer.url = jsObject.url;
+        }
+        if (hasValue(jsObject.useViewTime)) {
+            dotNetWCSLayer.useViewTime = jsObject.useViewTime;
+        }
+        if (hasValue(jsObject.version)) {
+            dotNetWCSLayer.version = jsObject.version;
+        }
 
     return dotNetWCSLayer;
 }

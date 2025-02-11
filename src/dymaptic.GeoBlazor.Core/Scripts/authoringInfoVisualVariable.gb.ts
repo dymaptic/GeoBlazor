@@ -13,12 +13,6 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
 
     constructor(component: AuthoringInfoVisualVariable) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -94,9 +88,6 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     if (hasValue(dotNetObject.style)) {
         jsAuthoringInfoVisualVariable.style = dotNetObject.style;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsAuthoringInfoVisualVariable.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.units)) {
         jsAuthoringInfoVisualVariable.units = dotNetObject.units;
     }
@@ -108,9 +99,14 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoVisualVariableWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = authoringInfoVisualVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AuthoringInfoVisualVariable', e);
+    }
     
     return jsAuthoringInfoVisualVariable;
 }
@@ -132,17 +128,39 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
             let { buildDotNetTheme } = await import('./theme');
             dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
         }
-        dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
-        dotNetAuthoringInfoVisualVariable.field = jsObject.field;
-        dotNetAuthoringInfoVisualVariable.maxSliderValue = jsObject.maxSliderValue;
-        dotNetAuthoringInfoVisualVariable.minSliderValue = jsObject.minSliderValue;
-        dotNetAuthoringInfoVisualVariable.normalizationField = jsObject.normalizationField;
-        dotNetAuthoringInfoVisualVariable.referenceSizeScale = jsObject.referenceSizeScale;
-        dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = jsObject.referenceSizeSymbolStyle;
-        dotNetAuthoringInfoVisualVariable.startTime = jsObject.startTime;
-        dotNetAuthoringInfoVisualVariable.style = jsObject.style;
-        dotNetAuthoringInfoVisualVariable.type = jsObject.type;
-        dotNetAuthoringInfoVisualVariable.units = jsObject.units;
+        if (hasValue(jsObject.endTime)) {
+            dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
+        }
+        if (hasValue(jsObject.field)) {
+            dotNetAuthoringInfoVisualVariable.field = jsObject.field;
+        }
+        if (hasValue(jsObject.maxSliderValue)) {
+            dotNetAuthoringInfoVisualVariable.maxSliderValue = jsObject.maxSliderValue;
+        }
+        if (hasValue(jsObject.minSliderValue)) {
+            dotNetAuthoringInfoVisualVariable.minSliderValue = jsObject.minSliderValue;
+        }
+        if (hasValue(jsObject.normalizationField)) {
+            dotNetAuthoringInfoVisualVariable.normalizationField = jsObject.normalizationField;
+        }
+        if (hasValue(jsObject.referenceSizeScale)) {
+            dotNetAuthoringInfoVisualVariable.referenceSizeScale = jsObject.referenceSizeScale;
+        }
+        if (hasValue(jsObject.referenceSizeSymbolStyle)) {
+            dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = jsObject.referenceSizeSymbolStyle;
+        }
+        if (hasValue(jsObject.startTime)) {
+            dotNetAuthoringInfoVisualVariable.startTime = jsObject.startTime;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetAuthoringInfoVisualVariable.style = jsObject.style;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetAuthoringInfoVisualVariable.type = jsObject.type;
+        }
+        if (hasValue(jsObject.units)) {
+            dotNetAuthoringInfoVisualVariable.units = jsObject.units;
+        }
 
     return dotNetAuthoringInfoVisualVariable;
 }

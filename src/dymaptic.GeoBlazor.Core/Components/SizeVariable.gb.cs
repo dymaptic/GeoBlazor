@@ -153,12 +153,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualAxis? result = await JsComponentReference!.InvokeAsync<VisualAxis?>("getProperty",
-            CancellationTokenSource.Token, "axis");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualAxis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualAxis>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "axis");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Axis = result.Value;
+             Axis = (VisualAxis)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Axis)] = Axis;
         }
@@ -423,12 +423,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualValueRepresentation? result = await JsComponentReference!.InvokeAsync<VisualValueRepresentation?>("getProperty",
-            CancellationTokenSource.Token, "valueRepresentation");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualValueRepresentation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueRepresentation>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "valueRepresentation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ValueRepresentation = result.Value;
+             ValueRepresentation = (VisualValueRepresentation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ValueRepresentation)] = ValueRepresentation;
         }
@@ -453,12 +453,12 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
         }
 
         // get the property value
-        VisualValueUnit? result = await JsComponentReference!.InvokeAsync<VisualValueUnit?>("getProperty",
-            CancellationTokenSource.Token, "valueUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<VisualValueUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VisualValueUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "valueUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ValueUnit = result.Value;
+             ValueUnit = (VisualValueUnit)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ValueUnit)] = ValueUnit;
         }

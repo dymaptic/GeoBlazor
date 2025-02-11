@@ -385,12 +385,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        HorizontalAlignment? result = await JsComponentReference!.InvokeAsync<HorizontalAlignment?>("getProperty",
-            CancellationTokenSource.Token, "horizontalAlignment");
-        if (result is not null)
+        JsNullableEnumWrapper<HorizontalAlignment>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HorizontalAlignment>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "horizontalAlignment");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HorizontalAlignment = result.Value;
+             HorizontalAlignment = (HorizontalAlignment)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(HorizontalAlignment)] = HorizontalAlignment;
         }
@@ -565,12 +565,12 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
         }
 
         // get the property value
-        VerticalAlignment? result = await JsComponentReference!.InvokeAsync<VerticalAlignment?>("getProperty",
-            CancellationTokenSource.Token, "verticalAlignment");
-        if (result is not null)
+        JsNullableEnumWrapper<VerticalAlignment>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<VerticalAlignment>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "verticalAlignment");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             VerticalAlignment = result.Value;
+             VerticalAlignment = (VerticalAlignment)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(VerticalAlignment)] = VerticalAlignment;
         }

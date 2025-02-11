@@ -205,12 +205,12 @@ public partial class RelationshipPopupContent
         }
 
         // get the property value
-        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, "relationshipId");
-        if (result is not null)
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "relationshipId");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RelationshipId = result.Value;
+             RelationshipId = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RelationshipId)] = RelationshipId;
         }

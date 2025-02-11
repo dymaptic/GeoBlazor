@@ -86,12 +86,12 @@ public partial class TimeInterval
         }
 
         // get the property value
-        TemporalTime? result = await JsComponentReference!.InvokeAsync<TemporalTime?>("getProperty",
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<TemporalTime>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TemporalTime>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Unit = result.Value;
+             Unit = (TemporalTime)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Unit)] = Unit;
         }

@@ -67,12 +67,12 @@ public partial class FieldInfoFormat
         }
 
         // get the property value
-        DateFormat? result = await JsComponentReference!.InvokeAsync<DateFormat?>("getProperty",
-            CancellationTokenSource.Token, "dateFormat");
-        if (result is not null)
+        JsNullableEnumWrapper<DateFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DateFormat>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "dateFormat");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DateFormat = result.Value;
+             DateFormat = (DateFormat)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DateFormat)] = DateFormat;
         }

@@ -13,12 +13,6 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: GraphicsLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -33,13 +27,13 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async add(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.add(jsGraphic);
     }
 
     async addMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = buildJsGraphic(graphics, this.layerId, this.viewId) as any;
+        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.addMany(jsGraphics);
     }
 
@@ -57,7 +51,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async remove(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.remove(jsGraphic);
     }
 
@@ -67,7 +61,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async removeMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = buildJsGraphic(graphics, this.layerId, this.viewId) as any;
+        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.removeMany(jsGraphics);
     }
 
@@ -83,12 +77,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
     async getGraphics(): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
+        return this.layer.graphics.map(async i => await buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setGraphics(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.graphics = value.map(i => buildJsGraphic(i, this.layerId, this.viewId));
+        this.layer.graphics = value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId));
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
@@ -119,7 +113,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.graphics)) {
         let { buildJsGraphic } = await import('./jsBuilder');
-        jsGraphicsLayer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i, layerId, viewId)) as any;
+        jsGraphicsLayer.graphics = dotNetObject.graphics.map(async i => await buildJsGraphic(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -156,9 +150,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         jsGraphicsLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsGraphicsLayer.type = dotNetObject.type;
-    }
     let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
     let graphicsLayerWrapper = new GraphicsLayerWrapper(jsGraphicsLayer);
     graphicsLayerWrapper.geoBlazorId = dotNetObject.id;
@@ -167,9 +158,14 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GraphicsLayer', e);
+    }
     
     return jsGraphicsLayer;
 }
@@ -189,25 +185,51 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
         }
         if (hasValue(jsObject.graphics)) {
             let { buildDotNetGraphic } = await import('./dotNetBuilder');
-            dotNetGraphicsLayer.graphics = jsObject.graphics.map(i => buildDotNetGraphic(i, layerId, viewId));
+            dotNetGraphicsLayer.graphics = jsObject.graphics.map(async i => await buildDotNetGraphic(i, layerId, viewId));
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
-        dotNetGraphicsLayer.blendMode = jsObject.blendMode;
-        dotNetGraphicsLayer.effect = jsObject.effect;
-        dotNetGraphicsLayer.fullExtent = jsObject.fullExtent;
-        dotNetGraphicsLayer.listMode = jsObject.listMode;
-        dotNetGraphicsLayer.loaded = jsObject.loaded;
-        dotNetGraphicsLayer.maxScale = jsObject.maxScale;
-        dotNetGraphicsLayer.minScale = jsObject.minScale;
-        dotNetGraphicsLayer.opacity = jsObject.opacity;
-        dotNetGraphicsLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetGraphicsLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        dotNetGraphicsLayer.title = jsObject.title;
-        dotNetGraphicsLayer.type = jsObject.type;
+        if (hasValue(jsObject.id)) {
+            dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetGraphicsLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetGraphicsLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetGraphicsLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetGraphicsLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetGraphicsLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetGraphicsLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetGraphicsLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetGraphicsLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetGraphicsLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+            dotNetGraphicsLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetGraphicsLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetGraphicsLayer.type = jsObject.type;
+        }
 
     return dotNetGraphicsLayer;
 }

@@ -13,12 +13,6 @@ export default class VisualVariableLegendOptionsGenerated implements IPropertyWr
 
     constructor(component: VisualVariableLegendOptions) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(visualVariableLegendOptionsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = visualVariableLegendOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for VisualVariableLegendOptions', e);
+    }
     
     return jsVisualVariableLegendOptions;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
-        dotNetVisualVariableLegendOptions.title = jsObject.title;
+        if (hasValue(jsObject.showLegend)) {
+            dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetVisualVariableLegendOptions.title = jsObject.title;
+        }
 
     return dotNetVisualVariableLegendOptions;
 }

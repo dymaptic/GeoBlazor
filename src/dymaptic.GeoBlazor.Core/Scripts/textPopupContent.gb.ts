@@ -13,12 +13,6 @@ export default class TextPopupContentGenerated implements IPropertyWrapper {
 
     constructor(component: TextContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -52,9 +46,14 @@ export async function buildJsTextPopupContentGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(textPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = textPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for TextPopupContent', e);
+    }
     
     return jsTextContent;
 }
@@ -68,8 +67,12 @@ export async function buildDotNetTextPopupContentGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetTextPopupContent.text = jsObject.text;
-        dotNetTextPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.text)) {
+            dotNetTextPopupContent.text = jsObject.text;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetTextPopupContent.type = jsObject.type;
+        }
 
     return dotNetTextPopupContent;
 }

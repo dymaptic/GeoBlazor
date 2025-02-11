@@ -13,12 +13,6 @@ export default class ArcGISImageServiceCapabilitiesOperationsGenerated implement
 
     constructor(component: ArcGISImageServiceCapabilitiesOperations) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -103,9 +97,14 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesOperationsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesOperationsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ArcGISImageServiceCapabilitiesOperations', e);
+    }
     
     return jsArcGISImageServiceCapabilitiesOperations;
 }
@@ -119,24 +118,60 @@ export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerat
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsCalculateVolume = jsObject.supportsCalculateVolume;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeHistograms = jsObject.supportsComputeHistograms;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputePixelLocation = jsObject.supportsComputePixelLocation;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeStatisticsHistograms = jsObject.supportsComputeStatisticsHistograms;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsDownload = jsObject.supportsDownload;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsExportImage = jsObject.supportsExportImage;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsFindImages = jsObject.supportsFindImages;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsGetImageUrl = jsObject.supportsGetImageUrl;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsGetSamples = jsObject.supportsGetSamples;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsIdentify = jsObject.supportsIdentify;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMap = jsObject.supportsImageToMap;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMapMultiray = jsObject.supportsImageToMapMultiray;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsMapToImage = jsObject.supportsMapToImage;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsMeasure = jsObject.supportsMeasure;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsProject = jsObject.supportsProject;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryBoundary = jsObject.supportsQueryBoundary;
-        dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = jsObject.supportsQueryGPSInfo;
+        if (hasValue(jsObject.supportsCalculateVolume)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsCalculateVolume = jsObject.supportsCalculateVolume;
+        }
+        if (hasValue(jsObject.supportsComputeHistograms)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeHistograms = jsObject.supportsComputeHistograms;
+        }
+        if (hasValue(jsObject.supportsComputePixelLocation)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsComputePixelLocation = jsObject.supportsComputePixelLocation;
+        }
+        if (hasValue(jsObject.supportsComputeStatisticsHistograms)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeStatisticsHistograms = jsObject.supportsComputeStatisticsHistograms;
+        }
+        if (hasValue(jsObject.supportsDownload)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsDownload = jsObject.supportsDownload;
+        }
+        if (hasValue(jsObject.supportsExportImage)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsExportImage = jsObject.supportsExportImage;
+        }
+        if (hasValue(jsObject.supportsFindImages)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsFindImages = jsObject.supportsFindImages;
+        }
+        if (hasValue(jsObject.supportsGetImageUrl)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsGetImageUrl = jsObject.supportsGetImageUrl;
+        }
+        if (hasValue(jsObject.supportsGetSamples)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsGetSamples = jsObject.supportsGetSamples;
+        }
+        if (hasValue(jsObject.supportsIdentify)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsIdentify = jsObject.supportsIdentify;
+        }
+        if (hasValue(jsObject.supportsImageToMap)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMap = jsObject.supportsImageToMap;
+        }
+        if (hasValue(jsObject.supportsImageToMapMultiray)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMapMultiray = jsObject.supportsImageToMapMultiray;
+        }
+        if (hasValue(jsObject.supportsMapToImage)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsMapToImage = jsObject.supportsMapToImage;
+        }
+        if (hasValue(jsObject.supportsMeasure)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsMeasure = jsObject.supportsMeasure;
+        }
+        if (hasValue(jsObject.supportsProject)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsProject = jsObject.supportsProject;
+        }
+        if (hasValue(jsObject.supportsQuery)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
+        }
+        if (hasValue(jsObject.supportsQueryBoundary)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryBoundary = jsObject.supportsQueryBoundary;
+        }
+        if (hasValue(jsObject.supportsQueryGPSInfo)) {
+            dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = jsObject.supportsQueryGPSInfo;
+        }
 
     return dotNetArcGISImageServiceCapabilitiesOperations;
 }

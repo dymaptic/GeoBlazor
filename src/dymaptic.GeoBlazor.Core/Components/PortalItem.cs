@@ -6,6 +6,7 @@ public partial class PortalItem : MapComponent
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [CodeGenerationIgnore]
+    [ActivatorUtilitiesConstructor]
     public PortalItem()
     {
     }
@@ -183,14 +184,6 @@ public partial class PortalItem : MapComponent
         Url = url;
 #pragma warning restore BL0005    
     }
-    
-    /// <summary>
-    ///     The unique id for the item.
-    /// </summary>
-    [Parameter]
-    [EditorRequired]
-    [RequiredProperty]
-    public string? PortalId { get; set; }
 
     /// <summary>
     ///     An authorization string used to access the portal item. API keys are generated and managed in the ArcGIS Developer Portal. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage.

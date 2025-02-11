@@ -13,12 +13,6 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
     constructor(component: SizeVariable) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -118,9 +112,14 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SizeVariable', e);
+    }
     
     return jsSizeVariable;
 }
@@ -142,20 +141,48 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
             let { buildDotNetSizeStop } = await import('./sizeStop');
             dotNetSizeVariable.stops = jsObject.stops.map(async i => await buildDotNetSizeStop(i));
         }
-        dotNetSizeVariable.axis = jsObject.axis;
-        dotNetSizeVariable.field = jsObject.field;
-        dotNetSizeVariable.maxDataValue = jsObject.maxDataValue;
-        dotNetSizeVariable.maxSize = jsObject.maxSize;
-        dotNetSizeVariable.minDataValue = jsObject.minDataValue;
-        dotNetSizeVariable.minSize = jsObject.minSize;
-        dotNetSizeVariable.normalizationField = jsObject.normalizationField;
-        dotNetSizeVariable.target = jsObject.target;
-        dotNetSizeVariable.type = jsObject.type;
-        dotNetSizeVariable.useSymbolValue = jsObject.useSymbolValue;
-        dotNetSizeVariable.valueExpression = jsObject.valueExpression;
-        dotNetSizeVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-        dotNetSizeVariable.valueRepresentation = jsObject.valueRepresentation;
-        dotNetSizeVariable.valueUnit = jsObject.valueUnit;
+        if (hasValue(jsObject.axis)) {
+            dotNetSizeVariable.axis = jsObject.axis;
+        }
+        if (hasValue(jsObject.field)) {
+            dotNetSizeVariable.field = jsObject.field;
+        }
+        if (hasValue(jsObject.maxDataValue)) {
+            dotNetSizeVariable.maxDataValue = jsObject.maxDataValue;
+        }
+        if (hasValue(jsObject.maxSize)) {
+            dotNetSizeVariable.maxSize = jsObject.maxSize;
+        }
+        if (hasValue(jsObject.minDataValue)) {
+            dotNetSizeVariable.minDataValue = jsObject.minDataValue;
+        }
+        if (hasValue(jsObject.minSize)) {
+            dotNetSizeVariable.minSize = jsObject.minSize;
+        }
+        if (hasValue(jsObject.normalizationField)) {
+            dotNetSizeVariable.normalizationField = jsObject.normalizationField;
+        }
+        if (hasValue(jsObject.target)) {
+            dotNetSizeVariable.target = jsObject.target;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetSizeVariable.type = jsObject.type;
+        }
+        if (hasValue(jsObject.useSymbolValue)) {
+            dotNetSizeVariable.useSymbolValue = jsObject.useSymbolValue;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetSizeVariable.valueExpression = jsObject.valueExpression;
+        }
+        if (hasValue(jsObject.valueExpressionTitle)) {
+            dotNetSizeVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        }
+        if (hasValue(jsObject.valueRepresentation)) {
+            dotNetSizeVariable.valueRepresentation = jsObject.valueRepresentation;
+        }
+        if (hasValue(jsObject.valueUnit)) {
+            dotNetSizeVariable.valueUnit = jsObject.valueUnit;
+        }
 
     return dotNetSizeVariable;
 }

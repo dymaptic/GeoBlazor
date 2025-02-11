@@ -157,12 +157,12 @@ public partial class FeatureTemplate
         }
 
         // get the property value
-        DrawingTool? result = await JsComponentReference!.InvokeAsync<DrawingTool?>("getProperty",
-            CancellationTokenSource.Token, "drawingTool");
-        if (result is not null)
+        JsNullableEnumWrapper<DrawingTool>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DrawingTool>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "drawingTool");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DrawingTool = result.Value;
+             DrawingTool = (DrawingTool)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DrawingTool)] = DrawingTool;
         }

@@ -71,12 +71,12 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
         }
 
         // get the property value
-        Algorithm? result = await JsComponentReference!.InvokeAsync<Algorithm?>("getProperty",
-            CancellationTokenSource.Token, "algorithm");
-        if (result is not null)
+        JsNullableEnumWrapper<Algorithm>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Algorithm>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "algorithm");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Algorithm = result.Value;
+             Algorithm = (Algorithm)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Algorithm)] = Algorithm;
         }

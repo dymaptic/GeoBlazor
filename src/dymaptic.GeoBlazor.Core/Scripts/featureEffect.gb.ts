@@ -13,12 +13,6 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
 
     constructor(component: FeatureEffect) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureEffectWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureEffectWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureEffect', e);
+    }
     
     return jsFeatureEffect;
 }
@@ -90,9 +89,15 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: 
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
         }
-        dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect;
-        dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
-        dotNetFeatureEffect.includedEffect = jsObject.includedEffect;
+        if (hasValue(jsObject.excludedEffect)) {
+            dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect;
+        }
+        if (hasValue(jsObject.excludedLabelsVisible)) {
+            dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
+        }
+        if (hasValue(jsObject.includedEffect)) {
+            dotNetFeatureEffect.includedEffect = jsObject.includedEffect;
+        }
 
     return dotNetFeatureEffect;
 }

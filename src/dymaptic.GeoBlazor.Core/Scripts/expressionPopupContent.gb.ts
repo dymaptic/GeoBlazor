@@ -13,12 +13,6 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
 
     constructor(component: ExpressionContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -35,7 +29,7 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
     }
     async setExpressionInfo(value: any): Promise<void> {
         let { buildJsElementExpressionInfo } = await import('./elementExpressionInfo');
-        this.component.expressionInfo =  buildJsElementExpressionInfo(value);
+        this.component.expressionInfo = await  buildJsElementExpressionInfo(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -50,7 +44,7 @@ export async function buildJsExpressionPopupContentGenerated(dotNetObject: any, 
     let jsExpressionContent = new ExpressionContent();
     if (hasValue(dotNetObject.expressionInfo)) {
         let { buildJsElementExpressionInfo } = await import('./jsBuilder');
-        jsExpressionContent.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
+        jsExpressionContent.expressionInfo = await buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
     }
 
     let { default: ExpressionPopupContentWrapper } = await import('./expressionPopupContent');
@@ -61,9 +55,14 @@ export async function buildJsExpressionPopupContentGenerated(dotNetObject: any, 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expressionPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = expressionPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ExpressionPopupContent', e);
+    }
     
     return jsExpressionContent;
 }
@@ -81,7 +80,9 @@ export async function buildDotNetExpressionPopupContentGenerated(jsObject: any):
             let { buildDotNetElementExpressionInfo } = await import('./dotNetBuilder');
             dotNetExpressionPopupContent.expressionInfo = buildDotNetElementExpressionInfo(jsObject.expressionInfo);
         }
-        dotNetExpressionPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.type)) {
+            dotNetExpressionPopupContent.type = jsObject.type;
+        }
 
     return dotNetExpressionPopupContent;
 }

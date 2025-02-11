@@ -13,12 +13,6 @@ export default class GeoJSONLayerElevationInfoFeatureExpressionInfoGenerated imp
 
     constructor(component: GeoJSONLayerElevationInfoFeatureExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGener
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerElevationInfoFeatureExpressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerElevationInfoFeatureExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerElevationInfoFeatureExpressionInfo', e);
+    }
     
     return jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfoG
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetGeoJSONLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
-        dotNetGeoJSONLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetGeoJSONLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetGeoJSONLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetGeoJSONLayerElevationInfoFeatureExpressionInfo;
 }

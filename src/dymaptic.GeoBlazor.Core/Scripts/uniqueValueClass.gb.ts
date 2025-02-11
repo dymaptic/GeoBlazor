@@ -13,12 +13,6 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
 
     constructor(component: UniqueValueClass) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -78,9 +72,14 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueClassWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = uniqueValueClassWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for UniqueValueClass', e);
+    }
     
     return jsUniqueValueClass;
 }
@@ -102,7 +101,9 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
             let { buildDotNetUniqueValue } = await import('./uniqueValue');
             dotNetUniqueValueClass.values = jsObject.values.map(async i => await buildDotNetUniqueValue(i));
         }
-        dotNetUniqueValueClass.label = jsObject.label;
+        if (hasValue(jsObject.label)) {
+            dotNetUniqueValueClass.label = jsObject.label;
+        }
 
     return dotNetUniqueValueClass;
 }

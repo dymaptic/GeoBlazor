@@ -13,12 +13,6 @@ export default class OpacityStopGenerated implements IPropertyWrapper {
 
     constructor(component: OpacityStop) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: st
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityStopWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = opacityStopWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityStop;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for OpacityStop', e);
+    }
     
     return jsOpacityStop;
 }
@@ -74,9 +73,15 @@ export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetOpacityStop.label = jsObject.label;
-        dotNetOpacityStop.opacity = jsObject.opacity;
-        dotNetOpacityStop.value = jsObject.value;
+        if (hasValue(jsObject.label)) {
+            dotNetOpacityStop.label = jsObject.label;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetOpacityStop.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetOpacityStop.value = jsObject.value;
+        }
 
     return dotNetOpacityStop;
 }

@@ -90,12 +90,12 @@ public partial class RelatedRecordsInfoFieldOrder
         }
 
         // get the property value
-        OrderBy? result = await JsComponentReference!.InvokeAsync<OrderBy?>("getProperty",
-            CancellationTokenSource.Token, "order");
-        if (result is not null)
+        JsNullableEnumWrapper<OrderBy>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OrderBy>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "order");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Order = result.Value;
+             Order = (OrderBy)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Order)] = Order;
         }

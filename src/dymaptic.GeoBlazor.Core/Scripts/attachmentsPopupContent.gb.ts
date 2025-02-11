@@ -13,12 +13,6 @@ export default class AttachmentsPopupContentGenerated implements IPropertyWrappe
 
     constructor(component: AttachmentsContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsAttachmentsPopupContentGenerated(dotNetObject: any,
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = attachmentsPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AttachmentsPopupContent', e);
+    }
     
     return jsAttachmentsContent;
 }
@@ -74,10 +73,18 @@ export async function buildDotNetAttachmentsPopupContentGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetAttachmentsPopupContent.description = jsObject.description;
-        dotNetAttachmentsPopupContent.displayType = jsObject.displayType;
-        dotNetAttachmentsPopupContent.title = jsObject.title;
-        dotNetAttachmentsPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.description)) {
+            dotNetAttachmentsPopupContent.description = jsObject.description;
+        }
+        if (hasValue(jsObject.displayType)) {
+            dotNetAttachmentsPopupContent.displayType = jsObject.displayType;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetAttachmentsPopupContent.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetAttachmentsPopupContent.type = jsObject.type;
+        }
 
     return dotNetAttachmentsPopupContent;
 }

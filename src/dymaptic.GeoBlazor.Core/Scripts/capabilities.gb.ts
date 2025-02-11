@@ -13,12 +13,6 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
 
     constructor(component: Capabilities) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -148,9 +142,14 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilities;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Capabilities', e);
+    }
     
     return jsCapabilities;
 }
@@ -196,7 +195,9 @@ export async function buildDotNetCapabilitiesGenerated(jsObject: any): Promise<a
             let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
             dotNetCapabilities.queryTopFeatures = await buildDotNetCapabilitiesQueryTopFeatures(jsObject.queryTopFeatures);
         }
-        dotNetCapabilities.query = jsObject.query;
+        if (hasValue(jsObject.query)) {
+            dotNetCapabilities.query = jsObject.query;
+        }
 
     return dotNetCapabilities;
 }

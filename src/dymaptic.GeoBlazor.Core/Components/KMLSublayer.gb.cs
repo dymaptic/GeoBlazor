@@ -160,12 +160,12 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, "kMLSublayerId");
-        if (result is not null)
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "kMLSublayerId");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             KMLSublayerId = result.Value;
+             KMLSublayerId = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(KMLSublayerId)] = KMLSublayerId;
         }

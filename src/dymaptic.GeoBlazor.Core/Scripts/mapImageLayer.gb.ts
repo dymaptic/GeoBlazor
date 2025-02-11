@@ -13,12 +13,6 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: MapImageLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -46,7 +40,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return await buildDotNetLayerView(result);
     }
 
     async createServiceSublayers(): Promise<any> {
@@ -107,7 +101,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.sublayers = value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId));
+        this.layer.sublayers = value.map(i => buildJsSublayer(i));
     }
     
     async getSubtables(): Promise<any> {
@@ -117,7 +111,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async setSubtables(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.subtables = value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId));
+        this.layer.subtables = value.map(i => buildJsSublayer(i));
     }
     
     async getTimeExtent(): Promise<any> {
@@ -130,7 +124,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     }
     async getTimeInfo(): Promise<any> {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return buildDotNetTimeInfo(this.layer.timeInfo);
     }
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -167,16 +161,16 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
         jsMapImageLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsMapImageLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.sublayers = dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId)) as any;
+        jsMapImageLayer.sublayers = dotNetObject.sublayers.map(i => buildJsSublayer(i)) as any;
     }
     if (hasValue(dotNetObject.subtables)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.subtables = dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId)) as any;
+        jsMapImageLayer.subtables = dotNetObject.subtables.map(i => buildJsSublayer(i)) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -252,9 +246,6 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         jsMapImageLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsMapImageLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsMapImageLayer.url = dotNetObject.url;
     }
@@ -273,9 +264,14 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapImageLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = mapImageLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for MapImageLayer', e);
+    }
     
     return jsMapImageLayer;
 }
@@ -294,7 +290,7 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
             dotNetMapImageLayer.allSublayers = jsObject.allSublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId));
         }
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetMapImageLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.sublayers)) {
@@ -311,7 +307,7 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
         }
         if (hasValue(jsObject.timeInfo)) {
             let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
-            dotNetMapImageLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+            dotNetMapImageLayer.timeInfo = buildDotNetTimeInfo(jsObject.timeInfo);
         }
         if (hasValue(jsObject.timeOffset)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
@@ -321,37 +317,99 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetMapImageLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetMapImageLayer.arcGISLayerId = jsObject.id;
-        dotNetMapImageLayer.blendMode = jsObject.blendMode;
-        dotNetMapImageLayer.capabilities = jsObject.capabilities;
-        dotNetMapImageLayer.copyright = jsObject.copyright;
-        dotNetMapImageLayer.customParameters = jsObject.customParameters;
-        dotNetMapImageLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        dotNetMapImageLayer.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
-        dotNetMapImageLayer.dpi = jsObject.dpi;
-        dotNetMapImageLayer.effect = jsObject.effect;
-        dotNetMapImageLayer.fullExtent = jsObject.fullExtent;
-        dotNetMapImageLayer.gdbVersion = jsObject.gdbVersion;
-        dotNetMapImageLayer.imageFormat = jsObject.imageFormat;
-        dotNetMapImageLayer.imageMaxHeight = jsObject.imageMaxHeight;
-        dotNetMapImageLayer.imageMaxWidth = jsObject.imageMaxWidth;
-        dotNetMapImageLayer.imageTransparency = jsObject.imageTransparency;
-        dotNetMapImageLayer.legendEnabled = jsObject.legendEnabled;
-        dotNetMapImageLayer.listMode = jsObject.listMode;
-        dotNetMapImageLayer.loaded = jsObject.loaded;
-        dotNetMapImageLayer.maxScale = jsObject.maxScale;
-        dotNetMapImageLayer.minScale = jsObject.minScale;
-        dotNetMapImageLayer.opacity = jsObject.opacity;
-        dotNetMapImageLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetMapImageLayer.preferredTimeZone = jsObject.preferredTimeZone;
-        dotNetMapImageLayer.refreshInterval = jsObject.refreshInterval;
-        dotNetMapImageLayer.sourceJSON = jsObject.sourceJSON;
-        dotNetMapImageLayer.spatialReference = jsObject.spatialReference;
-        dotNetMapImageLayer.title = jsObject.title;
-        dotNetMapImageLayer.type = jsObject.type;
-        dotNetMapImageLayer.url = jsObject.url;
-        dotNetMapImageLayer.useViewTime = jsObject.useViewTime;
-        dotNetMapImageLayer.version = jsObject.version;
+        if (hasValue(jsObject.id)) {
+            dotNetMapImageLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetMapImageLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.capabilities)) {
+            dotNetMapImageLayer.capabilities = jsObject.capabilities;
+        }
+        if (hasValue(jsObject.copyright)) {
+            dotNetMapImageLayer.copyright = jsObject.copyright;
+        }
+        if (hasValue(jsObject.customParameters)) {
+            dotNetMapImageLayer.customParameters = jsObject.customParameters;
+        }
+        if (hasValue(jsObject.dateFieldsTimeZone)) {
+            dotNetMapImageLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+        }
+        if (hasValue(jsObject.datesInUnknownTimezone)) {
+            dotNetMapImageLayer.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
+        }
+        if (hasValue(jsObject.dpi)) {
+            dotNetMapImageLayer.dpi = jsObject.dpi;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetMapImageLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetMapImageLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.gdbVersion)) {
+            dotNetMapImageLayer.gdbVersion = jsObject.gdbVersion;
+        }
+        if (hasValue(jsObject.imageFormat)) {
+            dotNetMapImageLayer.imageFormat = jsObject.imageFormat;
+        }
+        if (hasValue(jsObject.imageMaxHeight)) {
+            dotNetMapImageLayer.imageMaxHeight = jsObject.imageMaxHeight;
+        }
+        if (hasValue(jsObject.imageMaxWidth)) {
+            dotNetMapImageLayer.imageMaxWidth = jsObject.imageMaxWidth;
+        }
+        if (hasValue(jsObject.imageTransparency)) {
+            dotNetMapImageLayer.imageTransparency = jsObject.imageTransparency;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetMapImageLayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetMapImageLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetMapImageLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetMapImageLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetMapImageLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetMapImageLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetMapImageLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.preferredTimeZone)) {
+            dotNetMapImageLayer.preferredTimeZone = jsObject.preferredTimeZone;
+        }
+        if (hasValue(jsObject.refreshInterval)) {
+            dotNetMapImageLayer.refreshInterval = jsObject.refreshInterval;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetMapImageLayer.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetMapImageLayer.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetMapImageLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetMapImageLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetMapImageLayer.url = jsObject.url;
+        }
+        if (hasValue(jsObject.useViewTime)) {
+            dotNetMapImageLayer.useViewTime = jsObject.useViewTime;
+        }
+        if (hasValue(jsObject.version)) {
+            dotNetMapImageLayer.version = jsObject.version;
+        }
 
     return dotNetMapImageLayer;
 }

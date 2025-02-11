@@ -32,8 +32,6 @@ import {
     buildJsPopup,
     buildJsPopupOptions,
     buildJsPopupTemplate,
-    buildJsPortalItem,
-    buildJsRasterStretchRenderer,
     buildJsRenderer,
     buildJsSearchSource,
     buildJsSpatialReference,
@@ -141,6 +139,8 @@ import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
 import {dot} from "node:test/reporters";
 import { buildJsExtent } from './extent';
+import { buildJsPortalItem } from './portalItem';
+import SearchWidgetWrapper from "./searchWidget";
 
 // region exports
 
@@ -347,7 +347,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 }
                 basemap = new Basemap({ style: style })
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
-                let portalItem = buildJsPortalItem(mapObject.basemap.portalItem);
+                let portalItem = await buildJsPortalItem(mapObject.basemap.portalItem, mapObject.basemap.id, id);
                 basemap = new Basemap({ portalItem: portalItem });
             } else if (mapObject.basemap?.baseLayers?.length > 0 || mapObject.basemap?.referenceLayers?.length > 0) {
                 if (hasValue(mapObject.basemap.baseLayers)) {
@@ -375,7 +375,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         switch (mapType) {
             case 'webmap':
                 let webMap: WebMap;
-                let portalItem = buildJsPortalItem(mapObject.portalItem);
+                let portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
                 webMap = new WebMap({ portalItem: portalItem });
                 view = new MapView({
                     container: `map-container-${id}`,
@@ -384,7 +384,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             case 'webscene':
                 let webScene: WebScene;
-                let scenePortalItem = buildJsPortalItem(mapObject.portalItem);
+                let scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
                 webScene = new WebScene({ portalItem: scenePortalItem });
                 view = new SceneView({
                     container: `map-container-${id}`,
@@ -615,89 +615,94 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     }
 
     view.on('layerview-create', async (evt) => {
-        // find objectRef id by layer
-        let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+        try {
+            // find objectRef id by layer
+            let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
 
-        let isBasemapLayer = false;
-        let isReferenceLayer = false;
-        if (hasValue(view.map.basemap)) {
-            if (view.map.basemap.baseLayers?.includes(evt.layer)) {
-                isBasemapLayer = true;
-            } else if (view.map.basemap.referenceLayers?.includes(evt.layer)) {
-                isReferenceLayer = true;
+            let isBasemapLayer = false;
+            let isReferenceLayer = false;
+            if (hasValue(view.map.basemap)) {
+                if (view.map.basemap.baseLayers?.includes(evt.layer)) {
+                    isBasemapLayer = true;
+                } else if (view.map.basemap.referenceLayers?.includes(evt.layer)) {
+                    isReferenceLayer = true;
+                }
             }
-        }
-        
-        let jsLayer: any = evt.layer;
-        let jsLayerView: any = evt.layerView;
-        
-        if (jsLayer.type == 'feature') {
-            let { default: FeatureLayerWrapper } = await import('./featureLayer');
-            jsLayer = new FeatureLayerWrapper(jsLayer);
-            let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
-            jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
-        }
-        
-        // @ts-ignore
-        let layerRef = DotNet.createJSObjectReference(jsLayer); 
-        // @ts-ignore
-        let layerViewRef = DotNet.createJSObjectReference(jsLayerView);
-        
-        let result = {
-            layerObjectRef: layerRef,
-            layerViewObjectRef: layerViewRef,
-            layerView: buildDotNetLayerView(evt.layerView),
-            layer: buildDotNetLayer(evt.layer, layerGeoBlazorId ?? null, viewId),
-            layerGeoBlazorId: layerGeoBlazorId,
-            isBasemapLayer: isBasemapLayer,
-            isReferenceLayer: isReferenceLayer
-        }
 
-        let layerUid = evt.layer.id;
-        if (uploadingLayers.includes(layerUid)) {
-            return;
-        }
+            let jsLayer: any = evt.layer;
+            let jsLayerView: any = evt.layerView;
 
-        uploadingLayers.push(layerUid);
-        
-        let layerViewId: string | null;
+            if (jsLayer.type == 'feature') {
+                let { default: FeatureLayerWrapper } = await import('./featureLayer');
+                jsLayer = new FeatureLayerWrapper(jsLayer);
+                let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+                jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
+            }
 
-        if (!blazorServer) {
-            layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+            // @ts-ignore
+            let layerRef = DotNet.createJSObjectReference(jsLayer);
+            // @ts-ignore
+            let layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+
+            let result = {
+                layerObjectRef: layerRef,
+                layerViewObjectRef: layerViewRef,
+                layerView: buildDotNetLayerView(evt.layerView),
+                layer: buildDotNetLayer(evt.layer),
+                layerGeoBlazorId: layerGeoBlazorId,
+                isBasemapLayer: isBasemapLayer,
+                isReferenceLayer: isReferenceLayer
+            }
+
+            let layerUid = evt.layer.id;
+            if (uploadingLayers.includes(layerUid)) {
+                return;
+            }
+
+            uploadingLayers.push(layerUid);
+
+            let layerViewId: string | null;
+
+            if (!blazorServer) {
+                layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreate', result);
+                if (layerViewId !== null) {
+                    arcGisObjectRefs[layerViewId] = evt.layerView;
+                    jsObjectRefs[layerViewId] = jsLayerView;
+                }
+                uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
+                return;
+            }
+
+            // return dotNetResult in small chunks to avoid memory issues in Blazor Server
+            // SignalR has a maximum message size of 32KB
+            // https://github.com/dotnet/aspnetcore/issues/23179
+            let jsonLayerResult = JSON.stringify(result.layer);
+            let jsonLayerViewResult = JSON.stringify(result.layerView);
+            let chunkSize = 1000;
+            let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
+
+            for (let i = 0; i < chunks; i++) {
+                let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
+                await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
+            }
+
+            chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
+            for (let i = 0; i < chunks; i++) {
+                let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
+                await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
+            }
+
+            layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
+                result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
             if (layerViewId !== null) {
                 arcGisObjectRefs[layerViewId] = evt.layerView;
                 jsObjectRefs[layerViewId] = jsLayerView;
             }
-            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
-            return;
+            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);    
+        } catch (e) {
+            console.error(e);
+            throw e;
         }
-
-        // return dotNetResult in small chunks to avoid memory issues in Blazor Server
-        // SignalR has a maximum message size of 32KB
-        // https://github.com/dotnet/aspnetcore/issues/23179
-        let jsonLayerResult = JSON.stringify(result.layer);
-        let jsonLayerViewResult = JSON.stringify(result.layerView);
-        let chunkSize = 1000;
-        let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
-
-        for (let i = 0; i < chunks; i++) {
-            let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
-        }
-
-        chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
-        for (let i = 0; i < chunks; i++) {
-            let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
-            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
-        }
-
-        layerViewId = await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateComplete', layerGeoBlazorId ?? null, layerUid,
-            result.layerObjectRef, result.layerViewObjectRef, isBasemapLayer, isReferenceLayer);
-        if (layerViewId !== null) {
-            arcGisObjectRefs[layerViewId] = evt.layerView;
-            jsObjectRefs[layerViewId] = jsLayerView;
-        }
-        uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
@@ -1939,6 +1944,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     let view = arcGisObjectRefs[viewId] as MapView;
 
     let newWidget: Widget;
+    let wrapper: any;
     switch (dotNetWidget.type) {
         case 'locate':
             const locate = new Locate({
@@ -2000,6 +2006,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 'autoSelect', 'disabled', 'includeDefaultSources', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
                 'searchTerm', 'suggestionsEnabled');
+            
+            wrapper = new SearchWidgetWrapper(search);
+            jsObjectRefs[dotNetWidget.id] = wrapper;
             break;
         case 'basemap-toggle':
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
@@ -2217,6 +2226,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             break;
         case 'popup':
             newWidget = await setPopup(dotNetWidget, viewId) as Popup;
+            let { default: PopupWidgetWrapper } = await import('./popupWidget');
+            wrapper = new PopupWidgetWrapper(newWidget as Popup);
             break;
         case 'measurement':
             newWidget = new Measurement({
@@ -2382,6 +2393,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', slider.values);
                 }
             );
+            
+            let { default: SliderWidgetWrapper } = await import('./sliderWidget');
+            wrapper = new SliderWidgetWrapper(slider);
             break;
         default:
             return null;
@@ -2392,9 +2406,17 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     }
 
     copyValuesIfExists(dotNetWidget, newWidget, 'icon', 'label', 'visible');
-
+    wrapper ??= newWidget;
     arcGisObjectRefs[dotNetWidget.id] = newWidget;
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
+    jsObjectRefs[dotNetWidget.id] = wrapper;
+    
+    // @ts-ignore
+    let jsRef = DotNet.createJSObjectReference(wrapper);
+    
+    // register, to be removed when we finish code generation of all widgets
+    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    
     return newWidget;
 }
 
@@ -2562,7 +2584,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new MapImageLayer({ portalItem: portalItem });
             } else {
                 newLayer = new MapImageLayer({
@@ -2581,7 +2603,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'tile':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
 
                 newLayer = new TileLayer({ portalItem: portalItem });
             } else {
@@ -2601,7 +2623,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'elevation':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new ElevationLayer({ portalItem: portalItem });
             } else {
                 newLayer = new ElevationLayer({
@@ -2616,7 +2638,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                     urlTemplate: dotNetLayer.urlTemplate
                 });
             } else if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
@@ -2655,7 +2677,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                     url: dotNetLayer.url
                 });
             } else {
-                let portalItem = buildJsPortalItem(dotNetLayer.portalItem);
+                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new ImageryLayer({ portalItem: portalItem });
             }
 

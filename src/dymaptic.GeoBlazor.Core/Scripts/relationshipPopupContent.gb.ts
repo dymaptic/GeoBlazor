@@ -13,12 +13,6 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
 
     constructor(component: RelationshipContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -78,9 +72,14 @@ export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(relationshipPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = relationshipPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RelationshipPopupContent', e);
+    }
     
     return jsRelationshipContent;
 }
@@ -98,12 +97,24 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
             let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
             dotNetRelationshipPopupContent.orderByFields = jsObject.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i));
         }
-        dotNetRelationshipPopupContent.description = jsObject.description;
-        dotNetRelationshipPopupContent.displayCount = jsObject.displayCount;
-        dotNetRelationshipPopupContent.displayType = jsObject.displayType;
-        dotNetRelationshipPopupContent.relationshipId = jsObject.relationshipId;
-        dotNetRelationshipPopupContent.title = jsObject.title;
-        dotNetRelationshipPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.description)) {
+            dotNetRelationshipPopupContent.description = jsObject.description;
+        }
+        if (hasValue(jsObject.displayCount)) {
+            dotNetRelationshipPopupContent.displayCount = jsObject.displayCount;
+        }
+        if (hasValue(jsObject.displayType)) {
+            dotNetRelationshipPopupContent.displayType = jsObject.displayType;
+        }
+        if (hasValue(jsObject.relationshipId)) {
+            dotNetRelationshipPopupContent.relationshipId = jsObject.relationshipId;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetRelationshipPopupContent.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetRelationshipPopupContent.type = jsObject.type;
+        }
 
     return dotNetRelationshipPopupContent;
 }

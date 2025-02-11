@@ -13,12 +13,6 @@ export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: SimpleFillSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleFillSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = simpleFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SimpleFillSymbol', e);
+    }
     
     return jsSimpleFillSymbol;
 }
@@ -74,10 +73,18 @@ export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any, layerI
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSimpleFillSymbol.color = jsObject.color;
-        dotNetSimpleFillSymbol.outline = jsObject.outline;
-        dotNetSimpleFillSymbol.style = jsObject.style;
-        dotNetSimpleFillSymbol.type = jsObject.type;
+        if (hasValue(jsObject.color)) {
+            dotNetSimpleFillSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.outline)) {
+            dotNetSimpleFillSymbol.outline = jsObject.outline;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetSimpleFillSymbol.style = jsObject.style;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetSimpleFillSymbol.type = jsObject.type;
+        }
 
     return dotNetSimpleFillSymbol;
 }

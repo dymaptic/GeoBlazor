@@ -966,12 +966,12 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
@@ -1659,12 +1659,12 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FeatureGeometryType? result = await JsComponentReference!.InvokeAsync<FeatureGeometryType?>("getProperty",
-            CancellationTokenSource.Token, "geometryType");
-        if (result is not null)
+        JsNullableEnumWrapper<FeatureGeometryType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FeatureGeometryType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "geometryType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             GeometryType = result.Value;
+             GeometryType = (FeatureGeometryType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(GeometryType)] = GeometryType;
         }

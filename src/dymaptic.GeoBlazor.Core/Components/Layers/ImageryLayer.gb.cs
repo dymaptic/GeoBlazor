@@ -618,12 +618,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
@@ -951,12 +951,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        ImageFormat? result = await JsComponentReference!.InvokeAsync<ImageFormat?>("getProperty",
-            CancellationTokenSource.Token, "format");
-        if (result is not null)
+        JsNullableEnumWrapper<ImageFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ImageFormat>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "format");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Format = result.Value;
+             Format = (ImageFormat)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Format)] = Format;
         }
@@ -1071,12 +1071,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        Interpolation? result = await JsComponentReference!.InvokeAsync<Interpolation?>("getProperty",
-            CancellationTokenSource.Token, "interpolation");
-        if (result is not null)
+        JsNullableEnumWrapper<Interpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Interpolation>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "interpolation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Interpolation = result.Value;
+             Interpolation = (Interpolation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }
@@ -1311,12 +1311,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        NoDataInterpretation? result = await JsComponentReference!.InvokeAsync<NoDataInterpretation?>("getProperty",
-            CancellationTokenSource.Token, "noDataInterpretation");
-        if (result is not null)
+        JsNullableEnumWrapper<NoDataInterpretation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<NoDataInterpretation>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "noDataInterpretation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             NoDataInterpretation = result.Value;
+             NoDataInterpretation = (NoDataInterpretation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(NoDataInterpretation)] = NoDataInterpretation;
         }
@@ -1401,12 +1401,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        PixelType? result = await JsComponentReference!.InvokeAsync<PixelType?>("getProperty",
-            CancellationTokenSource.Token, "pixelType");
-        if (result is not null)
+        JsNullableEnumWrapper<PixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PixelType = result.Value;
+             PixelType = (PixelType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PixelType)] = PixelType;
         }
@@ -1736,12 +1736,12 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        SourceType? result = await JsComponentReference!.InvokeAsync<SourceType?>("getProperty",
-            CancellationTokenSource.Token, "sourceType");
-        if (result is not null)
+        JsNullableEnumWrapper<SourceType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SourceType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sourceType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SourceType = result.Value;
+             SourceType = (SourceType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SourceType)] = SourceType;
         }

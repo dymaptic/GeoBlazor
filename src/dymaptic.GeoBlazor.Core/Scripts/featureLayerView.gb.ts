@@ -13,12 +13,6 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
 
     constructor(component: FeatureLayerView) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -53,7 +47,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     }
     async getLayer(): Promise<any> {
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
+        return buildDotNetFeatureLayer(this.component.layer);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -93,9 +87,14 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureLayerView', e);
+    }
     
     return jsFeatureLayerView;
 }
@@ -123,21 +122,47 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.layer)) {
             let { buildDotNetFeatureLayer } = await import('./dotNetBuilder');
-            dotNetFeatureLayerView.layer = await buildDotNetFeatureLayer(jsObject.layer, layerId, viewId);
+            dotNetFeatureLayerView.layer = buildDotNetFeatureLayer(jsObject.layer);
         }
-        dotNetFeatureLayerView.availableFields = jsObject.availableFields;
-        dotNetFeatureLayerView.dataUpdating = jsObject.dataUpdating;
-        dotNetFeatureLayerView.hasAllFeatures = jsObject.hasAllFeatures;
-        dotNetFeatureLayerView.hasAllFeaturesInView = jsObject.hasAllFeaturesInView;
-        dotNetFeatureLayerView.hasFullGeometries = jsObject.hasFullGeometries;
-        dotNetFeatureLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
-        dotNetFeatureLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
-        dotNetFeatureLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        dotNetFeatureLayerView.suspended = jsObject.suspended;
-        dotNetFeatureLayerView.updating = jsObject.updating;
-        dotNetFeatureLayerView.view = jsObject.view;
-        dotNetFeatureLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        dotNetFeatureLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+        if (hasValue(jsObject.availableFields)) {
+            dotNetFeatureLayerView.availableFields = jsObject.availableFields;
+        }
+        if (hasValue(jsObject.dataUpdating)) {
+            dotNetFeatureLayerView.dataUpdating = jsObject.dataUpdating;
+        }
+        if (hasValue(jsObject.hasAllFeatures)) {
+            dotNetFeatureLayerView.hasAllFeatures = jsObject.hasAllFeatures;
+        }
+        if (hasValue(jsObject.hasAllFeaturesInView)) {
+            dotNetFeatureLayerView.hasAllFeaturesInView = jsObject.hasAllFeaturesInView;
+        }
+        if (hasValue(jsObject.hasFullGeometries)) {
+            dotNetFeatureLayerView.hasFullGeometries = jsObject.hasFullGeometries;
+        }
+        if (hasValue(jsObject.maximumNumberOfFeatures)) {
+            dotNetFeatureLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
+        }
+        if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
+            dotNetFeatureLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
+        }
+        if (hasValue(jsObject.spatialReferenceSupported)) {
+            dotNetFeatureLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+        }
+        if (hasValue(jsObject.suspended)) {
+            dotNetFeatureLayerView.suspended = jsObject.suspended;
+        }
+        if (hasValue(jsObject.updating)) {
+            dotNetFeatureLayerView.updating = jsObject.updating;
+        }
+        if (hasValue(jsObject.view)) {
+            dotNetFeatureLayerView.view = jsObject.view;
+        }
+        if (hasValue(jsObject.visibleAtCurrentScale)) {
+            dotNetFeatureLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+        }
+        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+            dotNetFeatureLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+        }
 
     return dotNetFeatureLayerView;
 }

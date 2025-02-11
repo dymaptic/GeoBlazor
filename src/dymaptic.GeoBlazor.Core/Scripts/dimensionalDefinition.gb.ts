@@ -13,12 +13,6 @@ export default class DimensionalDefinitionGenerated implements IPropertyWrapper 
 
     constructor(component: DimensionalDefinition) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -61,9 +55,14 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(dimensionalDefinitionWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = dimensionalDefinitionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for DimensionalDefinition', e);
+    }
     
     return jsDimensionalDefinition;
 }
@@ -77,10 +76,18 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetDimensionalDefinition.dimensionName = jsObject.dimensionName;
-        dotNetDimensionalDefinition.isSlice = jsObject.isSlice;
-        dotNetDimensionalDefinition.values = jsObject.values;
-        dotNetDimensionalDefinition.variableName = jsObject.variableName;
+        if (hasValue(jsObject.dimensionName)) {
+            dotNetDimensionalDefinition.dimensionName = jsObject.dimensionName;
+        }
+        if (hasValue(jsObject.isSlice)) {
+            dotNetDimensionalDefinition.isSlice = jsObject.isSlice;
+        }
+        if (hasValue(jsObject.values)) {
+            dotNetDimensionalDefinition.values = jsObject.values;
+        }
+        if (hasValue(jsObject.variableName)) {
+            dotNetDimensionalDefinition.variableName = jsObject.variableName;
+        }
 
     return dotNetDimensionalDefinition;
 }

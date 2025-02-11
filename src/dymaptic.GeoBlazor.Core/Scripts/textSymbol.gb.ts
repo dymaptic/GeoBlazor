@@ -13,12 +13,6 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: TextSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -109,9 +103,14 @@ export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: str
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(textSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = textSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for TextSymbol', e);
+    }
     
     return jsTextSymbol;
 }
@@ -129,23 +128,57 @@ export async function buildDotNetTextSymbolGenerated(jsObject: any): Promise<any
             let { buildDotNetMapFont } = await import('./mapFont');
             dotNetTextSymbol.font = await buildDotNetMapFont(jsObject.font);
         }
-        dotNetTextSymbol.angle = jsObject.angle;
-        dotNetTextSymbol.backgroundColor = jsObject.backgroundColor;
-        dotNetTextSymbol.borderLineColor = jsObject.borderLineColor;
-        dotNetTextSymbol.borderLineSize = jsObject.borderLineSize;
-        dotNetTextSymbol.color = jsObject.color;
-        dotNetTextSymbol.haloColor = jsObject.haloColor;
-        dotNetTextSymbol.haloSize = jsObject.haloSize;
-        dotNetTextSymbol.horizontalAlignment = jsObject.horizontalAlignment;
-        dotNetTextSymbol.kerning = jsObject.kerning;
-        dotNetTextSymbol.lineHeight = jsObject.lineHeight;
-        dotNetTextSymbol.lineWidth = jsObject.lineWidth;
-        dotNetTextSymbol.rotated = jsObject.rotated;
-        dotNetTextSymbol.text = jsObject.text;
-        dotNetTextSymbol.type = jsObject.type;
-        dotNetTextSymbol.verticalAlignment = jsObject.verticalAlignment;
-        dotNetTextSymbol.xoffset = jsObject.xoffset;
-        dotNetTextSymbol.yoffset = jsObject.yoffset;
+        if (hasValue(jsObject.angle)) {
+            dotNetTextSymbol.angle = jsObject.angle;
+        }
+        if (hasValue(jsObject.backgroundColor)) {
+            dotNetTextSymbol.backgroundColor = jsObject.backgroundColor;
+        }
+        if (hasValue(jsObject.borderLineColor)) {
+            dotNetTextSymbol.borderLineColor = jsObject.borderLineColor;
+        }
+        if (hasValue(jsObject.borderLineSize)) {
+            dotNetTextSymbol.borderLineSize = jsObject.borderLineSize;
+        }
+        if (hasValue(jsObject.color)) {
+            dotNetTextSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.haloColor)) {
+            dotNetTextSymbol.haloColor = jsObject.haloColor;
+        }
+        if (hasValue(jsObject.haloSize)) {
+            dotNetTextSymbol.haloSize = jsObject.haloSize;
+        }
+        if (hasValue(jsObject.horizontalAlignment)) {
+            dotNetTextSymbol.horizontalAlignment = jsObject.horizontalAlignment;
+        }
+        if (hasValue(jsObject.kerning)) {
+            dotNetTextSymbol.kerning = jsObject.kerning;
+        }
+        if (hasValue(jsObject.lineHeight)) {
+            dotNetTextSymbol.lineHeight = jsObject.lineHeight;
+        }
+        if (hasValue(jsObject.lineWidth)) {
+            dotNetTextSymbol.lineWidth = jsObject.lineWidth;
+        }
+        if (hasValue(jsObject.rotated)) {
+            dotNetTextSymbol.rotated = jsObject.rotated;
+        }
+        if (hasValue(jsObject.text)) {
+            dotNetTextSymbol.text = jsObject.text;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetTextSymbol.type = jsObject.type;
+        }
+        if (hasValue(jsObject.verticalAlignment)) {
+            dotNetTextSymbol.verticalAlignment = jsObject.verticalAlignment;
+        }
+        if (hasValue(jsObject.xoffset)) {
+            dotNetTextSymbol.xoffset = jsObject.xoffset;
+        }
+        if (hasValue(jsObject.yoffset)) {
+            dotNetTextSymbol.yoffset = jsObject.yoffset;
+        }
 
     return dotNetTextSymbol;
 }

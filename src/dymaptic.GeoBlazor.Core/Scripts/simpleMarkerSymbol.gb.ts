@@ -13,12 +13,6 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: SimpleMarkerSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -73,9 +67,14 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, laye
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleMarkerSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = simpleMarkerSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleMarkerSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SimpleMarkerSymbol', e);
+    }
     
     return jsSimpleMarkerSymbol;
 }
@@ -89,15 +88,33 @@ export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any, laye
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSimpleMarkerSymbol.angle = jsObject.angle;
-        dotNetSimpleMarkerSymbol.color = jsObject.color;
-        dotNetSimpleMarkerSymbol.outline = jsObject.outline;
-        dotNetSimpleMarkerSymbol.path = jsObject.path;
-        dotNetSimpleMarkerSymbol.size = jsObject.size;
-        dotNetSimpleMarkerSymbol.style = jsObject.style;
-        dotNetSimpleMarkerSymbol.type = jsObject.type;
-        dotNetSimpleMarkerSymbol.xoffset = jsObject.xoffset;
-        dotNetSimpleMarkerSymbol.yoffset = jsObject.yoffset;
+        if (hasValue(jsObject.angle)) {
+            dotNetSimpleMarkerSymbol.angle = jsObject.angle;
+        }
+        if (hasValue(jsObject.color)) {
+            dotNetSimpleMarkerSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.outline)) {
+            dotNetSimpleMarkerSymbol.outline = jsObject.outline;
+        }
+        if (hasValue(jsObject.path)) {
+            dotNetSimpleMarkerSymbol.path = jsObject.path;
+        }
+        if (hasValue(jsObject.size)) {
+            dotNetSimpleMarkerSymbol.size = jsObject.size;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetSimpleMarkerSymbol.style = jsObject.style;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetSimpleMarkerSymbol.type = jsObject.type;
+        }
+        if (hasValue(jsObject.xoffset)) {
+            dotNetSimpleMarkerSymbol.xoffset = jsObject.xoffset;
+        }
+        if (hasValue(jsObject.yoffset)) {
+            dotNetSimpleMarkerSymbol.yoffset = jsObject.yoffset;
+        }
 
     return dotNetSimpleMarkerSymbol;
 }

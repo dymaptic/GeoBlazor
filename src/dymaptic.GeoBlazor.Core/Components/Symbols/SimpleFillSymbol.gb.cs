@@ -72,12 +72,12 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
         }
 
         // get the property value
-        SimpleFillSymbolStyle? result = await JsComponentReference!.InvokeAsync<SimpleFillSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleFillSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleFillSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (SimpleFillSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }

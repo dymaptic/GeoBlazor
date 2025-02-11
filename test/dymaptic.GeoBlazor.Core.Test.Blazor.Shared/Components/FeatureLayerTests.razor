@@ -96,13 +96,13 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
-        <Map>
-            <FeatureLayer @ref="layer">
-                <PortalItem PortalId="449887ea7d60429fbf6f0c67881f2758" />
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
+                <Map>
+                    <FeatureLayer @ref="layer">
+                        <PortalItem PortalItemId="449887ea7d60429fbf6f0c67881f2758" />
+                    </FeatureLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
@@ -332,7 +332,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
-                <PortalItem PortalId="234d2e3f6f554e0e84757662469c26d3" />
+                <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
             </FeatureLayer>
         </Map>
         <Extent Xmax="-13620669.8431"
@@ -370,7 +370,7 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" OutFields="@(new[] { "*" })">
-                <PortalItem PortalId="7a301e848a7c4bfcaefdac4fe98a7f99" />
+                <PortalItem PortalItemId="7a301e848a7c4bfcaefdac4fe98a7f99" />
             </FeatureLayer>
         </Map>
     </MapView>);

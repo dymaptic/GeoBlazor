@@ -13,12 +13,6 @@ export default class LabelGenerated implements IPropertyWrapper {
 
     constructor(component: LabelClass) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -97,9 +91,14 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(labelWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = labelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Label', e);
+    }
     
     return jsLabelClass;
 }
@@ -117,18 +116,42 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
             dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        dotNetLabel.allowOverrun = jsObject.allowOverrun;
-        dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
-        dotNetLabel.labelExpression = jsObject.labelExpression;
-        dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
-        dotNetLabel.labelPlacement = jsObject.labelPlacement;
-        dotNetLabel.labelPosition = jsObject.labelPosition;
-        dotNetLabel.maxScale = jsObject.maxScale;
-        dotNetLabel.minScale = jsObject.minScale;
-        dotNetLabel.repeatLabel = jsObject.repeatLabel;
-        dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
-        dotNetLabel.useCodedValues = jsObject.useCodedValues;
-        dotNetLabel.where = jsObject.where;
+        if (hasValue(jsObject.allowOverrun)) {
+            dotNetLabel.allowOverrun = jsObject.allowOverrun;
+        }
+        if (hasValue(jsObject.deconflictionStrategy)) {
+            dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
+        }
+        if (hasValue(jsObject.labelExpression)) {
+            dotNetLabel.labelExpression = jsObject.labelExpression;
+        }
+        if (hasValue(jsObject.labelExpressionInfo)) {
+            dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
+        }
+        if (hasValue(jsObject.labelPlacement)) {
+            dotNetLabel.labelPlacement = jsObject.labelPlacement;
+        }
+        if (hasValue(jsObject.labelPosition)) {
+            dotNetLabel.labelPosition = jsObject.labelPosition;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetLabel.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetLabel.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.repeatLabel)) {
+            dotNetLabel.repeatLabel = jsObject.repeatLabel;
+        }
+        if (hasValue(jsObject.repeatLabelDistance)) {
+            dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
+        }
+        if (hasValue(jsObject.useCodedValues)) {
+            dotNetLabel.useCodedValues = jsObject.useCodedValues;
+        }
+        if (hasValue(jsObject.where)) {
+            dotNetLabel.where = jsObject.where;
+        }
 
     return dotNetLabel;
 }

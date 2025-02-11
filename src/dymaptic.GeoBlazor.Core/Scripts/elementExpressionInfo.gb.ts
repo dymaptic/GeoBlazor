@@ -13,12 +13,6 @@ export default class ElementExpressionInfoGenerated implements IPropertyWrapper 
 
     constructor(component: ElementExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsElementExpressionInfoGenerated(dotNetObject: any, l
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elementExpressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = elementExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElementExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ElementExpressionInfo', e);
+    }
     
     return jsElementExpressionInfo;
 }
@@ -74,9 +73,15 @@ export function buildDotNetElementExpressionInfoGenerated(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetElementExpressionInfo.expression = jsObject.expression;
-        dotNetElementExpressionInfo.returnType = jsObject.returnType;
-        dotNetElementExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetElementExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.returnType)) {
+            dotNetElementExpressionInfo.returnType = jsObject.returnType;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetElementExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetElementExpressionInfo;
 }

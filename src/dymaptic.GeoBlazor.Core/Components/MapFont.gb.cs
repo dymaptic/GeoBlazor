@@ -83,12 +83,12 @@ public partial class MapFont
         }
 
         // get the property value
-        TextDecoration? result = await JsComponentReference!.InvokeAsync<TextDecoration?>("getProperty",
-            CancellationTokenSource.Token, "decoration");
-        if (result is not null)
+        JsNullableEnumWrapper<TextDecoration>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TextDecoration>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "decoration");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Decoration = result.Value;
+             Decoration = (TextDecoration)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Decoration)] = Decoration;
         }
@@ -173,12 +173,12 @@ public partial class MapFont
         }
 
         // get the property value
-        MapFontStyle? result = await JsComponentReference!.InvokeAsync<MapFontStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<MapFontStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<MapFontStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (MapFontStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }
@@ -203,12 +203,12 @@ public partial class MapFont
         }
 
         // get the property value
-        FontWeight? result = await JsComponentReference!.InvokeAsync<FontWeight?>("getProperty",
-            CancellationTokenSource.Token, "weight");
-        if (result is not null)
+        JsNullableEnumWrapper<FontWeight>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FontWeight>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "weight");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Weight = result.Value;
+             Weight = (FontWeight)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Weight)] = Weight;
         }

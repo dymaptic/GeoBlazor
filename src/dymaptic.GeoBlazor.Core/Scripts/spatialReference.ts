@@ -8,4 +8,4 @@ export default class SpatialReferenceWrapper extends SpatialReferenceGenerated {
         super(component);
     }
     
-}              
+}

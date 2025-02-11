@@ -13,12 +13,6 @@ export default class ActionButtonGenerated implements IPropertyWrapper {
 
     constructor(component: ActionButton) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionButtonWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = actionButtonWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ActionButton', e);
+    }
     
     return jsActionButton;
 }
@@ -86,14 +85,30 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetActionButton.actionId = jsObject.id;
-        dotNetActionButton.active = jsObject.active;
-        dotNetActionButton.className = jsObject.className;
-        dotNetActionButton.disabled = jsObject.disabled;
-        dotNetActionButton.icon = jsObject.icon;
-        dotNetActionButton.image = jsObject.image;
-        dotNetActionButton.title = jsObject.title;
-        dotNetActionButton.type = jsObject.type;
+        if (hasValue(jsObject.id)) {
+            dotNetActionButton.actionId = jsObject.id;
+        }
+        if (hasValue(jsObject.active)) {
+            dotNetActionButton.active = jsObject.active;
+        }
+        if (hasValue(jsObject.className)) {
+            dotNetActionButton.className = jsObject.className;
+        }
+        if (hasValue(jsObject.disabled)) {
+            dotNetActionButton.disabled = jsObject.disabled;
+        }
+        if (hasValue(jsObject.icon)) {
+            dotNetActionButton.icon = jsObject.icon;
+        }
+        if (hasValue(jsObject.image)) {
+            dotNetActionButton.image = jsObject.image;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetActionButton.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetActionButton.type = jsObject.type;
+        }
 
     return dotNetActionButton;
 }

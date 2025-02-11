@@ -13,12 +13,6 @@ export default class FieldGenerated implements IPropertyWrapper {
 
     constructor(component: Field) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -65,9 +59,6 @@ export async function buildJsFieldGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.nullable)) {
         jsField.nullable = dotNetObject.nullable;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsField.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.valueType)) {
         jsField.valueType = dotNetObject.valueType;
     }
@@ -79,9 +70,14 @@ export async function buildJsFieldGenerated(dotNetObject: any, layerId: string |
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = fieldWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsField;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Field', e);
+    }
     
     return jsField;
 }
@@ -95,16 +91,36 @@ export async function buildDotNetFieldGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetField.alias = jsObject.alias;
-        dotNetField.defaultValue = jsObject.defaultValue;
-        dotNetField.description = jsObject.description;
-        dotNetField.domain = jsObject.domain;
-        dotNetField.editable = jsObject.editable;
-        dotNetField.length = jsObject.length;
-        dotNetField.name = jsObject.name;
-        dotNetField.nullable = jsObject.nullable;
-        dotNetField.type = jsObject.type;
-        dotNetField.valueType = jsObject.valueType;
+        if (hasValue(jsObject.alias)) {
+            dotNetField.alias = jsObject.alias;
+        }
+        if (hasValue(jsObject.defaultValue)) {
+            dotNetField.defaultValue = jsObject.defaultValue;
+        }
+        if (hasValue(jsObject.description)) {
+            dotNetField.description = jsObject.description;
+        }
+        if (hasValue(jsObject.domain)) {
+            dotNetField.domain = jsObject.domain;
+        }
+        if (hasValue(jsObject.editable)) {
+            dotNetField.editable = jsObject.editable;
+        }
+        if (hasValue(jsObject.length)) {
+            dotNetField.length = jsObject.length;
+        }
+        if (hasValue(jsObject.name)) {
+            dotNetField.name = jsObject.name;
+        }
+        if (hasValue(jsObject.nullable)) {
+            dotNetField.nullable = jsObject.nullable;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetField.type = jsObject.type;
+        }
+        if (hasValue(jsObject.valueType)) {
+            dotNetField.valueType = jsObject.valueType;
+        }
 
     return dotNetField;
 }

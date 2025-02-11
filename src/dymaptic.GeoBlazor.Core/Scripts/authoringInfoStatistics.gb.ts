@@ -13,12 +13,6 @@ export default class AuthoringInfoStatisticsGenerated implements IPropertyWrappe
 
     constructor(component: AuthoringInfoStatistics) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoStatisticsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = authoringInfoStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AuthoringInfoStatistics', e);
+    }
     
     return jsAuthoringInfoStatistics;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetAuthoringInfoStatistics.max = jsObject.max;
-        dotNetAuthoringInfoStatistics.min = jsObject.min;
+        if (hasValue(jsObject.max)) {
+            dotNetAuthoringInfoStatistics.max = jsObject.max;
+        }
+        if (hasValue(jsObject.min)) {
+            dotNetAuthoringInfoStatistics.min = jsObject.min;
+        }
 
     return dotNetAuthoringInfoStatistics;
 }

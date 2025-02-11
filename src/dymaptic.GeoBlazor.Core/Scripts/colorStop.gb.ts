@@ -13,12 +13,6 @@ export default class ColorStopGenerated implements IPropertyWrapper {
 
     constructor(component: ColorStop) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsColorStopGenerated(dotNetObject: any, layerId: stri
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorStopWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = colorStopWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ColorStop', e);
+    }
     
     return jsColorStop;
 }
@@ -74,9 +73,15 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetColorStop.color = jsObject.color;
-        dotNetColorStop.label = jsObject.label;
-        dotNetColorStop.value = jsObject.value;
+        if (hasValue(jsObject.color)) {
+            dotNetColorStop.color = jsObject.color;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetColorStop.label = jsObject.label;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetColorStop.value = jsObject.value;
+        }
 
     return dotNetColorStop;
 }

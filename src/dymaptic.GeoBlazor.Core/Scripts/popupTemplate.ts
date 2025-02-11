@@ -26,7 +26,7 @@ export async function buildJsPopupTemplate(dotNetObject: any, layerId: string | 
     let { buildJsPopupTemplateGenerated } = await import('./popupTemplate.gb');
     return await buildJsPopupTemplateGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetPopupTemplate(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
     let { buildDotNetPopupTemplateGenerated } = await import('./popupTemplate.gb');
-    return await buildDotNetPopupTemplateGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPopupTemplateGenerated(jsObject);
 }

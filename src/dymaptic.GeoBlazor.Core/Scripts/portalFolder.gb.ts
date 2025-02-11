@@ -13,12 +13,6 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
 
     constructor(component: PortalFolder) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -66,9 +60,14 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalFolderWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = portalFolderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PortalFolder', e);
+    }
     
     return jsPortalFolder;
 }
@@ -82,10 +81,18 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPortalFolder.created = jsObject.created;
-        dotNetPortalFolder.portalFolderId = jsObject.id;
-        dotNetPortalFolder.title = jsObject.title;
-        dotNetPortalFolder.url = jsObject.url;
+        if (hasValue(jsObject.created)) {
+            dotNetPortalFolder.created = jsObject.created;
+        }
+        if (hasValue(jsObject.id)) {
+            dotNetPortalFolder.portalFolderId = jsObject.id;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetPortalFolder.title = jsObject.title;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetPortalFolder.url = jsObject.url;
+        }
 
     return dotNetPortalFolder;
 }

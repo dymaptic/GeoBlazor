@@ -200,12 +200,12 @@ public partial class Label
         }
 
         // get the property value
-        DeconflictionStrategy? result = await JsComponentReference!.InvokeAsync<DeconflictionStrategy?>("getProperty",
-            CancellationTokenSource.Token, "deconflictionStrategy");
-        if (result is not null)
+        JsNullableEnumWrapper<DeconflictionStrategy>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<DeconflictionStrategy>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "deconflictionStrategy");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             DeconflictionStrategy = result.Value;
+             DeconflictionStrategy = (DeconflictionStrategy)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(DeconflictionStrategy)] = DeconflictionStrategy;
         }
@@ -290,12 +290,12 @@ public partial class Label
         }
 
         // get the property value
-        LabelPlacement? result = await JsComponentReference!.InvokeAsync<LabelPlacement?>("getProperty",
-            CancellationTokenSource.Token, "labelPlacement");
-        if (result is not null)
+        JsNullableEnumWrapper<LabelPlacement>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPlacement>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "labelPlacement");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelPlacement = result.Value;
+             LabelPlacement = (LabelPlacement)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LabelPlacement)] = LabelPlacement;
         }
@@ -320,12 +320,12 @@ public partial class Label
         }
 
         // get the property value
-        LabelPosition? result = await JsComponentReference!.InvokeAsync<LabelPosition?>("getProperty",
-            CancellationTokenSource.Token, "labelPosition");
-        if (result is not null)
+        JsNullableEnumWrapper<LabelPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LabelPosition>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "labelPosition");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LabelPosition = result.Value;
+             LabelPosition = (LabelPosition)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LabelPosition)] = LabelPosition;
         }

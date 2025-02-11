@@ -13,12 +13,6 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: GeoJSONLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -40,13 +34,13 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return buildDotNetLayerView(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.layer.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result);
+        return await buildDotNetPopupTemplate(result);
     }
 
     async createQuery(): Promise<any> {
@@ -171,12 +165,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     }
     async getTemplates(): Promise<any> {
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i, this.layerId, this.viewId));
+        return this.layer.templates.map(i => buildDotNetFeatureTemplate(i));
     }
     
     async setTemplates(value: any): Promise<void> {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        this.layer.templates = value.map(async i => await buildJsFeatureTemplate(i, this.layerId, this.viewId));
+        this.layer.templates = value.map(i => buildJsFeatureTemplate(i, this.viewId));
     }
     
     async getTimeExtent(): Promise<any> {
@@ -250,7 +244,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         jsGeoJSONLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsGeoJSONLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
@@ -259,7 +253,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./jsBuilder');
-        jsGeoJSONLayer.templates = dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId)) as any;
+        jsGeoJSONLayer.templates = dotNetObject.templates.map(i => buildJsFeatureTemplate(i, viewId)) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -350,9 +344,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.title)) {
         jsGeoJSONLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsGeoJSONLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsGeoJSONLayer.url = dotNetObject.url;
     }
@@ -375,9 +366,14 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GeoJSONLayer', e);
+    }
     
     return jsGeoJSONLayer;
 }
@@ -416,7 +412,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
             dotNetGeoJSONLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetGeoJSONLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.renderer)) {
@@ -425,7 +421,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./dotNetBuilder');
-            dotNetGeoJSONLayer.templates = jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId));
+            dotNetGeoJSONLayer.templates = jsObject.templates.map(i => buildDotNetFeatureTemplate(i));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
@@ -443,40 +439,108 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetGeoJSONLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetGeoJSONLayer.arcGISLayerId = jsObject.id;
-        dotNetGeoJSONLayer.blendMode = jsObject.blendMode;
-        dotNetGeoJSONLayer.capabilities = jsObject.capabilities;
-        dotNetGeoJSONLayer.copyright = jsObject.copyright;
-        dotNetGeoJSONLayer.customParameters = jsObject.customParameters;
-        dotNetGeoJSONLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        dotNetGeoJSONLayer.definitionExpression = jsObject.definitionExpression;
-        dotNetGeoJSONLayer.displayField = jsObject.displayField;
-        dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
-        dotNetGeoJSONLayer.effect = jsObject.effect;
-        dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
-        dotNetGeoJSONLayer.fieldsIndex = jsObject.fieldsIndex;
-        dotNetGeoJSONLayer.fullExtent = jsObject.fullExtent;
-        dotNetGeoJSONLayer.geometryType = jsObject.geometryType;
-        dotNetGeoJSONLayer.hasZ = jsObject.hasZ;
-        dotNetGeoJSONLayer.isTable = jsObject.isTable;
-        dotNetGeoJSONLayer.labelsVisible = jsObject.labelsVisible;
-        dotNetGeoJSONLayer.legendEnabled = jsObject.legendEnabled;
-        dotNetGeoJSONLayer.listMode = jsObject.listMode;
-        dotNetGeoJSONLayer.loaded = jsObject.loaded;
-        dotNetGeoJSONLayer.maxScale = jsObject.maxScale;
-        dotNetGeoJSONLayer.minScale = jsObject.minScale;
-        dotNetGeoJSONLayer.objectIdField = jsObject.objectIdField;
-        dotNetGeoJSONLayer.opacity = jsObject.opacity;
-        dotNetGeoJSONLayer.outFields = jsObject.outFields;
-        dotNetGeoJSONLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetGeoJSONLayer.popupEnabled = jsObject.popupEnabled;
-        dotNetGeoJSONLayer.refreshInterval = jsObject.refreshInterval;
-        dotNetGeoJSONLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        dotNetGeoJSONLayer.spatialReference = jsObject.spatialReference;
-        dotNetGeoJSONLayer.title = jsObject.title;
-        dotNetGeoJSONLayer.type = jsObject.type;
-        dotNetGeoJSONLayer.url = jsObject.url;
-        dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
+        if (hasValue(jsObject.id)) {
+            dotNetGeoJSONLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetGeoJSONLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.capabilities)) {
+            dotNetGeoJSONLayer.capabilities = jsObject.capabilities;
+        }
+        if (hasValue(jsObject.copyright)) {
+            dotNetGeoJSONLayer.copyright = jsObject.copyright;
+        }
+        if (hasValue(jsObject.customParameters)) {
+            dotNetGeoJSONLayer.customParameters = jsObject.customParameters;
+        }
+        if (hasValue(jsObject.dateFieldsTimeZone)) {
+            dotNetGeoJSONLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+        }
+        if (hasValue(jsObject.definitionExpression)) {
+            dotNetGeoJSONLayer.definitionExpression = jsObject.definitionExpression;
+        }
+        if (hasValue(jsObject.displayField)) {
+            dotNetGeoJSONLayer.displayField = jsObject.displayField;
+        }
+        if (hasValue(jsObject.editingEnabled)) {
+            dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetGeoJSONLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.featureReduction)) {
+            dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
+        }
+        if (hasValue(jsObject.fieldsIndex)) {
+            dotNetGeoJSONLayer.fieldsIndex = jsObject.fieldsIndex;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetGeoJSONLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.geometryType)) {
+            dotNetGeoJSONLayer.geometryType = jsObject.geometryType;
+        }
+        if (hasValue(jsObject.hasZ)) {
+            dotNetGeoJSONLayer.hasZ = jsObject.hasZ;
+        }
+        if (hasValue(jsObject.isTable)) {
+            dotNetGeoJSONLayer.isTable = jsObject.isTable;
+        }
+        if (hasValue(jsObject.labelsVisible)) {
+            dotNetGeoJSONLayer.labelsVisible = jsObject.labelsVisible;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetGeoJSONLayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetGeoJSONLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetGeoJSONLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetGeoJSONLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetGeoJSONLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.objectIdField)) {
+            dotNetGeoJSONLayer.objectIdField = jsObject.objectIdField;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetGeoJSONLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.outFields)) {
+            dotNetGeoJSONLayer.outFields = jsObject.outFields;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetGeoJSONLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.popupEnabled)) {
+            dotNetGeoJSONLayer.popupEnabled = jsObject.popupEnabled;
+        }
+        if (hasValue(jsObject.refreshInterval)) {
+            dotNetGeoJSONLayer.refreshInterval = jsObject.refreshInterval;
+        }
+        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+            dotNetGeoJSONLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetGeoJSONLayer.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetGeoJSONLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetGeoJSONLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetGeoJSONLayer.url = jsObject.url;
+        }
+        if (hasValue(jsObject.useViewTime)) {
+            dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
+        }
 
     return dotNetGeoJSONLayer;
 }

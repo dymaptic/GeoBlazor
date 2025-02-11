@@ -13,12 +13,6 @@ export default class OrderedLayerOrderByGenerated implements IPropertyWrapper {
 
     constructor(component: OrderedLayerOrderBy) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(orderedLayerOrderByWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = orderedLayerOrderByWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for OrderedLayerOrderBy', e);
+    }
     
     return jsOrderedLayerOrderBy;
 }
@@ -74,9 +73,15 @@ export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetOrderedLayerOrderBy.field = jsObject.field;
-        dotNetOrderedLayerOrderBy.order = jsObject.order;
-        dotNetOrderedLayerOrderBy.valueExpression = jsObject.valueExpression;
+        if (hasValue(jsObject.field)) {
+            dotNetOrderedLayerOrderBy.field = jsObject.field;
+        }
+        if (hasValue(jsObject.order)) {
+            dotNetOrderedLayerOrderBy.order = jsObject.order;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetOrderedLayerOrderBy.valueExpression = jsObject.valueExpression;
+        }
 
     return dotNetOrderedLayerOrderBy;
 }

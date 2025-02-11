@@ -142,12 +142,12 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationInfoMode? result = await JsComponentReference!.InvokeAsync<ElevationInfoMode?>("getProperty",
-            CancellationTokenSource.Token, "mode");
-        if (result is not null)
+        JsNullableEnumWrapper<ElevationInfoMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationInfoMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "mode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Mode = result.Value;
+             Mode = (ElevationInfoMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Mode)] = Mode;
         }
@@ -202,12 +202,12 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
         }
 
         // get the property value
-        ElevationUnit? result = await JsComponentReference!.InvokeAsync<ElevationUnit?>("getProperty",
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<ElevationUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ElevationUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Unit = result.Value;
+             Unit = (ElevationUnit)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Unit)] = Unit;
         }

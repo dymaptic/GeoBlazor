@@ -13,12 +13,6 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
 
     constructor(component: ArcGISImageServiceCapabilities) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -76,9 +70,14 @@ export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObjec
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilities;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ArcGISImageServiceCapabilities', e);
+    }
     
     return jsArcGISImageServiceCapabilities;
 }
@@ -100,7 +99,9 @@ export async function buildDotNetArcGISImageServiceCapabilitiesGenerated(jsObjec
             let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
             dotNetArcGISImageServiceCapabilities.operations = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsObject.operations);
         }
-        dotNetArcGISImageServiceCapabilities.query = jsObject.query;
+        if (hasValue(jsObject.query)) {
+            dotNetArcGISImageServiceCapabilities.query = jsObject.query;
+        }
 
     return dotNetArcGISImageServiceCapabilities;
 }

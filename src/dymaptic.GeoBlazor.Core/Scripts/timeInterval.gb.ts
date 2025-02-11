@@ -13,12 +13,6 @@ export default class TimeIntervalGenerated implements IPropertyWrapper {
 
     constructor(component: TimeInterval) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeIntervalWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = timeIntervalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for TimeInterval', e);
+    }
     
     return jsTimeInterval;
 }
@@ -71,8 +70,12 @@ export function buildDotNetTimeIntervalGenerated(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetTimeInterval.unit = jsObject.unit;
-        dotNetTimeInterval.value = jsObject.value;
+        if (hasValue(jsObject.unit)) {
+            dotNetTimeInterval.unit = jsObject.unit;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetTimeInterval.value = jsObject.value;
+        }
 
     return dotNetTimeInterval;
 }

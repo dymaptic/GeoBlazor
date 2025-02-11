@@ -161,12 +161,12 @@ public partial class TileInfo
         }
 
         // get the property value
-        TileInfoFormat? result = await JsComponentReference!.InvokeAsync<TileInfoFormat?>("getProperty",
-            CancellationTokenSource.Token, "format");
-        if (result is not null)
+        JsNullableEnumWrapper<TileInfoFormat>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<TileInfoFormat>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "format");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Format = result.Value;
+             Format = (TileInfoFormat)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Format)] = Format;
         }

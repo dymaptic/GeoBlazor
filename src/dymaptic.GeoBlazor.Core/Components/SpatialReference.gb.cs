@@ -126,12 +126,12 @@ public partial class SpatialReference
         }
 
         // get the property value
-        SpatialReferenceUnit? result = await JsComponentReference!.InvokeAsync<SpatialReferenceUnit?>("getProperty",
-            CancellationTokenSource.Token, "unit");
-        if (result is not null)
+        JsNullableEnumWrapper<SpatialReferenceUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SpatialReferenceUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "unit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Unit = result.Value;
+             Unit = (SpatialReferenceUnit)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Unit)] = Unit;
         }

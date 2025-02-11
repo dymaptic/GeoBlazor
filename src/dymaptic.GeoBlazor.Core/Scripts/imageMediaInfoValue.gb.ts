@@ -13,12 +13,6 @@ export default class ImageMediaInfoValueGenerated implements IPropertyWrapper {
 
     constructor(component: ImageMediaInfoValue) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any, lay
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoValueWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = imageMediaInfoValueWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfoValue;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ImageMediaInfoValue', e);
+    }
     
     return jsImageMediaInfoValue;
 }
@@ -71,8 +70,12 @@ export function buildDotNetImageMediaInfoValueGenerated(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetImageMediaInfoValue.linkURL = jsObject.linkURL;
-        dotNetImageMediaInfoValue.sourceURL = jsObject.sourceURL;
+        if (hasValue(jsObject.linkURL)) {
+            dotNetImageMediaInfoValue.linkURL = jsObject.linkURL;
+        }
+        if (hasValue(jsObject.sourceURL)) {
+            dotNetImageMediaInfoValue.sourceURL = jsObject.sourceURL;
+        }
 
     return dotNetImageMediaInfoValue;
 }

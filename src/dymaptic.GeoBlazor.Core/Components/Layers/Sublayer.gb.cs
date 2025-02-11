@@ -660,12 +660,12 @@ public partial class Sublayer
         }
 
         // get the property value
-        ListMode? result = await JsComponentReference!.InvokeAsync<ListMode?>("getProperty",
-            CancellationTokenSource.Token, "listMode");
-        if (result is not null)
+        JsNullableEnumWrapper<ListMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ListMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "listMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ListMode = result.Value;
+             ListMode = (ListMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ListMode)] = ListMode;
         }
@@ -990,12 +990,12 @@ public partial class Sublayer
         }
 
         // get the property value
-        long? result = await JsComponentReference!.InvokeAsync<long?>("getProperty",
-            CancellationTokenSource.Token, "sublayerId");
-        if (result is not null)
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "sublayerId");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SublayerId = result.Value;
+             SublayerId = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SublayerId)] = SublayerId;
         }

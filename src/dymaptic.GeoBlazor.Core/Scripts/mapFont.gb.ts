@@ -13,12 +13,6 @@ export default class MapFontGenerated implements IPropertyWrapper {
 
     constructor(component: Font) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -64,9 +58,14 @@ export async function buildJsMapFontGenerated(dotNetObject: any, layerId: string
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapFontWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = mapFontWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFont;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for MapFont', e);
+    }
     
     return jsFont;
 }
@@ -80,11 +79,21 @@ export async function buildDotNetMapFontGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetMapFont.decoration = jsObject.decoration;
-        dotNetMapFont.family = jsObject.family;
-        dotNetMapFont.size = jsObject.size;
-        dotNetMapFont.style = jsObject.style;
-        dotNetMapFont.weight = jsObject.weight;
+        if (hasValue(jsObject.decoration)) {
+            dotNetMapFont.decoration = jsObject.decoration;
+        }
+        if (hasValue(jsObject.family)) {
+            dotNetMapFont.family = jsObject.family;
+        }
+        if (hasValue(jsObject.size)) {
+            dotNetMapFont.size = jsObject.size;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetMapFont.style = jsObject.style;
+        }
+        if (hasValue(jsObject.weight)) {
+            dotNetMapFont.weight = jsObject.weight;
+        }
 
     return dotNetMapFont;
 }

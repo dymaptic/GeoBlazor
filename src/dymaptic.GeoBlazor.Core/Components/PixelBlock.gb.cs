@@ -292,12 +292,12 @@ public partial class PixelBlock : MapComponent
         }
 
         // get the property value
-        PixelType? result = await JsComponentReference!.InvokeAsync<PixelType?>("getProperty",
-            CancellationTokenSource.Token, "pixelType");
-        if (result is not null)
+        JsNullableEnumWrapper<PixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "pixelType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PixelType = result.Value;
+             PixelType = (PixelType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PixelType)] = PixelType;
         }

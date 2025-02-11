@@ -56,7 +56,7 @@ public abstract partial class Widget : MapComponent
     public EventCallback OnWidgetCreated { get; set; }
 
     [JSInvokable]
-    public override async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public override async ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
         await base.OnJsComponentCreated(jsComponentReference);
         await OnWidgetCreated.InvokeAsync(this);

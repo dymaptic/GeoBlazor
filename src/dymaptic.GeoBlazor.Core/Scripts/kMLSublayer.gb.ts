@@ -13,12 +13,6 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
 
     constructor(component: KMLSublayer) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -79,9 +73,14 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLSublayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = kMLSublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for KMLSublayer', e);
+    }
     
     return jsKMLSublayer;
 }
@@ -95,11 +94,21 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetKMLSublayer.description = jsObject.description;
-        dotNetKMLSublayer.kMLSublayerId = jsObject.id;
-        dotNetKMLSublayer.networkLink = jsObject.networkLink;
-        dotNetKMLSublayer.sourceJSON = jsObject.sourceJSON;
-        dotNetKMLSublayer.title = jsObject.title;
+        if (hasValue(jsObject.description)) {
+            dotNetKMLSublayer.description = jsObject.description;
+        }
+        if (hasValue(jsObject.id)) {
+            dotNetKMLSublayer.kMLSublayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.networkLink)) {
+            dotNetKMLSublayer.networkLink = jsObject.networkLink;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetKMLSublayer.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetKMLSublayer.title = jsObject.title;
+        }
 
     return dotNetKMLSublayer;
 }

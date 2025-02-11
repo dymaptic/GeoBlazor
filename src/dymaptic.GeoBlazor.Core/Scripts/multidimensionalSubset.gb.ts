@@ -13,12 +13,6 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
 
     constructor(component: MultidimensionalSubset) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -66,9 +60,14 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multidimensionalSubsetWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = multidimensionalSubsetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for MultidimensionalSubset', e);
+    }
     
     return jsMultidimensionalSubset;
 }
@@ -86,9 +85,15 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
             let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
             dotNetMultidimensionalSubset.subsetDefinitions = jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i));
         }
-        dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;
-        dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
-        dotNetMultidimensionalSubset.variables = jsObject.variables;
+        if (hasValue(jsObject.areaOfInterest)) {
+            dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;
+        }
+        if (hasValue(jsObject.dimensions)) {
+            dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
+        }
+        if (hasValue(jsObject.variables)) {
+            dotNetMultidimensionalSubset.variables = jsObject.variables;
+        }
 
     return dotNetMultidimensionalSubset;
 }

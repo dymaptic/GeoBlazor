@@ -13,12 +13,6 @@ export default class CapabilitiesEditingGenerated implements IPropertyWrapper {
 
     constructor(component: CapabilitiesEditing) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -76,9 +70,14 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesEditingWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesEditingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesEditing', e);
+    }
     
     return jsCapabilitiesEditing;
 }
@@ -92,15 +91,33 @@ export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesEditing.supportsDeleteByAnonymous = jsObject.supportsDeleteByAnonymous;
-        dotNetCapabilitiesEditing.supportsDeleteByOthers = jsObject.supportsDeleteByOthers;
-        dotNetCapabilitiesEditing.supportsGeometryUpdate = jsObject.supportsGeometryUpdate;
-        dotNetCapabilitiesEditing.supportsGlobalId = jsObject.supportsGlobalId;
-        dotNetCapabilitiesEditing.supportsRollbackOnFailure = jsObject.supportsRollbackOnFailure;
-        dotNetCapabilitiesEditing.supportsUpdateByAnonymous = jsObject.supportsUpdateByAnonymous;
-        dotNetCapabilitiesEditing.supportsUpdateByOthers = jsObject.supportsUpdateByOthers;
-        dotNetCapabilitiesEditing.supportsUpdateWithoutM = jsObject.supportsUpdateWithoutM;
-        dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
+        if (hasValue(jsObject.supportsDeleteByAnonymous)) {
+            dotNetCapabilitiesEditing.supportsDeleteByAnonymous = jsObject.supportsDeleteByAnonymous;
+        }
+        if (hasValue(jsObject.supportsDeleteByOthers)) {
+            dotNetCapabilitiesEditing.supportsDeleteByOthers = jsObject.supportsDeleteByOthers;
+        }
+        if (hasValue(jsObject.supportsGeometryUpdate)) {
+            dotNetCapabilitiesEditing.supportsGeometryUpdate = jsObject.supportsGeometryUpdate;
+        }
+        if (hasValue(jsObject.supportsGlobalId)) {
+            dotNetCapabilitiesEditing.supportsGlobalId = jsObject.supportsGlobalId;
+        }
+        if (hasValue(jsObject.supportsRollbackOnFailure)) {
+            dotNetCapabilitiesEditing.supportsRollbackOnFailure = jsObject.supportsRollbackOnFailure;
+        }
+        if (hasValue(jsObject.supportsUpdateByAnonymous)) {
+            dotNetCapabilitiesEditing.supportsUpdateByAnonymous = jsObject.supportsUpdateByAnonymous;
+        }
+        if (hasValue(jsObject.supportsUpdateByOthers)) {
+            dotNetCapabilitiesEditing.supportsUpdateByOthers = jsObject.supportsUpdateByOthers;
+        }
+        if (hasValue(jsObject.supportsUpdateWithoutM)) {
+            dotNetCapabilitiesEditing.supportsUpdateWithoutM = jsObject.supportsUpdateWithoutM;
+        }
+        if (hasValue(jsObject.supportsUploadWithItemId)) {
+            dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
+        }
 
     return dotNetCapabilitiesEditing;
 }

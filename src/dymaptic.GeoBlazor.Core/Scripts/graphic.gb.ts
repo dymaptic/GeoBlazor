@@ -13,12 +13,6 @@ export default class GraphicGenerated implements IPropertyWrapper {
 
     constructor(component: Graphic) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -41,7 +35,7 @@ export default class GraphicGenerated implements IPropertyWrapper {
     
     async getLayer(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return buildDotNetLayer(this.component.layer);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -83,9 +77,14 @@ export async function buildJsGraphicGenerated(dotNetObject: any, layerId: string
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = graphicWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphic;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Graphic', e);
+    }
     
     return jsGraphic;
 }
@@ -107,11 +106,21 @@ export async function buildDotNetGraphicGenerated(jsObject: any, layerId: string
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
             dotNetGraphic.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        dotNetGraphic.aggregateGeometries = jsObject.aggregateGeometries;
-        dotNetGraphic.attributes = jsObject.attributes;
-        dotNetGraphic.geometry = jsObject.geometry;
-        dotNetGraphic.isAggregate = jsObject.isAggregate;
-        dotNetGraphic.origin = jsObject.origin;
+        if (hasValue(jsObject.aggregateGeometries)) {
+            dotNetGraphic.aggregateGeometries = jsObject.aggregateGeometries;
+        }
+        if (hasValue(jsObject.attributes)) {
+            dotNetGraphic.attributes = jsObject.attributes;
+        }
+        if (hasValue(jsObject.geometry)) {
+            dotNetGraphic.geometry = jsObject.geometry;
+        }
+        if (hasValue(jsObject.isAggregate)) {
+            dotNetGraphic.isAggregate = jsObject.isAggregate;
+        }
+        if (hasValue(jsObject.origin)) {
+            dotNetGraphic.origin = jsObject.origin;
+        }
 
     return dotNetGraphic;
 }

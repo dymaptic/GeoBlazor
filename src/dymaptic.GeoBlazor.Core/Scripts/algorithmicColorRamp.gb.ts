@@ -13,12 +13,6 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
 
     constructor(component: AlgorithmicColorRamp) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, la
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = algorithmicColorRampWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AlgorithmicColorRamp', e);
+    }
     
     return jsAlgorithmicColorRamp;
 }
@@ -74,10 +73,18 @@ export async function buildDotNetAlgorithmicColorRampGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetAlgorithmicColorRamp.algorithm = jsObject.algorithm;
-        dotNetAlgorithmicColorRamp.fromColor = jsObject.fromColor;
-        dotNetAlgorithmicColorRamp.toColor = jsObject.toColor;
-        dotNetAlgorithmicColorRamp.type = jsObject.type;
+        if (hasValue(jsObject.algorithm)) {
+            dotNetAlgorithmicColorRamp.algorithm = jsObject.algorithm;
+        }
+        if (hasValue(jsObject.fromColor)) {
+            dotNetAlgorithmicColorRamp.fromColor = jsObject.fromColor;
+        }
+        if (hasValue(jsObject.toColor)) {
+            dotNetAlgorithmicColorRamp.toColor = jsObject.toColor;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetAlgorithmicColorRamp.type = jsObject.type;
+        }
 
     return dotNetAlgorithmicColorRamp;
 }

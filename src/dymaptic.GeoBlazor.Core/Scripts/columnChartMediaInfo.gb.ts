@@ -13,12 +13,6 @@ export default class ColumnChartMediaInfoGenerated implements IPropertyWrapper {
 
     constructor(component: ColumnChartMediaInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsColumnChartMediaInfoGenerated(dotNetObject: any, la
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(columnChartMediaInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = columnChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColumnChartMediaInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ColumnChartMediaInfo', e);
+    }
     
     return jsColumnChartMediaInfo;
 }
@@ -90,10 +89,18 @@ export async function buildDotNetColumnChartMediaInfoGenerated(jsObject: any): P
             let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
             dotNetColumnChartMediaInfo.value = await buildDotNetChartMediaInfoValue(jsObject.value);
         }
-        dotNetColumnChartMediaInfo.altText = jsObject.altText;
-        dotNetColumnChartMediaInfo.caption = jsObject.caption;
-        dotNetColumnChartMediaInfo.title = jsObject.title;
-        dotNetColumnChartMediaInfo.type = jsObject.type;
+        if (hasValue(jsObject.altText)) {
+            dotNetColumnChartMediaInfo.altText = jsObject.altText;
+        }
+        if (hasValue(jsObject.caption)) {
+            dotNetColumnChartMediaInfo.caption = jsObject.caption;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetColumnChartMediaInfo.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetColumnChartMediaInfo.type = jsObject.type;
+        }
 
     return dotNetColumnChartMediaInfo;
 }

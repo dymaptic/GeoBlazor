@@ -100,12 +100,12 @@ public partial class RotationVariable
         }
 
         // get the property value
-        Axis? result = await JsComponentReference!.InvokeAsync<Axis?>("getProperty",
-            CancellationTokenSource.Token, "axis");
-        if (result is not null)
+        JsNullableEnumWrapper<Axis>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Axis>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "axis");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Axis = result.Value;
+             Axis = (Axis)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Axis)] = Axis;
         }
@@ -130,12 +130,12 @@ public partial class RotationVariable
         }
 
         // get the property value
-        RotationType? result = await JsComponentReference!.InvokeAsync<RotationType?>("getProperty",
-            CancellationTokenSource.Token, "rotationType");
-        if (result is not null)
+        JsNullableEnumWrapper<RotationType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<RotationType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "rotationType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             RotationType = result.Value;
+             RotationType = (RotationType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(RotationType)] = RotationType;
         }

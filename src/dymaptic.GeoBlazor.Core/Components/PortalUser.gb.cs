@@ -311,12 +311,12 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserAccess? result = await JsComponentReference!.InvokeAsync<PortalUserAccess?>("getProperty",
-            CancellationTokenSource.Token, "access");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalUserAccess>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserAccess>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "access");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Access = result.Value;
+             Access = (PortalUserAccess)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Access)] = Access;
         }
@@ -641,12 +641,12 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserRole? result = await JsComponentReference!.InvokeAsync<PortalUserRole?>("getProperty",
-            CancellationTokenSource.Token, "role");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalUserRole>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserRole>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "role");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Role = result.Value;
+             Role = (PortalUserRole)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Role)] = Role;
         }
@@ -715,36 +715,6 @@ public partial class PortalUser : MapComponent
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the ThumbnailUrl property.
-    /// </summary>
-    public async Task<string?> GetThumbnailUrl()
-    {
-        if (CoreJsModule is null)
-        {
-            return ThumbnailUrl;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return ThumbnailUrl;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "thumbnailUrl");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ThumbnailUrl = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ThumbnailUrl)] = ThumbnailUrl;
-        }
-         
-        return ThumbnailUrl;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the Units property.
     /// </summary>
     public async Task<PortalUserUnits?> GetUnits()
@@ -761,12 +731,12 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        PortalUserUnits? result = await JsComponentReference!.InvokeAsync<PortalUserUnits?>("getProperty",
-            CancellationTokenSource.Token, "units");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalUserUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUserUnits>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "units");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Units = result.Value;
+             Units = (PortalUserUnits)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Units)] = Units;
         }

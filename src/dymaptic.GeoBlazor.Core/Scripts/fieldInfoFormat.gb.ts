@@ -13,12 +13,6 @@ export default class FieldInfoFormatGenerated implements IPropertyWrapper {
 
     constructor(component: FieldInfoFormat) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldInfoFormatWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = fieldInfoFormatWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FieldInfoFormat', e);
+    }
     
     return jsFieldInfoFormat;
 }
@@ -74,9 +73,15 @@ export function buildDotNetFieldInfoFormatGenerated(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;
-        dotNetFieldInfoFormat.digitSeparator = jsObject.digitSeparator;
-        dotNetFieldInfoFormat.places = jsObject.places;
+        if (hasValue(jsObject.dateFormat)) {
+            dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;
+        }
+        if (hasValue(jsObject.digitSeparator)) {
+            dotNetFieldInfoFormat.digitSeparator = jsObject.digitSeparator;
+        }
+        if (hasValue(jsObject.places)) {
+            dotNetFieldInfoFormat.places = jsObject.places;
+        }
 
     return dotNetFieldInfoFormat;
 }

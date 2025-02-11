@@ -13,12 +13,6 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
 
     constructor(component: BarChartMediaInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -35,7 +29,7 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -50,7 +44,7 @@ export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any, layer
     let jsBarChartMediaInfo = new BarChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsBarChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
+        jsBarChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -70,9 +64,14 @@ export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any, layer
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(barChartMediaInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = barChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBarChartMediaInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for BarChartMediaInfo', e);
+    }
     
     return jsBarChartMediaInfo;
 }
@@ -90,10 +89,18 @@ export async function buildDotNetBarChartMediaInfoGenerated(jsObject: any): Prom
             let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
             dotNetBarChartMediaInfo.value = await buildDotNetChartMediaInfoValue(jsObject.value);
         }
-        dotNetBarChartMediaInfo.altText = jsObject.altText;
-        dotNetBarChartMediaInfo.caption = jsObject.caption;
-        dotNetBarChartMediaInfo.title = jsObject.title;
-        dotNetBarChartMediaInfo.type = jsObject.type;
+        if (hasValue(jsObject.altText)) {
+            dotNetBarChartMediaInfo.altText = jsObject.altText;
+        }
+        if (hasValue(jsObject.caption)) {
+            dotNetBarChartMediaInfo.caption = jsObject.caption;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetBarChartMediaInfo.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetBarChartMediaInfo.type = jsObject.type;
+        }
 
     return dotNetBarChartMediaInfo;
 }

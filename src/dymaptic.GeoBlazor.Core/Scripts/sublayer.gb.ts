@@ -13,12 +13,6 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     constructor(component: Sublayer) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -30,13 +24,13 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
         let result = this.component.createPopupTemplate(options);
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(result);
+        return await buildDotNetPopupTemplate(result);
     }
 
     async createQuery(): Promise<any> {
@@ -118,15 +112,15 @@ export default class SublayerGenerated implements IPropertyWrapper {
     
     async getLayer(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return buildDotNetLayer(this.component.layer);
     }
     async getPopupTemplate(): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return buildDotNetPopupTemplate(this.component.popupTemplate);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         let { buildDotNetRenderer } = await import('./renderer');
@@ -167,7 +161,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsSublayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./jsBuilder');
@@ -218,9 +212,14 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Sublayer', e);
+    }
     
     return jsSublayer;
 }
@@ -248,34 +247,78 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
-            dotNetSublayer.popupTemplate = buildDotNetPopupTemplate(jsObject.popupTemplate);
+            dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.renderer)) {
             let { buildDotNetRenderer } = await import('./dotNetBuilder');
             dotNetSublayer.renderer = buildDotNetRenderer(jsObject.renderer);
         }
-        dotNetSublayer.capabilities = jsObject.capabilities;
-        dotNetSublayer.dataSource = jsObject.source;
-        dotNetSublayer.definitionExpression = jsObject.definitionExpression;
-        dotNetSublayer.fieldsIndex = jsObject.fieldsIndex;
-        dotNetSublayer.fullExtent = jsObject.fullExtent;
-        dotNetSublayer.isTable = jsObject.isTable;
-        dotNetSublayer.labelsVisible = jsObject.labelsVisible;
-        dotNetSublayer.legendEnabled = jsObject.legendEnabled;
-        dotNetSublayer.listMode = jsObject.listMode;
-        dotNetSublayer.maxScale = jsObject.maxScale;
-        dotNetSublayer.minScale = jsObject.minScale;
-        dotNetSublayer.objectIdField = jsObject.objectIdField;
-        dotNetSublayer.opacity = jsObject.opacity;
-        dotNetSublayer.popupEnabled = jsObject.popupEnabled;
-        dotNetSublayer.relationships = jsObject.relationships;
-        dotNetSublayer.sourceJSON = jsObject.sourceJSON;
-        dotNetSublayer.spatialReference = jsObject.spatialReference;
-        dotNetSublayer.sublayerId = jsObject.id;
-        dotNetSublayer.title = jsObject.title;
-        dotNetSublayer.typeIdField = jsObject.typeIdField;
-        dotNetSublayer.types = jsObject.types;
-        dotNetSublayer.url = jsObject.url;
+        if (hasValue(jsObject.capabilities)) {
+            dotNetSublayer.capabilities = jsObject.capabilities;
+        }
+        if (hasValue(jsObject.source)) {
+            dotNetSublayer.dataSource = jsObject.source;
+        }
+        if (hasValue(jsObject.definitionExpression)) {
+            dotNetSublayer.definitionExpression = jsObject.definitionExpression;
+        }
+        if (hasValue(jsObject.fieldsIndex)) {
+            dotNetSublayer.fieldsIndex = jsObject.fieldsIndex;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetSublayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.isTable)) {
+            dotNetSublayer.isTable = jsObject.isTable;
+        }
+        if (hasValue(jsObject.labelsVisible)) {
+            dotNetSublayer.labelsVisible = jsObject.labelsVisible;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetSublayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetSublayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetSublayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetSublayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.objectIdField)) {
+            dotNetSublayer.objectIdField = jsObject.objectIdField;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetSublayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.popupEnabled)) {
+            dotNetSublayer.popupEnabled = jsObject.popupEnabled;
+        }
+        if (hasValue(jsObject.relationships)) {
+            dotNetSublayer.relationships = jsObject.relationships;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetSublayer.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetSublayer.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.id)) {
+            dotNetSublayer.sublayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetSublayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.typeIdField)) {
+            dotNetSublayer.typeIdField = jsObject.typeIdField;
+        }
+        if (hasValue(jsObject.types)) {
+            dotNetSublayer.types = jsObject.types;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetSublayer.url = jsObject.url;
+        }
 
     return dotNetSublayer;
 }

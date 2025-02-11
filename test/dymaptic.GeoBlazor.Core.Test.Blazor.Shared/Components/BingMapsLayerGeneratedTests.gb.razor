@@ -18,80 +18,70 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                     </Basemap>
                     <BingMapsLayer 
-                        Key="@("vel")"
-                        Style="@(BingImageryStyle.Aerial)"
-                        BlendMode="@(BlendMode.Overlay)"
-                        Effect="@(new Effect("est",
-                            6401071.8916))"
-                        MaxScale="@(38476237.1448)"
-                        MinScale="@(42027.4271)"
-                        RefreshInterval="@(821.5407)"
-                        SpatialReference="@(new SpatialReference(4,
-                                "pariatur",
-                                "reprehenderit",
-                                "non"))"
-                        FullExtent="@(new Extent(-69.1369,
-                                -39.8440,
-                                66.3266,
-                                -54.3933,
-                                83.1821,
-                                765.6874,
-                                152.7734,
-                                537.4087,
-                            new SpatialReference(9,
-                                    "a",
-                                    "consequatur",
-                                    "voluptas"),
+                        Key="@("dolor")"
+                        Style="@(BingImageryStyle.Road)"
+                        BlendMode="@(BlendMode.ColorDodge)"
+                        Effect="@(new Effect("nostrum",
+                            22669886.4339))"
+                        MaxScale="@(27845724.0142)"
+                        MinScale="@(32024.5441)"
+                        RefreshInterval="@(829.0997)"
+                        SpatialReference="@(new SpatialReference(2,
+                                "voluptatum",
+                                "aut",
+                                "consequatur"))"
+                        FullExtent="@(new Extent(171.3382,
+                                76.0025,
+                                81.9085,
+                                -71.0969,
+                                918.2176,
+                                807.8995,
+                                287.8035,
+                                729.2437,
+                            new SpatialReference(3,
+                                    "omnis",
+                                    "suscipit",
+                                    "provident"),
                                 true,
                                 true))"
                         ListMode="@(ListMode.Show)"
-                        Opacity="@(0.6770)"
+                        Opacity="@(0.1348)"
                         PersistenceEnabled="@(true)"
-                        Region="@("at")"
-                        Title="@("facilis rerum voluptatum")">
-                        <TimeExtent 
-                            Start="@(new DateTime(2013, 2, 27, 1, 39, 0))"
-                            End="@(new DateTime(2021, 3, 3, 13, 26, 25))">
-                        </TimeExtent>
+                        Region="@("et")"
+                        Title="@("aut aperiam repellendus")"
+                        VisibilityTimeExtent="@(new TimeExtent(new DateTime(2011, 5, 25, 19, 19, 42),
+                                new DateTime(2023, 8, 14, 2, 44, 29)))">
                         <TileInfo 
-                            Dpi="@(834.5834)"
-                            Format="@(TileInfoFormat.Mixed)"
+                            Dpi="@(804.6542)"
+                            Format="@(TileInfoFormat.Pdf)"
                             IsWrappable="@(true)"
-                            Lods="@([new LOD(9,
-                                    "et",
-                                    21.7457,
-                                    4679920.3327),
+                            Lods="@([new LOD(7,
+                                    "voluptatem",
+                                    97.3072,
+                                    46209780.4001),
                             new LOD(1,
-                                    "tempora",
-                                    64.4397,
-                                    49017089.1665),
-                            new LOD(8,
-                                    "explicabo",
-                                    47.1161,
-                                    24096866.5776),
-                            new LOD(2,
-                                    "eum",
-                                    16.9673,
-                                    6605768.9866)])"
-                            Origin="@(new Point(169.5343,
-                                    48.0287,
-                                    116.5259,
-                                    -64.9529,
-                                    451.2780,
-                                new SpatialReference(3,
-                                        "dolorum",
-                                        "pariatur",
-                                        "nihil"),
+                                    "quis",
+                                    48.6510,
+                                    33675172.8732)])"
+                            Origin="@(new Point(-32.0794,
+                                    -19.3104,
+                                    -161.5971,
+                                    79.7815,
+                                    704.4848,
+                                new SpatialReference(9,
+                                        "adipisci",
+                                        "distinctio",
+                                        "nam"),
                                     true,
                                     true,
-                                    100.1770))"
-                            Size="@([4,
-                                2,
-                                1])"
-                            SpatialReference="@(new SpatialReference(1,
-                                    "vel",
-                                    "rerum",
-                                    "velit"))">
+                                    380.7624))"
+                            Size="@([2,
+                                5,
+                                5])"
+                            SpatialReference="@(new SpatialReference(7,
+                                    "aut",
+                                    "eos",
+                                    "sint"))">
                         </TileInfo>
                     </BingMapsLayer>
                 </Map>
@@ -99,75 +89,54 @@
         await WaitForMapToRender();
         Assert.IsNotNull(bingMapsLayer!);
         await AssertJavaScript("assertLayerExists", args: "bing-maps");
-        BlendMode testBlendMode = BlendMode.Exclusion;
+        BlendMode testBlendMode = BlendMode.DestinationIn;
         await bingMapsLayer.SetBlendMode(testBlendMode);
         var blendMode = await bingMapsLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        SpatialReference testSpatialReference = new SpatialReference(2,
-                    "illo",
-                    "et",
-                    "enim");
+        SpatialReference testSpatialReference = new SpatialReference(6,
+                    "voluptate",
+                    "molestiae",
+                    "totam");
         await bingMapsLayer.SetSpatialReference(testSpatialReference);
         var spatialReference = await bingMapsLayer.GetSpatialReference();
         Assert.AreEqual(testSpatialReference, spatialReference);
-        Extent testFullExtent = new Extent(-26.2550,
-                    -144.3378,
-                    55.2831,
-                    77.4924,
-                    157.7586,
-                    929.1809,
-                    604.3492,
-                    345.9219,
-                new SpatialReference(8,
-                        "veritatis",
-                        "aut",
-                        "quo"),
+        TileInfo testTileInfo = new TileInfo(740.5801,
+                    TileInfoFormat.Png,
                     true,
-                    true);
-        await bingMapsLayer.SetFullExtent(testFullExtent);
-        var fullExtent = await bingMapsLayer.GetFullExtent();
-        Assert.AreEqual(testFullExtent, fullExtent);
-        ListMode testListMode = ListMode.Hide;
-        await bingMapsLayer.SetListMode(testListMode);
-        var listMode = await bingMapsLayer.GetListMode();
-        Assert.AreEqual(testListMode, listMode);
-        TileInfo testTileInfo = new TileInfo(657.5851,
-                    TileInfoFormat.Lerc,
-                    true,
-                [new LOD(8,
-                        "nemo",
-                        43.9440,
-                        15535322.6205),
-                new LOD(9,
-                        "recusandae",
-                        56.6146,
-                        8346008.3178)],
-                new Point(-0.3291,
-                        65.2636,
-                        8.0260,
-                        -24.4455,
-                        350.6678,
+                [new LOD(7,
+                        "rem",
+                        48.9844,
+                        24837636.3251),
+                new LOD(5,
+                        "velit",
+                        22.5606,
+                        46045639.5722),
+                new LOD(8,
+                        "et",
+                        5.6352,
+                        12422665.5233)],
+                new Point(26.3372,
+                        33.8566,
+                        -139.1310,
+                        -89.2471,
+                        964.5207,
                     new SpatialReference(1,
-                            "debitis",
-                            "facilis",
-                            "eius"),
+                            "aliquam",
+                            "aliquid",
+                            "aut"),
                         true,
                         true,
-                        837.7209),
-                    [6,
-                        6,
+                        599.6793),
+                    [4,
+                        9,
+                        9,
                         2],
-                new SpatialReference(2,
-                        "id",
-                        "debitis",
-                        "odit"));
+                new SpatialReference(3,
+                        "et",
+                        "eaque",
+                        "vero"));
         await bingMapsLayer.SetTileInfo(testTileInfo);
         var tileInfo = await bingMapsLayer.GetTileInfo();
         Assert.AreEqual(testTileInfo, tileInfo);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2000, 1, 22, 9, 28, 20),
-                    new DateTime(2021, 4, 20, 0, 31, 11));
-        await bingMapsLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
-        var visibilityTimeExtent = await bingMapsLayer.GetVisibilityTimeExtent();
-        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
     }
 }

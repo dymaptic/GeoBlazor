@@ -98,12 +98,12 @@ public partial class OrderedLayerOrderBy
         }
 
         // get the property value
-        SortOrder? result = await JsComponentReference!.InvokeAsync<SortOrder?>("getProperty",
-            CancellationTokenSource.Token, "order");
-        if (result is not null)
+        JsNullableEnumWrapper<SortOrder>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SortOrder>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "order");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Order = result.Value;
+             Order = (SortOrder)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Order)] = Order;
         }

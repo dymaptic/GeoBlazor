@@ -13,12 +13,6 @@ export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper 
 
     constructor(component: CSVLayerElevationInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerElevationInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = cSVLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CSVLayerElevationInfo', e);
+    }
     
     return jsCSVLayerElevationInfo;
 }
@@ -90,9 +89,15 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): 
             let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
             dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
         }
-        dotNetCSVLayerElevationInfo.mode = jsObject.mode;
-        dotNetCSVLayerElevationInfo.offset = jsObject.offset;
-        dotNetCSVLayerElevationInfo.unit = jsObject.unit;
+        if (hasValue(jsObject.mode)) {
+            dotNetCSVLayerElevationInfo.mode = jsObject.mode;
+        }
+        if (hasValue(jsObject.offset)) {
+            dotNetCSVLayerElevationInfo.offset = jsObject.offset;
+        }
+        if (hasValue(jsObject.unit)) {
+            dotNetCSVLayerElevationInfo.unit = jsObject.unit;
+        }
 
     return dotNetCSVLayerElevationInfo;
 }

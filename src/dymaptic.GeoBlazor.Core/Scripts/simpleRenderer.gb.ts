@@ -13,12 +13,6 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
 
     constructor(component: SimpleRenderer) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -31,11 +25,11 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     
     async getAuthoringInfo(): Promise<any> {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        return await buildDotNetAuthoringInfo(this.component.authoringInfo);
+        return buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        this.component.authoringInfo =  buildJsAuthoringInfo(value);
     }
     async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -63,7 +57,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     let jsSimpleRenderer = new SimpleRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./jsBuilder');
-        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsSimpleRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./jsBuilder');
@@ -85,9 +79,14 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleRendererWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = simpleRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SimpleRenderer', e);
+    }
     
     return jsSimpleRenderer;
 }
@@ -103,15 +102,19 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
     };
         if (hasValue(jsObject.authoringInfo)) {
             let { buildDotNetAuthoringInfo } = await import('./dotNetBuilder');
-            dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+            dotNetSimpleRenderer.authoringInfo = buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
             dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         dotNetSimpleRenderer.visualVariables = jsObject.visualVariables;
-        dotNetSimpleRenderer.label = jsObject.label;
-        dotNetSimpleRenderer.type = jsObject.type;
+        if (hasValue(jsObject.label)) {
+            dotNetSimpleRenderer.label = jsObject.label;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetSimpleRenderer.type = jsObject.type;
+        }
 
     return dotNetSimpleRenderer;
 }

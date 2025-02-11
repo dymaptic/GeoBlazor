@@ -13,12 +13,6 @@ export default class RotationVariableGenerated implements IPropertyWrapper {
 
     constructor(component: RotationVariable) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -76,9 +70,14 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rotationVariableWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = rotationVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RotationVariable', e);
+    }
     
     return jsRotationVariable;
 }
@@ -96,12 +95,24 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
             let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
             dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
         }
-        dotNetRotationVariable.axis = jsObject.axis;
-        dotNetRotationVariable.field = jsObject.field;
-        dotNetRotationVariable.rotationType = jsObject.rotationType;
-        dotNetRotationVariable.type = jsObject.type;
-        dotNetRotationVariable.valueExpression = jsObject.valueExpression;
-        dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        if (hasValue(jsObject.axis)) {
+            dotNetRotationVariable.axis = jsObject.axis;
+        }
+        if (hasValue(jsObject.field)) {
+            dotNetRotationVariable.field = jsObject.field;
+        }
+        if (hasValue(jsObject.rotationType)) {
+            dotNetRotationVariable.rotationType = jsObject.rotationType;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetRotationVariable.type = jsObject.type;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetRotationVariable.valueExpression = jsObject.valueExpression;
+        }
+        if (hasValue(jsObject.valueExpressionTitle)) {
+            dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        }
 
     return dotNetRotationVariable;
 }

@@ -242,12 +242,12 @@ public partial class FieldInfo
         }
 
         // get the property value
-        StatisticType? result = await JsComponentReference!.InvokeAsync<StatisticType?>("getProperty",
-            CancellationTokenSource.Token, "statisticType");
-        if (result is not null)
+        JsNullableEnumWrapper<StatisticType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StatisticType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "statisticType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             StatisticType = result.Value;
+             StatisticType = (StatisticType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(StatisticType)] = StatisticType;
         }
@@ -272,12 +272,12 @@ public partial class FieldInfo
         }
 
         // get the property value
-        StringFieldOption? result = await JsComponentReference!.InvokeAsync<StringFieldOption?>("getProperty",
-            CancellationTokenSource.Token, "stringFieldOption");
-        if (result is not null)
+        JsNullableEnumWrapper<StringFieldOption>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<StringFieldOption>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "stringFieldOption");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             StringFieldOption = result.Value;
+             StringFieldOption = (StringFieldOption)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(StringFieldOption)] = StringFieldOption;
         }

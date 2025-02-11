@@ -13,12 +13,6 @@ export default class BasemapStyleGenerated implements IPropertyWrapper {
 
     constructor(component: BasemapStyle) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -64,9 +58,14 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapStyleWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = basemapStyleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for BasemapStyle', e);
+    }
     
     return jsBasemapStyle;
 }
@@ -80,11 +79,21 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: s
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetBasemapStyle.language = jsObject.language;
-        dotNetBasemapStyle.name = jsObject.id;
-        dotNetBasemapStyle.places = jsObject.places;
-        dotNetBasemapStyle.serviceUrl = jsObject.serviceUrl;
-        dotNetBasemapStyle.worldview = jsObject.worldview;
+        if (hasValue(jsObject.language)) {
+            dotNetBasemapStyle.language = jsObject.language;
+        }
+        if (hasValue(jsObject.id)) {
+            dotNetBasemapStyle.name = jsObject.id;
+        }
+        if (hasValue(jsObject.places)) {
+            dotNetBasemapStyle.places = jsObject.places;
+        }
+        if (hasValue(jsObject.serviceUrl)) {
+            dotNetBasemapStyle.serviceUrl = jsObject.serviceUrl;
+        }
+        if (hasValue(jsObject.worldview)) {
+            dotNetBasemapStyle.worldview = jsObject.worldview;
+        }
 
     return dotNetBasemapStyle;
 }

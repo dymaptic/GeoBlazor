@@ -13,12 +13,6 @@ export default class SizeStopGenerated implements IPropertyWrapper {
 
     constructor(component: SizeStop) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeStopWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = sizeStopWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SizeStop', e);
+    }
     
     return jsSizeStop;
 }
@@ -74,9 +73,15 @@ export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSizeStop.label = jsObject.label;
-        dotNetSizeStop.size = jsObject.size;
-        dotNetSizeStop.value = jsObject.value;
+        if (hasValue(jsObject.label)) {
+            dotNetSizeStop.label = jsObject.label;
+        }
+        if (hasValue(jsObject.size)) {
+            dotNetSizeStop.size = jsObject.size;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetSizeStop.value = jsObject.value;
+        }
 
     return dotNetSizeStop;
 }

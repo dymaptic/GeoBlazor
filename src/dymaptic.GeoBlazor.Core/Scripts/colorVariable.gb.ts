@@ -13,12 +13,6 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
 
     constructor(component: ColorVariable) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -87,9 +81,14 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorVariableWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = colorVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ColorVariable', e);
+    }
     
     return jsColorVariable;
 }
@@ -111,11 +110,21 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
             let { buildDotNetColorStop } = await import('./colorStop');
             dotNetColorVariable.stops = jsObject.stops.map(async i => await buildDotNetColorStop(i));
         }
-        dotNetColorVariable.field = jsObject.field;
-        dotNetColorVariable.normalizationField = jsObject.normalizationField;
-        dotNetColorVariable.type = jsObject.type;
-        dotNetColorVariable.valueExpression = jsObject.valueExpression;
-        dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        if (hasValue(jsObject.field)) {
+            dotNetColorVariable.field = jsObject.field;
+        }
+        if (hasValue(jsObject.normalizationField)) {
+            dotNetColorVariable.normalizationField = jsObject.normalizationField;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetColorVariable.type = jsObject.type;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetColorVariable.valueExpression = jsObject.valueExpression;
+        }
+        if (hasValue(jsObject.valueExpressionTitle)) {
+            dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+        }
 
     return dotNetColorVariable;
 }

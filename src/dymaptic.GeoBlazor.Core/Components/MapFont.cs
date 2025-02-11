@@ -48,7 +48,8 @@ public partial class MapFont : MapComponent
 
     internal MapFontSerializationRecord ToSerializationRecord()
     {
-        return new MapFontSerializationRecord(Size?.Points, Family, Style?.ToString(), Weight?.ToString(), Decoration?.ToString());
+        return new MapFontSerializationRecord(Size?.Points, Family, Style?.ToString().ToKebabCase(), 
+            Weight?.ToString().ToKebabCase(), Decoration?.ToString().ToKebabCase());
     }
 }
 

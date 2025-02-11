@@ -635,12 +635,12 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
@@ -815,12 +815,12 @@ public partial class CSVLayer : IBlendLayer,
         }
 
         // get the property value
-        CSVDelimiter? result = await JsComponentReference!.InvokeAsync<CSVDelimiter?>("getProperty",
-            CancellationTokenSource.Token, "delimiter");
-        if (result is not null)
+        JsNullableEnumWrapper<CSVDelimiter>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<CSVDelimiter>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "delimiter");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Delimiter = result.Value;
+             Delimiter = (CSVDelimiter)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Delimiter)] = Delimiter;
         }

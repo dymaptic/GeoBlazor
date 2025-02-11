@@ -13,12 +13,6 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
 
     constructor(component: FieldInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -35,7 +29,7 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     }
     async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format =  buildJsFieldInfoFormat(value);
+        this.component.format = await  buildJsFieldInfoFormat(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -50,7 +44,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
         let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
+        jsFieldInfo.format = await buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {
@@ -79,9 +73,14 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = fieldInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FieldInfo', e);
+    }
     
     return jsFieldInfo;
 }
@@ -99,12 +98,24 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any>
             let { buildDotNetFieldInfoFormat } = await import('./dotNetBuilder');
             dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format);
         }
-        dotNetFieldInfo.fieldName = jsObject.fieldName;
-        dotNetFieldInfo.isEditable = jsObject.isEditable;
-        dotNetFieldInfo.label = jsObject.label;
-        dotNetFieldInfo.statisticType = jsObject.statisticType;
-        dotNetFieldInfo.stringFieldOption = jsObject.stringFieldOption;
-        dotNetFieldInfo.tooltip = jsObject.tooltip;
+        if (hasValue(jsObject.fieldName)) {
+            dotNetFieldInfo.fieldName = jsObject.fieldName;
+        }
+        if (hasValue(jsObject.isEditable)) {
+            dotNetFieldInfo.isEditable = jsObject.isEditable;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetFieldInfo.label = jsObject.label;
+        }
+        if (hasValue(jsObject.statisticType)) {
+            dotNetFieldInfo.statisticType = jsObject.statisticType;
+        }
+        if (hasValue(jsObject.stringFieldOption)) {
+            dotNetFieldInfo.stringFieldOption = jsObject.stringFieldOption;
+        }
+        if (hasValue(jsObject.tooltip)) {
+            dotNetFieldInfo.tooltip = jsObject.tooltip;
+        }
 
     return dotNetFieldInfo;
 }

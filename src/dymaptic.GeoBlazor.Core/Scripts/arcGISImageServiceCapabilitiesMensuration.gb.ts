@@ -13,12 +13,6 @@ export default class ArcGISImageServiceCapabilitiesMensurationGenerated implemen
 
     constructor(component: ArcGISImageServiceCapabilitiesMensuration) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesMensurationWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesMensurationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ArcGISImageServiceCapabilitiesMensuration', e);
+    }
     
     return jsArcGISImageServiceCapabilitiesMensuration;
 }
@@ -86,13 +85,27 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetArcGISImageServiceCapabilitiesMensuration.supports3D = jsObject.supports3D;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsAreaAndPerimeter = jsObject.supportsAreaAndPerimeter;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsDistanceAndAngle = jsObject.supportsDistanceAndAngle;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTop = jsObject.supportsHeightFromBaseAndTop;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = jsObject.supportsHeightFromBaseAndTopShadow;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = jsObject.supportsHeightFromTopAndTopShadow;
-        dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
+        if (hasValue(jsObject.supports3D)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supports3D = jsObject.supports3D;
+        }
+        if (hasValue(jsObject.supportsAreaAndPerimeter)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsAreaAndPerimeter = jsObject.supportsAreaAndPerimeter;
+        }
+        if (hasValue(jsObject.supportsDistanceAndAngle)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsDistanceAndAngle = jsObject.supportsDistanceAndAngle;
+        }
+        if (hasValue(jsObject.supportsHeightFromBaseAndTop)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTop = jsObject.supportsHeightFromBaseAndTop;
+        }
+        if (hasValue(jsObject.supportsHeightFromBaseAndTopShadow)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = jsObject.supportsHeightFromBaseAndTopShadow;
+        }
+        if (hasValue(jsObject.supportsHeightFromTopAndTopShadow)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = jsObject.supportsHeightFromTopAndTopShadow;
+        }
+        if (hasValue(jsObject.supportsPointOrCentroid)) {
+            dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
+        }
 
     return dotNetArcGISImageServiceCapabilitiesMensuration;
 }

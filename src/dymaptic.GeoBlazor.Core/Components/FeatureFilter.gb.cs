@@ -206,12 +206,12 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        SpatialRelationship? result = await JsComponentReference!.InvokeAsync<SpatialRelationship?>("getProperty",
-            CancellationTokenSource.Token, "spatialRelationship");
-        if (result is not null)
+        JsNullableEnumWrapper<SpatialRelationship>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SpatialRelationship>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "spatialRelationship");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             SpatialRelationship = result.Value;
+             SpatialRelationship = (SpatialRelationship)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(SpatialRelationship)] = SpatialRelationship;
         }
@@ -271,12 +271,12 @@ public partial class FeatureFilter
         }
 
         // get the property value
-        QueryUnits? result = await JsComponentReference!.InvokeAsync<QueryUnits?>("getProperty",
-            CancellationTokenSource.Token, "units");
-        if (result is not null)
+        JsNullableEnumWrapper<QueryUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<QueryUnits>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "units");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Units = result.Value;
+             Units = (QueryUnits)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Units)] = Units;
         }

@@ -13,12 +13,6 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
 
     constructor(component: LineChartMediaInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -35,7 +29,7 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value =  buildJsChartMediaInfoValue(value);
+        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -50,7 +44,7 @@ export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any, laye
     let jsLineChartMediaInfo = new LineChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsLineChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        jsLineChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -70,9 +64,14 @@ export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any, laye
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lineChartMediaInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = lineChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLineChartMediaInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LineChartMediaInfo', e);
+    }
     
     return jsLineChartMediaInfo;
 }
@@ -90,10 +89,18 @@ export async function buildDotNetLineChartMediaInfoGenerated(jsObject: any): Pro
             let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
             dotNetLineChartMediaInfo.value = await buildDotNetChartMediaInfoValue(jsObject.value);
         }
-        dotNetLineChartMediaInfo.altText = jsObject.altText;
-        dotNetLineChartMediaInfo.caption = jsObject.caption;
-        dotNetLineChartMediaInfo.title = jsObject.title;
-        dotNetLineChartMediaInfo.type = jsObject.type;
+        if (hasValue(jsObject.altText)) {
+            dotNetLineChartMediaInfo.altText = jsObject.altText;
+        }
+        if (hasValue(jsObject.caption)) {
+            dotNetLineChartMediaInfo.caption = jsObject.caption;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetLineChartMediaInfo.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetLineChartMediaInfo.type = jsObject.type;
+        }
 
     return dotNetLineChartMediaInfo;
 }

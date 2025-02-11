@@ -13,12 +13,6 @@ export default class RasterFunctionGenerated implements IPropertyWrapper {
 
     constructor(component: RasterFunction) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -64,9 +58,14 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterFunctionWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = rasterFunctionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RasterFunction', e);
+    }
     
     return jsRasterFunction;
 }
@@ -80,11 +79,21 @@ export async function buildDotNetRasterFunctionGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetRasterFunction.functionArguments = jsObject.functionArguments;
-        dotNetRasterFunction.functionName = jsObject.functionName;
-        dotNetRasterFunction.outputPixelType = jsObject.outputPixelType;
-        dotNetRasterFunction.rasterFunctionDefinition = jsObject.rasterFunctionDefinition;
-        dotNetRasterFunction.variableName = jsObject.variableName;
+        if (hasValue(jsObject.functionArguments)) {
+            dotNetRasterFunction.functionArguments = jsObject.functionArguments;
+        }
+        if (hasValue(jsObject.functionName)) {
+            dotNetRasterFunction.functionName = jsObject.functionName;
+        }
+        if (hasValue(jsObject.outputPixelType)) {
+            dotNetRasterFunction.outputPixelType = jsObject.outputPixelType;
+        }
+        if (hasValue(jsObject.rasterFunctionDefinition)) {
+            dotNetRasterFunction.rasterFunctionDefinition = jsObject.rasterFunctionDefinition;
+        }
+        if (hasValue(jsObject.variableName)) {
+            dotNetRasterFunction.variableName = jsObject.variableName;
+        }
 
     return dotNetRasterFunction;
 }

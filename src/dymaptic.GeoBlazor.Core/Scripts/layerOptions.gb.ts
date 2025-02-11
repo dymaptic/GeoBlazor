@@ -13,12 +13,6 @@ export default class LayerOptionsGenerated implements IPropertyWrapper {
 
     constructor(component: LayerOptions) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerOptionsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = layerOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LayerOptions', e);
+    }
     
     return jsLayerOptions;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;
-        dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
+        if (hasValue(jsObject.returnTopmostRaster)) {
+            dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;
+        }
+        if (hasValue(jsObject.showNoDataRecords)) {
+            dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
+        }
 
     return dotNetLayerOptions;
 }

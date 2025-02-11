@@ -13,12 +13,6 @@ export default class CSVLayerElevationInfoFeatureExpressionInfoGenerated impleme
 
     constructor(component: CSVLayerElevationInfoFeatureExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerElevationInfoFeatureExpressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = cSVLayerElevationInfoFeatureExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfoFeatureExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CSVLayerElevationInfoFeatureExpressionInfo', e);
+    }
     
     return jsCSVLayerElevationInfoFeatureExpressionInfo;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGener
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCSVLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
-        dotNetCSVLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetCSVLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetCSVLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetCSVLayerElevationInfoFeatureExpressionInfo;
 }

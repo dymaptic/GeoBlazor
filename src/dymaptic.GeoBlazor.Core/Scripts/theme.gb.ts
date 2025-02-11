@@ -13,12 +13,6 @@ export default class ThemeGenerated implements IPropertyWrapper {
 
     constructor(component: Theme) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsThemeGenerated(dotNetObject: any, layerId: string |
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(themeWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = themeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTheme;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Theme', e);
+    }
     
     return jsTheme;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetTheme.accentColor = jsObject.accentColor;
-        dotNetTheme.textColor = jsObject.textColor;
+        if (hasValue(jsObject.accentColor)) {
+            dotNetTheme.accentColor = jsObject.accentColor;
+        }
+        if (hasValue(jsObject.textColor)) {
+            dotNetTheme.textColor = jsObject.textColor;
+        }
 
     return dotNetTheme;
 }

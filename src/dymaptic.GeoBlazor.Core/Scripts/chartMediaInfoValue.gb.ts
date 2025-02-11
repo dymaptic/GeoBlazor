@@ -13,12 +13,6 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
 
     constructor(component: ChartMediaInfoValue) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -75,9 +69,14 @@ export async function buildJsChartMediaInfoValueGenerated(dotNetObject: any, lay
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = chartMediaInfoValueWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValue;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValue', e);
+    }
     
     return jsChartMediaInfoValue;
 }
@@ -95,10 +94,18 @@ export async function buildDotNetChartMediaInfoValueGenerated(jsObject: any): Pr
             let { buildDotNetChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
             dotNetChartMediaInfoValue.series = jsObject.series.map(async i => await buildDotNetChartMediaInfoValueSeries(i));
         }
-        dotNetChartMediaInfoValue.colors = jsObject.colors;
-        dotNetChartMediaInfoValue.fields = jsObject.fields;
-        dotNetChartMediaInfoValue.normalizeField = jsObject.normalizeField;
-        dotNetChartMediaInfoValue.tooltipField = jsObject.tooltipField;
+        if (hasValue(jsObject.colors)) {
+            dotNetChartMediaInfoValue.colors = jsObject.colors;
+        }
+        if (hasValue(jsObject.fields)) {
+            dotNetChartMediaInfoValue.fields = jsObject.fields;
+        }
+        if (hasValue(jsObject.normalizeField)) {
+            dotNetChartMediaInfoValue.normalizeField = jsObject.normalizeField;
+        }
+        if (hasValue(jsObject.tooltipField)) {
+            dotNetChartMediaInfoValue.tooltipField = jsObject.tooltipField;
+        }
 
     return dotNetChartMediaInfoValue;
 }

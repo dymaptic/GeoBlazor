@@ -13,12 +13,6 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
 
     constructor(component: TimeInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -88,9 +82,14 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = timeInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for TimeInfo', e);
+    }
     
     return jsTimeInfo;
 }
@@ -112,11 +111,21 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
             dotNetTimeInfo.interval = buildDotNetTimeInterval(jsObject.interval);
         }
-        dotNetTimeInfo.endField = jsObject.endField;
-        dotNetTimeInfo.startField = jsObject.startField;
-        dotNetTimeInfo.stops = jsObject.stops;
-        dotNetTimeInfo.timeZone = jsObject.timeZone;
-        dotNetTimeInfo.trackIdField = jsObject.trackIdField;
+        if (hasValue(jsObject.endField)) {
+            dotNetTimeInfo.endField = jsObject.endField;
+        }
+        if (hasValue(jsObject.startField)) {
+            dotNetTimeInfo.startField = jsObject.startField;
+        }
+        if (hasValue(jsObject.stops)) {
+            dotNetTimeInfo.stops = jsObject.stops;
+        }
+        if (hasValue(jsObject.timeZone)) {
+            dotNetTimeInfo.timeZone = jsObject.timeZone;
+        }
+        if (hasValue(jsObject.trackIdField)) {
+            dotNetTimeInfo.trackIdField = jsObject.trackIdField;
+        }
 
     return dotNetTimeInfo;
 }

@@ -13,12 +13,6 @@ export default class CapabilitiesOperationsGenerated implements IPropertyWrapper
 
     constructor(component: CapabilitiesOperations) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -79,9 +73,14 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesOperationsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesOperationsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesOperations', e);
+    }
     
     return jsCapabilitiesOperations;
 }
@@ -95,16 +94,36 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
-        dotNetCapabilitiesOperations.supportsCalculate = jsObject.supportsCalculate;
-        dotNetCapabilitiesOperations.supportsDelete = jsObject.supportsDelete;
-        dotNetCapabilitiesOperations.supportsEditing = jsObject.supportsEditing;
-        dotNetCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
-        dotNetCapabilitiesOperations.supportsQueryAttachments = jsObject.supportsQueryAttachments;
-        dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
-        dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
-        dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
-        dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
+        if (hasValue(jsObject.supportsAdd)) {
+            dotNetCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
+        }
+        if (hasValue(jsObject.supportsCalculate)) {
+            dotNetCapabilitiesOperations.supportsCalculate = jsObject.supportsCalculate;
+        }
+        if (hasValue(jsObject.supportsDelete)) {
+            dotNetCapabilitiesOperations.supportsDelete = jsObject.supportsDelete;
+        }
+        if (hasValue(jsObject.supportsEditing)) {
+            dotNetCapabilitiesOperations.supportsEditing = jsObject.supportsEditing;
+        }
+        if (hasValue(jsObject.supportsQuery)) {
+            dotNetCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
+        }
+        if (hasValue(jsObject.supportsQueryAttachments)) {
+            dotNetCapabilitiesOperations.supportsQueryAttachments = jsObject.supportsQueryAttachments;
+        }
+        if (hasValue(jsObject.supportsQueryTopFeatures)) {
+            dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
+        }
+        if (hasValue(jsObject.supportsResizeAttachments)) {
+            dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
+        }
+        if (hasValue(jsObject.supportsUpdate)) {
+            dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
+        }
+        if (hasValue(jsObject.supportsValidateSql)) {
+            dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
+        }
 
     return dotNetCapabilitiesOperations;
 }

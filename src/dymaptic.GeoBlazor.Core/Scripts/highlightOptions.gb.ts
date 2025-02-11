@@ -13,12 +13,6 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
 
     constructor(component: HighlightOptions) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(highlightOptionsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = highlightOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for HighlightOptions', e);
+    }
     
     return jsHighlightOptions;
 }
@@ -86,13 +85,27 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetHighlightOptions.color = jsObject.color;
-        dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
-        dotNetHighlightOptions.haloColor = jsObject.haloColor;
-        dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
-        dotNetHighlightOptions.shadowColor = jsObject.shadowColor;
-        dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
-        dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
+        if (hasValue(jsObject.color)) {
+            dotNetHighlightOptions.color = jsObject.color;
+        }
+        if (hasValue(jsObject.fillOpacity)) {
+            dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
+        }
+        if (hasValue(jsObject.haloColor)) {
+            dotNetHighlightOptions.haloColor = jsObject.haloColor;
+        }
+        if (hasValue(jsObject.haloOpacity)) {
+            dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
+        }
+        if (hasValue(jsObject.shadowColor)) {
+            dotNetHighlightOptions.shadowColor = jsObject.shadowColor;
+        }
+        if (hasValue(jsObject.shadowDifference)) {
+            dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
+        }
+        if (hasValue(jsObject.shadowOpacity)) {
+            dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
+        }
 
     return dotNetHighlightOptions;
 }

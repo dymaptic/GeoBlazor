@@ -13,12 +13,6 @@ export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrap
 
     constructor(component: ChartMediaInfoValueSeries) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -49,9 +43,14 @@ export async function buildJsChartMediaInfoValueSeriesGenerated(dotNetObject: an
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueSeriesWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = chartMediaInfoValueSeriesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValueSeries;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValueSeries', e);
+    }
     
     return jsChartMediaInfoValueSeries;
 }
@@ -65,10 +64,18 @@ export async function buildDotNetChartMediaInfoValueSeriesGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetChartMediaInfoValueSeries.color = jsObject.color;
-        dotNetChartMediaInfoValueSeries.fieldName = jsObject.fieldName;
-        dotNetChartMediaInfoValueSeries.tooltip = jsObject.tooltip;
-        dotNetChartMediaInfoValueSeries.value = jsObject.value;
+        if (hasValue(jsObject.color)) {
+            dotNetChartMediaInfoValueSeries.color = jsObject.color;
+        }
+        if (hasValue(jsObject.fieldName)) {
+            dotNetChartMediaInfoValueSeries.fieldName = jsObject.fieldName;
+        }
+        if (hasValue(jsObject.tooltip)) {
+            dotNetChartMediaInfoValueSeries.tooltip = jsObject.tooltip;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetChartMediaInfoValueSeries.value = jsObject.value;
+        }
 
     return dotNetChartMediaInfoValueSeries;
 }

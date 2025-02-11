@@ -13,12 +13,6 @@ export default class FeatureLayerBaseElevationInfoGenerated implements IProperty
 
     constructor(component: FeatureLayerBaseElevationInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerBaseElevationInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureLayerBaseElevationInfo', e);
+    }
     
     return jsFeatureLayerBaseElevationInfo;
 }
@@ -90,9 +89,15 @@ export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject
             let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
             dotNetFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
         }
-        dotNetFeatureLayerBaseElevationInfo.mode = jsObject.mode;
-        dotNetFeatureLayerBaseElevationInfo.offset = jsObject.offset;
-        dotNetFeatureLayerBaseElevationInfo.unit = jsObject.unit;
+        if (hasValue(jsObject.mode)) {
+            dotNetFeatureLayerBaseElevationInfo.mode = jsObject.mode;
+        }
+        if (hasValue(jsObject.offset)) {
+            dotNetFeatureLayerBaseElevationInfo.offset = jsObject.offset;
+        }
+        if (hasValue(jsObject.unit)) {
+            dotNetFeatureLayerBaseElevationInfo.unit = jsObject.unit;
+        }
 
     return dotNetFeatureLayerBaseElevationInfo;
 }

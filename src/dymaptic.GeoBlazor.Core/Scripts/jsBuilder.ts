@@ -1514,23 +1514,6 @@ export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElement
     return info;
 }
 
-export function buildJsPortalItem(dotNetPortalItem: any): any {
-    if (dotNetPortalItem?.Id === null) return null;
-    let portalItem: any = {
-        id: dotNetPortalItem.id
-    };
-    if (hasValue(dotNetPortalItem?.portal)) {
-        portalItem.portal = {
-            url: dotNetPortalItem.portal.url
-        }
-    }
-    if (hasValue(dotNetPortalItem?.apiKey)) {
-        portalItem.apiKey = dotNetPortalItem.apiKey;
-    }
-
-    return portalItem;
-}
-
 export function buildJsFormTemplate(dotNetFormTemplate: any): FormTemplate {
     let formTemplate = new FormTemplate({
         title: dotNetFormTemplate.title ?? undefined,

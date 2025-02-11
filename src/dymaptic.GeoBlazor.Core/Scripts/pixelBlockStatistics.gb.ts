@@ -13,12 +13,6 @@ export default class PixelBlockStatisticsGenerated implements IPropertyWrapper {
 
     constructor(component: PixelBlockStatistics) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -58,9 +52,14 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockStatisticsWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pixelBlockStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PixelBlockStatistics', e);
+    }
     
     return jsPixelBlockStatistics;
 }
@@ -74,9 +73,15 @@ export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPixelBlockStatistics.maxValue = jsObject.maxValue;
-        dotNetPixelBlockStatistics.minValue = jsObject.minValue;
-        dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
+        if (hasValue(jsObject.maxValue)) {
+            dotNetPixelBlockStatistics.maxValue = jsObject.maxValue;
+        }
+        if (hasValue(jsObject.minValue)) {
+            dotNetPixelBlockStatistics.minValue = jsObject.minValue;
+        }
+        if (hasValue(jsObject.noDataValue)) {
+            dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
+        }
 
     return dotNetPixelBlockStatistics;
 }

@@ -324,12 +324,12 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        ClassificationMethod? result = await JsComponentReference!.InvokeAsync<ClassificationMethod?>("getProperty",
-            CancellationTokenSource.Token, "classificationMethod");
-        if (result is not null)
+        JsNullableEnumWrapper<ClassificationMethod>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ClassificationMethod>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "classificationMethod");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ClassificationMethod = result.Value;
+             ClassificationMethod = (ClassificationMethod)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ClassificationMethod)] = ClassificationMethod;
         }
@@ -504,12 +504,12 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        AuthoringInfoFlowTheme? result = await JsComponentReference!.InvokeAsync<AuthoringInfoFlowTheme?>("getProperty",
-            CancellationTokenSource.Token, "flowTheme");
-        if (result is not null)
+        JsNullableEnumWrapper<AuthoringInfoFlowTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoFlowTheme>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "flowTheme");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             FlowTheme = result.Value;
+             FlowTheme = (AuthoringInfoFlowTheme)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(FlowTheme)] = FlowTheme;
         }
@@ -594,12 +594,12 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        LengthUnit? result = await JsComponentReference!.InvokeAsync<LengthUnit?>("getProperty",
-            CancellationTokenSource.Token, "lengthUnit");
-        if (result is not null)
+        JsNullableEnumWrapper<LengthUnit>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LengthUnit>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "lengthUnit");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LengthUnit = result.Value;
+             LengthUnit = (LengthUnit)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(LengthUnit)] = LengthUnit;
         }
@@ -774,12 +774,12 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateSymbolStyle? result = await JsComponentReference!.InvokeAsync<UnivariateSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, "univariateSymbolStyle");
-        if (result is not null)
+        JsNullableEnumWrapper<UnivariateSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "univariateSymbolStyle");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UnivariateSymbolStyle = result.Value;
+             UnivariateSymbolStyle = (UnivariateSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UnivariateSymbolStyle)] = UnivariateSymbolStyle;
         }
@@ -804,12 +804,12 @@ public partial class AuthoringInfo
         }
 
         // get the property value
-        UnivariateTheme? result = await JsComponentReference!.InvokeAsync<UnivariateTheme?>("getProperty",
-            CancellationTokenSource.Token, "univariateTheme");
-        if (result is not null)
+        JsNullableEnumWrapper<UnivariateTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<UnivariateTheme>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "univariateTheme");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             UnivariateTheme = result.Value;
+             UnivariateTheme = (UnivariateTheme)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(UnivariateTheme)] = UnivariateTheme;
         }

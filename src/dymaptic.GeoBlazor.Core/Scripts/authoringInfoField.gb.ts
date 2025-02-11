@@ -13,12 +13,6 @@ export default class AuthoringInfoFieldGenerated implements IPropertyWrapper {
 
     constructor(component: AuthoringInfoField1) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -72,9 +66,14 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoFieldWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = authoringInfoFieldWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AuthoringInfoField', e);
+    }
     
     return jsAuthoringInfoField1;
 }
@@ -92,9 +91,15 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Pro
             let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
             dotNetAuthoringInfoField.classBreakInfos = jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i));
         }
-        dotNetAuthoringInfoField.field = jsObject.field;
-        dotNetAuthoringInfoField.label = jsObject.label;
-        dotNetAuthoringInfoField.normalizationField = jsObject.normalizationField;
+        if (hasValue(jsObject.field)) {
+            dotNetAuthoringInfoField.field = jsObject.field;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetAuthoringInfoField.label = jsObject.label;
+        }
+        if (hasValue(jsObject.normalizationField)) {
+            dotNetAuthoringInfoField.normalizationField = jsObject.normalizationField;
+        }
 
     return dotNetAuthoringInfoField;
 }

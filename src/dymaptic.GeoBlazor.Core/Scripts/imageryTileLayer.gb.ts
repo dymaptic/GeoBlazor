@@ -13,12 +13,6 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: ImageryTileLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -42,7 +36,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return buildDotNetLayerView(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -108,7 +102,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.layer.multidimensionalDefinition = value.map(async i => await buildJsDimensionalDefinition(i));
+        this.layer.multidimensionalDefinition = value.map(i => buildJsDimensionalDefinition(i));
     }
     
     async getMultidimensionalSubset(): Promise<any> {
@@ -117,7 +111,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset =  buildJsMultidimensionalSubset(value);
     }
     async getPopupTemplate(): Promise<any> {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
@@ -166,7 +160,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async getTimeInfo(): Promise<any> {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return buildDotNetTimeInfo(this.layer.timeInfo);
     }
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -204,18 +198,18 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
         let { buildJsDimensionalDefinition } = await import('./jsBuilder');
-        jsImageryTileLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i)) as any;
+        jsImageryTileLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(i => buildJsDimensionalDefinition(i)) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./jsBuilder');
-        jsImageryTileLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        jsImageryTileLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
         jsImageryTileLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsImageryTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
@@ -294,9 +288,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.title)) {
         jsImageryTileLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsImageryTileLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsImageryTileLayer.url = dotNetObject.url;
     }
@@ -311,9 +302,14 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ImageryTileLayer', e);
+    }
     
     return jsImageryTileLayer;
 }
@@ -340,7 +336,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
             dotNetImageryTileLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.rasterFields)) {
@@ -361,7 +357,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.timeInfo)) {
             let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+            dotNetImageryTileLayer.timeInfo = buildDotNetTimeInfo(jsObject.timeInfo);
         }
         if (hasValue(jsObject.timeOffset)) {
             let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
@@ -371,32 +367,84 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetImageryTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetImageryTileLayer.arcGISLayerId = jsObject.id;
-        dotNetImageryTileLayer.bandIds = jsObject.bandIds;
-        dotNetImageryTileLayer.blendMode = jsObject.blendMode;
-        dotNetImageryTileLayer.copyright = jsObject.copyright;
-        dotNetImageryTileLayer.customParameters = jsObject.customParameters;
-        dotNetImageryTileLayer.effect = jsObject.effect;
-        dotNetImageryTileLayer.fullExtent = jsObject.fullExtent;
-        dotNetImageryTileLayer.interpolation = jsObject.interpolation;
-        dotNetImageryTileLayer.legendEnabled = jsObject.legendEnabled;
-        dotNetImageryTileLayer.listMode = jsObject.listMode;
-        dotNetImageryTileLayer.loaded = jsObject.loaded;
-        dotNetImageryTileLayer.maxScale = jsObject.maxScale;
-        dotNetImageryTileLayer.minScale = jsObject.minScale;
-        dotNetImageryTileLayer.opacity = jsObject.opacity;
-        dotNetImageryTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
-        dotNetImageryTileLayer.rasterInfo = jsObject.rasterInfo;
-        dotNetImageryTileLayer.renderer = jsObject.renderer;
-        dotNetImageryTileLayer.serviceRasterInfo = jsObject.serviceRasterInfo;
-        dotNetImageryTileLayer.source = jsObject.source;
-        dotNetImageryTileLayer.sourceJSON = jsObject.sourceJSON;
-        dotNetImageryTileLayer.title = jsObject.title;
-        dotNetImageryTileLayer.type = jsObject.type;
-        dotNetImageryTileLayer.url = jsObject.url;
-        dotNetImageryTileLayer.useViewTime = jsObject.useViewTime;
-        dotNetImageryTileLayer.version = jsObject.version;
+        if (hasValue(jsObject.id)) {
+            dotNetImageryTileLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.bandIds)) {
+            dotNetImageryTileLayer.bandIds = jsObject.bandIds;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetImageryTileLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.copyright)) {
+            dotNetImageryTileLayer.copyright = jsObject.copyright;
+        }
+        if (hasValue(jsObject.customParameters)) {
+            dotNetImageryTileLayer.customParameters = jsObject.customParameters;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetImageryTileLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetImageryTileLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.interpolation)) {
+            dotNetImageryTileLayer.interpolation = jsObject.interpolation;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetImageryTileLayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetImageryTileLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetImageryTileLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetImageryTileLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetImageryTileLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetImageryTileLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetImageryTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.popupEnabled)) {
+            dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
+        }
+        if (hasValue(jsObject.rasterInfo)) {
+            dotNetImageryTileLayer.rasterInfo = jsObject.rasterInfo;
+        }
+        if (hasValue(jsObject.renderer)) {
+            dotNetImageryTileLayer.renderer = jsObject.renderer;
+        }
+        if (hasValue(jsObject.serviceRasterInfo)) {
+            dotNetImageryTileLayer.serviceRasterInfo = jsObject.serviceRasterInfo;
+        }
+        if (hasValue(jsObject.source)) {
+            dotNetImageryTileLayer.source = jsObject.source;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetImageryTileLayer.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetImageryTileLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetImageryTileLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetImageryTileLayer.url = jsObject.url;
+        }
+        if (hasValue(jsObject.useViewTime)) {
+            dotNetImageryTileLayer.useViewTime = jsObject.useViewTime;
+        }
+        if (hasValue(jsObject.version)) {
+            dotNetImageryTileLayer.version = jsObject.version;
+        }
 
     return dotNetImageryTileLayer;
 }

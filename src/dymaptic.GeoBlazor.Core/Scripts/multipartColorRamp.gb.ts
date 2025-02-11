@@ -13,12 +13,6 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
 
     constructor(component: MultipartColorRamp) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -36,7 +30,7 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
     
     async setColorRamps(value: any): Promise<void> {
         let { buildJsAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
-        this.component.colorRamps = value.map(i => buildJsAlgorithmicColorRamp(i));
+        this.component.colorRamps = value.map(async i => await buildJsAlgorithmicColorRamp(i));
     }
     
     getProperty(prop: string): any {
@@ -52,7 +46,7 @@ export async function buildJsMultipartColorRampGenerated(dotNetObject: any, laye
     let jsMultipartColorRamp = new MultipartColorRamp();
     if (hasValue(dotNetObject.colorRamps)) {
         let { buildJsAlgorithmicColorRamp } = await import('./jsBuilder');
-        jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(i => buildJsAlgorithmicColorRamp(i)) as any;
+        jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(async i => await buildJsAlgorithmicColorRamp(i)) as any;
     }
 
     let { default: MultipartColorRampWrapper } = await import('./multipartColorRamp');
@@ -63,9 +57,14 @@ export async function buildJsMultipartColorRampGenerated(dotNetObject: any, laye
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multipartColorRampWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = multipartColorRampWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMultipartColorRamp;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for MultipartColorRamp', e);
+    }
     
     return jsMultipartColorRamp;
 }
@@ -83,7 +82,9 @@ export async function buildDotNetMultipartColorRampGenerated(jsObject: any): Pro
             let { buildDotNetAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
             dotNetMultipartColorRamp.colorRamps = jsObject.colorRamps.map(async i => await buildDotNetAlgorithmicColorRamp(i));
         }
-        dotNetMultipartColorRamp.type = jsObject.type;
+        if (hasValue(jsObject.type)) {
+            dotNetMultipartColorRamp.type = jsObject.type;
+        }
 
     return dotNetMultipartColorRamp;
 }

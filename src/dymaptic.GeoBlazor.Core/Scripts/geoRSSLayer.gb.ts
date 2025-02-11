@@ -13,12 +13,6 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: GeoRSSLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -36,7 +30,7 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -136,9 +130,6 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.title)) {
         jsGeoRSSLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsGeoRSSLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsGeoRSSLayer.url = dotNetObject.url;
     }
@@ -154,9 +145,14 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GeoRSSLayer', e);
+    }
     
     return jsGeoRSSLayer;
 }
@@ -183,21 +179,51 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: st
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetGeoRSSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
-        dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
-        dotNetGeoRSSLayer.effect = jsObject.effect;
-        dotNetGeoRSSLayer.fullExtent = jsObject.fullExtent;
-        dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
-        dotNetGeoRSSLayer.listMode = jsObject.listMode;
-        dotNetGeoRSSLayer.loaded = jsObject.loaded;
-        dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
-        dotNetGeoRSSLayer.minScale = jsObject.minScale;
-        dotNetGeoRSSLayer.opacity = jsObject.opacity;
-        dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
-        dotNetGeoRSSLayer.title = jsObject.title;
-        dotNetGeoRSSLayer.type = jsObject.type;
-        dotNetGeoRSSLayer.url = jsObject.url;
+        if (hasValue(jsObject.id)) {
+            dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetGeoRSSLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetGeoRSSLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.legendEnabled)) {
+            dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetGeoRSSLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetGeoRSSLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetGeoRSSLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetGeoRSSLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.refreshInterval)) {
+            dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetGeoRSSLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetGeoRSSLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetGeoRSSLayer.url = jsObject.url;
+        }
 
     return dotNetGeoRSSLayer;
 }

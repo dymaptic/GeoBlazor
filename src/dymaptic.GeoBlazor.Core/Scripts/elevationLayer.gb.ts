@@ -13,12 +13,6 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: ElevationLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -42,7 +36,7 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -85,7 +79,7 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
     }
     async getTileInfo(): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return buildDotNetTileInfo(this.layer.tileInfo);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -114,7 +108,7 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
         jsElevationLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsElevationLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
@@ -144,9 +138,6 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.title)) {
         jsElevationLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsElevationLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsElevationLayer.url = dotNetObject.url;
     }
@@ -158,9 +149,14 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elevationLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = elevationLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElevationLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ElevationLayer', e);
+    }
     
     return jsElevationLayer;
 }
@@ -175,29 +171,53 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any, layerId:
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetElevationLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+            dotNetElevationLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetElevationLayer.arcGISLayerId = jsObject.id;
-        dotNetElevationLayer.copyright = jsObject.copyright;
-        dotNetElevationLayer.fullExtent = jsObject.fullExtent;
-        dotNetElevationLayer.listMode = jsObject.listMode;
-        dotNetElevationLayer.loaded = jsObject.loaded;
-        dotNetElevationLayer.opacity = jsObject.opacity;
-        dotNetElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
-        dotNetElevationLayer.spatialReference = jsObject.spatialReference;
-        dotNetElevationLayer.title = jsObject.title;
-        dotNetElevationLayer.type = jsObject.type;
-        dotNetElevationLayer.url = jsObject.url;
+        if (hasValue(jsObject.id)) {
+            dotNetElevationLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.copyright)) {
+            dotNetElevationLayer.copyright = jsObject.copyright;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetElevationLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetElevationLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetElevationLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetElevationLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.sourceJSON)) {
+            dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetElevationLayer.spatialReference = jsObject.spatialReference;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetElevationLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetElevationLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetElevationLayer.url = jsObject.url;
+        }
 
     return dotNetElevationLayer;
 }

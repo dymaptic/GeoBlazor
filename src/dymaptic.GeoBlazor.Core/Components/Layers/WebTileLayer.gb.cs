@@ -206,12 +206,12 @@ public partial class WebTileLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }

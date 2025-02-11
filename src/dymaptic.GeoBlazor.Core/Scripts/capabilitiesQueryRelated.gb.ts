@@ -13,12 +13,6 @@ export default class CapabilitiesQueryRelatedGenerated implements IPropertyWrapp
 
     constructor(component: CapabilitiesQueryRelated) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -61,9 +55,14 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryRelatedWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesQueryRelatedWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesQueryRelated', e);
+    }
     
     return jsCapabilitiesQueryRelated;
 }
@@ -77,10 +76,18 @@ export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesQueryRelated.supportsCacheHint = jsObject.supportsCacheHint;
-        dotNetCapabilitiesQueryRelated.supportsCount = jsObject.supportsCount;
-        dotNetCapabilitiesQueryRelated.supportsOrderBy = jsObject.supportsOrderBy;
-        dotNetCapabilitiesQueryRelated.supportsPagination = jsObject.supportsPagination;
+        if (hasValue(jsObject.supportsCacheHint)) {
+            dotNetCapabilitiesQueryRelated.supportsCacheHint = jsObject.supportsCacheHint;
+        }
+        if (hasValue(jsObject.supportsCount)) {
+            dotNetCapabilitiesQueryRelated.supportsCount = jsObject.supportsCount;
+        }
+        if (hasValue(jsObject.supportsOrderBy)) {
+            dotNetCapabilitiesQueryRelated.supportsOrderBy = jsObject.supportsOrderBy;
+        }
+        if (hasValue(jsObject.supportsPagination)) {
+            dotNetCapabilitiesQueryRelated.supportsPagination = jsObject.supportsPagination;
+        }
 
     return dotNetCapabilitiesQueryRelated;
 }

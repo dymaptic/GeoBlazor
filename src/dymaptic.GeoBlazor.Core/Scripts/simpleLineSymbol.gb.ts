@@ -13,12 +13,6 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: SimpleLineSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -68,9 +62,6 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.style)) {
         jsSimpleLineSymbol.style = dotNetObject.style;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsSimpleLineSymbol.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.width)) {
         jsSimpleLineSymbol.width = dotNetObject.width;
     }
@@ -82,9 +73,14 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleLineSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = simpleLineSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for SimpleLineSymbol', e);
+    }
     
     return jsSimpleLineSymbol;
 }
@@ -102,13 +98,27 @@ export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any, layerI
             let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
             dotNetSimpleLineSymbol.marker = await buildDotNetLineSymbolMarker(jsObject.marker);
         }
-        dotNetSimpleLineSymbol.cap = jsObject.cap;
-        dotNetSimpleLineSymbol.color = jsObject.color;
-        dotNetSimpleLineSymbol.join = jsObject.join;
-        dotNetSimpleLineSymbol.miterLimit = jsObject.miterLimit;
-        dotNetSimpleLineSymbol.style = jsObject.style;
-        dotNetSimpleLineSymbol.type = jsObject.type;
-        dotNetSimpleLineSymbol.width = jsObject.width;
+        if (hasValue(jsObject.cap)) {
+            dotNetSimpleLineSymbol.cap = jsObject.cap;
+        }
+        if (hasValue(jsObject.color)) {
+            dotNetSimpleLineSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.join)) {
+            dotNetSimpleLineSymbol.join = jsObject.join;
+        }
+        if (hasValue(jsObject.miterLimit)) {
+            dotNetSimpleLineSymbol.miterLimit = jsObject.miterLimit;
+        }
+        if (hasValue(jsObject.style)) {
+            dotNetSimpleLineSymbol.style = jsObject.style;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetSimpleLineSymbol.type = jsObject.type;
+        }
+        if (hasValue(jsObject.width)) {
+            dotNetSimpleLineSymbol.width = jsObject.width;
+        }
 
     return dotNetSimpleLineSymbol;
 }

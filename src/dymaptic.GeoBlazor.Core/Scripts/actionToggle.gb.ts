@@ -13,12 +13,6 @@ export default class ActionToggleGenerated implements IPropertyWrapper {
 
     constructor(component: ActionToggle) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionToggleWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = actionToggleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ActionToggle', e);
+    }
     
     return jsActionToggle;
 }
@@ -86,14 +85,30 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetActionToggle.actionId = jsObject.id;
-        dotNetActionToggle.active = jsObject.active;
-        dotNetActionToggle.className = jsObject.className;
-        dotNetActionToggle.disabled = jsObject.disabled;
-        dotNetActionToggle.icon = jsObject.icon;
-        dotNetActionToggle.title = jsObject.title;
-        dotNetActionToggle.type = jsObject.type;
-        dotNetActionToggle.value = jsObject.value;
+        if (hasValue(jsObject.id)) {
+            dotNetActionToggle.actionId = jsObject.id;
+        }
+        if (hasValue(jsObject.active)) {
+            dotNetActionToggle.active = jsObject.active;
+        }
+        if (hasValue(jsObject.className)) {
+            dotNetActionToggle.className = jsObject.className;
+        }
+        if (hasValue(jsObject.disabled)) {
+            dotNetActionToggle.disabled = jsObject.disabled;
+        }
+        if (hasValue(jsObject.icon)) {
+            dotNetActionToggle.icon = jsObject.icon;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetActionToggle.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetActionToggle.type = jsObject.type;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetActionToggle.value = jsObject.value;
+        }
 
     return dotNetActionToggle;
 }

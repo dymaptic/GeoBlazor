@@ -13,12 +13,6 @@ export default class CapabilitiesAttachmentGenerated implements IPropertyWrapper
 
     constructor(component: CapabilitiesAttachment) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesAttachmentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesAttachmentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesAttachment', e);
+    }
     
     return jsCapabilitiesAttachment;
 }
@@ -86,13 +85,27 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any):
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesAttachment.supportsCacheHint = jsObject.supportsCacheHint;
-        dotNetCapabilitiesAttachment.supportsContentType = jsObject.supportsContentType;
-        dotNetCapabilitiesAttachment.supportsExifInfo = jsObject.supportsExifInfo;
-        dotNetCapabilitiesAttachment.supportsKeywords = jsObject.supportsKeywords;
-        dotNetCapabilitiesAttachment.supportsName = jsObject.supportsName;
-        dotNetCapabilitiesAttachment.supportsResize = jsObject.supportsResize;
-        dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
+        if (hasValue(jsObject.supportsCacheHint)) {
+            dotNetCapabilitiesAttachment.supportsCacheHint = jsObject.supportsCacheHint;
+        }
+        if (hasValue(jsObject.supportsContentType)) {
+            dotNetCapabilitiesAttachment.supportsContentType = jsObject.supportsContentType;
+        }
+        if (hasValue(jsObject.supportsExifInfo)) {
+            dotNetCapabilitiesAttachment.supportsExifInfo = jsObject.supportsExifInfo;
+        }
+        if (hasValue(jsObject.supportsKeywords)) {
+            dotNetCapabilitiesAttachment.supportsKeywords = jsObject.supportsKeywords;
+        }
+        if (hasValue(jsObject.supportsName)) {
+            dotNetCapabilitiesAttachment.supportsName = jsObject.supportsName;
+        }
+        if (hasValue(jsObject.supportsResize)) {
+            dotNetCapabilitiesAttachment.supportsResize = jsObject.supportsResize;
+        }
+        if (hasValue(jsObject.supportsSize)) {
+            dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
+        }
 
     return dotNetCapabilitiesAttachment;
 }

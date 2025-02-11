@@ -13,12 +13,6 @@ export default class LayerViewGenerated implements IPropertyWrapper {
 
     constructor(component: LayerView) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -31,7 +25,7 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     
     async getLayer(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return buildDotNetLayer(this.component.layer);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -53,14 +47,19 @@ export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: stri
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerViewWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = layerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerView;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LayerView', e);
+    }
     
     return jsLayerView;
 }
 
-export async function buildDotNetLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -71,14 +70,26 @@ export async function buildDotNetLayerViewGenerated(jsObject: any, layerId: stri
     };
         if (hasValue(jsObject.layer)) {
             let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetLayerView.layer = buildDotNetLayer(jsObject.layer, layerId, viewId);
+            dotNetLayerView.layer = buildDotNetLayer(jsObject.layer);
         }
-        dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        dotNetLayerView.suspended = jsObject.suspended;
-        dotNetLayerView.updating = jsObject.updating;
-        dotNetLayerView.view = jsObject.view;
-        dotNetLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        dotNetLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+        if (hasValue(jsObject.spatialReferenceSupported)) {
+            dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+        }
+        if (hasValue(jsObject.suspended)) {
+            dotNetLayerView.suspended = jsObject.suspended;
+        }
+        if (hasValue(jsObject.updating)) {
+            dotNetLayerView.updating = jsObject.updating;
+        }
+        if (hasValue(jsObject.view)) {
+            dotNetLayerView.view = jsObject.view;
+        }
+        if (hasValue(jsObject.visibleAtCurrentScale)) {
+            dotNetLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+        }
+        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+            dotNetLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+        }
 
     return dotNetLayerView;
 }

@@ -13,12 +13,6 @@ export default class PictureMarkerSymbolGenerated implements IPropertyWrapper {
 
     constructor(component: PictureMarkerSymbol) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsPictureMarkerSymbolGenerated(dotNetObject: any, lay
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pictureMarkerSymbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pictureMarkerSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPictureMarkerSymbol;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PictureMarkerSymbol', e);
+    }
     
     return jsPictureMarkerSymbol;
 }
@@ -86,14 +85,30 @@ export async function buildDotNetPictureMarkerSymbolGenerated(jsObject: any, lay
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPictureMarkerSymbol.angle = jsObject.angle;
-        dotNetPictureMarkerSymbol.color = jsObject.color;
-        dotNetPictureMarkerSymbol.height = jsObject.height;
-        dotNetPictureMarkerSymbol.type = jsObject.type;
-        dotNetPictureMarkerSymbol.url = jsObject.url;
-        dotNetPictureMarkerSymbol.width = jsObject.width;
-        dotNetPictureMarkerSymbol.xoffset = jsObject.xoffset;
-        dotNetPictureMarkerSymbol.yoffset = jsObject.yoffset;
+        if (hasValue(jsObject.angle)) {
+            dotNetPictureMarkerSymbol.angle = jsObject.angle;
+        }
+        if (hasValue(jsObject.color)) {
+            dotNetPictureMarkerSymbol.color = jsObject.color;
+        }
+        if (hasValue(jsObject.height)) {
+            dotNetPictureMarkerSymbol.height = jsObject.height;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetPictureMarkerSymbol.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetPictureMarkerSymbol.url = jsObject.url;
+        }
+        if (hasValue(jsObject.width)) {
+            dotNetPictureMarkerSymbol.width = jsObject.width;
+        }
+        if (hasValue(jsObject.xoffset)) {
+            dotNetPictureMarkerSymbol.xoffset = jsObject.xoffset;
+        }
+        if (hasValue(jsObject.yoffset)) {
+            dotNetPictureMarkerSymbol.yoffset = jsObject.yoffset;
+        }
 
     return dotNetPictureMarkerSymbol;
 }

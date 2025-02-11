@@ -13,12 +13,6 @@ export default class GraphicsLayerElevationInfoFeatureExpressionInfoGenerated im
 
     constructor(component: GraphicsLayerElevationInfoFeatureExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsGraphicsLayerElevationInfoFeatureExpressionInfoGene
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerElevationInfoFeatureExpressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = graphicsLayerElevationInfoFeatureExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfoFeatureExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GraphicsLayerElevationInfoFeatureExpressionInfo', e);
+    }
     
     return jsGraphicsLayerElevationInfoFeatureExpressionInfo;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
-        dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetGraphicsLayerElevationInfoFeatureExpressionInfo;
 }

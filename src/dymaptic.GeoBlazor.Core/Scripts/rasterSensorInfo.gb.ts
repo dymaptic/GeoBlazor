@@ -13,12 +13,6 @@ export default class RasterSensorInfoGenerated implements IPropertyWrapper {
 
     constructor(component: RasterSensorInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -73,9 +67,14 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterSensorInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = rasterSensorInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RasterSensorInfo', e);
+    }
     
     return jsRasterSensorInfo;
 }
@@ -89,14 +88,30 @@ export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetRasterSensorInfo.acquisitionDate = jsObject.acquisitionDate;
-        dotNetRasterSensorInfo.cloudCover = jsObject.cloudCover;
-        dotNetRasterSensorInfo.productName = jsObject.productName;
-        dotNetRasterSensorInfo.sensorAzimuth = jsObject.sensorAzimuth;
-        dotNetRasterSensorInfo.sensorElevation = jsObject.sensorElevation;
-        dotNetRasterSensorInfo.sensorName = jsObject.sensorName;
-        dotNetRasterSensorInfo.sunAzimuth = jsObject.sunAzimuth;
-        dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
+        if (hasValue(jsObject.acquisitionDate)) {
+            dotNetRasterSensorInfo.acquisitionDate = jsObject.acquisitionDate;
+        }
+        if (hasValue(jsObject.cloudCover)) {
+            dotNetRasterSensorInfo.cloudCover = jsObject.cloudCover;
+        }
+        if (hasValue(jsObject.productName)) {
+            dotNetRasterSensorInfo.productName = jsObject.productName;
+        }
+        if (hasValue(jsObject.sensorAzimuth)) {
+            dotNetRasterSensorInfo.sensorAzimuth = jsObject.sensorAzimuth;
+        }
+        if (hasValue(jsObject.sensorElevation)) {
+            dotNetRasterSensorInfo.sensorElevation = jsObject.sensorElevation;
+        }
+        if (hasValue(jsObject.sensorName)) {
+            dotNetRasterSensorInfo.sensorName = jsObject.sensorName;
+        }
+        if (hasValue(jsObject.sunAzimuth)) {
+            dotNetRasterSensorInfo.sunAzimuth = jsObject.sunAzimuth;
+        }
+        if (hasValue(jsObject.sunElevation)) {
+            dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
+        }
 
     return dotNetRasterSensorInfo;
 }

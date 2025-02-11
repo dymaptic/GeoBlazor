@@ -13,12 +13,6 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
     constructor(component: TileInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -90,9 +84,14 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for TileInfo', e);
+    }
     
     return jsTileInfo;
 }
@@ -110,12 +109,24 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
             let { buildDotNetLOD } = await import('./lOD');
             dotNetTileInfo.lods = jsObject.lods.map(async i => await buildDotNetLOD(i));
         }
-        dotNetTileInfo.dpi = jsObject.dpi;
-        dotNetTileInfo.format = jsObject.format;
-        dotNetTileInfo.isWrappable = jsObject.isWrappable;
-        dotNetTileInfo.origin = jsObject.origin;
-        dotNetTileInfo.size = jsObject.size;
-        dotNetTileInfo.spatialReference = jsObject.spatialReference;
+        if (hasValue(jsObject.dpi)) {
+            dotNetTileInfo.dpi = jsObject.dpi;
+        }
+        if (hasValue(jsObject.format)) {
+            dotNetTileInfo.format = jsObject.format;
+        }
+        if (hasValue(jsObject.isWrappable)) {
+            dotNetTileInfo.isWrappable = jsObject.isWrappable;
+        }
+        if (hasValue(jsObject.origin)) {
+            dotNetTileInfo.origin = jsObject.origin;
+        }
+        if (hasValue(jsObject.size)) {
+            dotNetTileInfo.size = jsObject.size;
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            dotNetTileInfo.spatialReference = jsObject.spatialReference;
+        }
 
     return dotNetTileInfo;
 }

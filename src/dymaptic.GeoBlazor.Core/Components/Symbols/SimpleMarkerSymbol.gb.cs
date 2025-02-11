@@ -225,12 +225,12 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         }
 
         // get the property value
-        SimpleMarkerSymbolStyle? result = await JsComponentReference!.InvokeAsync<SimpleMarkerSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleMarkerSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleMarkerSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (SimpleMarkerSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }

@@ -13,12 +13,6 @@ export default class AuthoringInfoField1ClassBreakInfosGenerated implements IPro
 
     constructor(component: AuthoringInfoField1ClassBreakInfos) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoField1ClassBreakInfosWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = authoringInfoField1ClassBreakInfosWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AuthoringInfoField1ClassBreakInfos', e);
+    }
     
     return jsAuthoringInfoField1ClassBreakInfos;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsO
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetAuthoringInfoField1ClassBreakInfos.maxValue = jsObject.maxValue;
-        dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
+        if (hasValue(jsObject.maxValue)) {
+            dotNetAuthoringInfoField1ClassBreakInfos.maxValue = jsObject.maxValue;
+        }
+        if (hasValue(jsObject.minValue)) {
+            dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
+        }
 
     return dotNetAuthoringInfoField1ClassBreakInfos;
 }

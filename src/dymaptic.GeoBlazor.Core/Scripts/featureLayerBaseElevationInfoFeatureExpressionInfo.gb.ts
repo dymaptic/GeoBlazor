@@ -13,12 +13,6 @@ export default class FeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated
 
     constructor(component: FeatureLayerBaseElevationInfoFeatureExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerBaseElevationInfoFeatureExpressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoFeatureExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureLayerBaseElevationInfoFeatureExpressionInfo', e);
+    }
     
     return jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionI
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
-        dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo;
 }

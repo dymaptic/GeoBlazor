@@ -13,12 +13,6 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
     constructor(component: PixelBlock) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -100,9 +94,14 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PixelBlock', e);
+    }
     
     return jsPixelBlock;
 }
@@ -120,13 +119,27 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
             let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
             dotNetPixelBlock.statistics = jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i));
         }
-        dotNetPixelBlock.height = jsObject.height;
-        dotNetPixelBlock.mask = jsObject.mask;
-        dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
-        dotNetPixelBlock.pixels = jsObject.pixels;
-        dotNetPixelBlock.pixelType = jsObject.pixelType;
-        dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
-        dotNetPixelBlock.width = jsObject.width;
+        if (hasValue(jsObject.height)) {
+            dotNetPixelBlock.height = jsObject.height;
+        }
+        if (hasValue(jsObject.mask)) {
+            dotNetPixelBlock.mask = jsObject.mask;
+        }
+        if (hasValue(jsObject.maskIsAlpha)) {
+            dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
+        }
+        if (hasValue(jsObject.pixels)) {
+            dotNetPixelBlock.pixels = jsObject.pixels;
+        }
+        if (hasValue(jsObject.pixelType)) {
+            dotNetPixelBlock.pixelType = jsObject.pixelType;
+        }
+        if (hasValue(jsObject.validPixelCount)) {
+            dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
+        }
+        if (hasValue(jsObject.width)) {
+            dotNetPixelBlock.width = jsObject.width;
+        }
 
     return dotNetPixelBlock;
 }

@@ -13,12 +13,6 @@ export default class LODGenerated implements IPropertyWrapper {
 
     constructor(component: LOD) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -61,9 +55,14 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(lODWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = lODWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LOD', e);
+    }
     
     return jsLOD;
 }
@@ -77,10 +76,18 @@ export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetLOD.level = jsObject.level;
-        dotNetLOD.levelValue = jsObject.levelValue;
-        dotNetLOD.resolution = jsObject.resolution;
-        dotNetLOD.scale = jsObject.scale;
+        if (hasValue(jsObject.level)) {
+            dotNetLOD.level = jsObject.level;
+        }
+        if (hasValue(jsObject.levelValue)) {
+            dotNetLOD.levelValue = jsObject.levelValue;
+        }
+        if (hasValue(jsObject.resolution)) {
+            dotNetLOD.resolution = jsObject.resolution;
+        }
+        if (hasValue(jsObject.scale)) {
+            dotNetLOD.scale = jsObject.scale;
+        }
 
     return dotNetLOD;
 }

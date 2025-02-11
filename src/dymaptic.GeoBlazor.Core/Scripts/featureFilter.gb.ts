@@ -13,12 +13,6 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
     constructor(component: FeatureFilter) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -83,9 +77,14 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureFilter', e);
+    }
     
     return jsFeatureFilter;
 }
@@ -103,12 +102,24 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        dotNetFeatureFilter.distance = jsObject.distance;
-        dotNetFeatureFilter.geometry = jsObject.geometry;
-        dotNetFeatureFilter.objectIds = jsObject.objectIds;
-        dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
-        dotNetFeatureFilter.units = jsObject.units;
-        dotNetFeatureFilter.where = jsObject.where;
+        if (hasValue(jsObject.distance)) {
+            dotNetFeatureFilter.distance = jsObject.distance;
+        }
+        if (hasValue(jsObject.geometry)) {
+            dotNetFeatureFilter.geometry = jsObject.geometry;
+        }
+        if (hasValue(jsObject.objectIds)) {
+            dotNetFeatureFilter.objectIds = jsObject.objectIds;
+        }
+        if (hasValue(jsObject.spatialRelationship)) {
+            dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
+        }
+        if (hasValue(jsObject.units)) {
+            dotNetFeatureFilter.units = jsObject.units;
+        }
+        if (hasValue(jsObject.where)) {
+            dotNetFeatureFilter.where = jsObject.where;
+        }
 
     return dotNetFeatureFilter;
 }

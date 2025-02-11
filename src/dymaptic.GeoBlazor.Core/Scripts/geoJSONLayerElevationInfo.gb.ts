@@ -13,12 +13,6 @@ export default class GeoJSONLayerElevationInfoGenerated implements IPropertyWrap
 
     constructor(component: GeoJSONLayerElevationInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: an
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerElevationInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerElevationInfo', e);
+    }
     
     return jsGeoJSONLayerElevationInfo;
 }
@@ -90,9 +89,15 @@ export async function buildDotNetGeoJSONLayerElevationInfoGenerated(jsObject: an
             let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
             dotNetGeoJSONLayerElevationInfo.featureExpressionInfo = await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
         }
-        dotNetGeoJSONLayerElevationInfo.mode = jsObject.mode;
-        dotNetGeoJSONLayerElevationInfo.offset = jsObject.offset;
-        dotNetGeoJSONLayerElevationInfo.unit = jsObject.unit;
+        if (hasValue(jsObject.mode)) {
+            dotNetGeoJSONLayerElevationInfo.mode = jsObject.mode;
+        }
+        if (hasValue(jsObject.offset)) {
+            dotNetGeoJSONLayerElevationInfo.offset = jsObject.offset;
+        }
+        if (hasValue(jsObject.unit)) {
+            dotNetGeoJSONLayerElevationInfo.unit = jsObject.unit;
+        }
 
     return dotNetGeoJSONLayerElevationInfo;
 }

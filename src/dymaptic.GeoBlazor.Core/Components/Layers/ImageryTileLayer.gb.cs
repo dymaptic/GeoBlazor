@@ -383,12 +383,12 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        BlendMode? result = await JsComponentReference!.InvokeAsync<BlendMode?>("getProperty",
-            CancellationTokenSource.Token, "blendMode");
-        if (result is not null)
+        JsNullableEnumWrapper<BlendMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BlendMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "blendMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             BlendMode = result.Value;
+             BlendMode = (BlendMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(BlendMode)] = BlendMode;
         }
@@ -503,12 +503,12 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        PixelInterpolation? result = await JsComponentReference!.InvokeAsync<PixelInterpolation?>("getProperty",
-            CancellationTokenSource.Token, "interpolation");
-        if (result is not null)
+        JsNullableEnumWrapper<PixelInterpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelInterpolation>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "interpolation");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Interpolation = result.Value;
+             Interpolation = (PixelInterpolation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }

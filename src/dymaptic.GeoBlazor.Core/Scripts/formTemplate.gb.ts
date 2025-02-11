@@ -13,12 +13,6 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
 
     constructor(component: FormTemplate) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -75,9 +69,14 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(formTemplateWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = formTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFormTemplate;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FormTemplate', e);
+    }
     
     return jsFormTemplate;
 }
@@ -96,9 +95,15 @@ export async function buildDotNetFormTemplateGenerated(jsObject: any): Promise<a
             let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
             dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
         }
-        dotNetFormTemplate.description = jsObject.description;
-        dotNetFormTemplate.preserveFieldValuesWhenHidden = jsObject.preserveFieldValuesWhenHidden;
-        dotNetFormTemplate.title = jsObject.title;
+        if (hasValue(jsObject.description)) {
+            dotNetFormTemplate.description = jsObject.description;
+        }
+        if (hasValue(jsObject.preserveFieldValuesWhenHidden)) {
+            dotNetFormTemplate.preserveFieldValuesWhenHidden = jsObject.preserveFieldValuesWhenHidden;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetFormTemplate.title = jsObject.title;
+        }
 
     return dotNetFormTemplate;
 }

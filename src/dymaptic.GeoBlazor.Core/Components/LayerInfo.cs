@@ -19,7 +19,7 @@ public class LayerInfo : MapComponent
     [Parameter]
     [EditorRequired]
     [RequiredProperty]
-    public Guid LayerId { get; set; }
+    public Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Only applicable if the layer is a MapImageLayer. The IDs of the MapImageLayer sublayers for which to display legend

@@ -132,12 +132,12 @@ public partial class ExpressionInfo
         }
 
         // get the property value
-        ExpressionInfoReturnType? result = await JsComponentReference!.InvokeAsync<ExpressionInfoReturnType?>("getProperty",
-            CancellationTokenSource.Token, "returnType");
-        if (result is not null)
+        JsNullableEnumWrapper<ExpressionInfoReturnType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<ExpressionInfoReturnType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReturnType = result.Value;
+             ReturnType = (ExpressionInfoReturnType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReturnType)] = ReturnType;
         }

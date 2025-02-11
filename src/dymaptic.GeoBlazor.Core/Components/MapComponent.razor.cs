@@ -634,44 +634,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public virtual async Task OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public virtual ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference)
     {
-        Console.WriteLine($"OnJsComponentCreated called for {GetType().Name}");
         JsComponentReference = jsComponentReference;
-        PropertyInfo[] arcGisProps = GetType()
-            .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(p => p.SetMethod is not null 
-                && p.GetCustomAttribute<ArcGISPropertyAttribute>() is not null)
-            .ToArray();
-
-        await Parallel.ForEachAsync(arcGisProps, CancellationTokenSource.Token, async (prop, token) =>
-        {
-            if (IsDisposed || token.IsCancellationRequested)
-            {
-                return;
-            }
-            try
-            {
-                // call GetProperty with reflection
-                MethodInfo? method = GetType().GetMethod($"Get{prop.Name}");
-
-                if (method is not null)
-                {
-                    Task methodTask = (Task)method.Invoke(this, [])!;
-                    await methodTask;
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // do nothing, task was cancelled
-                await CancellationTokenSource.CancelAsync();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                await CancellationTokenSource.CancelAsync();
-            }
-        });
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>

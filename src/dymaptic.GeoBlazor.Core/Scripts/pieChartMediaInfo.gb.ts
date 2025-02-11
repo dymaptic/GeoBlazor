@@ -13,12 +13,6 @@ export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
 
     constructor(component: PieChartMediaInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -70,9 +64,14 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layer
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pieChartMediaInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pieChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPieChartMediaInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PieChartMediaInfo', e);
+    }
     
     return jsPieChartMediaInfo;
 }
@@ -90,10 +89,18 @@ export async function buildDotNetPieChartMediaInfoGenerated(jsObject: any): Prom
             let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
             dotNetPieChartMediaInfo.value = await buildDotNetChartMediaInfoValue(jsObject.value);
         }
-        dotNetPieChartMediaInfo.altText = jsObject.altText;
-        dotNetPieChartMediaInfo.caption = jsObject.caption;
-        dotNetPieChartMediaInfo.title = jsObject.title;
-        dotNetPieChartMediaInfo.type = jsObject.type;
+        if (hasValue(jsObject.altText)) {
+            dotNetPieChartMediaInfo.altText = jsObject.altText;
+        }
+        if (hasValue(jsObject.caption)) {
+            dotNetPieChartMediaInfo.caption = jsObject.caption;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetPieChartMediaInfo.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetPieChartMediaInfo.type = jsObject.type;
+        }
 
     return dotNetPieChartMediaInfo;
 }

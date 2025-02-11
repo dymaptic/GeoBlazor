@@ -13,12 +13,6 @@ export default class GroupElementGenerated implements IPropertyWrapper {
 
     constructor(component: GroupElement) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -64,9 +58,14 @@ export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(groupElementWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = groupElementWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGroupElement;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for GroupElement', e);
+    }
     
     return jsGroupElement;
 }
@@ -81,11 +80,21 @@ export async function buildDotNetGroupElementGenerated(jsObject: any): Promise<a
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetGroupElement.elements = jsObject.elements;
-        dotNetGroupElement.description = jsObject.description;
-        dotNetGroupElement.initialState = jsObject.initialState;
-        dotNetGroupElement.label = jsObject.label;
-        dotNetGroupElement.type = jsObject.type;
-        dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
+        if (hasValue(jsObject.description)) {
+            dotNetGroupElement.description = jsObject.description;
+        }
+        if (hasValue(jsObject.initialState)) {
+            dotNetGroupElement.initialState = jsObject.initialState;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetGroupElement.label = jsObject.label;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetGroupElement.type = jsObject.type;
+        }
+        if (hasValue(jsObject.visibilityExpression)) {
+            dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
+        }
 
     return dotNetGroupElement;
 }

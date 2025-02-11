@@ -13,12 +13,6 @@ export default class CapabilitiesMetadataGenerated implements IPropertyWrapper {
 
     constructor(component: CapabilitiesMetadata) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -52,9 +46,14 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesMetadataWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesMetadataWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesMetadata', e);
+    }
     
     return jsCapabilitiesMetadata;
 }
@@ -68,7 +67,9 @@ export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
+        if (hasValue(jsObject.supportsAdvancedFieldProperties)) {
+            dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
+        }
 
     return dotNetCapabilitiesMetadata;
 }

@@ -13,12 +13,6 @@ export default class CapabilitiesDataGenerated implements IPropertyWrapper {
 
     constructor(component: CapabilitiesData) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -61,9 +55,14 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any, layerI
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesDataWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesDataWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesData;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesData', e);
+    }
     
     return jsCapabilitiesData;
 }
@@ -77,10 +76,18 @@ export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesData.isVersioned = jsObject.isVersioned;
-        dotNetCapabilitiesData.supportsAttachment = jsObject.supportsAttachment;
-        dotNetCapabilitiesData.supportsM = jsObject.supportsM;
-        dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
+        if (hasValue(jsObject.isVersioned)) {
+            dotNetCapabilitiesData.isVersioned = jsObject.isVersioned;
+        }
+        if (hasValue(jsObject.supportsAttachment)) {
+            dotNetCapabilitiesData.supportsAttachment = jsObject.supportsAttachment;
+        }
+        if (hasValue(jsObject.supportsM)) {
+            dotNetCapabilitiesData.supportsM = jsObject.supportsM;
+        }
+        if (hasValue(jsObject.supportsZ)) {
+            dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
+        }
 
     return dotNetCapabilitiesData;
 }

@@ -1028,12 +1028,12 @@ public partial class Portal
         }
 
         // get the property value
-        PortalAccess? result = await JsComponentReference!.InvokeAsync<PortalAccess?>("getProperty",
-            CancellationTokenSource.Token, "access");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalAccess>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalAccess>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "access");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Access = result.Value;
+             Access = (PortalAccess)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Access)] = Access;
         }
@@ -1088,12 +1088,12 @@ public partial class Portal
         }
 
         // get the property value
-        AuthMode? result = await JsComponentReference!.InvokeAsync<AuthMode?>("getProperty",
-            CancellationTokenSource.Token, "authMode");
-        if (result is not null)
+        JsNullableEnumWrapper<AuthMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "authMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             AuthMode = result.Value;
+             AuthMode = (AuthMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(AuthMode)] = AuthMode;
         }
@@ -2378,12 +2378,12 @@ public partial class Portal
         }
 
         // get the property value
-        PortalMode? result = await JsComponentReference!.InvokeAsync<PortalMode?>("getProperty",
-            CancellationTokenSource.Token, "portalMode");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalMode>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "portalMode");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             PortalMode = result.Value;
+             PortalMode = (PortalMode)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(PortalMode)] = PortalMode;
         }
@@ -2738,12 +2738,12 @@ public partial class Portal
         }
 
         // get the property value
-        PortalUnits? result = await JsComponentReference!.InvokeAsync<PortalUnits?>("getProperty",
-            CancellationTokenSource.Token, "units");
-        if (result is not null)
+        JsNullableEnumWrapper<PortalUnits>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PortalUnits>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "units");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Units = result.Value;
+             Units = (PortalUnits)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Units)] = Units;
         }

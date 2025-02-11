@@ -13,12 +13,6 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
     constructor(layer: KMLLayer) {
         this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
     }
     
     // region methods
@@ -36,7 +30,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(result, this.layerId, this.viewId);
+        return buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -86,7 +80,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
         jsKMLLayer.fullExtent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./jsBuilder');
+        let { buildJsPortalItem } = await import('./portalItem');
         jsKMLLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
@@ -125,9 +119,6 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.title)) {
         jsKMLLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.type)) {
-        jsKMLLayer.type = dotNetObject.type;
-    }
     if (hasValue(dotNetObject.url)) {
         jsKMLLayer.url = dotNetObject.url;
     }
@@ -139,9 +130,14 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = kMLLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayer;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for KMLLayer', e);
+    }
     
     return jsKMLLayer;
 }
@@ -156,7 +152,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./dotNetBuilder');
+            let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
         }
         if (hasValue(jsObject.sublayers)) {
@@ -167,19 +163,45 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
             let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
             dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        dotNetKMLLayer.arcGISLayerId = jsObject.id;
-        dotNetKMLLayer.blendMode = jsObject.blendMode;
-        dotNetKMLLayer.effect = jsObject.effect;
-        dotNetKMLLayer.fullExtent = jsObject.fullExtent;
-        dotNetKMLLayer.listMode = jsObject.listMode;
-        dotNetKMLLayer.loaded = jsObject.loaded;
-        dotNetKMLLayer.maxScale = jsObject.maxScale;
-        dotNetKMLLayer.minScale = jsObject.minScale;
-        dotNetKMLLayer.opacity = jsObject.opacity;
-        dotNetKMLLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetKMLLayer.title = jsObject.title;
-        dotNetKMLLayer.type = jsObject.type;
-        dotNetKMLLayer.url = jsObject.url;
+        if (hasValue(jsObject.id)) {
+            dotNetKMLLayer.arcGISLayerId = jsObject.id;
+        }
+        if (hasValue(jsObject.blendMode)) {
+            dotNetKMLLayer.blendMode = jsObject.blendMode;
+        }
+        if (hasValue(jsObject.effect)) {
+            dotNetKMLLayer.effect = jsObject.effect;
+        }
+        if (hasValue(jsObject.fullExtent)) {
+            dotNetKMLLayer.fullExtent = jsObject.fullExtent;
+        }
+        if (hasValue(jsObject.listMode)) {
+            dotNetKMLLayer.listMode = jsObject.listMode;
+        }
+        if (hasValue(jsObject.loaded)) {
+            dotNetKMLLayer.loaded = jsObject.loaded;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetKMLLayer.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.minScale)) {
+            dotNetKMLLayer.minScale = jsObject.minScale;
+        }
+        if (hasValue(jsObject.opacity)) {
+            dotNetKMLLayer.opacity = jsObject.opacity;
+        }
+        if (hasValue(jsObject.persistenceEnabled)) {
+            dotNetKMLLayer.persistenceEnabled = jsObject.persistenceEnabled;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetKMLLayer.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetKMLLayer.type = jsObject.type;
+        }
+        if (hasValue(jsObject.url)) {
+            dotNetKMLLayer.url = jsObject.url;
+        }
 
     return dotNetKMLLayer;
 }

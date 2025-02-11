@@ -13,12 +13,6 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
 
     constructor(component: FeatureTemplate) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -73,9 +67,14 @@ export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureTemplateWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = featureTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplate;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureTemplate', e);
+    }
     
     return jsFeatureTemplate;
 }
@@ -93,10 +92,18 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
             let { buildDotNetGraphic } = await import('./dotNetBuilder');
             dotNetFeatureTemplate.prototype = await buildDotNetGraphic(jsObject.prototype, layerId, viewId);
         }
-        dotNetFeatureTemplate.description = jsObject.description;
-        dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
-        dotNetFeatureTemplate.name = jsObject.name;
-        dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
+        if (hasValue(jsObject.description)) {
+            dotNetFeatureTemplate.description = jsObject.description;
+        }
+        if (hasValue(jsObject.drawingTool)) {
+            dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
+        }
+        if (hasValue(jsObject.name)) {
+            dotNetFeatureTemplate.name = jsObject.name;
+        }
+        if (hasValue(jsObject.thumbnail)) {
+            dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
+        }
 
     return dotNetFeatureTemplate;
 }

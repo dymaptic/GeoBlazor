@@ -13,12 +13,6 @@ export default class PixelDataGenerated implements IPropertyWrapper {
 
     constructor(component: PixelData) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -64,9 +58,14 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelDataWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = pixelDataWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PixelData', e);
+    }
     
     return jsPixelData;
 }
@@ -84,7 +83,9 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
             let { buildDotNetPixelBlock } = await import('./pixelBlock');
             dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
         }
-        dotNetPixelData.extent = jsObject.extent;
+        if (hasValue(jsObject.extent)) {
+            dotNetPixelData.extent = jsObject.extent;
+        }
 
     return dotNetPixelData;
 }

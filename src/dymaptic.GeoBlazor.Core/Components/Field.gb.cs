@@ -370,12 +370,12 @@ public partial class Field
         }
 
         // get the property value
-        FieldValueType? result = await JsComponentReference!.InvokeAsync<FieldValueType?>("getProperty",
-            CancellationTokenSource.Token, "valueType");
-        if (result is not null)
+        JsNullableEnumWrapper<FieldValueType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<FieldValueType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "valueType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ValueType = result.Value;
+             ValueType = (FieldValueType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ValueType)] = ValueType;
         }

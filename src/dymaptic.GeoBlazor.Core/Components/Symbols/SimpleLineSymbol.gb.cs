@@ -101,12 +101,12 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        Cap? result = await JsComponentReference!.InvokeAsync<Cap?>("getProperty",
-            CancellationTokenSource.Token, "cap");
-        if (result is not null)
+        JsNullableEnumWrapper<Cap>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Cap>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "cap");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Cap = result.Value;
+             Cap = (Cap)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Cap)] = Cap;
         }
@@ -131,12 +131,12 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        Join? result = await JsComponentReference!.InvokeAsync<Join?>("getProperty",
-            CancellationTokenSource.Token, "join");
-        if (result is not null)
+        JsNullableEnumWrapper<Join>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Join>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "join");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Join = result.Value;
+             Join = (Join)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Join)] = Join;
         }
@@ -221,12 +221,12 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
         }
 
         // get the property value
-        SimpleLineSymbolStyle? result = await JsComponentReference!.InvokeAsync<SimpleLineSymbolStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
-        if (result is not null)
+        JsNullableEnumWrapper<SimpleLineSymbolStyle>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SimpleLineSymbolStyle>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "style");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Style = result.Value;
+             Style = (SimpleLineSymbolStyle)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Style)] = Style;
         }

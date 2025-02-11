@@ -3,6 +3,15 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class FeatureLayerView : LayerView
 {
     /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
+    public FeatureLayerView()
+    {
+    }
+    
+    /// <summary>
     ///     Constructor for use in C# code.
     /// </summary>
     /// <param name="layerView">

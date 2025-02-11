@@ -81,12 +81,12 @@ public partial class BasemapStyle
         }
 
         // get the property value
-        BasemapStylePlace? result = await JsComponentReference!.InvokeAsync<BasemapStylePlace?>("getProperty",
-            CancellationTokenSource.Token, "places");
-        if (result is not null)
+        JsNullableEnumWrapper<BasemapStylePlace>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapStylePlace>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "places");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Places = result.Value;
+             Places = (BasemapStylePlace)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Places)] = Places;
         }

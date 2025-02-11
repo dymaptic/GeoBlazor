@@ -13,12 +13,6 @@ export default class FieldElementGenerated implements IPropertyWrapper {
 
     constructor(component: FieldElement) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -79,9 +73,14 @@ export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: s
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldElementWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = fieldElementWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldElement;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FieldElement', e);
+    }
     
     return jsFieldElement;
 }
@@ -95,17 +94,39 @@ export async function buildDotNetFieldElementGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetFieldElement.description = jsObject.description;
-        dotNetFieldElement.domain = jsObject.domain;
-        dotNetFieldElement.editableExpression = jsObject.editableExpression;
-        dotNetFieldElement.fieldName = jsObject.fieldName;
-        dotNetFieldElement.hint = jsObject.hint;
-        dotNetFieldElement.input = jsObject.input;
-        dotNetFieldElement.label = jsObject.label;
-        dotNetFieldElement.requiredExpression = jsObject.requiredExpression;
-        dotNetFieldElement.type = jsObject.type;
-        dotNetFieldElement.valueExpression = jsObject.valueExpression;
-        dotNetFieldElement.visibilityExpression = jsObject.visibilityExpression;
+        if (hasValue(jsObject.description)) {
+            dotNetFieldElement.description = jsObject.description;
+        }
+        if (hasValue(jsObject.domain)) {
+            dotNetFieldElement.domain = jsObject.domain;
+        }
+        if (hasValue(jsObject.editableExpression)) {
+            dotNetFieldElement.editableExpression = jsObject.editableExpression;
+        }
+        if (hasValue(jsObject.fieldName)) {
+            dotNetFieldElement.fieldName = jsObject.fieldName;
+        }
+        if (hasValue(jsObject.hint)) {
+            dotNetFieldElement.hint = jsObject.hint;
+        }
+        if (hasValue(jsObject.input)) {
+            dotNetFieldElement.input = jsObject.input;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetFieldElement.label = jsObject.label;
+        }
+        if (hasValue(jsObject.requiredExpression)) {
+            dotNetFieldElement.requiredExpression = jsObject.requiredExpression;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetFieldElement.type = jsObject.type;
+        }
+        if (hasValue(jsObject.valueExpression)) {
+            dotNetFieldElement.valueExpression = jsObject.valueExpression;
+        }
+        if (hasValue(jsObject.visibilityExpression)) {
+            dotNetFieldElement.visibilityExpression = jsObject.visibilityExpression;
+        }
 
     return dotNetFieldElement;
 }

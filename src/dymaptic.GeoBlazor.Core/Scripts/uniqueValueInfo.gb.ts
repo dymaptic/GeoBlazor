@@ -13,12 +13,6 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
 
     constructor(component: UniqueValueInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -67,9 +61,14 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = uniqueValueInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for UniqueValueInfo', e);
+    }
     
     return jsUniqueValueInfo;
 }
@@ -87,8 +86,12 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
             let { buildDotNetSymbol } = await import('./dotNetBuilder');
             dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        dotNetUniqueValueInfo.label = jsObject.label;
-        dotNetUniqueValueInfo.value = jsObject.value;
+        if (hasValue(jsObject.label)) {
+            dotNetUniqueValueInfo.label = jsObject.label;
+        }
+        if (hasValue(jsObject.value)) {
+            dotNetUniqueValueInfo.value = jsObject.value;
+        }
 
     return dotNetUniqueValueInfo;
 }

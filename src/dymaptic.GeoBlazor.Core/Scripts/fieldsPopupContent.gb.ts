@@ -13,12 +13,6 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
 
     constructor(component: FieldsContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -31,12 +25,12 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(i => buildDotNetFieldInfo(i));
     }
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
     }
     
     getProperty(prop: string): any {
@@ -52,7 +46,7 @@ export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, laye
     let jsFieldsContent = new FieldsContent();
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsFieldsContent.fieldInfos = dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i)) as any;
+        jsFieldsContent.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -69,9 +63,14 @@ export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, laye
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldsPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = fieldsPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FieldsPopupContent', e);
+    }
     
     return jsFieldsContent;
 }
@@ -87,11 +86,17 @@ export async function buildDotNetFieldsPopupContentGenerated(jsObject: any): Pro
     };
         if (hasValue(jsObject.fieldInfos)) {
             let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+            dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
         }
-        dotNetFieldsPopupContent.description = jsObject.description;
-        dotNetFieldsPopupContent.title = jsObject.title;
-        dotNetFieldsPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.description)) {
+            dotNetFieldsPopupContent.description = jsObject.description;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetFieldsPopupContent.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetFieldsPopupContent.type = jsObject.type;
+        }
 
     return dotNetFieldsPopupContent;
 }

@@ -13,12 +13,6 @@ export default class ExpressionInfoGenerated implements IPropertyWrapper {
 
     constructor(component: ExpressionInfo) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -61,9 +55,14 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expressionInfoWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = expressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionInfo;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ExpressionInfo', e);
+    }
     
     return jsExpressionInfo;
 }
@@ -77,10 +76,18 @@ export function buildDotNetExpressionInfoGenerated(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetExpressionInfo.expression = jsObject.expression;
-        dotNetExpressionInfo.name = jsObject.name;
-        dotNetExpressionInfo.returnType = jsObject.returnType;
-        dotNetExpressionInfo.title = jsObject.title;
+        if (hasValue(jsObject.expression)) {
+            dotNetExpressionInfo.expression = jsObject.expression;
+        }
+        if (hasValue(jsObject.name)) {
+            dotNetExpressionInfo.name = jsObject.name;
+        }
+        if (hasValue(jsObject.returnType)) {
+            dotNetExpressionInfo.returnType = jsObject.returnType;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetExpressionInfo.title = jsObject.title;
+        }
 
     return dotNetExpressionInfo;
 }

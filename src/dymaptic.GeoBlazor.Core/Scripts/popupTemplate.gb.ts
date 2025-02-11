@@ -13,12 +13,6 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
 
     constructor(component: PopupTemplate) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -41,17 +35,17 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
+        this.component.expressionInfos = value.map(i => buildJsExpressionInfo(i));
     }
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(i => buildDotNetFieldInfo(i));
     }
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
     }
     
     async getLayerOptions(): Promise<any> {
@@ -82,11 +76,11 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.expressionInfos)) {
         let { buildJsExpressionInfo } = await import('./jsBuilder');
-        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(async i => await buildJsExpressionInfo(i)) as any;
+        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
     }
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i)) as any;
+        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
     }
     if (hasValue(dotNetObject.layerOptions)) {
         let { buildJsLayerOptions } = await import('./layerOptions');
@@ -116,9 +110,14 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupTemplateWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = popupTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTemplate;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PopupTemplate', e);
+    }
     
     return jsPopupTemplate;
 }
@@ -143,17 +142,27 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.fieldInfos)) {
             let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
         }
         if (hasValue(jsObject.layerOptions)) {
             let { buildDotNetLayerOptions } = await import('./layerOptions');
             dotNetPopupTemplate.layerOptions = await buildDotNetLayerOptions(jsObject.layerOptions);
         }
-        dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
-        dotNetPopupTemplate.outFields = jsObject.outFields;
-        dotNetPopupTemplate.overwriteActions = jsObject.overwriteActions;
-        dotNetPopupTemplate.returnGeometry = jsObject.returnGeometry;
-        dotNetPopupTemplate.title = jsObject.title;
+        if (hasValue(jsObject.lastEditInfoEnabled)) {
+            dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
+        }
+        if (hasValue(jsObject.outFields)) {
+            dotNetPopupTemplate.outFields = jsObject.outFields;
+        }
+        if (hasValue(jsObject.overwriteActions)) {
+            dotNetPopupTemplate.overwriteActions = jsObject.overwriteActions;
+        }
+        if (hasValue(jsObject.returnGeometry)) {
+            dotNetPopupTemplate.returnGeometry = jsObject.returnGeometry;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetPopupTemplate.title = jsObject.title;
+        }
 
     return dotNetPopupTemplate;
 }

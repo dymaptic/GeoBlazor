@@ -13,12 +13,6 @@ export default class CapabilitiesQueryTopFeaturesGenerated implements IPropertyW
 
     constructor(component: CapabilitiesQueryTopFeatures) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -52,9 +46,14 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryTopFeaturesWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = capabilitiesQueryTopFeaturesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for CapabilitiesQueryTopFeatures', e);
+    }
     
     return jsCapabilitiesQueryTopFeatures;
 }
@@ -68,7 +67,9 @@ export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
+        if (hasValue(jsObject.supportsCacheHint)) {
+            dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
+        }
 
     return dotNetCapabilitiesQueryTopFeatures;
 }

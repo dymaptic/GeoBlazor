@@ -189,12 +189,12 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        OutputPixelType? result = await JsComponentReference!.InvokeAsync<OutputPixelType?>("getProperty",
-            CancellationTokenSource.Token, "outputPixelType");
-        if (result is not null)
+        JsNullableEnumWrapper<OutputPixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OutputPixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outputPixelType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             OutputPixelType = result.Value;
+             OutputPixelType = (OutputPixelType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
         }

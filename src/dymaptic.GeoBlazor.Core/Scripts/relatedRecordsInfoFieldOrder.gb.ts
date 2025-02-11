@@ -13,12 +13,6 @@ export default class RelatedRecordsInfoFieldOrderGenerated implements IPropertyW
 
     constructor(component: RelatedRecordsInfoFieldOrder) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -55,9 +49,14 @@ export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject:
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(relatedRecordsInfoFieldOrderWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = relatedRecordsInfoFieldOrderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RelatedRecordsInfoFieldOrder', e);
+    }
     
     return jsRelatedRecordsInfoFieldOrder;
 }
@@ -71,8 +70,12 @@ export async function buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetRelatedRecordsInfoFieldOrder.field = jsObject.field;
-        dotNetRelatedRecordsInfoFieldOrder.order = jsObject.order;
+        if (hasValue(jsObject.field)) {
+            dotNetRelatedRecordsInfoFieldOrder.field = jsObject.field;
+        }
+        if (hasValue(jsObject.order)) {
+            dotNetRelatedRecordsInfoFieldOrder.order = jsObject.order;
+        }
 
     return dotNetRelatedRecordsInfoFieldOrder;
 }

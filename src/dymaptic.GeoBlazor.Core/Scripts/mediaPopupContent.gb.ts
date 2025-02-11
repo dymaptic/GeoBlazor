@@ -13,12 +13,6 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
 
     constructor(component: MediaContent) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -72,9 +66,14 @@ export async function buildJsMediaPopupContentGenerated(dotNetObject: any, layer
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mediaPopupContentWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = mediaPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMediaContent;
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for MediaPopupContent', e);
+    }
     
     return jsMediaContent;
 }
@@ -92,10 +91,18 @@ export async function buildDotNetMediaPopupContentGenerated(jsObject: any): Prom
             let { buildDotNetMediaInfo } = await import('./dotNetBuilder');
             dotNetMediaPopupContent.mediaInfos = jsObject.mediaInfos.map(i => buildDotNetMediaInfo(i));
         }
-        dotNetMediaPopupContent.activeMediaInfoIndex = jsObject.activeMediaInfoIndex;
-        dotNetMediaPopupContent.description = jsObject.description;
-        dotNetMediaPopupContent.title = jsObject.title;
-        dotNetMediaPopupContent.type = jsObject.type;
+        if (hasValue(jsObject.activeMediaInfoIndex)) {
+            dotNetMediaPopupContent.activeMediaInfoIndex = jsObject.activeMediaInfoIndex;
+        }
+        if (hasValue(jsObject.description)) {
+            dotNetMediaPopupContent.description = jsObject.description;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetMediaPopupContent.title = jsObject.title;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetMediaPopupContent.type = jsObject.type;
+        }
 
     return dotNetMediaPopupContent;
 }
