@@ -17,7 +17,7 @@ export function assertBasemapHasTwoLayers(methodName) {
 
 export function assertWidgetExists(methodName, widgetClass) {
     let view = getView(methodName);
-    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass)
+    let widget = view.ui._components.find(c => c.widget.declaredClass === widgetClass);
     if (!widget) {
         throw new Error(`Widget ${widgetClass} does not exist`);
     }
