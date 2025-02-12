@@ -129,7 +129,7 @@ import FeatureLayerViewWrapper from "./featureLayerView";
 import Popup from "@arcgis/core/widgets/Popup";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import PopupWidgetWrapper from "./popupWidgetWrapper";
-import {load} from "protobufjs";
+import { load } from "protobufjs";
 import AuthenticationManager from "./authenticationManager";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
@@ -209,7 +209,7 @@ export function getObjectReference(objectRef: any) {
             case 'esri.views.3d.layers.FeatureLayerView3D':
                 return new FeatureLayerViewWrapper(objectRef);
         }
-        
+
         if (objectRef instanceof Layer) {
             if (objectRef instanceof FeatureLayer) {
                 return new FeatureLayerWrapper(objectRef);
@@ -243,7 +243,7 @@ export function getSerializedDotNetObject(id: string): any {
     if (objectRef instanceof Layer) {
         return buildDotNetLayer(objectRef);
     }
-    
+
     return objectRef;
 }
 
@@ -379,11 +379,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 break;
         }
-        
+
         if (hasValue(popupEnabled)) {
             view.popupEnabled = popupEnabled as boolean;
         }
-        
+
         if (hasValue(constraints)) {
             (view as MapView).constraints = constraints;
         }
@@ -573,7 +573,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             (view.map.basemap.baseLayers?.includes(evt.layer) || view.map.basemap.referenceLayers?.includes(evt.layer))) {
             isBasemapLayer = true;
         }
-        
+
         let layerRef;
         let layerViewRef;
         // @ts-ignore
@@ -638,7 +638,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
         });
     }
-    
+
     view.on('mouse-wheel', (evt) => {
         userChangedViewExtent = true;
         let mouseWheelCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
@@ -668,13 +668,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
                 buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
                 (view as MapView).rotation, null);
         }
-        
+
         debounce(extentCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 }
 
 function debounce(func: Function, wait: number | null, immediate: boolean) {
-    
+
     // 'private' variable for instance
     // The returned function will be able to reference this due to closure.
     // Each call to the returned function will share this common timer.
@@ -703,7 +703,7 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
         clearTimeout(timeout);
 
         // Set the new timeout
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
 
             // Inside the timeout function, clear the timeout variable
             // which will let the next execution run when in 'immediate' mode
@@ -751,9 +751,9 @@ export async function hitTest(screenPoint: any, viewId: string, options: DotNetH
             let streamRef = getProtobufViewHitStream(dotNetResult.results);
             dotNetResult.results = [];
             let dotNetRef = dotNetRefs[viewId];
-            await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);    
+            await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
         }
-        
+
         return dotNetResult;
     } catch (e) {
         logError(e, viewId);
@@ -946,11 +946,11 @@ export function removeGraphics(graphicWrapperIds: string[], viewId: string, laye
         setWaitCursor(viewId);
         let view = arcGisObjectRefs[viewId] as View;
         let graphicsToRemove: Graphic[] = [];
-        
+
         for (const id of graphicWrapperIds) {
             disposeGraphic(id);
         }
-        
+
         if (hasValue(layerId)) {
             let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.removeMany(graphicsToRemove);
@@ -986,7 +986,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     try {
         setWaitCursor(viewId);
         let currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
-        
+
         if (currentLayer === undefined) {
             unsetWaitCursor(viewId);
             return;
@@ -1148,12 +1148,12 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
                 }
                 break;
-                
+
             case 'imagery':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
                     'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
                     'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
-                    'noData', 'noDataInterpretation', 'objectIdField', 'pixelType', 
+                    'noData', 'noDataInterpretation', 'objectIdField', 'pixelType',
                     'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
                     'timeInfo', 'timeOffset', 'customParameters');
                 if (hasValue(layerObject.effect)) {
@@ -1163,10 +1163,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as ImageryLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
                 }
                 break;
-                
+
             case 'imagery-tile':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
-                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
+                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime',
                     'customParameters');
                 if (hasValue(layerObject.effect)) {
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
@@ -1177,7 +1177,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.multidimensionalSubset)) {
                     (currentLayer as ImageryTileLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
                 }
-                
+
                 break;
         }
 
@@ -1332,12 +1332,12 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
         if (!hasValue(view.popup.on)) {
             reactiveUtils.once(() => view.popup.on !== undefined)
                 .then(() => {
-                    triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
-                            event => triggerActionCallback(event, viewId, dotNetPopup));
+                    triggerActionHandlers[viewId] = view.popup.on("trigger-action",
+                        event => triggerActionCallback(event, viewId, dotNetPopup));
                 })
         } else {
-            triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
-                    event => triggerActionCallback(event, viewId, dotNetPopup));
+            triggerActionHandlers[viewId] = view.popup.on("trigger-action",
+                event => triggerActionCallback(event, viewId, dotNetPopup));
         }
     }
     catch (error) {
@@ -1361,7 +1361,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
                 dotNetRefs[k] = popupRef;
             }
         }
-        
+
         if (hasValue(popupRef)) {
             await popupRef.invokeMethodAsync("OnTriggerAction", event.action.id);
         }
@@ -1561,12 +1561,12 @@ export function getGraphicSymbol(id: string, layerId: string | null, viewId: str
     if (graphic !== null) {
         return buildDotNetSymbol(graphic.symbol);
     }
-    
+
     return null;
 }
 
-export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
-                                        layerId: string | null, viewId: string): void {
+export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any,
+    layerId: string | null, viewId: string): void {
     let graphic = lookupGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     graphicPopupLookupRefs[id] = popupTemplate.id;
@@ -1602,17 +1602,17 @@ export function setGraphicAttributes(Id: string, attributes: any, layerId: strin
 
 export function lookupGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {
     let graphicsCollectionId = layerId ?? viewId;
-    if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId) 
+    if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId)
         && graphicsRefs[graphicsCollectionId].hasOwnProperty(graphicId)) {
         return graphicsRefs[graphicsCollectionId][graphicId] ?? null;
     }
-    
+
     for (const graphicsCollection of Object.values(graphicsRefs)) {
         if (graphicsCollection.hasOwnProperty(graphicId)) {
             return graphicsCollection[graphicId];
         }
     }
-    
+
     return null;
 }
 
@@ -2058,7 +2058,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     }
                 };
             }
-            
+
             if (hasValue(widget.visibleElements)) {
                 basemapLayerListWidget.visibleElements = {
                     statusIndicators: widget.visibleElements.statusIndicators,
@@ -2067,25 +2067,25 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     errors: widget.visibleElements.errors
                 };
             }
-            
+
             copyValuesIfExists(widget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
                 'multipleSelectionEnabled');
-            
+
             break;
         case 'expand':
             let content: any = null;
-            let expandWidgetDiv = 
+            let expandWidgetDiv =
                 document.getElementById(`widget-container-${widget.id}`) as HTMLElement;
             if (expandWidgetDiv === null) {
                 return null;
             }
-            
+
             // remove comment nodes
             for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
                 let childNode = expandWidgetDiv.childNodes[i];
                 if (childNode.nodeType === 8) {
                     expandWidgetDiv.removeChild(childNode);
-                    i --;
+                    i--;
                 }
             }
             expandWidgetDiv.hidden = false;
@@ -2094,7 +2094,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                 templatedContent.innerHTML = widget.htmlContent;
                 expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
             }
-            
+
             if (hasValue(widget.widgetContent)) {
                 await addWidget(widget.widgetContent, viewId, true);
             }
@@ -2177,22 +2177,22 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             });
             newWidget = slider;
             copyValuesIfExists(widget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
-                'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
+                'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision',
                 'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
                 'values');
-            
+
             if (hasValue(widget.steps)) {
                 slider.steps = widget.steps;
             } else if (hasValue(widget.stepInterval)) {
                 slider.steps = widget.stepInterval;
             }
-            
+
             if (hasValue(widget.inputCreatedFunction)) {
                 slider.inputCreatedFunction = (inputElement, type, thumbIndex) => {
                     return new Function('inputElement', 'type', 'thumbIndex', widget.inputCreatedFunction)(inputElement, type, thumbIndex);
                 };
             }
-            
+
             if (hasValue(widget.inputFormatFunction)) {
                 slider.inputFormatFunction = (value, type, index) => {
                     return new Function('value', 'type', 'index', widget.inputFormatFunction)(value, type, index);
@@ -2210,10 +2210,10 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             }
             if (hasValue(widget.thumbCreatedFunction)) {
                 slider.thumbCreatedFunction = (index, value, thumbElement, labelElement) => {
-                    return new Function ('index', 'value', 'thumbElement', 'labelElement', widget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
+                    return new Function('index', 'value', 'thumbElement', 'labelElement', widget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
                 };
             }
-            
+
             if (hasValue(widget.tickConfigs) && widget.tickConfigs.length > 0) {
                 slider.tickConfigs = widget.tickConfigs.map(buildJsTickConfig);
             }
@@ -2223,7 +2223,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
                     rangeLabels: widget.visibleElements.rangeLabels ?? false
                 };
             }
-            
+
             slider.on('max-change', async (event) => {
                 await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxChange', {
                     value: event.value,
@@ -2233,7 +2233,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
             slider.on('max-click', async (event) => {
                 await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMaxClick', {
                     value: event.value
-                });                
+                });
             });
             slider.on('min-change', async (event) => {
                 await widget.dotNetWidgetReference.invokeMethodAsync('OnJsMinChange', {
@@ -2321,7 +2321,7 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
 function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
         'open', 'sortable');
-    
+
     if (hasValue(dnItem.children)) {
         for (let i = 0; i < dnItem.children.length; i++) {
             let child = dnItem.children[i];
@@ -2343,11 +2343,11 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
         }
         jsItem.actionsSections = actionsSections as any;
     }
-    
+
     if (hasValue(dnItem.layerId)) {
         jsItem.layer = arcGisObjectRefs[dnItem.layerId] as Layer;
     }
-    
+
     if (hasValue(dnItem.panel)) {
         if (hasValue(dnItem.panel.contentDivId)) {
             let contentDiv = document.getElementById(dnItem.panel.contentDivId);
@@ -2471,7 +2471,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 graphicsRefs[layerObject.id][g.id] = jsGraphic;
             }
             graphicsLayer.addMany(jsGraphics);
-            
+
             copyValuesIfExists(layerObject, graphicsLayer, 'blendMode',
                 'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
 
@@ -2523,7 +2523,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     featureLayer.renderer = renderer;
                 }
             }
-            
+
             if (hasValue(layerObject.orderBy) && layerObject.orderBy.length > 0) {
                 featureLayer.orderBy = layerObject.orderBy.map(o => {
                     return {
@@ -2533,14 +2533,14 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     };
                 })
             }
-            
+
             if (hasValue(layerObject.fields)) {
                 featureLayer.fields = buildJsFields(layerObject.fields);
             }
             if (hasValue(layerObject.spatialReference)) {
                 featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
             }
-            
+
             if (hasValue(layerObject.labelingInfo)) {
                 featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
             }
@@ -2548,7 +2548,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as FeatureLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
-            
+
             if (hasValue(layerObject.effect)) {
                 featureLayer.effect = buildJsEffect(layerObject.effect);
             }
@@ -2562,12 +2562,12 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                     url: layerObject.url
                 });
             }
-            
+
             copyValuesIfExists(layerObject, newLayer, 'blendMode', 'customParameters', 'dpi',
                 'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
                 'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                 'useViewTime');
-            
+
             if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0) {
                 (newLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
             }
@@ -2594,13 +2594,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             }
             let tileLayer = newLayer as TileLayer;
             copyValuesIfExists(layerObject, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
-                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 
+                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode',
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
 
             if (hasValue(layerObject.effect)) {
                 tileLayer.effect = buildJsEffect(layerObject.effect);
             }
-            
+
             break;
         case 'elevation':
             if (hasValue(layerObject.portalItem)) {
@@ -2629,7 +2629,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.proProperties?.FeatureReduction)) {
                 (newLayer as GeoJSONLayer).featureReduction = buildJsFeatureReduction(layerObject.proProperties.FeatureReduction, viewId!);
             }
-            
+
             copyValuesIfExists(layerObject, gjLayer, 'copyright');
             break;
         case 'geo-rss':
@@ -2816,7 +2816,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             if (hasValue(layerObject.renderer)) {
                 imageryLayer.renderer = buildJsImageryRenderer(layerObject.renderer) as any;
             }
-            
+
             if (hasValue(layerObject.effect)) {
                 imageryLayer.effect = buildJsEffect(layerObject.effect);
             }
@@ -2824,13 +2824,13 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryLayer.fields = buildJsFields(layerObject.fields);
             }
             if (hasValue(layerObject.multidimensionsionalSubset)) {
-                imageryLayer.multidimensionalSubset = 
+                imageryLayer.multidimensionalSubset =
                     buildJsMultidimensionalSubset(layerObject.multidimensionsionalSubset);
             }
             if (hasValue(layerObject.noData)) {
                 imageryLayer.noData = layerObject.noData;
             }
-            
+
             if (hasValue(layerObject.popupTemplate)) {
                 imageryLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
@@ -2838,7 +2838,7 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 
+                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval',
                 'serviceRasterInfo', 'useViewTime', 'version', 'capabilities', 'customParameters', 'timeExtent',
                 'timeInfo', 'timeOffset');
 
@@ -2870,16 +2870,16 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
                 imageryTileLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, viewId ?? null) as PopupTemplate;
             }
 
-            copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation', 
-                'legendEnabled', 'maxScale', 'minScale', 'popupEnabled', 'serviceRasterInfo', 
+            copyValuesIfExists('bandIds', 'blendMode', 'copyright', 'interpolation',
+                'legendEnabled', 'maxScale', 'minScale', 'popupEnabled', 'serviceRasterInfo',
                 'useViewTime', 'version', 'customParameters', 'timeExtent', 'timeInfo', 'timeOffset', 'interpolation');
 
             newLayer = imageryTileLayer;
             break;
-         default:
+        default:
             return null;
     }
-    
+
     copyValuesIfExists(layerObject, newLayer, 'title', 'opacity', 'listMode', 'visible',
         'persistenceEnabled');
 
@@ -2960,14 +2960,14 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
                 if (!zoomWidgetListenerAdded) {
-                    let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                    let zoomWidgetButtons = document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
                     for (let i = 0; i < zoomWidgetButtons.length; i++) {
                         zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
                         zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
                     }
                     zoomWidgetListenerAdded = true;
                 }
-                
+
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
@@ -3003,7 +3003,7 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
             children.push(child);
         }
     });
-    
+
     let layerId: string | null = null;
     // iterate through arcGisObjectRefs and find the value that equals the layer
     for (let key in arcGisObjectRefs) {
@@ -3024,11 +3024,13 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 
 // this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
 export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
-    params.forEach(p => {
-        if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
-            newObject[p] = originalObject[p];
-        }
-    });
+    if (hasValue(originalObject)) {
+        params.forEach(p => {
+            if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
+                newObject[p] = originalObject[p];
+            }
+        });
+    }
 }
 
 function checkConnectivity(viewId) {
@@ -3086,7 +3088,7 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
     let target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = async function () {}.constructor;
+    const AsyncFunction = async function () { }.constructor;
     // @ts-ignore
     const onceFunc = new AsyncFunction(targetName, 'reactiveUtils',
         `return reactiveUtils.once(() => ${watchExpression});`);
@@ -3180,7 +3182,7 @@ export async function loadProtobuf() {
             console.debug('Protobuf graphics json loaded');
         } catch (error) {
             logError(error, null);
-        }    
+        }
     });
 }
 
@@ -3219,7 +3221,7 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
     return DotNet.createJSStreamReference(encoded);
 }
 
-function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
+function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
     for (let i = 0; i < viewHits.length; i++) {
         let viewHit = viewHits[i];
         if (viewHit.type === "graphic") {
@@ -3296,7 +3298,7 @@ function updateGeometryForProtobuf(geometry) {
         geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
             return {
                 points: p.map(pt => {
-                    return {    
+                    return {
                         coordinates: pt
                     }
                 })
@@ -3376,12 +3378,12 @@ export async function takeScreenshot(viewId, options): Promise<any> {
     } else {
         screenshot = await view.takeScreenshot();
     }
-    
+
     let buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
-    
+
     // @ts-ignore
     let jsStreamRef = DotNet.createJSStreamReference(buffer);
-    
+
     return {
         width: screenshot.data.width,
         height: screenshot.data.height,
