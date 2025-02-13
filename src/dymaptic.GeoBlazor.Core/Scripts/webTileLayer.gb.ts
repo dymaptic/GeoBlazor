@@ -30,7 +30,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -63,7 +63,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -71,7 +71,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     }
     async getTileInfo(): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -96,9 +96,6 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebTileLayer = new WebTileLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsWebTileLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsWebTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -123,6 +120,9 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.effect)) {
         jsWebTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsWebTileLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsWebTileLayer.listMode = dotNetObject.listMode;
@@ -175,7 +175,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     return jsWebTileLayer;
 }
 
-export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -186,14 +186,14 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: s
     };
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetWebTileLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
+            let { buildDotNetTileInfo } = await import('./tileInfo');
+            dotNetWebTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWebTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -250,6 +250,15 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: s
         if (hasValue(jsObject.urlTemplate)) {
             dotNetWebTileLayer.urlTemplate = jsObject.urlTemplate;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetWebTileLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetWebTileLayer;
 }

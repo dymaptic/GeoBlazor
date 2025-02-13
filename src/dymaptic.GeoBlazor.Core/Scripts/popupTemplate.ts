@@ -28,5 +28,10 @@ export async function buildJsPopupTemplate(dotNetObject: any, layerId: string | 
 }
 export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
     let { buildDotNetPopupTemplateGenerated } = await import('./popupTemplate.gb');
-    return await buildDotNetPopupTemplateGenerated(jsObject);
+    let result = await buildDotNetPopupTemplateGenerated(jsObject);
+    if (typeof jsObject.content === 'string') {
+        result.stringContent = jsObject.content;
+    }
+    
+    return result;
 }

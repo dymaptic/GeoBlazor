@@ -24,66 +24,66 @@
                     </Basemap>
                     <GeoRSSLayer 
                         Url="@("https://arcgis.github.io/arcgis-samples-javascript/sample-data/layers-georss/sample-georss.xml")"
-                        Title="@("a qui qui")"
-                        Opacity="@(0.6234)"
+                        Title="@("accusamus porro non")"
+                        Opacity="@(0.7663)"
                         Visible="@(true)"
                         ListMode="@(ListMode.Show)"
-                        BlendMode="@(BlendMode.Exclusion)"
-                        Effect="@(new Effect("tempora",
-                            12698036.6888))"
-                        FullExtent="@(new Extent(31.5191,
-                                -111.0923,
-                                30.0135,
-                                -25.3154,
-                                946.4107,
-                                35.0468,
-                                367.8209,
-                                455.1610,
-                            new SpatialReference(8,
-                                    "esse",
-                                    "ut",
-                                    "sed"),
+                        BlendMode="@(BlendMode.Saturation)"
+                        Effect="@(new Effect("quia",
+                            9728449.5536))"
+                        FullExtent="@(new Extent(114.1488,
+                                -102.0125,
+                                10.7460,
+                                -62.9382,
+                                835.3524,
+                                133.0089,
+                                478.8996,
+                                300.0407,
+                            new SpatialReference(1,
+                                    "et",
+                                    "vitae",
+                                    "maxime"),
                                 true,
                                 true))"
                         LegendEnabled="@(true)"
-                        MaxScale="@(38393137.9214)"
-                        MinScale="@(36576.2846)"
+                        MaxScale="@(45777794.1135)"
+                        MinScale="@(44276.7700)"
                         PersistenceEnabled="@(true)"
-                        RefreshInterval="@(80.1165)"
+                        RefreshInterval="@(500.5736)"
                         OnRefresh="OnRefresh">
                         <TimeExtent 
-                            Start="@(new DateTime(2023, 7, 20, 0, 27, 13))"
-                            End="@(new DateTime(2011, 10, 10, 14, 11, 22))">
+                            Start="@(new DateTime(2009, 3, 19, 11, 54, 1))"
+                            End="@(new DateTime(2017, 9, 7, 0, 56, 9))">
                         </TimeExtent>
                         <SimpleFillSymbol 
-                            Outline="@(new Outline(new MapColor(112, 157, 201),
-                                new Dimension(337.0971),
-                                SimpleLineSymbolStyle.ShortDashDotDot,
+                            Outline="@(new Outline(new MapColor(191, 68, 222),
+                                new Dimension(935.2376),
+                                SimpleLineSymbolStyle.LongDashDotDot,
                                 Cap.Round,
-                                Join.Round,
-                                new LineSymbolMarker(new MapColor(168, 130, 45),
+                                Join.Miter,
+                                new LineSymbolMarker(new MapColor(225, 214, 118),
                                     LinePlacement.Begin,
                                     LineSymbolMarkerStyle.Arrow),
-                                358.3986))"
-                            Color="@(new MapColor(106, 174, 121))"
-                            Style="@(SimpleFillSymbolStyle.ForwardDiagonal)">
+                                813.5028))"
+                            Color="@(new MapColor(203, 243, 120))"
+                            Style="@(SimpleFillSymbolStyle.Cross)">
                         </SimpleFillSymbol>
                         <PictureMarkerSymbol 
-                            Angle="@(789.7888)"
-                            Color="@(new MapColor(64, 168, 76))"
-                            Xoffset="@(new Dimension(134.6913))"
-                            Yoffset="@(new Dimension(933.7568))">
+                            Angle="@(858.9458)"
+                            Color="@(new MapColor(217, 240, 177))"
+                            Xoffset="@(new Dimension(596.4203))"
+                            Yoffset="@(new Dimension(820.9674))">
                         </PictureMarkerSymbol>
                         <SimpleLineSymbol 
-                            Color="@(new MapColor(48, 226, 72))"
-                            Width="@(new Dimension(623.0454))"
-                            Style="@(SimpleLineSymbolStyle.Dash)"
-                            Cap="@(Cap.Round)"
+                            Color="@(new MapColor(17, 17, 147))"
+                            Width="@(new Dimension(298.3613))"
+                            Style="@(SimpleLineSymbolStyle.LongDash)"
+                            Cap="@(Cap.Butt)"
                             Join="@(Join.Miter)"
-                            Marker="@(new LineSymbolMarker(new MapColor(227, 151, 224),
-                                LinePlacement.BeginEnd,
-                                LineSymbolMarkerStyle.Circle))"
-                            MiterLimit="@(484.8410)">
+                            Marker="@(new LineSymbolMarker(new MapColor(14, 177, 172),
+                                LinePlacement.End,
+                                LineSymbolMarkerStyle.Square))"
+                            MiterLimit="@(631.6524)">
                         </SimpleLineSymbol>
                     </GeoRSSLayer>
                 </Map>
@@ -105,65 +105,74 @@
         await geoRSSLayer.SetListMode(testListMode);
         var listMode = await geoRSSLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
-        BlendMode testBlendMode = BlendMode.Xor;
+        BlendMode testBlendMode = BlendMode.Exclusion;
         await geoRSSLayer.SetBlendMode(testBlendMode);
         var blendMode = await geoRSSLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        Extent testFullExtent = new Extent(-69.5543,
-                    22.8579,
-                    4.5293,
-                    -15.1460,
-                    759.4142,
-                    804.9359,
-                    266.8143,
-                    965.9273,
-                new SpatialReference(8,
-                        "quia",
-                        "qui",
-                        "eius"),
+        Extent testFullExtent = new Extent(-150.2920,
+                    165.3835,
+                    -84.9463,
+                    16.1092,
+                    758.8887,
+                    731.7292,
+                    752.3158,
+                    213.0371,
+                new SpatialReference(2,
+                        "et",
+                        "eos",
+                        "sit"),
                     true,
                     true);
         await geoRSSLayer.SetFullExtent(testFullExtent);
         var fullExtent = await geoRSSLayer.GetFullExtent();
         Assert.AreEqual(testFullExtent, fullExtent);
-        SimpleLineSymbol testLineSymbol = new SimpleLineSymbol(new MapColor(39, 177, 76),
-                    new Dimension(928.2420),
+        SimpleLineSymbol testLineSymbol = new SimpleLineSymbol(new MapColor(219, 68, 69),
+                    new Dimension(941.0519),
                 SimpleLineSymbolStyle.LongDashDot,
-                Cap.Square,
+                Cap.Butt,
                 Join.Round,
-                new LineSymbolMarker(new MapColor(121, 90, 203),
+                new LineSymbolMarker(new MapColor(81, 66, 39),
                     LinePlacement.BeginEnd,
-                    LineSymbolMarkerStyle.Diamond),
-                    760.0344);
+                    LineSymbolMarkerStyle.X),
+                    157.3038);
         await geoRSSLayer.SetLineSymbol(testLineSymbol);
         var lineSymbol = await geoRSSLayer.GetLineSymbol();
         Assert.AreEqual(testLineSymbol, lineSymbol);
-        MarkerSymbol testPointSymbol = new PictureMarkerSymbol("https://upload.wikimedia.org/wikipedia/commons/5/53/Blue_Glass_Arrow_RTL.svg",
-                    new Dimension(880.9754),
-                    new Dimension(802.4279),
-                    832.1233,
-                    new Dimension(441.1423),
-                    new Dimension(83.9768),
-                new MapColor(5, 209, 62));
+        MarkerSymbol testPointSymbol = new SimpleMarkerSymbol(new Outline(new MapColor(117, 12, 184),
+                    new Dimension(265.5285),
+                    SimpleLineSymbolStyle.ShortDashDot,
+                    Cap.Butt,
+                    Join.Miter,
+                    new LineSymbolMarker(new MapColor(185, 90, 90),
+                        LinePlacement.Begin,
+                        LineSymbolMarkerStyle.Diamond),
+                    420.3719),
+                new MapColor(49, 22, 177),
+                    new Dimension(598.1922),
+                SimpleMarkerSymbolStyle.Triangle,
+                    535.9469,
+                    new Dimension(9.2517),
+                    new Dimension(338.5916),
+                    "voluptatem");
         await geoRSSLayer.SetPointSymbol(testPointSymbol);
         var pointSymbol = await geoRSSLayer.GetPointSymbol();
         Assert.AreEqual(testPointSymbol, pointSymbol);
-        SimpleFillSymbol testPolygonSymbol = new SimpleFillSymbol(new Outline(new MapColor(0, 181, 216),
-                    new Dimension(878.6664),
-                    SimpleLineSymbolStyle.LongDashDot,
+        SimpleFillSymbol testPolygonSymbol = new SimpleFillSymbol(new Outline(new MapColor(3, 183, 253),
+                    new Dimension(147.9828),
+                    SimpleLineSymbolStyle.ShortDash,
                     Cap.Butt,
                     Join.Miter,
-                    new LineSymbolMarker(new MapColor(77, 130, 99),
+                    new LineSymbolMarker(new MapColor(222, 92, 157),
                         LinePlacement.Begin,
                         LineSymbolMarkerStyle.Circle),
-                    241.2373),
-                new MapColor(181, 166, 250),
-                SimpleFillSymbolStyle.Horizontal);
+                    785.7606),
+                new MapColor(226, 91, 159),
+                SimpleFillSymbolStyle.Cross);
         await geoRSSLayer.SetPolygonSymbol(testPolygonSymbol);
         var polygonSymbol = await geoRSSLayer.GetPolygonSymbol();
         Assert.AreEqual(testPolygonSymbol, polygonSymbol);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2010, 5, 24, 8, 28, 8),
-                    new DateTime(2010, 11, 13, 16, 17, 40));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2005, 3, 24, 5, 58, 40),
+                    new DateTime(2010, 8, 12, 2, 4, 42));
         await geoRSSLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await geoRSSLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

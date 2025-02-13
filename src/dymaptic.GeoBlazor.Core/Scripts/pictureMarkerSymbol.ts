@@ -15,7 +15,7 @@ export async function buildJsPictureMarkerSymbol(dotNetObject: any, layerId: str
     return await buildJsPictureMarkerSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPictureMarkerSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPictureMarkerSymbol(jsObject: any): Promise<any> {
     let { buildDotNetPictureMarkerSymbolGenerated } = await import('./pictureMarkerSymbol.gb');
-    return await buildDotNetPictureMarkerSymbolGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPictureMarkerSymbolGenerated(jsObject);
 }

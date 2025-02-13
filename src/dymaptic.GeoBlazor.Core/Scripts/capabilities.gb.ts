@@ -199,6 +199,15 @@ export async function buildDotNetCapabilitiesGenerated(jsObject: any): Promise<a
             dotNetCapabilities.query = jsObject.query;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilities.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilities;
 }
 

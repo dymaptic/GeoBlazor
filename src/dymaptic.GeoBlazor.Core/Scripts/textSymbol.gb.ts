@@ -42,28 +42,28 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
 
 export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTextSymbol = new TextSymbol();
+    if (hasValue(dotNetObject.backgroundColor)) {
+        jsTextSymbol.backgroundColor = dotNetObject.mapColor;
+    }
+    if (hasValue(dotNetObject.borderLineColor)) {
+        jsTextSymbol.borderLineColor = dotNetObject.mapColor;
+    }
+    if (hasValue(dotNetObject.color)) {
+        jsTextSymbol.color = dotNetObject.mapColor;
+    }
     if (hasValue(dotNetObject.font)) {
         let { buildJsMapFont } = await import('./jsBuilder');
         jsTextSymbol.font = buildJsMapFont(dotNetObject.font) as any;
+    }
+    if (hasValue(dotNetObject.haloColor)) {
+        jsTextSymbol.haloColor = dotNetObject.mapColor;
     }
 
     if (hasValue(dotNetObject.angle)) {
         jsTextSymbol.angle = dotNetObject.angle;
     }
-    if (hasValue(dotNetObject.backgroundColor)) {
-        jsTextSymbol.backgroundColor = dotNetObject.backgroundColor;
-    }
-    if (hasValue(dotNetObject.borderLineColor)) {
-        jsTextSymbol.borderLineColor = dotNetObject.borderLineColor;
-    }
     if (hasValue(dotNetObject.borderLineSize)) {
         jsTextSymbol.borderLineSize = dotNetObject.borderLineSize;
-    }
-    if (hasValue(dotNetObject.color)) {
-        jsTextSymbol.color = dotNetObject.color;
-    }
-    if (hasValue(dotNetObject.haloColor)) {
-        jsTextSymbol.haloColor = dotNetObject.haloColor;
     }
     if (hasValue(dotNetObject.haloSize)) {
         jsTextSymbol.haloSize = dotNetObject.haloSize;
@@ -124,27 +124,19 @@ export async function buildDotNetTextSymbolGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        dotNetTextSymbol.backgroundColor = jsObject.backgroundColor;
+        dotNetTextSymbol.borderLineColor = jsObject.borderLineColor;
+        dotNetTextSymbol.color = jsObject.color;
         if (hasValue(jsObject.font)) {
             let { buildDotNetMapFont } = await import('./mapFont');
             dotNetTextSymbol.font = await buildDotNetMapFont(jsObject.font);
         }
+        dotNetTextSymbol.haloColor = jsObject.haloColor;
         if (hasValue(jsObject.angle)) {
             dotNetTextSymbol.angle = jsObject.angle;
         }
-        if (hasValue(jsObject.backgroundColor)) {
-            dotNetTextSymbol.backgroundColor = jsObject.backgroundColor;
-        }
-        if (hasValue(jsObject.borderLineColor)) {
-            dotNetTextSymbol.borderLineColor = jsObject.borderLineColor;
-        }
         if (hasValue(jsObject.borderLineSize)) {
             dotNetTextSymbol.borderLineSize = jsObject.borderLineSize;
-        }
-        if (hasValue(jsObject.color)) {
-            dotNetTextSymbol.color = jsObject.color;
-        }
-        if (hasValue(jsObject.haloColor)) {
-            dotNetTextSymbol.haloColor = jsObject.haloColor;
         }
         if (hasValue(jsObject.haloSize)) {
             dotNetTextSymbol.haloSize = jsObject.haloSize;
@@ -179,6 +171,15 @@ export async function buildDotNetTextSymbolGenerated(jsObject: any): Promise<any
         if (hasValue(jsObject.yoffset)) {
             dotNetTextSymbol.yoffset = jsObject.yoffset;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetTextSymbol.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetTextSymbol;
 }

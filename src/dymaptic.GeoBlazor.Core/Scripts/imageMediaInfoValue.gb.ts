@@ -61,7 +61,7 @@ export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any, lay
     return jsImageMediaInfoValue;
 }
 
-export function buildDotNetImageMediaInfoValueGenerated(jsObject: any): any {
+export async function buildDotNetImageMediaInfoValueGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -76,6 +76,15 @@ export function buildDotNetImageMediaInfoValueGenerated(jsObject: any): any {
         if (hasValue(jsObject.sourceURL)) {
             dotNetImageMediaInfoValue.sourceURL = jsObject.sourceURL;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetImageMediaInfoValue.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetImageMediaInfoValue;
 }

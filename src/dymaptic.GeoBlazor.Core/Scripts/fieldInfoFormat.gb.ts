@@ -64,7 +64,7 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId
     return jsFieldInfoFormat;
 }
 
-export function buildDotNetFieldInfoFormatGenerated(jsObject: any): any {
+export async function buildDotNetFieldInfoFormatGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -82,6 +82,15 @@ export function buildDotNetFieldInfoFormatGenerated(jsObject: any): any {
         if (hasValue(jsObject.places)) {
             dotNetFieldInfoFormat.places = jsObject.places;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFieldInfoFormat.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFieldInfoFormat;
 }

@@ -99,6 +99,15 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): 
             dotNetCSVLayerElevationInfo.unit = jsObject.unit;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCSVLayerElevationInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCSVLayerElevationInfo;
 }
 

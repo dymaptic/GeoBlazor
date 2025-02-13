@@ -1,9 +1,9 @@
 ﻿import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildDotNetGeographicTransformation, buildDotNetGeometry} from "./dotNetBuilder";
 import {buildJsSpatialReference} from "./jsBuilder";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 import { buildJsExtent } from "./extent";
+import { buildDotNetGeometry } from "./geometry";
 
 export default class ProjectionWrapper {
     private dotNetRef: any;
@@ -46,6 +46,7 @@ export default class ProjectionWrapper {
             await this.loadIfNeeded();
             let geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference),
                 buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
+            let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
             return buildDotNetGeographicTransformation(geoTransform);
         } catch (error) {
             this.logError(error);
@@ -60,6 +61,7 @@ export default class ProjectionWrapper {
             let geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
                 buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
             let dotNetTransforms: Array<DotNetGeographicTransformation> = [];
+            let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
             geoTransforms.forEach(t => {
                 let dotNetT = buildDotNetGeographicTransformation(t);
                 if (dotNetT !== null) {

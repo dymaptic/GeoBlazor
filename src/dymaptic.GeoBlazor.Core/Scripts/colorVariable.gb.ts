@@ -58,7 +58,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsColorStop } = await import('./colorStop');
-        jsColorVariable.stops = dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId)) as any;
+        jsColorVariable.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -108,16 +108,14 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.stops)) {
             let { buildDotNetColorStop } = await import('./colorStop');
-            dotNetColorVariable.stops = jsObject.stops.map(async i => await buildDotNetColorStop(i));
+            dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
         }
+        dotNetColorVariable.type = jsObject.type;
         if (hasValue(jsObject.field)) {
             dotNetColorVariable.field = jsObject.field;
         }
         if (hasValue(jsObject.normalizationField)) {
             dotNetColorVariable.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColorVariable.type = jsObject.type;
         }
         if (hasValue(jsObject.valueExpression)) {
             dotNetColorVariable.valueExpression = jsObject.valueExpression;
@@ -125,6 +123,15 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         if (hasValue(jsObject.valueExpressionTitle)) {
             dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetColorVariable.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetColorVariable;
 }

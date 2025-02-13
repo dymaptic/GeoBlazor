@@ -23,6 +23,14 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -34,10 +42,11 @@ export default class LineSymbolMarkerGenerated implements IPropertyWrapper {
 
 export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLineSymbolMarker = new LineSymbolMarker();
-
     if (hasValue(dotNetObject.color)) {
-        jsLineSymbolMarker.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsLineSymbolMarker.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.placement)) {
         jsLineSymbolMarker.placement = dotNetObject.placement;
     }
@@ -74,7 +83,8 @@ export async function buildDotNetLineSymbolMarkerGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.color)) {
-            dotNetLineSymbolMarker.color = jsObject.color;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetLineSymbolMarker.color = buildDotNetMapColor(jsObject.color);
         }
         if (hasValue(jsObject.placement)) {
             dotNetLineSymbolMarker.placement = jsObject.placement;
@@ -85,6 +95,15 @@ export async function buildDotNetLineSymbolMarkerGenerated(jsObject: any): Promi
         if (hasValue(jsObject.type)) {
             dotNetLineSymbolMarker.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetLineSymbolMarker.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetLineSymbolMarker;
 }

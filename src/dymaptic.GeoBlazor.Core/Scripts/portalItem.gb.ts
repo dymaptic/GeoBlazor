@@ -54,7 +54,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
             direction,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId));
+        return result.map(async i => await buildDotNetPortalItem(i));
     }
 
     async fetchResources(num: any,
@@ -76,7 +76,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async reload(): Promise<any> {
         let result = await this.component.reload();
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async removeAllResources(options: any): Promise<any> {
@@ -92,7 +92,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async update(data: any): Promise<any> {
         let result = await this.component.update(data);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async updateThumbnail(thumbnail: any,
@@ -100,14 +100,14 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let result = await this.component.updateThumbnail(thumbnail,
             filename);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     // region properties
     
     async getPortal(): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
@@ -124,9 +124,6 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
 export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortalItem = new PortalItem();
-    if (hasValue(dotNetObject.extent)) {
-        jsPortalItem.extent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
         jsPortalItem.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
@@ -155,6 +152,9 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.description)) {
         jsPortalItem.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        jsPortalItem.extent = dotNetObject.extent;
     }
     if (hasValue(dotNetObject.groupCategories)) {
         jsPortalItem.groupCategories = dotNetObject.groupCategories;
@@ -227,7 +227,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     return jsPortalItem;
 }
 
-export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -238,7 +238,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
     };
         if (hasValue(jsObject.portal)) {
             let { buildDotNetPortal } = await import('./portal');
-            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
+            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
         }
         if (hasValue(jsObject.access)) {
             dotNetPortalItem.access = jsObject.access;
@@ -348,6 +348,15 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
         if (hasValue(jsObject.url)) {
             dotNetPortalItem.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPortalItem.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPortalItem;
 }

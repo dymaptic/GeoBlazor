@@ -119,6 +119,15 @@ export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Pr
             dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesEditing.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesEditing;
 }
 

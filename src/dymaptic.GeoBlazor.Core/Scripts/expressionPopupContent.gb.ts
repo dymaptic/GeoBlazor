@@ -25,7 +25,7 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
     
     async getExpressionInfo(): Promise<any> {
         let { buildDotNetElementExpressionInfo } = await import('./elementExpressionInfo');
-        return buildDotNetElementExpressionInfo(this.component.expressionInfo);
+        return await buildDotNetElementExpressionInfo(this.component.expressionInfo);
     }
     async setExpressionInfo(value: any): Promise<void> {
         let { buildJsElementExpressionInfo } = await import('./elementExpressionInfo');
@@ -77,12 +77,21 @@ export async function buildDotNetExpressionPopupContentGenerated(jsObject: any):
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.expressionInfo)) {
-            let { buildDotNetElementExpressionInfo } = await import('./dotNetBuilder');
-            dotNetExpressionPopupContent.expressionInfo = buildDotNetElementExpressionInfo(jsObject.expressionInfo);
+            let { buildDotNetElementExpressionInfo } = await import('./elementExpressionInfo');
+            dotNetExpressionPopupContent.expressionInfo = await buildDotNetElementExpressionInfo(jsObject.expressionInfo);
         }
         if (hasValue(jsObject.type)) {
             dotNetExpressionPopupContent.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetExpressionPopupContent.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetExpressionPopupContent;
 }

@@ -29,27 +29,17 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getBaseLayers(): Promise<any> {
-        let { buildDotNetLayer } = await import('./layer');
-        return this.component.baseLayers.map(i => buildDotNetLayer(i));
-    }
-    
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
-    async getReferenceLayers(): Promise<any> {
-        let { buildDotNetLayer } = await import('./layer');
-        return this.component.referenceLayers.map(i => buildDotNetLayer(i));
-    }
-    
     async getStyle(): Promise<any> {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        return await buildDotNetBasemapStyle(this.component.style, this.layerId, this.viewId);
+        return await buildDotNetBasemapStyle(this.component.style);
     }
     async setStyle(value: any): Promise<void> {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
@@ -113,7 +103,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     return jsBasemap;
 }
 
-export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -122,21 +112,15 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.baseLayers)) {
-            let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.baseLayers = jsObject.baseLayers.map(i => buildDotNetLayer(i));
-        }
+        dotNetBasemap.baseLayers = jsObject.baseLayers;
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
-        if (hasValue(jsObject.referenceLayers)) {
-            let { buildDotNetLayer } = await import('./dotNetBuilder');
-            dotNetBasemap.referenceLayers = jsObject.referenceLayers.map(i => buildDotNetLayer(i));
-        }
+        dotNetBasemap.referenceLayers = jsObject.referenceLayers;
         if (hasValue(jsObject.style)) {
             let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-            dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
+            dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
         }
         if (hasValue(jsObject.id)) {
             dotNetBasemap.basemapId = jsObject.id;
@@ -153,6 +137,15 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
         if (hasValue(jsObject.title)) {
             dotNetBasemap.title = jsObject.title;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetBasemap.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetBasemap;
 }

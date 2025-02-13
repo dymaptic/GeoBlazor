@@ -6,7 +6,7 @@
     "outDir": "wwwroot/js",
     "esModuleInterop": true,
     "lib": [
-      "ES2020",
+      "ESNext",
       "DOM"
     ],
     "module": "ESNext",

@@ -25,7 +25,7 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(i => buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
     }
     
     async setFieldInfos(value: any): Promise<void> {
@@ -85,8 +85,8 @@ export async function buildDotNetFieldsPopupContentGenerated(jsObject: any): Pro
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.fieldInfos)) {
-            let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
+            let { buildDotNetFieldInfo } = await import('./fieldInfo');
+            dotNetFieldsPopupContent.fieldInfos = await Promise.all(jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i)));
         }
         if (hasValue(jsObject.description)) {
             dotNetFieldsPopupContent.description = jsObject.description;
@@ -97,6 +97,15 @@ export async function buildDotNetFieldsPopupContentGenerated(jsObject: any): Pro
         if (hasValue(jsObject.type)) {
             dotNetFieldsPopupContent.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFieldsPopupContent.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFieldsPopupContent;
 }

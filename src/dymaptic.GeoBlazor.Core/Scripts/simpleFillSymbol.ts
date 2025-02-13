@@ -13,7 +13,7 @@ export async function buildJsSimpleFillSymbol(dotNetObject: any, layerId: string
     let { buildJsSimpleFillSymbolGenerated } = await import('./simpleFillSymbol.gb');
     return await buildJsSimpleFillSymbolGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetSimpleFillSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSimpleFillSymbol(jsObject: any): Promise<any> {
     let { buildDotNetSimpleFillSymbolGenerated } = await import('./simpleFillSymbol.gb');
-    return await buildDotNetSimpleFillSymbolGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSimpleFillSymbolGenerated(jsObject);
 }

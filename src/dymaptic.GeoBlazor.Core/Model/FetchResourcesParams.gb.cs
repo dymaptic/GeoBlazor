@@ -23,11 +23,33 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#FetchResourcesParams">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FetchResourcesParams(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Num = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SortField? SortField = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalQuerySortOrder? SortOrder = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    double? Start = null);
+    double? Start = null)
+{
+    /// <summary>
+    ///     The maximum number of results to be included in the result set response.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#FetchResourcesParams">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? Num { get; set; } = Num;
+    
+    /// <summary>
+    ///     A field to sort the results.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#FetchResourcesParams">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public SortField? SortField { get; set; } = SortField;
+    
+    /// <summary>
+    ///     The order in which to sort the results.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#FetchResourcesParams">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public PortalQuerySortOrder? SortOrder { get; set; } = SortOrder;
+    
+    /// <summary>
+    ///     The index of the first entry in the result set response.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#FetchResourcesParams">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? Start { get; set; } = Start;
+    
+}

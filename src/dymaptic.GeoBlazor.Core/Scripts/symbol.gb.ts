@@ -68,7 +68,7 @@ export async function buildJsSymbolGenerated(dotNetObject: any, layerId: string 
     return jsSymbol;
 }
 
-export async function buildDotNetSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -79,7 +79,7 @@ export async function buildDotNetSymbolGenerated(jsObject: any, layerId: string 
     };
         if (hasValue(jsObject.color)) {
             let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetSymbol.color = await buildDotNetMapColor(jsObject.color, layerId, viewId);
+            dotNetSymbol.color = await buildDotNetMapColor(jsObject.color);
         }
         dotNetSymbol.type = jsObject.type;
     return dotNetSymbol;

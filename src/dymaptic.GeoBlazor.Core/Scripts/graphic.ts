@@ -1,8 +1,14 @@
 import GraphicGenerated from './graphic.gb';
 import Graphic from "@arcgis/core/Graphic";
-import {DotNetGeometry, DotNetPopupTemplate} from "./definitions";
-import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
-import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
+import {DotNetGeometry, DotNetGraphic, DotNetPopupTemplate} from "./definitions";
+import {buildJsAttributes, buildJsGeometry, buildJsPopupTemplate, buildJsSymbol, hasValue} from "./jsBuilder";
+import {arcGisObjectRefs, copyValuesIfExists, graphicsRefs, lookupGraphicById} from "./arcGisJsInterop";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import Symbol from "@arcgis/core/symbols/Symbol";
+import PopupTemplate from "@arcgis/core/PopupTemplate";
+import { buildDotNetGeometry } from './geometry';
+import { buildDotNetPopupTemplate } from './popupTemplate';
+import { buildDotNetSymbol } from './symbol';
 
 export default class GraphicWrapper extends GraphicGenerated {
 
@@ -61,19 +67,95 @@ export default class GraphicWrapper extends GraphicGenerated {
         }
     }
 
-    getPopupTemplate(): DotNetPopupTemplate | null {
-        return buildDotNetPopupTemplate(this.component.popupTemplate);
+    async getPopupTemplate(): Promise<DotNetPopupTemplate | null> {
+        return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
 
 
 
 
 }
-export async function buildJsGraphic(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsGraphicGenerated } = await import('./graphic.gb');
-    return await buildJsGraphicGenerated(dotNetObject, layerId, viewId);
+export function buildJsGraphic(graphicObject: any, layerId: string | null, viewId: string | null)
+    : Graphic | null {
+    let graphic: Graphic | null = lookupGraphicById(graphicObject.id, layerId, viewId);
+    if (graphic !== null) {
+        graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
+    } else {
+        graphic = new Graphic({
+            geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
+        });
+    }
+
+    graphic.attributes = buildJsAttributes(graphicObject.attributes);
+
+    if (hasValue(graphicObject.popupTemplate)) {
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, layerId, viewId) as PopupTemplate;
+    }
+
+    if (hasValue(graphicObject.origin)) {
+        let layer : any | undefined = undefined;
+        if (arcGisObjectRefs.hasOwnProperty(graphicObject.origin.id)) {
+            layer = arcGisObjectRefs[graphicObject.origin.layerId] as any;
+        }
+        graphic.origin = {
+            type: 'vector-tile',
+            layer: layer,
+            layerId: graphicObject.origin.arcGISLayerId,
+            layerIndex: graphicObject.origin.layerIndex
+        }
+    }
+
+    copyValuesIfExists(graphicObject, graphic, 'visible', 'aggregateGeometries');
+
+    let groupId = layerId ?? viewId;
+    if (hasValue(groupId)) {
+        if (!graphicsRefs.hasOwnProperty(groupId!)) {
+            graphicsRefs[groupId!] = {};
+        }
+        graphicsRefs[groupId!][graphicObject.id] = graphic;
+    }
+
+    return graphic;
 }
-export async function buildDotNetGraphic(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildDotNetGraphicGenerated } = await import('./graphic.gb');
-    return await buildDotNetGraphicGenerated(jsObject, layerId, viewId);
+
+export async function buildDotNetGraphic(graphic: Graphic, layerId: string | null, viewId: string | null)
+    : Promise<DotNetGraphic | null> {
+    if (graphic === undefined || graphic === null) return null;
+    let dotNetGraphic = {} as DotNetGraphic;
+
+    let groupId = layerId ?? viewId;
+    if (groupId !== null && graphicsRefs.hasOwnProperty(groupId)) {
+        let group = graphicsRefs[groupId];
+        for (const k of Object.keys(group)) {
+            if (group[k] === graphic) {
+                dotNetGraphic.id = k;
+                break;
+            }
+        }
+    }
+    else {
+        for (const k of Object.keys(graphicsRefs)) {
+            let group = graphicsRefs[k];
+            for (const j of Object.keys(group)) {
+                if (group[j] === graphic) {
+                    dotNetGraphic.id = j;
+                    break;
+                }
+            }
+        }
+    }
+
+    dotNetGraphic.uid = (graphic as any).uid;
+    dotNetGraphic.attributes = graphic.attributes ?? {};
+    dotNetGraphic.visible = graphic.visible;
+    dotNetGraphic.aggregateGeometries = graphic.aggregateGeometries;
+
+    if (graphic.symbol !== undefined && graphic.symbol !== null) {
+        dotNetGraphic.symbol = await buildDotNetSymbol(graphic.symbol);
+    }
+
+    dotNetGraphic.geometry = buildDotNetGeometry(graphic.geometry);
+    return dotNetGraphic;
 }

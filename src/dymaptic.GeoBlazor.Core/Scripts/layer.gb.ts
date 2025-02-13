@@ -47,7 +47,7 @@ export default class LayerGenerated implements IPropertyWrapper {
     
     async getVisibilityTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
-        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent, layerId, viewId);
+        return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
     async setVisibilityTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -66,7 +66,7 @@ export async function buildJsLayerGenerated(dotNetObject: any, layerId: string |
     let { default: Layer } = await import('@arcgis/core/layers/Layer');
     let jsLayer = new Layer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./jsBuilder');
+        let { buildJsExtent } = await import('./extent');
         jsLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
@@ -113,7 +113,7 @@ export async function buildDotNetLayerGenerated(jsObject: any, layerId: string |
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./mapView');
             dotNetLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent, layerId, viewId);
         }
         dotNetLayer.arcGISLayerId = jsObject.id;

@@ -23,6 +23,16 @@ export default class GroupElementGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getElements(): Promise<any> {
+        let { buildDotNetFormElement } = await import('./formElement');
+        return this.component.elements.map(async i => await buildDotNetFormElement(i));
+    }
+    
+    async setElements(value: any): Promise<void> {
+        let { buildJsFormElement } = await import('./formElement');
+        this.component.elements = value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -35,7 +45,8 @@ export default class GroupElementGenerated implements IPropertyWrapper {
 export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGroupElement = new GroupElement();
     if (hasValue(dotNetObject.elements)) {
-        jsGroupElement.elements = dotNetObject.formElement;
+        let { buildJsFormElement } = await import('./formElement');
+        jsGroupElement.elements = await Promise.all(dotNetObject.elements.map(async i => await buildJsFormElement(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -79,7 +90,10 @@ export async function buildDotNetGroupElementGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetGroupElement.elements = jsObject.elements;
+        if (hasValue(jsObject.elements)) {
+            let { buildDotNetFormElement } = await import('./formElement');
+            dotNetGroupElement.elements = await Promise.all(jsObject.elements.map(async i => await buildDotNetFormElement(i)));
+        }
         if (hasValue(jsObject.description)) {
             dotNetGroupElement.description = jsObject.description;
         }
@@ -95,6 +109,15 @@ export async function buildDotNetGroupElementGenerated(jsObject: any): Promise<a
         if (hasValue(jsObject.visibilityExpression)) {
             dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGroupElement.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetGroupElement;
 }

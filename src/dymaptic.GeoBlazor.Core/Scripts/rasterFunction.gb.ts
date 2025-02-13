@@ -95,6 +95,15 @@ export async function buildDotNetRasterFunctionGenerated(jsObject: any): Promise
             dotNetRasterFunction.variableName = jsObject.variableName;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRasterFunction.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetRasterFunction;
 }
 

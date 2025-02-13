@@ -77,7 +77,7 @@ export async function buildJsActionBaseGenerated(dotNetObject: any, layerId: str
     return jsActionBase;
 }
 
-export async function buildDotNetActionBaseGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetActionBaseGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

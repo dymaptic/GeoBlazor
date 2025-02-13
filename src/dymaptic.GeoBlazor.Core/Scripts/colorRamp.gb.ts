@@ -56,7 +56,7 @@ export async function buildJsColorRampGenerated(dotNetObject: any, layerId: stri
     return jsColorRamp;
 }
 
-export async function buildDotNetColorRampGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetColorRampGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

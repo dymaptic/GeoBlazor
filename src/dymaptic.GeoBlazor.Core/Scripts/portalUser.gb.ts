@@ -30,7 +30,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
             data,
             folder);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async deleteItem(item: any,
@@ -103,7 +103,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     
     async getPortal(): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
@@ -249,6 +249,15 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
         if (hasValue(jsObject.username)) {
             dotNetPortalUser.username = jsObject.username;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPortalUser.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPortalUser;
 }

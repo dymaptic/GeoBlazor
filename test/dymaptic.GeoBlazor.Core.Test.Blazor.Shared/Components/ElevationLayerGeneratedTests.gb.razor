@@ -18,64 +18,57 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                     </Basemap>
                     <ElevationLayer 
-                        Copyright="@("dignissimos")"
-                        FullExtent="@(new Extent(-59.0517,
-                                139.9781,
-                                -44.9818,
-                                26.7891,
-                                537.3748,
-                                862.2601,
-                                641.4372,
-                                45.3522,
-                            new SpatialReference(9,
-                                    "blanditiis",
+                        Copyright="@("quidem")"
+                        FullExtent="@(new Extent(-158.2906,
+                                92.2594,
+                                5.1713,
+                                -28.2040,
+                                426.8563,
+                                542.9956,
+                                951.2425,
+                                343.6375,
+                            new SpatialReference(3,
+                                    "adipisci",
                                     "est",
-                                    "veniam"),
+                                    "illo"),
                                 true,
                                 true))"
                         ListMode="@(ListMode.Show)"
-                        Opacity="@(0.6430)"
+                        Opacity="@(0.3540)"
                         PersistenceEnabled="@(true)"
-                        Title="@("ipsum delectus ut")"
-                        Url="@("https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0")">
+                        Title="@("reiciendis cumque sit")"
+                        Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0")">
                         <TimeExtent 
-                            Start="@(new DateTime(2000, 7, 15, 1, 22, 9))"
-                            End="@(new DateTime(2021, 6, 23, 8, 54, 35))">
+                            Start="@(new DateTime(2004, 3, 18, 10, 11, 51))"
+                            End="@(new DateTime(2012, 6, 18, 18, 21, 5))">
                         </TimeExtent>
                         <TileInfo 
-                            Dpi="@(878.0500)"
-                            Format="@(TileInfoFormat.Svg)"
+                            Dpi="@(532.7386)"
+                            Format="@(TileInfoFormat.Png24)"
                             IsWrappable="@(true)"
-                            Lods="@([new LOD(4,
-                                    "iste",
-                                    33.0980,
-                                    26325806.1363),
-                            new LOD(9,
-                                    "aut",
-                                    1.8366,
-                                    11530179.7954),
-                            new LOD(4,
-                                    "quis",
-                                    49.1096,
-                                    24857266.7238)])"
-                            Origin="@(new Point(128.6189,
-                                    -3.4413,
-                                    -125.2758,
-                                    17.7730,
-                                    88.8890,
-                                new SpatialReference(1,
-                                        "officia",
-                                        "inventore",
-                                        "itaque"),
+                            Lods="@([new LOD(1,
+                                    "adipisci",
+                                    9.4429,
+                                    36801210.1450)])"
+                            Origin="@(new Point(-169.0370,
+                                    0.0624,
+                                    92.2993,
+                                    -55.9264,
+                                    670.5237,
+                                new SpatialReference(7,
+                                        "quia",
+                                        "eveniet",
+                                        "dolorum"),
                                     true,
                                     true,
-                                    489.9322))"
-                            Size="@([4,
-                                5])"
-                            SpatialReference="@(new SpatialReference(5,
-                                    "molestiae",
-                                    "assumenda",
-                                    "assumenda"))">
+                                    517.5190))"
+                            Size="@([2,
+                                7,
+                                3])"
+                            SpatialReference="@(new SpatialReference(6,
+                                    "doloribus",
+                                    "est",
+                                    "soluta"))">
                         </TileInfo>
                         <PortalItem />
                     </ElevationLayer>
@@ -84,62 +77,62 @@
         await WaitForMapToRender();
         Assert.IsNotNull(elevationLayer!);
         await AssertJavaScript("assertLayerExists", args: "elevation");
-        var createElevationSamplerMethodResult = await elevationLayer.CreateElevationSampler(new Extent(104.6742,
-                    -23.2871,
-                    -45.2060,
-                    -21.5719,
-                    978.8023,
-                    56.4595,
-                    728.3124,
-                    840.6175,
-                new SpatialReference(1,
-                        "aut",
-                        "quaerat",
-                        "sed"),
+        var createElevationSamplerMethodResult = await elevationLayer.CreateElevationSampler(new Extent(28.8669,
+                    17.8505,
+                    -58.1021,
+                    -83.2523,
+                    397.2062,
+                    439.7672,
+                    899.0499,
+                    620.5855,
+                new SpatialReference(4,
+                        "perspiciatis",
+                        "cum",
+                        "error"),
                     true,
                     true),
-            new ElevationLayerCreateElevationSamplerOptions("cum",
-                    448.9472));
+            new ElevationLayerCreateElevationSamplerOptions("est",
+                    143.8199));
         Assert.IsNotNull(createElevationSamplerMethodResult);
-        var fetchTileMethodResult = await elevationLayer.FetchTile(964.0040,
-                243.4608,
-                895.1749,
-            new ElevationLayerFetchTileOptions(804.2664));
+        var fetchTileMethodResult = await elevationLayer.FetchTile(208.3744,
+                509.3057,
+                632.1790,
+            new ElevationLayerFetchTileOptions(302.0138));
         Assert.IsNotNull(fetchTileMethodResult);
-        var getTileUrlMethodResult = await elevationLayer.GetTileUrl(155.6678,
-                172.2729,
-                679.5257);
+        var getTileUrlMethodResult = await elevationLayer.GetTileUrl(47.8441,
+                167.5077,
+                959.0967);
         Assert.IsNotNull(getTileUrlMethodResult);
-        var queryElevationMethodResult = await elevationLayer.QueryElevation(new Extent(54.2976,
-                    -103.6709,
-                    -23.3961,
-                    86.3053,
-                    948.5254,
-                    331.4402,
-                    687.3322,
-                    407.3948,
+        var queryElevationMethodResult = await elevationLayer.QueryElevation(new Extent(-77.3801,
+                    -129.3036,
+                    37.6526,
+                    -71.8799,
+                    918.6461,
+                    578.0859,
+                    614.0037,
+                    347.7515,
                 new SpatialReference(8,
-                        "aperiam",
-                        "et",
-                        "ad"),
+                        "deserunt",
+                        "eaque",
+                        "in"),
                     true,
                     true),
-            new ElevationLayerQueryElevationOptions("id",
-                    338.4113,
+            new ElevationLayerQueryElevationOptions("veniam",
+                    55.2059,
                     true));
         Assert.IsNotNull(queryElevationMethodResult);
-        Extent testFullExtent = new Extent(-178.8539,
-                    86.4324,
-                    -37.5078,
-                    -1.5855,
-                    491.5100,
-                    858.7602,
-                    334.8150,
-                    361.8899,
-                new SpatialReference(3,
-                        "ut",
-                        "officia",
-                        "dicta"),
+        Extent testFullExtent = new Extent(133.4368,
+                    145.1628,
+                    -50.1534,
+                    -0.1422,
+                    187.9823,
+                    872.7025,
+                    913.2959,
+                    994.2724,
+                new SpatialReference(4,
+                        "et",
+                        "rerum",
+                        "et"),
                     true,
                     true);
         await elevationLayer.SetFullExtent(testFullExtent);
@@ -153,45 +146,49 @@
         await elevationLayer.SetPortalItem(testPortalItem);
         var portalItem = await elevationLayer.GetPortalItem();
         Assert.AreEqual(testPortalItem, portalItem);
-        TileInfo testTileInfo = new TileInfo(205.2265,
-                    TileInfoFormat.Svg,
+        TileInfo testTileInfo = new TileInfo(575.1601,
+                    TileInfoFormat.Png24,
                     true,
-                [new LOD(4,
+                [new LOD(9,
+                        "amet",
+                        59.3969,
+                        15657273.0474),
+                new LOD(3,
                         "harum",
-                        19.8882,
-                        23443489.1059),
-                new LOD(8,
-                        "a",
-                        11.3323,
-                        30375766.8864),
-                new LOD(6,
-                        "quia",
-                        79.6046,
-                        35388612.9245)],
-                new Point(-136.7841,
-                        -39.8167,
-                        -5.5172,
-                        14.5312,
-                        646.1778,
-                    new SpatialReference(9,
-                            "et",
-                            "aut",
-                            "mollitia"),
+                        11.2673,
+                        39261998.1704),
+                new LOD(2,
+                        "voluptas",
+                        96.8962,
+                        19724689.8441),
+                new LOD(7,
+                        "officiis",
+                        44.4886,
+                        9120340.2498)],
+                new Point(150.7675,
+                        45.0086,
+                        86.3800,
+                        -50.3873,
+                        999.5728,
+                    new SpatialReference(8,
+                            "eos",
+                            "deserunt",
+                            "sint"),
                         true,
                         true,
-                        508.2802),
-                    [3,
-                        7,
+                        320.2286),
+                    [8,
+                        9,
                         6],
-                new SpatialReference(5,
-                        "ut",
-                        "sed",
-                        "accusamus"));
+                new SpatialReference(9,
+                        "consequatur",
+                        "adipisci",
+                        "at"));
         await elevationLayer.SetTileInfo(testTileInfo);
         var tileInfo = await elevationLayer.GetTileInfo();
         Assert.AreEqual(testTileInfo, tileInfo);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2018, 6, 26, 19, 36, 17),
-                    new DateTime(2023, 1, 11, 10, 27, 8));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2006, 6, 12, 15, 18, 51),
+                    new DateTime(2019, 2, 13, 1, 50, 12));
         await elevationLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await elevationLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

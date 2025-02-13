@@ -122,6 +122,15 @@ export async function buildDotNetFieldGenerated(jsObject: any): Promise<any> {
             dotNetField.valueType = jsObject.valueType;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetField.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetField;
 }
 

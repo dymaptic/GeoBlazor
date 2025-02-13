@@ -42,14 +42,14 @@ export default class PixelDataGenerated implements IPropertyWrapper {
 
 export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPixelData: any = {}
-    if (hasValue(dotNetObject.extent)) {
-        jsPixelData.extent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.pixelBlock)) {
         let { buildJsPixelBlock } = await import('./pixelBlock');
         jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.extent)) {
+        jsPixelData.extent = dotNetObject.extent;
+    }
     let { default: PixelDataWrapper } = await import('./pixelData');
     let pixelDataWrapper = new PixelDataWrapper(jsPixelData);
     pixelDataWrapper.geoBlazorId = dotNetObject.id;
@@ -86,6 +86,15 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
         if (hasValue(jsObject.extent)) {
             dotNetPixelData.extent = jsObject.extent;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPixelData.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPixelData;
 }

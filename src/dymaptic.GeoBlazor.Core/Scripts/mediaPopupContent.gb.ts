@@ -25,7 +25,7 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
     
     async getMediaInfos(): Promise<any> {
         let { buildDotNetMediaInfo } = await import('./mediaInfo');
-        return this.component.mediaInfos.map(i => buildDotNetMediaInfo(i));
+        return this.component.mediaInfos.map(async i => await buildDotNetMediaInfo(i));
     }
     
     async setMediaInfos(value: any): Promise<void> {
@@ -88,8 +88,8 @@ export async function buildDotNetMediaPopupContentGenerated(jsObject: any): Prom
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.mediaInfos)) {
-            let { buildDotNetMediaInfo } = await import('./dotNetBuilder');
-            dotNetMediaPopupContent.mediaInfos = jsObject.mediaInfos.map(i => buildDotNetMediaInfo(i));
+            let { buildDotNetMediaInfo } = await import('./mediaInfo');
+            dotNetMediaPopupContent.mediaInfos = await Promise.all(jsObject.mediaInfos.map(async i => await buildDotNetMediaInfo(i)));
         }
         if (hasValue(jsObject.activeMediaInfoIndex)) {
             dotNetMediaPopupContent.activeMediaInfoIndex = jsObject.activeMediaInfoIndex;
@@ -103,6 +103,15 @@ export async function buildDotNetMediaPopupContentGenerated(jsObject: any): Prom
         if (hasValue(jsObject.type)) {
             dotNetMediaPopupContent.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetMediaPopupContent.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetMediaPopupContent;
 }

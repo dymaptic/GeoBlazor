@@ -30,7 +30,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -41,7 +41,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -76,9 +76,6 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsKMLLayer = new KMLLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsKMLLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsKMLLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -100,6 +97,9 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.effect)) {
         jsKMLLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsKMLLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsKMLLayer.listMode = dotNetObject.listMode;
@@ -142,7 +142,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     return jsKMLLayer;
 }
 
-export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -153,14 +153,14 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
             dotNetKMLLayer.sublayers = jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i));
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -202,6 +202,15 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
         if (hasValue(jsObject.url)) {
             dotNetKMLLayer.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetKMLLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetKMLLayer;
 }

@@ -15,7 +15,7 @@ export async function buildJsSimpleMarkerSymbol(dotNetObject: any, layerId: stri
     return await buildJsSimpleMarkerSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSimpleMarkerSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSimpleMarkerSymbol(jsObject: any): Promise<any> {
     let { buildDotNetSimpleMarkerSymbolGenerated } = await import('./simpleMarkerSymbol.gb');
-    return await buildDotNetSimpleMarkerSymbolGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSimpleMarkerSymbolGenerated(jsObject);
 }

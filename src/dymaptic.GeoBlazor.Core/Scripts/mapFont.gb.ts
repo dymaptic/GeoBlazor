@@ -95,6 +95,15 @@ export async function buildDotNetMapFontGenerated(jsObject: any): Promise<any> {
             dotNetMapFont.weight = jsObject.weight;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetMapFont.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetMapFont;
 }
 

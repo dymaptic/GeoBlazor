@@ -71,6 +71,15 @@ export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): P
             dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesMetadata.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesMetadata;
 }
 

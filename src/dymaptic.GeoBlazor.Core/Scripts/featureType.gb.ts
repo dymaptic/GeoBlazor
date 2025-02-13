@@ -50,3 +50,11 @@ export default class FeatureTypeGenerated implements IPropertyWrapper {
         }
     }
 }
+
+export async function buildJsFeatureTypeGenerated(dotNetObject: any): Promise<any> {
+
+}
+
+export async function buildDotNetFeatureTypeGenerated(featureType: any): Promise<any> {
+    
+}

@@ -23,6 +23,10 @@ export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrap
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -65,7 +69,8 @@ export async function buildDotNetChartMediaInfoValueSeriesGenerated(jsObject: an
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.color)) {
-            dotNetChartMediaInfoValueSeries.color = jsObject.color;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetChartMediaInfoValueSeries.color = buildDotNetMapColor(jsObject.color);
         }
         if (hasValue(jsObject.fieldName)) {
             dotNetChartMediaInfoValueSeries.fieldName = jsObject.fieldName;
@@ -76,6 +81,15 @@ export async function buildDotNetChartMediaInfoValueSeriesGenerated(jsObject: an
         if (hasValue(jsObject.value)) {
             dotNetChartMediaInfoValueSeries.value = jsObject.value;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetChartMediaInfoValueSeries.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetChartMediaInfoValueSeries;
 }

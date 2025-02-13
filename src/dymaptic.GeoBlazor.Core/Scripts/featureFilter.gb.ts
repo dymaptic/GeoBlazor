@@ -89,7 +89,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     return jsFeatureFilter;
 }
 
-export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -99,7 +99,7 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
         if (hasValue(jsObject.distance)) {
@@ -120,6 +120,15 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
         if (hasValue(jsObject.where)) {
             dotNetFeatureFilter.where = jsObject.where;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFeatureFilter.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFeatureFilter;
 }

@@ -1,6 +1,3 @@
-using IImageryRenderer = dymaptic.GeoBlazor.Core.Components.Renderers.IImageryRenderer;
-
-
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
 internal class ImageryRendererConverter : JsonConverter<IImageryRenderer>

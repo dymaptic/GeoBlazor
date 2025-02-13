@@ -15,5 +15,7 @@ export async function buildJsFeatureTemplate(dotNetObject: any, layerId: string 
 }
 export async function buildDotNetFeatureTemplate(jsObject: any): Promise<any> {
     let { buildDotNetFeatureTemplateGenerated } = await import('./featureTemplate.gb');
-    return await buildDotNetFeatureTemplateGenerated(jsObject);
+    
+    // layerId and viewId not needed to build the prototype graphic in the template
+    return await buildDotNetFeatureTemplateGenerated(jsObject, null, null);
 }

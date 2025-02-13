@@ -68,7 +68,7 @@ export async function buildJsRendererGenerated(dotNetObject: any, layerId: strin
     return jsRenderer;
 }
 
-export async function buildDotNetRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRendererGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -78,8 +78,8 @@ export async function buildDotNetRendererGenerated(jsObject: any, layerId: strin
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./dotNetBuilder');
-            dotNetRenderer.authoringInfo = buildDotNetAuthoringInfo(jsObject.authoringInfo, layerId, viewId);
+            let { buildDotNetAuthoringInfo } = await import('./mapView');
+            dotNetRenderer.authoringInfo = buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
         dotNetRenderer.type = jsObject.type;
     return dotNetRenderer;

@@ -25,11 +25,11 @@ export default class ImageMediaInfoGenerated implements IPropertyWrapper {
     
     async getValue(): Promise<any> {
         let { buildDotNetImageMediaInfoValue } = await import('./imageMediaInfoValue');
-        return buildDotNetImageMediaInfoValue(this.component.value);
+        return await buildDotNetImageMediaInfoValue(this.component.value);
     }
     async setValue(value: any): Promise<void> {
         let { buildJsImageMediaInfoValue } = await import('./imageMediaInfoValue');
-        this.component.value =  buildJsImageMediaInfoValue(value);
+        this.component.value = await  buildJsImageMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     let jsImageMediaInfo = new ImageMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsImageMediaInfoValue } = await import('./jsBuilder');
-        jsImageMediaInfo.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
+        jsImageMediaInfo.value = await buildJsImageMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -89,8 +89,8 @@ export async function buildDotNetImageMediaInfoGenerated(jsObject: any): Promise
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.value)) {
-            let { buildDotNetImageMediaInfoValue } = await import('./dotNetBuilder');
-            dotNetImageMediaInfo.value = buildDotNetImageMediaInfoValue(jsObject.value);
+            let { buildDotNetImageMediaInfoValue } = await import('./imageMediaInfoValue');
+            dotNetImageMediaInfo.value = await buildDotNetImageMediaInfoValue(jsObject.value);
         }
         if (hasValue(jsObject.altText)) {
             dotNetImageMediaInfo.altText = jsObject.altText;
@@ -107,6 +107,15 @@ export async function buildDotNetImageMediaInfoGenerated(jsObject: any): Promise
         if (hasValue(jsObject.type)) {
             dotNetImageMediaInfo.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetImageMediaInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetImageMediaInfo;
 }

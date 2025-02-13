@@ -114,6 +114,15 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
             dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRotationVariable.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetRotationVariable;
 }
 

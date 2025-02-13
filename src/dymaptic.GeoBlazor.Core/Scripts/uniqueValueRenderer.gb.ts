@@ -176,7 +176,7 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./dotNetBuilder');
+            let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
             dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
         if (hasValue(jsObject.legendOptions)) {
@@ -225,6 +225,15 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         if (hasValue(jsObject.valueExpressionTitle)) {
             dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetUniqueValueRenderer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetUniqueValueRenderer;
 }

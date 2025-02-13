@@ -110,6 +110,15 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
             dotNetActionButton.type = jsObject.type;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetActionButton.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetActionButton;
 }
 

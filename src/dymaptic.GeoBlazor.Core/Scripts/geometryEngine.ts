@@ -7,18 +7,15 @@ import Point from "@arcgis/core/geometry/Point";
 import {buildJsGeometry, buildJsPoint, buildJsPolygon, buildJsPolyline} from "./jsBuilder";
 import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
-import {
-    buildDotNetExtent,
-    buildDotNetGeometry,
-    buildDotNetPoint,
-    buildDotNetPolygon,
-    buildDotNetPolyline
-} from "./dotNetBuilder";
 import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
 import NearestPointResult = __esri.NearestPointResult;
-import { buildJsExtent } from "./extent";
+import {buildDotNetExtent, buildJsExtent } from "./extent";
+import { buildDotNetPolygon } from "./polygon";
+import { buildDotNetGeometry } from "./geometry";
+import { buildDotNetPoint } from "./point";
+import { buildDotNetPolyline } from "./polyline";
 
 export default class GeometryEngineWrapper {
     private dotNetRef: any;

@@ -89,6 +89,15 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): 
             dotNetDimensionalDefinition.variableName = jsObject.variableName;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetDimensionalDefinition.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetDimensionalDefinition;
 }
 

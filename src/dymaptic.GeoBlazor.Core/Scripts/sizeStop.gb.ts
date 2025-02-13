@@ -83,6 +83,15 @@ export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> 
             dotNetSizeStop.value = jsObject.value;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSizeStop.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetSizeStop;
 }
 

@@ -83,6 +83,15 @@ export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): P
             dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPixelBlockStatistics.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetPixelBlockStatistics;
 }
 

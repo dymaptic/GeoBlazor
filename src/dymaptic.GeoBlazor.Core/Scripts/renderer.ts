@@ -16,6 +16,18 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
 }     
 
 export async function buildDotNetRenderer(jsObject: any): Promise<any> {
-    let { buildDotNetRendererGenerated } = await import('./renderer.gb');
-    return await buildDotNetRendererGenerated(jsObject);
+    switch (jsObject?.type) {
+        case 'simple':
+            let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
+            return await buildDotNetSimpleRenderer(jsObject);
+        case 'unique-value':
+            let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
+            return await buildDotNetUniqueValueRenderer(jsObject);
+        case 'pie-chart': // only available in Pro
+            // @ts-ignore
+            let { buildDotNetPieChartRenderer } = await import('./pieChartRenderer');
+            return await buildDotNetPieChartRenderer(jsObject);
+        default:
+            throw new Error('Unknown renderer type');
+    }
 }

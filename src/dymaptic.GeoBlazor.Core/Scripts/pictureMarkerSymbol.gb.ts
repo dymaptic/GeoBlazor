@@ -34,12 +34,12 @@ export default class PictureMarkerSymbolGenerated implements IPropertyWrapper {
 
 export async function buildJsPictureMarkerSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPictureMarkerSymbol = new PictureMarkerSymbol();
+    if (hasValue(dotNetObject.color)) {
+        jsPictureMarkerSymbol.color = dotNetObject.mapColor;
+    }
 
     if (hasValue(dotNetObject.angle)) {
         jsPictureMarkerSymbol.angle = dotNetObject.angle;
-    }
-    if (hasValue(dotNetObject.color)) {
-        jsPictureMarkerSymbol.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.height)) {
         jsPictureMarkerSymbol.height = dotNetObject.height;
@@ -76,7 +76,7 @@ export async function buildJsPictureMarkerSymbolGenerated(dotNetObject: any, lay
     return jsPictureMarkerSymbol;
 }
 
-export async function buildDotNetPictureMarkerSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPictureMarkerSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -85,11 +85,9 @@ export async function buildDotNetPictureMarkerSymbolGenerated(jsObject: any, lay
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        dotNetPictureMarkerSymbol.color = jsObject.color;
         if (hasValue(jsObject.angle)) {
             dotNetPictureMarkerSymbol.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.color)) {
-            dotNetPictureMarkerSymbol.color = jsObject.color;
         }
         if (hasValue(jsObject.height)) {
             dotNetPictureMarkerSymbol.height = jsObject.height;
@@ -109,6 +107,15 @@ export async function buildDotNetPictureMarkerSymbolGenerated(jsObject: any, lay
         if (hasValue(jsObject.yoffset)) {
             dotNetPictureMarkerSymbol.yoffset = jsObject.yoffset;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPictureMarkerSymbol.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPictureMarkerSymbol;
 }

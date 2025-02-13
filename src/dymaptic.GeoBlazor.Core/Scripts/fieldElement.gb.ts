@@ -128,6 +128,15 @@ export async function buildDotNetFieldElementGenerated(jsObject: any): Promise<a
             dotNetFieldElement.visibilityExpression = jsObject.visibilityExpression;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFieldElement.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetFieldElement;
 }
 

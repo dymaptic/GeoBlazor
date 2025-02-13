@@ -25,7 +25,7 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
     
     async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.symbol);
+        return await buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
@@ -83,8 +83,8 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
+            let { buildDotNetSymbol } = await import('./symbol');
+            dotNetUniqueValueInfo.symbol = await buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.label)) {
             dotNetUniqueValueInfo.label = jsObject.label;
@@ -92,6 +92,15 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
         if (hasValue(jsObject.value)) {
             dotNetUniqueValueInfo.value = jsObject.value;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetUniqueValueInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetUniqueValueInfo;
 }

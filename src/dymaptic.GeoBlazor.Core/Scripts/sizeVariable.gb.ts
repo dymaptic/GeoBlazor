@@ -62,7 +62,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        jsSizeVariable.stops = dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId)) as any;
+        jsSizeVariable.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.axis)) {
@@ -139,7 +139,7 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.stops)) {
             let { buildDotNetSizeStop } = await import('./sizeStop');
-            dotNetSizeVariable.stops = jsObject.stops.map(async i => await buildDotNetSizeStop(i));
+            dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
         }
         if (hasValue(jsObject.axis)) {
             dotNetSizeVariable.axis = jsObject.axis;
@@ -183,6 +183,15 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
         if (hasValue(jsObject.valueUnit)) {
             dotNetSizeVariable.valueUnit = jsObject.valueUnit;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSizeVariable.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetSizeVariable;
 }

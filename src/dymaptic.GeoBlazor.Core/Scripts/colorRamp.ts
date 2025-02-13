@@ -15,7 +15,7 @@ export async function buildJsColorRamp(dotNetObject: any, layerId: string | null
     return await buildJsColorRampGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetColorRamp(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetColorRamp(jsObject: any): Promise<any> {
     let { buildDotNetColorRampGenerated } = await import('./colorRamp.gb');
-    return await buildDotNetColorRampGenerated(jsObject, layerId, viewId);
+    return await buildDotNetColorRampGenerated(jsObject);
 }

@@ -1,8 +1,6 @@
 import BaseTileLayerGenerated from './baseTileLayer.gb';
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
-import {buildDotNetEffect} from './dotNetBuilder';
 import {buildJsEffect} from './jsBuilder';
-import {IPropertyWrapper} from './definitions';
 
 export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
@@ -17,10 +15,7 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
     setEffect(effect: any) {
         this.layer.effect = buildJsEffect(effect);
     }
-
-
-
-
+    
 }
 export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsBaseTileLayerGenerated } = await import('./baseTileLayer.gb');

@@ -331,23 +331,34 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         ms.Seek(0, SeekOrigin.Begin);
 
         FeatureEditsResult result;
-        if (View!.IsWebAssembly)
+
+        try
         {
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>(
-                "applyGraphicEditsSynchronously", cancellationToken, ms.ToArray(), editType, options, 
-                View!.Id, abortSignal);
-            await ms.DisposeAsync();
-            await Task.Delay(1, cancellationToken);
+            if (View!.IsWebAssembly)
+            {
+                result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
+                    cancellationToken, ms.ToArray(), editType, options,
+                    View!.Id, abortSignal);
+                await ms.DisposeAsync();
+                await Task.Delay(1, cancellationToken);
+            }
+            else
+            {
+                using DotNetStreamReference streamRef = new(ms);
+
+                result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsFromStream",
+                    cancellationToken, streamRef, editType, options,
+                    View!.Id, abortSignal);
+            }
+            
+            return result.Concat(currentResults);
         }
-        else
+        catch (Exception ex)
         {
-            using DotNetStreamReference streamRef = new(ms);
-            result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>(
-                "applyGraphicEditsFromStream", cancellationToken, streamRef, editType, options, 
-                View!.Id, abortSignal);
+            Console.WriteLine(ex);
         }
 
-        return result.Concat(currentResults);
+        return null;
     }
 
     /// <summary>

@@ -71,6 +71,15 @@ export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject:
             dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesQueryTopFeatures.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesQueryTopFeatures;
 }
 

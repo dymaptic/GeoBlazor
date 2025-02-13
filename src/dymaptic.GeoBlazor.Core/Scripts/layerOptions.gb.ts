@@ -77,6 +77,15 @@ export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<a
             dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetLayerOptions.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetLayerOptions;
 }
 

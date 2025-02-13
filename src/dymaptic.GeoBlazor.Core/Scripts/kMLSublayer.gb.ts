@@ -25,7 +25,7 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     
     async getLayer(): Promise<any> {
         let { buildDotNetKMLLayer } = await import('./kMLLayer');
-        return await buildDotNetKMLLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetKMLLayer(this.component.layer);
     }
     async setLayer(value: any): Promise<void> {
         let { buildJsKMLLayer } = await import('./kMLLayer');
@@ -109,6 +109,15 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
         if (hasValue(jsObject.title)) {
             dotNetKMLSublayer.title = jsObject.title;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetKMLSublayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetKMLSublayer;
 }

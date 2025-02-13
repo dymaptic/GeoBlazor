@@ -110,6 +110,15 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
             dotNetActionToggle.value = jsObject.value;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetActionToggle.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetActionToggle;
 }
 

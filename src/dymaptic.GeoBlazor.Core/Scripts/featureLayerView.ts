@@ -5,14 +5,10 @@ import {
     DotNetFeatureEffect,
     DotNetFeatureFilter,
     DotNetFeatureSet,
-    DotNetQuery,
-    IPropertyWrapper
+    DotNetQuery
 } from "./definitions";
 import {buildJsFeatureEffect, buildJsFeatureFilter, buildJsQuery} from "./jsBuilder";
-import {arcGisObjectRefs, getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
-import {
-    buildDotNetFeatureSet
-} from "./dotNetBuilder";
+import {getProtobufGraphicStream, graphicsRefs, hasValue} from "./arcGisJsInterop";
 import FeatureEffect from "@arcgis/core/layers/support/FeatureEffect";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter";
 import Handle = __esri.Handle;
@@ -103,6 +99,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
             let featureSet = await this.component.queryFeatures(jsQuery, options);
 
+            let { buildDotNetFeatureSet } = await import('./featureSet');
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
@@ -130,7 +127,7 @@ export async function buildJsFeatureLayerView(dotNetObject: any, layerId: string
     let { buildJsFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
     return await buildJsFeatureLayerViewGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetFeatureLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerView(jsObject: any): Promise<any> {
     let { buildDotNetFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
-    return await buildDotNetFeatureLayerViewGenerated(jsObject, layerId, viewId);
+    return await buildDotNetFeatureLayerViewGenerated(jsObject);
 }

@@ -1,9 +1,9 @@
 import ImageryTileLayerGenerated from './imageryTileLayer.gb';
 import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
-import {buildDotNetExtent, buildDotNetFeatureSet, buildDotNetSpatialReference} from './dotNetBuilder';
 import {hasValue} from './arcGisJsInterop';
 import {buildJsImageryRenderer} from './jsBuilder';
-import {IPropertyWrapper} from './definitions';
+import { buildDotNetSpatialReference } from './spatialReference';
+import { buildDotNetExtent } from './extent';
 
 export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
 
@@ -12,13 +12,17 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
     }
 
 
-    getServiceRasterInfo() {
+    async getServiceRasterInfo() {
         let jsInfo = this.layer.serviceRasterInfo;
+        
         if (!hasValue(jsInfo)) {
             return null;
         }
+        let { buildDotNetFeatureSet } = await import('./featureSet');
         return {
-            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, null, this.viewId) : null,
+            attributeTable: hasValue(jsInfo.attributeTable) 
+                ? await buildDotNetFeatureSet(jsInfo.attributeTable, null, this.viewId) 
+                : null,
             bandCount: jsInfo.bandCount,
             bandInfos: jsInfo.bandInfos,
             colormap: jsInfo.colormap,
@@ -51,7 +55,7 @@ export async function buildJsImageryTileLayer(dotNetObject: any, layerId: string
     let { buildJsImageryTileLayerGenerated } = await import('./imageryTileLayer.gb');
     return await buildJsImageryTileLayerGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetImageryTileLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryTileLayer(jsObject: any): Promise<any> {
     let { buildDotNetImageryTileLayerGenerated } = await import('./imageryTileLayer.gb');
-    return await buildDotNetImageryTileLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetImageryTileLayerGenerated(jsObject);
 }

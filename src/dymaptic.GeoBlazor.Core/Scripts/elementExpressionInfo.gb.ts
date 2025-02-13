@@ -64,7 +64,7 @@ export async function buildJsElementExpressionInfoGenerated(dotNetObject: any, l
     return jsElementExpressionInfo;
 }
 
-export function buildDotNetElementExpressionInfoGenerated(jsObject: any): any {
+export async function buildDotNetElementExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -82,6 +82,15 @@ export function buildDotNetElementExpressionInfoGenerated(jsObject: any): any {
         if (hasValue(jsObject.title)) {
             dotNetElementExpressionInfo.title = jsObject.title;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetElementExpressionInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetElementExpressionInfo;
 }

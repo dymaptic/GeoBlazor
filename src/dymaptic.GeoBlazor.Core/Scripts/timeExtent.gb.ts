@@ -77,22 +77,3 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
     return jsTimeExtent;
 }
 
-export function buildDotNetTimeExtentGenerated(jsObject: any): any {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
-    
-    let dotNetTimeExtent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
-    };
-        if (hasValue(jsObject.end)) {
-            dotNetTimeExtent.end = jsObject.end;
-        }
-        if (hasValue(jsObject.start)) {
-            dotNetTimeExtent.start = jsObject.start;
-        }
-
-    return dotNetTimeExtent;
-}
-

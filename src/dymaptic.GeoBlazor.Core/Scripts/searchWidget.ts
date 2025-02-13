@@ -1,10 +1,4 @@
 ﻿import Search from '@arcgis/core/widgets/Search';
-import {
-    buildDotNetGraphic,
-    buildDotNetSearchResult,
-    buildDotNetSearchSource,
-    buildDotNetSuggestResult
-} from './dotNetBuilder';
 import {buildJsGeometry} from './jsBuilder';
 import {IPropertyWrapper} from './definitions';
 
@@ -25,8 +19,9 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
     unwrap() {
         return this.searchWidget;
     }
-    getActiveSource() {
+    async getActiveSource() {
         let jsSource = this.searchWidget.activeSource;
+        let { buildDotNetSearchSource } = await import('./searchSource');
         return buildDotNetSearchSource(jsSource);
     }
     
@@ -38,9 +33,10 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         return this.searchWidget.activeSourceIndex;
     }
     
-    getAllSources() {
+    async getAllSources() {
         let jsSources = this.searchWidget.allSources;
         let dotNetSources: any[] = [];
+        let { buildDotNetSearchSource } = await import('./searchSource');
         for (let jsSource of jsSources) {
             dotNetSources.push(buildDotNetSearchSource(jsSource));
         }
@@ -48,9 +44,10 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         return dotNetSources;
     }
     
-    getDefaultSources() {
+    async getDefaultSources() {
         let jsSources = this.searchWidget.defaultSources;
         let dotNetSources: any[] = [];
+        let { buildDotNetSearchSource } = await import('./searchSource');
         for (let jsSource of jsSources) {
             dotNetSources.push(buildDotNetSearchSource(jsSource));
         }
@@ -58,15 +55,18 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         return dotNetSources;
     }
     
-    getResultGraphic() {
+    async getResultGraphic() {
+        let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.searchWidget.resultGraphic, null, null);
     }
     
-    getResults() {
+    async getResults() {
         let jsResults = this.searchWidget.results;
         let dnResults: any[] = [];
         for (let jsResult of jsResults) {
             let searchResults: any[] = [];
+            let { buildDotNetSearchResult } = await import('./searchResult');
+            let { buildDotNetSearchSource } = await import('./searchSource');
             for (let jsSearchResult of jsResult.results) {
                 searchResults.push(buildDotNetSearchResult(jsSearchResult));
             }
@@ -81,18 +81,9 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         return dnResults;
     }
     
-    getSelectedResult() {
+    async getSelectedResult() {
+        let { buildDotNetSearchResult } = await import('./searchResult');
         return buildDotNetSearchResult(this.searchWidget.selectedResult);
-    }
-    
-    getSuggestions() {
-        let jsSuggestions = this.searchWidget.suggestions;
-        let dnSuggestions: any[] = [];
-        for (let jsSuggestion of jsSuggestions) {
-            dnSuggestions.push(buildDotNetSuggestResult(jsSuggestion));
-        }
-        
-        return dnSuggestions;
     }
     
     setSearchTerm(term: string) {

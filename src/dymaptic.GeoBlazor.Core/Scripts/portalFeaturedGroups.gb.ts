@@ -77,6 +77,15 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): P
             dotNetPortalFeaturedGroups.title = jsObject.title;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPortalFeaturedGroups.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetPortalFeaturedGroups;
 }
 

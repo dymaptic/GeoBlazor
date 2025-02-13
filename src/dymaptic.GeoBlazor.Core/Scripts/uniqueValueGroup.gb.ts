@@ -89,6 +89,15 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
             dotNetUniqueValueGroup.heading = jsObject.heading;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetUniqueValueGroup.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetUniqueValueGroup;
 }
 

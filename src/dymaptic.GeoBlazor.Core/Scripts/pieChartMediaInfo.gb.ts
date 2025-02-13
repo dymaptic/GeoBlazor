@@ -29,7 +29,7 @@ export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layer
     let jsPieChartMediaInfo = new PieChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsPieChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
+        jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -101,6 +101,15 @@ export async function buildDotNetPieChartMediaInfoGenerated(jsObject: any): Prom
         if (hasValue(jsObject.type)) {
             dotNetPieChartMediaInfo.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPieChartMediaInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPieChartMediaInfo;
 }

@@ -43,7 +43,7 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
 export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureTemplate = new FeatureTemplate();
     if (hasValue(dotNetObject.prototype)) {
-        let { buildJsGraphic } = await import('./jsBuilder');
+        let { buildJsGraphic } = await import('./graphic');
         jsFeatureTemplate.prototype = await buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
     }
 
@@ -89,7 +89,7 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.prototype)) {
-            let { buildDotNetGraphic } = await import('./dotNetBuilder');
+            let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureTemplate.prototype = await buildDotNetGraphic(jsObject.prototype, layerId, viewId);
         }
         if (hasValue(jsObject.description)) {
@@ -104,6 +104,15 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
         if (hasValue(jsObject.thumbnail)) {
             dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFeatureTemplate.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFeatureTemplate;
 }

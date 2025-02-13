@@ -42,7 +42,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -108,11 +108,8 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
         jsGraphicsLayer.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsGraphicsLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.graphics)) {
-        let { buildJsGraphic } = await import('./jsBuilder');
+        let { buildJsGraphic } = await import('./graphic');
         jsGraphicsLayer.graphics = dotNetObject.graphics.map(async i => await buildJsGraphic(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
@@ -128,6 +125,9 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.effect)) {
         jsGraphicsLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsGraphicsLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsGraphicsLayer.listMode = dotNetObject.listMode;
@@ -170,7 +170,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     return jsGraphicsLayer;
 }
 
-export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -183,12 +183,8 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
             let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
             dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo);
         }
-        if (hasValue(jsObject.graphics)) {
-            let { buildDotNetGraphic } = await import('./dotNetBuilder');
-            dotNetGraphicsLayer.graphics = jsObject.graphics.map(async i => await buildDotNetGraphic(i, layerId, viewId));
-        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -230,6 +226,15 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
         if (hasValue(jsObject.type)) {
             dotNetGraphicsLayer.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGraphicsLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetGraphicsLayer;
 }

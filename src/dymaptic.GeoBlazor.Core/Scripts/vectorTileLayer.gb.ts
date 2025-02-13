@@ -30,7 +30,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async deleteStyleLayer(layerId: any): Promise<void> {
@@ -103,7 +103,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -136,12 +136,6 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsVectorTileLayer = new VectorTileLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsVectorTileLayer.fullExtent = dotNetObject.extent;
-    }
-    if (hasValue(dotNetObject.initialExtent)) {
-        jsVectorTileLayer.initialExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsVectorTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -169,6 +163,12 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.effect)) {
         jsVectorTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsVectorTileLayer.fullExtent = dotNetObject.fullExtent;
+    }
+    if (hasValue(dotNetObject.initialExtent)) {
+        jsVectorTileLayer.initialExtent = dotNetObject.initialExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsVectorTileLayer.listMode = dotNetObject.listMode;
@@ -217,7 +217,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     return jsVectorTileLayer;
 }
 
-export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -228,14 +228,14 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
     };
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.apiKey)) {
@@ -301,6 +301,15 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
         if (hasValue(jsObject.url)) {
             dotNetVectorTileLayer.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetVectorTileLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetVectorTileLayer;
 }

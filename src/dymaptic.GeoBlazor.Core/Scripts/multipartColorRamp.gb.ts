@@ -30,7 +30,7 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
     
     async setColorRamps(value: any): Promise<void> {
         let { buildJsAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
-        this.component.colorRamps = value.map(async i => await buildJsAlgorithmicColorRamp(i));
+        this.component.colorRamps = value.map(i => buildJsAlgorithmicColorRamp(i));
     }
     
     getProperty(prop: string): any {
@@ -46,7 +46,7 @@ export async function buildJsMultipartColorRampGenerated(dotNetObject: any, laye
     let jsMultipartColorRamp = new MultipartColorRamp();
     if (hasValue(dotNetObject.colorRamps)) {
         let { buildJsAlgorithmicColorRamp } = await import('./jsBuilder');
-        jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(async i => await buildJsAlgorithmicColorRamp(i)) as any;
+        jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(i => buildJsAlgorithmicColorRamp(i)) as any;
     }
 
     let { default: MultipartColorRampWrapper } = await import('./multipartColorRamp');
@@ -80,11 +80,20 @@ export async function buildDotNetMultipartColorRampGenerated(jsObject: any): Pro
     };
         if (hasValue(jsObject.colorRamps)) {
             let { buildDotNetAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
-            dotNetMultipartColorRamp.colorRamps = jsObject.colorRamps.map(async i => await buildDotNetAlgorithmicColorRamp(i));
+            dotNetMultipartColorRamp.colorRamps = await Promise.all(jsObject.colorRamps.map(async i => await buildDotNetAlgorithmicColorRamp(i)));
         }
         if (hasValue(jsObject.type)) {
             dotNetMultipartColorRamp.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetMultipartColorRamp.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetMultipartColorRamp;
 }

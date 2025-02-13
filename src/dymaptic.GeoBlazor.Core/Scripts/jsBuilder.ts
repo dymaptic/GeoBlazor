@@ -1,14 +1,12 @@
 ﻿// region imports
 
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import Extent from "@arcgis/core/geometry/Extent";
 import Graphic from "@arcgis/core/Graphic";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
 import {
     arcGisObjectRefs,
     createLayer,
     copyValuesIfExists, 
-    lookupGraphicById,
     popupTemplateRefs, 
     dotNetRefs
 } from "./arcGisJsInterop";
@@ -53,7 +51,6 @@ import {
     DotNetExtent,
     DotNetFeatureEffect,
     DotNetFeatureFilter,
-    DotNetFeatureTemplate,
     DotNetFieldInfo,
     DotNetFieldInfoFormat,
     DotNetFieldsPopupContent,
@@ -117,7 +114,6 @@ import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
 import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
 import ElementExpressionInfo from "@arcgis/core/popup/ElementExpressionInfo";
 import ChartMediaInfoValueSeries from "@arcgis/core/popup/content/support/ChartMediaInfoValueSeries";
-import { buildDotNetGraphic, buildDotNetPoint, buildDotNetSpatialReference } from "./dotNetBuilder";
 import FormTemplate from "@arcgis/core/form/FormTemplate";
 import Element from "@arcgis/core/form/elements/Element";
 import GroupElement from "@arcgis/core/form/elements/GroupElement";
@@ -131,7 +127,6 @@ import ComboBoxInput from "@arcgis/core/form/elements/inputs/ComboBoxInput";
 import RadioButtonsInput from "@arcgis/core/form/elements/inputs/RadioButtonsInput";
 import SwitchInput from "@arcgis/core/form/elements/inputs/SwitchInput";
 import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
-import FeatureTemplate from "@arcgis/core/layers/support/FeatureTemplate";
 import ViewClickEvent = __esri.ViewClickEvent;
 import PopupOpenOptions = __esri.PopupOpenOptions;
 import PopupDockOptions = __esri.PopupDockOptions;
@@ -171,6 +166,9 @@ import UniqueValueClass from "@arcgis/core/renderers/support/UniqueValueClass";
 import UniqueValueGroup from "@arcgis/core/renderers/support/UniqueValueGroup";
 import {buildJsColor} from "./mapColor";
 import {buildJsExtent} from "./extent";
+import { buildJsGraphic } from "./graphic";
+import { buildDotNetPoint } from "./point";
+import { buildDotNetSpatialReference } from "./spatialReference";
 
 
 // region functions
@@ -191,43 +189,6 @@ export function buildJsSpatialReference(dotNetSpatialReference: DotNetSpatialRef
     }
 
     return jsSpatialRef;
-}
-
-export function buildJsGraphic(graphicObject: any, layerId: string | null, viewId: string | null)
-    : Graphic | null {
-    let graphic: Graphic | null = lookupGraphicById(graphicObject.id, layerId, viewId);
-    if (graphic !== null) {
-        graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
-        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
-    } else {
-        graphic = new Graphic({
-            geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
-            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
-        });
-    }
-
-    graphic.attributes = buildJsAttributes(graphicObject.attributes);
-
-    if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, layerId, viewId) as PopupTemplate;
-    }
-
-    if (hasValue(graphicObject.origin)) {
-        let layer : any | undefined = undefined;
-        if (arcGisObjectRefs.hasOwnProperty(graphicObject.origin.id)) {
-            layer = arcGisObjectRefs[graphicObject.origin.layerId] as any;
-        }
-        graphic.origin = {
-            type: 'vector-tile',
-            layer: layer,
-            layerId: graphicObject.origin.arcGISLayerId,
-            layerIndex: graphicObject.origin.layerIndex
-        }
-    }
-    
-    copyValuesIfExists(graphicObject, graphic, 'visible', 'aggregateGeometries');
-
-    return graphic;
 }
 
 export function buildJsAttributes(attributes: any): any {
@@ -286,6 +247,7 @@ export function buildJsPopupTemplate(popupTemplateObject: DotNetPopupTemplate, l
                 }
 
                 if (!hasValue(popupRef)) return null;
+                let { buildDotNetGraphic } = await import('./graphic');
                 let results: DotNetPopupContent[] | null = await popupRef
                     .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
                 return results?.map(buildJsPopupContent);
@@ -1109,8 +1071,7 @@ export function buildJsAlgorithmicColorRamp(dotNetAlgorithmicColorRamp: any): Al
 
 export function buildJsDimensionalDefinition(dotNetMultidimensionalDefinition: any): DimensionalDefinition | null {
     if (dotNetMultidimensionalDefinition == undefined) return null;
-    let multidimensionalDefinition = new DimensionalDefinition();
-    multidimensionalDefinition = dotNetMultidimensionalDefinition;
+    let multidimensionalDefinition = dotNetMultidimensionalDefinition;
     return multidimensionalDefinition;
 }
 
@@ -1710,16 +1671,6 @@ export function buildJsFeatureEffect(dnFeatureEffect: DotNetFeatureEffect): Feat
     }
 
     return featureEffect;
-}
-
-export function buildJsFeatureTemplate(dnFeatureTemplate: DotNetFeatureTemplate, viewId: string | null): FeatureTemplate {
-    return {
-        name: dnFeatureTemplate.name,
-        description: dnFeatureTemplate.description,
-        drawingTool: dnFeatureTemplate.drawingTool as any,
-        thumbnail: dnFeatureTemplate.thumbnail as any,
-        prototype: buildJsGraphic(dnFeatureTemplate.prototype, null, viewId)
-    } as FeatureTemplate
 }
 
 export function buildJsFeatureFilter(dnFeatureFilter: DotNetFeatureFilter): FeatureFilter | null {

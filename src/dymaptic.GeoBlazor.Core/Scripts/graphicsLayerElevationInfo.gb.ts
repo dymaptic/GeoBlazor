@@ -99,6 +99,15 @@ export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: a
             dotNetGraphicsLayerElevationInfo.unit = jsObject.unit;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGraphicsLayerElevationInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetGraphicsLayerElevationInfo;
 }
 

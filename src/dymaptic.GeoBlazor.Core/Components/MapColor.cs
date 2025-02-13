@@ -249,6 +249,11 @@ internal class MapColorConverter : JsonConverter<MapColor>
         if (reader.TokenType == JsonTokenType.StartArray)
         {
             double[] values = JsonSerializer.Deserialize<double[]>(ref reader, options)!;
+            
+            if (values is [_, _, _, > 1])
+            {
+                values[3] /= 255.0;
+            }
 
             return new MapColor(values);
         }

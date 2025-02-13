@@ -70,7 +70,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     return jsBasemapStyle;
 }
 
-export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -94,6 +94,15 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: s
         if (hasValue(jsObject.worldview)) {
             dotNetBasemapStyle.worldview = jsObject.worldview;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetBasemapStyle.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetBasemapStyle;
 }

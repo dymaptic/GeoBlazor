@@ -23,6 +23,14 @@ export default class PictureFillSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -34,10 +42,11 @@ export default class PictureFillSymbolGenerated implements IPropertyWrapper {
 
 export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPictureFillSymbol = new PictureFillSymbol();
-
     if (hasValue(dotNetObject.color)) {
-        jsPictureFillSymbol.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsPictureFillSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.height)) {
         jsPictureFillSymbol.height = dotNetObject.height;
     }
@@ -92,7 +101,8 @@ export async function buildDotNetPictureFillSymbolGenerated(jsObject: any): Prom
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.color)) {
-            dotNetPictureFillSymbol.color = jsObject.color;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetPictureFillSymbol.color = buildDotNetMapColor(jsObject.color);
         }
         if (hasValue(jsObject.height)) {
             dotNetPictureFillSymbol.height = jsObject.height;
@@ -121,6 +131,15 @@ export async function buildDotNetPictureFillSymbolGenerated(jsObject: any): Prom
         if (hasValue(jsObject.yscale)) {
             dotNetPictureFillSymbol.yscale = jsObject.yscale;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPictureFillSymbol.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPictureFillSymbol;
 }

@@ -99,6 +99,15 @@ export async function buildDotNetGeoJSONLayerElevationInfoGenerated(jsObject: an
             dotNetGeoJSONLayerElevationInfo.unit = jsObject.unit;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGeoJSONLayerElevationInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetGeoJSONLayerElevationInfo;
 }
 

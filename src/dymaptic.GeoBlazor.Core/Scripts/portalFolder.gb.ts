@@ -25,7 +25,7 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     
     async getPortal(): Promise<any> {
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
@@ -93,6 +93,15 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<a
         if (hasValue(jsObject.url)) {
             dotNetPortalFolder.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPortalFolder.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPortalFolder;
 }

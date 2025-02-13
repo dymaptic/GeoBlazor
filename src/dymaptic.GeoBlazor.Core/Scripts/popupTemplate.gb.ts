@@ -30,7 +30,7 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     async getExpressionInfos(): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(i => buildDotNetExpressionInfo(i));
+        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
     }
     
     async setExpressionInfos(value: any): Promise<void> {
@@ -40,12 +40,12 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(i => buildDotNetFieldInfo(i));
+        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
     }
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
     }
     
     async getLayerOptions(): Promise<any> {
@@ -80,7 +80,7 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
+        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i)) as any;
     }
     if (hasValue(dotNetObject.layerOptions)) {
         let { buildJsLayerOptions } = await import('./layerOptions');
@@ -132,17 +132,14 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         dotNetPopupTemplate.actions = jsObject.actions;
-        if (hasValue(jsObject.content)) {
-            let { buildDotNetPopupContent } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.content = jsObject.content.map(i => buildDotNetPopupContent(i));
-        }
+        dotNetPopupTemplate.content = jsObject.content;
         if (hasValue(jsObject.expressionInfos)) {
-            let { buildDotNetExpressionInfo } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
+            let { buildDotNetExpressionInfo } = await import('./expressionInfo');
+            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
         }
         if (hasValue(jsObject.fieldInfos)) {
-            let { buildDotNetFieldInfo } = await import('./dotNetBuilder');
-            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
+            let { buildDotNetFieldInfo } = await import('./fieldInfo');
+            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
         }
         if (hasValue(jsObject.layerOptions)) {
             let { buildDotNetLayerOptions } = await import('./layerOptions');
@@ -163,6 +160,15 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         if (hasValue(jsObject.title)) {
             dotNetPopupTemplate.title = jsObject.title;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPopupTemplate.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPopupTemplate;
 }

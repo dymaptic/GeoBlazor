@@ -113,6 +113,15 @@ export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promi
             dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRasterSensorInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetRasterSensorInfo;
 }
 

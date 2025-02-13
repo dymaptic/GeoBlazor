@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components.Renderers;
+﻿namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     The IImageryRenderer is an interface for a group of renderers used for Imagery Layers

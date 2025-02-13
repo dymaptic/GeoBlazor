@@ -221,6 +221,15 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
             dotNetAuthoringInfo.univariateTheme = jsObject.univariateTheme;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAuthoringInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetAuthoringInfo;
 }
 

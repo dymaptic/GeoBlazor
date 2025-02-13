@@ -23,6 +23,14 @@ export default class ColorStopGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -34,10 +42,11 @@ export default class ColorStopGenerated implements IPropertyWrapper {
 
 export async function buildJsColorStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorStop = new ColorStop();
-
     if (hasValue(dotNetObject.color)) {
-        jsColorStop.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsColorStop.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.label)) {
         jsColorStop.label = dotNetObject.label;
     }
@@ -74,7 +83,8 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.color)) {
-            dotNetColorStop.color = jsObject.color;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetColorStop.color = buildDotNetMapColor(jsObject.color);
         }
         if (hasValue(jsObject.label)) {
             dotNetColorStop.label = jsObject.label;
@@ -82,6 +92,15 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         if (hasValue(jsObject.value)) {
             dotNetColorStop.value = jsObject.value;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetColorStop.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetColorStop;
 }

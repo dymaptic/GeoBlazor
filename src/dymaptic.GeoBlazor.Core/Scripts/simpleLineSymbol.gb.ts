@@ -42,6 +42,9 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
 
 export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleLineSymbol = new SimpleLineSymbol();
+    if (hasValue(dotNetObject.color)) {
+        jsSimpleLineSymbol.color = dotNetObject.mapColor;
+    }
     if (hasValue(dotNetObject.marker)) {
         let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');
         jsSimpleLineSymbol.marker = await buildJsLineSymbolMarker(dotNetObject.marker, layerId, viewId) as any;
@@ -49,9 +52,6 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
 
     if (hasValue(dotNetObject.cap)) {
         jsSimpleLineSymbol.cap = dotNetObject.cap;
-    }
-    if (hasValue(dotNetObject.color)) {
-        jsSimpleLineSymbol.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.join)) {
         jsSimpleLineSymbol.join = dotNetObject.join;
@@ -85,7 +85,7 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     return jsSimpleLineSymbol;
 }
 
-export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -94,15 +94,13 @@ export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any, layerI
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        dotNetSimpleLineSymbol.color = jsObject.color;
         if (hasValue(jsObject.marker)) {
             let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
             dotNetSimpleLineSymbol.marker = await buildDotNetLineSymbolMarker(jsObject.marker);
         }
         if (hasValue(jsObject.cap)) {
             dotNetSimpleLineSymbol.cap = jsObject.cap;
-        }
-        if (hasValue(jsObject.color)) {
-            dotNetSimpleLineSymbol.color = jsObject.color;
         }
         if (hasValue(jsObject.join)) {
             dotNetSimpleLineSymbol.join = jsObject.join;
@@ -119,6 +117,15 @@ export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any, layerI
         if (hasValue(jsObject.width)) {
             dotNetSimpleLineSymbol.width = jsObject.width;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSimpleLineSymbol.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetSimpleLineSymbol;
 }

@@ -36,7 +36,7 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -71,7 +71,7 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
     
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -79,7 +79,7 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
     }
     async getTileInfo(): Promise<any> {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -104,9 +104,6 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsElevationLayer = new ElevationLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsElevationLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsElevationLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -125,6 +122,9 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.copyright)) {
         jsElevationLayer.copyright = dotNetObject.copyright;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsElevationLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsElevationLayer.listMode = dotNetObject.listMode;
@@ -161,7 +161,7 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     return jsElevationLayer;
 }
 
-export async function buildDotNetElevationLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -172,14 +172,14 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any, layerId:
     };
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetElevationLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetElevationLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
-            dotNetElevationLayer.tileInfo = buildDotNetTileInfo(jsObject.tileInfo);
+            let { buildDotNetTileInfo } = await import('./tileInfo');
+            dotNetElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -218,6 +218,15 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any, layerId:
         if (hasValue(jsObject.url)) {
             dotNetElevationLayer.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetElevationLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetElevationLayer;
 }

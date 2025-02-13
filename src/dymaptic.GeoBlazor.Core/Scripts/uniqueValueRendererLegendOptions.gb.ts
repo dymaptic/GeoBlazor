@@ -71,6 +71,15 @@ export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObj
             dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetUniqueValueRendererLegendOptions.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetUniqueValueRendererLegendOptions;
 }
 

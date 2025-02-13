@@ -77,6 +77,15 @@ export async function buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo
             dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGraphicsLayerElevationInfoFeatureExpressionInfo.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetGraphicsLayerElevationInfoFeatureExpressionInfo;
 }
 

@@ -1,7 +1,6 @@
 ﻿import Popup from "@arcgis/core/widgets/Popup";
-import {buildDotNetGraphic} from "./dotNetBuilder";
 import {DotNetGraphic, IPropertyWrapper} from "./definitions";
-import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import {dotNetRefs} from "./arcGisJsInterop";
 import {buildJsSymbol} from "./jsBuilder";
 import Symbol from "@arcgis/core/symbols/Symbol";
 
@@ -30,8 +29,9 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
         this.popup.close();
     }
 
-    fetchFeatures(): Array<DotNetGraphic> {
-        return this.popup.features.map((g) => buildDotNetGraphic(g) as DotNetGraphic);
+    async fetchFeatures(): Promise<Array<DotNetGraphic>> {
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.popup.features.map((g) => buildDotNetGraphic(g, null, null) as DotNetGraphic);
     }
 
     getFeatureCount(): number {
@@ -40,10 +40,10 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
 
     async getSelectedFeature(viewId: string | null): Promise<DotNetGraphic | null> {
         let feature = this.popup.selectedFeature;
-        let graphic = buildDotNetGraphic(feature);
+        let { buildDotNetGraphic } = await import('./graphic');
+        let graphic = buildDotNetGraphic(feature, null, viewId);
         if (viewId !== null && graphic !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
-            graphicsRefs[graphic.id as string] = feature;
         }
         return graphic;
     }

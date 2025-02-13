@@ -25,15 +25,11 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     
     async getAuthoringInfo(): Promise<any> {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        return buildDotNetAuthoringInfo(this.component.authoringInfo);
+        return await buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
         this.component.authoringInfo =  buildJsAuthoringInfo(value);
-    }
-    async getSymbol(): Promise<any> {
-        let { buildDotNetSymbol } = await import('./symbol');
-        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
@@ -101,13 +97,10 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./dotNetBuilder');
-            dotNetSimpleRenderer.authoringInfo = buildDotNetAuthoringInfo(jsObject.authoringInfo);
+            let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
+            dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./dotNetBuilder');
-            dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
+        dotNetSimpleRenderer.symbol = jsObject.symbol;
         dotNetSimpleRenderer.visualVariables = jsObject.visualVariables;
         if (hasValue(jsObject.label)) {
             dotNetSimpleRenderer.label = jsObject.label;
@@ -115,6 +108,15 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         if (hasValue(jsObject.type)) {
             dotNetSimpleRenderer.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSimpleRenderer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetSimpleRenderer;
 }

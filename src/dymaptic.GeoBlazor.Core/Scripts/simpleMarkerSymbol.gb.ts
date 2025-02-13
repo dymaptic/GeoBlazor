@@ -34,12 +34,12 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
 
 export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
+    if (hasValue(dotNetObject.color)) {
+        jsSimpleMarkerSymbol.color = dotNetObject.mapColor;
+    }
 
     if (hasValue(dotNetObject.angle)) {
         jsSimpleMarkerSymbol.angle = dotNetObject.angle;
-    }
-    if (hasValue(dotNetObject.color)) {
-        jsSimpleMarkerSymbol.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.outline)) {
         jsSimpleMarkerSymbol.outline = dotNetObject.outline;
@@ -79,7 +79,7 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, laye
     return jsSimpleMarkerSymbol;
 }
 
-export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -88,11 +88,9 @@ export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any, laye
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        dotNetSimpleMarkerSymbol.color = jsObject.color;
         if (hasValue(jsObject.angle)) {
             dotNetSimpleMarkerSymbol.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.color)) {
-            dotNetSimpleMarkerSymbol.color = jsObject.color;
         }
         if (hasValue(jsObject.outline)) {
             dotNetSimpleMarkerSymbol.outline = jsObject.outline;
@@ -115,6 +113,15 @@ export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any, laye
         if (hasValue(jsObject.yoffset)) {
             dotNetSimpleMarkerSymbol.yoffset = jsObject.yoffset;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSimpleMarkerSymbol.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetSimpleMarkerSymbol;
 }

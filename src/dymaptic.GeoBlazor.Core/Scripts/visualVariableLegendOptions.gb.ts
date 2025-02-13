@@ -77,6 +77,15 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
             dotNetVisualVariableLegendOptions.title = jsObject.title;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetVisualVariableLegendOptions.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetVisualVariableLegendOptions;
 }
 

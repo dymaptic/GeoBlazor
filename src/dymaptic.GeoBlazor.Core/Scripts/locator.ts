@@ -1,8 +1,7 @@
 import * as locator from "@arcgis/core/rest/locator";
 import {buildJsPoint, buildJsSpatialReference} from "./jsBuilder";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
-import {buildDotNetAddressCandidate} from "./dotNetBuilder";
-import {getProtobufGraphicStream, hasValue} from "./arcGisJsInterop";
+import {hasValue} from "./arcGisJsInterop";
 import locatorSuggestLocationsParams = __esri.locatorSuggestLocationsParams;
 import locatorLocationToAddressParams = __esri.locatorLocationToAddressParams;
 import locatorAddressToLocationsParams = __esri.locatorAddressToLocationsParams;
@@ -48,6 +47,7 @@ export default class LocatorWrapper {
                 result = await locator.addressesToLocations(url, params);
             }
 
+            let { buildDotNetAddressCandidate } = await import('./addressCandidate');
             let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
             let json = JSON.stringify(dotNetResult);
@@ -106,6 +106,7 @@ export default class LocatorWrapper {
                 result = await locator.addressToLocations(url, params);
             }
 
+            let { buildDotNetAddressCandidate } = await import('./addressCandidate');
             let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
             let json = JSON.stringify(dotNetResult);
@@ -140,6 +141,7 @@ export default class LocatorWrapper {
                 result = await locator.locationToAddress(url, params);
             }
 
+            let { buildDotNetAddressCandidate } = await import('./addressCandidate');
             return buildDotNetAddressCandidate(result);
 
         } catch (error) {

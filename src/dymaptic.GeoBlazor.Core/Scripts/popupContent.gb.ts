@@ -56,7 +56,7 @@ export async function buildJsPopupContentGenerated(dotNetObject: any, layerId: s
     return jsContent;
 }
 
-export async function buildDotNetPopupContentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupContentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

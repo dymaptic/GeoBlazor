@@ -25,11 +25,11 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     
     async getFormat(): Promise<any> {
         let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
-        return buildDotNetFieldInfoFormat(this.component.format);
+        return await buildDotNetFieldInfoFormat(this.component.format);
     }
     async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format = await  buildJsFieldInfoFormat(value);
+        this.component.format =  buildJsFieldInfoFormat(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
         let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = await buildJsFieldInfoFormat(dotNetObject.format) as any;
+        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {
@@ -95,8 +95,8 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any>
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.format)) {
-            let { buildDotNetFieldInfoFormat } = await import('./dotNetBuilder');
-            dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format);
+            let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
+            dotNetFieldInfo.format = await buildDotNetFieldInfoFormat(jsObject.format);
         }
         if (hasValue(jsObject.fieldName)) {
             dotNetFieldInfo.fieldName = jsObject.fieldName;
@@ -116,6 +116,15 @@ export async function buildDotNetFieldInfoGenerated(jsObject: any): Promise<any>
         if (hasValue(jsObject.tooltip)) {
             dotNetFieldInfo.tooltip = jsObject.tooltip;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFieldInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFieldInfo;
 }

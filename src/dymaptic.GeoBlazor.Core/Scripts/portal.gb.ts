@@ -124,9 +124,6 @@ export default class PortalGenerated implements IPropertyWrapper {
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortal = new Portal();
-    if (hasValue(dotNetObject.defaultExtent)) {
-        jsPortal.defaultExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.featuredGroups)) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         jsPortal.featuredGroups = dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId)) as any;
@@ -194,6 +191,9 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.customBaseUrl)) {
         jsPortal.customBaseUrl = dotNetObject.customBaseUrl;
+    }
+    if (hasValue(dotNetObject.defaultExtent)) {
+        jsPortal.defaultExtent = dotNetObject.defaultExtent;
     }
     if (hasValue(dotNetObject.description)) {
         jsPortal.description = dotNetObject.description;
@@ -323,7 +323,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     return jsPortal;
 }
 
-export async function buildDotNetPortalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -525,6 +525,15 @@ export async function buildDotNetPortalGenerated(jsObject: any, layerId: string 
         if (hasValue(jsObject.vectorBasemapGalleryGroupQuery)) {
             dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPortal.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPortal;
 }

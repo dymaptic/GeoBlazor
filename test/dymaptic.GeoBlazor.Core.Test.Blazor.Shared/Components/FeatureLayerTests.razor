@@ -98,6 +98,9 @@
         AddMapRenderFragment(
             @<MapView class="map-view" OnViewRendered="renderHandler" OnLayerViewCreate="OnLayerViewCreate">
                 <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+                    </Basemap>
                     <FeatureLayer @ref="layer">
                         <PortalItem PortalItemId="449887ea7d60429fbf6f0c67881f2758" />
                     </FeatureLayer>

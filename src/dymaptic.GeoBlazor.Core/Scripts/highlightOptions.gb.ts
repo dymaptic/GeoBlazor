@@ -23,6 +23,30 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
+    async getHaloColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.haloColor);
+    }
+    async setHaloColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.haloColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
+    async getShadowColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.shadowColor);
+    }
+    async setShadowColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.shadowColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -34,21 +58,24 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
 
 export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHighlightOptions: any = {}
-
     if (hasValue(dotNetObject.color)) {
-        jsHighlightOptions.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsHighlightOptions.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.haloColor)) {
+        let { buildJsMapColor } = await import('./mapColor');
+        jsHighlightOptions.haloColor = await buildJsMapColor(dotNetObject.haloColor, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.shadowColor)) {
+        let { buildJsMapColor } = await import('./mapColor');
+        jsHighlightOptions.shadowColor = await buildJsMapColor(dotNetObject.shadowColor, layerId, viewId) as any;
+    }
+
     if (hasValue(dotNetObject.fillOpacity)) {
         jsHighlightOptions.fillOpacity = dotNetObject.fillOpacity;
     }
-    if (hasValue(dotNetObject.haloColor)) {
-        jsHighlightOptions.haloColor = dotNetObject.haloColor;
-    }
     if (hasValue(dotNetObject.haloOpacity)) {
         jsHighlightOptions.haloOpacity = dotNetObject.haloOpacity;
-    }
-    if (hasValue(dotNetObject.shadowColor)) {
-        jsHighlightOptions.shadowColor = dotNetObject.shadowColor;
     }
     if (hasValue(dotNetObject.shadowDifference)) {
         jsHighlightOptions.shadowDifference = dotNetObject.shadowDifference;
@@ -86,19 +113,22 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.color)) {
-            dotNetHighlightOptions.color = jsObject.color;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.color = buildDotNetMapColor(jsObject.color);
+        }
+        if (hasValue(jsObject.haloColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.haloColor = buildDotNetMapColor(jsObject.haloColor);
+        }
+        if (hasValue(jsObject.shadowColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetHighlightOptions.shadowColor = buildDotNetMapColor(jsObject.shadowColor);
         }
         if (hasValue(jsObject.fillOpacity)) {
             dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
         }
-        if (hasValue(jsObject.haloColor)) {
-            dotNetHighlightOptions.haloColor = jsObject.haloColor;
-        }
         if (hasValue(jsObject.haloOpacity)) {
             dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
-        }
-        if (hasValue(jsObject.shadowColor)) {
-            dotNetHighlightOptions.shadowColor = jsObject.shadowColor;
         }
         if (hasValue(jsObject.shadowDifference)) {
             dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
@@ -106,6 +136,15 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         if (hasValue(jsObject.shadowOpacity)) {
             dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetHighlightOptions.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetHighlightOptions;
 }

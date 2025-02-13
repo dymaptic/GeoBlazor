@@ -339,7 +339,7 @@ public async Task<SearchResultResponse[]> GetResults()
     [CodeGenerationIgnore]
 public async Task<SuggestResult[]> GetSuggestions()
     {
-        return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
+        return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getProperty", "suggestions");
     }
 
     /// <summary>

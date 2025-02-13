@@ -13,7 +13,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
     let { buildJsLayerViewGenerated } = await import('./layerView.gb');
     return await buildJsLayerViewGenerated(dotNetObject, layerId, viewId);
 }
-export async function buildDotNetLayerView(jsObject: any, layerId, viewId): Promise<any> {
+export async function buildDotNetLayerView(jsObject: any): Promise<any> {
     let { buildDotNetLayerViewGenerated } = await import('./layerView.gb');
-    return await buildDotNetLayerViewGenerated(jsObject, layerId, viewId);
+    let result = await buildDotNetLayerViewGenerated(jsObject);
+    result.type = jsObject.layer.type;
 }

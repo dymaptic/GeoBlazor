@@ -34,7 +34,7 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -92,9 +92,6 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseTileLayer = new BaseTileLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsBaseTileLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         jsBaseTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
@@ -112,6 +109,9 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.effect)) {
         jsBaseTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsBaseTileLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsBaseTileLayer.listMode = dotNetObject.listMode;
@@ -171,11 +171,11 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetBaseTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetBaseTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -220,6 +220,15 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
         if (hasValue(jsObject.type)) {
             dotNetBaseTileLayer.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetBaseTileLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetBaseTileLayer;
 }

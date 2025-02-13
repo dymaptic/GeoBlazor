@@ -25,11 +25,11 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     
     async getFilter(): Promise<any> {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter);
     }
     async setFilter(value: any): Promise<void> {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter =  buildJsFeatureFilter(value);
+        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     let jsFeatureEffect = new FeatureEffect();
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
-        jsFeatureEffect.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
+        jsFeatureEffect.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.excludedEffect)) {
@@ -76,7 +76,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     return jsFeatureEffect;
 }
 
-export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -87,7 +87,7 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: 
     };
         if (hasValue(jsObject.filter)) {
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+            dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
         if (hasValue(jsObject.excludedEffect)) {
             dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect;
@@ -98,6 +98,15 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: 
         if (hasValue(jsObject.includedEffect)) {
             dotNetFeatureEffect.includedEffect = jsObject.includedEffect;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFeatureEffect.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFeatureEffect;
 }

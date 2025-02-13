@@ -83,6 +83,15 @@ export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<an
             dotNetOpacityStop.value = jsObject.value;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetOpacityStop.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetOpacityStop;
 }
 

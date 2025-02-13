@@ -89,6 +89,15 @@ export async function buildDotNetCapabilitiesDataGenerated(jsObject: any): Promi
             dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesData.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesData;
 }
 

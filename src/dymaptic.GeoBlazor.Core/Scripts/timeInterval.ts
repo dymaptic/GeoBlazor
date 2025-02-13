@@ -15,5 +15,5 @@ export async function buildJsTimeInterval(dotNetObject: any, layerId: string | n
 }
 export async function buildDotNetTimeInterval(jsObject: any): Promise<any> {
     let { buildDotNetTimeIntervalGenerated } = await import('./timeInterval.gb');
-    return await buildDotNetTimeIntervalGenerated(jsObject);
+    return buildDotNetTimeIntervalGenerated(jsObject);
 }

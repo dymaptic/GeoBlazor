@@ -46,7 +46,7 @@ export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any
     let jsRelationshipContent = new RelationshipContent();
     if (hasValue(dotNetObject.orderByFields)) {
         let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        jsRelationshipContent.orderByFields = dotNetObject.orderByFields.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, layerId, viewId)) as any;
+        jsRelationshipContent.orderByFields = await Promise.all(dotNetObject.orderByFields.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -95,8 +95,9 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
     };
         if (hasValue(jsObject.orderByFields)) {
             let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelationshipPopupContent.orderByFields = jsObject.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i));
+            dotNetRelationshipPopupContent.orderByFields = await Promise.all(jsObject.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i)));
         }
+        dotNetRelationshipPopupContent.type = jsObject.type;
         if (hasValue(jsObject.description)) {
             dotNetRelationshipPopupContent.description = jsObject.description;
         }
@@ -112,9 +113,15 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
         if (hasValue(jsObject.title)) {
             dotNetRelationshipPopupContent.title = jsObject.title;
         }
-        if (hasValue(jsObject.type)) {
-            dotNetRelationshipPopupContent.type = jsObject.type;
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRelationshipPopupContent.id = k;
+                break;
+            }
         }
+    }
 
     return dotNetRelationshipPopupContent;
 }

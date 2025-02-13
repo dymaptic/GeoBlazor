@@ -65,7 +65,7 @@ export async function buildJsFormElementGenerated(dotNetObject: any, layerId: st
     return jsElement;
 }
 
-export async function buildDotNetFormElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFormElementGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

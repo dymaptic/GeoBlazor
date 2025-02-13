@@ -1,6 +1,7 @@
 // override generated code in this file
 import AuthoringInfoGenerated from './authoringInfo.gb';
 import AuthoringInfo from '@arcgis/core/renderers/support/AuthoringInfo';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class AuthoringInfoWrapper extends AuthoringInfoGenerated {
 
@@ -15,5 +16,12 @@ export async function buildJsAuthoringInfo(dotNetObject: any, layerId: string | 
 }
 export async function buildDotNetAuthoringInfo(jsObject: any): Promise<any> {
     let { buildDotNetAuthoringInfoGenerated } = await import('./authoringInfo.gb');
-    return await buildDotNetAuthoringInfoGenerated(jsObject);
+    let dnAuthoringInfo = await buildDotNetAuthoringInfoGenerated(jsObject);
+    if (hasValue(jsObject.colorRamp)) {
+        dnAuthoringInfo.colorRamp = {
+            type: jsObject.colorRamp.type
+        };
+    }
+    
+    return dnAuthoringInfo;
 }

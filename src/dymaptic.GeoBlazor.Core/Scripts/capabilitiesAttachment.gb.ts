@@ -107,6 +107,15 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any):
             dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesAttachment.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesAttachment;
 }
 

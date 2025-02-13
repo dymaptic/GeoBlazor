@@ -56,10 +56,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
         let { buildJsLOD } = await import('./lOD');
         jsTileInfo.lods = dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId)) as any;
     }
-    if (hasValue(dotNetObject.origin)) {
-        let { buildJsPoint } = await import('./jsBuilder');
-        jsTileInfo.origin = buildJsPoint(dotNetObject.origin) as any;
-    }
 
     if (hasValue(dotNetObject.dpi)) {
         jsTileInfo.dpi = dotNetObject.dpi;
@@ -69,6 +65,9 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.isWrappable)) {
         jsTileInfo.isWrappable = dotNetObject.isWrappable;
+    }
+    if (hasValue(dotNetObject.origin)) {
+        jsTileInfo.origin = dotNetObject.origin;
     }
     if (hasValue(dotNetObject.size)) {
         jsTileInfo.size = dotNetObject.size;
@@ -127,6 +126,15 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
         if (hasValue(jsObject.spatialReference)) {
             dotNetTileInfo.spatialReference = jsObject.spatialReference;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetTileInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetTileInfo;
 }

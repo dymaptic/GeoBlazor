@@ -33,7 +33,7 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     }
     async getInterval(): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return buildDotNetTimeInterval(this.component.interval);
+        return await buildDotNetTimeInterval(this.component.interval);
     }
     async setInterval(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
@@ -104,12 +104,12 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.fullTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
         }
         if (hasValue(jsObject.interval)) {
-            let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetTimeInfo.interval = buildDotNetTimeInterval(jsObject.interval);
+            let { buildDotNetTimeInterval } = await import('./timeInterval');
+            dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
         }
         if (hasValue(jsObject.endField)) {
             dotNetTimeInfo.endField = jsObject.endField;
@@ -126,6 +126,15 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
         if (hasValue(jsObject.trackIdField)) {
             dotNetTimeInfo.trackIdField = jsObject.trackIdField;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetTimeInfo.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetTimeInfo;
 }

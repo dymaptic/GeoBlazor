@@ -45,7 +45,7 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     
     async getLineSymbol(): Promise<any> {
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol, this.layerId, this.viewId);
+        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
     }
     async setLineSymbol(value: any): Promise<void> {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
@@ -53,7 +53,7 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     }
     async getPolygonSymbol(): Promise<any> {
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol, this.layerId, this.viewId);
+        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
     }
     async setPolygonSymbol(value: any): Promise<void> {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
@@ -78,9 +78,6 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoRSSLayer = new GeoRSSLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsGeoRSSLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
         jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
@@ -105,6 +102,9 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.effect)) {
         jsGeoRSSLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsGeoRSSLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         jsGeoRSSLayer.legendEnabled = dotNetObject.legendEnabled;
@@ -157,7 +157,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     return jsGeoRSSLayer;
 }
 
-export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -168,15 +168,15 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: st
     };
         if (hasValue(jsObject.lineSymbol)) {
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol, layerId, viewId);
+            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
         }
         dotNetGeoRSSLayer.pointSymbol = jsObject.pointSymbol;
         if (hasValue(jsObject.polygonSymbol)) {
             let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol, layerId, viewId);
+            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGeoRSSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -224,6 +224,15 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: st
         if (hasValue(jsObject.url)) {
             dotNetGeoRSSLayer.url = jsObject.url;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGeoRSSLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetGeoRSSLayer;
 }

@@ -23,6 +23,22 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getFromColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.fromColor);
+    }
+    async setFromColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.fromColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
+    async getToColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.toColor);
+    }
+    async setToColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.toColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -34,15 +50,17 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
 
 export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAlgorithmicColorRamp = new AlgorithmicColorRamp();
+    if (hasValue(dotNetObject.fromColor)) {
+        let { buildJsMapColor } = await import('./mapColor');
+        jsAlgorithmicColorRamp.fromColor = await buildJsMapColor(dotNetObject.fromColor, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.toColor)) {
+        let { buildJsMapColor } = await import('./mapColor');
+        jsAlgorithmicColorRamp.toColor = await buildJsMapColor(dotNetObject.toColor, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.algorithm)) {
         jsAlgorithmicColorRamp.algorithm = dotNetObject.algorithm;
-    }
-    if (hasValue(dotNetObject.fromColor)) {
-        jsAlgorithmicColorRamp.fromColor = dotNetObject.fromColor;
-    }
-    if (hasValue(dotNetObject.toColor)) {
-        jsAlgorithmicColorRamp.toColor = dotNetObject.toColor;
     }
     let { default: AlgorithmicColorRampWrapper } = await import('./algorithmicColorRamp');
     let algorithmicColorRampWrapper = new AlgorithmicColorRampWrapper(jsAlgorithmicColorRamp);
@@ -73,18 +91,29 @@ export async function buildDotNetAlgorithmicColorRampGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.algorithm)) {
-            dotNetAlgorithmicColorRamp.algorithm = jsObject.algorithm;
-        }
         if (hasValue(jsObject.fromColor)) {
-            dotNetAlgorithmicColorRamp.fromColor = jsObject.fromColor;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetAlgorithmicColorRamp.fromColor = buildDotNetMapColor(jsObject.fromColor);
         }
         if (hasValue(jsObject.toColor)) {
-            dotNetAlgorithmicColorRamp.toColor = jsObject.toColor;
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetAlgorithmicColorRamp.toColor = buildDotNetMapColor(jsObject.toColor);
+        }
+        if (hasValue(jsObject.algorithm)) {
+            dotNetAlgorithmicColorRamp.algorithm = jsObject.algorithm;
         }
         if (hasValue(jsObject.type)) {
             dotNetAlgorithmicColorRamp.type = jsObject.type;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAlgorithmicColorRamp.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetAlgorithmicColorRamp;
 }

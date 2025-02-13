@@ -31,11 +31,11 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     
     async getFeatureEffect(): Promise<any> {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
+        return await buildDotNetFeatureEffect(this.component.featureEffect);
     }
     async getFilter(): Promise<any> {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter);
     }
     async getHighlightOptions(): Promise<any> {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
@@ -47,7 +47,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     }
     async getLayer(): Promise<any> {
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return buildDotNetFeatureLayer(this.component.layer);
+        return await buildDotNetFeatureLayer(this.component.layer);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -62,7 +62,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     let jsFeatureLayerView = new FeatureLayerView();
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./jsBuilder');
-        jsFeatureLayerView.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect) as any;
+        jsFeatureLayerView.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
@@ -99,7 +99,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     return jsFeatureLayerView;
 }
 
-export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -110,19 +110,19 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerI
     };
         if (hasValue(jsObject.featureEffect)) {
             let { buildDotNetFeatureEffect } = await import('./featureEffect');
-            dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
+            dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
         }
         if (hasValue(jsObject.filter)) {
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+            dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
         if (hasValue(jsObject.highlightOptions)) {
             let { buildDotNetHighlightOptions } = await import('./highlightOptions');
             dotNetFeatureLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
         }
         if (hasValue(jsObject.layer)) {
-            let { buildDotNetFeatureLayer } = await import('./dotNetBuilder');
-            dotNetFeatureLayerView.layer = buildDotNetFeatureLayer(jsObject.layer);
+            let { buildDotNetFeatureLayer } = await import('./featureLayer');
+            dotNetFeatureLayerView.layer = await buildDotNetFeatureLayer(jsObject.layer);
         }
         if (hasValue(jsObject.availableFields)) {
             dotNetFeatureLayerView.availableFields = jsObject.availableFields;
@@ -163,6 +163,15 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerI
         if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
             dotNetFeatureLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFeatureLayerView.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetFeatureLayerView;
 }

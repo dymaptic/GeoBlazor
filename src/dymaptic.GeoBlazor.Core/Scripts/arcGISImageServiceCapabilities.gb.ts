@@ -103,6 +103,15 @@ export async function buildDotNetArcGISImageServiceCapabilitiesGenerated(jsObjec
             dotNetArcGISImageServiceCapabilities.query = jsObject.query;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetArcGISImageServiceCapabilities.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetArcGISImageServiceCapabilities;
 }
 

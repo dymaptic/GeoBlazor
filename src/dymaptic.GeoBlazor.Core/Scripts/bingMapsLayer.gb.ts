@@ -31,8 +31,10 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
     async createLayerView(view: any,
         options: any): Promise<any> {
-        return await this.layer.createLayerView(view,
+        let result = await this.layer.createLayerView(view,
             options);
+        let { buildDotNetLayerView } = await import('./layerView');
+        return await buildDotNetLayerView(result);
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -77,6 +79,14 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         let { buildJsTileInfo } = await import('./tileInfo');
         this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
+    async getVisibilityTimeExtent(): Promise<any> {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
+    }
+    async setVisibilityTimeExtent(value: any): Promise<void> {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -91,6 +101,10 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.visibilityTimeExtent)) {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        jsBingMapsLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -141,9 +155,6 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         jsBingMapsLayer.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        jsBingMapsLayer.visibilityTimeExtent = dotNetObject.visibilityTimeExtent;
-    }
     jsBingMapsLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -168,7 +179,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     return jsBingMapsLayer;
 }
 
-export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -178,8 +189,12 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        }
+        if (hasValue(jsObject.visibilityTimeExtent)) {
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
+            dotNetBingMapsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
             dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
@@ -244,9 +259,15 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: 
         if (hasValue(jsObject.type)) {
             dotNetBingMapsLayer.type = jsObject.type;
         }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            dotNetBingMapsLayer.visibilityTimeExtent = jsObject.visibilityTimeExtent;
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetBingMapsLayer.id = k;
+                break;
+            }
         }
+    }
 
     return dotNetBingMapsLayer;
 }

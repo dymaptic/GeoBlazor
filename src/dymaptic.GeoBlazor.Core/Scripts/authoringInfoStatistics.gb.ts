@@ -77,6 +77,15 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any)
             dotNetAuthoringInfoStatistics.min = jsObject.min;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAuthoringInfoStatistics.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetAuthoringInfoStatistics;
 }
 

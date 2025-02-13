@@ -62,7 +62,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     let jsPixelBlock = new PixelBlock();
     if (hasValue(dotNetObject.statistics)) {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        jsPixelBlock.statistics = dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId)) as any;
+        jsPixelBlock.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.height)) {
@@ -117,7 +117,7 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
     };
         if (hasValue(jsObject.statistics)) {
             let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-            dotNetPixelBlock.statistics = jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i));
+            dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
         }
         if (hasValue(jsObject.height)) {
             dotNetPixelBlock.height = jsObject.height;
@@ -140,6 +140,15 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
         if (hasValue(jsObject.width)) {
             dotNetPixelBlock.width = jsObject.width;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPixelBlock.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetPixelBlock;
 }

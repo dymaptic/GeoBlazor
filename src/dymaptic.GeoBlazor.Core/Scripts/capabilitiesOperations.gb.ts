@@ -125,6 +125,15 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
             dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesOperations.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesOperations;
 }
 

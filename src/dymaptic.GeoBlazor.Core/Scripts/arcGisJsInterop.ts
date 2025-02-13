@@ -2,20 +2,10 @@
 
 // region imports
 import {
-    buildDotNetBookmark,
-    buildDotNetExtent,
-    buildDotNetGeometry,
     buildDotNetGoToOverrideParameters,
-    buildDotNetGraphic,
     buildDotNetHitTestResult,
-    buildDotNetLayer,
-    buildDotNetLayerView,
-    buildDotNetPoint,
-    buildDotNetPopupTemplate,
-    buildDotNetSpatialReference,
-    buildDotNetSymbol,
     buildViewExtentUpdate
-} from './dotNetBuilder';
+} from './mapView';
 import {
     buildJsAction,
     buildJsAttributes,
@@ -24,7 +14,6 @@ import {
     buildJsEffect,
     buildJsFields,
     buildJsGeometry,
-    buildJsGraphic,
     buildJsImageryRenderer,
     buildJsLabelClass,
     buildJsMultidimensionalSubset,
@@ -70,13 +59,11 @@ import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle";
-import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Camera from "@arcgis/core/Camera";
 import Color from "@arcgis/core/Color";
 import Compass from "@arcgis/core/widgets/Compass";
 import CSVLayer from "@arcgis/core/layers/CSVLayer";
-import DimensionalDefinition from "@arcgis/core/layers/support/DimensionalDefinition";
 import ElevationLayer from "@arcgis/core/layers/ElevationLayer";
 import esriConfig from "@arcgis/core/config";
 import Expand from "@arcgis/core/widgets/Expand";
@@ -84,13 +71,11 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import GeometryEngineWrapper from "./geometryEngine";
-import GeoRSSLayer from "@arcgis/core/layers/GeoRSSLayer";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Home from "@arcgis/core/widgets/Home";
 import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
 import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
-import KMLLayer from "@arcgis/core/layers/KMLLayer";
 import Layer from "@arcgis/core/layers/Layer";
 import LayerList from "@arcgis/core/widgets/LayerList";
 import Legend from "@arcgis/core/widgets/Legend";
@@ -115,7 +100,6 @@ import PortalBasemapsSource from "@arcgis/core/widgets/BasemapGallery/support/Po
 import ProjectionWrapper from "./projection";
 import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
-import Renderer from "@arcgis/core/renderers/Renderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import SceneView from "@arcgis/core/views/SceneView";
@@ -128,7 +112,6 @@ import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import TileInfo from "@arcgis/core/layers/support/TileInfo";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
-import WCSLayer from "@arcgis/core/layers/WCSLayer";
 import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
 import Widget from "@arcgis/core/widgets/Widget";
@@ -137,10 +120,17 @@ import HitTestResult = __esri.HitTestResult;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
-import {dot} from "node:test/reporters";
-import { buildJsExtent } from './extent';
+import {buildDotNetExtent, buildJsExtent } from './extent';
 import { buildJsPortalItem } from './portalItem';
 import SearchWidgetWrapper from "./searchWidget";
+import { buildJsGraphic } from './graphic';
+import { buildDotNetLayer } from './layer';
+import { buildDotNetPoint } from './point';
+import { buildDotNetLayerView } from './layerView';
+import { buildDotNetSpatialReference } from './spatialReference';
+import { buildDotNetGeometry } from './geometry';
+import { buildDotNetSymbol } from './symbol';
+import { buildDotNetPopupTemplate } from './popupTemplate';
 
 // region exports
 
@@ -162,20 +152,20 @@ export {
 
 export * from './jsBuilder';
 
-export let arcGisObjectRefs: Record<string, any> = {};
+export const arcGisObjectRefs: Record<string, any> = {};
 // this could be either the arcGIS object or a "wrapper" class
-export let jsObjectRefs: Record<string, any> = {};
-export let popupTemplateRefs: Record<string, Accessor> = {};
-export let graphicsRefs: Record<string, Record<string, Graphic>> = {};
-export let graphicPopupLookupRefs: Record<string, string> = {};
-export let dotNetRefs: Record<string, any> = {};
+export const jsObjectRefs: Record<string, any> = {};
+export const popupTemplateRefs: Record<string, Accessor> = {};
+export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
+export const graphicPopupLookupRefs: Record<string, string> = {};
+export const dotNetRefs: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
 // region module variables
 
 let notifyExtentChanged: boolean = true;
-let uploadingLayers: Array<string> = [];
+const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
 let Pro: any;
@@ -194,7 +184,7 @@ export async function setPro(): Promise<void> {
 // we have to wrap the JsObjectReference because a null will throw an error
 // https://github.com/dotnet/aspnetcore/issues/52070
 export async function getObjectRefForProperty(obj: any, prop: string): Promise<any> {
-    let val = await getProperty(obj, prop);
+    const val = await getProperty(obj, prop);
     return {
         // @ts-ignore
         value: hasValue(val) ? DotNet.createJSObjectReference(val) : null
@@ -214,7 +204,7 @@ export async function getProperty(obj: any, prop: string): Promise<any> {
 
 // nullable value types cannot be correctly deserialized directly with the current Blazor implementation, so we have to wrap them
 export async function getNullableValueTypedProperty(obj: any, prop: string): Promise<any> {
-    let val = await getProperty(obj, prop);
+    const val = await getProperty(obj, prop);
     return {
         value: val
     };
@@ -249,7 +239,7 @@ export function removeFromProperty(obj, prop, value) {
 }
 
 export function getJsComponent(id: string) {
-    let component = jsObjectRefs[id];
+    const component = jsObjectRefs[id];
     
     if (hasValue(component)) {
         // @ts-ignore
@@ -259,7 +249,7 @@ export function getJsComponent(id: string) {
 }
 
 export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
-    let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
+    const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer)) {
         setProperty(sublayer, prop, value);
     }
@@ -267,7 +257,7 @@ export function setSublayerProperty(layerObj: any, sublayerId: number, prop: str
 
 export function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, layerId: string | null, 
                                          viewId: string) {
-    let sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
+    const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
         sublayer.popupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     }
@@ -314,7 +304,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         notifyExtentChanged = false;
         userChangedViewExtent = false;
         blazorServer = isServer;
-        let dotNetRef = dotNetReference;
+        const dotNetRef = dotNetReference;
         if (!projection.isLoaded()) {
             await projection.load();
         }
@@ -329,14 +319,14 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let view: View;
 
         let basemap: Basemap | undefined = undefined;
-        let basemapBaseLayers: any[] = [];
-        let basemapReferenceLayers: any[] = [];
+        const basemapBaseLayers: any[] = [];
+        const basemapReferenceLayers: any[] = [];
         if (!mapType.startsWith('web')) {
             if (mapObject.arcGISDefaultBasemap !== undefined &&
                 mapObject.arcGISDefaultBasemap !== null) {
                 basemap = mapObject.arcGISDefaultBasemap;
             } else if (hasValue(mapObject.basemap?.style)) {
-                let style = new BasemapStyle({
+                const style = new BasemapStyle({
                     id: mapObject.basemap.style.name
                 });
                 if (hasValue(mapObject.basemap.style.language)) {
@@ -347,7 +337,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 }
                 basemap = new Basemap({ style: style })
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
-                let portalItem = await buildJsPortalItem(mapObject.basemap.portalItem, mapObject.basemap.id, id);
+                const portalItem = await buildJsPortalItem(mapObject.basemap.portalItem, mapObject.basemap.id, id);
                 basemap = new Basemap({ portalItem: portalItem });
             } else if (mapObject.basemap?.baseLayers?.length > 0 || mapObject.basemap?.referenceLayers?.length > 0) {
                 if (hasValue(mapObject.basemap.baseLayers)) {
@@ -375,7 +365,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         switch (mapType) {
             case 'webmap':
                 let webMap: WebMap;
-                let portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
+                const portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
                 webMap = new WebMap({ portalItem: portalItem });
                 view = new MapView({
                     container: `map-container-${id}`,
@@ -384,7 +374,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 break;
             case 'webscene':
                 let webScene: WebScene;
-                let scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
+                const scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
                 webScene = new WebScene({ portalItem: scenePortalItem });
                 view = new SceneView({
                     container: `map-container-${id}`,
@@ -441,10 +431,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
 
-        setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
+        await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
 
         // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
-        let popupWidget = widgets.find(w => w.type === 'popup');
+        const popupWidget = widgets.find(w => w.type === 'popup');
         if (hasValue(popupWidget)) {
             await addWidget(popupWidget, id);
         } else {
@@ -521,11 +511,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     }
 }
 
-function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-    activeEventHandlers: Array<string>, viewId: string): void {
-    view.on('click', (evt) => {
+async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
+    activeEventHandlers: Array<string>, viewId: string): Promise<void> {
+    view.on('click', async (evt) => {
         evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
-        dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
+        await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
     });
 
     view.on('double-click', (evt) => {
@@ -569,7 +559,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
 
     view.on('drag', (evt) => {
         userChangedViewExtent = true;
-        let dragCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
+        const dragCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptDrag', evt);
         debounce(dragCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
@@ -593,7 +583,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         if (pointerDown) {
             userChangedViewExtent = true;
         }
-        let pointerMoveCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
+        const pointerMoveCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptPointerMove', evt);
         debounce(pointerMoveCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
@@ -617,7 +607,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.on('layerview-create', async (evt) => {
         try {
             // find objectRef id by layer
-            let layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+            const layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
 
             let isBasemapLayer = false;
             let isReferenceLayer = false;
@@ -633,28 +623,28 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             let jsLayerView: any = evt.layerView;
 
             if (jsLayer.type == 'feature') {
-                let { default: FeatureLayerWrapper } = await import('./featureLayer');
+                const { default: FeatureLayerWrapper } = await import('./featureLayer');
                 jsLayer = new FeatureLayerWrapper(jsLayer);
-                let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+                const { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
                 jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
             }
 
             // @ts-ignore
-            let layerRef = DotNet.createJSObjectReference(jsLayer);
+            const layerRef = DotNet.createJSObjectReference(jsLayer);
             // @ts-ignore
-            let layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+            const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
 
-            let result = {
+            const result = {
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
                 layerView: buildDotNetLayerView(evt.layerView),
-                layer: buildDotNetLayer(evt.layer),
+                layer: await buildDotNetLayer(evt.layer),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
             }
 
-            let layerUid = evt.layer.id;
+            const layerUid = evt.layer.id;
             if (uploadingLayers.includes(layerUid)) {
                 return;
             }
@@ -676,19 +666,19 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
             // return dotNetResult in small chunks to avoid memory issues in Blazor Server
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
-            let jsonLayerResult = JSON.stringify(result.layer);
-            let jsonLayerViewResult = JSON.stringify(result.layerView);
-            let chunkSize = 1000;
+            const jsonLayerResult = JSON.stringify(result.layer);
+            const jsonLayerViewResult = JSON.stringify(result.layerView);
+            const chunkSize = 1000;
             let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
 
             for (let i = 0; i < chunks; i++) {
-                let chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
+                const chunk = jsonLayerResult.slice(i * chunkSize, (i + 1) * chunkSize);
                 await dotNetRef.invokeMethodAsync('OnJavascriptLayerCreateChunk', layerUid, chunk, i);
             }
 
             chunks = Math.ceil(jsonLayerViewResult.length / chunkSize);
             for (let i = 0; i < chunks; i++) {
-                let chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
+                const chunk = jsonLayerViewResult.slice(i * chunkSize, (i + 1) * chunkSize);
                 await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateChunk', layerUid, chunk, i);
             }
 
@@ -719,13 +709,13 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     
     view.on('mouse-wheel', (evt) => {
         userChangedViewExtent = true;
-        let mouseWheelCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
+        const mouseWheelCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
         debounce(mouseWheelCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
     view.on('resize', (evt) => {
         userChangedViewExtent = true;
-        let resizeCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
+        const resizeCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptResize', evt);
         debounce(resizeCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
@@ -736,7 +726,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
     view.watch('extent', () => {
         if (!notifyExtentChanged) return;
         userChangedViewExtent = true;
-        let extentCallback = () => {
+        const extentCallback = () => {
             if (!hasValue((view as MapView).extent)) {
                 return;
             }
@@ -812,28 +802,28 @@ export async function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: str
 }
 
 export function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
-    let layer = arcGisObjectRefs[layerId] as TileLayer;
+    const layer = arcGisObjectRefs[layerId] as TileLayer;
     arcGisObjectRefs[sublayerGeoBlazorId] = layer.allSublayers.find(sl => sl.id === sublayerId);
 }
 
 export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
     : Promise<DotNetHitTestResult | void> {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         let result: HitTestResult;
 
         if (options !== null) {
-            let hitOptions = buildHitTestOptions(options, view);
+            const hitOptions = buildHitTestOptions(options, view);
             result = await view.hitTest(screenPoint, hitOptions);
         } else {
             result = await view.hitTest(screenPoint);
         }
 
-        let dotNetResult = buildDotNetHitTestResult(result, viewId);
+        const dotNetResult = await buildDotNetHitTestResult(result, viewId);
         if (dotNetResult.results.length > 0) {
-            let streamRef = getProtobufViewHitStream(dotNetResult.results);
+            const streamRef = getProtobufViewHitStream(dotNetResult.results);
             dotNetResult.results = [];
-            let dotNetRef = dotNetRefs[viewId];
+            const dotNetRef = dotNetRefs[viewId];
             await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);    
         }
         
@@ -844,19 +834,19 @@ export async function hitTest(screenPoint: any, viewId: string, options: DotNetH
 }
 
 export function toMap(screenPoint: any, viewId: string): DotNetPoint | null {
-    let view = arcGisObjectRefs[viewId] as MapView;
-    let mapPoint = view.toMap(screenPoint);
+    const view = arcGisObjectRefs[viewId] as MapView;
+    const mapPoint = view.toMap(screenPoint);
     return buildDotNetPoint(mapPoint);
 }
 
 export function toScreen(mapPoint: any, viewId: string): ScreenPoint {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     return view.toScreen(buildJsPoint(mapPoint) as Point);
 }
 
 export function disposeView(viewId: string): void {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         view?.destroy();
         delete arcGisObjectRefs[viewId];
         delete dotNetRefs[viewId];
@@ -871,10 +861,10 @@ export function disposeView(viewId: string): void {
 
 export function disposeMapComponent(componentId: string, viewId: string): void {
     try {
-        let component = arcGisObjectRefs[componentId];
+        const component = arcGisObjectRefs[componentId];
         switch (component?.declaredClass) {
             case 'esri.Graphic':
-                let graphic = component as Graphic;
+                const graphic = component as Graphic;
                 (graphic?.layer as GraphicsLayer)?.graphics.remove(graphic);
                 break;
         }
@@ -888,7 +878,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
         if (jsObjectRefs.hasOwnProperty(componentId)) {
             delete jsObjectRefs[componentId];
         }
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         view?.ui?.remove(component as any);
         disposeGraphic(componentId);
     } catch (error) {
@@ -899,7 +889,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
 export function disposeGraphic(graphicId: string) {
     try {
         for (const layerId in graphicsRefs) {
-            let layerGraphics = graphicsRefs[layerId];
+            const layerGraphics = graphicsRefs[layerId];
             if (layerGraphics.hasOwnProperty(graphicId)) {
                 layerGraphics[graphicId]?.destroy();
                 delete layerGraphics[graphicId];
@@ -918,7 +908,7 @@ export function updateView(viewObject: any) {
         }
         setWaitCursor(viewObject.id);
         notifyExtentChanged = false;
-        let view = arcGisObjectRefs[viewObject.id] as View;
+        const view = arcGisObjectRefs[viewObject.id] as View;
 
         if (view instanceof MapView) {
             if (hasValue(viewObject.latitude) && hasValue(viewObject.longitude) &&
@@ -960,9 +950,9 @@ export function updateView(viewObject: any) {
 export async function setExtent(extentObject: any, viewId: string) {
     try {
         notifyExtentChanged = false;
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (!hasValue(view)) return;
-        let extent = buildJsExtent(extentObject, view.spatialReference);
+        const extent = buildJsExtent(extentObject, view.spatialReference);
         if (extent !== null) {
             view.extent = extent;
         }
@@ -974,7 +964,7 @@ export async function setExtent(extentObject: any, viewId: string) {
 
 export function setConstraints(constraintsObject: any, viewId: string) {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         view.constraints = constraintsObject;
     } catch (error) {
         logError(error, viewId);
@@ -983,7 +973,7 @@ export function setConstraints(constraintsObject: any, viewId: string) {
 
 export function setHighlightOptions(highlightOptions: any, viewId: string) {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         view.highlightOptions = highlightOptions;
     } catch (error) {
         logError(error, viewId);
@@ -992,7 +982,7 @@ export function setHighlightOptions(highlightOptions: any, viewId: string) {
 
 export function setSpatialReference(spatialReferenceObject: any, viewId: string) {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (view !== undefined) {
             view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
         }
@@ -1005,19 +995,19 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     layerId: string | null, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let query = new Query({
+        const query = new Query({
             where: queryObject.where,
             outFields: queryObject.outFields,
             returnGeometry: queryObject.returnGeometry,
             spatialRelationship: queryObject.spatialRelationship,
         });
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (queryObject.useViewExtent) {
             query.geometry = view.extent;
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
+        const popupTemplate = buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -1030,15 +1020,15 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
 export function removeGraphics(graphicWrapperIds: string[], viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
-        let graphicsToRemove: Graphic[] = [];
+        const view = arcGisObjectRefs[viewId] as View;
+        const graphicsToRemove: Graphic[] = [];
         
         for (const id of graphicWrapperIds) {
             disposeGraphic(id);
         }
         
         if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.removeMany(graphicsToRemove);
         } else {
             view.graphics.removeMany(graphicsToRemove);
@@ -1052,11 +1042,11 @@ export function removeGraphics(graphicWrapperIds: string[], viewId: string, laye
 export function removeGraphic(graphicId: string, viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
-        let graphic = graphicsRefs[layerId ?? viewId][graphicId];
+        const view = arcGisObjectRefs[viewId] as View;
+        const graphic = graphicsRefs[layerId ?? viewId][graphicId];
         disposeGraphic(graphicId);
         if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.remove(graphic);
         } else if (hasValue(view)) {
             view.graphics.remove(graphic);
@@ -1071,7 +1061,7 @@ export function removeGraphic(graphicId: string, viewId: string, layerId?: strin
 export async function updateLayer(layerObject: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
+        const currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
         
         if (currentLayer === undefined) {
             unsetWaitCursor(viewId);
@@ -1080,34 +1070,14 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
         switch (layerObject.type) {
             case 'feature':
-                let featureLayer = currentLayer as FeatureLayer;
-                if (hasValue(layerObject.portalItem)) {
-                    if (layerObject.portalItem.id !== featureLayer.portalItem.id) {
-                        featureLayer.portalItem.id = layerObject.portalItem.id;
-                        if (hasValue(layerObject.portalItem?.portal.url) &&
-                            layerObject.portalItem.portal.url !== featureLayer.portalItem.portal?.url) {
-                            featureLayer.portalItem.portal.url = layerObject.portalItem.portal.url;
-                        }
-                        if (hasValue(layerObject.portalItem?.apiKey) &&
-                            layerObject.portalItem.apiKey !== featureLayer.portalItem.apiKey) {
-                            featureLayer.portalItem.apiKey = layerObject.portalItem.apiKey;
-                        }
-                    }
-                } else if (hasValue(layerObject.url) && layerObject.url !== featureLayer.url) {
-                    featureLayer.url = layerObject.url;
-                } else {
-                    if (hasValue(layerObject.spatialReference) &&
-                        layerObject.spatialReference.wkid !== featureLayer.spatialReference.wkid) {
-                        featureLayer.spatialReference = buildJsSpatialReference(layerObject.spatialReference);
-                    }
-                }
+                const featureLayer = currentLayer as FeatureLayer;
 
                 if (hasValue(layerObject.popupTemplate)) {
                     featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
-                    let renderer = buildJsRenderer(layerObject.renderer);
+                    const renderer = buildJsRenderer(layerObject.renderer);
                     if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
@@ -1129,9 +1099,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'geojson':
-                let geoJsonLayer = currentLayer as GeoJSONLayer;
+                const geoJsonLayer = currentLayer as GeoJSONLayer;
                 if (hasValue(layerObject.renderer)) {
-                    let renderer = buildJsRenderer(layerObject.renderer);
+                    const renderer = buildJsRenderer(layerObject.renderer);
                     if (renderer !== null) {
                         geoJsonLayer.renderer = renderer;
                     }
@@ -1153,7 +1123,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 break;
             case 'web-tile':
-                let webTileLayer = currentLayer as __esri.WebTileLayer;
+                const webTileLayer = currentLayer as __esri.WebTileLayer;
                 copyValuesIfExists(layerObject, webTileLayer,
                     'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval');
 
@@ -1164,7 +1134,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.lods)) {
                         webTileLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
-                            let lod = new LOD();
+                            const lod = new LOD();
                             copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
                             return lod;
                         });
@@ -1184,7 +1154,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                 break;
             case 'open-street-map':
-                let openStreetMapLayer = currentLayer as OpenStreetMapLayer;
+                const openStreetMapLayer = currentLayer as OpenStreetMapLayer;
                 copyValuesIfExists(layerObject, openStreetMapLayer,
                     'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'refreshInterval')
 
@@ -1195,7 +1165,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.lods)) {
                         openStreetMapLayer.tileInfo.lods = layerObject.tileInfo.lods.map(l => {
-                            let lod = new LOD();
+                            const lod = new LOD();
                             copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
                             return lod;
                         });
@@ -1292,7 +1262,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 export async function updateWidget(widgetObject: any, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
+        const currentWidget = arcGisObjectRefs[widgetObject.id] as Widget;
 
         if (currentWidget === undefined) {
             unsetWaitCursor(viewId);
@@ -1301,17 +1271,17 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 
         switch (widgetObject.type) {
             case 'bookmarks':
-                let bookmarks = currentWidget as Bookmarks;
+                const bookmarks = currentWidget as Bookmarks;
                 if (hasValue(widgetObject.bookmarks)) {
                     bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
                 }
                 break;
             case 'search':
-                let search = currentWidget as Search;
+                const search = currentWidget as Search;
                 if (hasValue(widgetObject.sources)) {
-                    let sources: SearchSource[] = [];
+                    const sources: SearchSource[] = [];
                     for (const source of widgetObject.sources) {
-                        let jsSource = await buildJsSearchSource(source, viewId);
+                        const jsSource = await buildJsSearchSource(source, viewId);
                         sources.push(jsSource);
                     }
                     search.sources.removeAll();
@@ -1329,7 +1299,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
                 break;
             case 'basemap-layer-list':
-                let basemapLayerList = currentWidget as BasemapLayerList;
+                const basemapLayerList = currentWidget as BasemapLayerList;
                 if (hasValue(widgetObject.visibleElements)) {
                     basemapLayerList.visibleElements = {
                         statusIndicators: widgetObject.visibleElements.statusIndicators,
@@ -1355,7 +1325,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         locator.addressToLocations(addressQueryParams.locatorUrl, {
             location: view.center,
             categories: addressQueryParams.categories,
@@ -1366,7 +1336,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(function (results) {
                 view.popup.close();
                 view.graphics.removeAll();
-                let popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
+                const popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1386,11 +1356,11 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
 
 export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
     try {
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
 
-        let jsPopup = await buildJsPopup(dotNetPopup, viewId);
+        const jsPopup = await buildJsPopup(dotNetPopup, viewId);
         if (hasValue(dotNetPopup.widgetContent)) {
-            let widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
+            const widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
             if (hasValue(widgetContent)) {
                 jsPopup.content = widgetContent as Widget;
             }
@@ -1409,7 +1379,7 @@ export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup 
 
 async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
     try {
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
 
         if (hasValue(triggerActionHandlers[viewId])) {
             triggerActionHandlers[viewId].remove();
@@ -1438,7 +1408,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
     if (hasValue(dotNetPopup)) {
         await dotNetPopup.dotNetComponentReference.invokeMethodAsync("OnTriggerAction", event.action.id);
     }
-    let viewRef = dotNetRefs[viewId];
+    const viewRef = dotNetRefs[viewId];
     for (const k of Object.keys(popupTemplateRefs)) {
         let popupRef = dotNetRefs[k];
         if (!hasValue(popupRef)) {
@@ -1454,15 +1424,15 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
     }
 }
 
-export let triggerActionHandlers: Record<string, IHandle> = {};
+export const triggerActionHandlers: Record<string, IHandle> = {};
 
 export async function openPopup(viewId: string, options: any | null): Promise<void> {
     try {
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         if (options !== null) {
-            let jsOptions = await buildJsPopupOptions(options);
+            const jsOptions = await buildJsPopupOptions(options);
             if (hasValue(options.widgetContent)) {
-                let widgetContent = await createWidget(options.widgetContent, viewId);
+                const widgetContent = await createWidget(options.widgetContent, viewId);
                 if (hasValue(widgetContent)) {
                     jsOptions.content = widgetContent as Widget;
                 }
@@ -1478,7 +1448,7 @@ export async function openPopup(viewId: string, options: any | null): Promise<vo
 
 export function closePopup(viewId: string): void {
     try {
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         view.popup.close();
     } catch (error) {
         logError(error, viewId);
@@ -1488,7 +1458,7 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
+        const popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
 
         await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
@@ -1506,8 +1476,8 @@ export async function showPopupWithGraphic(graphicObject: any, options: any, vie
     try {
         setWaitCursor(viewId);
         await addGraphic(graphicObject, viewId, null);
-        let view = arcGisObjectRefs[viewId] as View;
-        let graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
+        const view = arcGisObjectRefs[viewId] as View;
+        const graphic = arcGisObjectRefs[graphicObject.id] as Graphic;
         view.popup.dockOptions = options.dockOptions;
         view.popup.visibleElements = options.visibleElements;
         await view.openPopup({
@@ -1524,33 +1494,23 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
     try {
         setWaitCursor(viewId);
         let graphic: Graphic;
-        let graphicId: string;
+        const { buildJsGraphic } = await import('./graphic');
         if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
-            let graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
+            const graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
             graphic = buildJsGraphic(graphics[0], layerId, viewId) as Graphic;
-            graphicId = graphics[0].id;
         } else {
             graphic = buildJsGraphic(streamRefOrGraphicObject, layerId, viewId) as Graphic;
-            graphicId = streamRefOrGraphicObject.id;
         }
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.add(graphic);
-            if (!graphicsRefs.hasOwnProperty(layerId as string)) {
-                graphicsRefs[layerId as string] = {};
-            }
-            graphicsRefs[layerId as string][graphicId] = graphic;
         } else {
             if (!hasValue(view?.graphics)) {
                 unsetWaitCursor(viewId);
                 return;
             }
             view.graphics?.add(graphic);
-            if (!graphicsRefs.hasOwnProperty(viewId)) {
-                graphicsRefs[viewId] = {};
-            }
-            graphicsRefs[viewId][graphicId] = graphic;
         }
         unsetWaitCursor(viewId);
     } catch (error) {
@@ -1563,22 +1523,18 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
         if (abortSignal.aborted) {
             return;
         }
-        let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
+        const graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
         let jsGraphics: Graphic[] = [];
-        let layer = hasValue(layerId) ? arcGisObjectRefs[layerId as string] as GraphicsLayer : null;
-        let existingGraphics = layer?.graphics || (arcGisObjectRefs[viewId] as View).graphics;
-        let view = arcGisObjectRefs[viewId] as View;
-        let groupId = layerId ?? viewId;
-        if (!graphicsRefs.hasOwnProperty(groupId)) {
-            graphicsRefs[groupId] = {};
-        }
+        const layer = hasValue(layerId) ? arcGisObjectRefs[layerId as string] as GraphicsLayer : null;
+        const view = arcGisObjectRefs[viewId] as View;
+        const existingGraphics = layer?.graphics || view.graphics;
+        
         for (const g of graphics) {
             if (abortSignal.aborted) {
                 return;
             }
-            let jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
+            const jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
-            graphicsRefs[groupId][g.id] = jsGraphic;
         }
         jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
         if (abortSignal.aborted) {
@@ -1596,19 +1552,15 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
 
 export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: string, layerId: string | null): void {
     try {
-        let graphics = decodeProtobufGraphics(graphicsArray);
+        const graphics = decodeProtobufGraphics(graphicsArray);
         let jsGraphics: Graphic[] = [];
-        let view = arcGisObjectRefs[viewId] as View;
-        let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
-        let existingGraphics = layer?.graphics || (arcGisObjectRefs[viewId] as View).graphics;
-        let groupId = layerId ?? viewId;
-        if (!graphicsRefs.hasOwnProperty(groupId)) {
-            graphicsRefs[groupId] = {};
-        }
+        const view = arcGisObjectRefs[viewId] as View;
+        const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+        const existingGraphics = layer?.graphics || view.graphics;
+
         for (const g of graphics) {
-            let jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
+            const jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
             jsGraphics.push(jsGraphic);
-            graphicsRefs[groupId][g.id] = jsGraphic;
         }
         jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
         if (hasValue(layerId)) {
@@ -1622,15 +1574,15 @@ export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: stri
 }
 
 export function setGraphicGeometry(id: string, layerId: string | null, viewId: string | null, geometry: DotNetGeometry): void {
-    let jsGeometry = buildJsGeometry(geometry);
-    let graphic = lookupGraphicById(id, layerId, viewId);
+    const jsGeometry = buildJsGeometry(geometry);
+    const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null && jsGeometry !== null && graphic.geometry !== jsGeometry) {
         graphic.geometry = jsGeometry;
     }
 }
 
 export function getGraphicGeometry(id: string, layerId: string | null, viewId: string | null): DotNetGeometry | null {
-    let graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         return buildDotNetGeometry(graphic.geometry);
     }
@@ -1639,15 +1591,15 @@ export function getGraphicGeometry(id: string, layerId: string | null, viewId: s
 }
 
 export function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): void {
-    let graphic = lookupGraphicById(id, layerId, viewId);
-    let jsSymbol = buildJsSymbol(symbol);
+    const graphic = lookupGraphicById(id, layerId, viewId);
+    const jsSymbol = buildJsSymbol(symbol);
     if (graphic !== null && hasValue(symbol) && graphic.symbol !== jsSymbol) {
         graphic.symbol = jsSymbol as any;
     }
 }
 
 export function getGraphicSymbol(id: string, layerId: string | null, viewId: string | null): any {
-    let graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         return buildDotNetSymbol(graphic.symbol);
     }
@@ -1657,11 +1609,11 @@ export function getGraphicSymbol(id: string, layerId: string | null, viewId: str
 
 export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
                                         layerId: string | null, viewId: string): void {
-    let graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     graphicPopupLookupRefs[id] = popupTemplate.id;
     dotNetRefs[popupTemplate.id] = dotNetRef;
-    let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
+    const jsPopupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     if (graphic !== null && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
     }
@@ -1669,7 +1621,7 @@ export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTe
 
 export function removeGraphicPopupTemplate(graphicId: string): void {
     if (graphicPopupLookupRefs.hasOwnProperty(graphicId)) {
-        let popupTemplateId = graphicPopupLookupRefs[graphicId];
+        const popupTemplateId = graphicPopupLookupRefs[graphicId];
         delete graphicPopupLookupRefs[graphicId];
         if (dotNetRefs.hasOwnProperty(popupTemplateId)) {
             delete dotNetRefs[popupTemplateId];
@@ -1677,21 +1629,21 @@ export function removeGraphicPopupTemplate(graphicId: string): void {
     }
 }
 
-export function getGraphicPopupTemplate(id: string, layerId: string | null, viewId: string): DotNetPopupTemplate | null {
-    let graphic = lookupGraphicById(id, layerId, viewId);
+export async function getGraphicPopupTemplate(id: string, layerId: string | null, viewId: string): Promise<DotNetPopupTemplate | null> {
+    const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic === null) return null;
-    return buildDotNetPopupTemplate(graphic.popupTemplate);
+    return await buildDotNetPopupTemplate(graphic.popupTemplate);
 }
 
 export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
-    let graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         graphic.attributes = buildJsAttributes(attributes);
     }
 }
 
 export function lookupGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {
-    let graphicsCollectionId = layerId ?? viewId;
+    const graphicsCollectionId = layerId ?? viewId;
     if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId) 
         && graphicsRefs[graphicsCollectionId].hasOwnProperty(graphicId)) {
         return graphicsRefs[graphicsCollectionId][graphicId] ?? null;
@@ -1709,9 +1661,9 @@ export function lookupGraphicById(graphicId: string, layerId: string | null, vie
 export function clearGraphics(viewId: string, layerId?: string | null): void {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
-            let layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
+            const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.graphics.removeAll();
             graphicsRefs[layerId as string] = {};
         } else {
@@ -1727,7 +1679,7 @@ export function clearGraphics(viewId: string, layerId?: string | null): void {
 export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: any, viewId: string): Promise<any[]> {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         const routeParams = new RouteParameters({
             stops: new FeatureSet({
                 features: view.graphics.toArray()
@@ -1735,7 +1687,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
             returnDirections: true
         });
 
-        let data = await route.solve(routeUrl, routeParams);
+        const data = await route.solve(routeUrl, routeParams);
         data.routeResults.forEach(function (result) {
             result.route.symbol = routeSymbol
             view.graphics.add(result.route);
@@ -1743,7 +1695,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
         const directions: any[] = [];
         if (data.routeResults.length > 0) {
             data.routeResults[0].directions?.features.forEach(function (result) {
-                let direction = {
+                const direction = {
                     text: result.attributes.text,
                     length: result.attributes.length,
                     time: result.attributes.time,
@@ -1765,7 +1717,7 @@ export async function drawRouteAndGetDirections(routeUrl: string, routeSymbol: a
 export function solveServiceArea(url: string, driveTimeCutoffs: number[], serviceAreaSymbol: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         const featureSet = new FeatureSet({
             features: [(view.graphics as MapCollection).items[0]]
         });
@@ -1799,7 +1751,7 @@ export function getCenter(viewId: string): DotNetPoint | null {
 
 export function setZoom(zoom: number, viewId: string) {
     notifyExtentChanged = false;
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     view.zoom = zoom;
     return buildViewExtentUpdate(view);
 }
@@ -1810,7 +1762,7 @@ export function getZoom(viewId: string): number {
 
 export function setScale(scale: number, viewId: string) {
     notifyExtentChanged = false;
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     view.scale = scale;
     return buildViewExtentUpdate(view);
 }
@@ -1821,7 +1773,7 @@ export function getScale(viewId: string): number {
 
 export function setRotation(rotation: number, viewId: string) {
     notifyExtentChanged = false;
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     view.rotation = rotation;
     return buildViewExtentUpdate(view);
 }
@@ -1832,7 +1784,7 @@ export function getRotation(viewId: string): number {
 
 export function setCenter(center: any, viewId: string): any {
     notifyExtentChanged = false;
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     view.center = buildJsPoint(center) as Point;
     return buildViewExtentUpdate(view);
 }
@@ -1844,9 +1796,9 @@ export function getExtent(viewId: string): DotNetExtent | null {
 export async function goToExtent(extentObject: any, viewId: string) {
     try {
         notifyExtentChanged = false;
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (!hasValue(view)) return;
-        let extent = buildJsExtent(extentObject, view.spatialReference);
+        const extent = buildJsExtent(extentObject, view.spatialReference);
         if (extent !== null) {
             await view.goTo(extent);
         }
@@ -1859,12 +1811,12 @@ export async function goToExtent(extentObject: any, viewId: string) {
 
 export async function goToGraphics(graphics, viewId: string): Promise<void> {
     notifyExtentChanged = false;
-    let view = arcGisObjectRefs[viewId] as MapView;
-    let jsGraphics: Graphic[] = [];
+    const view = arcGisObjectRefs[viewId] as MapView;
+    const jsGraphics: Graphic[] = [];
     for (const graphic of graphics) {
         delete graphic.dotNetGraphicReference;
         delete graphic.layerId;
-        let jsGraphic = buildJsGraphic(graphic, null, viewId);
+        const jsGraphic = buildJsGraphic(graphic, null, viewId);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1875,12 +1827,12 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
 }
 
 export function getSpatialReference(viewId: string): DotNetSpatialReference | null {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     return buildDotNetSpatialReference(view?.spatialReference);
 }
 
 export function getGeometry(graphicId: string): DotNetGeometry | null {
-    let graphic = arcGisObjectRefs[graphicId] as Graphic;
+    const graphic = arcGisObjectRefs[graphicId] as Graphic;
     return buildDotNetGeometry(graphic.geometry);
 }
 
@@ -1894,7 +1846,7 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
                 feature.popupTemplate = popupTemplate;
                 return feature;
             });
-            let view = arcGisObjectRefs[viewId] as View;
+            const view = arcGisObjectRefs[viewId] as View;
 
             view.popup.close();
             view.graphics.removeAll();
@@ -1908,16 +1860,16 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
 export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
     : Promise<void> {
     try {
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (view === undefined || view === null) return;
-        let newWidget = await createWidget(widget, viewId);
+        const newWidget = await createWidget(widget, viewId);
         if (newWidget === null || newWidget instanceof Popup) return;
 
         if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
-            let container = document.getElementById(widget.containerId);
-            let innerContainer = document.createElement('div');
+            const container = document.getElementById(widget.containerId);
+            const innerContainer = document.createElement('div');
             innerContainer.className = `widget-${widget.type}`;
-            let existingWidget = container?.getElementsByClassName(`widget-${widget.type}`);
+            const existingWidget = container?.getElementsByClassName(`widget-${widget.type}`);
             if (hasValue(existingWidget) && existingWidget!.length > 0) {
                 container?.removeChild((existingWidget as HTMLCollectionOf<Element>)[0]);
             }
@@ -1925,8 +1877,8 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
             newWidget.container = innerContainer;
         } else {
             // check if widget is defined inside mapview
-            let inMapWidget = view.container?.querySelector(`#widget-container-${widget.id}`);
-            let widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
+            const inMapWidget = view.container?.querySelector(`#widget-container-${widget.id}`);
+            const widgetContainer: HTMLElement = document.getElementById(`widget-container-${widget.id}`)!;
             if ((hasValue(inMapWidget) || !hasValue(widgetContainer)) && !setInContainerByDefault) {
                 view.ui.add(newWidget, widget.position);
             } else {
@@ -1941,7 +1893,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
 }
 
 async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget | null> {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
 
     let newWidget: Widget;
     let wrapper: any;
@@ -1956,7 +1908,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (dotNetWidget.hasGoToOverride) {
                 locate.goToOverride = async (view, parameters) => {
-                    let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
+                    const dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
                     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
@@ -1969,9 +1921,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = search;
 
             if (hasValue(dotNetWidget.sources)) {
-                let sources: SearchSource[] = [];
+                const sources: SearchSource[] = [];
                 for (const source of dotNetWidget.sources) {
-                    let jsSource = await buildJsSearchSource(source, viewId);
+                    const jsSource = await buildJsSearchSource(source, viewId);
                     sources.push(jsSource);
                 }
                 search.sources.addMany(sources);
@@ -1989,12 +1941,13 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (dotNetWidget.hasGoToOverride) {
                 search.goToOverride = async (view, parameters) => {
-                    let dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
+                    const dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
                     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
             }
 
-            search.on('select-result', (evt) => {
+            search.on('select-result', async (evt) => {
+                const { buildDotNetGraphic } = await import('./graphic');
                 dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetGraphic(evt.result.feature, null, viewId),
@@ -2012,7 +1965,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             break;
         case 'basemap-toggle':
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
-            let basemapToggle = new BasemapToggle({
+            const basemapToggle = new BasemapToggle({
                 view: view
             });
             newWidget = basemapToggle;
@@ -2073,7 +2026,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             if (hasValue(dotNetWidget.layerInfos) && dotNetWidget.layerInfos.length > 0) {
                 view.when(() => {
                     legend.layerInfos = dotNetWidget.layerInfos.map(li => {
-                        let jsLayerInfo = {
+                        const jsLayerInfo = {
                             layer: arcGisObjectRefs[li.layerId]
                         } as LegendLayerInfos;
                         if (hasValue(li.title)) {
@@ -2119,8 +2072,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (hasValue(dotNetWidget.hasCustomHandler) && dotNetWidget.hasCustomHandler) {
                 layerListWidget.listItemCreatedFunction = async (evt) => {
-                    let dotNetListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+                    const dotNetListItem = buildDotNetListItem(evt.item);
+                    const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2136,8 +2089,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (hasValue(dotNetWidget.hasCustomBaseListHandler) && dotNetWidget.hasCustomBaseListHandler) {
                 basemapLayerListWidget.baseListItemCreatedFunction = async (evt) => {
-                    let dotNetBaseListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+                    const dotNetBaseListItem = buildDotNetListItem(evt.item);
+                    const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2145,8 +2098,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
             if (hasValue(dotNetWidget.hasCustomReferenceListHandler) && dotNetWidget.hasCustomReferenceListHandler) {
                 basemapLayerListWidget.referenceListItemCreatedFunction = async (evt) => {
-                    let dotNetReferenceListItem = buildDotNetListItem(evt.item);
-                    let returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+                    const dotNetReferenceListItem = buildDotNetListItem(evt.item);
+                    const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
                         updateListItem(evt.item, returnItem);
                     }
@@ -2167,7 +2120,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             
             break;
         case 'expand':
-            let expandWidgetDiv = 
+            const expandWidgetDiv = 
                 document.getElementById(`widget-container-${dotNetWidget.id}`) as HTMLElement;
             if (expandWidgetDiv === null) {
                 return null;
@@ -2175,7 +2128,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             
             // remove comment nodes
             for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
-                let childNode = expandWidgetDiv.childNodes[i];
+                const childNode = expandWidgetDiv.childNodes[i];
                 if (childNode.nodeType === 8) {
                     expandWidgetDiv.removeChild(childNode);
                     i --;
@@ -2183,7 +2136,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
             expandWidgetDiv.hidden = false;
             if (hasValue(dotNetWidget.htmlContent)) {
-                let templatedContent = document.createElement('template');
+                const templatedContent = document.createElement('template');
                 templatedContent.innerHTML = dotNetWidget.htmlContent;
                 expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
             }
@@ -2226,7 +2179,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             break;
         case 'popup':
             newWidget = await setPopup(dotNetWidget, viewId) as Popup;
-            let { default: PopupWidgetWrapper } = await import('./popupWidget');
+            const { default: PopupWidgetWrapper } = await import('./popupWidget');
             wrapper = new PopupWidgetWrapper(newWidget as Popup);
             break;
         case 'measurement':
@@ -2257,9 +2210,11 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 bookmarkWidget.bookmarks = dotNetWidget.bookmarks.map(buildJsBookmark);
             }
 
-            bookmarkWidget.on('bookmark-select', (event) => {
-                dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
-                    bookmark: buildDotNetBookmark(event.bookmark)
+            bookmarkWidget.on('bookmark-select', async (event) => {
+                const { buildDotNetBookmark } = await import('./bookmark');
+                const bookmark = await buildDotNetBookmark(event.bookmark);
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                    bookmark: bookmark
                 });
             });
 
@@ -2394,7 +2349,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 }
             );
             
-            let { default: SliderWidgetWrapper } = await import('./sliderWidget');
+            const { default: SliderWidgetWrapper } = await import('./sliderWidget');
             wrapper = new SliderWidgetWrapper(slider);
             break;
         default:
@@ -2412,7 +2367,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     jsObjectRefs[dotNetWidget.id] = wrapper;
     
     // @ts-ignore
-    let jsRef = DotNet.createJSObjectReference(wrapper);
+    const jsRef = DotNet.createJSObjectReference(wrapper);
     
     // register, to be removed when we finish code generation of all widgets
     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
@@ -2426,22 +2381,22 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     
     if (hasValue(dnItem.children)) {
         for (let i = 0; i < dnItem.children.length; i++) {
-            let child = dnItem.children[i];
-            let jsChild = jsItem.children[i];
+            const child = dnItem.children[i];
+            const jsChild = jsItem.children[i];
             if (hasValue(child) && hasValue(jsChild)) {
                 updateListItem(jsChild, child);
             }
         }
     }
     if (hasValue(dnItem.actionsSections)) {
-        let actionsSections: any[] = [];
+        const actionsSections: any[] = [];
         for (let i = 0; i < dnItem.actionsSections.length; i++) {
-            let section: any[] = [];
+            const section: any[] = [];
             actionsSections.push(section);
-            let dnSection = dnItem.actionsSections[i];
+            const dnSection = dnItem.actionsSections[i];
             for (let j = 0; j < dnSection.length; j++) {
-                let dnAction = dnSection[j];
-                let action = buildJsAction(dnAction);
+                const dnAction = dnSection[j];
+                const action = buildJsAction(dnAction);
                 section.push(action);
             }
         }
@@ -2454,7 +2409,7 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
     
     if (hasValue(dnItem.panel)) {
         if (hasValue(dnItem.panel.contentDivId)) {
-            let contentDiv = document.getElementById(dnItem.panel.contentDivId);
+            const contentDiv = document.getElementById(dnItem.panel.contentDivId);
             if (contentDiv !== null) {
                 jsItem.panel = {
                     content: contentDiv,
@@ -2469,7 +2424,7 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
                 } as ListItemPanel;
             }
         } else if (hasValue(dnItem.panel.contentWidgetId)) {
-            let contentWidget = arcGisObjectRefs[dnItem.panel.contentWidgetId] as Widget;
+            const contentWidget = arcGisObjectRefs[dnItem.panel.contentWidgetId] as Widget;
             jsItem.panel = {
                 content: contentWidget,
                 visible: dnItem.panel.visible,
@@ -2510,8 +2465,8 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
 }
 
 export function removeWidget(widgetId: string, viewId: string): void {
-    let view = arcGisObjectRefs[viewId] as MapView;
-    let widget = arcGisObjectRefs[widgetId] as Widget;
+    const view = arcGisObjectRefs[viewId] as MapView;
+    const widget = arcGisObjectRefs[widgetId] as Widget;
     try {
         view.ui.remove(widget);
     } catch {
@@ -2523,10 +2478,10 @@ export function removeWidget(widgetId: string, viewId: string): void {
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean, 
                                isQueryLayer?: boolean, callback?: Function): Promise<void> {
     try {
-        let view = arcGisObjectRefs[viewId] as View;
+        const view = arcGisObjectRefs[viewId] as View;
         if (!hasValue(view?.map)) return;
 
-        let newLayer = await createLayer(layerObject, null, viewId);
+        const newLayer = await createLayer(layerObject, null, viewId);
 
         if (newLayer === null) return;
 
@@ -2553,7 +2508,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
 export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId: string | null): Promise<Layer | null> {
     if (arcGisObjectRefs.hasOwnProperty(dotNetLayer.id)) {
-        let existingLayer = jsObjectRefs[dotNetLayer.id] as any;
+        const existingLayer = jsObjectRefs[dotNetLayer.id] as any;
         if (hasValue(existingLayer) && !existingLayer.layer.destroyed) {
             return jsObjectRefs[dotNetLayer.id] as Layer;
         }
@@ -2562,16 +2517,15 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
     switch (dotNetLayer.type) {
         case 'graphics':
             newLayer = new GraphicsLayer();
-            let graphicsLayer = newLayer as GraphicsLayer;
-            let jsGraphics: Graphic[] = [];
-            let groupId = dotNetLayer.id;
+            const graphicsLayer = newLayer as GraphicsLayer;
+            const jsGraphics: Graphic[] = [];
+            const groupId = dotNetLayer.id;
             if (!graphicsRefs.hasOwnProperty(groupId)) {
                 graphicsRefs[groupId] = {};
             }
             for (const g of dotNetLayer.graphics) {
-                let jsGraphic = buildJsGraphic(g, dotNetLayer.id, viewId ?? null) as Graphic;
+                const jsGraphic = buildJsGraphic(g, dotNetLayer.id, viewId ?? null) as Graphic;
                 jsGraphics.push(jsGraphic);
-                graphicsRefs[dotNetLayer.id][g.id] = jsGraphic;
             }
             graphicsLayer.addMany(jsGraphics);
             
@@ -2584,7 +2538,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
+                const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new MapImageLayer({ portalItem: portalItem });
             } else {
                 newLayer = new MapImageLayer({
@@ -2603,7 +2557,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'tile':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
+                const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
 
                 newLayer = new TileLayer({ portalItem: portalItem });
             } else {
@@ -2611,7 +2565,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                     url: dotNetLayer.url
                 });
             }
-            let tileLayer = newLayer as TileLayer;
+            const tileLayer = newLayer as TileLayer;
             copyValuesIfExists(dotNetLayer, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
                 'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
@@ -2623,7 +2577,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             break;
         case 'elevation':
             if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
+                const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new ElevationLayer({ portalItem: portalItem });
             } else {
                 newLayer = new ElevationLayer({
@@ -2638,7 +2592,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                     urlTemplate: dotNetLayer.urlTemplate
                 });
             } else if (hasValue(dotNetLayer.portalItem)) {
-                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
+                const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
@@ -2655,7 +2609,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
                 if (hasValue(dotNetLayer.tileInfo.lods)) {
                     openStreetMapLayer.tileInfo.lods = dotNetLayer.tileInfo.lods.map(l => {
-                        let lod = new LOD();
+                        const lod = new LOD();
                         copyValuesIfExists(l, lod, 'level', 'levelValue', 'resolution', 'scale');
                         return lod;
                     });
@@ -2677,11 +2631,11 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                     url: dotNetLayer.url
                 });
             } else {
-                let portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
+                const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
                 newLayer = new ImageryLayer({ portalItem: portalItem });
             }
 
-            let imageryLayer = newLayer as ImageryLayer;
+            const imageryLayer = newLayer as ImageryLayer;
 
             if (hasValue(dotNetLayer.renderer)) {
                 imageryLayer.renderer = buildJsImageryRenderer(dotNetLayer.renderer) as any;
@@ -2715,57 +2669,57 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             newLayer = imageryLayer;
             break;
         case 'base-tile':
-            let { buildJsBaseTileLayer } = await import('./baseTileLayer');
+            const { buildJsBaseTileLayer } = await import('./baseTileLayer');
             newLayer = await buildJsBaseTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'feature':
-            let { buildJsFeatureLayer } = await import('./featureLayer');
+            const { buildJsFeatureLayer } = await import('./featureLayer');
             newLayer = await buildJsFeatureLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'imagery-tile':
-            let { buildJsImageryTileLayer } = await import('./imageryTileLayer');
+            const { buildJsImageryTileLayer } = await import('./imageryTileLayer');
             newLayer = await buildJsImageryTileLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'vector-tile':
-            let { buildJsVectorTileLayer } = await import('./vectorTileLayer');
+            const { buildJsVectorTileLayer } = await import('./vectorTileLayer');
             newLayer = await buildJsVectorTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'web-tile':
-            let { buildJsWebTileLayer } = await import('./webTileLayer');
+            const { buildJsWebTileLayer } = await import('./webTileLayer');
             newLayer = await buildJsWebTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'bing-maps':
-            let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+            const { buildJsBingMapsLayer } = await import('./bingMapsLayer');
             newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'csv':
-            let { buildJsCSVLayer } = await import('./cSVLayer');
+            const { buildJsCSVLayer } = await import('./cSVLayer');
             newLayer = await buildJsCSVLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'geojson':
-            let { buildJsGeoJSONLayer } = await import('./geoJSONLayer');
+            const { buildJsGeoJSONLayer } = await import('./geoJSONLayer');
             newLayer = await buildJsGeoJSONLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'geo-rss':
-            let { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
+            const { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
             newLayer = await buildJsGeoRSSLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'kml':
-            let { buildJsKMLLayer } = await import('./kMLLayer');
+            const { buildJsKMLLayer } = await import('./kMLLayer');
             newLayer = await buildJsKMLLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'wcs':
-            let { buildJsWCSLayer } = await import('./wCSLayer');
+            const { buildJsWCSLayer } = await import('./wCSLayer');
             newLayer = await buildJsWCSLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
@@ -2791,8 +2745,8 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
 
 export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boolean, isReferenceLayer): void {
     try {
-        let layer = arcGisObjectRefs[layerId] as Layer;
-        let view = arcGisObjectRefs[viewId] as MapView;
+        const layer = arcGisObjectRefs[layerId] as Layer;
+        const view = arcGisObjectRefs[viewId] as MapView;
         if (isBasemapLayer) {
             view.map?.basemap.baseLayers.remove(layer);
         } else if (isReferenceLayer) {
@@ -2818,25 +2772,25 @@ export function logError(error, viewId: string | null) {
 
 
 function setWaitCursor(viewId: string): void {
-    let viewContainer = document.getElementById(`map-container-${viewId}`);
+    const viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
         document.body.style.cursor = 'wait';
     }
 }
 
 function unsetWaitCursor(viewId: string | null): void {
-    let viewContainer = document.getElementById(`map-container-${viewId}`);
+    const viewContainer = document.getElementById(`map-container-${viewId}`);
     if (viewContainer !== null) {
         document.body.style.cursor = 'unset';
     }
 }
 
 function waitForRender(viewId: string, dotNetRef: any): void {
-    let view = arcGisObjectRefs[viewId] as View;
+    const view = arcGisObjectRefs[viewId] as View;
     view.when().then(_ => {
         let isRendered = false;
         let rendering = false;
-        let interval = setInterval(async () => {
+        const interval = setInterval(async () => {
             if (view === undefined || view === null) {
                 clearInterval(interval);
                 return;
@@ -2845,7 +2799,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
                 if (!zoomWidgetListenerAdded) {
-                    let zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                    const zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
                     for (let i = 0; i < zoomWidgetButtons.length; i++) {
                         zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
                         zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
@@ -2881,9 +2835,9 @@ export function hasValue(prop: any): boolean {
 
 function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     if (!hasValue(item)) return null;
-    let children: Array<DotNetListItem> = [];
+    const children: Array<DotNetListItem> = [];
     item.children.forEach(c => {
-        let child = buildDotNetListItem(c);
+        const child = buildDotNetListItem(c);
         if (child !== null) {
             children.push(child);
         }
@@ -2891,7 +2845,7 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
     
     let layerId: string | null = null;
     // iterate through arcGisObjectRefs and find the value that equals the layer
-    for (let key in arcGisObjectRefs) {
+    for (const key in arcGisObjectRefs) {
         if (arcGisObjectRefs[key] === item.layer) {
             layerId = key;
             break;
@@ -2919,10 +2873,10 @@ export function copyValuesIfExists(originalObject: any, newObject: any, ...param
 export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any = {}): Promise<any> {
     try {
         if ('items' in arcGisObject) {
-            let items = arcGisObject.items;
+            const items = arcGisObject.items;
             for (let i = 0; i < items.length; i++) {
-                let item = items[i];
-                let newItem = {};
+                const item = items[i];
+                const newItem = {};
                 await createGeoBlazorObject(item, newItem);
                 newGeoBlazorObject.items.push(newItem);
             }
@@ -2946,16 +2900,16 @@ export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObjec
 }
 
 export async function copyValuesToGeoBlazor(originalObject: any, newObject: any) {
-    for (let key in originalObject) {
+    for (const key in originalObject) {
         if (typeof originalObject[key] === 'function') {
             continue;
         }
-        let value = originalObject[key];
+        const value = originalObject[key];
         if (!hasValue(value)) {
             continue;
         }
         if (typeof value === 'object') {
-            let newValue = Array.isArray(value) ? [] : {};
+            const newValue = Array.isArray(value) ? [] : {};
             await createGeoBlazorObject(value, newValue);
             newObject[key] = newValue;
         } else {
@@ -2965,9 +2919,9 @@ export async function copyValuesToGeoBlazor(originalObject: any, newObject: any)
 }
 
 function checkConnectivity(viewId) {
-    let connectError = new Error('Cannot load ArcGIS Assets!');
-    let message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
-    let mapContainer = document.getElementById(`map-container-${viewId}`)!;
+    const connectError = new Error('Cannot load ArcGIS Assets!');
+    const message = '<div><h1>Cannot retrieve ArcGIS asset files.</h1><p><a target="_blank" href="https://docs/geoblazor.com/assetFiles"</p></div>';
+    const mapContainer = document.getElementById(`map-container-${viewId}`)!;
     try {
         //if (esriConfig.assetsPath.includes('js.arcgis.com')) return;
         let assetsUrl = esriConfig.assetsPath;
@@ -2997,7 +2951,7 @@ function checkConnectivity(viewId) {
 
 export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean,
     initial: boolean, dotNetRef: any): any {
-    let target = arcGisObjectRefs[targetId];
+    const target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.watch(() => ${watchExpression},
@@ -3007,7 +2961,7 @@ export function addReactiveWatcher(targetId: string, targetName: string, watchEx
 }
 
 export function addReactiveListener(targetId: string, eventName: string, once: boolean, dotNetRef: any): any {
-    let target = arcGisObjectRefs[targetId];
+    const target = arcGisObjectRefs[targetId];
     console.debug(`Adding listener: "${eventName}"`);
     const listenerFunc = new Function('target', 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.on(() => target, '${eventName}',
@@ -3017,7 +2971,7 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 }
 
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
-    let target = arcGisObjectRefs[targetId];
+    const target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
     const AsyncFunction = async function () {}.constructor;
     // @ts-ignore
@@ -3028,7 +2982,7 @@ export async function awaitReactiveSingleWatchUpdate(targetId: string, targetNam
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
     initial: boolean, dotNetRef: any): any {
-    let target = arcGisObjectRefs[targetId];
+    const target = arcGisObjectRefs[targetId];
     console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
         `return reactiveUtils.when(() => ${watchExpression},
@@ -3042,13 +2996,13 @@ export function addReactiveWaiter(targetId: string, targetName: string, watchExp
 
 
 export function setVisibility(componentId: string, visible: boolean): void {
-    let component: any | undefined = arcGisObjectRefs[componentId];
+    const component: any | undefined = arcGisObjectRefs[componentId];
     if (component !== undefined) {
         component.visible = visible;
         return;
     }
     // check graphics too
-    let graphic = lookupGraphicById(componentId, null, null);
+    const graphic = lookupGraphicById(componentId, null, null);
     if (graphic !== null) {
         graphic.visible = visible;
         return;
@@ -3056,36 +3010,36 @@ export function setVisibility(componentId: string, visible: boolean): void {
 }
 
 function buildHitTestOptions(options: DotNetHitTestOptions, view: MapView): MapViewHitTestOptions {
-    let hitOptions: MapViewHitTestOptions = {};
+    const hitOptions: MapViewHitTestOptions = {};
     let hitIncludeOptions: Array<any> = [];
     let hitExcludeOptions: Array<any> = [];
-    let layers = (view.map.layers as MapCollection).items as Array<Layer>;
-    let graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
+    const layers = (view.map.layers as MapCollection).items as Array<Layer>;
+    const graphicsLayers = layers.filter(l => l.type === "graphics") as Array<GraphicsLayer>;
 
     if (options.includeByGeoBlazorId !== null) {
-        let gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        const gbInclude = options.includeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
         hitIncludeOptions = hitIncludeOptions.concat(gbInclude);
     }
     if (options.excludeByGeoBlazorId !== null) {
-        let gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
+        const gbExclude = options.excludeByGeoBlazorId.map(i => arcGisObjectRefs[i]);
         hitExcludeOptions = hitExcludeOptions.concat(gbExclude);
     }
     if (options.includeLayersByArcGISId !== null) {
-        let layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
+        const layerInclude = layers.filter(l => options.includeLayersByArcGISId!.includes(l.id));
         hitIncludeOptions = hitIncludeOptions.concat(layerInclude);
     }
     if (options.excludeLayersByArcGISId !== null) {
-        let layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
+        const layerExclude = layers.filter(l => options.excludeLayersByArcGISId!.includes(l.id));
         hitExcludeOptions = hitExcludeOptions.concat(layerExclude);
     }
     if (options.includeGraphicsByArcGISId !== null) {
-        let graphicInclude = options.includeGraphicsByArcGISId.map(i =>
+        const graphicInclude = options.includeGraphicsByArcGISId.map(i =>
             view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
             graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
         hitIncludeOptions = hitIncludeOptions.concat(graphicInclude);
     }
     if (options.excludeGraphicsByArcGISId !== null) {
-        let graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
+        const graphicExclude = options.excludeGraphicsByArcGISId.map(i =>
             view.graphics.find(g => g.attributes['OBJECTID'] == i) ||
             graphicsLayers.map(l => l.graphics.find(g => g.attributes['OBJECTID'] == i)));
         hitExcludeOptions = hitExcludeOptions.concat(graphicExclude);
@@ -3128,8 +3082,8 @@ export async function getGraphicsFromProtobufStream(streamRef): Promise<any[] | 
 }
 
 export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
-    let decoded = ProtoGraphicCollection.decode(uintArray);
-    let array = ProtoGraphicCollection.toObject(decoded, {
+    const decoded = ProtoGraphicCollection.decode(uintArray);
+    const array = ProtoGraphicCollection.toObject(decoded, {
         defaults: false,
         enums: String,
         longs: String,
@@ -3139,46 +3093,46 @@ export function decodeProtobufGraphics(uintArray: Uint8Array): any[] {
     return array.graphics;
 }
 
-export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer): any {
+export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: FeatureLayer | null): any {
     for (let i = 0; i < graphics.length; i++) {
         updateGraphicForProtobuf(graphics[i], layer);
     }
-    let obj = {
+    const obj = {
         graphics: graphics
     };
-    let collection = ProtoGraphicCollection.fromObject(obj);
-    let encoded = ProtoGraphicCollection.encode(collection).finish();
+    const collection = ProtoGraphicCollection.fromObject(obj);
+    const encoded = ProtoGraphicCollection.encode(collection).finish();
     // @ts-ignore
     return DotNet.createJSStreamReference(encoded);
 }
 
 function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
     for (let i = 0; i < viewHits.length; i++) {
-        let viewHit = viewHits[i];
+        const viewHit = viewHits[i];
         if (viewHit.type === "graphic") {
-            let graphic = (viewHit as DotNetGraphicHit).graphic;
-            let layer = arcGisObjectRefs[(viewHit as DotNetGraphicHit).layerId] as FeatureLayer;
+            const graphic = (viewHit as DotNetGraphicHit).graphic;
+            const layer = arcGisObjectRefs[(viewHit as DotNetGraphicHit).layerId] as FeatureLayer;
             updateGraphicForProtobuf(graphic, layer);
         }
     }
 
-    let obj = {
+    const obj = {
         viewHits: viewHits
     };
-    let collection = ProtoViewHitCollection.fromObject(obj);
-    let encoded = ProtoViewHitCollection.encode(collection).finish();
+    const collection = ProtoViewHitCollection.fromObject(obj);
+    const encoded = ProtoViewHitCollection.encode(collection).finish();
     // @ts-ignore
     return DotNet.createJSStreamReference(encoded);
 }
 
-function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer) {
+function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | null) {
     if (hasValue(graphic.attributes)) {
-        let fields = layer?.fields;
+        const fields = layer?.fields;
         graphic.attributes = Object.keys(graphic.attributes).map(attr => {
-            let typedValue = graphic.attributes[attr];
+            const typedValue = graphic.attributes[attr];
             let valueType: string | undefined = undefined;
             if (hasValue(fields)) {
-                let field = fields.find(f => f.name === attr);
+                const field = fields!.find(f => f.name === attr);
                 if (hasValue(field)) {
                     valueType = field!.type;
                 }
@@ -3194,7 +3148,7 @@ function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer) {
     if (hasValue(graphic.geometry)) {
         updateGeometryForProtobuf(graphic.geometry);
     }
-    let symbol: any = graphic.symbol;
+    const symbol: any = graphic.symbol;
     if (hasValue(symbol)) {
         if (hasValue(symbol.color)) {
             symbol.color = {
@@ -3264,22 +3218,23 @@ export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, 
 }
 
 export function getCursor(viewId: string): string {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     return view.container.style.cursor;
 }
 
 export function setCursor(cursorType: string, viewId: string) {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     view.container.style.cursor = cursorType;
 }
 
-export function getWebMapBookmarks(viewId: string) {
-    let view = arcGisObjectRefs[viewId] as MapView;
+export async function getWebMapBookmarks(viewId: string) {
+    const view = arcGisObjectRefs[viewId] as MapView;
     if (view != null) {
-        let webMap = view.map as WebMap;
+        const webMap = view.map as WebMap;
         if (webMap != null) {
-            let arr = webMap.bookmarks.toArray();
+            const arr = webMap.bookmarks.toArray();
             if (arr instanceof Array) {
+                const { buildDotNetBookmark } = await import('./bookmark');
                 return arr.map(buildDotNetBookmark);
             }
         }
@@ -3288,7 +3243,7 @@ export function getWebMapBookmarks(viewId: string) {
 }
 
 export function setStretchTypeForRenderer(rendererId, stretchType) {
-    let renderer = arcGisObjectRefs[rendererId] as RasterStretchRenderer;
+    const renderer = arcGisObjectRefs[rendererId] as RasterStretchRenderer;
     renderer.stretchType = stretchType;
 }
 
@@ -3308,7 +3263,7 @@ export function createAbortControllerAndSignal() {
 }
 
 export async function takeScreenshot(viewId, options): Promise<any> {
-    let view = arcGisObjectRefs[viewId] as MapView;
+    const view = arcGisObjectRefs[viewId] as MapView;
     let screenshot : __esri.Screenshot;
     if (hasValue(options)) {
         if (hasValue(options.layerIds) && options.layerIds.length > 0) {
@@ -3320,10 +3275,10 @@ export async function takeScreenshot(viewId, options): Promise<any> {
         screenshot = await view.takeScreenshot();
     }
     
-    let buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
+    const buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
     
     // @ts-ignore
-    let jsStreamRef = DotNet.createJSStreamReference(buffer);
+    const jsStreamRef = DotNet.createJSStreamReference(buffer);
     
     return {
         width: screenshot.data.width,

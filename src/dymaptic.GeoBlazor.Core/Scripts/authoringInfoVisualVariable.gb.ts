@@ -54,7 +54,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable();
     if (hasValue(dotNetObject.sizeStops)) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        jsAuthoringInfoVisualVariable.sizeStops = dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId)) as any;
+        jsAuthoringInfoVisualVariable.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
@@ -122,7 +122,7 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     };
         if (hasValue(jsObject.sizeStops)) {
             let { buildDotNetSizeStop } = await import('./sizeStop');
-            dotNetAuthoringInfoVisualVariable.sizeStops = jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i));
+            dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i)));
         }
         if (hasValue(jsObject.theme)) {
             let { buildDotNetTheme } = await import('./theme');
@@ -161,6 +161,15 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
         if (hasValue(jsObject.units)) {
             dotNetAuthoringInfoVisualVariable.units = jsObject.units;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAuthoringInfoVisualVariable.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetAuthoringInfoVisualVariable;
 }

@@ -77,6 +77,15 @@ export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsO
             dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAuthoringInfoField1ClassBreakInfos.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetAuthoringInfoField1ClassBreakInfos;
 }
 

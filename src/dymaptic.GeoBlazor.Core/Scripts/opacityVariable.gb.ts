@@ -58,7 +58,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        jsOpacityVariable.stops = dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId)) as any;
+        jsOpacityVariable.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -108,16 +108,14 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         }
         if (hasValue(jsObject.stops)) {
             let { buildDotNetOpacityStop } = await import('./opacityStop');
-            dotNetOpacityVariable.stops = jsObject.stops.map(async i => await buildDotNetOpacityStop(i));
+            dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i)));
         }
+        dotNetOpacityVariable.type = jsObject.type;
         if (hasValue(jsObject.field)) {
             dotNetOpacityVariable.field = jsObject.field;
         }
         if (hasValue(jsObject.normalizationField)) {
             dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetOpacityVariable.type = jsObject.type;
         }
         if (hasValue(jsObject.valueExpression)) {
             dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
@@ -125,6 +123,15 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         if (hasValue(jsObject.valueExpressionTitle)) {
             dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetOpacityVariable.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetOpacityVariable;
 }

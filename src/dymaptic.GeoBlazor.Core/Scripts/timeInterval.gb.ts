@@ -61,7 +61,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     return jsTimeInterval;
 }
 
-export function buildDotNetTimeIntervalGenerated(jsObject: any): any {
+export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -76,6 +76,15 @@ export function buildDotNetTimeIntervalGenerated(jsObject: any): any {
         if (hasValue(jsObject.value)) {
             dotNetTimeInterval.value = jsObject.value;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetTimeInterval.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetTimeInterval;
 }

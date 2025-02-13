@@ -36,7 +36,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.createLayerView(view,
             options);
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(result);
+        return await buildDotNetLayerView(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -80,7 +80,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async saveAs(portalItem: any,
@@ -90,7 +90,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.saveAs(jsPortalItem,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     // region properties
@@ -119,11 +119,11 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -160,7 +160,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async getTimeInfo(): Promise<any> {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return buildDotNetTimeInfo(this.layer.timeInfo);
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
@@ -168,7 +168,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async getTimeOffset(): Promise<any> {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return buildDotNetTimeInterval(this.layer.timeOffset);
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
     async setTimeOffset(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
@@ -193,9 +193,6 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsImageryTileLayer = new ImageryTileLayer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsImageryTileLayer.fullExtent = dotNetObject.extent;
-    }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
         let { buildJsDimensionalDefinition } = await import('./jsBuilder');
         jsImageryTileLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(i => buildJsDimensionalDefinition(i)) as any;
@@ -254,6 +251,9 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.effect)) {
         jsImageryTileLayer.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        jsImageryTileLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.interpolation)) {
         jsImageryTileLayer.interpolation = dotNetObject.interpolation;
@@ -314,7 +314,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     return jsImageryTileLayer;
 }
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -332,12 +332,12 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
             dotNetImageryTileLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
         }
         if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./dotNetBuilder');
+            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetImageryTileLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+            dotNetImageryTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
@@ -348,23 +348,23 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
             dotNetImageryTileLayer.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
         }
         if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./dotNetBuilder');
+            let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetImageryTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
         if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryTileLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
         if (hasValue(jsObject.timeInfo)) {
-            let { buildDotNetTimeInfo } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeInfo = buildDotNetTimeInfo(jsObject.timeInfo);
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetImageryTileLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
         }
         if (hasValue(jsObject.timeOffset)) {
-            let { buildDotNetTimeInterval } = await import('./dotNetBuilder');
-            dotNetImageryTileLayer.timeOffset = buildDotNetTimeInterval(jsObject.timeOffset);
+            let { buildDotNetTimeInterval } = await import('./timeInterval');
+            dotNetImageryTileLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./dotNetBuilder');
+            let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
         if (hasValue(jsObject.id)) {
@@ -445,6 +445,15 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
         if (hasValue(jsObject.version)) {
             dotNetImageryTileLayer.version = jsObject.version;
         }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetImageryTileLayer.id = k;
+                break;
+            }
+        }
+    }
 
     return dotNetImageryTileLayer;
 }

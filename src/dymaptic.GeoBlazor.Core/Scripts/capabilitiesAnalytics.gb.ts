@@ -71,6 +71,15 @@ export async function buildDotNetCapabilitiesAnalyticsGenerated(jsObject: any): 
             dotNetCapabilitiesAnalytics.supportsCacheHint = jsObject.supportsCacheHint;
         }
 
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetCapabilitiesAnalytics.id = k;
+                break;
+            }
+        }
+    }
+
     return dotNetCapabilitiesAnalytics;
 }
 
