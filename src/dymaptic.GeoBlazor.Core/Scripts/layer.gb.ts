@@ -45,7 +45,7 @@ export default class LayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getVisibilityTimeExtent(layerId: string | null, viewId: string | null): Promise<any> {
+    async getVisibilityTimeExtent(): Promise<any> {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
@@ -61,69 +61,3 @@ export default class LayerGenerated implements IPropertyWrapper {
         this.layer[prop] = value;
     }
 }
-
-export async function buildJsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Layer } = await import('@arcgis/core/layers/Layer');
-    let jsLayer = new Layer();
-    if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        jsLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsLayer.id = dotNetObject.arcGISLayerId;
-    }
-    if (hasValue(dotNetObject.listMode)) {
-        jsLayer.listMode = dotNetObject.listMode;
-    }
-    if (hasValue(dotNetObject.opacity)) {
-        jsLayer.opacity = dotNetObject.opacity;
-    }
-    if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
-    }
-    if (hasValue(dotNetObject.title)) {
-        jsLayer.title = dotNetObject.title;
-    }
-    let { default: LayerWrapper } = await import('./layer');
-    let layerWrapper = new LayerWrapper(jsLayer);
-    layerWrapper.geoBlazorId = dotNetObject.id;
-    layerWrapper.viewId = viewId;
-    layerWrapper.layerId = layerId;
-    
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(layerWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
-    jsObjectRefs[dotNetObject.id] = layerWrapper;
-    arcGisObjectRefs[dotNetObject.id] = jsLayer;
-    
-    return jsLayer;
-}
-
-export async function buildDotNetLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
-    
-    let dotNetLayer: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
-    };
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./mapView');
-            dotNetLayer.visibilityTimeExtent = await buildDotNetTimeExtent(jsObject.visibilityTimeExtent, layerId, viewId);
-        }
-        dotNetLayer.arcGISLayerId = jsObject.id;
-        dotNetLayer.fullExtent = jsObject.fullExtent;
-        dotNetLayer.listMode = jsObject.listMode;
-        dotNetLayer.loaded = jsObject.loaded;
-        dotNetLayer.opacity = jsObject.opacity;
-        dotNetLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        dotNetLayer.title = jsObject.title;
-        dotNetLayer.type = jsObject.type;
-    return dotNetLayer;
-}
-

@@ -3,7 +3,7 @@
 
 import GeoJSONLayerCapabilitiesQueryRelated = __esri.GeoJSONLayerCapabilitiesQueryRelated;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeoJSONLayerCapabilitiesQueryRelatedGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerCapabilitiesQueryRelated;

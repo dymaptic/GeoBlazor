@@ -3,7 +3,7 @@
 
 import ImageHistogramParameters from '@arcgis/core/rest/support/ImageHistogramParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageHistogramParametersGenerated implements IPropertyWrapper {
     public component: ImageHistogramParameters;

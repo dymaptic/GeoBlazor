@@ -3,7 +3,7 @@
 
 import PortalGroup from '@arcgis/core/portal/PortalGroup';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalGroupGenerated implements IPropertyWrapper {
     public component: PortalGroup;

@@ -3,7 +3,7 @@
 
 import ElevationSamplerDemResolution = __esri.ElevationSamplerDemResolution;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationSamplerDemResolutionGenerated implements IPropertyWrapper {
     public component: ElevationSamplerDemResolution;

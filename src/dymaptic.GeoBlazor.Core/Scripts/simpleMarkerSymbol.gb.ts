@@ -23,6 +23,14 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -35,7 +43,8 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
 export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
     if (hasValue(dotNetObject.color)) {
-        jsSimpleMarkerSymbol.color = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsSimpleMarkerSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {
@@ -88,7 +97,10 @@ export async function buildDotNetSimpleMarkerSymbolGenerated(jsObject: any): Pro
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSimpleMarkerSymbol.color = jsObject.color;
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetSimpleMarkerSymbol.color = buildDotNetMapColor(jsObject.color);
+        }
         if (hasValue(jsObject.angle)) {
             dotNetSimpleMarkerSymbol.angle = jsObject.angle;
         }

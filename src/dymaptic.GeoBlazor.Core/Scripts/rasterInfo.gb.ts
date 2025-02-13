@@ -3,7 +3,7 @@
 
 import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterInfoGenerated implements IPropertyWrapper {
     public component: RasterInfo;

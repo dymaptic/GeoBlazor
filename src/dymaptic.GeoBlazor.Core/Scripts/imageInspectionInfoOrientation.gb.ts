@@ -3,7 +3,7 @@
 
 import ImageInspectionInfoOrientation = __esri.ImageInspectionInfoOrientation;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageInspectionInfoOrientationGenerated implements IPropertyWrapper {
     public component: ImageInspectionInfoOrientation;

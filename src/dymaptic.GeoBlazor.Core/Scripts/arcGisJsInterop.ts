@@ -431,7 +431,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             (view as MapView).highlightOptions = highlightOptions;
         }
 
-        await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
+        await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
 
         // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
         const popupWidget = widgets.find(w => w.type === 'popup');
@@ -512,7 +512,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-    activeEventHandlers: Array<string>, viewId: string): Promise<void> {
+    activeEventHandlers: Array<string>): Promise<void> {
     view.on('click', async (evt) => {
         evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
         await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);

@@ -3,7 +3,7 @@
 
 import RasterBandStatistics = __esri.RasterBandStatistics;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterBandStatisticsGenerated implements IPropertyWrapper {
     public component: RasterBandStatistics;

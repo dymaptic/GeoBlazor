@@ -3,7 +3,7 @@
 
 import CSVLayerGetFieldDomainOptions = __esri.CSVLayerGetFieldDomainOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CSVLayerGetFieldDomainOptionsGenerated implements IPropertyWrapper {
     public component: CSVLayerGetFieldDomainOptions;

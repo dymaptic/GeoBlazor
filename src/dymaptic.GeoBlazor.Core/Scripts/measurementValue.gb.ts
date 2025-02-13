@@ -3,7 +3,7 @@
 
 import MeasurementValue = __esri.MeasurementValue;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class MeasurementValueGenerated implements IPropertyWrapper {
     public component: MeasurementValue;

@@ -29,7 +29,7 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     }
     async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format =  buildJsFieldInfoFormat(value);
+        this.component.format = await  buildJsFieldInfoFormat(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
         let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
+        jsFieldInfo.format = await buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {

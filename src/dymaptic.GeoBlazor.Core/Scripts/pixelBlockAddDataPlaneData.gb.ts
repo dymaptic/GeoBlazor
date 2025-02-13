@@ -3,7 +3,7 @@
 
 import PixelBlockAddDataPlaneData = __esri.PixelBlockAddDataPlaneData;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PixelBlockAddDataPlaneDataGenerated implements IPropertyWrapper {
     public component: PixelBlockAddDataPlaneData;

@@ -3,7 +3,7 @@
 
 import ImageIdentifyParameters from '@arcgis/core/rest/support/ImageIdentifyParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageIdentifyParametersGenerated implements IPropertyWrapper {
     public component: ImageIdentifyParameters;

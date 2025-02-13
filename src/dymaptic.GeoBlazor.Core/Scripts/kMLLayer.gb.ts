@@ -82,7 +82,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        jsKMLLayer.sublayers = dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId)) as any;
+        jsKMLLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -157,7 +157,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-            dotNetKMLLayer.sublayers = jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i));
+            dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

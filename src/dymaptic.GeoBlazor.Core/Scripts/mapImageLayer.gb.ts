@@ -163,11 +163,11 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.sublayers = dotNetObject.sublayers.map(i => buildJsSublayer(i)) as any;
+        jsMapImageLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.subtables)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.subtables = dotNetObject.subtables.map(i => buildJsSublayer(i)) as any;
+        jsMapImageLayer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -287,7 +287,7 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     };
         if (hasValue(jsObject.allSublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.allSublayers = jsObject.allSublayers.map(async i => await buildDotNetSublayer(i));
+            dotNetMapImageLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
@@ -295,11 +295,11 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.sublayers = jsObject.sublayers.map(async i => await buildDotNetSublayer(i));
+            dotNetMapImageLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.subtables)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.subtables = jsObject.subtables.map(async i => await buildDotNetSublayer(i));
+            dotNetMapImageLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

@@ -3,7 +3,7 @@
 
 import CSVLayerCapabilitiesEditing = __esri.CSVLayerCapabilitiesEditing;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CSVLayerCapabilitiesEditingGenerated implements IPropertyWrapper {
     public component: CSVLayerCapabilitiesEditing;

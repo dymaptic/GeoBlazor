@@ -3,7 +3,7 @@
 
 import ImageUrlParameters from '@arcgis/core/rest/support/ImageUrlParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageUrlParametersGenerated implements IPropertyWrapper {
     public component: ImageUrlParameters;

@@ -23,6 +23,10 @@ export default class LayerViewGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getLayer(): Promise<any> {
+        let { buildDotNetLayer } = await import('./layer');
+        return await buildDotNetLayer(this.component.layer);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -64,7 +68,10 @@ export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetLayerView.layer = jsObject.layer;
+        if (hasValue(jsObject.layer)) {
+            let { buildDotNetLayer } = await import('./layer');
+            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer);
+        }
         if (hasValue(jsObject.spatialReferenceSupported)) {
             dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
         }

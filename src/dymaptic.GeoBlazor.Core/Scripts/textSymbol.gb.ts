@@ -23,6 +23,30 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getBackgroundColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.backgroundColor);
+    }
+    async setBackgroundColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.backgroundColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
+    async getBorderLineColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.borderLineColor);
+    }
+    async setBorderLineColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.borderLineColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     async getFont(): Promise<any> {
         let { buildDotNetMapFont } = await import('./mapFont');
         return await buildDotNetMapFont(this.component.font);
@@ -30,6 +54,14 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
     async setFont(value: any): Promise<void> {
         let { buildJsMapFont } = await import('./mapFont');
         this.component.font =  buildJsMapFont(value);
+    }
+    async getHaloColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.haloColor);
+    }
+    async setHaloColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.haloColor = await  buildJsMapColor(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -43,20 +75,24 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
 export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTextSymbol = new TextSymbol();
     if (hasValue(dotNetObject.backgroundColor)) {
-        jsTextSymbol.backgroundColor = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsTextSymbol.backgroundColor = await buildJsMapColor(dotNetObject.backgroundColor, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.borderLineColor)) {
-        jsTextSymbol.borderLineColor = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsTextSymbol.borderLineColor = await buildJsMapColor(dotNetObject.borderLineColor, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.color)) {
-        jsTextSymbol.color = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsTextSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.font)) {
         let { buildJsMapFont } = await import('./jsBuilder');
         jsTextSymbol.font = buildJsMapFont(dotNetObject.font) as any;
     }
     if (hasValue(dotNetObject.haloColor)) {
-        jsTextSymbol.haloColor = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsTextSymbol.haloColor = await buildJsMapColor(dotNetObject.haloColor, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {
@@ -124,14 +160,26 @@ export async function buildDotNetTextSymbolGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetTextSymbol.backgroundColor = jsObject.backgroundColor;
-        dotNetTextSymbol.borderLineColor = jsObject.borderLineColor;
-        dotNetTextSymbol.color = jsObject.color;
+        if (hasValue(jsObject.backgroundColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTextSymbol.backgroundColor = buildDotNetMapColor(jsObject.backgroundColor);
+        }
+        if (hasValue(jsObject.borderLineColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTextSymbol.borderLineColor = buildDotNetMapColor(jsObject.borderLineColor);
+        }
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTextSymbol.color = buildDotNetMapColor(jsObject.color);
+        }
         if (hasValue(jsObject.font)) {
             let { buildDotNetMapFont } = await import('./mapFont');
             dotNetTextSymbol.font = await buildDotNetMapFont(jsObject.font);
         }
-        dotNetTextSymbol.haloColor = jsObject.haloColor;
+        if (hasValue(jsObject.haloColor)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetTextSymbol.haloColor = buildDotNetMapColor(jsObject.haloColor);
+        }
         if (hasValue(jsObject.angle)) {
             dotNetTextSymbol.angle = jsObject.angle;
         }

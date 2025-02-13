@@ -3,7 +3,7 @@
 
 import StatisticDefinition from '@arcgis/core/rest/support/StatisticDefinition';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class StatisticDefinitionGenerated implements IPropertyWrapper {
     public component: StatisticDefinition;

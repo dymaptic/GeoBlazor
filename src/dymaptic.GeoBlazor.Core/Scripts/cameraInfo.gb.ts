@@ -3,7 +3,7 @@
 
 import CameraInfo from '@arcgis/core/rest/support/CameraInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CameraInfoGenerated implements IPropertyWrapper {
     public component: CameraInfo;

@@ -23,6 +23,10 @@ export default class LabelGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getSymbol(): Promise<any> {
+        let { buildDotNetSymbol } = await import('./symbol');
+        return await buildDotNetSymbol(this.component.symbol);
+    }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
         this.component.symbol =  buildJsSymbol(value);
@@ -108,7 +112,10 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetLabel.symbol = jsObject.symbol;
+        if (hasValue(jsObject.symbol)) {
+            let { buildDotNetSymbol } = await import('./symbol');
+            dotNetLabel.symbol = await buildDotNetSymbol(jsObject.symbol);
+        }
         if (hasValue(jsObject.allowOverrun)) {
             dotNetLabel.allowOverrun = jsObject.allowOverrun;
         }

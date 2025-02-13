@@ -29,7 +29,7 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     }
     async setFromColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.fromColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.fromColor = await  buildJsMapColor(value);
     }
     async getToColor(): Promise<any> {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -37,7 +37,7 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     }
     async setToColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.toColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.toColor = await  buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -52,11 +52,11 @@ export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, la
     let jsAlgorithmicColorRamp = new AlgorithmicColorRamp();
     if (hasValue(dotNetObject.fromColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsAlgorithmicColorRamp.fromColor = await buildJsMapColor(dotNetObject.fromColor, layerId, viewId) as any;
+        jsAlgorithmicColorRamp.fromColor = await buildJsMapColor(dotNetObject.fromColor) as any;
     }
     if (hasValue(dotNetObject.toColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsAlgorithmicColorRamp.toColor = await buildJsMapColor(dotNetObject.toColor, layerId, viewId) as any;
+        jsAlgorithmicColorRamp.toColor = await buildJsMapColor(dotNetObject.toColor) as any;
     }
 
     if (hasValue(dotNetObject.algorithm)) {

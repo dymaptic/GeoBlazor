@@ -3,7 +3,7 @@
 
 import SublayerCapabilities = __esri.SublayerCapabilities;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class SublayerCapabilitiesGenerated implements IPropertyWrapper {
     public component: SublayerCapabilities;

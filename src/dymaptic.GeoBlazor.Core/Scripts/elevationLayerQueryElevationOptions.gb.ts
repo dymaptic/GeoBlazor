@@ -3,7 +3,7 @@
 
 import ElevationLayerQueryElevationOptions = __esri.ElevationLayerQueryElevationOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationLayerQueryElevationOptionsGenerated implements IPropertyWrapper {
     public component: ElevationLayerQueryElevationOptions;

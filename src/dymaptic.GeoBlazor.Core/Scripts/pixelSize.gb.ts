@@ -3,7 +3,7 @@
 
 import PixelSize = __esri.PixelSize;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PixelSizeGenerated implements IPropertyWrapper {
     public component: PixelSize;

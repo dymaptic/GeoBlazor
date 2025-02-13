@@ -1,7 +1,6 @@
 // override generated code in this file
 import LayerGenerated from './layer.gb';
 import Layer from '@arcgis/core/layers/Layer';
-import { arcGisObjectRefs } from './arcGisJsInterop';
 
 export default class LayerWrapper extends LayerGenerated {
 

@@ -3,7 +3,7 @@
 
 import Subtype from '@arcgis/core/layers/support/Subtype';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class SubtypeGenerated implements IPropertyWrapper {
     public component: Subtype;

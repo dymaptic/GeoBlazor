@@ -3,7 +3,7 @@
 
 import FetchResourcesParams = __esri.FetchResourcesParams;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FetchResourcesParamsGenerated implements IPropertyWrapper {
     public component: FetchResourcesParams;

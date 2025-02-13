@@ -3,7 +3,7 @@
 
 import ImageryTileLayerSaveAsOptions = __esri.ImageryTileLayerSaveAsOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageryTileLayerSaveAsOptionsGenerated implements IPropertyWrapper {
     public component: ImageryTileLayerSaveAsOptions;

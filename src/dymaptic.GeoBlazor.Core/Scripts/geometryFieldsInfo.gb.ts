@@ -3,7 +3,7 @@
 
 import GeometryFieldsInfo from '@arcgis/core/layers/support/GeometryFieldsInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeometryFieldsInfoGenerated implements IPropertyWrapper {
     public component: GeometryFieldsInfo;

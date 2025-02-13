@@ -3,7 +3,7 @@
 
 import ImageToMapParameters from '@arcgis/core/rest/support/ImageToMapParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageToMapParametersGenerated implements IPropertyWrapper {
     public component: ImageToMapParameters;

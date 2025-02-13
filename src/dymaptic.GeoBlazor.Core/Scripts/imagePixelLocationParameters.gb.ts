@@ -3,7 +3,7 @@
 
 import ImagePixelLocationParameters from '@arcgis/core/rest/support/ImagePixelLocationParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImagePixelLocationParametersGenerated implements IPropertyWrapper {
     public component: ImagePixelLocationParameters;

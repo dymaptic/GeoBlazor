@@ -83,7 +83,8 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
         jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.pointSymbol)) {
-        jsGeoRSSLayer.pointSymbol = dotNetObject.markerSymbol;
+        let { buildJsMarkerSymbol } = await import('./markerSymbol');
+        jsGeoRSSLayer.pointSymbol = await buildJsMarkerSymbol(dotNetObject.pointSymbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.polygonSymbol)) {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
@@ -170,7 +171,10 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
             dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
         }
-        dotNetGeoRSSLayer.pointSymbol = jsObject.pointSymbol;
+        if (hasValue(jsObject.pointSymbol)) {
+            let { buildDotNetMarkerSymbol } = await import('./markerSymbol');
+            dotNetGeoRSSLayer.pointSymbol = await buildDotNetMarkerSymbol(jsObject.pointSymbol);
+        }
         if (hasValue(jsObject.polygonSymbol)) {
             let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
             dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);

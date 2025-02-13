@@ -3,7 +3,7 @@
 
 import ElevationLayerElevationQueryResultSampleInfo = __esri.ElevationLayerElevationQueryResultSampleInfo;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationLayerElevationQueryResultSampleInfoGenerated implements IPropertyWrapper {
     public component: ElevationLayerElevationQueryResultSampleInfo;

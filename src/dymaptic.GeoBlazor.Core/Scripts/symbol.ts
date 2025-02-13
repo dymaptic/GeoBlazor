@@ -1,17 +1,6 @@
 // override generated code in this file
 import SymbolGenerated from './symbol.gb';
 import Symbol from '@arcgis/core/symbols/Symbol';
-import {
-    DotNetSimpleFillSymbol,
-    DotNetSimpleLineSymbol,
-    DotNetSimpleMarkerSymbol,
-} from "./definitions";
-import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
-import SimpleLineSymbol from "@arcgis/core/symbols/SimpleLineSymbol";
-import SimpleFillSymbol from "@arcgis/core/symbols/SimpleFillSymbol";
-import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
-import TextSymbol from "@arcgis/core/symbols/TextSymbol";
-
 export default class SymbolWrapper extends SymbolGenerated {
 
     constructor(component: Symbol) {

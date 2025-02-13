@@ -3,7 +3,7 @@
 
 import FeatureEditResult = __esri.FeatureEditResult;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureEditResultGenerated implements IPropertyWrapper {
     public component: FeatureEditResult;

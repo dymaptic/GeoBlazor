@@ -3,7 +3,7 @@
 
 import FeatureLayerBaseGetFieldDomainOptions = __esri.FeatureLayerBaseGetFieldDomainOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureLayerBaseGetFieldDomainOptionsGenerated implements IPropertyWrapper {
     public component: FeatureLayerBaseGetFieldDomainOptions;

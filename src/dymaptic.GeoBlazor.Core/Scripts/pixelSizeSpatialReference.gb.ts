@@ -3,7 +3,7 @@
 
 import PixelSizeSpatialReference = __esri.PixelSizeSpatialReference;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PixelSizeSpatialReferenceGenerated implements IPropertyWrapper {
     public component: PixelSizeSpatialReference;

@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Event result type for the GeoJSONLayer.OnRefresh event.
+///    Event result type for the BaseDynamicLayer.OnRefresh event.
 /// </summary>
 /// <param name="DataChanged">
 ///     Indicates if the layer's data has changed.

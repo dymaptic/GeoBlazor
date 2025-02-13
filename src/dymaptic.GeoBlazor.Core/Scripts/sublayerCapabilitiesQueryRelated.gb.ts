@@ -3,7 +3,7 @@
 
 import SublayerCapabilitiesQueryRelated = __esri.SublayerCapabilitiesQueryRelated;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class SublayerCapabilitiesQueryRelatedGenerated implements IPropertyWrapper {
     public component: SublayerCapabilitiesQueryRelated;

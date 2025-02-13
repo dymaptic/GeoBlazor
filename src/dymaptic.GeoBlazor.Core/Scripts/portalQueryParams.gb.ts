@@ -3,7 +3,7 @@
 
 import PortalQueryParams from '@arcgis/core/portal/PortalQueryParams';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalQueryParamsGenerated implements IPropertyWrapper {
     public component: PortalQueryParams;

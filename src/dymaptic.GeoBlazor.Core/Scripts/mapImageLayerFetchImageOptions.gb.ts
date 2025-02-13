@@ -3,7 +3,7 @@
 
 import MapImageLayerFetchImageOptions = __esri.MapImageLayerFetchImageOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class MapImageLayerFetchImageOptionsGenerated implements IPropertyWrapper {
     public component: MapImageLayerFetchImageOptions;

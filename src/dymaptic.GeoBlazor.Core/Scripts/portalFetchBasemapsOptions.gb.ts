@@ -3,7 +3,7 @@
 
 import PortalFetchBasemapsOptions = __esri.PortalFetchBasemapsOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalFetchBasemapsOptionsGenerated implements IPropertyWrapper {
     public component: PortalFetchBasemapsOptions;

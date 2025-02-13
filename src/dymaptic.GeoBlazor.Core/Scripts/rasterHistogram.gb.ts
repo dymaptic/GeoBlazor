@@ -3,7 +3,7 @@
 
 import RasterHistogram = __esri.RasterHistogram;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterHistogramGenerated implements IPropertyWrapper {
     public component: RasterHistogram;

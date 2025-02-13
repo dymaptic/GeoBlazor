@@ -3,7 +3,7 @@
 
 import CSVLayerCapabilitiesQuery = __esri.CSVLayerCapabilitiesQuery;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CSVLayerCapabilitiesQueryGenerated implements IPropertyWrapper {
     public component: CSVLayerCapabilitiesQuery;

@@ -3,7 +3,7 @@
 
 import MosaicRule from '@arcgis/core/layers/support/MosaicRule';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class MosaicRuleGenerated implements IPropertyWrapper {
     public component: MosaicRule;

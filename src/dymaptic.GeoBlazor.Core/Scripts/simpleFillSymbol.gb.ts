@@ -23,6 +23,14 @@ export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -35,7 +43,8 @@ export default class SimpleFillSymbolGenerated implements IPropertyWrapper {
 export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleFillSymbol = new SimpleFillSymbol();
     if (hasValue(dotNetObject.color)) {
-        jsSimpleFillSymbol.color = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsSimpleFillSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.outline)) {
@@ -73,7 +82,10 @@ export async function buildDotNetSimpleFillSymbolGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSimpleFillSymbol.color = jsObject.color;
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetSimpleFillSymbol.color = buildDotNetMapColor(jsObject.color);
+        }
         if (hasValue(jsObject.outline)) {
             dotNetSimpleFillSymbol.outline = jsObject.outline;
         }

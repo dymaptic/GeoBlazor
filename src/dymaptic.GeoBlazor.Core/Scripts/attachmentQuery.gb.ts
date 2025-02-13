@@ -3,7 +3,7 @@
 
 import AttachmentQuery from '@arcgis/core/rest/support/AttachmentQuery';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class AttachmentQueryGenerated implements IPropertyWrapper {
     public component: AttachmentQuery;

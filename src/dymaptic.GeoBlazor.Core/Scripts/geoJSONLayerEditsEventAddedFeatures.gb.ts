@@ -3,7 +3,7 @@
 
 import GeoJSONLayerEditsEventAddedFeatures = __esri.GeoJSONLayerEditsEventAddedFeatures;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeoJSONLayerEditsEventAddedFeaturesGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerEditsEventAddedFeatures;

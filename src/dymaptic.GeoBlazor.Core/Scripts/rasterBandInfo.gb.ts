@@ -3,7 +3,7 @@
 
 import RasterBandInfo from '@arcgis/core/layers/support/RasterBandInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterBandInfoGenerated implements IPropertyWrapper {
     public component: RasterBandInfo;

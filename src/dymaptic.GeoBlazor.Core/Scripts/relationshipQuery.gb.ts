@@ -3,7 +3,7 @@
 
 import RelationshipQuery from '@arcgis/core/rest/support/RelationshipQuery';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RelationshipQueryGenerated implements IPropertyWrapper {
     public component: RelationshipQuery;

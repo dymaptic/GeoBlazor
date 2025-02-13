@@ -3,7 +3,7 @@
 
 import GeoJSONLayerEditsEventDeletedFeatures = __esri.GeoJSONLayerEditsEventDeletedFeatures;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeoJSONLayerEditsEventDeletedFeaturesGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerEditsEventDeletedFeatures;

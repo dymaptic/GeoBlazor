@@ -12,14 +12,14 @@ export default class FeatureTypeWrapper extends FeatureTypeGenerated {
 }
 
 export async function buildDotNetFeatureType(result: FeatureType) {
-    let { buildDotNetFeatureTypeGenerated } = await import('./featureType.gb');
+    // let { buildDotNetFeatureTypeGenerated } = await import('./featureType.gb');
     // TODO: compare with generated and possibly remove
     // return await buildDotNetFeatureTypeGenerated(result);
     if (!hasValue(result)) {
         return null;
     }
     let dotNetDomains = {};
-    for (var domain in result.domains) {
+    for (let domain in result.domains) {
         if (Object.prototype.hasOwnProperty.call(result.domains, domain)) {
             let { buildDotNetDomain } = await import('./domain');
             dotNetDomains[domain] = buildDotNetDomain(result.domains[domain]);

@@ -30,7 +30,7 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
     }
     
     getProperty(prop: string): any {
@@ -46,7 +46,7 @@ export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, laye
     let jsFieldsContent = new FieldsContent();
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsFieldsContent.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
+        jsFieldsContent.fieldInfos = await Promise.all(dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i))) as any;
     }
 
     if (hasValue(dotNetObject.description)) {

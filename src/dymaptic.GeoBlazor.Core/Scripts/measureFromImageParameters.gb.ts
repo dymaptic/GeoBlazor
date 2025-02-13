@@ -3,7 +3,7 @@
 
 import MeasureFromImageParameters from '@arcgis/core/rest/support/MeasureFromImageParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class MeasureFromImageParametersGenerated implements IPropertyWrapper {
     public component: MeasureFromImageParameters;

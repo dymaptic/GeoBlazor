@@ -3,7 +3,7 @@
 
 import PortalUserFetchItemsParams = __esri.PortalUserFetchItemsParams;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalUserFetchItemsParamsGenerated implements IPropertyWrapper {
     public component: PortalUserFetchItemsParams;

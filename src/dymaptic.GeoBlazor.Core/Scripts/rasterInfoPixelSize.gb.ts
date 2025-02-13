@@ -3,7 +3,7 @@
 
 import RasterInfoPixelSize = __esri.RasterInfoPixelSize;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterInfoPixelSizeGenerated implements IPropertyWrapper {
     public component: RasterInfoPixelSize;

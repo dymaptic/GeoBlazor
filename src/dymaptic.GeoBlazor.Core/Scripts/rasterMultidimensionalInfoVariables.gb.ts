@@ -3,7 +3,7 @@
 
 import RasterMultidimensionalInfoVariables = __esri.RasterMultidimensionalInfoVariables;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterMultidimensionalInfoVariablesGenerated implements IPropertyWrapper {
     public component: RasterMultidimensionalInfoVariables;

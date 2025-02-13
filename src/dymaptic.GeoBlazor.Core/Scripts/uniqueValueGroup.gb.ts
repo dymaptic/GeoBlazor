@@ -46,7 +46,7 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
     let jsUniqueValueGroup = new UniqueValueGroup();
     if (hasValue(dotNetObject.classes)) {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        jsUniqueValueGroup.classes = dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId)) as any;
+        jsUniqueValueGroup.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.heading)) {
@@ -83,7 +83,7 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
     };
         if (hasValue(jsObject.classes)) {
             let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-            dotNetUniqueValueGroup.classes = jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i));
+            dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i)));
         }
         if (hasValue(jsObject.heading)) {
             dotNetUniqueValueGroup.heading = jsObject.heading;

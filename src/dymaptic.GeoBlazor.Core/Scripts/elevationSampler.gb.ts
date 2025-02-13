@@ -3,7 +3,7 @@
 
 import ElevationSampler from '@arcgis/core/layers/support/ElevationSampler';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationSamplerGenerated implements IPropertyWrapper {
     public component: ElevationSampler;

@@ -23,6 +23,10 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getSymbol(): Promise<any> {
+        let { buildDotNetSymbol } = await import('./symbol');
+        return await buildDotNetSymbol(this.component.symbol);
+    }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
         this.component.symbol =  buildJsSymbol(value);
@@ -54,7 +58,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.values)) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
-        jsUniqueValueClass.values = dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId)) as any;
+        jsUniqueValueClass.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -89,10 +93,13 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetUniqueValueClass.symbol = jsObject.symbol;
+        if (hasValue(jsObject.symbol)) {
+            let { buildDotNetSymbol } = await import('./symbol');
+            dotNetUniqueValueClass.symbol = await buildDotNetSymbol(jsObject.symbol);
+        }
         if (hasValue(jsObject.values)) {
             let { buildDotNetUniqueValue } = await import('./uniqueValue');
-            dotNetUniqueValueClass.values = jsObject.values.map(async i => await buildDotNetUniqueValue(i));
+            dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i)));
         }
         if (hasValue(jsObject.label)) {
             dotNetUniqueValueClass.label = jsObject.label;

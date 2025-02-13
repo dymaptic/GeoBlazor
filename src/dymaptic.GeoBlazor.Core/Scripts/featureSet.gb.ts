@@ -3,7 +3,7 @@
 
 import FeatureSet from '@arcgis/core/rest/support/FeatureSet';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureSetGenerated implements IPropertyWrapper {
     public component: FeatureSet;

@@ -3,7 +3,7 @@
 
 import Query from '@arcgis/core/rest/support/Query';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class QueryGenerated implements IPropertyWrapper {
     public component: Query;

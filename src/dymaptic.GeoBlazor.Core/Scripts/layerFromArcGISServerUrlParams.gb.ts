@@ -3,7 +3,7 @@
 
 import LayerFromArcGISServerUrlParams = __esri.LayerFromArcGISServerUrlParams;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class LayerFromArcGISServerUrlParamsGenerated implements IPropertyWrapper {
     public component: LayerFromArcGISServerUrlParams;

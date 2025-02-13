@@ -3,7 +3,6 @@
 
 import VectorTileLayerCurrentStyleInfo = __esri.VectorTileLayerCurrentStyleInfo;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
 
 export default class VectorTileLayerCurrentStyleInfoGenerated implements IPropertyWrapper {
     public component: VectorTileLayerCurrentStyleInfo;

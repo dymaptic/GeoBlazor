@@ -29,6 +29,16 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getBaseLayers(): Promise<any> {
+        let { buildDotNetLayer } = await import('./layer');
+        return this.component.baseLayers.map(async i => await buildDotNetLayer(i));
+    }
+    
+    async setBaseLayers(value: any): Promise<void> {
+        let { buildJsLayer } = await import('./layer');
+        this.component.baseLayers = value.map(async i => await buildJsLayer(i, this.layerId, this.viewId));
+    }
+    
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
@@ -37,6 +47,16 @@ export default class BasemapGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    async getReferenceLayers(): Promise<any> {
+        let { buildDotNetLayer } = await import('./layer');
+        return this.component.referenceLayers.map(async i => await buildDotNetLayer(i));
+    }
+    
+    async setReferenceLayers(value: any): Promise<void> {
+        let { buildJsLayer } = await import('./layer');
+        this.component.referenceLayers = value.map(async i => await buildJsLayer(i, this.layerId, this.viewId));
+    }
+    
     async getStyle(): Promise<any> {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
         return await buildDotNetBasemapStyle(this.component.style);
@@ -57,14 +77,16 @@ export default class BasemapGenerated implements IPropertyWrapper {
 export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBasemap = new Basemap();
     if (hasValue(dotNetObject.baseLayers)) {
-        jsBasemap.baseLayers = dotNetObject.layer;
+        let { buildJsLayer } = await import('./layer');
+        jsBasemap.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsBasemap.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.referenceLayers)) {
-        jsBasemap.referenceLayers = dotNetObject.layer;
+        let { buildJsLayer } = await import('./layer');
+        jsBasemap.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
@@ -112,12 +134,18 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetBasemap.baseLayers = jsObject.baseLayers;
+        if (hasValue(jsObject.baseLayers)) {
+            let { buildDotNetLayer } = await import('./layer');
+            dotNetBasemap.baseLayers = await Promise.all(jsObject.baseLayers.map(async i => await buildDotNetLayer(i)));
+        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
-        dotNetBasemap.referenceLayers = jsObject.referenceLayers;
+        if (hasValue(jsObject.referenceLayers)) {
+            let { buildDotNetLayer } = await import('./layer');
+            dotNetBasemap.referenceLayers = await Promise.all(jsObject.referenceLayers.map(async i => await buildDotNetLayer(i)));
+        }
         if (hasValue(jsObject.style)) {
             let { buildDotNetBasemapStyle } = await import('./basemapStyle');
             dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);

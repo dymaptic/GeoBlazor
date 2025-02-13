@@ -3,7 +3,7 @@
 
 import SubsetDimension = __esri.SubsetDimension;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class SubsetDimensionGenerated implements IPropertyWrapper {
     public component: SubsetDimension;

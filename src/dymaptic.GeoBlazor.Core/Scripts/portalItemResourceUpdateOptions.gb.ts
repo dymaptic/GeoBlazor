@@ -3,7 +3,7 @@
 
 import PortalItemResourceUpdateOptions = __esri.PortalItemResourceUpdateOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalItemResourceUpdateOptionsGenerated implements IPropertyWrapper {
     public component: PortalItemResourceUpdateOptions;

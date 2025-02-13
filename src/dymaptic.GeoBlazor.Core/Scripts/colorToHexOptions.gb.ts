@@ -3,7 +3,7 @@
 
 import ColorToHexOptions = __esri.ColorToHexOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ColorToHexOptionsGenerated implements IPropertyWrapper {
     public component: ColorToHexOptions;

@@ -3,7 +3,7 @@
 
 import ImageAngleParameters from '@arcgis/core/rest/support/ImageAngleParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageAngleParametersGenerated implements IPropertyWrapper {
     public component: ImageAngleParameters;

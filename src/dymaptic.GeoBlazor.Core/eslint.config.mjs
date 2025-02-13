@@ -13,7 +13,10 @@ export default [
     rules: {
         "prefer-const": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/ban-ts-comment": ["error", { "ts-ignore": "allow-with-description" }]
+        'no-prototype-builtins': 'off',
+        "@typescript-eslint/ban-ts-comment": 'off',
+        'no-case-declarations': "off",
+        '@typescript-eslint/no-unsafe-function-type': "off"
     }
   }
 ];

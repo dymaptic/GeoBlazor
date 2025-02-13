@@ -3,7 +3,7 @@
 
 import FeatureEditResultError = __esri.FeatureEditResultError;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureEditResultErrorGenerated implements IPropertyWrapper {
     public component: FeatureEditResultError;

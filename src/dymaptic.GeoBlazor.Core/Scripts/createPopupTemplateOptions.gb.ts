@@ -3,7 +3,7 @@
 
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CreatePopupTemplateOptionsGenerated implements IPropertyWrapper {
     public component: CreatePopupTemplateOptions;

@@ -3,7 +3,7 @@
 
 import ImageGPSInfoParameters from '@arcgis/core/rest/support/ImageGPSInfoParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageGPSInfoParametersGenerated implements IPropertyWrapper {
     public component: ImageGPSInfoParameters;

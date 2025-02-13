@@ -68,7 +68,7 @@ export async function buildJsActionBaseGenerated(dotNetObject: any, layerId: str
     actionBaseWrapper.viewId = viewId;
     actionBaseWrapper.layerId = layerId;
     
-    // @ts-ignore
+    // @ts-ignore DotNet
     let jsObjectRef = DotNet.createJSObjectReference(actionBaseWrapper);
     await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = actionBaseWrapper;

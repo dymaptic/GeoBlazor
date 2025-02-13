@@ -3,7 +3,7 @@
 
 import TileInfoCreateOptions = __esri.TileInfoCreateOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class TileInfoCreateOptionsGenerated implements IPropertyWrapper {
     public component: TileInfoCreateOptions;

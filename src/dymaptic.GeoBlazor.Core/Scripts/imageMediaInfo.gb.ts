@@ -29,7 +29,7 @@ export default class ImageMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsImageMediaInfoValue } = await import('./imageMediaInfoValue');
-        this.component.value = await  buildJsImageMediaInfoValue(value);
+        this.component.value =  buildJsImageMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     let jsImageMediaInfo = new ImageMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsImageMediaInfoValue } = await import('./jsBuilder');
-        jsImageMediaInfo.value = await buildJsImageMediaInfoValue(dotNetObject.value) as any;
+        jsImageMediaInfo.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {

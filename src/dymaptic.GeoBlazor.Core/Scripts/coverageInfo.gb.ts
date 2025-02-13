@@ -3,7 +3,7 @@
 
 import CoverageInfo = __esri.CoverageInfo;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CoverageInfoGenerated implements IPropertyWrapper {
     public component: CoverageInfo;

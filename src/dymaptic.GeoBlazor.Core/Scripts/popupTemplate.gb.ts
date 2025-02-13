@@ -23,6 +23,16 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getActions(): Promise<any> {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return this.component.actions.map(async i => await buildDotNetActionBase(i));
+    }
+    
+    async setActions(value: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        this.component.actions = value.map(async i => await buildJsActionBase(i, this.layerId, this.viewId));
+    }
+    
     async setContent(value: any): Promise<void> {
         let { buildJsPopupContent } = await import('./popupContent');
         this.component.content = value.map(i => buildJsPopupContent(i));
@@ -68,7 +78,8 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
 export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPopupTemplate = new PopupTemplate();
     if (hasValue(dotNetObject.actions)) {
-        jsPopupTemplate.actions = dotNetObject.actionBase;
+        let { buildJsActionBase } = await import('./actionBase');
+        jsPopupTemplate.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.content)) {
         let { buildJsPopupContent } = await import('./jsBuilder');
@@ -80,7 +91,7 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i)) as any;
+        jsPopupTemplate.fieldInfos = await Promise.all(dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i))) as any;
     }
     if (hasValue(dotNetObject.layerOptions)) {
         let { buildJsLayerOptions } = await import('./layerOptions');
@@ -131,15 +142,21 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetPopupTemplate.actions = jsObject.actions;
-        dotNetPopupTemplate.content = jsObject.content;
+        if (hasValue(jsObject.actions)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
+        }
+        if (hasValue(jsObject.content)) {
+            let { buildDotNetPopupContent } = await import('./popupContent');
+            dotNetPopupTemplate.content = await Promise.all(jsObject.content.map(async i => await buildDotNetPopupContent(i)));
+        }
         if (hasValue(jsObject.expressionInfos)) {
             let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+            dotNetPopupTemplate.expressionInfos = await Promise.all(jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
         }
         if (hasValue(jsObject.fieldInfos)) {
             let { buildDotNetFieldInfo } = await import('./fieldInfo');
-            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+            dotNetPopupTemplate.fieldInfos = await Promise.all(jsObject.fieldInfos.map(async i => await buildDotNetFieldInfo(i)));
         }
         if (hasValue(jsObject.layerOptions)) {
             let { buildDotNetLayerOptions } = await import('./layerOptions');

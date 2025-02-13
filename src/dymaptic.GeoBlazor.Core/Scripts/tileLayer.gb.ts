@@ -140,7 +140,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.subtables)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsTileLayer.subtables = dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId)) as any;
+        jsTileLayer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -240,7 +240,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     };
         if (hasValue(jsObject.allSublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetTileLayer.allSublayers = jsObject.allSublayers.map(async i => await buildDotNetSublayer(i));
+            dotNetTileLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
@@ -248,11 +248,11 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetTileLayer.sublayers = jsObject.sublayers.map(async i => await buildDotNetSublayer(i));
+            dotNetTileLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.subtables)) {
             let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetTileLayer.subtables = jsObject.subtables.map(async i => await buildDotNetSublayer(i));
+            dotNetTileLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');

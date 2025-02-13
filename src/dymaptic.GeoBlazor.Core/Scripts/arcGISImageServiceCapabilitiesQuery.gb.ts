@@ -3,7 +3,7 @@
 
 import ArcGISImageServiceCapabilitiesQuery = __esri.ArcGISImageServiceCapabilitiesQuery;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 export default class ArcGISImageServiceCapabilitiesQueryGenerated implements IPropertyWrapper {
     public component: ArcGISImageServiceCapabilitiesQuery;
 

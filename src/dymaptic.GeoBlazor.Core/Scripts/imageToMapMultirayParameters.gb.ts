@@ -3,7 +3,7 @@
 
 import ImageToMapMultirayParameters from '@arcgis/core/rest/support/ImageToMapMultirayParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageToMapMultirayParametersGenerated implements IPropertyWrapper {
     public component: ImageToMapMultirayParameters;

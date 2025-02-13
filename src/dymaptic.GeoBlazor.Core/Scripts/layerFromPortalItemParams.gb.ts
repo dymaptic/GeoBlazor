@@ -3,7 +3,7 @@
 
 import LayerFromPortalItemParams = __esri.LayerFromPortalItemParams;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class LayerFromPortalItemParamsGenerated implements IPropertyWrapper {
     public component: LayerFromPortalItemParams;

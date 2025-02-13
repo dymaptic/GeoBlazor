@@ -3,7 +3,7 @@
 
 import PortalItemApplicationProxies = __esri.PortalItemApplicationProxies;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalItemApplicationProxiesGenerated implements IPropertyWrapper {
     public component: PortalItemApplicationProxies;

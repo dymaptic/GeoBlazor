@@ -3,7 +3,7 @@
 
 import QueryParameterValues = __esri.QueryParameterValues;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class QueryParameterValuesGenerated implements IPropertyWrapper {
     public component: QueryParameterValues;

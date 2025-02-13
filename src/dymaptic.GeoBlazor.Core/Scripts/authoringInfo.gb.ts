@@ -23,6 +23,10 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColorRamp(): Promise<any> {
+        let { buildDotNetColorRamp } = await import('./colorRamp');
+        return await buildDotNetColorRamp(this.component.colorRamp);
+    }
     async setColorRamp(value: any): Promise<void> {
         let { buildJsColorRamp } = await import('./colorRamp');
         this.component.colorRamp =  buildJsColorRamp(value);
@@ -90,7 +94,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        jsAuthoringInfo.visualVariables = dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId)) as any;
+        jsAuthoringInfo.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.classificationMethod)) {
@@ -161,7 +165,10 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetAuthoringInfo.colorRamp = jsObject.colorRamp;
+        if (hasValue(jsObject.colorRamp)) {
+            let { buildDotNetColorRamp } = await import('./colorRamp');
+            dotNetAuthoringInfo.colorRamp = await buildDotNetColorRamp(jsObject.colorRamp);
+        }
         if (hasValue(jsObject.field1)) {
             let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
             dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
@@ -176,7 +183,7 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.visualVariables)) {
             let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-            dotNetAuthoringInfo.visualVariables = jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
+            dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
         }
         if (hasValue(jsObject.classificationMethod)) {
             dotNetAuthoringInfo.classificationMethod = jsObject.classificationMethod;

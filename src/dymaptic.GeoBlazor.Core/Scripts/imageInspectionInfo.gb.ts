@@ -3,7 +3,7 @@
 
 import ImageInspectionInfo from '@arcgis/core/rest/support/ImageInspectionInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageInspectionInfoGenerated implements IPropertyWrapper {
     public component: ImageInspectionInfo;

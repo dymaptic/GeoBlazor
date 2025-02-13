@@ -3,7 +3,7 @@
 
 import Relationship from '@arcgis/core/layers/support/Relationship';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RelationshipGenerated implements IPropertyWrapper {
     public component: Relationship;

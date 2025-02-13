@@ -3,7 +3,7 @@
 
 import ImageSample from '@arcgis/core/rest/support/ImageSample';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageSampleGenerated implements IPropertyWrapper {
     public component: ImageSample;

@@ -10,5 +10,5 @@ export function buildDotNetAddressCandidate(addressCandidate): any {
         extent: buildDotNetExtent(addressCandidate.extent),
         location: buildDotNetPoint(addressCandidate.location),
         score: addressCandidate.score
-    } as DotNetAddressCandidate;
+    }
 }

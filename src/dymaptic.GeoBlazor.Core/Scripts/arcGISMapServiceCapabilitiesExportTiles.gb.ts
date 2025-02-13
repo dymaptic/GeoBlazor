@@ -3,7 +3,7 @@
 
 import ArcGISMapServiceCapabilitiesExportTiles = __esri.ArcGISMapServiceCapabilitiesExportTiles;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ArcGISMapServiceCapabilitiesExportTilesGenerated implements IPropertyWrapper {
     public component: ArcGISMapServiceCapabilitiesExportTiles;

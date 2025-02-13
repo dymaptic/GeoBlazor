@@ -3,7 +3,7 @@
 
 import RasterFunctionInfo = __esri.RasterFunctionInfo;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterFunctionInfoGenerated implements IPropertyWrapper {
     public component: RasterFunctionInfo;

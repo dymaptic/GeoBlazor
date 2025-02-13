@@ -3,7 +3,7 @@
 
 import CapabilitiesQuery = __esri.CapabilitiesQuery;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CapabilitiesQueryGenerated implements IPropertyWrapper {
     public component: CapabilitiesQuery;

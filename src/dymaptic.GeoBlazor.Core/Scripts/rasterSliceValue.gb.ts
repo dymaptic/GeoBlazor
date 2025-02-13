@@ -3,7 +3,7 @@
 
 import RasterSliceValue = __esri.RasterSliceValue;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterSliceValueGenerated implements IPropertyWrapper {
     public component: RasterSliceValue;

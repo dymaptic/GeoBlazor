@@ -3,7 +3,7 @@
 
 import SublayerGetFieldDomainOptions = __esri.SublayerGetFieldDomainOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class SublayerGetFieldDomainOptionsGenerated implements IPropertyWrapper {
     public component: SublayerGetFieldDomainOptions;

@@ -3,7 +3,7 @@
 
 import HighlightHandle = __esri.Handle;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class HighlightHandleGenerated implements IPropertyWrapper {
     public component: HighlightHandle;

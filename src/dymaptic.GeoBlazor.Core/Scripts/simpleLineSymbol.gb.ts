@@ -23,6 +23,14 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     
     // region properties
     
+    async getColor(): Promise<any> {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        return buildDotNetMapColor(this.component.color);
+    }
+    async setColor(value: any): Promise<void> {
+        let { buildJsMapColor } = await import('./mapColor');
+        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+    }
     async getMarker(): Promise<any> {
         let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
         return await buildDotNetLineSymbolMarker(this.component.marker);
@@ -43,7 +51,8 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
 export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleLineSymbol = new SimpleLineSymbol();
     if (hasValue(dotNetObject.color)) {
-        jsSimpleLineSymbol.color = dotNetObject.mapColor;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsSimpleLineSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.marker)) {
         let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');
@@ -94,7 +103,10 @@ export async function buildDotNetSimpleLineSymbolGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetSimpleLineSymbol.color = jsObject.color;
+        if (hasValue(jsObject.color)) {
+            let { buildDotNetMapColor } = await import('./mapColor');
+            dotNetSimpleLineSymbol.color = buildDotNetMapColor(jsObject.color);
+        }
         if (hasValue(jsObject.marker)) {
             let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
             dotNetSimpleLineSymbol.marker = await buildDotNetLineSymbolMarker(jsObject.marker);

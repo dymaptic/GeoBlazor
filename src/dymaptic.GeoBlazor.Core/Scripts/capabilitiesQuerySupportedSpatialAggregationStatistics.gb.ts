@@ -3,7 +3,7 @@
 
 import CapabilitiesQuerySupportedSpatialAggregationStatistics = __esri.CapabilitiesQuerySupportedSpatialAggregationStatistics;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class CapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated implements IPropertyWrapper {
     public component: CapabilitiesQuerySupportedSpatialAggregationStatistics;

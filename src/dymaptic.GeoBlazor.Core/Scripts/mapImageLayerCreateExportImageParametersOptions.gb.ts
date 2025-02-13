@@ -3,7 +3,7 @@
 
 import MapImageLayerCreateExportImageParametersOptions = __esri.MapImageLayerCreateExportImageParametersOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class MapImageLayerCreateExportImageParametersOptionsGenerated implements IPropertyWrapper {
     public component: MapImageLayerCreateExportImageParametersOptions;

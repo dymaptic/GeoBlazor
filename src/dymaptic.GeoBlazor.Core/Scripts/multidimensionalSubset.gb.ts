@@ -30,7 +30,7 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
     
     async setSubsetDefinitions(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.component.subsetDefinitions = value.map(async i => await buildJsDimensionalDefinition(i));
+        this.component.subsetDefinitions = value.map(i => buildJsDimensionalDefinition(i));
     }
     
     getProperty(prop: string): any {
@@ -46,7 +46,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     let jsMultidimensionalSubset = new MultidimensionalSubset();
     if (hasValue(dotNetObject.subsetDefinitions)) {
         let { buildJsDimensionalDefinition } = await import('./jsBuilder');
-        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i)) as any;
+        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(i => buildJsDimensionalDefinition(i)) as any;
     }
 
     if (hasValue(dotNetObject.areaOfInterest)) {
@@ -83,7 +83,7 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
     };
         if (hasValue(jsObject.subsetDefinitions)) {
             let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-            dotNetMultidimensionalSubset.subsetDefinitions = jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i));
+            dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i)));
         }
         if (hasValue(jsObject.areaOfInterest)) {
             dotNetMultidimensionalSubset.areaOfInterest = jsObject.areaOfInterest;

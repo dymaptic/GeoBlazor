@@ -3,7 +3,7 @@
 
 import QueryRangeValues = __esri.QueryRangeValues;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class QueryRangeValuesGenerated implements IPropertyWrapper {
     public component: QueryRangeValues;

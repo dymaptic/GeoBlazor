@@ -3,7 +3,7 @@
 
 import RasterInfoStatistics = __esri.RasterInfoStatistics;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterInfoStatisticsGenerated implements IPropertyWrapper {
     public component: RasterInfoStatistics;

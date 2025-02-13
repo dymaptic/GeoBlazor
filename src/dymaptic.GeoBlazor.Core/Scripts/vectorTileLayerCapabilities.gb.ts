@@ -3,7 +3,7 @@
 
 import VectorTileLayerCapabilities = __esri.VectorTileLayerCapabilities;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class VectorTileLayerCapabilitiesGenerated implements IPropertyWrapper {
     public component: VectorTileLayerCapabilities;

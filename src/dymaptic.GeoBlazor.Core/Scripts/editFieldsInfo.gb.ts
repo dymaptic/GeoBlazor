@@ -3,7 +3,7 @@
 
 import EditFieldsInfo = __esri.EditFieldsInfo;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class EditFieldsInfoGenerated implements IPropertyWrapper {
     public component: EditFieldsInfo;

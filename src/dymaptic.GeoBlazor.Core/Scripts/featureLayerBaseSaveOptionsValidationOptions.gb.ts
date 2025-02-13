@@ -3,7 +3,7 @@
 
 import FeatureLayerBaseSaveOptionsValidationOptions = __esri.FeatureLayerBaseSaveOptionsValidationOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureLayerBaseSaveOptionsValidationOptionsGenerated implements IPropertyWrapper {
     public component: FeatureLayerBaseSaveOptionsValidationOptions;

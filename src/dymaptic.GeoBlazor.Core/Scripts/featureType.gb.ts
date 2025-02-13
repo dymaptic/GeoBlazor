@@ -3,7 +3,7 @@
 
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureTypeGenerated implements IPropertyWrapper {
     public component: FeatureType;

@@ -3,7 +3,7 @@
 
 import ImageHeightParameters from '@arcgis/core/rest/support/ImageHeightParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageHeightParametersGenerated implements IPropertyWrapper {
     public component: ImageHeightParameters;

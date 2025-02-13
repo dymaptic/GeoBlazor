@@ -3,7 +3,7 @@
 
 import PublishingInfo from '@arcgis/core/layers/support/PublishingInfo';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PublishingInfoGenerated implements IPropertyWrapper {
     public component: PublishingInfo;

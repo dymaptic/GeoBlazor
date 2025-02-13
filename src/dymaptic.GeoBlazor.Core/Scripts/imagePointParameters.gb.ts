@@ -3,7 +3,7 @@
 
 import ImagePointParameters from '@arcgis/core/rest/support/ImagePointParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImagePointParametersGenerated implements IPropertyWrapper {
     public component: ImagePointParameters;

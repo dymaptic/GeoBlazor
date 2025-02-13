@@ -3,7 +3,7 @@
 
 import ImageryLayerSaveAsOptions = __esri.ImageryLayerSaveAsOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageryLayerSaveAsOptionsGenerated implements IPropertyWrapper {
     public component: ImageryLayerSaveAsOptions;

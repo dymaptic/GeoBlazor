@@ -3,7 +3,7 @@
 
 import GeoJSONLayerCapabilitiesOperations = __esri.GeoJSONLayerCapabilitiesOperations;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeoJSONLayerCapabilitiesOperationsGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerCapabilitiesOperations;

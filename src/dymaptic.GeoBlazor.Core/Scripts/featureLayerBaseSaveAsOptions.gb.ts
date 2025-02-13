@@ -3,7 +3,7 @@
 
 import FeatureLayerBaseSaveAsOptions = __esri.FeatureLayerBaseSaveAsOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FeatureLayerBaseSaveAsOptionsGenerated implements IPropertyWrapper {
     public component: FeatureLayerBaseSaveAsOptions;

@@ -3,7 +3,7 @@
 
 import ArcGISMapServiceCapabilitiesOperations = __esri.ArcGISMapServiceCapabilitiesOperations;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ArcGISMapServiceCapabilitiesOperationsGenerated implements IPropertyWrapper {
     public component: ArcGISMapServiceCapabilitiesOperations;

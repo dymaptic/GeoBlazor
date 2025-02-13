@@ -2,7 +2,6 @@
 
 
 import Graphic from '@arcgis/core/Graphic';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class GraphicGenerated implements IPropertyWrapper {
@@ -33,6 +32,14 @@ export default class GraphicGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getLayer(): Promise<any> {
+        let { buildDotNetLayer } = await import('./layer');
+        return await buildDotNetLayer(this.component.layer);
+    }
+    async setLayer(value: any): Promise<void> {
+        let { buildJsLayer } = await import('./layer');
+        this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -40,47 +47,5 @@ export default class GraphicGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-}
-
-export async function buildDotNetGraphicGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
-    
-    let dotNetGraphic: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
-    };
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetGraphic.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        dotNetGraphic.symbol = jsObject.symbol;
-        if (hasValue(jsObject.aggregateGeometries)) {
-            dotNetGraphic.aggregateGeometries = jsObject.aggregateGeometries;
-        }
-        if (hasValue(jsObject.attributes)) {
-            dotNetGraphic.attributes = jsObject.attributes;
-        }
-        if (hasValue(jsObject.geometry)) {
-            dotNetGraphic.geometry = jsObject.geometry;
-        }
-        if (hasValue(jsObject.isAggregate)) {
-            dotNetGraphic.isAggregate = jsObject.isAggregate;
-        }
-        if (hasValue(jsObject.origin)) {
-            dotNetGraphic.origin = jsObject.origin;
-        }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGraphic.id = k;
-                break;
-            }
-        }
-    }
-
-    return dotNetGraphic;
 }
 

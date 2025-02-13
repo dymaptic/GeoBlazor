@@ -3,7 +3,7 @@
 
 import FieldsIndex from '@arcgis/core/layers/support/FieldsIndex';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FieldsIndexGenerated implements IPropertyWrapper {
     public component: FieldsIndex;

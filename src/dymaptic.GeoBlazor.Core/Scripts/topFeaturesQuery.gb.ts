@@ -3,7 +3,7 @@
 
 import TopFeaturesQuery from '@arcgis/core/rest/support/TopFeaturesQuery';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class TopFeaturesQueryGenerated implements IPropertyWrapper {
     public component: TopFeaturesQuery;

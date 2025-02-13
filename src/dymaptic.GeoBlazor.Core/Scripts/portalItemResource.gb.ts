@@ -3,7 +3,7 @@
 
 import PortalItemResource from '@arcgis/core/portal/PortalItemResource';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalItemResourceGenerated implements IPropertyWrapper {
     public component: PortalItemResource;

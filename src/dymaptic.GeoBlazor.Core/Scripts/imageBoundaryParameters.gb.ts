@@ -3,7 +3,7 @@
 
 import ImageBoundaryParameters from '@arcgis/core/rest/support/ImageBoundaryParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageBoundaryParametersGenerated implements IPropertyWrapper {
     public component: ImageBoundaryParameters;

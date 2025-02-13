@@ -3,7 +3,7 @@
 
 import ElevationLayerCreateElevationSamplerOptions = __esri.ElevationLayerCreateElevationSamplerOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationLayerCreateElevationSamplerOptionsGenerated implements IPropertyWrapper {
     public component: ElevationLayerCreateElevationSamplerOptions;

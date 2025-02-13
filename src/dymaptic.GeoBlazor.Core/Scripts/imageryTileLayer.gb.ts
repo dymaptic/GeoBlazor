@@ -203,7 +203,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsImageryTileLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsImageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -325,7 +325,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     };
         if (hasValue(jsObject.multidimensionalDefinition)) {
             let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-            dotNetImageryTileLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i));
+            dotNetImageryTileLayer.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
         }
         if (hasValue(jsObject.multidimensionalSubset)) {
             let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
@@ -341,7 +341,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetImageryTileLayer.rasterFields = jsObject.rasterFields.map(async i => await buildDotNetField(i));
+            dotNetImageryTileLayer.rasterFields = await Promise.all(jsObject.rasterFields.map(async i => await buildDotNetField(i)));
         }
         if (hasValue(jsObject.rasterFunction)) {
             let { buildDotNetRasterFunction } = await import('./rasterFunction');

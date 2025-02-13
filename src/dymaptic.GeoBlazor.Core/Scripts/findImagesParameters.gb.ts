@@ -3,7 +3,7 @@
 
 import FindImagesParameters from '@arcgis/core/rest/support/FindImagesParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class FindImagesParametersGenerated implements IPropertyWrapper {
     public component: FindImagesParameters;

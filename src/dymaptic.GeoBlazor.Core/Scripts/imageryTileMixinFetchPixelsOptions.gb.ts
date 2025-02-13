@@ -3,7 +3,7 @@
 
 import ImageryTileMixinFetchPixelsOptions = __esri.ImageryTileMixinFetchPixelsOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageryTileMixinFetchPixelsOptionsGenerated implements IPropertyWrapper {
     public component: ImageryTileMixinFetchPixelsOptions;

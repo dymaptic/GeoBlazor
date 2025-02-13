@@ -3,7 +3,7 @@
 
 import RasterIdentifyOptions = __esri.RasterIdentifyOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class RasterIdentifyOptionsGenerated implements IPropertyWrapper {
     public component: RasterIdentifyOptions;

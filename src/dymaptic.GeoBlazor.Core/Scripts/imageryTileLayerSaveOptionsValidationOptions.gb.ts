@@ -3,7 +3,7 @@
 
 import ImageryTileLayerSaveOptionsValidationOptions = __esri.ImageryTileLayerSaveOptionsValidationOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageryTileLayerSaveOptionsValidationOptionsGenerated implements IPropertyWrapper {
     public component: ImageryTileLayerSaveOptionsValidationOptions;

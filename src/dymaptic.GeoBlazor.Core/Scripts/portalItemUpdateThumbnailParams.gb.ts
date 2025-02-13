@@ -3,7 +3,7 @@
 
 import PortalItemUpdateThumbnailParams = __esri.PortalItemUpdateThumbnailParams;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class PortalItemUpdateThumbnailParamsGenerated implements IPropertyWrapper {
     public component: PortalItemUpdateThumbnailParams;

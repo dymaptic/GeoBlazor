@@ -3,7 +3,7 @@
 
 import ImageDistanceParameters from '@arcgis/core/rest/support/ImageDistanceParameters';
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageDistanceParametersGenerated implements IPropertyWrapper {
     public component: ImageDistanceParameters;

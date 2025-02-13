@@ -3,7 +3,7 @@
 
 import ElevationLayerFetchTileOptions = __esri.ElevationLayerFetchTileOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ElevationLayerFetchTileOptionsGenerated implements IPropertyWrapper {
     public component: ElevationLayerFetchTileOptions;

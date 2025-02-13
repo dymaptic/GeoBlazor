@@ -3,7 +3,7 @@
 
 import StatisticDefinitionStatisticParameters = __esri.StatisticDefinitionStatisticParameters;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class StatisticDefinitionStatisticParametersGenerated implements IPropertyWrapper {
     public component: StatisticDefinitionStatisticParameters;

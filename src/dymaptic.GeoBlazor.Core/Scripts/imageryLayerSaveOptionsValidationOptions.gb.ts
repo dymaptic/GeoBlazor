@@ -3,7 +3,7 @@
 
 import ImageryLayerSaveOptionsValidationOptions = __esri.ImageryLayerSaveOptionsValidationOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class ImageryLayerSaveOptionsValidationOptionsGenerated implements IPropertyWrapper {
     public component: ImageryLayerSaveOptionsValidationOptions;

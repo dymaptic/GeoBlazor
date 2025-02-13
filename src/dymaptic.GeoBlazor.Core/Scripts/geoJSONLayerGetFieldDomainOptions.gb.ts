@@ -3,7 +3,7 @@
 
 import GeoJSONLayerGetFieldDomainOptions = __esri.GeoJSONLayerGetFieldDomainOptions;
 import {IPropertyWrapper} from './definitions';
-import {createGeoBlazorObject} from './arcGisJsInterop';
+
 
 export default class GeoJSONLayerGetFieldDomainOptionsGenerated implements IPropertyWrapper {
     public component: GeoJSONLayerGetFieldDomainOptions;
