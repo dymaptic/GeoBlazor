@@ -3045,11 +3045,13 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 
 // this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
 export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
-    params.forEach(p => {
-        if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
-            newObject[p] = originalObject[p];
-        }
-    });
+    if (hasValue(originalObject)) {
+        params.forEach(p => {
+            if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
+                newObject[p] = originalObject[p];
+            }
+        });
+    }
 }
 
 function checkConnectivity(viewId) {
