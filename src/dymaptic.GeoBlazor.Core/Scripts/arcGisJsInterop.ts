@@ -29,6 +29,7 @@ import Widget from "@arcgis/core/widgets/Widget";
 import Measurement from "@arcgis/core/widgets/Measurement";
 import AreaMeasurement2D from "@arcgis/core/widgets/AreaMeasurement2D";
 import Bookmarks from "@arcgis/core/widgets/Bookmarks";
+import BookmarksVisibleElements from "@arcgis/core/widgets/Bookmarks/BookmarksVisibleElements";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
@@ -1216,9 +1217,18 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
 
         switch (widgetObject.type) {
             case 'bookmarks':
-                let bookmarks = currentWidget as Bookmarks;
+                let bookmarkWidget = currentWidget as Bookmarks;
                 if (hasValue(widgetObject.bookmarks)) {
-                    bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
+                    bookmarkWidget.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
+                }
+                copyValuesIfExists(currentWidget, bookmarkWidget, 'editingEnabled', 'dragEnabled');
+                //copy values, otherwise clear the object
+                if (hasValue(widgetObject.visibleElements)) {
+                    copyValuesIfExists(widgetObject.visibleElements, bookmarkWidget.visibleElements, 'addBookmark',
+                        'addBookmarkButton', 'closeButton', 'collapseButton', 'editBookmarkButton', 'filter', 'flow', 'heading', 'thumbnail', 'time');
+                }
+                else {
+                    bookmarkWidget.visibleElements = new BookmarksVisibleElements();
                 }
                 break;
             case 'search':
@@ -2161,10 +2171,14 @@ async function createWidget(widget: any, viewId: string): Promise<Widget | null>
         case 'bookmarks':
             const bookmarkWidget = new Bookmarks({
                 view: view,
-                editingEnabled: widget.editingEnabled,
                 disabled: widget.disabled,
                 icon: widget.icon
             });
+            copyValuesIfExists(widget, bookmarkWidget, 'editingEnabled', 'dragEnabled');
+            if (hasValue(widget.visibleElements)) {
+                copyValuesIfExists(widget.visibleElements, bookmarkWidget.visibleElements, 'addBookmark',
+                    'addBookmarkButton', 'closeButton', 'collapseButton', 'editBookmarkButton', 'filter', 'flow', 'heading', 'thumbnail', 'time');
+            }
             if (widget.bookmarks != null) {
                 bookmarkWidget.bookmarks = widget.bookmarks.map(buildJsBookmark);
             }

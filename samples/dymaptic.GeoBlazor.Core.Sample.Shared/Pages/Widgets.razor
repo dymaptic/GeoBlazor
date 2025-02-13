@@ -59,7 +59,7 @@
     </Map>
     @if (_showLocate)
     {
-        <LocateWidget RotationEnabled="false" Scale="1500" 
+        <LocateWidget RotationEnabled="false" Scale="1500"
                       Position="OverlayPosition.TopLeft" />
     }
     @if (_showSearch)
@@ -68,7 +68,7 @@
     }
     @if (_showBasemapToggle)
     {
-        <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisImagery" 
+        <BasemapToggleWidget NextBasemapStyle="BasemapStyleName.ArcgisImagery"
                              Position="OverlayPosition.BottomRight" />
     }
     @if (_showBasemapGallery)
@@ -97,11 +97,12 @@
     }
     @if (_showAreaMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
+        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft" />
     }
     @if (_showBookmarks)
     {
-        <BookmarksWidget Position="OverlayPosition.TopRight" @ref="_bookmarkWidget" EditingEnabled="true">
+        <BookmarksWidget Position="OverlayPosition.TopRight" @ref="_bookmarkWidget" DragEnabled="true">
+            <BookmarkVisibleElements AddBookmarkButton="true" EditBookmarkButton="true" />
         </BookmarksWidget>
     }
 </MapView>
@@ -148,7 +149,7 @@
                 break;
         }
     }
-
+#pragma warning disable BL0005
     protected override void OnAfterRender(bool firstRender)
     {
         if (_showBookmarks)
@@ -156,12 +157,13 @@
             _bookmarkWidget!.Bookmarks = _bookmarks;
         }
     }
+#pragma warning restore BL0005
 
     private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
     {
         new Bookmark("Angeles National Forest",
             thumbnail: "/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
-            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678, 
+            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678,
                 4090610.189673263, 4047767.23531948, spatialReference: new SpatialReference(102100)))),
         new Bookmark("Crystal Lake",
             viewpoint: new Viewpoint(new Extent(-13114291.451169826, -13125852.551697943,
@@ -183,5 +185,5 @@
     private bool _showAreaMeasurement;
     private bool _showBookmarks;
 
-    private BookmarksWidget? _bookmarkWidget;    
+    private BookmarksWidget? _bookmarkWidget;
 }
