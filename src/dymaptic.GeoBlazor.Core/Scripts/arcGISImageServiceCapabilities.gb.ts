@@ -24,6 +24,10 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
     // region properties
     
     async getMensuration(): Promise<any> {
+        if (!hasValue(this.component.mensuration)) {
+            return null;
+        }
+        
         let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
         return await buildDotNetArcGISImageServiceCapabilitiesMensuration(this.component.mensuration);
     }
@@ -32,6 +36,10 @@ export default class ArcGISImageServiceCapabilitiesGenerated implements IPropert
         this.component.mensuration = await  buildJsArcGISImageServiceCapabilitiesMensuration(value, this.layerId, this.viewId);
     }
     async getOperations(): Promise<any> {
+        if (!hasValue(this.component.operations)) {
+            return null;
+        }
+        
         let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
         return await buildDotNetArcGISImageServiceCapabilitiesOperations(this.component.operations);
     }

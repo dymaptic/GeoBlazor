@@ -24,12 +24,16 @@ export default class ColumnChartMediaInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getValue(): Promise<any> {
+        if (!hasValue(this.component.value)) {
+            return null;
+        }
+        
         let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
         return await buildDotNetChartMediaInfoValue(this.component.value);
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +48,7 @@ export async function buildJsColumnChartMediaInfoGenerated(dotNetObject: any, la
     let jsColumnChartMediaInfo = new ColumnChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsColumnChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
+        jsColumnChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {

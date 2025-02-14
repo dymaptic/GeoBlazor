@@ -24,6 +24,10 @@ export default class CSVLayerElevationInfoGenerated implements IPropertyWrapper 
     // region properties
     
     async getFeatureExpressionInfo(): Promise<any> {
+        if (!hasValue(this.component.featureExpressionInfo)) {
+            return null;
+        }
+        
         let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
         return await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
     }

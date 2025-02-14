@@ -68,6 +68,10 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getElevationInfo(): Promise<any> {
+        if (!hasValue(this.layer.elevationInfo)) {
+            return null;
+        }
+        
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
         return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo);
     }
@@ -76,16 +80,24 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         this.layer.elevationInfo = await  buildJsGraphicsLayerElevationInfo(value, this.layerId, this.viewId);
     }
     async getGraphics(): Promise<any> {
+        if (!hasValue(this.layer.graphics)) {
+            return null;
+        }
+        
         let { buildDotNetGraphic } = await import('./graphic');
         return await Promise.all(this.layer.graphics.map(async i => await buildDotNetGraphic(i)));
     }
     
     async setGraphics(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.graphics = value.map(i => buildJsGraphic(i, this.layerId, this.viewId));
+        this.layer.graphics = await Promise.all(value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId)));
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

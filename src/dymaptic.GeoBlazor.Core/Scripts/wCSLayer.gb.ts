@@ -64,32 +64,48 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getMultidimensionalDefinition(): Promise<any> {
+        if (!hasValue(this.layer.multidimensionalDefinition)) {
+            return null;
+        }
+        
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
         return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
     }
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.layer.multidimensionalDefinition = value.map(async i => await buildJsDimensionalDefinition(i));
+        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i)));
     }
     
     async getMultidimensionalSubset(): Promise<any> {
+        if (!hasValue(this.layer.multidimensionalSubset)) {
+            return null;
+        }
+        
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         return await buildDotNetMultidimensionalSubset(this.layer.multidimensionalSubset);
     }
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset =  buildJsMultidimensionalSubset(value);
     }
     async getPopupTemplate(): Promise<any> {
+        if (!hasValue(this.layer.popupTemplate)) {
+            return null;
+        }
+        
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
@@ -98,16 +114,24 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getRasterFields(): Promise<any> {
+        if (!hasValue(this.layer.rasterFields)) {
+            return null;
+        }
+        
         let { buildDotNetField } = await import('./field');
         return await Promise.all(this.layer.rasterFields.map(async i => await buildDotNetField(i)));
     }
     
     async setRasterFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.rasterFields = value.map(i => buildJsField(i));
+        this.layer.rasterFields = await Promise.all(value.map(async i => await buildJsField(i)));
     }
     
     async getTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.timeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
@@ -116,6 +140,10 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
@@ -124,6 +152,10 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
@@ -132,6 +164,10 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
@@ -152,15 +188,15 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWCSLayer = new WCSLayer();
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
         let { buildJsDimensionalDefinition } = await import('./jsBuilder');
-        jsWCSLayer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        jsWCSLayer.multidimensionalDefinition = dotNetObject.multidimensionalDefinition.map(i => buildJsDimensionalDefinition(i)) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./jsBuilder');
-        jsWCSLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        jsWCSLayer.multidimensionalSubset = buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsWCSLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsWCSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');

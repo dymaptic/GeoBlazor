@@ -28,6 +28,10 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     // region properties
     
     async getTimeExtent(): Promise<any> {
+        if (!hasValue(this.component.timeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.component.timeExtent);
     }

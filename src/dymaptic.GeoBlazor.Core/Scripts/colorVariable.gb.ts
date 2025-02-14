@@ -24,6 +24,10 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
     // region properties
     
     async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
     }
@@ -32,13 +36,17 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
         this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     async getStops(): Promise<any> {
+        if (!hasValue(this.component.stops)) {
+            return null;
+        }
+        
         let { buildDotNetColorStop } = await import('./colorStop');
         return await Promise.all(this.component.stops.map(async i => await buildDotNetColorStop(i)));
     }
     
     async setStops(value: any): Promise<void> {
         let { buildJsColorStop } = await import('./colorStop');
-        this.component.stops = value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId));
+        this.component.stops = await Promise.all(value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

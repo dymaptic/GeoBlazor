@@ -24,13 +24,17 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
     // region properties
     
     async getMediaInfos(): Promise<any> {
+        if (!hasValue(this.component.mediaInfos)) {
+            return null;
+        }
+        
         let { buildDotNetMediaInfo } = await import('./mediaInfo');
         return await Promise.all(this.component.mediaInfos.map(async i => await buildDotNetMediaInfo(i)));
     }
     
     async setMediaInfos(value: any): Promise<void> {
         let { buildJsMediaInfo } = await import('./mediaInfo');
-        this.component.mediaInfos = value.map(i => buildJsMediaInfo(i));
+        this.component.mediaInfos = await Promise.all(value.map(async i => await buildJsMediaInfo(i)));
     }
     
     getProperty(prop: string): any {

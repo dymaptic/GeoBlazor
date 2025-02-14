@@ -24,12 +24,16 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getValue(): Promise<any> {
+        if (!hasValue(this.component.value)) {
+            return null;
+        }
+        
         let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
         return await buildDotNetChartMediaInfoValue(this.component.value);
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value =  await buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];

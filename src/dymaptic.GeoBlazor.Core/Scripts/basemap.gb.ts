@@ -30,16 +30,24 @@ export default class BasemapGenerated implements IPropertyWrapper {
     // region properties
     
     async getBaseLayers(): Promise<any> {
+        if (!hasValue(this.component.baseLayers)) {
+            return null;
+        }
+        
         let { buildDotNetLayer } = await import('./layer');
         return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setBaseLayers(value: any): Promise<void> {
         let { buildJsLayer } = await import('./layer');
-        this.component.baseLayers = value.map(async i => await buildJsLayer(i, this.layerId, this.viewId));
+        this.component.baseLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.component.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
@@ -48,16 +56,24 @@ export default class BasemapGenerated implements IPropertyWrapper {
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getReferenceLayers(): Promise<any> {
+        if (!hasValue(this.component.referenceLayers)) {
+            return null;
+        }
+        
         let { buildDotNetLayer } = await import('./layer');
         return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setReferenceLayers(value: any): Promise<void> {
         let { buildJsLayer } = await import('./layer');
-        this.component.referenceLayers = value.map(async i => await buildJsLayer(i, this.layerId, this.viewId));
+        this.component.referenceLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
     async getStyle(): Promise<any> {
+        if (!hasValue(this.component.style)) {
+            return null;
+        }
+        
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
         return await buildDotNetBasemapStyle(this.component.style);
     }

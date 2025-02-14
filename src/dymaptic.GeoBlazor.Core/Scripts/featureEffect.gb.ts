@@ -24,6 +24,10 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     // region properties
     
     async getFilter(): Promise<any> {
+        if (!hasValue(this.component.filter)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }

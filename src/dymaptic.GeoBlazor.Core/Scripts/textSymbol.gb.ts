@@ -24,6 +24,10 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
     // region properties
     
     async getBackgroundColor(): Promise<any> {
+        if (!hasValue(this.component.backgroundColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.backgroundColor);
     }
@@ -32,6 +36,10 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
         this.component.backgroundColor =  buildJsMapColor(value);
     }
     async getBorderLineColor(): Promise<any> {
+        if (!hasValue(this.component.borderLineColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.borderLineColor);
     }
@@ -40,6 +48,10 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
         this.component.borderLineColor =  buildJsMapColor(value);
     }
     async getColor(): Promise<any> {
+        if (!hasValue(this.component.color)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.color);
     }
@@ -48,6 +60,10 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
         this.component.color =  buildJsMapColor(value);
     }
     async getFont(): Promise<any> {
+        if (!hasValue(this.component.font)) {
+            return null;
+        }
+        
         let { buildDotNetMapFont } = await import('./mapFont');
         return await buildDotNetMapFont(this.component.font);
     }
@@ -56,6 +72,10 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
         this.component.font =  buildJsMapFont(value);
     }
     async getHaloColor(): Promise<any> {
+        if (!hasValue(this.component.haloColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.haloColor);
     }

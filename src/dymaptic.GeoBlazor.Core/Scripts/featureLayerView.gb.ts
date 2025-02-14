@@ -30,14 +30,26 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     // region properties
     
     async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.component.featureEffect)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         return await buildDotNetFeatureEffect(this.component.featureEffect);
     }
     async getFilter(): Promise<any> {
+        if (!hasValue(this.component.filter)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }
     async getHighlightOptions(): Promise<any> {
+        if (!hasValue(this.component.highlightOptions)) {
+            return null;
+        }
+        
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
@@ -46,6 +58,10 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
     }
     async getLayer(): Promise<any> {
+        if (!hasValue(this.component.layer)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
         return await buildDotNetFeatureLayer(this.component.layer);
     }
@@ -66,7 +82,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
-        jsFeatureLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        jsFeatureLayerView.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');

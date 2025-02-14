@@ -44,6 +44,10 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     // region properties
     
     async getAuthoringInfo(): Promise<any> {
+        if (!hasValue(this.component.authoringInfo)) {
+            return null;
+        }
+        
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
         return await buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
@@ -52,6 +56,10 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         this.component.authoringInfo =  buildJsAuthoringInfo(value);
     }
     async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         return await buildDotNetUniqueValueRendererLegendOptions(this.component.legendOptions);
     }
@@ -60,33 +68,45 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         this.component.legendOptions = await  buildJsUniqueValueRendererLegendOptions(value, this.layerId, this.viewId);
     }
     async getUniqueValueGroups(): Promise<any> {
+        if (!hasValue(this.component.uniqueValueGroups)) {
+            return null;
+        }
+        
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
         return await Promise.all(this.component.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
     }
     
     async setUniqueValueGroups(value: any): Promise<void> {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
-        this.component.uniqueValueGroups = value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId));
+        this.component.uniqueValueGroups = await Promise.all(value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId)));
     }
     
     async getUniqueValueInfos(): Promise<any> {
+        if (!hasValue(this.component.uniqueValueInfos)) {
+            return null;
+        }
+        
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
         return await Promise.all(this.component.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i)));
     }
     
     async setUniqueValueInfos(value: any): Promise<void> {
         let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
-        this.component.uniqueValueInfos = value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId));
+        this.component.uniqueValueInfos = await Promise.all(value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId)));
     }
     
     async getVisualVariables(): Promise<any> {
+        if (!hasValue(this.component.visualVariables)) {
+            return null;
+        }
+        
         let { buildDotNetVisualVariable } = await import('./visualVariable');
         return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        this.component.visualVariables = value.map(i => buildJsVisualVariable(i));
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i)));
     }
     
     getProperty(prop: string): any {
@@ -102,7 +122,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let jsUniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./jsBuilder');
-        jsUniqueValueRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');

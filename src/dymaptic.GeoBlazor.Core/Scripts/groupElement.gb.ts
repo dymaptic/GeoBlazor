@@ -24,13 +24,17 @@ export default class GroupElementGenerated implements IPropertyWrapper {
     // region properties
     
     async getElements(): Promise<any> {
+        if (!hasValue(this.component.elements)) {
+            return null;
+        }
+        
         let { buildDotNetFormElement } = await import('./formElement');
         return await Promise.all(this.component.elements.map(async i => await buildDotNetFormElement(i)));
     }
     
     async setElements(value: any): Promise<void> {
         let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId));
+        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

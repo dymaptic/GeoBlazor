@@ -24,23 +24,31 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     // region properties
     
     async getElements(): Promise<any> {
+        if (!hasValue(this.component.elements)) {
+            return null;
+        }
+        
         let { buildDotNetFormElement } = await import('./formElement');
         return await Promise.all(this.component.elements.map(async i => await buildDotNetFormElement(i)));
     }
     
     async setElements(value: any): Promise<void> {
         let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId));
+        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId)));
     }
     
     async getExpressionInfos(): Promise<any> {
+        if (!hasValue(this.component.expressionInfos)) {
+            return null;
+        }
+        
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
         return await Promise.all(this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
     }
     
     async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
+        this.component.expressionInfos = await Promise.all(value.map(async i => await buildJsExpressionInfo(i)));
     }
     
     getProperty(prop: string): any {

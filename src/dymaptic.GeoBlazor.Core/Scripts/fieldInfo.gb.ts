@@ -24,6 +24,10 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getFormat(): Promise<any> {
+        if (!hasValue(this.component.format)) {
+            return null;
+        }
+        
         let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
         return await buildDotNetFieldInfoFormat(this.component.format);
     }

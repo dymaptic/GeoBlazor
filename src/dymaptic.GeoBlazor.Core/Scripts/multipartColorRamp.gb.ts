@@ -24,13 +24,17 @@ export default class MultipartColorRampGenerated implements IPropertyWrapper {
     // region properties
     
     async getColorRamps(): Promise<any> {
+        if (!hasValue(this.component.colorRamps)) {
+            return null;
+        }
+        
         let { buildDotNetAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
         return await Promise.all(this.component.colorRamps.map(async i => await buildDotNetAlgorithmicColorRamp(i)));
     }
     
     async setColorRamps(value: any): Promise<void> {
         let { buildJsAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
-        this.component.colorRamps = value.map(async i => await buildJsAlgorithmicColorRamp(i));
+        this.component.colorRamps = await Promise.all(value.map(async i => await buildJsAlgorithmicColorRamp(i)));
     }
     
     getProperty(prop: string): any {
@@ -46,7 +50,7 @@ export async function buildJsMultipartColorRampGenerated(dotNetObject: any, laye
     let jsMultipartColorRamp = new MultipartColorRamp();
     if (hasValue(dotNetObject.colorRamps)) {
         let { buildJsAlgorithmicColorRamp } = await import('./jsBuilder');
-        jsMultipartColorRamp.colorRamps = await Promise.all(dotNetObject.colorRamps.map(async i => await buildJsAlgorithmicColorRamp(i))) as any;
+        jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(i => buildJsAlgorithmicColorRamp(i)) as any;
     }
 
     let { default: MultipartColorRampWrapper } = await import('./multipartColorRamp');

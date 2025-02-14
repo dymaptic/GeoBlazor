@@ -24,6 +24,10 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getFullTimeExtent(): Promise<any> {
+        if (!hasValue(this.component.fullTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.component.fullTimeExtent);
     }
@@ -32,6 +36,10 @@ export default class TimeInfoGenerated implements IPropertyWrapper {
         this.component.fullTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     async getInterval(): Promise<any> {
+        if (!hasValue(this.component.interval)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         return await buildDotNetTimeInterval(this.component.interval);
     }

@@ -24,6 +24,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
     // region properties
     
     async getAnalytics(): Promise<any> {
+        if (!hasValue(this.component.analytics)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesAnalytics } = await import('./capabilitiesAnalytics');
         return await buildDotNetCapabilitiesAnalytics(this.component.analytics);
     }
@@ -32,6 +36,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.analytics = await  buildJsCapabilitiesAnalytics(value, this.layerId, this.viewId);
     }
     async getAttachment(): Promise<any> {
+        if (!hasValue(this.component.attachment)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
         return await buildDotNetCapabilitiesAttachment(this.component.attachment);
     }
@@ -40,6 +48,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.attachment = await  buildJsCapabilitiesAttachment(value, this.layerId, this.viewId);
     }
     async getData(): Promise<any> {
+        if (!hasValue(this.component.data)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesData } = await import('./capabilitiesData');
         return await buildDotNetCapabilitiesData(this.component.data);
     }
@@ -48,6 +60,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.data = await  buildJsCapabilitiesData(value, this.layerId, this.viewId);
     }
     async getEditing(): Promise<any> {
+        if (!hasValue(this.component.editing)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
         return await buildDotNetCapabilitiesEditing(this.component.editing);
     }
@@ -56,6 +72,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.editing = await  buildJsCapabilitiesEditing(value, this.layerId, this.viewId);
     }
     async getMetadata(): Promise<any> {
+        if (!hasValue(this.component.metadata)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
         return await buildDotNetCapabilitiesMetadata(this.component.metadata);
     }
@@ -64,6 +84,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.metadata = await  buildJsCapabilitiesMetadata(value, this.layerId, this.viewId);
     }
     async getOperations(): Promise<any> {
+        if (!hasValue(this.component.operations)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesOperations } = await import('./capabilitiesOperations');
         return await buildDotNetCapabilitiesOperations(this.component.operations);
     }
@@ -72,6 +96,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.operations = await  buildJsCapabilitiesOperations(value, this.layerId, this.viewId);
     }
     async getQueryRelated(): Promise<any> {
+        if (!hasValue(this.component.queryRelated)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
         return await buildDotNetCapabilitiesQueryRelated(this.component.queryRelated);
     }
@@ -80,6 +108,10 @@ export default class CapabilitiesGenerated implements IPropertyWrapper {
         this.component.queryRelated = await  buildJsCapabilitiesQueryRelated(value, this.layerId, this.viewId);
     }
     async getQueryTopFeatures(): Promise<any> {
+        if (!hasValue(this.component.queryTopFeatures)) {
+            return null;
+        }
+        
         let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
         return await buildDotNetCapabilitiesQueryTopFeatures(this.component.queryTopFeatures);
     }

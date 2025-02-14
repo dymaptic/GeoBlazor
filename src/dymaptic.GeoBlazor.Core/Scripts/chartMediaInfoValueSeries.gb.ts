@@ -24,6 +24,10 @@ export default class ChartMediaInfoValueSeriesGenerated implements IPropertyWrap
     // region properties
     
     async getColor(): Promise<any> {
+        if (!hasValue(this.component.color)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.color);
     }

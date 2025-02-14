@@ -88,11 +88,19 @@ export default class SublayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getFields(): Promise<any> {
+        if (!hasValue(this.component.fields)) {
+            return null;
+        }
+        
         let { buildDotNetField } = await import('./field');
         return await Promise.all(this.component.fields.map(async i => await buildDotNetField(i)));
     }
     
     async getFloorInfo(): Promise<any> {
+        if (!hasValue(this.component.floorInfo)) {
+            return null;
+        }
+        
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
         return await buildDotNetLayerFloorInfo(this.component.floorInfo);
     }
@@ -101,28 +109,44 @@ export default class SublayerGenerated implements IPropertyWrapper {
         this.component.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
     }
     async getLabelingInfo(): Promise<any> {
+        if (!hasValue(this.component.labelingInfo)) {
+            return null;
+        }
+        
         let { buildDotNetLabel } = await import('./label');
         return await Promise.all(this.component.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
-        this.component.labelingInfo = value.map(async i => await buildJsLabel(i, this.layerId, this.viewId));
+        this.component.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId)));
     }
     
     async getLayer(): Promise<any> {
+        if (!hasValue(this.component.layer)) {
+            return null;
+        }
+        
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
     async getPopupTemplate(): Promise<any> {
+        if (!hasValue(this.component.popupTemplate)) {
+            return null;
+        }
+        
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
+        if (!hasValue(this.component.renderer)) {
+            return null;
+        }
+        
         let { buildDotNetRenderer } = await import('./renderer');
         return await buildDotNetRenderer(this.component.renderer);
     }
@@ -131,13 +155,17 @@ export default class SublayerGenerated implements IPropertyWrapper {
         this.component.renderer =  buildJsRenderer(value);
     }
     async getSublayers(): Promise<any> {
+        if (!hasValue(this.component.sublayers)) {
+            return null;
+        }
+        
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.component.sublayers = value.map(i => buildJsSublayer(i));
+        this.component.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i)));
     }
     
     getProperty(prop: string): any {
@@ -161,7 +189,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsSublayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./jsBuilder');

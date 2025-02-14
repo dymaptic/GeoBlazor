@@ -24,6 +24,10 @@ export default class PixelDataGenerated implements IPropertyWrapper {
     // region properties
     
     async getPixelBlock(): Promise<any> {
+        if (!hasValue(this.component.pixelBlock)) {
+            return null;
+        }
+        
         let { buildDotNetPixelBlock } = await import('./pixelBlock');
         return await buildDotNetPixelBlock(this.component.pixelBlock);
     }

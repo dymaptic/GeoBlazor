@@ -46,7 +46,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     async createServiceSublayers(): Promise<any> {
         let result = this.layer.createServiceSublayers();
         let { buildDotNetSublayer } = await import('./sublayer');
-        return result.map(async i => await buildDotNetSublayer(i));
+        return await Promise.all(result.map(async i => await buildDotNetSublayer(i)));
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -82,11 +82,19 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getAllSublayers(): Promise<any> {
+        if (!hasValue(this.layer.allSublayers)) {
+            return null;
+        }
+        
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
@@ -95,26 +103,38 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
+        if (!hasValue(this.layer.sublayers)) {
+            return null;
+        }
+        
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.sublayers = value.map(i => buildJsSublayer(i));
+        this.layer.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i)));
     }
     
     async getSubtables(): Promise<any> {
+        if (!hasValue(this.layer.subtables)) {
+            return null;
+        }
+        
         let { buildDotNetSublayer } = await import('./sublayer');
         return await Promise.all(this.layer.subtables.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSubtables(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.subtables = value.map(i => buildJsSublayer(i));
+        this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i)));
     }
     
     async getTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.timeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
@@ -123,6 +143,10 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
@@ -131,6 +155,10 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
@@ -139,6 +167,10 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

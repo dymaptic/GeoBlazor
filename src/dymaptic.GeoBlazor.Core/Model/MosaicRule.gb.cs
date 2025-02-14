@@ -60,13 +60,13 @@ public partial record MosaicRule(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterFunction? ItemRasterFunction = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<long>? LockRasterIds = null,
+    IReadOnlyCollection<long>? LockRasterIds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Method? Method = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition = null,
+    IReadOnlyCollection<DimensionalDefinition>? MultidimensionalDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<long>? ObjectIds = null,
+    IReadOnlyCollection<long>? ObjectIds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Operation? Operation = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -24,6 +24,10 @@ export default class GeoJSONLayerElevationInfoGenerated implements IPropertyWrap
     // region properties
     
     async getFeatureExpressionInfo(): Promise<any> {
+        if (!hasValue(this.component.featureExpressionInfo)) {
+            return null;
+        }
+        
         let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
         return await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
     }

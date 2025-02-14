@@ -80,6 +80,10 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

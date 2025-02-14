@@ -24,6 +24,10 @@ export default class PortalFolderGenerated implements IPropertyWrapper {
     // region properties
     
     async getPortal(): Promise<any> {
+        if (!hasValue(this.component.portal)) {
+            return null;
+        }
+        
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }

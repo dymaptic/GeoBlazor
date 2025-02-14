@@ -24,6 +24,10 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getSymbol(): Promise<any> {
+        if (!hasValue(this.component.symbol)) {
+            return null;
+        }
+        
         let { buildDotNetSymbol } = await import('./symbol');
         return await buildDotNetSymbol(this.component.symbol);
     }

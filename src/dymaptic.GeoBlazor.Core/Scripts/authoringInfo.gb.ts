@@ -24,11 +24,18 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getColorRamp(): Promise<any> {
+        if (!hasValue(this.component.colorRamp)) {
+            return null;
+        }
+        
         let { buildDotNetColorRamp } = await import('./colorRamp');
         return await buildDotNetColorRamp(this.component.colorRamp);
     }
-
     async getField1(): Promise<any> {
+        if (!hasValue(this.component.field1)) {
+            return null;
+        }
+        
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
         return await buildDotNetAuthoringInfoField(this.component.field1);
     }
@@ -37,6 +44,10 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
         this.component.field1 = await  buildJsAuthoringInfoField(value, this.layerId, this.viewId);
     }
     async getField2(): Promise<any> {
+        if (!hasValue(this.component.field2)) {
+            return null;
+        }
+        
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
         return await buildDotNetAuthoringInfoField(this.component.field2);
     }
@@ -45,6 +56,10 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
         this.component.field2 = await  buildJsAuthoringInfoField(value, this.layerId, this.viewId);
     }
     async getStatistics(): Promise<any> {
+        if (!hasValue(this.component.statistics)) {
+            return null;
+        }
+        
         let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
         return await buildDotNetAuthoringInfoStatistics(this.component.statistics);
     }
@@ -53,13 +68,17 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
         this.component.statistics = await  buildJsAuthoringInfoStatistics(value, this.layerId, this.viewId);
     }
     async getVisualVariables(): Promise<any> {
+        if (!hasValue(this.component.visualVariables)) {
+            return null;
+        }
+        
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
         return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        this.component.visualVariables = value.map(async i => await buildJsAuthoringInfoVisualVariable(i, this.layerId, this.viewId));
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsAuthoringInfoVisualVariable(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

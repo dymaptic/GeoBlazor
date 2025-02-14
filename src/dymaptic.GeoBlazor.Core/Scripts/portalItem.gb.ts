@@ -54,7 +54,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
             direction,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return result.map(async i => await buildDotNetPortalItem(i));
+        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i)));
     }
 
     async fetchResources(num: any,
@@ -106,6 +106,10 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     // region properties
     
     async getPortal(): Promise<any> {
+        if (!hasValue(this.component.portal)) {
+            return null;
+        }
+        
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }

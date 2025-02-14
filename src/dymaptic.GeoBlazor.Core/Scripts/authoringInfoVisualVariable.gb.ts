@@ -24,6 +24,10 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     // region properties
     
     async getSizeStops(): Promise<any> {
+        if (!hasValue(this.component.sizeStops)) {
+            return null;
+        }
+        
         let { buildDotNetSizeStop } = await import('./sizeStop');
         return await Promise.all(this.component.sizeStops.map(async i => await buildDotNetSizeStop(i)));
     }
@@ -34,6 +38,10 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     }
     
     async getTheme(): Promise<any> {
+        if (!hasValue(this.component.theme)) {
+            return null;
+        }
+        
         let { buildDotNetTheme } = await import('./theme');
         return await buildDotNetTheme(this.component.theme);
     }

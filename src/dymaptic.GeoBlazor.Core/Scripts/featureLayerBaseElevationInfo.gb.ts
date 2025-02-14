@@ -24,6 +24,10 @@ export default class FeatureLayerBaseElevationInfoGenerated implements IProperty
     // region properties
     
     async getFeatureExpressionInfo(): Promise<any> {
+        if (!hasValue(this.component.featureExpressionInfo)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
         return await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
     }

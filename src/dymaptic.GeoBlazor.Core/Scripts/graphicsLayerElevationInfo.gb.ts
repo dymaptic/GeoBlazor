@@ -24,6 +24,10 @@ export default class GraphicsLayerElevationInfoGenerated implements IPropertyWra
     // region properties
     
     async getFeatureExpressionInfo(): Promise<any> {
+        if (!hasValue(this.component.featureExpressionInfo)) {
+            return null;
+        }
+        
         let { buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
         return await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(this.component.featureExpressionInfo);
     }

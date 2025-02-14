@@ -44,6 +44,10 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getLineSymbol(): Promise<any> {
+        if (!hasValue(this.layer.lineSymbol)) {
+            return null;
+        }
+        
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
         return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
     }
@@ -52,6 +56,10 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         this.layer.lineSymbol = await  buildJsSimpleLineSymbol(value, this.layerId, this.viewId);
     }
     async getPolygonSymbol(): Promise<any> {
+        if (!hasValue(this.layer.polygonSymbol)) {
+            return null;
+        }
+        
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
         return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
     }
@@ -60,6 +68,10 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         this.layer.polygonSymbol = await  buildJsSimpleFillSymbol(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

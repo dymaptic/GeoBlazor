@@ -90,6 +90,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getElevationInfo(): Promise<any> {
+        if (!hasValue(this.layer.elevationInfo)) {
+            return null;
+        }
+        
         let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
         return await buildDotNetCSVLayerElevationInfo(this.layer.elevationInfo);
     }
@@ -98,6 +102,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.elevationInfo = await  buildJsCSVLayerElevationInfo(value, this.layerId, this.viewId);
     }
     async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         return await buildDotNetFeatureEffect(this.layer.featureEffect);
     }
@@ -106,44 +114,64 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.featureEffect = await  buildJsFeatureEffect(value);
     }
     async getFields(): Promise<any> {
+        if (!hasValue(this.layer.fields)) {
+            return null;
+        }
+        
         let { buildDotNetField } = await import('./field');
         return await Promise.all(this.layer.fields.map(async i => await buildDotNetField(i)));
     }
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = value.map(i => buildJsField(i));
+        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i)));
     }
     
     async getLabelingInfo(): Promise<any> {
+        if (!hasValue(this.layer.labelingInfo)) {
+            return null;
+        }
+        
         let { buildDotNetLabel } = await import('./label');
         return await Promise.all(this.layer.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
-        this.layer.labelingInfo = value.map(async i => await buildJsLabel(i, this.layerId, this.viewId));
+        this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId)));
     }
     
     async getOrderBy(): Promise<any> {
+        if (!hasValue(this.layer.orderBy)) {
+            return null;
+        }
+        
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        this.layer.orderBy = value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId));
+        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId)));
     }
     
     async getPopupTemplate(): Promise<any> {
+        if (!hasValue(this.layer.popupTemplate)) {
+            return null;
+        }
+        
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
@@ -152,6 +180,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
+        if (!hasValue(this.layer.renderer)) {
+            return null;
+        }
+        
         let { buildDotNetRenderer } = await import('./renderer');
         return await buildDotNetRenderer(this.layer.renderer);
     }
@@ -160,6 +192,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.renderer =  buildJsRenderer(value);
     }
     async getTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.timeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
@@ -168,6 +204,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
     async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
@@ -176,6 +216,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
@@ -184,6 +228,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
@@ -212,7 +260,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./jsBuilder');
-        jsCSVLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i))) as any;
+        jsCSVLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');

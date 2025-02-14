@@ -40,13 +40,17 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     // region properties
     
     async getStatistics(): Promise<any> {
+        if (!hasValue(this.component.statistics)) {
+            return null;
+        }
+        
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
         return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
     }
     
     async setStatistics(value: any): Promise<void> {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        this.component.statistics = value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId));
+        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

@@ -62,6 +62,10 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
@@ -70,6 +74,10 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getTileInfo(): Promise<any> {
+        if (!hasValue(this.layer.tileInfo)) {
+            return null;
+        }
+        
         let { buildDotNetTileInfo } = await import('./tileInfo');
         return await buildDotNetTileInfo(this.layer.tileInfo);
     }
@@ -78,6 +86,10 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

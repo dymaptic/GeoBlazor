@@ -24,6 +24,10 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
     // region properties
     
     async getPrototype(): Promise<any> {
+        if (!hasValue(this.component.prototype)) {
+            return null;
+        }
+        
         let { buildDotNetGraphic } = await import('./graphic');
         return await buildDotNetGraphic(this.component.prototype, this.layerId, this.viewId);
     }

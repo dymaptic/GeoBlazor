@@ -24,13 +24,17 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     // region properties
     
     async getClasses(): Promise<any> {
+        if (!hasValue(this.component.classes)) {
+            return null;
+        }
+        
         let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
         return await Promise.all(this.component.classes.map(async i => await buildDotNetUniqueValueClass(i)));
     }
     
     async setClasses(value: any): Promise<void> {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        this.component.classes = value.map(async i => await buildJsUniqueValueClass(i, this.layerId, this.viewId));
+        this.component.classes = await Promise.all(value.map(async i => await buildJsUniqueValueClass(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

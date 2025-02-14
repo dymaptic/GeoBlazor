@@ -24,8 +24,12 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
     // region properties
     
     async getColors(): Promise<any> {
+        if (!hasValue(this.component.colors)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
-        return this.component.colors.map(i => buildDotNetMapColor(i));
+        return this.component.colors!.map(i => buildDotNetMapColor(i));
     }
     
     async setColors(value: any): Promise<void> {
@@ -34,13 +38,17 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
     }
     
     async getSeries(): Promise<any> {
+        if (!hasValue(this.component.series)) {
+            return null;
+        }
+        
         let { buildDotNetChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
         return await Promise.all(this.component.series.map(async i => await buildDotNetChartMediaInfoValueSeries(i)));
     }
     
     async setSeries(value: any): Promise<void> {
         let { buildJsChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
-        this.component.series = value.map(async i => await buildJsChartMediaInfoValueSeries(i, this.layerId, this.viewId));
+        this.component.series = await Promise.all(value.map(async i => await buildJsChartMediaInfoValueSeries(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

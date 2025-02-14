@@ -24,7 +24,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     async createElevationLayers(): Promise<any> {
         let result = await this.component.createElevationLayers();
         let { buildDotNetElevationLayer } = await import('./elevationLayer');
-        return result.map(async i => await buildDotNetElevationLayer(i));
+        return await Promise.all(result.map(async i => await buildDotNetElevationLayer(i)));
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,
@@ -32,7 +32,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return result.map(async i => await buildDotNetBasemap(i));
+        return await Promise.all(result.map(async i => await buildDotNetBasemap(i)));
     }
 
     async fetchCategorySchema(options: any): Promise<any> {
@@ -72,6 +72,10 @@ export default class PortalGenerated implements IPropertyWrapper {
     // region properties
     
     async getDefaultBasemap(): Promise<any> {
+        if (!hasValue(this.component.defaultBasemap)) {
+            return null;
+        }
+        
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.defaultBasemap);
     }
@@ -80,6 +84,10 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.defaultBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     async getDefaultDevBasemap(): Promise<any> {
+        if (!hasValue(this.component.defaultDevBasemap)) {
+            return null;
+        }
+        
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.defaultDevBasemap);
     }
@@ -88,6 +96,10 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.defaultDevBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     async getDefaultVectorBasemap(): Promise<any> {
+        if (!hasValue(this.component.defaultVectorBasemap)) {
+            return null;
+        }
+        
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.defaultVectorBasemap);
     }
@@ -96,16 +108,24 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.defaultVectorBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     async getFeaturedGroups(): Promise<any> {
+        if (!hasValue(this.component.featuredGroups)) {
+            return null;
+        }
+        
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         return await Promise.all(this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
     }
     
     async setFeaturedGroups(value: any): Promise<void> {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        this.component.featuredGroups = value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId));
+        this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId)));
     }
     
     async getUser(): Promise<any> {
+        if (!hasValue(this.component.user)) {
+            return null;
+        }
+        
         let { buildDotNetPortalUser } = await import('./portalUser');
         return await buildDotNetPortalUser(this.component.user);
     }

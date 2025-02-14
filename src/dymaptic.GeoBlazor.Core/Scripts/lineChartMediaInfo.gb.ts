@@ -24,6 +24,10 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
     // region properties
     
     async getValue(): Promise<any> {
+        if (!hasValue(this.component.value)) {
+            return null;
+        }
+        
         let { buildDotNetChartMediaInfoValue } = await import('./chartMediaInfoValue');
         return await buildDotNetChartMediaInfoValue(this.component.value);
     }

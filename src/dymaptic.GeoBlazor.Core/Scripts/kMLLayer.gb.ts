@@ -40,6 +40,10 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
@@ -48,16 +52,24 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
+        if (!hasValue(this.layer.sublayers)) {
+            return null;
+        }
+        
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
         return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        this.layer.sublayers = value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId));
+        this.layer.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId)));
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
+        if (!hasValue(this.layer.visibilityTimeExtent)) {
+            return null;
+        }
+        
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }

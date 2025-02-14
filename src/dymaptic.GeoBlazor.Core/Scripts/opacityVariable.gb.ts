@@ -24,6 +24,10 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
     // region properties
     
     async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
     }
@@ -32,13 +36,17 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
         this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
     }
     async getStops(): Promise<any> {
+        if (!hasValue(this.component.stops)) {
+            return null;
+        }
+        
         let { buildDotNetOpacityStop } = await import('./opacityStop');
         return await Promise.all(this.component.stops.map(async i => await buildDotNetOpacityStop(i)));
     }
     
     async setStops(value: any): Promise<void> {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        this.component.stops = value.map(async i => await buildJsOpacityStop(i, this.layerId, this.viewId));
+        this.component.stops = await Promise.all(value.map(async i => await buildJsOpacityStop(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

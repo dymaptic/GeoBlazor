@@ -24,6 +24,10 @@ export default class ThemeGenerated implements IPropertyWrapper {
     // region properties
     
     async getAccentColor(): Promise<any> {
+        if (!hasValue(this.component.accentColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.accentColor);
     }
@@ -32,6 +36,10 @@ export default class ThemeGenerated implements IPropertyWrapper {
         this.component.accentColor =  buildJsMapColor(value);
     }
     async getTextColor(): Promise<any> {
+        if (!hasValue(this.component.textColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.textColor);
     }

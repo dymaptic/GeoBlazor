@@ -24,6 +24,10 @@ export default class ExpressionPopupContentGenerated implements IPropertyWrapper
     // region properties
     
     async getExpressionInfo(): Promise<any> {
+        if (!hasValue(this.component.expressionInfo)) {
+            return null;
+        }
+        
         let { buildDotNetElementExpressionInfo } = await import('./elementExpressionInfo');
         return await buildDotNetElementExpressionInfo(this.component.expressionInfo);
     }

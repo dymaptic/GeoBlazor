@@ -24,6 +24,10 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     // region properties
     
     async getLayer(): Promise<any> {
+        if (!hasValue(this.component.layer)) {
+            return null;
+        }
+        
         let { buildDotNetKMLLayer } = await import('./kMLLayer');
         return await buildDotNetKMLLayer(this.component.layer);
     }
@@ -32,13 +36,17 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
         this.component.layer = await  buildJsKMLLayer(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
+        if (!hasValue(this.component.sublayers)) {
+            return null;
+        }
+        
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
         return await Promise.all(this.component.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        this.component.sublayers = value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId));
+        this.component.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {

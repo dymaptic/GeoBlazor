@@ -52,7 +52,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async fetchFolders(): Promise<any> {
         let result = await this.component.fetchFolders();
         let { buildDotNetPortalFolder } = await import('./portalFolder');
-        return result.map(async i => await buildDotNetPortalFolder(i));
+        return await Promise.all(result.map(async i => await buildDotNetPortalFolder(i)));
     }
 
     async fetchGroups(): Promise<any> {
@@ -102,6 +102,10 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     // region properties
     
     async getPortal(): Promise<any> {
+        if (!hasValue(this.component.portal)) {
+            return null;
+        }
+        
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }

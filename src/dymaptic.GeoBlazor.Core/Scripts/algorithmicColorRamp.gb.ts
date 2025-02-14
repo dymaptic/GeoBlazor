@@ -24,6 +24,10 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
     // region properties
     
     async getFromColor(): Promise<any> {
+        if (!hasValue(this.component.fromColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.fromColor);
     }
@@ -32,6 +36,10 @@ export default class AlgorithmicColorRampGenerated implements IPropertyWrapper {
         this.component.fromColor =  buildJsMapColor(value);
     }
     async getToColor(): Promise<any> {
+        if (!hasValue(this.component.toColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.toColor);
     }

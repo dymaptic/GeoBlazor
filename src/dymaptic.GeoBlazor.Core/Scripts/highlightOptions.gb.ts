@@ -24,6 +24,10 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     // region properties
     
     async getColor(): Promise<any> {
+        if (!hasValue(this.component.color)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.color);
     }
@@ -32,6 +36,10 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
         this.component.color =  buildJsMapColor(value);
     }
     async getHaloColor(): Promise<any> {
+        if (!hasValue(this.component.haloColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.haloColor);
     }
@@ -40,6 +48,10 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
         this.component.haloColor =  buildJsMapColor(value);
     }
     async getShadowColor(): Promise<any> {
+        if (!hasValue(this.component.shadowColor)) {
+            return null;
+        }
+        
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.shadowColor);
     }

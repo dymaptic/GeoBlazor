@@ -24,6 +24,10 @@ export default class RotationVariableGenerated implements IPropertyWrapper {
     // region properties
     
     async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
     }
