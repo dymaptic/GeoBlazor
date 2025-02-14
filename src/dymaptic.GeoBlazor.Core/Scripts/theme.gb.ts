@@ -78,8 +78,10 @@ export async function buildJsThemeGenerated(dotNetObject: any, layerId: string |
     jsObjectRefs[dotNetObject.id] = themeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTheme;
     
+    let dnInstantiatedObject = await buildDotNetTheme(jsTheme);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Theme', e);
     }

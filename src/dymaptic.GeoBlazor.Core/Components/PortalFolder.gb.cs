@@ -228,7 +228,7 @@ public partial class PortalFolder : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCreated(DateTime value)
+    public async Task SetCreated(DateTime? value)
     {
 #pragma warning disable BL0005
         Created = value;
@@ -258,7 +258,7 @@ public partial class PortalFolder : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalFolderId(string value)
+    public async Task SetPortalFolderId(string? value)
     {
 #pragma warning disable BL0005
         PortalFolderId = value;
@@ -288,7 +288,7 @@ public partial class PortalFolder : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

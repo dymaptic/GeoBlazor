@@ -94,62 +94,62 @@ public partial interface IImageryTileMixin
     /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
-    Task SetBandIds(IReadOnlyList<long> value);
+    Task SetBandIds(IReadOnlyList<long>? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
-    Task SetCopyright(string value);
+    Task SetCopyright(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
-    Task SetLegendEnabled(bool value);
+    Task SetLegendEnabled(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalDefinition property after render.
     /// </summary>
-    Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition> value);
+    Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition>? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
-    Task SetMultidimensionalSubset(MultidimensionalSubset value);
+    Task SetMultidimensionalSubset(MultidimensionalSubset? value);
     
     /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
-    Task SetPopupEnabled(bool value);
+    Task SetPopupEnabled(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>
-    Task SetPopupTemplate(PopupTemplate value);
+    Task SetPopupTemplate(PopupTemplate? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
-    Task SetRenderer(IImageryRenderer value);
+    Task SetRenderer(IImageryRenderer? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
-    Task SetTimeExtent(TimeExtent value);
+    Task SetTimeExtent(TimeExtent? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
-    Task SetTimeInfo(TimeInfo value);
+    Task SetTimeInfo(TimeInfo? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
-    Task SetTimeOffset(TimeInterval value);
+    Task SetTimeOffset(TimeInterval? value);
     
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
-    Task SetUseViewTime(bool value);
+    Task SetUseViewTime(bool? value);
     
 #endregion
 

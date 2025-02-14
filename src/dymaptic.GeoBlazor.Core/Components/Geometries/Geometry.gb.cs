@@ -124,7 +124,7 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasM(bool value)
+    public async Task SetHasM(bool? value)
     {
 #pragma warning disable BL0005
         HasM = value;
@@ -154,7 +154,7 @@ public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasZ(bool value)
+    public async Task SetHasZ(bool? value)
     {
 #pragma warning disable BL0005
         HasZ = value;

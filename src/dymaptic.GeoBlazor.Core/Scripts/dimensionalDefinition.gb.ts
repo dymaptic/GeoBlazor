@@ -58,8 +58,10 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = dimensionalDefinitionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
+    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DimensionalDefinition', e);
     }

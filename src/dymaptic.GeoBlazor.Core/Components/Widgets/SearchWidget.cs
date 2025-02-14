@@ -1,13 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Search widget provides a way to perform search operations on locator service(s), map/feature service feature
-///     layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer,
-///     GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the
-///     findAddressCandidates operation is used, whereas queries are used on feature layers.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class SearchWidget : Widget
+public partial class SearchWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Search;
@@ -55,13 +48,6 @@ public class SearchWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IncludeDefaultSources { get; set; }
-    
-    /// <summary>
-    ///     The widget's default label.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
     
     /// <summary>
     ///     Enables location services within the widget. Default value is True.
@@ -147,28 +133,13 @@ public class SearchWidget : Widget
     [Parameter]
     [JsonIgnore]
     public EventCallback<SearchResult> OnSearchSelectResultEvent { get; set; }
-    
-    /// <summary>
-    ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public Action<GoToOverrideParameters>? GoToOverride { get; set; }
+
 
     /// <summary>
     ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
-    ///     The Search widget may be used to search features in a map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer or OGCFeatureLayer, or table, or geocode locations with a locator. The sources property defines the sources from which to search for the view specified by the Search widget instance.
-    ///     There are two types of sources: <see cref="LayerSearchSource"/> and <see cref="LocatorSearchSource"/>. Any combination of these sources may be used together in the same instance of the Search widget. 
-    /// </summary>
-    /// <remarks>
-    ///     Feature layers created from client-side graphics are not supported.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<SearchSource>? Sources { get; set; }
+
     
     /// <summary>
     ///     A customized PopupTemplate for the selected feature. Note that any templates defined on allSources take precedence over those defined directly on the template.
@@ -246,7 +217,7 @@ public async Task<SearchResponse> Search(string searchTerm)
     /// </param>
     public async Task<SearchResponse> Search(double[][] searchTerm)
     {
-        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", new object[]{searchTerm});
+        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", [searchTerm]);
     }
     
     /// <summary>
@@ -264,13 +235,6 @@ public async Task<SuggestResponse> Suggest(string? value = null)
         return await JsComponentReference!.InvokeAsync<SuggestResponse>("suggest", value);
     }
 
-    /// <summary>
-    ///     Retrieves the source object currently selected. Can be either a LayerSearchSource or a LocatorSearchSource.
-    /// </summary>
-    public async Task<SearchSource?> GetActiveSource()
-    {
-        return await JsComponentReference!.InvokeAsync<SearchSource?>("getActiveSource", View?.Id);
-    }
     
     /// <summary>
     ///     Retrieves the current active menu of the Search widget. Default value is None.
@@ -288,21 +252,6 @@ public async Task<SuggestResponse> Suggest(string? value = null)
         return await JsComponentReference!.InvokeAsync<int>("getActiveSourceIndex");
     }
 
-    /// <summary>
-    ///     Retrieves the combined collection of defaultSources and sources. The defaultSources displays first in the Search UI.
-    /// </summary>
-    public async Task<IReadOnlyList<SearchSource>> GetAllSources()
-    {
-        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources", View?.Id);
-    }
-
-    /// <summary>
-    ///     Retrieves a Collection of LayerSearchSource and/or LocatorSearchSource. This may contain ArcGIS Portal locators and any web map or web scene configurable search sources. Web maps or web scenes may contain map/feature service feature layer(s), and/or table(s) as sources.
-    /// </summary>
-    public async Task<IReadOnlyList<SearchSource>> GetDefaultSources()
-    {
-        return await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources", View?.Id);
-    }
 
     /// <summary>
     ///     The graphic used to highlight the resulting feature or location.
@@ -421,13 +370,7 @@ public async Task<SuggestResult[]> GetSuggestions()
     
     internal override void ValidateRequiredChildren()
     {
-        if (Sources is not null)
-        {
-            foreach (SearchSource source in Sources)
-            {
-                source.ValidateRequiredChildren();
-            }
-        }
+
         PopupTemplate?.ValidateRequiredChildren();
         Portal?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();

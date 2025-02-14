@@ -1,22 +1,9 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The LayerList widget provides a way to display a list of layers, and switch on/off their visibility. The ListItem
-///     API provides access to each layer's properties, allows the developer to configure actions related to the layer, and
-///     allows the developer to add content to the item related to the layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LayerListWidget : Widget
+public partial class LayerListWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.LayerList;
-
-    /// <summary>
-    ///     The widget's default label.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up each <see cref="ListItem" />.

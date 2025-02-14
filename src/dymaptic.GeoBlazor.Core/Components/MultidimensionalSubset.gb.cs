@@ -211,7 +211,7 @@ public partial class MultidimensionalSubset
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAreaOfInterest(Geometry value)
+    public async Task SetAreaOfInterest(Geometry? value)
     {
 #pragma warning disable BL0005
         AreaOfInterest = value;
@@ -231,8 +231,8 @@ public partial class MultidimensionalSubset
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "areaOfInterest", value);
+        await JsComponentReference.InvokeVoidAsync("setAreaOfInterest", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -241,7 +241,7 @@ public partial class MultidimensionalSubset
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSubsetDefinitions(IReadOnlyList<DimensionalDefinition> value)
+    public async Task SetSubsetDefinitions(IReadOnlyList<DimensionalDefinition>? value)
     {
 #pragma warning disable BL0005
         SubsetDefinitions = value;
@@ -261,8 +261,8 @@ public partial class MultidimensionalSubset
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "subsetDefinitions", value);
+        await JsComponentReference.InvokeVoidAsync("setSubsetDefinitions", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -310,6 +310,15 @@ public partial class MultidimensionalSubset
     {
         switch (child)
         {
+            case Geometry areaOfInterest:
+                if (areaOfInterest != AreaOfInterest)
+                {
+                    AreaOfInterest = areaOfInterest;
+                    
+                    ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
+                }
+                
+                return true;
             case DimensionalDefinition subsetDefinitions:
                 SubsetDefinitions ??= [];
                 if (!SubsetDefinitions.Contains(subsetDefinitions))
@@ -329,6 +338,11 @@ public partial class MultidimensionalSubset
     {
         switch (child)
         {
+            case Geometry _:
+                AreaOfInterest = null;
+                
+                ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
+                return true;
             case DimensionalDefinition subsetDefinitions:
                 SubsetDefinitions = SubsetDefinitions?.Where(s => s != subsetDefinitions).ToList();
                 
@@ -343,6 +357,7 @@ public partial class MultidimensionalSubset
     internal override void ValidateRequiredGeneratedChildren()
     {
     
+        AreaOfInterest?.ValidateRequiredGeneratedChildren();
         if (SubsetDefinitions is not null)
         {
             foreach (DimensionalDefinition child in SubsetDefinitions)

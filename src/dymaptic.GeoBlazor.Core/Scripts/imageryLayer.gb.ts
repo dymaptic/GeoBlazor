@@ -71,7 +71,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-        return await this.layer.fetchImage(extent,
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
+        return await this.layer.fetchImage(jsExtent,
             width,
             height,
             options);
@@ -123,20 +125,26 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async imageToMap(parameters: any,
         requestOptions: any): Promise<any> {
-        return await this.layer.imageToMap(parameters,
+        let result = await this.layer.imageToMap(parameters,
             requestOptions);
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async imageToMapMultiray(parameters: any,
         requestOptions: any): Promise<any> {
-        return await this.layer.imageToMapMultiray(parameters,
+        let result = await this.layer.imageToMapMultiray(parameters,
             requestOptions);
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async mapToImage(parameters: any,
         requestOptions: any): Promise<any> {
-        return await this.layer.mapToImage(parameters,
+        let result = await this.layer.mapToImage(parameters,
             requestOptions);
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(result);
     }
 
     async measureAreaAndPerimeter(parameters: any,
@@ -254,9 +262,21 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i)));
+        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i))) as any;
     }
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
     async getMultidimensionalSubset(): Promise<any> {
         if (!hasValue(this.layer.multidimensionalSubset)) {
             return null;
@@ -267,7 +287,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.layerId, this.viewId);
     }
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.layer.popupTemplate)) {
@@ -279,7 +299,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -325,6 +345,14 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     async setRenderingRule(value: any): Promise<void> {
         let { buildJsRasterFunction } = await import('./rasterFunction');
         this.layer.renderingRule = await  buildJsRasterFunction(value, this.layerId, this.viewId);
+    }
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
@@ -393,9 +421,13 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsField } = await import('./jsBuilder');
         jsImageryLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i))) as any;
     }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsImageryLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
-        let { buildJsMultidimensionalSubset } = await import('./jsBuilder');
-        jsImageryLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+        jsImageryLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
@@ -459,9 +491,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.format)) {
         jsImageryLayer.format = dotNetObject.format;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsImageryLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.hasMultidimensions)) {
         jsImageryLayer.hasMultidimensions = dotNetObject.hasMultidimensions;
@@ -547,8 +576,10 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     
+    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageryLayer', e);
     }
@@ -573,6 +604,10 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
             let { buildDotNetField } = await import('./field');
             dotNetImageryLayer.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetField(i)));
         }
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
         if (hasValue(jsObject.multidimensionalSubset)) {
             let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
             dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
@@ -596,6 +631,10 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         if (hasValue(jsObject.renderingRule)) {
             let { buildDotNetRasterFunction } = await import('./rasterFunction');
             dotNetImageryLayer.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetImageryLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -648,9 +687,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.format)) {
             dotNetImageryLayer.format = jsObject.format;
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetImageryLayer.fullExtent = jsObject.fullExtent;
         }
         if (hasValue(jsObject.hasMultidimensions)) {
             dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
@@ -726,9 +762,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.sourceType)) {
             dotNetImageryLayer.sourceType = jsObject.sourceType;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetImageryLayer.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.title)) {
             dotNetImageryLayer.title = jsObject.title;

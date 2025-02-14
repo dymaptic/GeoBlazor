@@ -2,8 +2,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class ExpressionInfo : MapComponent
 {
-
-
     /// <summary>
     ///     An Arcade expression following the specification defined by the Arcade Popup Profile. Expressions must return a
     ///     string or a number and may access data values from the feature, its layer, or other layers in the map or datastore

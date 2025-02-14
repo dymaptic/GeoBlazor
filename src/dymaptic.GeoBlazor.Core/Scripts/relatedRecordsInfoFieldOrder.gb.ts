@@ -52,8 +52,10 @@ export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = relatedRecordsInfoFieldOrderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
     
+    let dnInstantiatedObject = await buildDotNetRelatedRecordsInfoFieldOrder(jsRelatedRecordsInfoFieldOrder);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RelatedRecordsInfoFieldOrder', e);
     }

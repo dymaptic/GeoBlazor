@@ -76,8 +76,10 @@ export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = fieldElementWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldElement;
     
+    let dnInstantiatedObject = await buildDotNetFieldElement(jsFieldElement);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FieldElement', e);
     }

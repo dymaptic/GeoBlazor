@@ -226,7 +226,7 @@ public partial class MapFont
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDecoration(TextDecoration value)
+    public async Task SetDecoration(TextDecoration? value)
     {
 #pragma warning disable BL0005
         Decoration = value;
@@ -256,7 +256,7 @@ public partial class MapFont
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFamily(string value)
+    public async Task SetFamily(string? value)
     {
 #pragma warning disable BL0005
         Family = value;
@@ -286,7 +286,7 @@ public partial class MapFont
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(Dimension value)
+    public async Task SetSize(Dimension? value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -316,7 +316,7 @@ public partial class MapFont
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(MapFontStyle value)
+    public async Task SetStyle(MapFontStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -346,7 +346,7 @@ public partial class MapFont
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWeight(FontWeight value)
+    public async Task SetWeight(FontWeight? value)
     {
 #pragma warning disable BL0005
         Weight = value;

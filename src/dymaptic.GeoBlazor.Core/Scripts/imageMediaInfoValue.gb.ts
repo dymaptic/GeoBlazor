@@ -52,8 +52,10 @@ export async function buildJsImageMediaInfoValueGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = imageMediaInfoValueWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfoValue;
     
+    let dnInstantiatedObject = await buildDotNetImageMediaInfoValue(jsImageMediaInfoValue);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageMediaInfoValue', e);
     }

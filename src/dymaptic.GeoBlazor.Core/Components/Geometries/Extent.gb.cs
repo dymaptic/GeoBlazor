@@ -56,17 +56,22 @@ public partial class Extent
             return Center;
         }
 
-        // get the property value
-        Point? result = await JsComponentReference!.InvokeAsync<Point?>("getProperty",
-            CancellationTokenSource.Token, "center");
+        Point? result = await JsComponentReference.InvokeAsync<Point?>(
+            "getCenter", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Center is not null)
+            {
+                result.Id = Center.Id;
+            }
+            
 #pragma warning disable BL0005
-             Center = result;
+            Center = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Center)] = Center;
+            ModifiedParameters[nameof(Center)] = Center;
         }
-         
+        
         return Center;
     }
     
@@ -260,7 +265,7 @@ public partial class Extent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMmax(double value)
+    public async Task SetMmax(double? value)
     {
 #pragma warning disable BL0005
         Mmax = value;
@@ -290,7 +295,7 @@ public partial class Extent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMmin(double value)
+    public async Task SetMmin(double? value)
     {
 #pragma warning disable BL0005
         Mmin = value;
@@ -320,7 +325,7 @@ public partial class Extent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetZmax(double value)
+    public async Task SetZmax(double? value)
     {
 #pragma warning disable BL0005
         Zmax = value;
@@ -350,7 +355,7 @@ public partial class Extent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetZmin(double value)
+    public async Task SetZmin(double? value)
     {
 #pragma warning disable BL0005
         Zmin = value;
@@ -533,4 +538,45 @@ public partial class Extent
     
 #endregion
 
+
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Point center:
+                if (center != Center)
+                {
+                    Center = center;
+                    
+                    ModifiedParameters[nameof(Center)] = Center;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Point _:
+                Center = null;
+                
+                ModifiedParameters[nameof(Center)] = Center;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    internal override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Center?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

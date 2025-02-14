@@ -83,8 +83,10 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = simpleMarkerSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleMarkerSymbol;
     
+    let dnInstantiatedObject = await buildDotNetSimpleMarkerSymbol(jsSimpleMarkerSymbol);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SimpleMarkerSymbol', e);
     }

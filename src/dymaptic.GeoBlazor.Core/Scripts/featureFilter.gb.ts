@@ -27,6 +27,18 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getGeometry(): Promise<any> {
+        if (!hasValue(this.component.geometry)) {
+            return null;
+        }
+        
+        let { buildDotNetGeometry } = await import('./geometry');
+        return buildDotNetGeometry(this.component.geometry);
+    }
+    async setGeometry(value: any): Promise<void> {
+        let { buildJsGeometry } = await import('./geometry');
+        this.component.geometry =  buildJsGeometry(value);
+    }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.component.timeExtent)) {
             return null;
@@ -50,6 +62,10 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
 export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureFilter = new FeatureFilter();
+    if (hasValue(dotNetObject.geometry)) {
+        let { buildJsGeometry } = await import('./jsBuilder');
+        jsFeatureFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
@@ -57,9 +73,6 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
 
     if (hasValue(dotNetObject.distance)) {
         jsFeatureFilter.distance = dotNetObject.distance;
-    }
-    if (hasValue(dotNetObject.geometry)) {
-        jsFeatureFilter.geometry = dotNetObject.geometry;
     }
     if (hasValue(dotNetObject.objectIds)) {
         jsFeatureFilter.objectIds = dotNetObject.objectIds;
@@ -84,8 +97,10 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
     
+    let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureFilter', e);
     }
@@ -102,15 +117,16 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.geometry)) {
+            let { buildDotNetGeometry } = await import('./geometry');
+            dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
+        }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
         if (hasValue(jsObject.distance)) {
             dotNetFeatureFilter.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.geometry)) {
-            dotNetFeatureFilter.geometry = jsObject.geometry;
         }
         if (hasValue(jsObject.objectIds)) {
             dotNetFeatureFilter.objectIds = jsObject.objectIds;

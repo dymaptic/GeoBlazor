@@ -41,7 +41,15 @@ public abstract partial class Widget : MapComponent
     ///     Default Value:null
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Icon { get; set; }
+    
+    /// <summary>
+    ///     The widget's label.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public virtual string? Label { get; set; }
     
     /// <summary>
     ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
@@ -56,9 +64,10 @@ public abstract partial class Widget : MapComponent
     public EventCallback OnWidgetCreated { get; set; }
 
     [JSInvokable]
-    public override async ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public override async ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference, 
+        string? instantiatedComponentJson)
     {
-        await base.OnJsComponentCreated(jsComponentReference);
+        await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson);
         await OnWidgetCreated.InvokeAsync(this);
     }
 

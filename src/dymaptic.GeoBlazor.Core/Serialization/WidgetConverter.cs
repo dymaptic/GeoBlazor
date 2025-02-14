@@ -52,6 +52,12 @@ internal class WidgetConverter : JsonConverter<Widget>
                     return JsonSerializer.Deserialize<SearchWidget>(ref cloneReader, newOptions);
                 case "slider":
                     return JsonSerializer.Deserialize<SliderWidget>(ref cloneReader, newOptions);
+                case "feature":
+                    return JsonSerializer.Deserialize<FeatureWidget>(ref cloneReader, newOptions);
+                case "list-item-panel":
+                    return JsonSerializer.Deserialize<ListItemPanelWidget>(ref cloneReader, newOptions);
+                case "table-list":
+                    return JsonSerializer.Deserialize<TableListWidget>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:

@@ -43,6 +43,18 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
     async getLineSymbol(): Promise<any> {
         if (!hasValue(this.layer.lineSymbol)) {
             return null;
@@ -90,6 +102,10 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoRSSLayer = new GeoRSSLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsGeoRSSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
         jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
@@ -115,9 +131,6 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.effect)) {
         jsGeoRSSLayer.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsGeoRSSLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         jsGeoRSSLayer.legendEnabled = dotNetObject.legendEnabled;
@@ -161,8 +174,10 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
+    let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeoRSSLayer', e);
     }
@@ -179,6 +194,10 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetGeoRSSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
         if (hasValue(jsObject.lineSymbol)) {
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
             dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
@@ -203,9 +222,6 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         }
         if (hasValue(jsObject.effect)) {
             dotNetGeoRSSLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetGeoRSSLayer.fullExtent = jsObject.fullExtent;
         }
         if (hasValue(jsObject.legendEnabled)) {
             dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;

@@ -248,7 +248,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutline(Outline value)
+    public async Task SetOutline(Outline? value)
     {
 #pragma warning disable BL0005
         Outline = value;
@@ -278,7 +278,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPath(string value)
+    public async Task SetPath(string? value)
     {
 #pragma warning disable BL0005
         Path = value;
@@ -308,7 +308,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(Dimension value)
+    public async Task SetSize(Dimension? value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -338,7 +338,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(SimpleMarkerSymbolStyle value)
+    public async Task SetStyle(SimpleMarkerSymbolStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;

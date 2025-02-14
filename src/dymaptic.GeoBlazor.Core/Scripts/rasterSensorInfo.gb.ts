@@ -70,8 +70,10 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = rasterSensorInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
+    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RasterSensorInfo', e);
     }

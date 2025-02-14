@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The item to add to the user's content.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="PortalFolderFolder">
+/// <param name="PortalFolder">
 ///     The portal folder in which to store the item.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -27,6 +27,6 @@ public partial record PortalUserAddItemParams(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalItem? Item = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    PortalFolder? PortalFolderFolder = null,
+    PortalFolder? PortalFolder = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StringFolder = null);

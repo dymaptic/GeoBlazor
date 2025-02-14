@@ -67,8 +67,10 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = portalFolderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
     
+    let dnInstantiatedObject = await buildDotNetPortalFolder(jsPortalFolder);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalFolder', e);
     }

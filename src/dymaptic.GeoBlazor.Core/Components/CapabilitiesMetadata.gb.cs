@@ -90,7 +90,7 @@ public partial class CapabilitiesMetadata : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsAdvancedFieldProperties(bool value)
+    public async Task SetSupportsAdvancedFieldProperties(bool? value)
     {
 #pragma warning disable BL0005
         SupportsAdvancedFieldProperties = value;

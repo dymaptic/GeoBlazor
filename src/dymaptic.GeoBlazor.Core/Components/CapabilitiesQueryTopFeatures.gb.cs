@@ -90,7 +90,7 @@ public partial class CapabilitiesQueryTopFeatures : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCacheHint(bool value)
+    public async Task SetSupportsCacheHint(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCacheHint = value;

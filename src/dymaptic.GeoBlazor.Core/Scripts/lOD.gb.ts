@@ -58,8 +58,10 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     jsObjectRefs[dotNetObject.id] = lODWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
+    let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LOD', e);
     }

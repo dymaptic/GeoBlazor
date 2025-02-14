@@ -272,7 +272,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFunctionArguments(string value)
+    public async Task SetFunctionArguments(string? value)
     {
 #pragma warning disable BL0005
         FunctionArguments = value;
@@ -302,7 +302,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFunctionName(string value)
+    public async Task SetFunctionName(string? value)
     {
 #pragma warning disable BL0005
         FunctionName = value;
@@ -332,7 +332,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutputPixelType(OutputPixelType value)
+    public async Task SetOutputPixelType(OutputPixelType? value)
     {
 #pragma warning disable BL0005
         OutputPixelType = value;
@@ -362,7 +362,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRasterFunctionDefinition(string value)
+    public async Task SetRasterFunctionDefinition(string? value)
     {
 #pragma warning disable BL0005
         RasterFunctionDefinition = value;
@@ -392,7 +392,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVariableName(string value)
+    public async Task SetVariableName(string? value)
     {
 #pragma warning disable BL0005
         VariableName = value;

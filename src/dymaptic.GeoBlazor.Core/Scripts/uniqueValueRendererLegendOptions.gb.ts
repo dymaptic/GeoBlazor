@@ -49,8 +49,10 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererLegendOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueRendererLegendOptions', e);
     }

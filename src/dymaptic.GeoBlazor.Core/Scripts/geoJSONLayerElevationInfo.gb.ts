@@ -71,8 +71,10 @@ export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = geoJSONLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
     
+    let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfo(jsGeoJSONLayerElevationInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeoJSONLayerElevationInfo', e);
     }

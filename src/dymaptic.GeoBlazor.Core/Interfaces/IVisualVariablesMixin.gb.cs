@@ -22,7 +22,7 @@ public partial interface IVisualVariablesMixin
     /// <summary>
     ///    Asynchronously set the value of the VisualVariables property after render.
     /// </summary>
-    Task SetVisualVariables(IReadOnlyList<VisualVariable> value);
+    Task SetVisualVariables(IReadOnlyList<VisualVariable>? value);
     
 #endregion
 

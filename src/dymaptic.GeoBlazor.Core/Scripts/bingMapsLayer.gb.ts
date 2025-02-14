@@ -75,6 +75,30 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
+    }
+    async setSpatialReference(value: any): Promise<void> {
+        let { buildJsSpatialReference } = await import('./spatialReference');
+        this.layer.spatialReference = await  buildJsSpatialReference(value);
+    }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
         this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
@@ -102,6 +126,14 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBingMapsLayer = new BingMapsLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsBingMapsLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        let { buildJsSpatialReference } = await import('./jsBuilder');
+        jsBingMapsLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+    }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         jsBingMapsLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
@@ -122,9 +154,6 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.effect)) {
         jsBingMapsLayer.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsBingMapsLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.key)) {
         jsBingMapsLayer.key = dotNetObject.key;
@@ -150,9 +179,6 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.region)) {
         jsBingMapsLayer.region = dotNetObject.region;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        jsBingMapsLayer.spatialReference = dotNetObject.spatialReference;
-    }
     if (hasValue(dotNetObject.style)) {
         jsBingMapsLayer.style = dotNetObject.style;
     }
@@ -174,8 +200,10 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
+    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BingMapsLayer', e);
     }
@@ -192,6 +220,14 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetBingMapsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetBingMapsLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+        }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
@@ -217,9 +253,6 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.effect)) {
             dotNetBingMapsLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetBingMapsLayer.fullExtent = jsObject.fullExtent;
         }
         if (hasValue(jsObject.hasAttributionData)) {
             dotNetBingMapsLayer.hasAttributionData = jsObject.hasAttributionData;
@@ -250,9 +283,6 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         }
         if (hasValue(jsObject.region)) {
             dotNetBingMapsLayer.region = jsObject.region;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetBingMapsLayer.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.style)) {
             dotNetBingMapsLayer.style = jsObject.style;

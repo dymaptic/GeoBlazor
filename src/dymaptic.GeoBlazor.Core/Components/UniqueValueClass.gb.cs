@@ -180,7 +180,7 @@ public partial class UniqueValueClass : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -210,7 +210,7 @@ public partial class UniqueValueClass : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSymbol(Symbol value)
+    public async Task SetSymbol(Symbol? value)
     {
 #pragma warning disable BL0005
         Symbol = value;
@@ -230,8 +230,8 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "symbol", value);
+        await JsComponentReference.InvokeVoidAsync("setSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -240,7 +240,7 @@ public partial class UniqueValueClass : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValues(IReadOnlyList<UniqueValue> value)
+    public async Task SetValues(IReadOnlyList<UniqueValue>? value)
     {
 #pragma warning disable BL0005
         Values = value;
@@ -260,8 +260,8 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "values", value);
+        await JsComponentReference.InvokeVoidAsync("setValues", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

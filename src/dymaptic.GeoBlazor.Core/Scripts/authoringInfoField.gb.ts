@@ -34,7 +34,7 @@ export default class AuthoringInfoFieldGenerated implements IPropertyWrapper {
     
     async setClassBreakInfos(value: any): Promise<void> {
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        this.component.classBreakInfos = await Promise.all(value.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, this.layerId, this.viewId)));
+        this.component.classBreakInfos = await Promise.all(value.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -73,8 +73,10 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = authoringInfoFieldWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
     
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AuthoringInfoField', e);
     }

@@ -1239,7 +1239,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBandIds(IReadOnlyList<long> value)
+    public async Task SetBandIds(IReadOnlyList<long>? value)
     {
 #pragma warning disable BL0005
         BandIds = value;
@@ -1269,7 +1269,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1299,7 +1299,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string value)
+    public async Task SetCopyright(string? value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -1329,7 +1329,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCoverageId(string value)
+    public async Task SetCoverageId(string? value)
     {
 #pragma warning disable BL0005
         CoverageId = value;
@@ -1359,7 +1359,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCoverageInfo(CoverageInfo value)
+    public async Task SetCoverageInfo(CoverageInfo? value)
     {
 #pragma warning disable BL0005
         CoverageInfo = value;
@@ -1389,7 +1389,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -1419,7 +1419,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -1449,7 +1449,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(Interpolation value)
+    public async Task SetInterpolation(Interpolation? value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
@@ -1479,7 +1479,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -1509,7 +1509,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1539,7 +1539,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1569,7 +1569,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition> value)
+    public async Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition>? value)
     {
 #pragma warning disable BL0005
         MultidimensionalDefinition = value;
@@ -1589,8 +1589,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalDefinition", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1599,7 +1599,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMultidimensionalSubset(MultidimensionalSubset value)
+    public async Task SetMultidimensionalSubset(MultidimensionalSubset? value)
     {
 #pragma warning disable BL0005
         MultidimensionalSubset = value;
@@ -1619,8 +1619,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalSubset", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1629,7 +1629,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool value)
+    public async Task SetPopupEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -1659,7 +1659,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupTemplate(PopupTemplate value)
+    public async Task SetPopupTemplate(PopupTemplate? value)
     {
 #pragma warning disable BL0005
         PopupTemplate = value;
@@ -1679,8 +1679,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1689,7 +1689,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -1711,31 +1711,6 @@ public partial class WCSLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -1744,7 +1719,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRasterFields(IReadOnlyList<Field> value)
+    public async Task SetRasterFields(IReadOnlyList<Field>? value)
     {
 #pragma warning disable BL0005
         RasterFields = value;
@@ -1764,8 +1739,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rasterFields", value);
+        await JsComponentReference.InvokeVoidAsync("setRasterFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1774,7 +1749,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(IImageryRenderer value)
+    public async Task SetRenderer(IImageryRenderer? value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -1804,7 +1779,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeExtent(TimeExtent value)
+    public async Task SetTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         TimeExtent = value;
@@ -1826,31 +1801,6 @@ public partial class WCSLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        
-        if (TimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "timeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "timeExtent", TimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -1859,7 +1809,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeInfo(TimeInfo value)
+    public async Task SetTimeInfo(TimeInfo? value)
     {
 #pragma warning disable BL0005
         TimeInfo = value;
@@ -1879,8 +1829,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1889,7 +1839,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeOffset(TimeInterval value)
+    public async Task SetTimeOffset(TimeInterval? value)
     {
 #pragma warning disable BL0005
         TimeOffset = value;
@@ -1909,8 +1859,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1919,7 +1869,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -1949,7 +1899,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool value)
+    public async Task SetUseViewTime(bool? value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -1979,7 +1929,7 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVersion(string value)
+    public async Task SetVersion(string? value)
     {
 #pragma warning disable BL0005
         Version = value;

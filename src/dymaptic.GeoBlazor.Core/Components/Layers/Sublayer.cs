@@ -78,12 +78,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public string? Title { get; set; }
 
-    
-    /// <summary>
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace. See DynamicMapLayer for creating dynamic layers from map service layers for on the fly rendering, labeling, and filtering (definition expressions). To create dynamic layers from other sources in registered workspaces such as tables and table joins, see DynamicDataLayer.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DynamicLayer? Source { get; set; }
 
     /// <summary>
     ///     Returns a flattened list of sublayers
@@ -225,7 +219,6 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     {
         FloorInfo?.ValidateRequiredChildren();
 
-        Source?.ValidateRequiredChildren();
 
         base.ValidateRequiredChildren();
     }

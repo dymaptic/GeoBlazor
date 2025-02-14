@@ -258,7 +258,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -288,7 +288,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayCount(int value)
+    public async Task SetDisplayCount(int? value)
     {
 #pragma warning disable BL0005
         DisplayCount = value;
@@ -318,7 +318,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayType(string value)
+    public async Task SetDisplayType(string? value)
     {
 #pragma warning disable BL0005
         DisplayType = value;
@@ -348,7 +348,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderByFields(IReadOnlyList<RelatedRecordsInfoFieldOrder> value)
+    public async Task SetOrderByFields(IReadOnlyList<RelatedRecordsInfoFieldOrder>? value)
     {
 #pragma warning disable BL0005
         OrderByFields = value;
@@ -368,8 +368,8 @@ public partial class RelationshipPopupContent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orderByFields", value);
+        await JsComponentReference.InvokeVoidAsync("setOrderByFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -378,7 +378,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRelationshipId(long value)
+    public async Task SetRelationshipId(long? value)
     {
 #pragma warning disable BL0005
         RelationshipId = value;
@@ -408,7 +408,7 @@ public partial class RelationshipPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

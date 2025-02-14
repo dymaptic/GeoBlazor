@@ -135,7 +135,7 @@ public partial class Theme : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccentColor(MapColor value)
+    public async Task SetAccentColor(MapColor? value)
     {
 #pragma warning disable BL0005
         AccentColor = value;
@@ -155,8 +155,8 @@ public partial class Theme : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "accentColor", value);
+        await JsComponentReference.InvokeVoidAsync("setAccentColor", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -165,7 +165,7 @@ public partial class Theme : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTextColor(MapColor value)
+    public async Task SetTextColor(MapColor? value)
     {
 #pragma warning disable BL0005
         TextColor = value;
@@ -185,8 +185,8 @@ public partial class Theme : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "textColor", value);
+        await JsComponentReference.InvokeVoidAsync("setTextColor", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

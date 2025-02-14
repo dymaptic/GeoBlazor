@@ -122,102 +122,102 @@ public partial interface IFeatureLayerBase
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
-    Task SetCopyright(string value);
+    Task SetCopyright(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the DateFieldsTimeZone property after render.
     /// </summary>
-    Task SetDateFieldsTimeZone(string value);
+    Task SetDateFieldsTimeZone(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
-    Task SetDefinitionExpression(string value);
+    Task SetDefinitionExpression(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the DisplayField property after render.
     /// </summary>
-    Task SetDisplayField(string value);
+    Task SetDisplayField(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ElevationInfo property after render.
     /// </summary>
-    Task SetElevationInfo(FeatureLayerBaseElevationInfo value);
+    Task SetElevationInfo(FeatureLayerBaseElevationInfo? value);
     
     /// <summary>
     ///    Asynchronously set the value of the FloorInfo property after render.
     /// </summary>
-    Task SetFloorInfo(LayerFloorInfo value);
+    Task SetFloorInfo(LayerFloorInfo? value);
     
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
-    Task SetFullExtent(Extent value);
+    Task SetFullExtent(Extent? value);
     
     /// <summary>
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
-    Task SetGdbVersion(string value);
+    Task SetGdbVersion(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the GeometryType property after render.
     /// </summary>
-    Task SetGeometryType(FeatureGeometryType value);
+    Task SetGeometryType(FeatureGeometryType? value);
     
     /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
     /// </summary>
-    Task SetHasM(bool value);
+    Task SetHasM(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the HasZ property after render.
     /// </summary>
-    Task SetHasZ(bool value);
+    Task SetHasZ(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the HistoricMoment property after render.
     /// </summary>
-    Task SetHistoricMoment(DateTime value);
+    Task SetHistoricMoment(DateTime? value);
     
     /// <summary>
     ///    Asynchronously set the value of the LayerIndex property after render.
     /// </summary>
-    Task SetLayerIndex(int value);
+    Task SetLayerIndex(int? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ObjectIdField property after render.
     /// </summary>
-    Task SetObjectIdField(string value);
+    Task SetObjectIdField(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ReturnM property after render.
     /// </summary>
-    Task SetReturnM(bool value);
+    Task SetReturnM(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ReturnZ property after render.
     /// </summary>
-    Task SetReturnZ(bool value);
+    Task SetReturnZ(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(string value);
+    Task SetSourceJSON(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
     /// </summary>
-    Task SetSpatialReference(SpatialReference value);
+    Task SetSpatialReference(SpatialReference? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
-    Task SetTitle(string value);
+    Task SetTitle(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
-    Task SetUrl(string value);
+    Task SetUrl(string? value);
     
 #endregion
 

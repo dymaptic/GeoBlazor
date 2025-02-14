@@ -35,17 +35,17 @@ public partial interface IArcGISMapService
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
-    Task SetCopyright(string value);
+    Task SetCopyright(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
-    Task SetFullExtent(Extent value);
+    Task SetFullExtent(Extent? value);
     
     /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
-    Task SetLegendEnabled(bool value);
+    Task SetLegendEnabled(bool? value);
     
 #endregion
 

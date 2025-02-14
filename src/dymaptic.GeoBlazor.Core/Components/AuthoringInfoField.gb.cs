@@ -225,7 +225,7 @@ public partial class AuthoringInfoField
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetClassBreakInfos(IReadOnlyList<AuthoringInfoField1ClassBreakInfos> value)
+    public async Task SetClassBreakInfos(IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? value)
     {
 #pragma warning disable BL0005
         ClassBreakInfos = value;
@@ -245,8 +245,8 @@ public partial class AuthoringInfoField
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "classBreakInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setClassBreakInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -255,7 +255,7 @@ public partial class AuthoringInfoField
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -285,7 +285,7 @@ public partial class AuthoringInfoField
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -315,7 +315,7 @@ public partial class AuthoringInfoField
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizationField(string value)
+    public async Task SetNormalizationField(string? value)
     {
 #pragma warning disable BL0005
         NormalizationField = value;

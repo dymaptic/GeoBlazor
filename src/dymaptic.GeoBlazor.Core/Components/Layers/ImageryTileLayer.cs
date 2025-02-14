@@ -129,7 +129,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
     /// <summary>
     ///     Updates the renderer after initial render.
     /// </summary>
-    public async Task SetRenderer(IImageryRenderer renderer)
+    public async Task SetRenderer(IImageryRenderer? renderer)
     {
         Renderer = renderer;
 

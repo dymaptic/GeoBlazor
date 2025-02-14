@@ -279,7 +279,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCulture(CultureInfo value)
+    public async Task SetCulture(CultureInfo? value)
     {
 #pragma warning disable BL0005
         Culture = value;
@@ -339,7 +339,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRegion(string value)
+    public async Task SetRegion(string? value)
     {
 #pragma warning disable BL0005
         Region = value;
@@ -369,7 +369,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(BingImageryStyle value)
+    public async Task SetStyle(BingImageryStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;

@@ -55,8 +55,10 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = opacityStopWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityStop;
     
+    let dnInstantiatedObject = await buildDotNetOpacityStop(jsOpacityStop);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OpacityStop', e);
     }

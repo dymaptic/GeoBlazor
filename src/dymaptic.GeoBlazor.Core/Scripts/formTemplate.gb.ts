@@ -34,7 +34,7 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     async setElements(value: any): Promise<void> {
         let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId)));
+        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId))) as any;
     }
     
     async getExpressionInfos(): Promise<any> {
@@ -48,7 +48,7 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = await Promise.all(value.map(async i => await buildJsExpressionInfo(i)));
+        this.component.expressionInfos = await Promise.all(value.map(async i => await buildJsExpressionInfo(i))) as any;
     }
     
     getProperty(prop: string): any {
@@ -91,8 +91,10 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = formTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFormTemplate;
     
+    let dnInstantiatedObject = await buildDotNetFormTemplate(jsFormTemplate);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FormTemplate', e);
     }

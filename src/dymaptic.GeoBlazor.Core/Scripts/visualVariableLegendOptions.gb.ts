@@ -52,8 +52,10 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = visualVariableLegendOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
     
+    let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VisualVariableLegendOptions', e);
     }

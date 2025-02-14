@@ -34,7 +34,7 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
     
     async setColors(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.colors = value.map(i => buildJsMapColor(i));
+        this.component.colors = value.map(i => buildJsMapColor(i)) as any;
     }
     
     async getSeries(): Promise<any> {
@@ -48,7 +48,7 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
     
     async setSeries(value: any): Promise<void> {
         let { buildJsChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
-        this.component.series = await Promise.all(value.map(async i => await buildJsChartMediaInfoValueSeries(i, this.layerId, this.viewId)));
+        this.component.series = await Promise.all(value.map(async i => await buildJsChartMediaInfoValueSeries(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -91,8 +91,10 @@ export async function buildJsChartMediaInfoValueGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = chartMediaInfoValueWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValue;
     
+    let dnInstantiatedObject = await buildDotNetChartMediaInfoValue(jsChartMediaInfoValue);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValue', e);
     }

@@ -99,7 +99,7 @@ public partial class BaseTileLayer : Layer
     /// <param name="effect">
     ///     The effect to apply to the layer.
     /// </param>
-    public async Task SetEffect(Effect effect)
+    public async Task SetEffect(Effect? effect)
     {
         await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
     }

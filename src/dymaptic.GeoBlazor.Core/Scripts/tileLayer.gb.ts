@@ -88,6 +88,18 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -99,6 +111,14 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+    }
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
@@ -120,7 +140,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     
     async setSubtables(value: any): Promise<void> {
         let { buildJsSublayer } = await import('./sublayer');
-        this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i)));
+        this.layer.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
     
     async getTileInfo(): Promise<any> {
@@ -158,13 +178,17 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTileLayer = new TileLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.subtables)) {
-        let { buildJsSublayer } = await import('./jsBuilder');
-        jsTileLayer.subtables = dotNetObject.subtables.map(i => buildJsSublayer(i)) as any;
+        let { buildJsSublayer } = await import('./sublayer');
+        jsTileLayer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -192,9 +216,6 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.effect)) {
         jsTileLayer.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsTileLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         jsTileLayer.legendEnabled = dotNetObject.legendEnabled;
@@ -244,8 +265,10 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = tileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
     
+    let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TileLayer', e);
     }
@@ -266,9 +289,17 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetSublayer } = await import('./sublayer');
             dotNetTileLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetSublayer(i)));
         }
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetSublayer } = await import('./sublayer');
@@ -310,9 +341,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
         if (hasValue(jsObject.effect)) {
             dotNetTileLayer.effect = jsObject.effect;
         }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetTileLayer.fullExtent = jsObject.fullExtent;
-        }
         if (hasValue(jsObject.hasAttributionData)) {
             dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;
         }
@@ -345,9 +373,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
         }
         if (hasValue(jsObject.sourceJSON)) {
             dotNetTileLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetTileLayer.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.tileServers)) {
             dotNetTileLayer.tileServers = jsObject.tileServers;

@@ -180,7 +180,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration value)
+    public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration? value)
     {
 #pragma warning disable BL0005
         Mensuration = value;
@@ -200,8 +200,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "mensuration", value);
+        await JsComponentReference.InvokeVoidAsync("setMensuration", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -210,7 +210,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations value)
+    public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations? value)
     {
 #pragma warning disable BL0005
         Operations = value;
@@ -230,8 +230,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "operations", value);
+        await JsComponentReference.InvokeVoidAsync("setOperations", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -240,7 +240,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQuery(ArcGISImageServiceCapabilitiesQuery value)
+    public async Task SetQuery(ArcGISImageServiceCapabilitiesQuery? value)
     {
 #pragma warning disable BL0005
         Query = value;

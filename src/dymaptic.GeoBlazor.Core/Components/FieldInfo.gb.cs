@@ -325,7 +325,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFieldName(string value)
+    public async Task SetFieldName(string? value)
     {
 #pragma warning disable BL0005
         FieldName = value;
@@ -355,7 +355,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormat(FieldInfoFormat value)
+    public async Task SetFormat(FieldInfoFormat? value)
     {
 #pragma warning disable BL0005
         Format = value;
@@ -375,8 +375,8 @@ public partial class FieldInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "format", value);
+        await JsComponentReference.InvokeVoidAsync("setFormat", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -385,7 +385,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsEditable(bool value)
+    public async Task SetIsEditable(bool? value)
     {
 #pragma warning disable BL0005
         IsEditable = value;
@@ -415,7 +415,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -445,7 +445,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStatisticType(StatisticType value)
+    public async Task SetStatisticType(StatisticType? value)
     {
 #pragma warning disable BL0005
         StatisticType = value;
@@ -475,7 +475,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStringFieldOption(StringFieldOption value)
+    public async Task SetStringFieldOption(StringFieldOption? value)
     {
 #pragma warning disable BL0005
         StringFieldOption = value;
@@ -505,7 +505,7 @@ public partial class FieldInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTooltip(string value)
+    public async Task SetTooltip(string? value)
     {
 #pragma warning disable BL0005
         Tooltip = value;

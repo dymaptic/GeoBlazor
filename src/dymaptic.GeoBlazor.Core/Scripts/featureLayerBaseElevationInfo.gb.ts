@@ -71,8 +71,10 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfo;
     
+    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureLayerBaseElevationInfo', e);
     }

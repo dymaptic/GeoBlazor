@@ -73,8 +73,10 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = capabilitiesEditingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     
+    let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CapabilitiesEditing', e);
     }

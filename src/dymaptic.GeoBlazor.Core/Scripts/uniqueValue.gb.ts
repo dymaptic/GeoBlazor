@@ -55,8 +55,10 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = uniqueValueWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValue;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValue(jsUniqueValue);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValue', e);
     }

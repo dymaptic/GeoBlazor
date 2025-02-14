@@ -33,7 +33,7 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol =  buildJsSymbol(value);
+        this.component.symbol = await  buildJsSymbol(value, this.layerId, this.viewId);
     }
     async getValues(): Promise<any> {
         if (!hasValue(this.component.values)) {
@@ -46,7 +46,7 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     
     async setValues(value: any): Promise<void> {
         let { buildJsUniqueValue } = await import('./uniqueValue');
-        this.component.values = await Promise.all(value.map(async i => await buildJsUniqueValue(i, this.layerId, this.viewId)));
+        this.component.values = await Promise.all(value.map(async i => await buildJsUniqueValue(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -61,8 +61,8 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
 export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueClass = new UniqueValueClass();
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('./jsBuilder');
-        jsUniqueValueClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        let { buildJsSymbol } = await import('./symbol');
+        jsUniqueValueClass.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.values)) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
@@ -83,8 +83,10 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = uniqueValueClassWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueClass', e);
     }

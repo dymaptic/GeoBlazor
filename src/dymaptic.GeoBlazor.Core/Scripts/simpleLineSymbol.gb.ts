@@ -93,8 +93,10 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = simpleLineSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
     
+    let dnInstantiatedObject = await buildDotNetSimpleLineSymbol(jsSimpleLineSymbol);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SimpleLineSymbol', e);
     }

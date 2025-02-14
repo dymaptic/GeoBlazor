@@ -418,7 +418,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -448,7 +448,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -478,7 +478,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -508,7 +508,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -538,7 +538,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -560,31 +560,6 @@ public partial class KMLLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -593,7 +568,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSublayers(IReadOnlyList<KMLSublayer> value)
+    public async Task SetSublayers(IReadOnlyList<KMLSublayer>? value)
     {
 #pragma warning disable BL0005
         Sublayers = value;
@@ -613,8 +588,8 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayers", value);
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -623,7 +598,7 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;

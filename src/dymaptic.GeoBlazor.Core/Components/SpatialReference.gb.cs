@@ -239,7 +239,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageCoordinateSystem(string value)
+    public async Task SetImageCoordinateSystem(string? value)
     {
 #pragma warning disable BL0005
         ImageCoordinateSystem = value;
@@ -269,7 +269,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWkid(int value)
+    public async Task SetWkid(int? value)
     {
 #pragma warning disable BL0005
         Wkid = value;
@@ -299,7 +299,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWkt(string value)
+    public async Task SetWkt(string? value)
     {
 #pragma warning disable BL0005
         Wkt = value;
@@ -329,7 +329,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWkt2(string value)
+    public async Task SetWkt2(string? value)
     {
 #pragma warning disable BL0005
         Wkt2 = value;

@@ -1,10 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-/// The widget legend style, sets the display style of the legend widget.
-/// <a target="_blank" href=" https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LegendStyle : MapComponent
+public partial class LegendStyle : MapComponent
 {
     /// <summary>
     /// The Legend style type.

@@ -52,8 +52,10 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = portalFeaturedGroupsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
+    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalFeaturedGroups', e);
     }

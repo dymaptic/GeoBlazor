@@ -50,7 +50,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.stops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId)));
+        this.component.stops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -123,8 +123,10 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
     
+    let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SizeVariable', e);
     }

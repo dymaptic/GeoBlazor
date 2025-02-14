@@ -180,7 +180,7 @@ public partial class UniqueValue : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(string value)
+    public async Task SetValue(string? value)
     {
 #pragma warning disable BL0005
         Value = value;
@@ -210,7 +210,7 @@ public partial class UniqueValue : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue2(string value)
+    public async Task SetValue2(string? value)
     {
 #pragma warning disable BL0005
         Value2 = value;
@@ -240,7 +240,7 @@ public partial class UniqueValue : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue3(string value)
+    public async Task SetValue3(string? value)
     {
 #pragma warning disable BL0005
         Value3 = value;

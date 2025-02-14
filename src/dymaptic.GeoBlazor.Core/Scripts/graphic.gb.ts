@@ -54,3 +54,95 @@ export default class GraphicGenerated implements IPropertyWrapper {
     }
 }
 
+export async function buildJsGraphicGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsGraphic = new Graphic();
+    if (hasValue(dotNetObject.geometry)) {
+        let { buildJsGeometry } = await import('./jsBuilder');
+        jsGraphic.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+    }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('./jsBuilder');
+        jsGraphic.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.symbol)) {
+        let { buildJsSymbol } = await import('./symbol');
+        jsGraphic.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
+    }
+
+    if (hasValue(dotNetObject.aggregateGeometries)) {
+        jsGraphic.aggregateGeometries = dotNetObject.aggregateGeometries;
+    }
+    if (hasValue(dotNetObject.attributes)) {
+        jsGraphic.attributes = dotNetObject.attributes;
+    }
+    if (hasValue(dotNetObject.origin)) {
+        jsGraphic.origin = dotNetObject.origin;
+    }
+    let { default: GraphicWrapper } = await import('./graphic');
+    let graphicWrapper = new GraphicWrapper(jsGraphic);
+    graphicWrapper.geoBlazorId = dotNetObject.id;
+    graphicWrapper.viewId = viewId;
+    graphicWrapper.layerId = layerId;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(graphicWrapper);
+    jsObjectRefs[dotNetObject.id] = graphicWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsGraphic;
+    
+    let dnInstantiatedObject = await buildDotNetGraphic(jsGraphic, layerId, viewId);
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for Graphic', e);
+    }
+    
+    return jsGraphic;
+}
+
+export async function buildDotNetGraphicGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetGraphic: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.geometry)) {
+            let { buildDotNetGeometry } = await import('./geometry');
+            dotNetGraphic.geometry = buildDotNetGeometry(jsObject.geometry);
+        }
+        if (hasValue(jsObject.popupTemplate)) {
+            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+            dotNetGraphic.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        }
+        if (hasValue(jsObject.symbol)) {
+            let { buildDotNetSymbol } = await import('./symbol');
+            dotNetGraphic.symbol = await buildDotNetSymbol(jsObject.symbol);
+        }
+        if (hasValue(jsObject.aggregateGeometries)) {
+            dotNetGraphic.aggregateGeometries = jsObject.aggregateGeometries;
+        }
+        if (hasValue(jsObject.attributes)) {
+            dotNetGraphic.attributes = jsObject.attributes;
+        }
+        if (hasValue(jsObject.isAggregate)) {
+            dotNetGraphic.isAggregate = jsObject.isAggregate;
+        }
+        if (hasValue(jsObject.origin)) {
+            dotNetGraphic.origin = jsObject.origin;
+        }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetGraphic.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetGraphic;
+}
+

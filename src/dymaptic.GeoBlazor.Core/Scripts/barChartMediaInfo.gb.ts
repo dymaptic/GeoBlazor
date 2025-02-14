@@ -33,7 +33,7 @@ export default class BarChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -71,8 +71,10 @@ export async function buildJsBarChartMediaInfoGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = barChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBarChartMediaInfo;
     
+    let dnInstantiatedObject = await buildDotNetBarChartMediaInfo(jsBarChartMediaInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BarChartMediaInfo', e);
     }

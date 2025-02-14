@@ -95,7 +95,7 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(SimpleFillSymbolStyle value)
+    public async Task SetStyle(SimpleFillSymbolStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;

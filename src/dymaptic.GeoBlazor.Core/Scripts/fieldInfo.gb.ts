@@ -33,7 +33,7 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     }
     async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format = await  buildJsFieldInfoFormat(value);
+        this.component.format =  buildJsFieldInfoFormat(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
         let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = await buildJsFieldInfoFormat(dotNetObject.format) as any;
+        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {
@@ -80,8 +80,10 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = fieldInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
     
+    let dnInstantiatedObject = await buildDotNetFieldInfo(jsFieldInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FieldInfo', e);
     }

@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     The Expand widget acts as a clickable button for opening a widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Expand.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class ExpandWidget : Widget
 {
     /// <inheritdoc />
@@ -89,7 +90,7 @@ public class ExpandWidget : Widget
     /// </summary>
     [Parameter]
     public ExpandMode Mode { get; set; } = ExpandMode.Auto;
-
+    
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

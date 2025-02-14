@@ -585,7 +585,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEndTime(string value)
+    public async Task SetEndTime(string? value)
     {
 #pragma warning disable BL0005
         EndTime = value;
@@ -615,7 +615,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -645,7 +645,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxSliderValue(double value)
+    public async Task SetMaxSliderValue(double? value)
     {
 #pragma warning disable BL0005
         MaxSliderValue = value;
@@ -675,7 +675,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinSliderValue(double value)
+    public async Task SetMinSliderValue(double? value)
     {
 #pragma warning disable BL0005
         MinSliderValue = value;
@@ -705,7 +705,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizationField(string value)
+    public async Task SetNormalizationField(string? value)
     {
 #pragma warning disable BL0005
         NormalizationField = value;
@@ -735,7 +735,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReferenceSizeScale(double value)
+    public async Task SetReferenceSizeScale(double? value)
     {
 #pragma warning disable BL0005
         ReferenceSizeScale = value;
@@ -765,7 +765,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReferenceSizeSymbolStyle(ReferenceSizeSymbolStyle value)
+    public async Task SetReferenceSizeSymbolStyle(ReferenceSizeSymbolStyle? value)
     {
 #pragma warning disable BL0005
         ReferenceSizeSymbolStyle = value;
@@ -795,7 +795,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSizeStops(IReadOnlyList<SizeStop> value)
+    public async Task SetSizeStops(IReadOnlyList<SizeStop>? value)
     {
 #pragma warning disable BL0005
         SizeStops = value;
@@ -815,8 +815,8 @@ public partial class AuthoringInfoVisualVariable
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sizeStops", value);
+        await JsComponentReference.InvokeVoidAsync("setSizeStops", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -825,7 +825,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStartTime(string value)
+    public async Task SetStartTime(string? value)
     {
 #pragma warning disable BL0005
         StartTime = value;
@@ -855,7 +855,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(AuthoringInfoVisualVariableStyle value)
+    public async Task SetStyle(AuthoringInfoVisualVariableStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -885,7 +885,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTheme(Theme value)
+    public async Task SetTheme(Theme? value)
     {
 #pragma warning disable BL0005
         Theme = value;
@@ -905,8 +905,8 @@ public partial class AuthoringInfoVisualVariable
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "theme", value);
+        await JsComponentReference.InvokeVoidAsync("setTheme", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -915,7 +915,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnits(AuthoringInfoVisualVariableUnits value)
+    public async Task SetUnits(AuthoringInfoVisualVariableUnits? value)
     {
 #pragma warning disable BL0005
         Units = value;

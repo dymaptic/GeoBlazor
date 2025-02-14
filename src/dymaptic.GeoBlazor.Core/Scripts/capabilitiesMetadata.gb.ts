@@ -49,8 +49,10 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = capabilitiesMetadataWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
+    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CapabilitiesMetadata', e);
     }

@@ -1,13 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     The following properties define a Layer-based source whose features may be searched by a Search widget instance.
-///     For string field searches, there is no leading wildcard. This effectively makes exactMatch true, which will remove unnecessary search results and suggestions.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <remarks>
-///     Layers created from client-side graphics are not supported.
-/// </remarks>
-public class LayerSearchSource : SearchSource
+
+public partial class LayerSearchSource : SearchSource
 {
     /// <inheritdoc/>
     public override string Type => "layer";
@@ -38,19 +31,6 @@ public class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Guid? LayerId { get; set; }
 
-    /// <summary>
-    ///     One or more field names used to order the query results. Specfiy ASC (ascending) or DESC (descending) after the field name to control the order. The default order is ASC.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? OrderByFields { get; set; }
-
-    /// <summary>
-    ///     An array of string values representing the names of fields in the feature layer to search.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? SearchFields { get; set; }
 
     /// <summary>
     ///     A template string used to display multiple fields in a defined order when suggestions are displayed. This takes precedence over displayField. Field names in the template must have the following format: {FieldName}. An example suggestionTemplate could look something like: Name: {OWNER}, Parcel: {PARCEL_ID}.
@@ -59,24 +39,13 @@ public class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SuggestionTemplate { get; set; }
 
-    /// <summary>
-    ///     For filtering suggests or search results. Setting a value here takes precedence over withinViewEnabled. Please see the object specification table below for details.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LayerSearchSourceFilter? Filter { get; set; }
 
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case LayerSearchSourceFilter filter:
-                if (!filter.Equals(Filter))
-                {
-                    Filter = filter;
-                }
 
-                break;
             case Layer layer:
                 if (!layer.Equals(Layer))
                 {
@@ -95,9 +64,7 @@ public class LayerSearchSource : SearchSource
     {
         switch (child)
         {
-            case LayerSearchSourceFilter:
-                Filter = null;
-                break;
+
             case Layer _:
                 Layer = null;
                 break;
@@ -109,7 +76,7 @@ public class LayerSearchSource : SearchSource
 
     internal override void ValidateRequiredChildren()
     {
-        Filter?.ValidateRequiredChildren();
+
         Layer?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }

@@ -48,7 +48,7 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     let jsImageMediaInfo = new ImageMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsImageMediaInfoValue } = await import('./jsBuilder');
-        jsImageMediaInfo.value = await buildJsImageMediaInfoValue(dotNetObject.value) as any;
+        jsImageMediaInfo.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -74,8 +74,10 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = imageMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfo;
     
+    let dnInstantiatedObject = await buildDotNetImageMediaInfo(jsImageMediaInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageMediaInfo', e);
     }

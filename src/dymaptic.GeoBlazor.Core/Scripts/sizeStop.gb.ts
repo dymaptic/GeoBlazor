@@ -55,8 +55,10 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = sizeStopWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
     
+    let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SizeStop', e);
     }

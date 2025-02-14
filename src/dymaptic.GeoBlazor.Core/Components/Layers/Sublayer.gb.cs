@@ -85,15 +85,12 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="source">
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace. See DynamicMapLayer for creating dynamic layers from map service layers for on the fly rendering, labeling, and filtering (definition expressions). To create dynamic layers from other sources in registered workspaces such as tables and table joins, see DynamicDataLayer.
+    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sublayers">
     ///     If a sublayer contains sublayers, this property is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects belonging to the given sublayer with sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="dataSource">
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
     ///     The URL to the REST endpoint of the sublayer.
@@ -117,7 +114,6 @@ public partial class Sublayer
         Renderer? renderer = null,
         DynamicLayer? source = null,
         IReadOnlyList<Sublayer>? sublayers = null,
-        DynamicDataSource? dataSource = null,
         string? url = null)
     {
         AllowRender = false;
@@ -140,12 +136,8 @@ public partial class Sublayer
         LabelingInfo = labelingInfo;
         PopupTemplate = popupTemplate;
         Renderer = renderer;
-        if (source is not null)
-        {
-            Source = source;
-        }
+        Source = source;
         Sublayers = sublayers;
-        DataSource = dataSource;
         Url = url;
 #pragma warning restore BL0005    
     }
@@ -160,15 +152,6 @@ public partial class Sublayer
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SublayerCapabilities? Capabilities { get; protected set; }
-    
-    /// <summary>
-    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DynamicDataSource? DataSource { get; set; }
     
     /// <summary>
     ///     An array of fields in the Sublayer.
@@ -245,6 +228,15 @@ public partial class Sublayer
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Renderer? Renderer { get; set; }
+    
+    /// <summary>
+    ///     An object that allows you to create a dynamic layer with data either from the map service sublayers or data from a registered workspace.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DynamicLayer? Source { get; set; }
     
     /// <summary>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a> exposed by the ArcGIS REST API.
@@ -338,36 +330,6 @@ public partial class Sublayer
         }
          
         return Capabilities;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DataSource property.
-    /// </summary>
-    public async Task<DynamicDataSource?> GetDataSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return DataSource;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return DataSource;
-        }
-
-        // get the property value
-        DynamicDataSource? result = await JsComponentReference!.InvokeAsync<DynamicDataSource?>("getProperty",
-            CancellationTokenSource.Token, "dataSource");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             DataSource = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(DataSource)] = DataSource;
-        }
-         
-        return DataSource;
     }
     
     /// <summary>
@@ -509,17 +471,22 @@ public partial class Sublayer
             return FullExtent;
         }
 
-        // get the property value
-        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, "fullExtent");
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getFullExtent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (FullExtent is not null)
+            {
+                result.Id = FullExtent.Id;
+            }
+            
 #pragma warning disable BL0005
-             FullExtent = result;
+            FullExtent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FullExtent)] = FullExtent;
+            ModifiedParameters[nameof(FullExtent)] = FullExtent;
         }
-         
+        
         return FullExtent;
     }
     
@@ -914,6 +881,36 @@ public partial class Sublayer
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Source property.
+    /// </summary>
+    public async Task<DynamicLayer?> GetSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return Source;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return Source;
+        }
+
+        // get the property value
+        DynamicLayer? result = await JsComponentReference!.InvokeAsync<DynamicLayer?>("getProperty",
+            CancellationTokenSource.Token, "source");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Source = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Source)] = Source;
+        }
+         
+        return Source;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
     public async Task<string?> GetSourceJSON()
@@ -1128,42 +1125,12 @@ public partial class Sublayer
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the DataSource property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDataSource(DynamicDataSource value)
-    {
-#pragma warning disable BL0005
-        DataSource = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DataSource)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "dataSource", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefinitionExpression(string value)
+    public async Task SetDefinitionExpression(string? value)
     {
 #pragma warning disable BL0005
         DefinitionExpression = value;
@@ -1193,7 +1160,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFloorInfo(LayerFloorInfo value)
+    public async Task SetFloorInfo(LayerFloorInfo? value)
     {
 #pragma warning disable BL0005
         FloorInfo = value;
@@ -1213,8 +1180,8 @@ public partial class Sublayer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "floorInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1223,7 +1190,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelingInfo(IReadOnlyList<Label> value)
+    public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
 #pragma warning disable BL0005
         LabelingInfo = value;
@@ -1243,8 +1210,8 @@ public partial class Sublayer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelingInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1253,7 +1220,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool value)
+    public async Task SetLabelsVisible(bool? value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;
@@ -1283,7 +1250,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -1313,7 +1280,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListMode(ListMode value)
+    public async Task SetListMode(ListMode? value)
     {
 #pragma warning disable BL0005
         ListMode = value;
@@ -1343,7 +1310,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1373,7 +1340,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1403,7 +1370,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOpacity(double value)
+    public async Task SetOpacity(double? value)
     {
 #pragma warning disable BL0005
         Opacity = value;
@@ -1433,7 +1400,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool value)
+    public async Task SetPopupEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -1463,7 +1430,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupTemplate(PopupTemplate value)
+    public async Task SetPopupTemplate(PopupTemplate? value)
     {
 #pragma warning disable BL0005
         PopupTemplate = value;
@@ -1483,8 +1450,8 @@ public partial class Sublayer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1493,7 +1460,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(Renderer value)
+    public async Task SetRenderer(Renderer? value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -1513,8 +1480,38 @@ public partial class Sublayer
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Source property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSource(DynamicLayer? value)
+    {
+#pragma warning disable BL0005
+        Source = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Source)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
+            JsComponentReference, "source", value);
     }
     
     /// <summary>
@@ -1523,7 +1520,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSublayerId(long value)
+    public async Task SetSublayerId(long? value)
     {
 #pragma warning disable BL0005
         SublayerId = value;
@@ -1553,7 +1550,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;
@@ -1583,7 +1580,7 @@ public partial class Sublayer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -1932,6 +1929,15 @@ public partial class Sublayer
                 }
                 
                 return true;
+            case Extent fullExtent:
+                if (fullExtent != FullExtent)
+                {
+                    FullExtent = fullExtent;
+                    
+                    ModifiedParameters[nameof(FullExtent)] = FullExtent;
+                }
+                
+                return true;
             case Label labelingInfo:
                 LabelingInfo ??= [];
                 if (!LabelingInfo.Contains(labelingInfo))
@@ -1960,6 +1966,15 @@ public partial class Sublayer
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             case Sublayer sublayers:
                 Sublayers ??= [];
                 if (!Sublayers.Contains(sublayers))
@@ -1984,6 +1999,11 @@ public partial class Sublayer
                 
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
+            case Extent _:
+                FullExtent = null;
+                
+                ModifiedParameters[nameof(FullExtent)] = FullExtent;
+                return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 
@@ -1998,6 +2018,11 @@ public partial class Sublayer
                 Renderer = null;
                 
                 ModifiedParameters[nameof(Renderer)] = Renderer;
+                return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case Sublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
@@ -2020,6 +2045,7 @@ public partial class Sublayer
                 child.ValidateRequiredGeneratedChildren();
             }
         }
+        FullExtent?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)
@@ -2029,6 +2055,7 @@ public partial class Sublayer
         }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         if (Sublayers is not null)
         {
             foreach (Sublayer child in Sublayers)

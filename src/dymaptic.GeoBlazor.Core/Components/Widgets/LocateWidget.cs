@@ -1,11 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     Provides a simple widget that animates the View to the user's current location. The view rotates according to the
-///     direction where the tracked device is heading towards.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LocateWidget : Widget
+public partial class LocateWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Locate;
@@ -33,7 +28,7 @@ public class LocateWidget : Widget
     [Parameter]
     [JsonIgnore]
     [CodeGenerationIgnore]
-    public Action<GoToOverrideParameters>? GoToOverride { get; set; }
+    public Func<GoToOverrideParameters, Task>? GoToOverride { get; set; }
 
     /// <summary>
     ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
@@ -44,8 +39,8 @@ public class LocateWidget : Widget
     ///     JavaScript-invokable method for internal use
     /// </summary>
     [JSInvokable]
-    public void OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
+    public Task OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
     {
-        GoToOverride?.Invoke(goToOverrideParams);
+        return GoToOverride?.Invoke(goToOverrideParams) ?? Task.CompletedTask;
     }
 }

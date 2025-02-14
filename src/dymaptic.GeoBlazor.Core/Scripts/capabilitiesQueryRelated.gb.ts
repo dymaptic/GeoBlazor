@@ -58,8 +58,10 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = capabilitiesQueryRelatedWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
     
+    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryRelated(jsCapabilitiesQueryRelated);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CapabilitiesQueryRelated', e);
     }

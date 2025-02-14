@@ -55,8 +55,10 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = fieldInfoFormatWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
     
+    let dnInstantiatedObject = await buildDotNetFieldInfoFormat(jsFieldInfoFormat);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FieldInfoFormat', e);
     }

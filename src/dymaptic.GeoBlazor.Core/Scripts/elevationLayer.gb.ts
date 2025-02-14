@@ -27,7 +27,9 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
-        return await this.layer.createElevationSampler(extent,
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
+        return await this.layer.createElevationSampler(jsExtent,
             options);
     }
 
@@ -63,12 +65,26 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-        return await this.layer.queryElevation(geometry,
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        return await this.layer.queryElevation(jsGeometry,
             options);
     }
 
     // region properties
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -80,6 +96,14 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+    }
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
@@ -116,6 +140,10 @@ export default class ElevationLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsElevationLayer = new ElevationLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsElevationLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsElevationLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -134,9 +162,6 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.copyright)) {
         jsElevationLayer.copyright = dotNetObject.copyright;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsElevationLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsElevationLayer.listMode = dotNetObject.listMode;
@@ -164,8 +189,10 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = elevationLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElevationLayer;
     
+    let dnInstantiatedObject = await buildDotNetElevationLayer(jsElevationLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ElevationLayer', e);
     }
@@ -182,9 +209,17 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetElevationLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetElevationLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetElevationLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');
@@ -200,9 +235,6 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
         if (hasValue(jsObject.copyright)) {
             dotNetElevationLayer.copyright = jsObject.copyright;
         }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetElevationLayer.fullExtent = jsObject.fullExtent;
-        }
         if (hasValue(jsObject.listMode)) {
             dotNetElevationLayer.listMode = jsObject.listMode;
         }
@@ -217,9 +249,6 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
         }
         if (hasValue(jsObject.sourceJSON)) {
             dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetElevationLayer.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.title)) {
             dotNetElevationLayer.title = jsObject.title;

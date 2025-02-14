@@ -135,7 +135,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxValue(double value)
+    public async Task SetMaxValue(double? value)
     {
 #pragma warning disable BL0005
         MaxValue = value;
@@ -165,7 +165,7 @@ public partial class AuthoringInfoField1ClassBreakInfos : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinValue(double value)
+    public async Task SetMinValue(double? value)
     {
 #pragma warning disable BL0005
         MinValue = value;

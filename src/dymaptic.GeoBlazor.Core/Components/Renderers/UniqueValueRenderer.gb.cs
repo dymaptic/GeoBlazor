@@ -666,7 +666,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBackgroundFillSymbol(IUniqueValueRendererBackgroundFillSymbol value)
+    public async Task SetBackgroundFillSymbol(IUniqueValueRendererBackgroundFillSymbol? value)
     {
 #pragma warning disable BL0005
         BackgroundFillSymbol = value;
@@ -696,7 +696,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultLabel(string value)
+    public async Task SetDefaultLabel(string? value)
     {
 #pragma warning disable BL0005
         DefaultLabel = value;
@@ -726,7 +726,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultSymbol(DefaultSymbol value)
+    public async Task SetDefaultSymbol(DefaultSymbol? value)
     {
 #pragma warning disable BL0005
         DefaultSymbol = value;
@@ -756,7 +756,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -786,7 +786,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField2(string value)
+    public async Task SetField2(string? value)
     {
 #pragma warning disable BL0005
         Field2 = value;
@@ -816,7 +816,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField3(string value)
+    public async Task SetField3(string? value)
     {
 #pragma warning disable BL0005
         Field3 = value;
@@ -846,7 +846,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFieldDelimiter(string value)
+    public async Task SetFieldDelimiter(string? value)
     {
 #pragma warning disable BL0005
         FieldDelimiter = value;
@@ -876,7 +876,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendOptions(UniqueValueRendererLegendOptions value)
+    public async Task SetLegendOptions(UniqueValueRendererLegendOptions? value)
     {
 #pragma warning disable BL0005
         LegendOptions = value;
@@ -896,8 +896,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -906,7 +906,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderByClassesEnabled(bool value)
+    public async Task SetOrderByClassesEnabled(bool? value)
     {
 #pragma warning disable BL0005
         OrderByClassesEnabled = value;
@@ -936,7 +936,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUniqueValueGroups(IReadOnlyList<UniqueValueGroup> value)
+    public async Task SetUniqueValueGroups(IReadOnlyList<UniqueValueGroup>? value)
     {
 #pragma warning disable BL0005
         UniqueValueGroups = value;
@@ -956,8 +956,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "uniqueValueGroups", value);
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueGroups", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -966,7 +966,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUniqueValueInfos(IReadOnlyList<UniqueValueInfo> value)
+    public async Task SetUniqueValueInfos(IReadOnlyList<UniqueValueInfo>? value)
     {
 #pragma warning disable BL0005
         UniqueValueInfos = value;
@@ -986,8 +986,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "uniqueValueInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -996,7 +996,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpression(string value)
+    public async Task SetValueExpression(string? value)
     {
 #pragma warning disable BL0005
         ValueExpression = value;
@@ -1026,7 +1026,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpressionTitle(string value)
+    public async Task SetValueExpressionTitle(string? value)
     {
 #pragma warning disable BL0005
         ValueExpressionTitle = value;
@@ -1056,7 +1056,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisualVariables(IReadOnlyList<VisualVariable> value)
+    public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
 #pragma warning disable BL0005
         VisualVariables = value;
@@ -1076,8 +1076,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visualVariables", value);
+        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

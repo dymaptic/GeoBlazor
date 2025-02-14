@@ -28,12 +28,12 @@ public partial interface IArcGISCachedService
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
-    Task SetCopyright(string value);
+    Task SetCopyright(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TileInfo property after render.
     /// </summary>
-    Task SetTileInfo(TileInfo value);
+    Task SetTileInfo(TileInfo? value);
     
 #endregion
 

@@ -150,7 +150,7 @@ public partial class OpacityVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizationField(string value)
+    public async Task SetNormalizationField(string? value)
     {
 #pragma warning disable BL0005
         NormalizationField = value;
@@ -180,7 +180,7 @@ public partial class OpacityVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<OpacityStop> value)
+    public async Task SetStops(IReadOnlyList<OpacityStop>? value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -200,8 +200,8 @@ public partial class OpacityVariable
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stops", value);
+        await JsComponentReference.InvokeVoidAsync("setStops", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

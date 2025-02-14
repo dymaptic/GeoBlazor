@@ -611,17 +611,22 @@ public partial class PortalItem
             return Extent;
         }
 
-        // get the property value
-        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, "extent");
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getExtent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Extent is not null)
+            {
+                result.Id = Extent.Id;
+            }
+            
 #pragma warning disable BL0005
-             Extent = result;
+            Extent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Extent)] = Extent;
+            ModifiedParameters[nameof(Extent)] = Extent;
         }
-         
+        
         return Extent;
     }
     
@@ -1390,7 +1395,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccess(PortalItemAccess value)
+    public async Task SetAccess(PortalItemAccess? value)
     {
 #pragma warning disable BL0005
         Access = value;
@@ -1420,7 +1425,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccessInformation(string value)
+    public async Task SetAccessInformation(string? value)
     {
 #pragma warning disable BL0005
         AccessInformation = value;
@@ -1450,7 +1455,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetApiKey(string value)
+    public async Task SetApiKey(string? value)
     {
 #pragma warning disable BL0005
         ApiKey = value;
@@ -1480,7 +1485,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAvgRating(double value)
+    public async Task SetAvgRating(double? value)
     {
 #pragma warning disable BL0005
         AvgRating = value;
@@ -1510,7 +1515,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCategories(IReadOnlyList<string> value)
+    public async Task SetCategories(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Categories = value;
@@ -1540,7 +1545,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCreated(DateTime value)
+    public async Task SetCreated(DateTime? value)
     {
 #pragma warning disable BL0005
         Created = value;
@@ -1570,7 +1575,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCulture(string value)
+    public async Task SetCulture(string? value)
     {
 #pragma warning disable BL0005
         Culture = value;
@@ -1600,7 +1605,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -1630,7 +1635,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExtent(Extent value)
+    public async Task SetExtent(Extent? value)
     {
 #pragma warning disable BL0005
         Extent = value;
@@ -1650,8 +1655,8 @@ public partial class PortalItem
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
+        await JsComponentReference.InvokeVoidAsync("setExtent", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1660,7 +1665,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGroupCategories(IReadOnlyList<string> value)
+    public async Task SetGroupCategories(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         GroupCategories = value;
@@ -1690,7 +1695,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLicenseInfo(string value)
+    public async Task SetLicenseInfo(string? value)
     {
 #pragma warning disable BL0005
         LicenseInfo = value;
@@ -1720,7 +1725,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetModified(DateTime value)
+    public async Task SetModified(DateTime? value)
     {
 #pragma warning disable BL0005
         Modified = value;
@@ -1750,7 +1755,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -1780,7 +1785,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNumComments(double value)
+    public async Task SetNumComments(double? value)
     {
 #pragma warning disable BL0005
         NumComments = value;
@@ -1810,7 +1815,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNumRatings(double value)
+    public async Task SetNumRatings(double? value)
     {
 #pragma warning disable BL0005
         NumRatings = value;
@@ -1840,7 +1845,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNumViews(double value)
+    public async Task SetNumViews(double? value)
     {
 #pragma warning disable BL0005
         NumViews = value;
@@ -1870,7 +1875,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOwner(string value)
+    public async Task SetOwner(string? value)
     {
 #pragma warning disable BL0005
         Owner = value;
@@ -1900,7 +1905,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOwnerFolder(string value)
+    public async Task SetOwnerFolder(string? value)
     {
 #pragma warning disable BL0005
         OwnerFolder = value;
@@ -1930,7 +1935,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortal(Portal value)
+    public async Task SetPortal(Portal? value)
     {
 #pragma warning disable BL0005
         Portal = value;
@@ -1952,31 +1957,6 @@ public partial class PortalItem
         
         await JsComponentReference.InvokeVoidAsync("setPortal", 
             CancellationTokenSource.Token, value);
- 
-        Portal.Parent = this;
-        Portal.View = View;
-        
-        if (Portal.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortal", CancellationTokenSource.Token, 
-                    Portal, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            Portal.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portal", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portal", Portal.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -2015,7 +1995,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenshots(IReadOnlyList<string> value)
+    public async Task SetScreenshots(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Screenshots = value;
@@ -2045,7 +2025,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(int value)
+    public async Task SetSize(int? value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -2075,7 +2055,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSnippet(string value)
+    public async Task SetSnippet(string? value)
     {
 #pragma warning disable BL0005
         Snippet = value;
@@ -2105,7 +2085,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTags(IReadOnlyList<string> value)
+    public async Task SetTags(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Tags = value;
@@ -2135,7 +2115,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;
@@ -2165,7 +2145,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTypeKeywords(IReadOnlyList<string> value)
+    public async Task SetTypeKeywords(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         TypeKeywords = value;
@@ -2195,7 +2175,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -2712,6 +2692,15 @@ public partial class PortalItem
     {
         switch (child)
         {
+            case Extent extent:
+                if (extent != Extent)
+                {
+                    Extent = extent;
+                    
+                    ModifiedParameters[nameof(Extent)] = Extent;
+                }
+                
+                return true;
             case Portal portal:
                 if (portal != Portal)
                 {
@@ -2730,6 +2719,11 @@ public partial class PortalItem
     {
         switch (child)
         {
+            case Extent _:
+                Extent = null;
+                
+                ModifiedParameters[nameof(Extent)] = Extent;
+                return true;
             case Portal _:
                 Portal = null;
                 
@@ -2748,6 +2742,7 @@ public partial class PortalItem
         {
             throw new MissingRequiredChildElementException(nameof(PortalItem), nameof(PortalItemId));
         }
+        Extent?.ValidateRequiredGeneratedChildren();
         Portal?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

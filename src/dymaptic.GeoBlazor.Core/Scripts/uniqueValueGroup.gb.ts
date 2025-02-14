@@ -34,7 +34,7 @@ export default class UniqueValueGroupGenerated implements IPropertyWrapper {
     
     async setClasses(value: any): Promise<void> {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        this.component.classes = await Promise.all(value.map(async i => await buildJsUniqueValueClass(i, this.layerId, this.viewId)));
+        this.component.classes = await Promise.all(value.map(async i => await buildJsUniqueValueClass(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -67,8 +67,10 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = uniqueValueGroupWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValueGroup(jsUniqueValueGroup);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueGroup', e);
     }

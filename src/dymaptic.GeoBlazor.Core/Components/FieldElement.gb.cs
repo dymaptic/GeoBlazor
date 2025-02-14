@@ -342,7 +342,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDomain(Domain value)
+    public async Task SetDomain(Domain? value)
     {
 #pragma warning disable BL0005
         Domain = value;
@@ -372,7 +372,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditableExpression(string value)
+    public async Task SetEditableExpression(string? value)
     {
 #pragma warning disable BL0005
         EditableExpression = value;
@@ -402,7 +402,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFieldName(string value)
+    public async Task SetFieldName(string? value)
     {
 #pragma warning disable BL0005
         FieldName = value;
@@ -432,7 +432,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHint(string value)
+    public async Task SetHint(string? value)
     {
 #pragma warning disable BL0005
         Hint = value;
@@ -462,7 +462,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInput(IInputElement value)
+    public async Task SetInput(IInputElement? value)
     {
 #pragma warning disable BL0005
         Input = value;
@@ -492,7 +492,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRequiredExpression(string value)
+    public async Task SetRequiredExpression(string? value)
     {
 #pragma warning disable BL0005
         RequiredExpression = value;
@@ -522,7 +522,7 @@ public partial class FieldElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpression(string value)
+    public async Task SetValueExpression(string? value)
     {
 #pragma warning disable BL0005
         ValueExpression = value;

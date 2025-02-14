@@ -22,7 +22,7 @@ public partial interface IHighlightLayerViewMixin
     /// <summary>
     ///    Asynchronously set the value of the HighlightOptions property after render.
     /// </summary>
-    Task SetHighlightOptions(HighlightOptions value);
+    Task SetHighlightOptions(HighlightOptions? value);
     
 #endregion
 

@@ -67,8 +67,10 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = actionToggleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
     
+    let dnInstantiatedObject = await buildDotNetActionToggle(jsActionToggle);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ActionToggle', e);
     }

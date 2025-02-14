@@ -55,8 +55,10 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = pixelBlockStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     
+    let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PixelBlockStatistics', e);
     }

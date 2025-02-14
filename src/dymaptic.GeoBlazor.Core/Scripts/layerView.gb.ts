@@ -54,8 +54,10 @@ export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = layerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerView;
     
+    let dnInstantiatedObject = await buildDotNetLayerView(jsLayerView);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerView', e);
     }

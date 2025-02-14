@@ -244,7 +244,7 @@ public partial class FormTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -274,7 +274,7 @@ public partial class FormTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElements(IReadOnlyList<FormElement> value)
+    public async Task SetElements(IReadOnlyList<FormElement>? value)
     {
 #pragma warning disable BL0005
         Elements = value;
@@ -294,8 +294,8 @@ public partial class FormTemplate
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elements", value);
+        await JsComponentReference.InvokeVoidAsync("setElements", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -304,7 +304,7 @@ public partial class FormTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo> value)
+    public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo>? value)
     {
 #pragma warning disable BL0005
         ExpressionInfos = value;
@@ -324,8 +324,8 @@ public partial class FormTemplate
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "expressionInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setExpressionInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -334,7 +334,7 @@ public partial class FormTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPreserveFieldValuesWhenHidden(bool value)
+    public async Task SetPreserveFieldValuesWhenHidden(bool? value)
     {
 #pragma warning disable BL0005
         PreserveFieldValuesWhenHidden = value;
@@ -364,7 +364,7 @@ public partial class FormTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

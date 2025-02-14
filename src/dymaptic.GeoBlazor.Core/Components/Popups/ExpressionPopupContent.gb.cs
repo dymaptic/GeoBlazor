@@ -77,7 +77,7 @@ public partial class ExpressionPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpressionInfo(ElementExpressionInfo value)
+    public async Task SetExpressionInfo(ElementExpressionInfo? value)
     {
 #pragma warning disable BL0005
         ExpressionInfo = value;
@@ -97,8 +97,8 @@ public partial class ExpressionPopupContent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "expressionInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setExpressionInfo", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

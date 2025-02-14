@@ -476,7 +476,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAxis(VisualAxis value)
+    public async Task SetAxis(VisualAxis? value)
     {
 #pragma warning disable BL0005
         Axis = value;
@@ -506,7 +506,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxDataValue(double value)
+    public async Task SetMaxDataValue(double? value)
     {
 #pragma warning disable BL0005
         MaxDataValue = value;
@@ -536,7 +536,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxSize(Dimension value)
+    public async Task SetMaxSize(Dimension? value)
     {
 #pragma warning disable BL0005
         MaxSize = value;
@@ -566,7 +566,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinDataValue(double value)
+    public async Task SetMinDataValue(double? value)
     {
 #pragma warning disable BL0005
         MinDataValue = value;
@@ -596,7 +596,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinSize(Dimension value)
+    public async Task SetMinSize(Dimension? value)
     {
 #pragma warning disable BL0005
         MinSize = value;
@@ -626,7 +626,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizationField(string value)
+    public async Task SetNormalizationField(string? value)
     {
 #pragma warning disable BL0005
         NormalizationField = value;
@@ -656,7 +656,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<SizeStop> value)
+    public async Task SetStops(IReadOnlyList<SizeStop>? value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -676,8 +676,8 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stops", value);
+        await JsComponentReference.InvokeVoidAsync("setStops", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -686,7 +686,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTarget(string value)
+    public async Task SetTarget(string? value)
     {
 #pragma warning disable BL0005
         Target = value;
@@ -716,7 +716,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseSymbolValue(bool value)
+    public async Task SetUseSymbolValue(bool? value)
     {
 #pragma warning disable BL0005
         UseSymbolValue = value;
@@ -746,7 +746,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueRepresentation(VisualValueRepresentation value)
+    public async Task SetValueRepresentation(VisualValueRepresentation? value)
     {
 #pragma warning disable BL0005
         ValueRepresentation = value;
@@ -776,7 +776,7 @@ public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueUnit(VisualValueUnit value)
+    public async Task SetValueUnit(VisualValueUnit? value)
     {
 #pragma warning disable BL0005
         ValueUnit = value;

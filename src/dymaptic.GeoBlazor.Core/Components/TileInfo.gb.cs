@@ -250,17 +250,22 @@ public partial class TileInfo
             return Origin;
         }
 
-        // get the property value
-        Point? result = await JsComponentReference!.InvokeAsync<Point?>("getProperty",
-            CancellationTokenSource.Token, "origin");
+        Point? result = await JsComponentReference.InvokeAsync<Point?>(
+            "getOrigin", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Origin is not null)
+            {
+                result.Id = Origin.Id;
+            }
+            
 #pragma warning disable BL0005
-             Origin = result;
+            Origin = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Origin)] = Origin;
+            ModifiedParameters[nameof(Origin)] = Origin;
         }
-         
+        
         return Origin;
     }
     
@@ -334,7 +339,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDpi(double value)
+    public async Task SetDpi(double? value)
     {
 #pragma warning disable BL0005
         Dpi = value;
@@ -364,7 +369,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormat(TileInfoFormat value)
+    public async Task SetFormat(TileInfoFormat? value)
     {
 #pragma warning disable BL0005
         Format = value;
@@ -394,7 +399,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsWrappable(bool value)
+    public async Task SetIsWrappable(bool? value)
     {
 #pragma warning disable BL0005
         IsWrappable = value;
@@ -424,7 +429,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLods(IReadOnlyList<LOD> value)
+    public async Task SetLods(IReadOnlyList<LOD>? value)
     {
 #pragma warning disable BL0005
         Lods = value;
@@ -444,8 +449,8 @@ public partial class TileInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "lods", value);
+        await JsComponentReference.InvokeVoidAsync("setLods", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -454,7 +459,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrigin(Point value)
+    public async Task SetOrigin(Point? value)
     {
 #pragma warning disable BL0005
         Origin = value;
@@ -474,8 +479,8 @@ public partial class TileInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "origin", value);
+        await JsComponentReference.InvokeVoidAsync("setOrigin", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -484,7 +489,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(IReadOnlyList<int> value)
+    public async Task SetSize(IReadOnlyList<int>? value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -514,7 +519,7 @@ public partial class TileInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -534,8 +539,8 @@ public partial class TileInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -663,6 +668,24 @@ public partial class TileInfo
                 }
                 
                 return true;
+            case Point origin:
+                if (origin != Origin)
+                {
+                    Origin = origin;
+                    
+                    ModifiedParameters[nameof(Origin)] = Origin;
+                }
+                
+                return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -676,6 +699,16 @@ public partial class TileInfo
                 Lods = Lods?.Where(l => l != lods).ToList();
                 
                 ModifiedParameters[nameof(Lods)] = Lods;
+                return true;
+            case Point _:
+                Origin = null;
+                
+                ModifiedParameters[nameof(Origin)] = Origin;
+                return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -693,6 +726,8 @@ public partial class TileInfo
                 child.ValidateRequiredGeneratedChildren();
             }
         }
+        Origin?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

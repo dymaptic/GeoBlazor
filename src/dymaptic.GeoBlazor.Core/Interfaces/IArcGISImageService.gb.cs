@@ -158,117 +158,112 @@ public partial interface IArcGISImageService
     /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
-    Task SetBandIds(IReadOnlyList<long> value);
+    Task SetBandIds(IReadOnlyList<long>? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Capabilities property after render.
     /// </summary>
-    Task SetCapabilities(ArcGISImageServiceCapabilities value);
+    Task SetCapabilities(ArcGISImageServiceCapabilities? value);
     
     /// <summary>
     ///    Asynchronously set the value of the CompressionQuality property after render.
     /// </summary>
-    Task SetCompressionQuality(double value);
+    Task SetCompressionQuality(double? value);
     
     /// <summary>
     ///    Asynchronously set the value of the CompressionTolerance property after render.
     /// </summary>
-    Task SetCompressionTolerance(double value);
+    Task SetCompressionTolerance(double? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Copyright property after render.
     /// </summary>
-    Task SetCopyright(string value);
+    Task SetCopyright(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
-    Task SetDefinitionExpression(string value);
+    Task SetDefinitionExpression(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
-    Task SetFields(IReadOnlyList<Field> value);
+    Task SetFields(IReadOnlyList<Field>? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
-    Task SetFormat(ImageFormat value);
+    Task SetFormat(ImageFormat? value);
     
     /// <summary>
     ///    Asynchronously set the value of the HasMultidimensions property after render.
     /// </summary>
-    Task SetHasMultidimensions(bool value);
+    Task SetHasMultidimensions(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.
     /// </summary>
-    Task SetImageMaxHeight(int value);
+    Task SetImageMaxHeight(int? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxWidth property after render.
     /// </summary>
-    Task SetImageMaxWidth(int value);
+    Task SetImageMaxWidth(int? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Interpolation property after render.
     /// </summary>
-    Task SetInterpolation(Interpolation value);
+    Task SetInterpolation(Interpolation? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MosaicRule property after render.
     /// </summary>
-    Task SetMosaicRule(MosaicRule value);
+    Task SetMosaicRule(MosaicRule? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
-    Task SetMultidimensionalSubset(MultidimensionalSubset value);
+    Task SetMultidimensionalSubset(MultidimensionalSubset? value);
     
     /// <summary>
     ///    Asynchronously set the value of the NoData property after render.
     /// </summary>
-    Task SetNoData(NoData value);
+    Task SetNoData(NoData? value);
     
     /// <summary>
     ///    Asynchronously set the value of the NoDataInterpretation property after render.
     /// </summary>
-    Task SetNoDataInterpretation(NoDataInterpretation value);
+    Task SetNoDataInterpretation(NoDataInterpretation? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ObjectIdField property after render.
     /// </summary>
-    Task SetObjectIdField(string value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PixelFilter property after render.
-    /// </summary>
-    Task SetPixelFilter(PixelFilterFunction value);
+    Task SetObjectIdField(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
-    Task SetPixelType(PixelType value);
+    Task SetPixelType(PixelType? value);
     
     /// <summary>
     ///    Asynchronously set the value of the RasterFunction property after render.
     /// </summary>
-    Task SetRasterFunction(RasterFunction value);
+    Task SetRasterFunction(RasterFunction? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Renderer property after render.
     /// </summary>
-    Task SetRenderer(IImageryRenderer value);
+    Task SetRenderer(IImageryRenderer? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(string value);
+    Task SetSourceJSON(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
-    Task SetUrl(string value);
+    Task SetUrl(string? value);
     
 #endregion
 
@@ -373,11 +368,6 @@ public partial interface IArcGISImageService
     ///     Asynchronously retrieve the current value of the ObjectIdField property.
     /// </summary>
     Task<string?> GetObjectIdField();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PixelFilter property.
-    /// </summary>
-    Task<PixelFilterFunction?> GetPixelFilter();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the PixelType property.

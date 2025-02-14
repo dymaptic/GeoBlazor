@@ -151,7 +151,7 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizationField(string value)
+    public async Task SetNormalizationField(string? value)
     {
 #pragma warning disable BL0005
         NormalizationField = value;
@@ -181,7 +181,7 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<ColorStop> value)
+    public async Task SetStops(IReadOnlyList<ColorStop>? value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -201,8 +201,8 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stops", value);
+        await JsComponentReference.InvokeVoidAsync("setStops", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

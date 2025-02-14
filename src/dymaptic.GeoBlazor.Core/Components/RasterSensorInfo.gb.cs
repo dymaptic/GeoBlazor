@@ -405,7 +405,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAcquisitionDate(DateTime value)
+    public async Task SetAcquisitionDate(DateTime? value)
     {
 #pragma warning disable BL0005
         AcquisitionDate = value;
@@ -435,7 +435,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCloudCover(double value)
+    public async Task SetCloudCover(double? value)
     {
 #pragma warning disable BL0005
         CloudCover = value;
@@ -465,7 +465,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetProductName(string value)
+    public async Task SetProductName(string? value)
     {
 #pragma warning disable BL0005
         ProductName = value;
@@ -495,7 +495,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSensorAzimuth(double value)
+    public async Task SetSensorAzimuth(double? value)
     {
 #pragma warning disable BL0005
         SensorAzimuth = value;
@@ -525,7 +525,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSensorElevation(double value)
+    public async Task SetSensorElevation(double? value)
     {
 #pragma warning disable BL0005
         SensorElevation = value;
@@ -555,7 +555,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSensorName(string value)
+    public async Task SetSensorName(string? value)
     {
 #pragma warning disable BL0005
         SensorName = value;
@@ -585,7 +585,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSunAzimuth(double value)
+    public async Task SetSunAzimuth(double? value)
     {
 #pragma warning disable BL0005
         SunAzimuth = value;
@@ -615,7 +615,7 @@ public partial class RasterSensorInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSunElevation(double value)
+    public async Task SetSunElevation(double? value)
     {
 #pragma warning disable BL0005
         SunElevation = value;

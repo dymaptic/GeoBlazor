@@ -162,7 +162,7 @@ public partial class FieldsPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -192,7 +192,7 @@ public partial class FieldsPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFieldInfos(IReadOnlyList<FieldInfo> value)
+    public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
 #pragma warning disable BL0005
         FieldInfos = value;
@@ -212,8 +212,8 @@ public partial class FieldsPopupContent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fieldInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setFieldInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -222,7 +222,7 @@ public partial class FieldsPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

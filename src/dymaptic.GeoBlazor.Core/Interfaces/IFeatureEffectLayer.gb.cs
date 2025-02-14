@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
+///    Interface for types CatalogFootprintLayer, CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
 /// </summary>
 public partial interface IFeatureEffectLayer 
 {
@@ -22,7 +22,7 @@ public partial interface IFeatureEffectLayer
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
-    Task SetFeatureEffect(FeatureEffect value);
+    Task SetFeatureEffect(FeatureEffect? value);
     
 #endregion
 

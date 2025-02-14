@@ -1356,36 +1356,6 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the PixelFilter property.
-    /// </summary>
-    public async Task<PixelFilterFunction?> GetPixelFilter()
-    {
-        if (CoreJsModule is null)
-        {
-            return PixelFilter;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return PixelFilter;
-        }
-
-        // get the property value
-        PixelFilterFunction? result = await JsComponentReference!.InvokeAsync<PixelFilterFunction?>("getProperty",
-            CancellationTokenSource.Token, "pixelFilter");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             PixelFilter = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(PixelFilter)] = PixelFilter;
-        }
-         
-        return PixelFilter;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the PixelType property.
     /// </summary>
     public async Task<PixelType?> GetPixelType()
@@ -1975,7 +1945,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBandIds(IReadOnlyList<long> value)
+    public async Task SetBandIds(IReadOnlyList<long>? value)
     {
 #pragma warning disable BL0005
         BandIds = value;
@@ -2005,7 +1975,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -2035,7 +2005,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCapabilities(ArcGISImageServiceCapabilities value)
+    public async Task SetCapabilities(ArcGISImageServiceCapabilities? value)
     {
 #pragma warning disable BL0005
         Capabilities = value;
@@ -2055,8 +2025,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "capabilities", value);
+        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2065,7 +2035,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCompressionQuality(double value)
+    public async Task SetCompressionQuality(double? value)
     {
 #pragma warning disable BL0005
         CompressionQuality = value;
@@ -2095,7 +2065,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCompressionTolerance(double value)
+    public async Task SetCompressionTolerance(double? value)
     {
 #pragma warning disable BL0005
         CompressionTolerance = value;
@@ -2125,7 +2095,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string value)
+    public async Task SetCopyright(string? value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -2155,7 +2125,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -2185,7 +2155,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefinitionExpression(string value)
+    public async Task SetDefinitionExpression(string? value)
     {
 #pragma warning disable BL0005
         DefinitionExpression = value;
@@ -2215,7 +2185,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -2245,7 +2215,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<Field> value)
+    public async Task SetFields(IReadOnlyList<Field>? value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -2265,8 +2235,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2275,7 +2245,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormat(ImageFormat value)
+    public async Task SetFormat(ImageFormat? value)
     {
 #pragma warning disable BL0005
         Format = value;
@@ -2305,7 +2275,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasMultidimensions(bool value)
+    public async Task SetHasMultidimensions(bool? value)
     {
 #pragma warning disable BL0005
         HasMultidimensions = value;
@@ -2335,7 +2305,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxHeight(int value)
+    public async Task SetImageMaxHeight(int? value)
     {
 #pragma warning disable BL0005
         ImageMaxHeight = value;
@@ -2365,7 +2335,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageMaxWidth(int value)
+    public async Task SetImageMaxWidth(int? value)
     {
 #pragma warning disable BL0005
         ImageMaxWidth = value;
@@ -2395,7 +2365,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(Interpolation value)
+    public async Task SetInterpolation(Interpolation? value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
@@ -2425,7 +2395,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2455,7 +2425,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2485,7 +2455,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2515,7 +2485,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMosaicRule(MosaicRule value)
+    public async Task SetMosaicRule(MosaicRule? value)
     {
 #pragma warning disable BL0005
         MosaicRule = value;
@@ -2545,7 +2515,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMultidimensionalSubset(MultidimensionalSubset value)
+    public async Task SetMultidimensionalSubset(MultidimensionalSubset? value)
     {
 #pragma warning disable BL0005
         MultidimensionalSubset = value;
@@ -2565,8 +2535,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalSubset", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2575,7 +2545,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNoData(NoData value)
+    public async Task SetNoData(NoData? value)
     {
 #pragma warning disable BL0005
         NoData = value;
@@ -2605,7 +2575,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNoDataInterpretation(NoDataInterpretation value)
+    public async Task SetNoDataInterpretation(NoDataInterpretation? value)
     {
 #pragma warning disable BL0005
         NoDataInterpretation = value;
@@ -2635,7 +2605,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIdField(string value)
+    public async Task SetObjectIdField(string? value)
     {
 #pragma warning disable BL0005
         ObjectIdField = value;
@@ -2660,42 +2630,12 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the PixelFilter property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPixelFilter(PixelFilterFunction value)
-    {
-#pragma warning disable BL0005
-        PixelFilter = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PixelFilter)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixelFilter", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixelType(PixelType value)
+    public async Task SetPixelType(PixelType? value)
     {
 #pragma warning disable BL0005
         PixelType = value;
@@ -2725,7 +2665,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool value)
+    public async Task SetPopupEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2755,7 +2695,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupTemplate(PopupTemplate value)
+    public async Task SetPopupTemplate(PopupTemplate? value)
     {
 #pragma warning disable BL0005
         PopupTemplate = value;
@@ -2775,8 +2715,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2785,7 +2725,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -2807,31 +2747,6 @@ public partial class ImageryLayer : IArcGISImageService,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -2840,7 +2755,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRasterFunction(RasterFunction value)
+    public async Task SetRasterFunction(RasterFunction? value)
     {
 #pragma warning disable BL0005
         RasterFunction = value;
@@ -2860,8 +2775,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rasterFunction", value);
+        await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2870,7 +2785,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -2900,7 +2815,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(IImageryRenderer value)
+    public async Task SetRenderer(IImageryRenderer? value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -2930,7 +2845,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceJSON(string value)
+    public async Task SetSourceJSON(string? value)
     {
 #pragma warning disable BL0005
         SourceJSON = value;
@@ -2960,7 +2875,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeExtent(TimeExtent value)
+    public async Task SetTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         TimeExtent = value;
@@ -2982,31 +2897,6 @@ public partial class ImageryLayer : IArcGISImageService,
         
         await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        
-        if (TimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "timeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "timeExtent", TimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -3015,7 +2905,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeInfo(TimeInfo value)
+    public async Task SetTimeInfo(TimeInfo? value)
     {
 #pragma warning disable BL0005
         TimeInfo = value;
@@ -3035,8 +2925,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3045,7 +2935,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeOffset(TimeInterval value)
+    public async Task SetTimeOffset(TimeInterval? value)
     {
 #pragma warning disable BL0005
         TimeOffset = value;
@@ -3065,8 +2955,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3075,7 +2965,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -3105,7 +2995,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool value)
+    public async Task SetUseViewTime(bool? value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -3924,6 +3814,15 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -3958,6 +3857,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = true;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -3975,6 +3879,7 @@ public partial class ImageryLayer : IArcGISImageService,
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

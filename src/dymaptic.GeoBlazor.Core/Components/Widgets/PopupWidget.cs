@@ -1,25 +1,36 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Popup widget allows users to view content from feature attributes. Popups enhance web applications by providing
-///     users with a simple way to interact with and view attributes in a layer. They play an important role in relaying
-///     information to the user, which improves the storytelling capabilities of the application.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <remarks>
-///     All Views contain a default popup. This popup can display generic content, which is set in its title and content
-///     properties. When content is set directly on the Popup instance it is not tied to a specific feature or layer.
-///     In most cases this module will not need to be loaded into your application because the view contains a default
-///     instance of popup.
-/// </remarks>
-public class PopupWidget : Widget
+public partial class PopupWidget : Widget
 {
     /// <summary>
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every
     ///     popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four
     ///     LODs and centers on the selected feature.
     /// </summary>
+    [CodeGenerationIgnore]
     public List<ActionBase>? Actions { get; set; }
+    
+    /// <summary>
+    ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public Func<GoToOverrideParameters, Task>? GoToOverride { get; set; }
+
+    /// <summary>
+    ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
+    /// </summary>
+    public bool HasGoToOverride => GoToOverride is not null;
+    
+    /// <summary>
+    ///     JavaScript-invokable method for internal use
+    /// </summary>
+    [JSInvokable]
+    public Task OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
+    {
+        return GoToOverride?.Invoke(goToOverrideParams) ?? Task.CompletedTask;
+    }
 
     /// <summary>
     ///     Position of the popup in relation to the selected feature. The default behavior is to display above the feature and
@@ -99,11 +110,6 @@ public class PopupWidget : Widget
     [Parameter]
     public bool? HighlightEnabled { get; set; }
 
-    /// <summary>
-    ///     The widget's default label.
-    /// </summary>
-    [Parameter]
-    public string? Label { get; set; }
 
     /// <summary>
     ///     Defines the maximum icons displayed at one time in the action area.
@@ -125,43 +131,6 @@ public class PopupWidget : Widget
     [Parameter]
     public string? Title { get; set; }
 
-    /// <summary>
-    ///     The widget content of the popup. When set directly on the Popup, this content is static and cannot use fields to
-    ///     set content templates. To set a template for the content based on field or attribute names, see
-    ///     <see cref="PopupTemplate.Content" />.
-    /// </summary>
-    public Widget? WidgetContent { get; set; }
-
-    /// <summary>
-    ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
-    ///     When a popup is "dockEnabled" it means the popup no longer points to the selected feature or the location assigned
-    ///     to it. Rather it is placed in one of the corners of the view or to the top or bottom of it. This property allows
-    ///     the developer to set various options for docking the popup.
-    /// </summary>
-    public PopupDockOptions? DockOptions { get; set; }
-
-    /// <summary>
-    ///     An array of features associated with the popup. Each graphic in this array must have a valid PopupTemplate set.
-    ///     They may share the same PopupTemplate or have unique PopupTemplates depending on their attributes. The content and
-    ///     title of the popup is set based on the content and title properties of each graphic's respective PopupTemplate.
-    ///     When more than one graphic exists in this array, the current content of the Popup is set based on the value of the
-    ///     selected feature.
-    ///     This value is null if no features are associated with the popup.
-    /// </summary>
-    public List<Graphic> Features { get; set; } = new();
-
-    /// <summary>
-    ///     Point used to position the popup. This is automatically set when viewing the popup by selecting a feature. If using
-    ///     the Popup to display content not related to features in the map, such as the results from a task, then you must set
-    ///     this property before making the popup visible to the user.
-    /// </summary>
-    public Point? Location { get; set; }
-
-    /// <summary>
-    ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual
-    ///     elements of the widget's display on/off.
-    /// </summary>
-    public PopupVisibleElements? VisibleElements { get; set; }
 
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Popup;
@@ -228,15 +197,6 @@ public async Task<Graphic[]> FetchFeatures()
         return await JsComponentReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
 
-    /// <summary>
-    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the
-    ///     PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively
-    ///     open the popup by directly setting the visible property to true.
-    /// </summary>
-    public async Task Open()
-    {
-        await JsComponentReference!.InvokeVoidAsync("open", CancellationTokenSource.Token);
-    }
 
     /// <summary>
     ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
@@ -262,191 +222,6 @@ public async Task Close()
         if (action is not null)
         {
             await action.CallbackFunction!.Invoke();
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Widget widget:
-                if (!widget.Equals(WidgetContent))
-                {
-                    WidgetContent = widget;
-                }
-
-                break;
-            case PopupDockOptions dockOptions:
-                if (!dockOptions.Equals(DockOptions))
-                {
-                    DockOptions = dockOptions;
-                }
-
-                break;
-            case Graphic graphic:
-                Features.Add(graphic);
-
-                break;
-            case Point point:
-                if (!point.Equals(Location))
-                {
-                    Location = point;
-                }
-
-                break;
-            case PopupVisibleElements visibleElements:
-                if (!visibleElements.Equals(VisibleElements))
-                {
-                    VisibleElements = visibleElements;
-                }
-
-                break;
-            case ActionBase action:
-                Actions ??= new List<ActionBase>();
-                Actions.Add(action);
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Widget:
-                WidgetContent = null;
-
-                break;
-            case PopupDockOptions:
-                DockOptions = null;
-
-                break;
-            case Graphic graphic:
-                Features.Remove(graphic);
-
-                break;
-            case Point:
-                Location = null;
-
-                break;
-            case PopupVisibleElements:
-                VisibleElements = null;
-
-                break;
-            case ActionBase action:
-                Actions?.Remove(action);
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        WidgetContent?.ValidateRequiredChildren();
-        DockOptions?.ValidateRequiredChildren();
-
-        foreach (Graphic feature in Features)
-        {
-            feature.ValidateRequiredChildren();
-        }
-
-        if (Actions is not null)
-        {
-            foreach (ActionBase action in Actions)
-            {
-                action.ValidateRequiredChildren();
-            }
-        }
-
-        base.ValidateRequiredChildren();
-    }
-}
-
-
-/// <summary>
-///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
-///     DefaultValue: true
-/// </summary>
-[JsonConverter(typeof(BreakPointConverter))]
-public record BreakPoint
-{
-    /// <summary>
-    ///     Constructor for building a breakpoint with specified max width and/or height.
-    /// </summary>
-    /// <param name="width">
-    ///     The maximum width of the View at which the popup will be set to dockEnabled automatically.
-    ///     DefaultValue: 544
-    /// </param>
-    /// <param name="height">
-    ///     The maximum height of the View at which the popup will be set to dockEnabled automatically.
-    ///     DefaultValue: 544
-    /// </param>
-    public BreakPoint(double? width = null, double? height = null)
-    {
-        Width = width;
-        Height = height;
-    }
-
-    /// <summary>
-    ///     Constructor for building a breakpoint with default max width and height.
-    /// </summary>
-    /// <param name="value">
-    ///     Determines if the breakpoint is on or off.
-    /// </param>
-    public BreakPoint(bool value)
-    {
-        BoolValue = value;
-    }
-
-    /// <summary>
-    ///     Determines if the breakpoint is on or off.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? BoolValue { get; set; }
-
-    /// <summary>
-    ///     The maximum width of the View at which the popup will be set to dockEnabled automatically.
-    ///     DefaultValue: 544
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Width { get; set; }
-
-    /// <summary>
-    ///     The maximum height of the View at which the popup will be set to dockEnabled automatically.
-    ///     DefaultValue: 544
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Height { get; set; }
-}
-
-
-internal class BreakPointConverter : JsonConverter<BreakPoint>
-{
-    public override BreakPoint? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as BreakPoint;
-    }
-
-    public override void Write(Utf8JsonWriter writer, BreakPoint value, JsonSerializerOptions options)
-    {
-        if (value.BoolValue.HasValue)
-        {
-            JsonSerializer.Serialize(writer, value.BoolValue.Value, options);
-        }
-        else
-        {
-            JsonSerializer.Serialize(writer, (object)value, options);
         }
     }
 }

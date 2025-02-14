@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BaseTileLayer, BingMapsLayer, BingMapsLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///    Interface for types BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IBlendLayer 
 {
@@ -30,12 +30,12 @@ public partial interface IBlendLayer
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
-    Task SetBlendMode(BlendMode value);
+    Task SetBlendMode(BlendMode? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Effect property after render.
     /// </summary>
-    Task SetEffect(Effect value);
+    Task SetEffect(Effect? value);
     
 #endregion
 

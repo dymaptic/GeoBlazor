@@ -94,7 +94,7 @@ public abstract partial class Layer : MapComponent
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
-    public async Task SetFullExtent(Extent value)
+    public async Task SetFullExtent(Extent? value)
     {
         FullExtent = value;
         ModifiedParameters["FullExtent"] = value;
@@ -321,12 +321,10 @@ public abstract partial class Layer : MapComponent
             // this layer has already been loaded
             return;
         }
-        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
-        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
-        AbortManager = new AbortManager(CoreJsModule);
+        AbortManager = new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        JsComponentReference = await CoreJsModule.InvokeAsync<IJSObjectReference>("createLayer",
+        JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>("createLayer",
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, true, View?.Id);
 

@@ -273,7 +273,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -303,7 +303,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetKMLSublayerId(long value)
+    public async Task SetKMLSublayerId(long? value)
     {
 #pragma warning disable BL0005
         KMLSublayerId = value;
@@ -333,7 +333,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNetworkLink(string value)
+    public async Task SetNetworkLink(string? value)
     {
 #pragma warning disable BL0005
         NetworkLink = value;
@@ -363,7 +363,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

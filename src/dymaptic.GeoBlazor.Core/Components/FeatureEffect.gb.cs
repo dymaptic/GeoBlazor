@@ -214,7 +214,7 @@ public partial class FeatureEffect
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExcludedEffect(IReadOnlyList<Effect> value)
+    public async Task SetExcludedEffect(IReadOnlyList<Effect>? value)
     {
 #pragma warning disable BL0005
         ExcludedEffect = value;
@@ -244,7 +244,7 @@ public partial class FeatureEffect
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExcludedLabelsVisible(bool value)
+    public async Task SetExcludedLabelsVisible(bool? value)
     {
 #pragma warning disable BL0005
         ExcludedLabelsVisible = value;
@@ -274,7 +274,7 @@ public partial class FeatureEffect
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFilter(FeatureFilter value)
+    public async Task SetFilter(FeatureFilter? value)
     {
 #pragma warning disable BL0005
         Filter = value;
@@ -296,31 +296,6 @@ public partial class FeatureEffect
         
         await JsComponentReference.InvokeVoidAsync("setFilter", 
             CancellationTokenSource.Token, value);
- 
-        Filter.Parent = this;
-        Filter.View = View;
-        
-        if (Filter.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsFeatureFilter", CancellationTokenSource.Token, 
-                    Filter, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            Filter.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "filter", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "filter", Filter.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -329,7 +304,7 @@ public partial class FeatureEffect
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIncludedEffect(IReadOnlyList<Effect> value)
+    public async Task SetIncludedEffect(IReadOnlyList<Effect>? value)
     {
 #pragma warning disable BL0005
         IncludedEffect = value;

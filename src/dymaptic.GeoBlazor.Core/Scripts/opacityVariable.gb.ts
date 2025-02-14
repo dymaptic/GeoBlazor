@@ -46,7 +46,7 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        this.component.stops = await Promise.all(value.map(async i => await buildJsOpacityStop(i, this.layerId, this.viewId)));
+        this.component.stops = await Promise.all(value.map(async i => await buildJsOpacityStop(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -92,8 +92,10 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = opacityVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
+    let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OpacityVariable', e);
     }

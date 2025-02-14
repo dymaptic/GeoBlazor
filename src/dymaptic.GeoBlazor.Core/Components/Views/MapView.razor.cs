@@ -178,7 +178,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode
     /// </summary>
-    public bool IsServer => JsRuntime.GetType().Name.Contains("Remote");
+    public bool IsServer => JsRuntime!.GetType().Name.Contains("Remote");
 
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor WebAssembly (client) mode
@@ -188,7 +188,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Hybrid (MAUI) mode
     /// </summary>
-    public bool IsMaui => JsRuntime.GetType().Name.Contains("WebView");
+    public bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
     
     /// <summary>
     ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be

@@ -52,8 +52,10 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = authoringInfoStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
     
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AuthoringInfoStatistics', e);
     }

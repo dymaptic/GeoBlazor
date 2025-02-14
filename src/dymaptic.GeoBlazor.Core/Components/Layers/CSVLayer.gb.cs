@@ -1751,7 +1751,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1781,7 +1781,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string value)
+    public async Task SetCopyright(string? value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -1811,7 +1811,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -1841,7 +1841,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefinitionExpression(string value)
+    public async Task SetDefinitionExpression(string? value)
     {
 #pragma warning disable BL0005
         DefinitionExpression = value;
@@ -1871,7 +1871,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDelimiter(CSVDelimiter value)
+    public async Task SetDelimiter(CSVDelimiter? value)
     {
 #pragma warning disable BL0005
         Delimiter = value;
@@ -1901,7 +1901,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayField(string value)
+    public async Task SetDisplayField(string? value)
     {
 #pragma warning disable BL0005
         DisplayField = value;
@@ -1931,7 +1931,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -1961,7 +1961,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(CSVLayerElevationInfo value)
+    public async Task SetElevationInfo(CSVLayerElevationInfo? value)
     {
 #pragma warning disable BL0005
         ElevationInfo = value;
@@ -1981,8 +1981,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elevationInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1991,7 +1991,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureEffect(FeatureEffect value)
+    public async Task SetFeatureEffect(FeatureEffect? value)
     {
 #pragma warning disable BL0005
         FeatureEffect = value;
@@ -2011,8 +2011,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEffect", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2021,7 +2021,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<Field> value)
+    public async Task SetFields(IReadOnlyList<Field>? value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -2041,8 +2041,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2051,7 +2051,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometryType(string value)
+    public async Task SetGeometryType(string? value)
     {
 #pragma warning disable BL0005
         GeometryType = value;
@@ -2081,7 +2081,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelingInfo(IReadOnlyList<Label> value)
+    public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
 #pragma warning disable BL0005
         LabelingInfo = value;
@@ -2101,8 +2101,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelingInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2111,7 +2111,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool value)
+    public async Task SetLabelsVisible(bool? value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;
@@ -2141,7 +2141,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLatitudeField(string value)
+    public async Task SetLatitudeField(string? value)
     {
 #pragma warning disable BL0005
         LatitudeField = value;
@@ -2171,7 +2171,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -2201,7 +2201,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLongitudeField(string value)
+    public async Task SetLongitudeField(string? value)
     {
 #pragma warning disable BL0005
         LongitudeField = value;
@@ -2231,7 +2231,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -2261,7 +2261,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -2291,7 +2291,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIdField(string value)
+    public async Task SetObjectIdField(string? value)
     {
 #pragma warning disable BL0005
         ObjectIdField = value;
@@ -2321,7 +2321,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy> value)
+    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
     {
 #pragma warning disable BL0005
         OrderBy = value;
@@ -2341,8 +2341,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orderBy", value);
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2351,7 +2351,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutFields(IReadOnlyList<string> value)
+    public async Task SetOutFields(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         OutFields = value;
@@ -2381,7 +2381,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool value)
+    public async Task SetPopupEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -2411,7 +2411,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupTemplate(PopupTemplate value)
+    public async Task SetPopupTemplate(PopupTemplate? value)
     {
 #pragma warning disable BL0005
         PopupTemplate = value;
@@ -2431,8 +2431,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2441,7 +2441,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -2463,31 +2463,6 @@ public partial class CSVLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -2496,7 +2471,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -2526,7 +2501,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(Renderer value)
+    public async Task SetRenderer(Renderer? value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -2546,8 +2521,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2556,7 +2531,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenSizePerspectiveEnabled(bool value)
+    public async Task SetScreenSizePerspectiveEnabled(bool? value)
     {
 #pragma warning disable BL0005
         ScreenSizePerspectiveEnabled = value;
@@ -2586,7 +2561,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -2606,8 +2581,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2616,7 +2591,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeExtent(TimeExtent value)
+    public async Task SetTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         TimeExtent = value;
@@ -2638,31 +2613,6 @@ public partial class CSVLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        
-        if (TimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "timeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "timeExtent", TimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -2671,7 +2621,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeInfo(TimeInfo value)
+    public async Task SetTimeInfo(TimeInfo? value)
     {
 #pragma warning disable BL0005
         TimeInfo = value;
@@ -2691,8 +2641,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2701,7 +2651,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeOffset(TimeInterval value)
+    public async Task SetTimeOffset(TimeInterval? value)
     {
 #pragma warning disable BL0005
         TimeOffset = value;
@@ -2721,8 +2671,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2761,7 +2711,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool value)
+    public async Task SetUseViewTime(bool? value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -3228,6 +3178,15 @@ public partial class CSVLayer : IBlendLayer,
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             case TimeExtent timeExtent:
                 if (timeExtent != TimeExtent)
                 {
@@ -3304,6 +3263,11 @@ public partial class CSVLayer : IBlendLayer,
                 LayerChanged = true;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             case TimeExtent _:
                 TimeExtent = null;
                 LayerChanged = true;
@@ -3358,6 +3322,7 @@ public partial class CSVLayer : IBlendLayer,
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         PortalItem?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();

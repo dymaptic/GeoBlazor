@@ -22,7 +22,7 @@ public partial interface IChartMediaInfo
     /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
-    Task SetValue(ChartMediaInfoValue value);
+    Task SetValue(ChartMediaInfoValue? value);
     
 #endregion
 

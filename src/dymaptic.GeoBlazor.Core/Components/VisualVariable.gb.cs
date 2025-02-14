@@ -195,7 +195,7 @@ public abstract partial class VisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendOptions(VisualVariableLegendOptions value)
+    public async Task SetLegendOptions(VisualVariableLegendOptions? value)
     {
 #pragma warning disable BL0005
         LegendOptions = value;
@@ -215,8 +215,8 @@ public abstract partial class VisualVariable
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -225,7 +225,7 @@ public abstract partial class VisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpression(string value)
+    public async Task SetValueExpression(string? value)
     {
 #pragma warning disable BL0005
         ValueExpression = value;
@@ -255,7 +255,7 @@ public abstract partial class VisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpressionTitle(string value)
+    public async Task SetValueExpressionTitle(string? value)
     {
 #pragma warning disable BL0005
         ValueExpressionTitle = value;

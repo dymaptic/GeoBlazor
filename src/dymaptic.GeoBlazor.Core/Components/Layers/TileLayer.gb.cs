@@ -992,7 +992,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetApiKey(string value)
+    public async Task SetApiKey(string? value)
     {
 #pragma warning disable BL0005
         ApiKey = value;
@@ -1022,7 +1022,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -1052,7 +1052,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string value)
+    public async Task SetCopyright(string? value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -1082,7 +1082,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -1112,7 +1112,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -1142,7 +1142,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -1172,7 +1172,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -1202,7 +1202,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -1232,7 +1232,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -1254,31 +1254,6 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -1287,7 +1262,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -1317,7 +1292,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetResampling(bool value)
+    public async Task SetResampling(bool? value)
     {
 #pragma warning disable BL0005
         Resampling = value;
@@ -1347,7 +1322,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSubtables(IReadOnlyList<Sublayer> value)
+    public async Task SetSubtables(IReadOnlyList<Sublayer>? value)
     {
 #pragma warning disable BL0005
         Subtables = value;
@@ -1369,35 +1344,6 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setSubtables", 
             CancellationTokenSource.Token, value);
- 
-        foreach (Sublayer item in value)
-        {
-            item.Parent = this;
-            item.View = View;
-            
-            if (item.JsComponentReference is null)
-            {
-                // new MapComponent, needs to be built and registered in JS
-                // this also calls back to OnJsComponentCreated
-                IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                    $"buildJsSublayer", CancellationTokenSource.Token, 
-                        item, Layer?.Id, View?.Id);
-                // in case the fallback failed, set this here.
-                item.JsComponentReference ??= jsObjectReference;
-                
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference, "subtables", jsObjectReference);
-            }
-            else
-            {
-                // this component has already been registered, but we'll call setProperty to make sure
-                // it is attached to the parent
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference,
-                    "subtables", item.JsComponentReference);
-
-            }
-        }
     }
     
     /// <summary>
@@ -1406,7 +1352,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileInfo(TileInfo value)
+    public async Task SetTileInfo(TileInfo? value)
     {
 #pragma warning disable BL0005
         TileInfo = value;
@@ -1428,31 +1374,6 @@ public partial class TileLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setTileInfo", 
             CancellationTokenSource.Token, value);
- 
-        TileInfo.Parent = this;
-        TileInfo.View = View;
-        
-        if (TileInfo.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTileInfo", CancellationTokenSource.Token, 
-                    TileInfo, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TileInfo.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "tileInfo", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "tileInfo", TileInfo.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -1461,7 +1382,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileServers(IReadOnlyList<string> value)
+    public async Task SetTileServers(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         TileServers = value;
@@ -1491,7 +1412,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -1734,6 +1655,15 @@ public partial class TileLayer : IAPIKeyMixin,
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1748,6 +1678,11 @@ public partial class TileLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -1761,6 +1696,7 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(TileLayer), [nameof(PortalItem), nameof(Url)]);
         }
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

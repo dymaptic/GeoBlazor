@@ -198,7 +198,7 @@ public partial class MediaPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActiveMediaInfoIndex(int value)
+    public async Task SetActiveMediaInfoIndex(int? value)
     {
 #pragma warning disable BL0005
         ActiveMediaInfoIndex = value;
@@ -228,7 +228,7 @@ public partial class MediaPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -258,7 +258,7 @@ public partial class MediaPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMediaInfos(IReadOnlyList<MediaInfo> value)
+    public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
     {
 #pragma warning disable BL0005
         MediaInfos = value;
@@ -278,8 +278,8 @@ public partial class MediaPopupContent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "mediaInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setMediaInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -288,7 +288,7 @@ public partial class MediaPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

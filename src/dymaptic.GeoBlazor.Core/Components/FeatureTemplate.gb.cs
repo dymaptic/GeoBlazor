@@ -275,7 +275,7 @@ public partial class FeatureTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -305,7 +305,7 @@ public partial class FeatureTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDrawingTool(DrawingTool value)
+    public async Task SetDrawingTool(DrawingTool? value)
     {
 #pragma warning disable BL0005
         DrawingTool = value;
@@ -335,7 +335,7 @@ public partial class FeatureTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -365,7 +365,7 @@ public partial class FeatureTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPrototype(Graphic value)
+    public async Task SetPrototype(Graphic? value)
     {
 #pragma warning disable BL0005
         Prototype = value;
@@ -387,31 +387,6 @@ public partial class FeatureTemplate
         
         await JsComponentReference.InvokeVoidAsync("setPrototype", 
             CancellationTokenSource.Token, value);
- 
-        Prototype.Parent = this;
-        Prototype.View = View;
-        
-        if (Prototype.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsGraphic", CancellationTokenSource.Token, 
-                    Prototype, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            Prototype.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "prototype", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "prototype", Prototype.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -420,7 +395,7 @@ public partial class FeatureTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetThumbnail(Thumbnail value)
+    public async Task SetThumbnail(Thumbnail? value)
     {
 #pragma warning disable BL0005
         Thumbnail = value;

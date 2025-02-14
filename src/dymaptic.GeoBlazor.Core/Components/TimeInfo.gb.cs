@@ -371,7 +371,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEndField(string value)
+    public async Task SetEndField(string? value)
     {
 #pragma warning disable BL0005
         EndField = value;
@@ -401,7 +401,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFullTimeExtent(TimeExtent value)
+    public async Task SetFullTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         FullTimeExtent = value;
@@ -423,31 +423,6 @@ public partial class TimeInfo
         
         await JsComponentReference.InvokeVoidAsync("setFullTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        FullTimeExtent.Parent = this;
-        FullTimeExtent.View = View;
-        
-        if (FullTimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    FullTimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            FullTimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "fullTimeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "fullTimeExtent", FullTimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -456,7 +431,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterval(TimeInterval value)
+    public async Task SetInterval(TimeInterval? value)
     {
 #pragma warning disable BL0005
         Interval = value;
@@ -476,8 +451,8 @@ public partial class TimeInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "interval", value);
+        await JsComponentReference.InvokeVoidAsync("setInterval", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -486,7 +461,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStartField(string value)
+    public async Task SetStartField(string? value)
     {
 #pragma warning disable BL0005
         StartField = value;
@@ -516,7 +491,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStops(IReadOnlyList<DateTime> value)
+    public async Task SetStops(IReadOnlyList<DateTime>? value)
     {
 #pragma warning disable BL0005
         Stops = value;
@@ -546,7 +521,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeZone(string value)
+    public async Task SetTimeZone(string? value)
     {
 #pragma warning disable BL0005
         TimeZone = value;
@@ -576,7 +551,7 @@ public partial class TimeInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTrackIdField(string value)
+    public async Task SetTrackIdField(string? value)
     {
 #pragma warning disable BL0005
         TrackIdField = value;

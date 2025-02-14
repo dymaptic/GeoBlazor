@@ -186,7 +186,7 @@ public partial class DimensionalDefinition
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDimensionName(string value)
+    public async Task SetDimensionName(string? value)
     {
 #pragma warning disable BL0005
         DimensionName = value;
@@ -216,7 +216,7 @@ public partial class DimensionalDefinition
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsSlice(bool value)
+    public async Task SetIsSlice(bool? value)
     {
 #pragma warning disable BL0005
         IsSlice = value;
@@ -246,7 +246,7 @@ public partial class DimensionalDefinition
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValues(DimensionalDefinitionValues value)
+    public async Task SetValues(DimensionalDefinitionValues? value)
     {
 #pragma warning disable BL0005
         Values = value;
@@ -276,7 +276,7 @@ public partial class DimensionalDefinition
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVariableName(string value)
+    public async Task SetVariableName(string? value)
     {
 #pragma warning disable BL0005
         VariableName = value;

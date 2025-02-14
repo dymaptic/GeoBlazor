@@ -55,8 +55,10 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = orderedLayerOrderByWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     
+    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OrderedLayerOrderBy', e);
     }

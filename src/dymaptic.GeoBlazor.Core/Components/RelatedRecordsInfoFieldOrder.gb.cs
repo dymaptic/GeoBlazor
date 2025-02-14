@@ -113,7 +113,7 @@ public partial class RelatedRecordsInfoFieldOrder
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -143,7 +143,7 @@ public partial class RelatedRecordsInfoFieldOrder
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrder(OrderBy value)
+    public async Task SetOrder(OrderBy? value)
     {
 #pragma warning disable BL0005
         Order = value;

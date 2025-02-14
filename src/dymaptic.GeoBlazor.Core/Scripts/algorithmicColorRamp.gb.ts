@@ -81,8 +81,10 @@ export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = algorithmicColorRampWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
     
+    let dnInstantiatedObject = await buildDotNetAlgorithmicColorRamp(jsAlgorithmicColorRamp);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AlgorithmicColorRamp', e);
     }

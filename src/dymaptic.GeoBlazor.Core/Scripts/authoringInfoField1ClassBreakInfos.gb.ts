@@ -52,8 +52,10 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = authoringInfoField1ClassBreakInfosWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
     
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AuthoringInfoField1ClassBreakInfos', e);
     }

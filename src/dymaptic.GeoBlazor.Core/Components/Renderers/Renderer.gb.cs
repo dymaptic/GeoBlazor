@@ -65,7 +65,7 @@ public abstract partial class Renderer
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthoringInfo(AuthoringInfo value)
+    public async Task SetAuthoringInfo(AuthoringInfo? value)
     {
 #pragma warning disable BL0005
         AuthoringInfo = value;
@@ -85,8 +85,8 @@ public abstract partial class Renderer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "authoringInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setAuthoringInfo", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

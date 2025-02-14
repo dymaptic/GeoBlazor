@@ -46,7 +46,7 @@ export default class KMLSublayerGenerated implements IPropertyWrapper {
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        this.component.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId)));
+        this.component.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -84,8 +84,10 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = kMLSublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
     
+    let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for KMLSublayer', e);
     }

@@ -207,9 +207,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         Graphic[] deletedFeatures = edits.DeleteFeatures?.ToArray() ?? [];
         long? editMoment = null;
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
-        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
-        AbortManager ??= new AbortManager(CoreJsModule);
+        AbortManager ??= new AbortManager(CoreJsModule!);
         
         // return await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
         //     View!.Id);
@@ -423,7 +421,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// <param name="effect">
     ///     The effect to apply to the layer.
     /// </param>
-    public async Task SetEffect(Effect effect)
+    public async Task SetEffect(Effect? effect)
     {
         await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
     }

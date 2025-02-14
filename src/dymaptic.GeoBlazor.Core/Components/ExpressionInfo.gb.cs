@@ -185,7 +185,7 @@ public partial class ExpressionInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpression(string value)
+    public async Task SetExpression(string? value)
     {
 #pragma warning disable BL0005
         Expression = value;
@@ -215,7 +215,7 @@ public partial class ExpressionInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -245,7 +245,7 @@ public partial class ExpressionInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnType(ExpressionInfoReturnType value)
+    public async Task SetReturnType(ExpressionInfoReturnType? value)
     {
 #pragma warning disable BL0005
         ReturnType = value;
@@ -275,7 +275,7 @@ public partial class ExpressionInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

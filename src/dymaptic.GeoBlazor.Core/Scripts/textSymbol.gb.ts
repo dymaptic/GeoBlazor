@@ -69,7 +69,7 @@ export default class TextSymbolGenerated implements IPropertyWrapper {
     }
     async setFont(value: any): Promise<void> {
         let { buildJsMapFont } = await import('./mapFont');
-        this.component.font =  buildJsMapFont(value);
+        this.component.font = await  buildJsMapFont(value);
     }
     async getHaloColor(): Promise<any> {
         if (!hasValue(this.component.haloColor)) {
@@ -108,7 +108,7 @@ export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.font)) {
         let { buildJsMapFont } = await import('./jsBuilder');
-        jsTextSymbol.font = buildJsMapFont(dotNetObject.font) as any;
+        jsTextSymbol.font = await buildJsMapFont(dotNetObject.font) as any;
     }
     if (hasValue(dotNetObject.haloColor)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -162,8 +162,10 @@ export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = textSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol;
     
+    let dnInstantiatedObject = await buildDotNetTextSymbol(jsTextSymbol);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TextSymbol', e);
     }

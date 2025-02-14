@@ -1657,17 +1657,22 @@ public partial class Portal
             return DefaultExtent;
         }
 
-        // get the property value
-        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, "defaultExtent");
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getDefaultExtent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (DefaultExtent is not null)
+            {
+                result.Id = DefaultExtent.Id;
+            }
+            
 #pragma warning disable BL0005
-             DefaultExtent = result;
+            DefaultExtent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
+            ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
         }
-         
+        
         return DefaultExtent;
     }
     
@@ -2941,7 +2946,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAccess(PortalAccess value)
+    public async Task SetAccess(PortalAccess? value)
     {
 #pragma warning disable BL0005
         Access = value;
@@ -2971,7 +2976,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAllSSL(bool value)
+    public async Task SetAllSSL(bool? value)
     {
 #pragma warning disable BL0005
         AllSSL = value;
@@ -3001,7 +3006,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthMode(AuthMode value)
+    public async Task SetAuthMode(AuthMode? value)
     {
 #pragma warning disable BL0005
         AuthMode = value;
@@ -3031,7 +3036,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAuthorizedCrossOriginDomains(IReadOnlyList<string> value)
+    public async Task SetAuthorizedCrossOriginDomains(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         AuthorizedCrossOriginDomains = value;
@@ -3061,7 +3066,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemapGalleryGroupQuery(string value)
+    public async Task SetBasemapGalleryGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         BasemapGalleryGroupQuery = value;
@@ -3091,7 +3096,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemapGalleryGroupQuery3D(string value)
+    public async Task SetBasemapGalleryGroupQuery3D(string? value)
     {
 #pragma warning disable BL0005
         BasemapGalleryGroupQuery3D = value;
@@ -3121,7 +3126,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBingKey(string value)
+    public async Task SetBingKey(string? value)
     {
 #pragma warning disable BL0005
         BingKey = value;
@@ -3151,7 +3156,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListApps(bool value)
+    public async Task SetCanListApps(bool? value)
     {
 #pragma warning disable BL0005
         CanListApps = value;
@@ -3181,7 +3186,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListData(bool value)
+    public async Task SetCanListData(bool? value)
     {
 #pragma warning disable BL0005
         CanListData = value;
@@ -3211,7 +3216,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanListPreProvisionedItems(bool value)
+    public async Task SetCanListPreProvisionedItems(bool? value)
     {
 #pragma warning disable BL0005
         CanListPreProvisionedItems = value;
@@ -3241,7 +3246,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanProvisionDirectPurchase(bool value)
+    public async Task SetCanProvisionDirectPurchase(bool? value)
     {
 #pragma warning disable BL0005
         CanProvisionDirectPurchase = value;
@@ -3271,7 +3276,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSearchPublic(bool value)
+    public async Task SetCanSearchPublic(bool? value)
     {
 #pragma warning disable BL0005
         CanSearchPublic = value;
@@ -3301,7 +3306,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanShareBingPublic(bool value)
+    public async Task SetCanShareBingPublic(bool? value)
     {
 #pragma warning disable BL0005
         CanShareBingPublic = value;
@@ -3331,7 +3336,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSharePublic(bool value)
+    public async Task SetCanSharePublic(bool? value)
     {
 #pragma warning disable BL0005
         CanSharePublic = value;
@@ -3361,7 +3366,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSignInArcGIS(bool value)
+    public async Task SetCanSignInArcGIS(bool? value)
     {
 #pragma warning disable BL0005
         CanSignInArcGIS = value;
@@ -3391,7 +3396,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCanSignInIDP(bool value)
+    public async Task SetCanSignInIDP(bool? value)
     {
 #pragma warning disable BL0005
         CanSignInIDP = value;
@@ -3421,7 +3426,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColorSetsGroupQuery(string value)
+    public async Task SetColorSetsGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         ColorSetsGroupQuery = value;
@@ -3451,7 +3456,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCommentsEnabled(bool value)
+    public async Task SetCommentsEnabled(bool? value)
     {
 #pragma warning disable BL0005
         CommentsEnabled = value;
@@ -3481,7 +3486,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCreated(DateTime value)
+    public async Task SetCreated(DateTime? value)
     {
 #pragma warning disable BL0005
         Created = value;
@@ -3511,7 +3516,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCulture(string value)
+    public async Task SetCulture(string? value)
     {
 #pragma warning disable BL0005
         Culture = value;
@@ -3541,7 +3546,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomBaseUrl(string value)
+    public async Task SetCustomBaseUrl(string? value)
     {
 #pragma warning disable BL0005
         CustomBaseUrl = value;
@@ -3571,7 +3576,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultExtent(Extent value)
+    public async Task SetDefaultExtent(Extent? value)
     {
 #pragma warning disable BL0005
         DefaultExtent = value;
@@ -3591,8 +3596,8 @@ public partial class Portal
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultExtent", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultExtent", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3601,7 +3606,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -3631,7 +3636,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDevBasemapGalleryGroupQuery(string value)
+    public async Task SetDevBasemapGalleryGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         DevBasemapGalleryGroupQuery = value;
@@ -3661,7 +3666,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEueiEnabled(bool value)
+    public async Task SetEueiEnabled(bool? value)
     {
 #pragma warning disable BL0005
         EueiEnabled = value;
@@ -3691,7 +3696,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeaturedGroups(IReadOnlyList<PortalFeaturedGroups> value)
+    public async Task SetFeaturedGroups(IReadOnlyList<PortalFeaturedGroups>? value)
     {
 #pragma warning disable BL0005
         FeaturedGroups = value;
@@ -3711,8 +3716,8 @@ public partial class Portal
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featuredGroups", value);
+        await JsComponentReference.InvokeVoidAsync("setFeaturedGroups", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3721,7 +3726,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeaturedItemsGroupQuery(string value)
+    public async Task SetFeaturedItemsGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         FeaturedItemsGroupQuery = value;
@@ -3751,7 +3756,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGalleryTemplatesGroupQuery(string value)
+    public async Task SetGalleryTemplatesGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         GalleryTemplatesGroupQuery = value;
@@ -3781,7 +3786,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasCategorySchema(bool value)
+    public async Task SetHasCategorySchema(bool? value)
     {
 #pragma warning disable BL0005
         HasCategorySchema = value;
@@ -3811,7 +3816,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHelperServices(string value)
+    public async Task SetHelperServices(string? value)
     {
 #pragma warning disable BL0005
         HelperServices = value;
@@ -3841,7 +3846,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHomePageFeaturedContent(string value)
+    public async Task SetHomePageFeaturedContent(string? value)
     {
 #pragma warning disable BL0005
         HomePageFeaturedContent = value;
@@ -3871,7 +3876,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHomePageFeaturedContentCount(int value)
+    public async Task SetHomePageFeaturedContentCount(int? value)
     {
 #pragma warning disable BL0005
         HomePageFeaturedContentCount = value;
@@ -3901,7 +3906,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHttpPort(double value)
+    public async Task SetHttpPort(double? value)
     {
 #pragma warning disable BL0005
         HttpPort = value;
@@ -3931,7 +3936,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHttpsPort(double value)
+    public async Task SetHttpsPort(double? value)
     {
 #pragma warning disable BL0005
         HttpsPort = value;
@@ -3961,7 +3966,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIpCntryCode(string value)
+    public async Task SetIpCntryCode(string? value)
     {
 #pragma warning disable BL0005
         IpCntryCode = value;
@@ -3991,7 +3996,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsPortal(bool value)
+    public async Task SetIsPortal(bool? value)
     {
 #pragma warning disable BL0005
         IsPortal = value;
@@ -4021,7 +4026,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsReadOnly(bool value)
+    public async Task SetIsReadOnly(bool? value)
     {
 #pragma warning disable BL0005
         IsReadOnly = value;
@@ -4051,7 +4056,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerTemplatesGroupQuery(string value)
+    public async Task SetLayerTemplatesGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         LayerTemplatesGroupQuery = value;
@@ -4081,7 +4086,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxTokenExpirationMinutes(double value)
+    public async Task SetMaxTokenExpirationMinutes(double? value)
     {
 #pragma warning disable BL0005
         MaxTokenExpirationMinutes = value;
@@ -4111,7 +4116,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetModified(DateTime value)
+    public async Task SetModified(DateTime? value)
     {
 #pragma warning disable BL0005
         Modified = value;
@@ -4141,7 +4146,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -4171,7 +4176,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalHostname(string value)
+    public async Task SetPortalHostname(string? value)
     {
 #pragma warning disable BL0005
         PortalHostname = value;
@@ -4201,7 +4206,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalId(string value)
+    public async Task SetPortalId(string? value)
     {
 #pragma warning disable BL0005
         PortalId = value;
@@ -4231,7 +4236,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalMode(PortalMode value)
+    public async Task SetPortalMode(PortalMode? value)
     {
 #pragma warning disable BL0005
         PortalMode = value;
@@ -4261,7 +4266,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalProperties(string value)
+    public async Task SetPortalProperties(string? value)
     {
 #pragma warning disable BL0005
         PortalProperties = value;
@@ -4291,7 +4296,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRecycleBinEnabled(bool value)
+    public async Task SetRecycleBinEnabled(bool? value)
     {
 #pragma warning disable BL0005
         RecycleBinEnabled = value;
@@ -4321,7 +4326,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRegion(string value)
+    public async Task SetRegion(string? value)
     {
 #pragma warning disable BL0005
         Region = value;
@@ -4351,7 +4356,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotatorPanels(IReadOnlyList<string> value)
+    public async Task SetRotatorPanels(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         RotatorPanels = value;
@@ -4381,7 +4386,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowHomePageDescription(bool value)
+    public async Task SetShowHomePageDescription(bool? value)
     {
 #pragma warning disable BL0005
         ShowHomePageDescription = value;
@@ -4411,7 +4416,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsHostedServices(bool value)
+    public async Task SetSupportsHostedServices(bool? value)
     {
 #pragma warning disable BL0005
         SupportsHostedServices = value;
@@ -4441,7 +4446,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSymbolSetsGroupQuery(string value)
+    public async Task SetSymbolSetsGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         SymbolSetsGroupQuery = value;
@@ -4471,7 +4476,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTemplatesGroupQuery(string value)
+    public async Task SetTemplatesGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         TemplatesGroupQuery = value;
@@ -4501,7 +4506,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnits(PortalUnits value)
+    public async Task SetUnits(PortalUnits? value)
     {
 #pragma warning disable BL0005
         Units = value;
@@ -4531,7 +4536,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -4561,7 +4566,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrlKey(string value)
+    public async Task SetUrlKey(string? value)
     {
 #pragma warning disable BL0005
         UrlKey = value;
@@ -4591,7 +4596,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUse3dBasemaps(bool value)
+    public async Task SetUse3dBasemaps(bool? value)
     {
 #pragma warning disable BL0005
         Use3dBasemaps = value;
@@ -4621,7 +4626,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseStandardizedQuery(bool value)
+    public async Task SetUseStandardizedQuery(bool? value)
     {
 #pragma warning disable BL0005
         UseStandardizedQuery = value;
@@ -4651,7 +4656,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseVectorBasemaps(bool value)
+    public async Task SetUseVectorBasemaps(bool? value)
     {
 #pragma warning disable BL0005
         UseVectorBasemaps = value;
@@ -4681,7 +4686,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVectorBasemapGalleryGroupQuery(string value)
+    public async Task SetVectorBasemapGalleryGroupQuery(string? value)
     {
 #pragma warning disable BL0005
         VectorBasemapGalleryGroupQuery = value;
@@ -5040,6 +5045,15 @@ public partial class Portal
     {
         switch (child)
         {
+            case Extent defaultExtent:
+                if (defaultExtent != DefaultExtent)
+                {
+                    DefaultExtent = defaultExtent;
+                    
+                    ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
+                }
+                
+                return true;
             case PortalFeaturedGroups featuredGroups:
                 FeaturedGroups ??= [];
                 if (!FeaturedGroups.Contains(featuredGroups))
@@ -5068,6 +5082,11 @@ public partial class Portal
     {
         switch (child)
         {
+            case Extent _:
+                DefaultExtent = null;
+                
+                ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
+                return true;
             case PortalFeaturedGroups featuredGroups:
                 FeaturedGroups = FeaturedGroups?.Where(f => f != featuredGroups).ToList();
                 
@@ -5087,6 +5106,7 @@ public partial class Portal
     internal override void ValidateRequiredGeneratedChildren()
     {
     
+        DefaultExtent?.ValidateRequiredGeneratedChildren();
         if (FeaturedGroups is not null)
         {
             foreach (PortalFeaturedGroups child in FeaturedGroups)

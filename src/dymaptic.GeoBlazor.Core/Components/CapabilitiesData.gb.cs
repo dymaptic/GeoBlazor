@@ -225,7 +225,7 @@ public partial class CapabilitiesData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsVersioned(bool value)
+    public async Task SetIsVersioned(bool? value)
     {
 #pragma warning disable BL0005
         IsVersioned = value;
@@ -255,7 +255,7 @@ public partial class CapabilitiesData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsAttachment(bool value)
+    public async Task SetSupportsAttachment(bool? value)
     {
 #pragma warning disable BL0005
         SupportsAttachment = value;
@@ -285,7 +285,7 @@ public partial class CapabilitiesData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsM(bool value)
+    public async Task SetSupportsM(bool? value)
     {
 #pragma warning disable BL0005
         SupportsM = value;
@@ -315,7 +315,7 @@ public partial class CapabilitiesData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsZ(bool value)
+    public async Task SetSupportsZ(bool? value)
     {
 #pragma warning disable BL0005
         SupportsZ = value;

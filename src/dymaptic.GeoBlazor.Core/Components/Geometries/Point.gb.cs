@@ -280,7 +280,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLatitude(double value)
+    public async Task SetLatitude(double? value)
     {
 #pragma warning disable BL0005
         Latitude = value;
@@ -310,7 +310,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLongitude(double value)
+    public async Task SetLongitude(double? value)
     {
 #pragma warning disable BL0005
         Longitude = value;
@@ -340,7 +340,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetM(double value)
+    public async Task SetM(double? value)
     {
 #pragma warning disable BL0005
         M = value;
@@ -370,7 +370,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetX(double value)
+    public async Task SetX(double? value)
     {
 #pragma warning disable BL0005
         X = value;
@@ -400,7 +400,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetY(double value)
+    public async Task SetY(double? value)
     {
 #pragma warning disable BL0005
         Y = value;
@@ -430,7 +430,7 @@ public partial class Point
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetZ(double value)
+    public async Task SetZ(double? value)
     {
 #pragma warning disable BL0005
         Z = value;

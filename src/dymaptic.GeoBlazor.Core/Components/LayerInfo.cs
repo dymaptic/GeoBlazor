@@ -1,9 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     Specifies a layer to display in the legend.
-/// </summary>
-public class LayerInfo : MapComponent
+public partial class LayerInfo : MapComponent
 {
     /// <summary>
     ///     Specifies a title for the layer to display above its symbols and descriptions. If no title is specified the service

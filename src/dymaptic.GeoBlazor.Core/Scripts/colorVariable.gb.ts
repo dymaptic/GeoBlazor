@@ -46,7 +46,7 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
     
     async setStops(value: any): Promise<void> {
         let { buildJsColorStop } = await import('./colorStop');
-        this.component.stops = await Promise.all(value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId)));
+        this.component.stops = await Promise.all(value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -92,8 +92,10 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = colorVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;
     
+    let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorVariable', e);
     }

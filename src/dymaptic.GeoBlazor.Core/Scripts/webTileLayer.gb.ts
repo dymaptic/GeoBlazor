@@ -61,6 +61,18 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -72,6 +84,14 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+    }
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
@@ -108,6 +128,10 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebTileLayer = new WebTileLayer();
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsWebTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsWebTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -132,9 +156,6 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.effect)) {
         jsWebTileLayer.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        jsWebTileLayer.fullExtent = dotNetObject.fullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         jsWebTileLayer.listMode = dotNetObject.listMode;
@@ -178,8 +199,10 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
     
+    let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebTileLayer', e);
     }
@@ -196,9 +219,17 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.fullExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetWebTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetWebTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');
@@ -220,9 +251,6 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
         if (hasValue(jsObject.effect)) {
             dotNetWebTileLayer.effect = jsObject.effect;
         }
-        if (hasValue(jsObject.fullExtent)) {
-            dotNetWebTileLayer.fullExtent = jsObject.fullExtent;
-        }
         if (hasValue(jsObject.listMode)) {
             dotNetWebTileLayer.listMode = jsObject.listMode;
         }
@@ -243,9 +271,6 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.refreshInterval)) {
             dotNetWebTileLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetWebTileLayer.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.subDomains)) {
             dotNetWebTileLayer.subDomains = jsObject.subDomains;

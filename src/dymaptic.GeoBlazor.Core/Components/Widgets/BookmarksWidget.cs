@@ -1,10 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Bookmarks widget allows end users to quickly navigate to a particular area of interest. It displays a list of bookmarks, which are typically defined inside the WebMap.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BookmarksWidget : Widget
+public partial class BookmarksWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Bookmarks;
@@ -30,11 +26,6 @@ public class BookmarksWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? HeadingLevel { get; set; }
 
-    /// <summary>
-    /// A collection of Bookmarks.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<Bookmark>? Bookmarks { get; set; }
 
     /// <summary>
     ///     Handler delegate for click events on the view.

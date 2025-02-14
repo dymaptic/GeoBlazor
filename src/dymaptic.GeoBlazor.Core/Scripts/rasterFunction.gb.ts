@@ -61,8 +61,10 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = rasterFunctionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
     
+    let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RasterFunction', e);
     }

@@ -150,7 +150,7 @@ public partial class FieldInfoFormat
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDateFormat(DateFormat value)
+    public async Task SetDateFormat(DateFormat? value)
     {
 #pragma warning disable BL0005
         DateFormat = value;
@@ -180,7 +180,7 @@ public partial class FieldInfoFormat
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDigitSeparator(bool value)
+    public async Task SetDigitSeparator(bool? value)
     {
 #pragma warning disable BL0005
         DigitSeparator = value;
@@ -210,7 +210,7 @@ public partial class FieldInfoFormat
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPlaces(int value)
+    public async Task SetPlaces(int? value)
     {
 #pragma warning disable BL0005
         Places = value;

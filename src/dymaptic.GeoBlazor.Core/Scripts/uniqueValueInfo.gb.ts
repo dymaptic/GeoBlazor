@@ -33,7 +33,7 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol =  buildJsSymbol(value);
+        this.component.symbol = await  buildJsSymbol(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,8 +47,8 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
 export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueInfo = new UniqueValueInfo();
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('./jsBuilder');
-        jsUniqueValueInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        let { buildJsSymbol } = await import('./symbol');
+        jsUniqueValueInfo.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -68,8 +68,10 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = uniqueValueInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueInfo;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueInfo', e);
     }

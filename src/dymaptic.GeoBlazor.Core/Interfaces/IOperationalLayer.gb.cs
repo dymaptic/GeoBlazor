@@ -23,7 +23,7 @@ public partial interface IOperationalLayer
     /// <summary>
     ///    Asynchronously set the value of the PersistenceEnabled property after render.
     /// </summary>
-    Task SetPersistenceEnabled(bool value);
+    Task SetPersistenceEnabled(bool? value);
     
 #endregion
 

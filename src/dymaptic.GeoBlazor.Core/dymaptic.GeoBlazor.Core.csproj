@@ -74,10 +74,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Functions\" />
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Components\Symbols\SearchViewModelDefaultSymbols.cs" />
+      <Compile Remove="Components\Layers\DynamicMapLayer.gb.cs" />
+      <Compile Remove="Components\Layers\DynamicDataLayer.gb.cs" />
+      <Compile Remove="Components\Layers\DynamicDataLayer.cs" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">

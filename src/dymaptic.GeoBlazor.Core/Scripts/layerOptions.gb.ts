@@ -52,8 +52,10 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = layerOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
     
+    let dnInstantiatedObject = await buildDotNetLayerOptions(jsLayerOptions);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerOptions', e);
     }

@@ -1,14 +1,12 @@
 import GraphicGenerated from './graphic.gb';
 import Graphic from "@arcgis/core/Graphic";
-import {DotNetGeometry, DotNetGraphic, DotNetPopupTemplate} from "./definitions";
-import {buildJsAttributes, buildJsGeometry, buildJsPopupTemplate, buildJsSymbol, hasValue} from "./jsBuilder";
 import {arcGisObjectRefs, copyValuesIfExists, graphicsRefs, lookupGraphicById} from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { buildDotNetGeometry } from './geometry';
-import { buildDotNetPopupTemplate } from './popupTemplate';
-import { buildDotNetSymbol } from './symbol';
+import { buildDotNetGeometry, buildJsGeometry } from './geometry';
+import { buildDotNetPopupTemplate, buildJsPopupTemplate } from './popupTemplate';
+import { buildDotNetSymbol, buildJsSymbol } from './symbol';
 
 export default class GraphicWrapper extends GraphicGenerated {
 
@@ -31,7 +29,7 @@ export default class GraphicWrapper extends GraphicGenerated {
         delete this.component.attributes[name];
     }
 
-    setGeometry(geometry: DotNetGeometry): void {
+    setGeometry(geometry): void {
         let jsGeometry = buildJsGeometry(geometry);
         if (jsGeometry !== null && this.component.geometry !== jsGeometry) {
             this.component.geometry = jsGeometry;

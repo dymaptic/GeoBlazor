@@ -35,7 +35,7 @@ export default class SymbolGenerated implements IPropertyWrapper {
     }
     async setColor(value: any, layerId: string | null, viewId: string | null): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await buildJsMapColor(value, layerId, viewId);
+        this.component.color = await buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,28 +44,6 @@ export default class SymbolGenerated implements IPropertyWrapper {
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-}
-
-export async function buildJsSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { default: Symbol } = await import('@arcgis/core/symbols/Symbol');
-    let jsSymbol = new Symbol();
-    if (hasValue(dotNetObject.color)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
-    }
-    let { default: SymbolWrapper } = await import('./symbol');
-    let symbolWrapper = new SymbolWrapper(jsSymbol);
-    symbolWrapper.geoBlazorId = dotNetObject.id;
-    symbolWrapper.viewId = viewId;
-    symbolWrapper.layerId = layerId;
-    
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(symbolWrapper);
-    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
-    jsObjectRefs[dotNetObject.id] = symbolWrapper;
-    arcGisObjectRefs[dotNetObject.id] = jsSymbol;
-    
-    return jsSymbol;
 }
 
 export async function buildDotNetSymbolGenerated(jsObject: any): Promise<any> {

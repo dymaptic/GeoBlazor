@@ -1,11 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is
-///     set inside the view's map object.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BasemapToggleWidget : Widget
+public partial class BasemapToggleWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.BasemapToggle;
@@ -30,16 +25,6 @@ public class BasemapToggleWidget : Widget
 #pragma warning restore CS0618 // Type or member is obsolete
     public BasemapStyleName? NextBasemapStyle { get; set; }
 
-    /// <summary>
-    ///     The next <see cref="Basemap" /> for toggling.
-    /// </summary>
-    /// <remarks>
-    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
-    /// </remarks>
-#pragma warning disable CS0618 // Type or member is obsolete
-    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemapStyle))]
-#pragma warning restore CS0618 // Type or member is obsolete
-    public Basemap? NextBasemap { get; set; }
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -73,10 +58,4 @@ public class BasemapToggleWidget : Widget
         }
     }
 
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        NextBasemap?.ValidateRequiredChildren();
-    }
 }

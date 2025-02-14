@@ -139,7 +139,7 @@ public partial class LayerOptions : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnTopmostRaster(bool value)
+    public async Task SetReturnTopmostRaster(bool? value)
     {
 #pragma warning disable BL0005
         ReturnTopmostRaster = value;
@@ -169,7 +169,7 @@ public partial class LayerOptions : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowNoDataRecords(bool value)
+    public async Task SetShowNoDataRecords(bool? value)
     {
 #pragma warning disable BL0005
         ShowNoDataRecords = value;

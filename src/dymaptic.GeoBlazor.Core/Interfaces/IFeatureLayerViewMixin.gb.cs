@@ -40,22 +40,22 @@ public partial interface IFeatureLayerViewMixin
     /// <summary>
     ///    Asynchronously set the value of the FeatureEffect property after render.
     /// </summary>
-    Task SetFeatureEffect(FeatureEffect value);
+    Task SetFeatureEffect(FeatureEffect? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Filter property after render.
     /// </summary>
-    Task SetFilter(FeatureFilter value);
+    Task SetFilter(FeatureFilter? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeatures property after render.
     /// </summary>
-    Task SetMaximumNumberOfFeatures(double value);
+    Task SetMaximumNumberOfFeatures(double? value);
     
     /// <summary>
     ///    Asynchronously set the value of the MaximumNumberOfFeaturesExceeded property after render.
     /// </summary>
-    Task SetMaximumNumberOfFeaturesExceeded(bool value);
+    Task SetMaximumNumberOfFeaturesExceeded(bool? value);
     
 #endregion
 

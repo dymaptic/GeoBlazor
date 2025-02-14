@@ -390,7 +390,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHighlightOptions(HighlightOptions value)
+    public async Task SetHighlightOptions(HighlightOptions? value)
     {
 #pragma warning disable BL0005
         HighlightOptions = value;
@@ -410,8 +410,8 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -420,7 +420,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaximumNumberOfFeatures(double value)
+    public async Task SetMaximumNumberOfFeatures(double? value)
     {
 #pragma warning disable BL0005
         MaximumNumberOfFeatures = value;
@@ -450,7 +450,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaximumNumberOfFeaturesExceeded(bool value)
+    public async Task SetMaximumNumberOfFeaturesExceeded(bool? value)
     {
 #pragma warning disable BL0005
         MaximumNumberOfFeaturesExceeded = value;

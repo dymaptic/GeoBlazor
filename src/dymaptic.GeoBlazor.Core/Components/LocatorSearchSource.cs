@@ -1,9 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     The following properties define a source pointing to a url that represents a locator service, which may be used to geocode locations with a Search widget instance.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class LocatorSearchSource : SearchSource
+
+public partial class LocatorSearchSource : SearchSource
 {
     /// <inheritdoc/>
     public override string Type => "locator";
@@ -15,12 +12,6 @@ public class LocatorSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
 
-    /// <summary>
-    ///     A string array which limits the results to one or more categories. For example, Populated Place or airport. Only applicable when using the World Geocode Service.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? Categories { get; set; }
 
     /// <summary>
     ///     Constricts search results to a specified country code. For example, US for United States or SE for Sweden. Only applies to the World Geocode Service.
@@ -61,55 +52,6 @@ public class LocatorSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SingleLineFieldName { get; set; }
 
-    /// <summary>
-    ///     URL to the ArcGIS Server REST resource that represents a locator service. This is required.
-    /// </summary>
-    [Parameter]
-    public string Url { get; set; } = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
-
-    /// <summary>
-    ///     For filtering suggests or search results. Setting a value here takes precedence over withinViewEnabled.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public LocatorSearchSourceFilter? Filter { get; set; }
-
-    /// <inheritdoc/>
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case LocatorSearchSourceFilter filter:
-                if (!filter.Equals(Filter))
-                {
-                    Filter = filter;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-                break;
-        }
-    }
-
-    /// <inheritdoc/>
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case LocatorSearchSourceFilter:
-                Filter = null;
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-                break;
-        }
-    }
-
-    internal override void ValidateRequiredChildren()
-    {
-        Filter?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 }
 
 

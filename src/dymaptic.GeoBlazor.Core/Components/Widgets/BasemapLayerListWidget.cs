@@ -1,24 +1,10 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Basemap ListItem class represents two of the operational Items in the LayerList ViewModel. In the Basemap
-///     LayerList widget UI, the list items represent any base or reference layers displayed in the view. To display the
-///     ListItems as separate types, a developer will need to specify a base or reference. It provides access to the
-///     associated layer's properties, allows the developer to configure actions related to the layer, and allows the
-///     developer to add content to the item related to the layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BasemapLayerListWidget : Widget
+public partial class BasemapLayerListWidget : Widget
 {
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.BasemapLayerList;
 
-    /// <summary>
-    ///     The widget's default label.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
 
     /// <summary>
     ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem" />.
@@ -59,11 +45,6 @@ public class BasemapLayerListWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? MultipleSelectionEnabled { get; set; }
 
-    /// <summary>
-    ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public BasemapLayerListWidgetVisibleElements? VisibleElements { get; set; }
 
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnBaseListItemCreatedHandler" /> was registered.
@@ -122,46 +103,6 @@ public class BasemapLayerListWidget : Widget
         return (object)result;
     }
 
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case BasemapLayerListWidgetVisibleElements visibleElements:
-                VisibleElements = visibleElements;
-                WidgetChanged = true;
-                
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-    
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case BasemapLayerListWidgetVisibleElements _:
-                VisibleElements = null;
-                WidgetChanged = true;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-    
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        VisibleElements?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 }
 
 /// <summary>

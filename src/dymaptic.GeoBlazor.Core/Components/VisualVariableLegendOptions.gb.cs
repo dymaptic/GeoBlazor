@@ -113,7 +113,7 @@ public partial class VisualVariableLegendOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetShowLegend(bool value)
+    public async Task SetShowLegend(bool? value)
     {
 #pragma warning disable BL0005
         ShowLegend = value;
@@ -143,7 +143,7 @@ public partial class VisualVariableLegendOptions
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

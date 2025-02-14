@@ -13,6 +13,12 @@ export async function buildJsSimpleLineSymbol(dotNetObject: any, layerId: string
     let { buildJsSimpleLineSymbolGenerated } = await import('./simpleLineSymbol.gb');
     return await buildJsSimpleLineSymbolGenerated(dotNetObject, layerId, viewId);
 }
+
+export async function buildJsOutline(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsSimpleLineSymbolGenerated } = await import('./simpleLineSymbol.gb');
+    return await buildJsSimpleLineSymbolGenerated(dotNetObject, layerId, viewId);
+}
+
 export async function buildDotNetSimpleLineSymbol(jsObject: any): Promise<any> {
     let { buildDotNetSimpleLineSymbolGenerated } = await import('./simpleLineSymbol.gb');
     return await buildDotNetSimpleLineSymbolGenerated(jsObject);

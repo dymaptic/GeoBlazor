@@ -225,7 +225,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCacheHint(bool value)
+    public async Task SetSupportsCacheHint(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCacheHint = value;
@@ -255,7 +255,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCount(bool value)
+    public async Task SetSupportsCount(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCount = value;
@@ -285,7 +285,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsOrderBy(bool value)
+    public async Task SetSupportsOrderBy(bool? value)
     {
 #pragma warning disable BL0005
         SupportsOrderBy = value;
@@ -315,7 +315,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsPagination(bool value)
+    public async Task SetSupportsPagination(bool? value)
     {
 #pragma warning disable BL0005
         SupportsPagination = value;

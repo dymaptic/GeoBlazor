@@ -1,10 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-/// <summary>
-///     The following properties define generic sources properties for use in the Search widget. Please see the subclasses that extend this class for more information about working with Search widget sources.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
+
 [JsonConverter(typeof(SearchSourceConverter))]
-public abstract class SearchSource : MapComponent
+public abstract partial class SearchSource : MapComponent
 {
     /// <summary>
     ///     The type of source.
@@ -39,12 +36,6 @@ public abstract class SearchSource : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
 
-    /// <summary>
-    ///     Specifies the fields returned with the search results.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? OutFields { get; set; }
 
     /// <summary>
     ///     Used as a hint for the source input text.
@@ -127,23 +118,6 @@ public abstract class SearchSource : MapComponent
     public Func<GetSuggestionsParameters, Task<IList<SuggestResult>>>? GetSuggestionsHandler { get; set; }
 
     /// <summary>
-    ///     The popup template used to display search results. If no popup is needed, set the source's popupTemplate to null.
-    /// </summary>
-    /// <remarks>
-    ///     This property should be set in instances where there is no existing PopupTemplate configured. For example, feature sources will default to any existing popupTemplate configured on the layer.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplate? PopupTemplate { get; set; }
-
-    /// <summary>
-    ///     The symbol used to display the result.
-    /// </summary>
-    /// <remarks>
-    ///     This property only applies when the layer/locator/source is not part of the map.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Symbol? ResultSymbol { get; set; }
-    /// <summary>
     ///     Indicates for the JavaScript engine whether to set up the GetResults handler
     /// </summary>
     public bool HasGetResultsHandler => GetResultsHandler is not null;
@@ -175,13 +149,7 @@ public abstract class SearchSource : MapComponent
     {
         switch (child)
         {
-            case PopupTemplate popupTemplate:
-                if (!popupTemplate.Equals(PopupTemplate))
-                {
-                    PopupTemplate = popupTemplate;
-                }
 
-                break;
             case Symbol symbol:
                 if (!symbol.Equals(ResultSymbol))
                 {
@@ -200,9 +168,7 @@ public abstract class SearchSource : MapComponent
     {
         switch (child)
         {
-            case PopupTemplate _:
-                PopupTemplate = null;
-                break;
+
             case Symbol:
                 ResultSymbol = null;
                 break;
@@ -212,12 +178,6 @@ public abstract class SearchSource : MapComponent
         }
     }
 
-    internal override void ValidateRequiredChildren()
-    {
-        PopupTemplate?.ValidateRequiredChildren();
-        ResultSymbol?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 }
 
 

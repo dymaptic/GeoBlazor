@@ -33,7 +33,7 @@ export default class PieChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
+        this.component.value =  buildJsChartMediaInfoValue(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layer
     let jsPieChartMediaInfo = new PieChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsPieChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
+        jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -71,8 +71,10 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = pieChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPieChartMediaInfo;
     
+    let dnInstantiatedObject = await buildDotNetPieChartMediaInfo(jsPieChartMediaInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PieChartMediaInfo', e);
     }

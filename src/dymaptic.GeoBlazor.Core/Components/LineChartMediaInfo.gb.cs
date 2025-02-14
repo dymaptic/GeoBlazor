@@ -108,7 +108,7 @@ public partial class LineChartMediaInfo : IChartMediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(ChartMediaInfoValue value)
+    public async Task SetValue(ChartMediaInfoValue? value)
     {
 #pragma warning disable BL0005
         Value = value;
@@ -128,8 +128,8 @@ public partial class LineChartMediaInfo : IChartMediaInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "value", value);
+        await JsComponentReference.InvokeVoidAsync("setValue", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

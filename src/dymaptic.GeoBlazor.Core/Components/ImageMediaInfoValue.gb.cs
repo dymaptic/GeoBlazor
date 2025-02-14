@@ -113,7 +113,7 @@ public partial class ImageMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLinkURL(string value)
+    public async Task SetLinkURL(string? value)
     {
 #pragma warning disable BL0005
         LinkURL = value;
@@ -143,7 +143,7 @@ public partial class ImageMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceURL(string value)
+    public async Task SetSourceURL(string? value)
     {
 #pragma warning disable BL0005
         SourceURL = value;

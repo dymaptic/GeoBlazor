@@ -78,7 +78,7 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsAuthoringInfoVisualVariable(i, this.layerId, this.viewId)));
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsAuthoringInfoVisualVariable(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -163,8 +163,10 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = authoringInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     
+    let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AuthoringInfo', e);
     }

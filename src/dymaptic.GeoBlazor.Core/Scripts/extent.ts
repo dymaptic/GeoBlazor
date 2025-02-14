@@ -34,3 +34,14 @@ export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
         spatialReference: buildDotNetSpatialReference(extent.spatialReference)
     } as DotNetExtent;
 }
+
+export function buildJsExtentFromJson(json: any): Extent {
+    let extent = new Extent();
+    copyValuesIfExists(json, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
+
+    if (hasValue(json.spatialReference)) {
+        extent.spatialReference = buildJsSpatialReference(json.spatialReference)
+    }
+
+    return extent;
+}

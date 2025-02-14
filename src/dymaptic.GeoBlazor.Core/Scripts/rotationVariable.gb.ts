@@ -77,8 +77,10 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = rotationVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
     
+    let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RotationVariable', e);
     }

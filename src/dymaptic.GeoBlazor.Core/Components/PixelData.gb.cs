@@ -81,17 +81,22 @@ public partial class PixelData : MapComponent
             return Extent;
         }
 
-        // get the property value
-        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, "extent");
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getExtent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Extent is not null)
+            {
+                result.Id = Extent.Id;
+            }
+            
 #pragma warning disable BL0005
-             Extent = result;
+            Extent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Extent)] = Extent;
+            ModifiedParameters[nameof(Extent)] = Extent;
         }
-         
+        
         return Extent;
     }
     
@@ -140,7 +145,7 @@ public partial class PixelData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExtent(Extent value)
+    public async Task SetExtent(Extent? value)
     {
 #pragma warning disable BL0005
         Extent = value;
@@ -160,8 +165,8 @@ public partial class PixelData : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
+        await JsComponentReference.InvokeVoidAsync("setExtent", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -170,7 +175,7 @@ public partial class PixelData : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixelBlock(PixelBlock value)
+    public async Task SetPixelBlock(PixelBlock? value)
     {
 #pragma warning disable BL0005
         PixelBlock = value;
@@ -192,31 +197,6 @@ public partial class PixelData : MapComponent
         
         await JsComponentReference.InvokeVoidAsync("setPixelBlock", 
             CancellationTokenSource.Token, value);
- 
-        PixelBlock.Parent = this;
-        PixelBlock.View = View;
-        
-        if (PixelBlock.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPixelBlock", CancellationTokenSource.Token, 
-                    PixelBlock, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PixelBlock.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "pixelBlock", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "pixelBlock", PixelBlock.JsComponentReference);
-        }
     }
     
 #endregion
@@ -226,6 +206,15 @@ public partial class PixelData : MapComponent
     {
         switch (child)
         {
+            case Extent extent:
+                if (extent != Extent)
+                {
+                    Extent = extent;
+                    
+                    ModifiedParameters[nameof(Extent)] = Extent;
+                }
+                
+                return true;
             case PixelBlock pixelBlock:
                 if (pixelBlock != PixelBlock)
                 {
@@ -244,6 +233,11 @@ public partial class PixelData : MapComponent
     {
         switch (child)
         {
+            case Extent _:
+                Extent = null;
+                
+                ModifiedParameters[nameof(Extent)] = Extent;
+                return true;
             case PixelBlock _:
                 PixelBlock = null;
                 
@@ -258,6 +252,7 @@ public partial class PixelData : MapComponent
     internal override void ValidateRequiredGeneratedChildren()
     {
     
+        Extent?.ValidateRequiredGeneratedChildren();
         PixelBlock?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

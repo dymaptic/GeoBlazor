@@ -125,7 +125,7 @@ public partial class Graphic : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAggregateGeometries(string value)
+    public async Task SetAggregateGeometries(string? value)
     {
 #pragma warning disable BL0005
         AggregateGeometries = value;
@@ -155,7 +155,7 @@ public partial class Graphic : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrigin(GraphicOrigin value)
+    public async Task SetOrigin(GraphicOrigin? value)
     {
 #pragma warning disable BL0005
         Origin = value;

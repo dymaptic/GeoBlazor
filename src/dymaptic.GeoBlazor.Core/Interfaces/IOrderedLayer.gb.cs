@@ -23,7 +23,7 @@ public partial interface IOrderedLayer
     /// <summary>
     ///    Asynchronously set the value of the OrderBy property after render.
     /// </summary>
-    Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy> value);
+    Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value);
     
 #endregion
 

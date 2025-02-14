@@ -97,9 +97,7 @@ public partial class GraphicsLayer : Layer
 
         var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
-        ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, cancellationToken);
-        CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, cancellationToken);
-        AbortManager ??= new AbortManager(CoreJsModule);
+        AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
@@ -128,7 +126,7 @@ public partial class GraphicsLayer : Layer
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                ((IJSInProcessObjectReference)CoreJsModule).InvokeVoid("addGraphicsSynchronously", 
+                ((IJSInProcessObjectReference)CoreJsModule!).InvokeVoid("addGraphicsSynchronously", 
                     ms.ToArray(), View.Id, Id);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
@@ -162,7 +160,7 @@ public partial class GraphicsLayer : Layer
                 ms.Seek(0, SeekOrigin.Begin);
                 using DotNetStreamReference streamRef = new(ms);
 
-                await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream",
+                await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                     cancellationToken, streamRef, View?.Id, abortSignal, Id);
             }
         }
@@ -198,7 +196,7 @@ public partial class GraphicsLayer : Layer
                     ms.Seek(0, SeekOrigin.Begin);
                     using DotNetStreamReference streamRef = new(ms);
 
-                    await CoreJsModule.InvokeVoidAsync("addGraphicsFromStream",
+                    await CoreJsModule!.InvokeVoidAsync("addGraphicsFromStream",
                         cancellationToken, streamRef, View?.Id, abortSignal, Id);
                 }, cancellationToken));
             }
@@ -398,5 +396,5 @@ internal record ProtoGraphicCollection
     }
 
     [property: ProtoMember(1)]
-    public GraphicSerializationRecord[] Graphics { get; set; } = Array.Empty<GraphicSerializationRecord>();
+    public GraphicSerializationRecord[] Graphics { get; set; } = [];
 }

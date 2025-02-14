@@ -2,11 +2,6 @@
 
 // region imports
 import {
-    buildDotNetGoToOverrideParameters,
-    buildDotNetHitTestResult,
-    buildViewExtentUpdate
-} from './mapView';
-import {
     buildJsAction,
     buildJsAttributes,
     buildJsBookmark,
@@ -16,17 +11,12 @@ import {
     buildJsGeometry,
     buildJsImageryRenderer,
     buildJsLabelClass,
-    buildJsMultidimensionalSubset,
     buildJsPoint,
     buildJsPopup,
     buildJsPopupOptions,
     buildJsPopupTemplate,
-    buildJsRenderer,
     buildJsSearchSource,
-    buildJsSpatialReference,
-    buildJsSublayer,
-    buildJsSymbol,
-    buildJsTickConfig
+    buildJsSpatialReference
 } from './jsBuilder';
 import {
     DotNetExtent,
@@ -88,7 +78,7 @@ import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
 import Measurement from "@arcgis/core/widgets/Measurement";
-import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
+import normalizeUtils = __esri.normalizeUtils;
 import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -129,8 +119,10 @@ import { buildDotNetPoint } from './point';
 import { buildDotNetLayerView } from './layerView';
 import { buildDotNetSpatialReference } from './spatialReference';
 import { buildDotNetGeometry } from './geometry';
-import { buildDotNetSymbol } from './symbol';
+import { buildDotNetSymbol, buildJsSymbol } from './symbol';
 import { buildDotNetPopupTemplate } from './popupTemplate';
+import {buildDotNetGoToOverrideParameters, buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
+import { buildJsRenderer } from './renderer';
 
 // region exports
 
@@ -248,10 +240,10 @@ export function getJsComponent(id: string) {
     return null;
 }
 
-export function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
+export async function setSublayerProperty(layerObj: any, sublayerId: number, prop: string, value: any) {
     const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer)) {
-        setProperty(sublayer, prop, value);
+        await setProperty(sublayer, prop, value);
     }
 }
 
@@ -283,12 +275,12 @@ export async function getGeometryEngineWrapper(dotNetRef: any): Promise<Geometry
     return new GeometryEngineWrapper(dotNetRef);
 }
 
-export async function getLocationServiceWrapper(dotNetRef: any): Promise<LocatorWrapper> {
+export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
     if (ProtoGraphicCollection === undefined) {
         await loadProtobuf();
     }
 
-    return new LocatorWrapper(dotNetRef);
+    return new LocatorWrapper();
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
@@ -756,6 +748,7 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
         // reference the context and args for the setTimeout function
         // @ts-ignore
         const context: any = this,
+            // eslint-disable-next-line prefer-rest-params
             args = arguments;
 
         // Should the function be called now? If immediate is true
@@ -1077,7 +1070,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
-                    const renderer = buildJsRenderer(layerObject.renderer);
+                    const renderer = await buildJsRenderer(layerObject.renderer, layerObject.id, viewId);
                     if (renderer !== null && featureLayer.renderer !== renderer) {
                         featureLayer.renderer = renderer;
                     }
@@ -1101,7 +1094,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
             case 'geojson':
                 const geoJsonLayer = currentLayer as GeoJSONLayer;
                 if (hasValue(layerObject.renderer)) {
-                    const renderer = buildJsRenderer(layerObject.renderer);
+                    const renderer = await buildJsRenderer(layerObject.renderer, layerObject.id, viewId);
                     if (renderer !== null) {
                         geoJsonLayer.renderer = renderer;
                     }
@@ -1198,6 +1191,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                     'useViewTime');
 
+                let { buildJsSublayer } = await import('./sublayer');
                 if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0 &&
                     (currentLayer as MapImageLayer).capabilities?.exportMap.supportsDynamicLayers &&
                     (currentLayer as MapImageLayer).capabilities?.exportMap.supportsSublayersChanges) {
@@ -1216,7 +1210,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as ImageryLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
-                    (currentLayer as ImageryLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
+                    let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+                    (currentLayer as ImageryLayer).multidimensionalSubset = 
+                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
                 }
                 break;
                 
@@ -1231,7 +1227,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(buildJsDimensionalDefinition);
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
-                    (currentLayer as ImageryTileLayer).multidimensionalSubset = buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
+                    let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+                    (currentLayer as ImageryTileLayer).multidimensionalSubset = 
+                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
                 }
                 
                 break;
@@ -1590,9 +1588,9 @@ export function getGraphicGeometry(id: string, layerId: string | null, viewId: s
     return null;
 }
 
-export function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): void {
+export async function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): Promise<void> {
     const graphic = lookupGraphicById(id, layerId, viewId);
-    const jsSymbol = buildJsSymbol(symbol);
+    const jsSymbol = await buildJsSymbol(symbol, layerId, viewId);
     if (graphic !== null && hasValue(symbol) && graphic.symbol !== jsSymbol) {
         graphic.symbol = jsSymbol as any;
     }
@@ -1907,7 +1905,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = locate;
 
             if (dotNetWidget.hasGoToOverride) {
-                locate.goToOverride = async (view, parameters) => {
+                locate.goToOverride = async (_, parameters) => {
                     const dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
                     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
                 }
@@ -2264,6 +2262,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
             
             if (hasValue(dotNetWidget.tickConfigs) && dotNetWidget.tickConfigs.length > 0) {
+                let { buildJsTickConfig } = await import('./tickConfig');
                 slider.tickConfigs = dotNetWidget.tickConfigs.map(buildJsTickConfig);
             }
             if (hasValue(dotNetWidget.visibleElements)) {
@@ -2351,6 +2350,31 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             
             const { default: SliderWidgetWrapper } = await import('./sliderWidget');
             wrapper = new SliderWidgetWrapper(slider);
+            break;
+        case 'area-measurement2-d':
+            let { buildJsAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
+            newWidget = await buildJsAreaMeasurement2DWidget(dotNetWidget, dotNetWidget.id, viewId);
+
+            break;
+        case 'feature':
+            let { buildJsFeatureWidget } = await import('./featureWidget');
+            newWidget = await buildJsFeatureWidget(dotNetWidget, dotNetWidget.id, viewId);
+
+            break;
+        case 'list-item-panel':
+            let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
+            newWidget = await buildJsListItemPanelWidget(dotNetWidget, dotNetWidget.id, viewId);
+
+            break;
+        case 'table-list-list-item-panel':
+            let { buildJsTableListListItemPanelWidget } = await import('./tableListListItemPanelWidget');
+            newWidget = await buildJsTableListListItemPanelWidget(dotNetWidget, dotNetWidget.id, viewId);
+
+            break;
+        case 'table-list':
+            let { buildJsTableListWidget } = await import('./tableListWidget');
+            newWidget = await buildJsTableListWidget(dotNetWidget, dotNetWidget.id, viewId);
+
             break;
         default:
             return null;
@@ -2552,6 +2576,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 'useViewTime');
             
             if (hasValue(dotNetLayer.sublayers) && dotNetLayer.sublayers.length > 0) {
+                let { buildJsSublayer } = await import('./sublayer');
                 (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
@@ -2638,7 +2663,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             const imageryLayer = newLayer as ImageryLayer;
 
             if (hasValue(dotNetLayer.renderer)) {
-                imageryLayer.renderer = buildJsImageryRenderer(dotNetLayer.renderer) as any;
+                imageryLayer.renderer = await buildJsImageryRenderer(dotNetLayer.renderer, dotNetLayer.id, viewId) as any;
             }
             
             if (hasValue(dotNetLayer.effect)) {
@@ -2648,8 +2673,9 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 imageryLayer.fields = buildJsFields(dotNetLayer.fields);
             }
             if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
+                let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
                 imageryLayer.multidimensionalSubset = 
-                    buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset);
+                    await buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset, dotNetLayer.id, viewId);
             }
             if (hasValue(dotNetLayer.noData)) {
                 imageryLayer.noData = dotNetLayer.noData;
@@ -2787,6 +2813,7 @@ function unsetWaitCursor(viewId: string | null): void {
 
 function waitForRender(viewId: string, dotNetRef: any): void {
     const view = arcGisObjectRefs[viewId] as View;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     view.when().then(_ => {
         let isRendered = false;
         let rendering = false;
@@ -2937,12 +2964,12 @@ function checkConnectivity(viewId) {
                     throw connectError;
                 }
             })
-            .catch(_ => {
+            .catch(() => {
                 // The resource could not be reached
                 mapContainer.innerHTML = message;
                 logError(connectError, viewId)
             });
-    } catch (err) {
+    } catch {
         mapContainer.innerHTML = message;
         logError(connectError, viewId);
     }
@@ -3061,7 +3088,10 @@ export let ProtoViewHitCollection;
 export async function loadProtobuf() {
     load("_content/dymaptic.GeoBlazor.Core/graphic.json", function (err, root) {
         try {
-            if (err) throw err;
+            if (err) {
+                logError(err, null);
+                return;
+            }
             ProtoGraphicCollection = root?.lookupType("ProtoGraphicCollection");
             ProtoViewHitCollection = root?.lookupType("ProtoViewHitCollection");
             console.debug('Protobuf graphics json loaded');
@@ -3233,10 +3263,8 @@ export async function getWebMapBookmarks(viewId: string) {
         const webMap = view.map as WebMap;
         if (webMap != null) {
             const arr = webMap.bookmarks.toArray();
-            if (arr instanceof Array) {
-                const { buildDotNetBookmark } = await import('./bookmark');
-                return arr.map(buildDotNetBookmark);
-            }
+            const { buildDotNetBookmark } = await import('./bookmark');
+            return arr.map(buildDotNetBookmark);
         }
     }
     return null;

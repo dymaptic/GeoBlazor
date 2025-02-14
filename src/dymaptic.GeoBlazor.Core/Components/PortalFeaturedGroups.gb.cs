@@ -135,7 +135,7 @@ public partial class PortalFeaturedGroups : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOwner(string value)
+    public async Task SetOwner(string? value)
     {
 #pragma warning disable BL0005
         Owner = value;
@@ -165,7 +165,7 @@ public partial class PortalFeaturedGroups : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;

@@ -61,8 +61,10 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = basemapStyleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
     
+    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapStyle', e);
     }

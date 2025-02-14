@@ -389,7 +389,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBaseLayers(IReadOnlyList<Layer> value)
+    public async Task SetBaseLayers(IReadOnlyList<Layer>? value)
     {
 #pragma warning disable BL0005
         BaseLayers = value;
@@ -411,35 +411,6 @@ public partial class Basemap
         
         await JsComponentReference.InvokeVoidAsync("setBaseLayers", 
             CancellationTokenSource.Token, value);
- 
-        foreach (Layer item in value)
-        {
-            item.Parent = this;
-            item.View = View;
-            
-            if (item.JsComponentReference is null)
-            {
-                // new MapComponent, needs to be built and registered in JS
-                // this also calls back to OnJsComponentCreated
-                IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                    $"buildJsLayer", CancellationTokenSource.Token, 
-                        item, Layer?.Id, View?.Id);
-                // in case the fallback failed, set this here.
-                item.JsComponentReference ??= jsObjectReference;
-                
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference, "baseLayers", jsObjectReference);
-            }
-            else
-            {
-                // this component has already been registered, but we'll call setProperty to make sure
-                // it is attached to the parent
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference,
-                    "baseLayers", item.JsComponentReference);
-
-            }
-        }
     }
     
     /// <summary>
@@ -448,7 +419,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBasemapId(string value)
+    public async Task SetBasemapId(string? value)
     {
 #pragma warning disable BL0005
         BasemapId = value;
@@ -478,7 +449,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -500,31 +471,6 @@ public partial class Basemap
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -533,7 +479,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReferenceLayers(IReadOnlyList<Layer> value)
+    public async Task SetReferenceLayers(IReadOnlyList<Layer>? value)
     {
 #pragma warning disable BL0005
         ReferenceLayers = value;
@@ -555,35 +501,6 @@ public partial class Basemap
         
         await JsComponentReference.InvokeVoidAsync("setReferenceLayers", 
             CancellationTokenSource.Token, value);
- 
-        foreach (Layer item in value)
-        {
-            item.Parent = this;
-            item.View = View;
-            
-            if (item.JsComponentReference is null)
-            {
-                // new MapComponent, needs to be built and registered in JS
-                // this also calls back to OnJsComponentCreated
-                IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                    $"buildJsLayer", CancellationTokenSource.Token, 
-                        item, Layer?.Id, View?.Id);
-                // in case the fallback failed, set this here.
-                item.JsComponentReference ??= jsObjectReference;
-                
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference, "referenceLayers", jsObjectReference);
-            }
-            else
-            {
-                // this component has already been registered, but we'll call setProperty to make sure
-                // it is attached to the parent
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference,
-                    "referenceLayers", item.JsComponentReference);
-
-            }
-        }
     }
     
     /// <summary>
@@ -592,7 +509,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -612,8 +529,8 @@ public partial class Basemap
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -622,7 +539,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(BasemapStyle value)
+    public async Task SetStyle(BasemapStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -642,8 +559,8 @@ public partial class Basemap
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "style", value);
+        await JsComponentReference.InvokeVoidAsync("setStyle", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -652,7 +569,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetThumbnailUrl(string value)
+    public async Task SetThumbnailUrl(string? value)
     {
 #pragma warning disable BL0005
         ThumbnailUrl = value;
@@ -682,7 +599,7 @@ public partial class Basemap
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;
@@ -808,6 +725,15 @@ public partial class Basemap
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             case BasemapStyle style:
                 if (style != Style)
                 {
@@ -831,6 +757,11 @@ public partial class Basemap
                 
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             case BasemapStyle _:
                 Style = null;
                 
@@ -846,6 +777,7 @@ public partial class Basemap
     {
     
         PortalItem?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         Style?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

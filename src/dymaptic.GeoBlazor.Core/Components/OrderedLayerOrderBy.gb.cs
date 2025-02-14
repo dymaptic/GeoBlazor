@@ -151,7 +151,7 @@ public partial class OrderedLayerOrderBy
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetField(string value)
+    public async Task SetField(string? value)
     {
 #pragma warning disable BL0005
         Field = value;
@@ -181,7 +181,7 @@ public partial class OrderedLayerOrderBy
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrder(SortOrder value)
+    public async Task SetOrder(SortOrder? value)
     {
 #pragma warning disable BL0005
         Order = value;
@@ -211,7 +211,7 @@ public partial class OrderedLayerOrderBy
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueExpression(string value)
+    public async Task SetValueExpression(string? value)
     {
 #pragma warning disable BL0005
         ValueExpression = value;

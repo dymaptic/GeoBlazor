@@ -34,7 +34,7 @@ export default class GroupElementGenerated implements IPropertyWrapper {
     
     async setElements(value: any): Promise<void> {
         let { buildJsFormElement } = await import('./formElement');
-        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId)));
+        this.component.elements = await Promise.all(value.map(async i => await buildJsFormElement(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -76,8 +76,10 @@ export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = groupElementWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGroupElement;
     
+    let dnInstantiatedObject = await buildDotNetGroupElement(jsGroupElement);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GroupElement', e);
     }

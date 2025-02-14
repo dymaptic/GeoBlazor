@@ -148,7 +148,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -178,7 +178,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisualVariables(IReadOnlyList<VisualVariable> value)
+    public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
 #pragma warning disable BL0005
         VisualVariables = value;
@@ -198,8 +198,8 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visualVariables", value);
+        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

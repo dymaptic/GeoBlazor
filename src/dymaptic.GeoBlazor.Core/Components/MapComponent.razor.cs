@@ -12,11 +12,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// </summary>
     [Inject]
     [JsonIgnore]
-    public IJSRuntime JsRuntime { get; set; } = default!;
+    public IJSRuntime? JsRuntime { get; set; }
     
     [Inject]
     [JsonIgnore]
-    public JsModuleManager JsModuleManager { get; set; } = default!;
+    public JsModuleManager? JsModuleManager { get; set; }
 
     /// <summary>
     ///     ChildContent defines the ability to add other components within this component in the razor syntax.
@@ -411,8 +411,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
 
                 if (refResult is not null)
                 {
-                    // call to set other values
-                    await component.OnJsComponentCreated(refResult);
+                    JsComponentReference = refResult;
                     
                     // register this type in JS
                     await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorObject",
@@ -482,17 +481,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
             Console.WriteLine($"Error calling GetProperty for property {propertyName} on component {GetType().Name}: {ex}");
             return currentValue;
         }
-    }
-
-    /// <summary>
-    ///     Add a child component programmatically. Calls <see cref="RegisterChildComponent" /> internally.
-    /// </summary>
-    /// <param name="child">
-    ///     The child component to add
-    /// </param>
-    public Task Add(MapComponent child)
-    {
-        return RegisterChildComponent(child);
     }
 
     /// <summary>
@@ -634,10 +622,55 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public virtual ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference)
+    public virtual ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference, string? instantiatedComponentJson)
     {
         JsComponentReference = jsComponentReference;
+
+        try
+        {
+            if (instantiatedComponentJson is not null)
+            {
+                Type componentType = GetType();
+                // deserialize to this type
+                JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
+
+                if (JsonSerializer.Deserialize(instantiatedComponentJson, componentType, options) 
+                    is MapComponent instantiatedComponent)
+                {
+                    CopyProperties(instantiatedComponent);
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error deserializing instantiated component: {ex}");
+        }
         return ValueTask.CompletedTask;
+    }
+    
+    internal void CopyProperties(MapComponent component)
+    {
+        foreach (PropertyInfo prop in GetType().GetProperties())
+        {
+            object? value = prop.GetValue(component);
+            if (value is null)
+            {
+                continue;
+            }
+            
+            if (prop.PropertyType.IsAssignableTo(typeof(MapComponent)))
+            {
+                MapComponent? currentProp = (MapComponent?)prop.GetValue(this);
+                if (currentProp is not null)
+                {
+                    currentProp.CopyProperties((MapComponent)value);
+                }
+            }
+            else
+            {
+                prop.SetValue(this, value);
+            }
+        }
     }
 
     /// <summary>
@@ -787,8 +820,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            ProJsModule ??= await JsModuleManager.GetArcGisJsPro(JsRuntime, CancellationToken.None);
-            CoreJsModule ??= await JsModuleManager.GetArcGisJsCore(JsRuntime, ProJsModule, CancellationToken.None);
+            ProJsModule ??= await JsModuleManager!.GetArcGisJsPro(JsRuntime!, CancellationToken.None);
+            CoreJsModule ??= await JsModuleManager!.GetArcGisJsCore(JsRuntime!, ProJsModule, CancellationToken.None);
             AbortManager ??= new AbortManager(CoreJsModule);
         }
         IsRenderedBlazorComponent = true;

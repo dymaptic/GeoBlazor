@@ -84,17 +84,22 @@ public partial class Polygon
             return Centroid;
         }
 
-        // get the property value
-        Point? result = await JsComponentReference!.InvokeAsync<Point?>("getProperty",
-            CancellationTokenSource.Token, "centroid");
+        Point? result = await JsComponentReference.InvokeAsync<Point?>(
+            "getCentroid", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Centroid is not null)
+            {
+                result.Id = Centroid.Id;
+            }
+            
 #pragma warning disable BL0005
-             Centroid = result;
+            Centroid = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Centroid)] = Centroid;
+            ModifiedParameters[nameof(Centroid)] = Centroid;
         }
-         
+        
         return Centroid;
     }
     
@@ -138,7 +143,7 @@ public partial class Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCentroid(Point value)
+    public async Task SetCentroid(Point? value)
     {
 #pragma warning disable BL0005
         Centroid = value;
@@ -158,8 +163,8 @@ public partial class Polygon
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "centroid", value);
+        await JsComponentReference.InvokeVoidAsync("setCentroid", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -168,7 +173,7 @@ public partial class Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetIsSelfIntersecting(bool value)
+    public async Task SetIsSelfIntersecting(bool? value)
     {
 #pragma warning disable BL0005
         IsSelfIntersecting = value;

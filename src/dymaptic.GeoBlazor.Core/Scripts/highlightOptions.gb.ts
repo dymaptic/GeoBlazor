@@ -106,8 +106,10 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = highlightOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
     
+    let dnInstantiatedObject = await buildDotNetHighlightOptions(jsHighlightOptions);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HighlightOptions', e);
     }

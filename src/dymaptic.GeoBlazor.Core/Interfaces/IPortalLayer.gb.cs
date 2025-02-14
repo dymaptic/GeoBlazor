@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CSVLayer, ElevationLayer, FeatureLayer, ImageryLayer, ImageryTileLayer, KMLLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///    Interface for types CSVLayer, ElevationLayer, FeatureLayer, ImageryLayer, ImageryTileLayer, KMLLayer, SceneLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IPortalLayer 
 {
@@ -22,7 +22,7 @@ public partial interface IPortalLayer
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>
-    Task SetPortalItem(PortalItem value);
+    Task SetPortalItem(PortalItem? value);
     
 #endregion
 

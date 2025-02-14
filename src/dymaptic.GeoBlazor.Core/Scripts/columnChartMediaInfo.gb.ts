@@ -71,8 +71,10 @@ export async function buildJsColumnChartMediaInfoGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = columnChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColumnChartMediaInfo;
     
+    let dnInstantiatedObject = await buildDotNetColumnChartMediaInfo(jsColumnChartMediaInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColumnChartMediaInfo', e);
     }

@@ -68,8 +68,10 @@ export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = simpleFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
     
+    let dnInstantiatedObject = await buildDotNetSimpleFillSymbol(jsSimpleFillSymbol);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SimpleFillSymbol', e);
     }

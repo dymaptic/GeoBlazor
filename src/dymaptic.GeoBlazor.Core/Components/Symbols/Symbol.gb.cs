@@ -52,7 +52,7 @@ public abstract partial class Symbol
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColor(MapColor value)
+    public async Task SetColor(MapColor? value)
     {
 #pragma warning disable BL0005
         Color = value;
@@ -72,8 +72,8 @@ public abstract partial class Symbol
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "color", value);
+        await JsComponentReference.InvokeVoidAsync("setColor", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

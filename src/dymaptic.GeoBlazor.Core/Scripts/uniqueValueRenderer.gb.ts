@@ -24,14 +24,14 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        let jsSymbol = buildJsSymbol(symbol) as any;
+        let jsSymbol = await buildJsSymbol(symbol, this.layerId, this.viewId) as any;
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         let result = await this.component.getUniqueValueInfo(jsGraphic);
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
         return await buildDotNetUniqueValueInfo(result);
@@ -78,7 +78,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setUniqueValueGroups(value: any): Promise<void> {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
-        this.component.uniqueValueGroups = await Promise.all(value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId)));
+        this.component.uniqueValueGroups = await Promise.all(value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId))) as any;
     }
     
     async getUniqueValueInfos(): Promise<any> {
@@ -92,7 +92,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setUniqueValueInfos(value: any): Promise<void> {
         let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
-        this.component.uniqueValueInfos = await Promise.all(value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId)));
+        this.component.uniqueValueInfos = await Promise.all(value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId))) as any;
     }
     
     async getVisualVariables(): Promise<any> {
@@ -106,7 +106,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i)));
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i))) as any;
     }
     
     getProperty(prop: string): any {
@@ -122,7 +122,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let jsUniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./jsBuilder');
-        jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsUniqueValueRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
@@ -182,8 +182,10 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
     
+    let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueRenderer', e);
     }

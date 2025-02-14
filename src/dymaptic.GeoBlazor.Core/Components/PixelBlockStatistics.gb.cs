@@ -180,7 +180,7 @@ public partial class PixelBlockStatistics : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxValue(double value)
+    public async Task SetMaxValue(double? value)
     {
 #pragma warning disable BL0005
         MaxValue = value;
@@ -210,7 +210,7 @@ public partial class PixelBlockStatistics : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinValue(double value)
+    public async Task SetMinValue(double? value)
     {
 #pragma warning disable BL0005
         MinValue = value;
@@ -240,7 +240,7 @@ public partial class PixelBlockStatistics : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNoDataValue(double value)
+    public async Task SetNoDataValue(double? value)
     {
 #pragma warning disable BL0005
         NoDataValue = value;

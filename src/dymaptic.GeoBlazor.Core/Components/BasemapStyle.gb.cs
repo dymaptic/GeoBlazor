@@ -164,7 +164,7 @@ public partial class BasemapStyle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLanguage(string value)
+    public async Task SetLanguage(string? value)
     {
 #pragma warning disable BL0005
         Language = value;
@@ -194,7 +194,7 @@ public partial class BasemapStyle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPlaces(BasemapStylePlace value)
+    public async Task SetPlaces(BasemapStylePlace? value)
     {
 #pragma warning disable BL0005
         Places = value;
@@ -224,7 +224,7 @@ public partial class BasemapStyle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetServiceUrl(string value)
+    public async Task SetServiceUrl(string? value)
     {
 #pragma warning disable BL0005
         ServiceUrl = value;
@@ -254,7 +254,7 @@ public partial class BasemapStyle
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWorldview(string value)
+    public async Task SetWorldview(string? value)
     {
 #pragma warning disable BL0005
         Worldview = value;

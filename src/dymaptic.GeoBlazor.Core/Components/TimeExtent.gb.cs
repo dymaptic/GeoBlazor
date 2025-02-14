@@ -139,7 +139,7 @@ public partial class TimeExtent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEnd(DateTime value)
+    public async Task SetEnd(DateTime? value)
     {
 #pragma warning disable BL0005
         End = value;
@@ -169,7 +169,7 @@ public partial class TimeExtent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStart(DateTime value)
+    public async Task SetStart(DateTime? value)
     {
 #pragma warning disable BL0005
         Start = value;

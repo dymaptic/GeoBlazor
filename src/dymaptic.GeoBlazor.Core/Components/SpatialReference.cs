@@ -3,40 +3,34 @@ namespace dymaptic.GeoBlazor.Core.Components;
 [JsonConverter(typeof(SpatialReferenceConverter))]
 public partial class SpatialReference : MapComponent
 {
-
-
     /// <summary>
     ///     Constructor for use in C# code.
     /// </summary>
-    /// <param name="wkid">
+    /// <param name = "wkid">
     ///     The well-known ID of a spatial reference.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkid">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="imageCoordinateSystem">
+    /// <param name = "imageCoordinateSystem">
     ///     An [image coordinate system](https://developers.arcgis.com/rest/services-reference/raster-ics.htm) defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="wkt">
+    /// <param name = "wkt">
     ///     The well-known text that defines a spatial reference.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="wkt2">
+    /// <param name = "wkt2">
     ///     The well-known text of the coordinate system as defined by OGC standard for well-known text strings.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#wkt2">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [CodeGenerationIgnore]
-    public SpatialReference(
-        int? wkid = null,
-        string? imageCoordinateSystem = null,
-        string? wkt = null,
-        string? wkt2 = null)
+    public SpatialReference(int? wkid = null, string? imageCoordinateSystem = null, string? wkt = null, string? wkt2 = null)
     {
 #pragma warning disable BL0005
         Wkid = wkid;
         ImageCoordinateSystem = imageCoordinateSystem;
         Wkt = wkt;
         Wkt2 = wkt2;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
 
     /// <summary>
@@ -52,7 +46,6 @@ public partial class SpatialReference : MapComponent
     [JsonIgnore]
     [CodeGenerationIgnore]
     public static SpatialReference WebMercator => new(3857);
-
 
     /// <summary>
     ///     Indicates if the spatial reference refers to a geographic coordinate system.
@@ -124,7 +117,6 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
     public override SpatialReference? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var spatialReference = new SpatialReference();
-
         while (reader.Read())
         {
             switch (reader.TokenType)
@@ -137,35 +129,27 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
                     {
                         case "wkid":
                             spatialReference.Wkid = reader.GetInt32();
-
                             break;
                         case "wkt":
                             spatialReference.Wkt = reader.GetString();
-
                             break;
                         case "wkt2":
                             spatialReference.Wkt2 = reader.GetString();
-
                             break;
                         case "isGeographic":
                             spatialReference.IsGeographic = reader.GetBoolean();
-
                             break;
                         case "isWebMercator":
                             spatialReference.IsWebMercator = reader.GetBoolean();
-
                             break;
                         case "isWgs84":
                             spatialReference.IsWgs84 = reader.GetBoolean();
-
                             break;
                         case "isWrappable":
                             spatialReference.IsWrappable = reader.GetBoolean();
-
                             break;
                         case "imageCoordinateSystem":
                             spatialReference.ImageCoordinateSystem = reader.GetString();
-
                             break;
                     }
 
@@ -186,9 +170,8 @@ internal class SpatialReferenceConverter : JsonConverter<SpatialReference>
             writer.WriteNullValue();
             return;
         }
-        
-        writer.WriteStartObject();
 
+        writer.WriteStartObject();
         if (value.Wkid.HasValue)
         {
             writer.WriteNumber("wkid", value.Wkid.Value);
@@ -217,8 +200,7 @@ internal record SpatialReferenceSerializationRecord : MapComponentSerializationR
     {
     }
 
-    public SpatialReferenceSerializationRecord(int? Wkid,
-        string? Wkt = null)
+    public SpatialReferenceSerializationRecord(int? Wkid, string? Wkt = null)
     {
         this.Wkid = Wkid;
         this.Wkt = Wkt;
@@ -232,6 +214,7 @@ internal record SpatialReferenceSerializationRecord : MapComponentSerializationR
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(1)]
     public int? Wkid { get; init; }
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(2)]
     public string? Wkt { get; init; }

@@ -855,7 +855,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCalculateVolume(bool value)
+    public async Task SetSupportsCalculateVolume(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCalculateVolume = value;
@@ -885,7 +885,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsComputeHistograms(bool value)
+    public async Task SetSupportsComputeHistograms(bool? value)
     {
 #pragma warning disable BL0005
         SupportsComputeHistograms = value;
@@ -915,7 +915,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsComputePixelLocation(bool value)
+    public async Task SetSupportsComputePixelLocation(bool? value)
     {
 #pragma warning disable BL0005
         SupportsComputePixelLocation = value;
@@ -945,7 +945,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsComputeStatisticsHistograms(bool value)
+    public async Task SetSupportsComputeStatisticsHistograms(bool? value)
     {
 #pragma warning disable BL0005
         SupportsComputeStatisticsHistograms = value;
@@ -975,7 +975,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDownload(bool value)
+    public async Task SetSupportsDownload(bool? value)
     {
 #pragma warning disable BL0005
         SupportsDownload = value;
@@ -1005,7 +1005,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsExportImage(bool value)
+    public async Task SetSupportsExportImage(bool? value)
     {
 #pragma warning disable BL0005
         SupportsExportImage = value;
@@ -1035,7 +1035,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsFindImages(bool value)
+    public async Task SetSupportsFindImages(bool? value)
     {
 #pragma warning disable BL0005
         SupportsFindImages = value;
@@ -1065,7 +1065,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsGetImageUrl(bool value)
+    public async Task SetSupportsGetImageUrl(bool? value)
     {
 #pragma warning disable BL0005
         SupportsGetImageUrl = value;
@@ -1095,7 +1095,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsGetSamples(bool value)
+    public async Task SetSupportsGetSamples(bool? value)
     {
 #pragma warning disable BL0005
         SupportsGetSamples = value;
@@ -1125,7 +1125,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsIdentify(bool value)
+    public async Task SetSupportsIdentify(bool? value)
     {
 #pragma warning disable BL0005
         SupportsIdentify = value;
@@ -1155,7 +1155,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsImageToMap(bool value)
+    public async Task SetSupportsImageToMap(bool? value)
     {
 #pragma warning disable BL0005
         SupportsImageToMap = value;
@@ -1185,7 +1185,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsImageToMapMultiray(bool value)
+    public async Task SetSupportsImageToMapMultiray(bool? value)
     {
 #pragma warning disable BL0005
         SupportsImageToMapMultiray = value;
@@ -1215,7 +1215,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsMapToImage(bool value)
+    public async Task SetSupportsMapToImage(bool? value)
     {
 #pragma warning disable BL0005
         SupportsMapToImage = value;
@@ -1245,7 +1245,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsMeasure(bool value)
+    public async Task SetSupportsMeasure(bool? value)
     {
 #pragma warning disable BL0005
         SupportsMeasure = value;
@@ -1275,7 +1275,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsProject(bool value)
+    public async Task SetSupportsProject(bool? value)
     {
 #pragma warning disable BL0005
         SupportsProject = value;
@@ -1305,7 +1305,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQuery(bool value)
+    public async Task SetSupportsQuery(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQuery = value;
@@ -1335,7 +1335,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQueryBoundary(bool value)
+    public async Task SetSupportsQueryBoundary(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQueryBoundary = value;
@@ -1365,7 +1365,7 @@ public partial class ArcGISImageServiceCapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQueryGPSInfo(bool value)
+    public async Task SetSupportsQueryGPSInfo(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQueryGPSInfo = value;

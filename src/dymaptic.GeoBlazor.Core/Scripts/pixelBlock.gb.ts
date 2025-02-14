@@ -50,7 +50,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     
     async setStatistics(value: any): Promise<void> {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId)));
+        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -101,8 +101,10 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
     
+    let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PixelBlock', e);
     }

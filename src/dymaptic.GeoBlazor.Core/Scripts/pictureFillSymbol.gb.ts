@@ -86,8 +86,10 @@ export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = pictureFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPictureFillSymbol;
     
+    let dnInstantiatedObject = await buildDotNetPictureFillSymbol(jsPictureFillSymbol);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PictureFillSymbol', e);
     }

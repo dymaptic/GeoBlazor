@@ -33,7 +33,7 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
     }
     async setPrototype(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.component.prototype =  buildJsGraphic(value, this.layerId, this.viewId);
+        this.component.prototype = await  buildJsGraphic(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId
     let jsFeatureTemplate = new FeatureTemplate();
     if (hasValue(dotNetObject.prototype)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureTemplate.prototype = buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
+        jsFeatureTemplate.prototype = await buildJsGraphic(dotNetObject.prototype, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -74,8 +74,10 @@ export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = featureTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplate;
     
+    let dnInstantiatedObject = await buildDotNetFeatureTemplate(jsFeatureTemplate);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureTemplate', e);
     }

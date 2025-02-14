@@ -244,7 +244,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCap(Cap value)
+    public async Task SetCap(Cap? value)
     {
 #pragma warning disable BL0005
         Cap = value;
@@ -274,7 +274,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetJoin(Join value)
+    public async Task SetJoin(Join? value)
     {
 #pragma warning disable BL0005
         Join = value;
@@ -304,7 +304,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMarker(LineSymbolMarker value)
+    public async Task SetMarker(LineSymbolMarker? value)
     {
 #pragma warning disable BL0005
         Marker = value;
@@ -324,8 +324,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "marker", value);
+        await JsComponentReference.InvokeVoidAsync("setMarker", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -334,7 +334,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMiterLimit(double value)
+    public async Task SetMiterLimit(double? value)
     {
 #pragma warning disable BL0005
         MiterLimit = value;
@@ -364,7 +364,7 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(SimpleLineSymbolStyle value)
+    public async Task SetStyle(SimpleLineSymbolStyle? value)
     {
 #pragma warning disable BL0005
         Style = value;

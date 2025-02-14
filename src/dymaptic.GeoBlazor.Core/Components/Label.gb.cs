@@ -523,7 +523,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAllowOverrun(bool value)
+    public async Task SetAllowOverrun(bool? value)
     {
 #pragma warning disable BL0005
         AllowOverrun = value;
@@ -553,7 +553,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDeconflictionStrategy(DeconflictionStrategy value)
+    public async Task SetDeconflictionStrategy(DeconflictionStrategy? value)
     {
 #pragma warning disable BL0005
         DeconflictionStrategy = value;
@@ -583,7 +583,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelExpression(string value)
+    public async Task SetLabelExpression(string? value)
     {
 #pragma warning disable BL0005
         LabelExpression = value;
@@ -613,7 +613,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelExpressionInfo(LabelExpressionInfo value)
+    public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
@@ -643,7 +643,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelPlacement(LabelPlacement value)
+    public async Task SetLabelPlacement(LabelPlacement? value)
     {
 #pragma warning disable BL0005
         LabelPlacement = value;
@@ -673,7 +673,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelPosition(LabelPosition value)
+    public async Task SetLabelPosition(LabelPosition? value)
     {
 #pragma warning disable BL0005
         LabelPosition = value;
@@ -703,7 +703,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -733,7 +733,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -763,7 +763,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRepeatLabel(bool value)
+    public async Task SetRepeatLabel(bool? value)
     {
 #pragma warning disable BL0005
         RepeatLabel = value;
@@ -793,7 +793,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRepeatLabelDistance(Dimension value)
+    public async Task SetRepeatLabelDistance(Dimension? value)
     {
 #pragma warning disable BL0005
         RepeatLabelDistance = value;
@@ -823,7 +823,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseCodedValues(bool value)
+    public async Task SetUseCodedValues(bool? value)
     {
 #pragma warning disable BL0005
         UseCodedValues = value;
@@ -853,7 +853,7 @@ public partial class Label
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWhere(string value)
+    public async Task SetWhere(string? value)
     {
 #pragma warning disable BL0005
         Where = value;

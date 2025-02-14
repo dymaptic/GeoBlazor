@@ -231,7 +231,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetArcGISLayerId(string value)
+    public async Task SetArcGISLayerId(string? value)
     {
 #pragma warning disable BL0005
         ArcGISLayerId = value;
@@ -261,7 +261,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetListMode(ListMode value)
+    public async Task SetListMode(ListMode? value)
     {
 #pragma warning disable BL0005
         ListMode = value;
@@ -291,7 +291,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPersistenceEnabled(bool value)
+    public async Task SetPersistenceEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PersistenceEnabled = value;
@@ -321,7 +321,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTitle(string value)
+    public async Task SetTitle(string? value)
     {
 #pragma warning disable BL0005
         Title = value;
@@ -351,7 +351,7 @@ public abstract partial class Layer : IHitTestItem,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibilityTimeExtent(TimeExtent value)
+    public async Task SetVisibilityTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         VisibilityTimeExtent = value;
@@ -373,31 +373,6 @@ public abstract partial class Layer : IHitTestItem,
         
         await JsComponentReference.InvokeVoidAsync("setVisibilityTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        VisibilityTimeExtent.Parent = this;
-        VisibilityTimeExtent.View = View;
-        
-        if (VisibilityTimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    VisibilityTimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            VisibilityTimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "visibilityTimeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "visibilityTimeExtent", VisibilityTimeExtent.JsComponentReference);
-        }
     }
     
 #endregion

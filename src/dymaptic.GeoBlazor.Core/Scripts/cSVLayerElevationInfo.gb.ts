@@ -71,8 +71,10 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = cSVLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     
+    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CSVLayerElevationInfo', e);
     }

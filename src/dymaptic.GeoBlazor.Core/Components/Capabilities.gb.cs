@@ -450,7 +450,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAnalytics(CapabilitiesAnalytics value)
+    public async Task SetAnalytics(CapabilitiesAnalytics? value)
     {
 #pragma warning disable BL0005
         Analytics = value;
@@ -470,8 +470,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "analytics", value);
+        await JsComponentReference.InvokeVoidAsync("setAnalytics", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -480,7 +480,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAttachment(CapabilitiesAttachment value)
+    public async Task SetAttachment(CapabilitiesAttachment? value)
     {
 #pragma warning disable BL0005
         Attachment = value;
@@ -500,8 +500,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "attachment", value);
+        await JsComponentReference.InvokeVoidAsync("setAttachment", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -510,7 +510,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetData(CapabilitiesData value)
+    public async Task SetData(CapabilitiesData? value)
     {
 #pragma warning disable BL0005
         Data = value;
@@ -530,8 +530,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "data", value);
+        await JsComponentReference.InvokeVoidAsync("setData", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -540,7 +540,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditing(CapabilitiesEditing value)
+    public async Task SetEditing(CapabilitiesEditing? value)
     {
 #pragma warning disable BL0005
         Editing = value;
@@ -560,8 +560,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "editing", value);
+        await JsComponentReference.InvokeVoidAsync("setEditing", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -570,7 +570,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMetadata(CapabilitiesMetadata value)
+    public async Task SetMetadata(CapabilitiesMetadata? value)
     {
 #pragma warning disable BL0005
         Metadata = value;
@@ -590,8 +590,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "metadata", value);
+        await JsComponentReference.InvokeVoidAsync("setMetadata", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -600,7 +600,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOperations(CapabilitiesOperations value)
+    public async Task SetOperations(CapabilitiesOperations? value)
     {
 #pragma warning disable BL0005
         Operations = value;
@@ -620,8 +620,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "operations", value);
+        await JsComponentReference.InvokeVoidAsync("setOperations", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -630,7 +630,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQuery(CapabilitiesQuery value)
+    public async Task SetQuery(CapabilitiesQuery? value)
     {
 #pragma warning disable BL0005
         Query = value;
@@ -660,7 +660,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryRelated(CapabilitiesQueryRelated value)
+    public async Task SetQueryRelated(CapabilitiesQueryRelated? value)
     {
 #pragma warning disable BL0005
         QueryRelated = value;
@@ -680,8 +680,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "queryRelated", value);
+        await JsComponentReference.InvokeVoidAsync("setQueryRelated", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -690,7 +690,7 @@ public partial class Capabilities : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures value)
+    public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures? value)
     {
 #pragma warning disable BL0005
         QueryTopFeatures = value;
@@ -710,8 +710,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "queryTopFeatures", value);
+        await JsComponentReference.InvokeVoidAsync("setQueryTopFeatures", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

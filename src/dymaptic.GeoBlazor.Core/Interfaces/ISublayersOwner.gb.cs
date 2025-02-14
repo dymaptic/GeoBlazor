@@ -22,7 +22,7 @@ public partial interface ISublayersOwner
     /// <summary>
     ///    Asynchronously set the value of the Subtables property after render.
     /// </summary>
-    Task SetSubtables(IReadOnlyList<Sublayer> value);
+    Task SetSubtables(IReadOnlyList<Sublayer>? value);
     
 #endregion
 

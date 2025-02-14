@@ -2,8 +2,6 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class RelatedRecordsInfoFieldOrder : MapComponent
 {
-
-
     /// <summary>
     ///     The attribute value of the field selected that will drive the sorting of related records.
     /// </summary>

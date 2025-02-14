@@ -2862,7 +2862,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetApiKey(string value)
+    public async Task SetApiKey(string? value)
     {
 #pragma warning disable BL0005
         ApiKey = value;
@@ -2892,7 +2892,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -2922,7 +2922,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCharts(IReadOnlyList<string> value)
+    public async Task SetCharts(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Charts = value;
@@ -2952,7 +2952,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCopyright(string value)
+    public async Task SetCopyright(string? value)
     {
 #pragma warning disable BL0005
         Copyright = value;
@@ -2982,7 +2982,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -3012,7 +3012,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDateFieldsTimeZone(string value)
+    public async Task SetDateFieldsTimeZone(string? value)
     {
 #pragma warning disable BL0005
         DateFieldsTimeZone = value;
@@ -3042,7 +3042,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefinitionExpression(string value)
+    public async Task SetDefinitionExpression(string? value)
     {
 #pragma warning disable BL0005
         DefinitionExpression = value;
@@ -3072,7 +3072,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDisplayField(string value)
+    public async Task SetDisplayField(string? value)
     {
 #pragma warning disable BL0005
         DisplayField = value;
@@ -3102,7 +3102,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDynamicDataSource(DynamicLayer value)
+    public async Task SetDynamicDataSource(DynamicLayer? value)
     {
 #pragma warning disable BL0005
         DynamicDataSource = value;
@@ -3132,7 +3132,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditingEnabled(bool value)
+    public async Task SetEditingEnabled(bool? value)
     {
 #pragma warning disable BL0005
         EditingEnabled = value;
@@ -3162,7 +3162,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElevationInfo(FeatureLayerBaseElevationInfo value)
+    public async Task SetElevationInfo(FeatureLayerBaseElevationInfo? value)
     {
 #pragma warning disable BL0005
         ElevationInfo = value;
@@ -3182,8 +3182,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elevationInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3192,7 +3192,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureEffect(FeatureEffect value)
+    public async Task SetFeatureEffect(FeatureEffect? value)
     {
 #pragma warning disable BL0005
         FeatureEffect = value;
@@ -3212,8 +3212,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEffect", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3222,7 +3222,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<Field> value)
+    public async Task SetFields(IReadOnlyList<Field>? value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -3242,8 +3242,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3252,7 +3252,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFloorInfo(LayerFloorInfo value)
+    public async Task SetFloorInfo(LayerFloorInfo? value)
     {
 #pragma warning disable BL0005
         FloorInfo = value;
@@ -3272,8 +3272,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "floorInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3282,7 +3282,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormTemplate(FormTemplate value)
+    public async Task SetFormTemplate(FormTemplate? value)
     {
 #pragma warning disable BL0005
         FormTemplate = value;
@@ -3302,8 +3302,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "formTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setFormTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3312,7 +3312,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGdbVersion(string value)
+    public async Task SetGdbVersion(string? value)
     {
 #pragma warning disable BL0005
         GdbVersion = value;
@@ -3342,7 +3342,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometryType(FeatureGeometryType value)
+    public async Task SetGeometryType(FeatureGeometryType? value)
     {
 #pragma warning disable BL0005
         GeometryType = value;
@@ -3372,7 +3372,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasM(bool value)
+    public async Task SetHasM(bool? value)
     {
 #pragma warning disable BL0005
         HasM = value;
@@ -3402,7 +3402,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHasZ(bool value)
+    public async Task SetHasZ(bool? value)
     {
 #pragma warning disable BL0005
         HasZ = value;
@@ -3432,7 +3432,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHistoricMoment(DateTime value)
+    public async Task SetHistoricMoment(DateTime? value)
     {
 #pragma warning disable BL0005
         HistoricMoment = value;
@@ -3462,7 +3462,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelingInfo(IReadOnlyList<Label> value)
+    public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
 #pragma warning disable BL0005
         LabelingInfo = value;
@@ -3482,8 +3482,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelingInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3492,7 +3492,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool value)
+    public async Task SetLabelsVisible(bool? value)
     {
 #pragma warning disable BL0005
         LabelsVisible = value;
@@ -3522,7 +3522,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerIndex(int value)
+    public async Task SetLayerIndex(int? value)
     {
 #pragma warning disable BL0005
         LayerIndex = value;
@@ -3552,7 +3552,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -3582,7 +3582,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -3612,7 +3612,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -3642,7 +3642,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIdField(string value)
+    public async Task SetObjectIdField(string? value)
     {
 #pragma warning disable BL0005
         ObjectIdField = value;
@@ -3672,7 +3672,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy> value)
+    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
     {
 #pragma warning disable BL0005
         OrderBy = value;
@@ -3692,8 +3692,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orderBy", value);
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3702,7 +3702,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutFields(IReadOnlyList<string> value)
+    public async Task SetOutFields(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         OutFields = value;
@@ -3732,7 +3732,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPopupEnabled(bool value)
+    public async Task SetPopupEnabled(bool? value)
     {
 #pragma warning disable BL0005
         PopupEnabled = value;
@@ -3762,7 +3762,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -3784,31 +3784,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -3817,7 +3792,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -3847,7 +3822,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRenderer(Renderer value)
+    public async Task SetRenderer(Renderer? value)
     {
 #pragma warning disable BL0005
         Renderer = value;
@@ -3867,8 +3842,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3877,7 +3852,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnM(bool value)
+    public async Task SetReturnM(bool? value)
     {
 #pragma warning disable BL0005
         ReturnM = value;
@@ -3907,7 +3882,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnZ(bool value)
+    public async Task SetReturnZ(bool? value)
     {
 #pragma warning disable BL0005
         ReturnZ = value;
@@ -3937,7 +3912,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetScreenSizePerspectiveEnabled(bool value)
+    public async Task SetScreenSizePerspectiveEnabled(bool? value)
     {
 #pragma warning disable BL0005
         ScreenSizePerspectiveEnabled = value;
@@ -3967,7 +3942,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSource(IReadOnlyList<Graphic> value)
+    public async Task SetSource(IReadOnlyList<Graphic>? value)
     {
 #pragma warning disable BL0005
         Source = value;
@@ -3989,35 +3964,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setSource", 
             CancellationTokenSource.Token, value);
- 
-        foreach (Graphic item in value)
-        {
-            item.Parent = this;
-            item.View = View;
-            
-            if (item.JsComponentReference is null)
-            {
-                // new MapComponent, needs to be built and registered in JS
-                // this also calls back to OnJsComponentCreated
-                IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                    $"buildJsGraphic", CancellationTokenSource.Token, 
-                        item, Layer?.Id, View?.Id);
-                // in case the fallback failed, set this here.
-                item.JsComponentReference ??= jsObjectReference;
-                
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference, "source", jsObjectReference);
-            }
-            else
-            {
-                // this component has already been registered, but we'll call setProperty to make sure
-                // it is attached to the parent
-                await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                    JsComponentReference,
-                    "source", item.JsComponentReference);
-
-            }
-        }
     }
     
     /// <summary>
@@ -4026,7 +3972,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceJSON(string value)
+    public async Task SetSourceJSON(string? value)
     {
 #pragma warning disable BL0005
         SourceJSON = value;
@@ -4056,7 +4002,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -4076,8 +4022,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4086,7 +4032,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTemplates(IReadOnlyList<FeatureTemplate> value)
+    public async Task SetTemplates(IReadOnlyList<FeatureTemplate>? value)
     {
 #pragma warning disable BL0005
         Templates = value;
@@ -4106,8 +4052,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "templates", value);
+        await JsComponentReference.InvokeVoidAsync("setTemplates", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4116,7 +4062,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeExtent(TimeExtent value)
+    public async Task SetTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         TimeExtent = value;
@@ -4138,31 +4084,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        
-        if (TimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "timeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "timeExtent", TimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -4171,7 +4092,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeInfo(TimeInfo value)
+    public async Task SetTimeInfo(TimeInfo? value)
     {
 #pragma warning disable BL0005
         TimeInfo = value;
@@ -4191,8 +4112,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4201,7 +4122,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeOffset(TimeInterval value)
+    public async Task SetTimeOffset(TimeInterval? value)
     {
 #pragma warning disable BL0005
         TimeOffset = value;
@@ -4221,8 +4142,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4231,7 +4152,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTypeIdField(string value)
+    public async Task SetTypeIdField(string? value)
     {
 #pragma warning disable BL0005
         TypeIdField = value;
@@ -4261,7 +4182,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTypes(IReadOnlyList<FeatureType> value)
+    public async Task SetTypes(IReadOnlyList<FeatureType>? value)
     {
 #pragma warning disable BL0005
         Types = value;
@@ -4291,7 +4212,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -4321,7 +4242,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUseViewTime(bool value)
+    public async Task SetUseViewTime(bool? value)
     {
 #pragma warning disable BL0005
         UseViewTime = value;
@@ -4843,6 +4764,15 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             case FeatureTemplate templates:
                 Templates ??= [];
                 if (!Templates.Contains(templates))
@@ -4949,6 +4879,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(Source)] = Source;
                 return true;
+            case SpatialReference _:
+                SpatialReference = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             case FeatureTemplate templates:
                 Templates = Templates?.Where(t => t != templates).ToList();
                 LayerChanged = true;
@@ -5010,6 +4945,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         if (Templates is not null)
         {
             foreach (FeatureTemplate child in Templates)

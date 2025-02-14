@@ -405,7 +405,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeight(int value)
+    public async Task SetHeight(int? value)
     {
 #pragma warning disable BL0005
         Height = value;
@@ -435,7 +435,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMask(Stream value)
+    public async Task SetMask(Stream? value)
     {
 #pragma warning disable BL0005
         Mask = value;
@@ -465,7 +465,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaskIsAlpha(bool value)
+    public async Task SetMaskIsAlpha(bool? value)
     {
 #pragma warning disable BL0005
         MaskIsAlpha = value;
@@ -495,7 +495,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixels(Stream value)
+    public async Task SetPixels(Stream? value)
     {
 #pragma warning disable BL0005
         Pixels = value;
@@ -525,7 +525,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPixelType(PixelType value)
+    public async Task SetPixelType(PixelType? value)
     {
 #pragma warning disable BL0005
         PixelType = value;
@@ -555,7 +555,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics> value)
+    public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
     {
 #pragma warning disable BL0005
         Statistics = value;
@@ -575,8 +575,8 @@ public partial class PixelBlock : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "statistics", value);
+        await JsComponentReference.InvokeVoidAsync("setStatistics", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -585,7 +585,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValidPixelCount(int value)
+    public async Task SetValidPixelCount(int? value)
     {
 #pragma warning disable BL0005
         ValidPixelCount = value;
@@ -615,7 +615,7 @@ public partial class PixelBlock : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWidth(int value)
+    public async Task SetWidth(int? value)
     {
 #pragma warning disable BL0005
         Width = value;

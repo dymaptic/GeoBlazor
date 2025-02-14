@@ -52,8 +52,10 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = timeIntervalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
     
+    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TimeInterval', e);
     }

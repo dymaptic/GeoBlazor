@@ -49,8 +49,10 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = layerFloorInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
     
+    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerFloorInfo', e);
     }

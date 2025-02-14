@@ -155,7 +155,7 @@ public partial class GroupElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElements(IReadOnlyList<FormElement> value)
+    public async Task SetElements(IReadOnlyList<FormElement>? value)
     {
 #pragma warning disable BL0005
         Elements = value;
@@ -175,8 +175,8 @@ public partial class GroupElement
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elements", value);
+        await JsComponentReference.InvokeVoidAsync("setElements", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -185,7 +185,7 @@ public partial class GroupElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialState(InitialState value)
+    public async Task SetInitialState(InitialState? value)
     {
 #pragma warning disable BL0005
         InitialState = value;

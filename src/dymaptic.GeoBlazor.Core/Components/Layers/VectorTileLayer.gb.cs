@@ -468,17 +468,22 @@ public partial class VectorTileLayer : IBlendLayer,
             return InitialExtent;
         }
 
-        // get the property value
-        Extent? result = await JsComponentReference!.InvokeAsync<Extent?>("getProperty",
-            CancellationTokenSource.Token, "initialExtent");
+        Extent? result = await JsComponentReference.InvokeAsync<Extent?>(
+            "getInitialExtent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (InitialExtent is not null)
+            {
+                result.Id = InitialExtent.Id;
+            }
+            
 #pragma warning disable BL0005
-             InitialExtent = result;
+            InitialExtent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+            ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
         }
-         
+        
         return InitialExtent;
     }
     
@@ -712,7 +717,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetApiKey(string value)
+    public async Task SetApiKey(string? value)
     {
 #pragma warning disable BL0005
         ApiKey = value;
@@ -742,7 +747,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -772,7 +777,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomParameters(Dictionary<string, object> value)
+    public async Task SetCustomParameters(Dictionary<string, object>? value)
     {
 #pragma warning disable BL0005
         CustomParameters = value;
@@ -802,7 +807,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -832,7 +837,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInitialExtent(Extent value)
+    public async Task SetInitialExtent(Extent? value)
     {
 #pragma warning disable BL0005
         InitialExtent = value;
@@ -852,8 +857,8 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "initialExtent", value);
+        await JsComponentReference.InvokeVoidAsync("setInitialExtent", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -862,7 +867,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -892,7 +897,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -922,7 +927,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalItem(PortalItem value)
+    public async Task SetPortalItem(PortalItem? value)
     {
 #pragma warning disable BL0005
         PortalItem = value;
@@ -944,31 +949,6 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
- 
-        PortalItem.Parent = this;
-        PortalItem.View = View;
-        
-        if (PortalItem.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsPortalItem", CancellationTokenSource.Token, 
-                    PortalItem, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            PortalItem.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "portalItem", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "portalItem", PortalItem.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -977,7 +957,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -997,8 +977,8 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1007,7 +987,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStyle(string value)
+    public async Task SetStyle(string? value)
     {
 #pragma warning disable BL0005
         Style = value;
@@ -1037,7 +1017,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileInfo(TileInfo value)
+    public async Task SetTileInfo(TileInfo? value)
     {
 #pragma warning disable BL0005
         TileInfo = value;
@@ -1059,31 +1039,6 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setTileInfo", 
             CancellationTokenSource.Token, value);
- 
-        TileInfo.Parent = this;
-        TileInfo.View = View;
-        
-        if (TileInfo.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTileInfo", CancellationTokenSource.Token, 
-                    TileInfo, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TileInfo.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "tileInfo", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "tileInfo", TileInfo.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -1092,7 +1047,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;
@@ -1404,6 +1359,15 @@ layerId,
     {
         switch (child)
         {
+            case Extent initialExtent:
+                if (initialExtent != InitialExtent)
+                {
+                    InitialExtent = initialExtent;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+                }
+                
+                return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
                 {
@@ -1422,6 +1386,11 @@ layerId,
     {
         switch (child)
         {
+            case Extent _:
+                InitialExtent = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+                return true;
             case TileInfo _:
                 TileInfo = null;
                 LayerChanged = true;
@@ -1440,6 +1409,7 @@ layerId,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer), [nameof(PortalItem), nameof(Url)]);
         }
+        InitialExtent?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

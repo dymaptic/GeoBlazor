@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer, MapImageLayer, TileLayer
+///    Interface for types FeatureLayer, MapImageLayer, SceneLayer, TileLayer
 /// </summary>
 public partial interface ICustomParametersMixin 
 {
@@ -22,7 +22,7 @@ public partial interface ICustomParametersMixin
     /// <summary>
     ///    Asynchronously set the value of the CustomParameters property after render.
     /// </summary>
-    Task SetCustomParameters(Dictionary<string, object> value);
+    Task SetCustomParameters(Dictionary<string, object>? value);
     
 #endregion
 

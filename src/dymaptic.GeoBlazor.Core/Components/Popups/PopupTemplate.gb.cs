@@ -400,7 +400,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetActions(IReadOnlyList<ActionBase> value)
+    public async Task SetActions(IReadOnlyList<ActionBase>? value)
     {
 #pragma warning disable BL0005
         Actions = value;
@@ -430,7 +430,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo> value)
+    public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo>? value)
     {
 #pragma warning disable BL0005
         ExpressionInfos = value;
@@ -450,8 +450,8 @@ public partial class PopupTemplate
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "expressionInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setExpressionInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -460,7 +460,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFieldInfos(IReadOnlyList<FieldInfo> value)
+    public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
 #pragma warning disable BL0005
         FieldInfos = value;
@@ -480,8 +480,8 @@ public partial class PopupTemplate
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fieldInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setFieldInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -490,7 +490,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLastEditInfoEnabled(bool value)
+    public async Task SetLastEditInfoEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LastEditInfoEnabled = value;
@@ -520,7 +520,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerOptions(LayerOptions value)
+    public async Task SetLayerOptions(LayerOptions? value)
     {
 #pragma warning disable BL0005
         LayerOptions = value;
@@ -540,8 +540,8 @@ public partial class PopupTemplate
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layerOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setLayerOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -550,7 +550,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutFields(IReadOnlyList<string> value)
+    public async Task SetOutFields(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         OutFields = value;
@@ -580,7 +580,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOverwriteActions(bool value)
+    public async Task SetOverwriteActions(bool? value)
     {
 #pragma warning disable BL0005
         OverwriteActions = value;
@@ -610,7 +610,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetReturnGeometry(bool value)
+    public async Task SetReturnGeometry(bool? value)
     {
 #pragma warning disable BL0005
         ReturnGeometry = value;
@@ -640,7 +640,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetStringTitle(string value)
+    public async Task SetStringTitle(string? value)
     {
 #pragma warning disable BL0005
         StringTitle = value;
@@ -670,7 +670,7 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTaskCollectionTitle(Func<Task> value)
+    public async Task SetTaskCollectionTitle(Func<Task>? value)
     {
 #pragma warning disable BL0005
         TaskCollectionTitle = value;
@@ -829,16 +829,6 @@ public partial class PopupTemplate
     {
         switch (child)
         {
-            case ActionBase actions:
-                Actions ??= [];
-                if (!Actions.Contains(actions))
-                {
-                    Actions = [..Actions, actions];
-                    
-                    ModifiedParameters[nameof(Actions)] = Actions;
-                }
-                
-                return true;
             case ExpressionInfo expressionInfos:
                 ExpressionInfos ??= [];
                 if (!ExpressionInfos.Contains(expressionInfos))
@@ -877,11 +867,6 @@ public partial class PopupTemplate
     {
         switch (child)
         {
-            case ActionBase actions:
-                Actions = Actions?.Where(a => a != actions).ToList();
-                
-                ModifiedParameters[nameof(Actions)] = Actions;
-                return true;
             case ExpressionInfo expressionInfos:
                 ExpressionInfos = ExpressionInfos?.Where(e => e != expressionInfos).ToList();
                 
@@ -909,13 +894,6 @@ public partial class PopupTemplate
         if ((Content is null || Content.Count == 0) && ContentFunction is null && StringContent is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(PopupTemplate), [nameof(Content), nameof(ContentFunction), nameof(StringContent)]);
-        }
-        if (Actions is not null)
-        {
-            foreach (ActionBase child in Actions)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
         }
         if (ExpressionInfos is not null)
         {

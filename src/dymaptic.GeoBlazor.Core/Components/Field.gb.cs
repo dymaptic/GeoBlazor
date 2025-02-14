@@ -393,7 +393,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAlias(string value)
+    public async Task SetAlias(string? value)
     {
 #pragma warning disable BL0005
         Alias = value;
@@ -423,7 +423,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultValue(object value)
+    public async Task SetDefaultValue(object? value)
     {
 #pragma warning disable BL0005
         DefaultValue = value;
@@ -453,7 +453,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -483,7 +483,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDomain(Domain value)
+    public async Task SetDomain(Domain? value)
     {
 #pragma warning disable BL0005
         Domain = value;
@@ -513,7 +513,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEditable(bool value)
+    public async Task SetEditable(bool? value)
     {
 #pragma warning disable BL0005
         Editable = value;
@@ -543,7 +543,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLength(int value)
+    public async Task SetLength(int? value)
     {
 #pragma warning disable BL0005
         Length = value;
@@ -573,7 +573,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetName(string value)
+    public async Task SetName(string? value)
     {
 #pragma warning disable BL0005
         Name = value;
@@ -603,7 +603,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNullable(bool value)
+    public async Task SetNullable(bool? value)
     {
 #pragma warning disable BL0005
         Nullable = value;
@@ -633,7 +633,7 @@ public partial class Field
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValueType(FieldValueType value)
+    public async Task SetValueType(FieldValueType? value)
     {
 #pragma warning disable BL0005
         ValueType = value;

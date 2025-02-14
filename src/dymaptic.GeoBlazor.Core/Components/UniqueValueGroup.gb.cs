@@ -135,7 +135,7 @@ public partial class UniqueValueGroup : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetClasses(IReadOnlyList<UniqueValueClass> value)
+    public async Task SetClasses(IReadOnlyList<UniqueValueClass>? value)
     {
 #pragma warning disable BL0005
         Classes = value;
@@ -155,8 +155,8 @@ public partial class UniqueValueGroup : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "classes", value);
+        await JsComponentReference.InvokeVoidAsync("setClasses", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -165,7 +165,7 @@ public partial class UniqueValueGroup : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHeading(string value)
+    public async Task SetHeading(string? value)
     {
 #pragma warning disable BL0005
         Heading = value;

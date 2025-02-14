@@ -252,7 +252,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColors(IReadOnlyList<MapColor> value)
+    public async Task SetColors(IReadOnlyList<MapColor>? value)
     {
 #pragma warning disable BL0005
         Colors = value;
@@ -272,8 +272,8 @@ public partial class ChartMediaInfoValue
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "colors", value);
+        await JsComponentReference.InvokeVoidAsync("setColors", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -282,7 +282,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFields(IReadOnlyList<string> value)
+    public async Task SetFields(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Fields = value;
@@ -312,7 +312,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNormalizeField(string value)
+    public async Task SetNormalizeField(string? value)
     {
 #pragma warning disable BL0005
         NormalizeField = value;
@@ -342,7 +342,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries> value)
+    public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
     {
 #pragma warning disable BL0005
         Series = value;
@@ -362,8 +362,8 @@ public partial class ChartMediaInfoValue
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "series", value);
+        await JsComponentReference.InvokeVoidAsync("setSeries", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -372,7 +372,7 @@ public partial class ChartMediaInfoValue
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTooltipField(string value)
+    public async Task SetTooltipField(string? value)
     {
 #pragma warning disable BL0005
         TooltipField = value;

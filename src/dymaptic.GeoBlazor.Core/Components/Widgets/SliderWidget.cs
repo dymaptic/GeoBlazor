@@ -1,147 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     A slider widget that can be used for filtering data, or gathering numeric input from a user. The slider can have multiple thumbs, and provides you with the ability to format labels and control user input.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <remarks>
-///     At a minimum, the slider's container or parent container must have a width set in CSS for it to render.
-/// </remarks>
-public class SliderWidget: Widget
+public partial class SliderWidget: Widget
 {
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor component.
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public SliderWidget()
-    {
-    }
 
-    /// <summary>
-    ///     Constructor for creating a SliderWidget in C# code.
-    /// </summary>
-    /// <param name="containerId">
-    ///     The ID of the container element for the widget. The widget will be rendered within this container.
-    /// </param>
-    /// <param name="disabled">
-    ///     When true, sets the slider to a disabled state so the user cannot interact with it.
-    /// </param>
-    /// <param name="draggableSegmentsEnabled">
-    ///     Indicates if the user can drag the segment between thumbs to update thumb positions.
-    /// </param>
-    /// <param name="effectiveMax">
-    ///     When set, the user is restricted from moving slider thumbs to positions higher than this value. This value should be less than the slider max. The effectiveMax and effectiveMin allow you to represent ranges of values in a dataset that cannot be filtered or selected with the slider. This can be useful when using the slider to represent datasets with outliers, or scale ranges not suitable for a layer.
-    /// </param>
-    /// <param name="effectiveMin">
-    ///     When set, the user is restricted from moving slider thumbs to positions less than this value. This value should be greater than the slider min. The effectiveMin and effectiveMax allow you to represent ranges of values in a dataset that cannot be filtered or selected with the slider. This can be useful when using the slider to represent datasets with outliers, or scale ranges not suitable for a layer.
-    /// </param>
-    /// <param name="label">
-    ///     The widget's default label. This label displays when it is used within another widget, such as the Expand or LayerList widgets.
-    /// </param>
-    /// <param name="labelInputsEnabled">
-    ///     Indicates whether to enable editing input values via keyboard input when the user clicks a label. This allows the user to move the slider thumb to precise values without sliding the thumbs.
-    /// </param>
-    /// <param name="layout">
-    ///     Determines the layout/orientation of the Slider widget. By default, the slider will render horizontally with the min value on the left side of the track.
-    /// </param>
-    /// <param name="max">
-    ///     The maximum possible data/thumb value of the slider. In the constructor, if one of the values specified in values is greater than the max value specified in this property, then the max will update to the highest value in values.
-    /// </param>
-    /// <param name="min">
-    ///     The minimum possible data/thumb value of the slider. In the constructor, if one of the values specified in values is less than the min value specified in this property, then the min will update to the lowest value in values.
-    /// </param>
-    /// <param name="precision">
-    ///     Defines how slider thumb values should be rounded. This number indicates the number of decimal places slider thumb values should round to when they have been moved.
-    /// </param>
-    /// <param name="rangeLabelInputsEnabled">
-    ///     Indicates whether to enable editing range values via keyboard input when the user clicks a min or max label. This allows the user to increase or decrease the data range of the slider.
-    /// </param>
-    /// <param name="snapOnClickEnabled">
-    ///     Indicates if the closest thumb will snap to the clicked location on the track.
-    /// </param>
-    /// <param name="steps">
-    ///     Sets steps on the slider that restrict user input to specific values. If an array of numbers is passed to this property, the slider thumbs may only be moved to the positions specified in the array. User either this or <see cref="StepInterval"/>.
-    /// </param>
-    /// <param name="stepInterval">
-    ///     The interval in which slider thumbs can be moved. Use either this or <see cref="Steps"/>.
-    /// </param>
-    /// <param name="syncedSegmentsEnabled">
-    ///     When true, all segments will sync together in updating thumb values when the user drags any segment. This maintains the interval between all thumbs when any segment is dragged. Only applicable when draggableSegmentsEnabled is true.
-    /// </param>
-    /// <param name="thumbsConstrained">
-    ///     When false, the user can freely move any slider thumb to any position along the track. By default, a thumb's position is constrained to the positions of neighboring thumbs so you cannot move one thumb past another. Set this property to false to disable this constraining behavior.
-    /// </param>
-    /// <param name="values">
-    ///     A collection of numbers representing absolute thumb positions on the slider.
-    /// </param>
-    /// <param name="inputCreatedFunction">
-    ///     A function that provides the developer with access to the input elements when rangeLabelInputsEnabled and/or labelInputsEnabled are set to true. This allows the developer to customize the input elements corresponding to slider min/max and thumb values to validate user input. For example, you can access input elements and customize them with type and pattern attributes.
-    /// </param>
-    /// <param name="inputFormatFunction">
-    ///     A JavaScript function used to format user inputs. As opposed to labelFormatFunction, which formats thumb labels, the inputFormatFunction formats thumb values in the input element when the user begins to edit them.
-    /// </param>
-    /// <param name="inputParseFunction">
-    ///     Function used to parse slider inputs formatted by the inputFormatFunction. This property must be set if an inputFormatFunction is set. Otherwise the slider values will likely not update to their expected positions.
-    /// </param>
-    /// <param name="labelFormatFunction">
-    ///     A function used to format labels. Overrides the default label formatter.
-    /// </param>
-    /// <param name="thumbCreatedFunction">
-    ///     Function that executes each time a thumb is created on the slider. This can be used to add custom styling to each thumb or hook event listeners to specific thumbs.
-    /// </param>
-    /// <param name="tickConfigs">
-    ///     When set, renders ticks along the slider track. See the TickConfig documentation for more information on how to configure tick placement, style, and behavior.
-    /// </param>
-    /// <param name="visible">
-    ///     Indicates whether the widget is visible.
-    /// </param>
-    /// <param name="visibleElements">
-    ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
-    /// </param>
-    public SliderWidget(string containerId, bool? disabled = null, bool? draggableSegmentsEnabled = null, 
-        double? effectiveMax = null, double? effectiveMin = null, string? label = null, bool? labelInputsEnabled = null, 
-        SliderLayout? layout = null, double? max = null, double? min = null, double? precision = null, 
-        bool? rangeLabelInputsEnabled = null, bool? snapOnClickEnabled = null, double[]? steps = null, 
-        double? stepInterval = null, bool? syncedSegmentsEnabled = null, bool? thumbsConstrained = null, 
-        IReadOnlyList<double>? values = null, string? inputCreatedFunction = null, 
-        string? inputFormatFunction = null, string? inputParseFunction = null, string? labelFormatFunction = null,
-        string? thumbCreatedFunction = null, IReadOnlyList<SliderTickConfig>? tickConfigs = null,
-        bool? visible = null, SliderVisibleElements? visibleElements = null)
-    {
-#pragma warning disable BL0005
-        ContainerId = containerId;
-        Disabled = disabled;
-        DraggableSegmentsEnabled = draggableSegmentsEnabled;
-        EffectiveMax = effectiveMax;
-        EffectiveMin = effectiveMin;
-        Label = label;
-        LabelInputsEnabled = labelInputsEnabled;
-        Layout = layout;
-        Max = max;
-        Min = min;
-        Precision = precision;
-        RangeLabelInputsEnabled = rangeLabelInputsEnabled;
-        SnapOnClickEnabled = snapOnClickEnabled;
-        Steps = steps;
-        StepInterval = stepInterval;
-        SyncedSegmentsEnabled = syncedSegmentsEnabled;
-        ThumbsConstrained = thumbsConstrained;
-        Values = values;
-        InputCreatedFunction = inputCreatedFunction;
-        InputFormatFunction = inputFormatFunction;
-        InputParseFunction = inputParseFunction;
-        LabelFormatFunction = labelFormatFunction;
-        ThumbCreatedFunction = thumbCreatedFunction;
-        Visible = visible;
-
-        if (tickConfigs is not null)
-        {
-            TickConfigs = new List<SliderTickConfig>(tickConfigs);
-        }
-
-        VisibleElements = visibleElements;
-#pragma warning restore BL0005
-    }
 
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.Slider;
@@ -175,13 +36,7 @@ public class SliderWidget: Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? EffectiveMin { get; set; }
-    
-    /// <summary>
-    ///     The widget's default label. This label displays when it is used within another widget, such as the Expand or LayerList widgets.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
+
     
     /// <summary>
     ///     Indicates whether to enable editing input values via keyboard input when the user clicks a label. This allows the user to move the slider thumb to precise values without sliding the thumbs.
@@ -273,107 +128,7 @@ public class SliderWidget: Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<double>? Values { get; set; }
-    
-    /// <summary>
-    ///     A function that provides the developer with access to the input elements when rangeLabelInputsEnabled and/or labelInputsEnabled are set to true. This allows the developer to customize the input elements corresponding to slider min/max and thumb values to validate user input. For example, you can access input elements and customize them with type and pattern attributes.
-    /// </summary>
-    /// <remarks>
-    ///     Because the attributes this function exposes are in HTML, they must be set in JavaScript, and it doesn't make sense to pass them to C#. Instead, pass in valid JavaScript code as a string. This code has access to three parameters (value, type, and thumbIndex). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputCreatedFunction">ArcGIS Maps SDK for JavaScript</a> for more information. 
-    ///     Example value:
-    ///     """
-    ///         input.setAttribute("type", "number");
-    ///         input.setAttribute("pattern", "[0-9]*");
-    ///     """;
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? InputCreatedFunction { get; set; }
-    
-    /// <summary>
-    ///     A JavaScript function used to format user inputs. As opposed to labelFormatFunction, which formats thumb labels, the inputFormatFunction formats thumb values in the input element when the user begins to edit them.
-    /// </summary>
-    /// <remarks>
-    ///     Because this function must resolve synchronously, it cannot be used in Blazor. Instead, pass in valid JavaScript code as a string. This code has access to three parameters (value, type, and index) and must return a string. See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">ArcGIS Maps SDK for JavaScript</a> for more information. 
-    ///     Example value:
-    ///     """
-    ///     if(value >= 1000000){
-    ///         return (value / 1000000).toPrecision(3) + "m"
-    ///     }
-    ///     if(value >= 100000){
-    ///         return (value / 1000).toPrecision(3) + "k"
-    ///     }
-    ///     if(value >= 1000){
-    ///         return (value / 1000).toPrecision(2) + "k"
-    ///     }
-    ///     return value.toFixed(0);
-    ///     """;
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? InputFormatFunction { get; set; }
-    
-    /// <summary>
-    ///     Function used to parse slider inputs formatted by the inputFormatFunction. This property must be set if an inputFormatFunction is set. Otherwise the slider values will likely not update to their expected positions.
-    ///     Overrides the default input parses, which is a parsed floating point number.
-    /// </summary>
-    /// <remarks>
-    ///     Because this function must resolve synchronously, it cannot be used in Blazor. Instead, pass in valid JavaScript code as a string. This code has access to three parameters (value, type, and index) and must return a string. See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputParseFunction">ArcGIS Maps SDK for JavaScript</a> for more information. 
-    ///     Example value:
-    ///     """
-    ///         let charLength = value.length;
-    ///         let valuePrefix = parseFloat(value.substring(0,charLength-1));
-    ///         let finalChar = value.substring(charLength-1);
-    ///
-    ///         if(parseFloat(finalChar) >= 0){
-    ///             return parseFloat(value);
-    ///         }
-    ///         if(finalChar === "k"){
-    ///             return valuePrefix * 1000;
-    ///         }
-    ///         if(finalChar === "m"){
-    ///             return valuePrefix * 1000000;
-    ///         }
-    ///         return value;
-    ///     """;
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? InputParseFunction { get; set; }
-    
-    /// <summary>
-    ///     A function used to format labels. Overrides the default label formatter.
-    ///     By default labels are formatted in the following way:
-    ///         - When the data range is less than 10 ((max - min) &lt; 10), labels are rounded based on the value set in the precision property.
-    ///         - When the data range is larger than 10, labels display with a precision of no more than two decimal places, though actual slider thumb values will maintain the precision specified in precision.
-    ///     Use this property to override the behavior defined above.
-    /// </summary>
-    /// <remarks>
-    ///     Because this function must resolve synchronously, it cannot be used in Blazor. Instead, pass in valid JavaScript code as a string. This code has access to three parameters (value, type, and index) and must return a string. See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelFormatFunction">ArcGIS Maps SDK for JavaScript</a> for more information. 
-    ///     Example value:
-    ///     """
-    ///         return (type === "value") ? value.toFixed(0) : value;
-    ///     """;
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? LabelFormatFunction { get; set; }
-    
-    /// <summary>
-    ///     Function that executes each time a thumb is created on the slider. This can be used to add custom styling to each thumb or hook event listeners to specific thumbs.
-    /// </summary>
-    /// <remarks>
-    ///     Because the attributes this function exposes are in HTML, they must be set in JavaScript, and it doesn't make sense to pass them to C#. Instead, pass in valid JavaScript code as a string. This code has access to four parameters (index, value, thumbElement, and labelElement). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputCreatedFunction">ArcGIS Maps SDK for JavaScript</a> for more information. 
-    ///     Example value:
-    ///     """
-    ///         thumbElement.classList.add("change-color");
-    ///         thumbElement.addEventListener("focus", function() {
-    ///             // add custom behavior here...tooltips, fire other actions, etc.
-    ///         });
-    ///     """;
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ThumbCreatedFunction { get; set; }
+
 
 #region Event Handlers
     /// <summary>
@@ -381,12 +136,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderMaxChangeEvent> OnMaxChange { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsMaxChange(SliderMaxChangeEvent changeEvent)
     {
         await OnMaxChange.InvokeAsync(changeEvent);
@@ -397,12 +154,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderMaxClickEvent> OnMaxClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsMaxClick(SliderMaxClickEvent clickEvent)
     {
         await OnMaxClick.InvokeAsync(clickEvent);
@@ -413,12 +172,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderMinChangeEvent> OnMinChange { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsMinChange(SliderMinChangeEvent changeEvent)
     {
         await OnMinChange.InvokeAsync(changeEvent);
@@ -429,12 +190,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderMinClickEvent> OnMinClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsMinClick(SliderMinClickEvent clickEvent)
     {
         await OnMinClick.InvokeAsync(clickEvent);
@@ -445,12 +208,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderSegmentClickEvent> OnSegmentClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsSegmentClick(SliderSegmentClickEvent clickEvent)
     {
         await OnSegmentClick.InvokeAsync(clickEvent);
@@ -461,12 +226,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderSegmentDragEvent> OnSegmentDrag { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsSegmentDrag(SliderSegmentDragEvent dragEvent)
     {
         await OnSegmentDrag.InvokeAsync(dragEvent);
@@ -477,12 +244,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderThumbChangeEvent> OnThumbChange { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsThumbChange(SliderThumbChangeEvent changeEvent)
     {
         await OnThumbChange.InvokeAsync(changeEvent);
@@ -493,12 +262,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderThumbClickEvent> OnThumbClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsThumbClick(SliderThumbClickEvent clickEvent)
     {
         await OnThumbClick.InvokeAsync(clickEvent);
@@ -509,12 +280,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderThumbDragEvent> OnThumbDrag { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsThumbDrag(SliderThumbDragEvent dragEvent)
     {
         await OnThumbDrag.InvokeAsync(dragEvent);
@@ -525,12 +298,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderTickClickEvent> OnTickClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsTickClick(SliderTickClickEvent clickEvent)
     {
         await OnTickClick.InvokeAsync(clickEvent);
@@ -541,12 +316,14 @@ public class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<SliderTrackClickEvent> OnTrackClick { get; set; }
     
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsTrackClick(SliderTrackClickEvent clickEvent)
     {
         await OnTrackClick.InvokeAsync(clickEvent);
@@ -568,22 +345,8 @@ public class SliderWidget: Widget
         Values = newValues;
         await ValueChanged.InvokeAsync(newValues);
     }
+
 #endregion
-
-    /// <summary>
-    ///     When set, renders ticks along the slider track. See the TickConfig documentation for more information on how to configure tick placement, style, and behavior.
-    /// </summary>
-    public IReadOnlyList<SliderTickConfig> TickConfigs
-    {
-        get => _tickConfigs;
-        set => _tickConfigs = new List<SliderTickConfig>(value);
-    }
-
-    /// <summary>
-    ///     The visible elements that are displayed within the widget. This property provides the ability to turn individual elements of the widget's display on/off.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public SliderVisibleElements? VisibleElements { get; set; }
 
     /// <summary>
     ///     Retrieves references to the HTML Element nodes representing the slider segment between the min and effectiveMin, and the segment between the effectiveMax and max. You can use this method to customize the style and attach event handlers to these segments. This only applies to sliders where the effectiveMin and effectiveMax are specified.
@@ -755,10 +518,7 @@ public async Task<TickElementGroup[][]?> GetTickElements()
                 _tickConfigs.Add(tickConfig); 
                 
                 break;
-            case SliderVisibleElements visibleElement:
-                VisibleElements = visibleElement;
-                
-                break;
+
             default:
                 await base.RegisterChildComponent(child);
 
@@ -775,10 +535,7 @@ public async Task<TickElementGroup[][]?> GetTickElements()
                 _tickConfigs.Remove(tickConfig); 
                 
                 break;
-            case SliderVisibleElements:
-                VisibleElements = null;
-                
-                break;
+
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -786,15 +543,6 @@ public async Task<TickElementGroup[][]?> GetTickElements()
         }
     }
 
-    internal override void ValidateRequiredChildren()
-    {
-        foreach (SliderTickConfig tickConfig in _tickConfigs)
-        {
-            tickConfig.ValidateRequiredChildren();
-        }
-        VisibleElements?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 
     private List<SliderTickConfig> _tickConfigs = new();
 }

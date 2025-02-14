@@ -69,6 +69,18 @@ export default class BasemapGenerated implements IPropertyWrapper {
         this.component.referenceLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.component.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.component.spatialReference);
+    }
+    async setSpatialReference(value: any): Promise<void> {
+        let { buildJsSpatialReference } = await import('./spatialReference');
+        this.component.spatialReference = await  buildJsSpatialReference(value);
+    }
     async getStyle(): Promise<any> {
         if (!hasValue(this.component.style)) {
             return null;
@@ -104,6 +116,10 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         let { buildJsLayer } = await import('./layer');
         jsBasemap.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        let { buildJsSpatialReference } = await import('./jsBuilder');
+        jsBasemap.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+    }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
         jsBasemap.style = await buildJsBasemapStyle(dotNetObject.style, layerId, viewId) as any;
@@ -111,9 +127,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
 
     if (hasValue(dotNetObject.basemapId)) {
         jsBasemap.id = dotNetObject.basemapId;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        jsBasemap.spatialReference = dotNetObject.spatialReference;
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {
         jsBasemap.thumbnailUrl = dotNetObject.thumbnailUrl;
@@ -132,8 +145,10 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     
+    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Basemap', e);
     }
@@ -162,6 +177,10 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
             let { buildDotNetLayer } = await import('./layer');
             dotNetBasemap.referenceLayers = await Promise.all(jsObject.referenceLayers.map(async i => await buildDotNetLayer(i)));
         }
+        if (hasValue(jsObject.spatialReference)) {
+            let { buildDotNetSpatialReference } = await import('./spatialReference');
+            dotNetBasemap.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+        }
         if (hasValue(jsObject.style)) {
             let { buildDotNetBasemapStyle } = await import('./basemapStyle');
             dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
@@ -171,9 +190,6 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         }
         if (hasValue(jsObject.loaded)) {
             dotNetBasemap.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetBasemap.spatialReference = jsObject.spatialReference;
         }
         if (hasValue(jsObject.thumbnailUrl)) {
             dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;

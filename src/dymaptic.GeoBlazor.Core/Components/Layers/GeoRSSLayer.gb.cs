@@ -549,7 +549,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -579,7 +579,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetEffect(Effect value)
+    public async Task SetEffect(Effect? value)
     {
 #pragma warning disable BL0005
         Effect = value;
@@ -609,7 +609,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLegendEnabled(bool value)
+    public async Task SetLegendEnabled(bool? value)
     {
 #pragma warning disable BL0005
         LegendEnabled = value;
@@ -639,7 +639,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLineSymbol(SimpleLineSymbol value)
+    public async Task SetLineSymbol(SimpleLineSymbol? value)
     {
 #pragma warning disable BL0005
         LineSymbol = value;
@@ -659,8 +659,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "lineSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setLineSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -669,7 +669,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -699,7 +699,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -729,7 +729,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPointSymbol(MarkerSymbol value)
+    public async Task SetPointSymbol(MarkerSymbol? value)
     {
 #pragma warning disable BL0005
         PointSymbol = value;
@@ -749,8 +749,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pointSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setPointSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -759,7 +759,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPolygonSymbol(SimpleFillSymbol value)
+    public async Task SetPolygonSymbol(SimpleFillSymbol? value)
     {
 #pragma warning disable BL0005
         PolygonSymbol = value;
@@ -779,8 +779,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "polygonSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setPolygonSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -789,7 +789,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -819,7 +819,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUrl(string value)
+    public async Task SetUrl(string? value)
     {
 #pragma warning disable BL0005
         Url = value;

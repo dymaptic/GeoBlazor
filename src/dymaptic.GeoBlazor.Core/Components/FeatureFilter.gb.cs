@@ -324,7 +324,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDistance(double value)
+    public async Task SetDistance(double? value)
     {
 #pragma warning disable BL0005
         Distance = value;
@@ -354,7 +354,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometry(Geometry value)
+    public async Task SetGeometry(Geometry? value)
     {
 #pragma warning disable BL0005
         Geometry = value;
@@ -374,8 +374,8 @@ public partial class FeatureFilter
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometry", value);
+        await JsComponentReference.InvokeVoidAsync("setGeometry", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -384,7 +384,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetObjectIds(IReadOnlyList<long> value)
+    public async Task SetObjectIds(IReadOnlyList<long>? value)
     {
 #pragma warning disable BL0005
         ObjectIds = value;
@@ -414,7 +414,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialRelationship(SpatialRelationship value)
+    public async Task SetSpatialRelationship(SpatialRelationship? value)
     {
 #pragma warning disable BL0005
         SpatialRelationship = value;
@@ -444,7 +444,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTimeExtent(TimeExtent value)
+    public async Task SetTimeExtent(TimeExtent? value)
     {
 #pragma warning disable BL0005
         TimeExtent = value;
@@ -466,31 +466,6 @@ public partial class FeatureFilter
         
         await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
             CancellationTokenSource.Token, value);
- 
-        TimeExtent.Parent = this;
-        TimeExtent.View = View;
-        
-        if (TimeExtent.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTimeExtent", CancellationTokenSource.Token, 
-                    TimeExtent, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TimeExtent.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "timeExtent", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "timeExtent", TimeExtent.JsComponentReference);
-        }
     }
     
     /// <summary>
@@ -499,7 +474,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnits(QueryUnits value)
+    public async Task SetUnits(QueryUnits? value)
     {
 #pragma warning disable BL0005
         Units = value;
@@ -529,7 +504,7 @@ public partial class FeatureFilter
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetWhere(string value)
+    public async Task SetWhere(string? value)
     {
 #pragma warning disable BL0005
         Where = value;

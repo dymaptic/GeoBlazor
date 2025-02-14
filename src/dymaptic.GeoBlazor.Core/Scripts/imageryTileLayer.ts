@@ -43,8 +43,8 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
         };
     }
     
-    setRenderer(renderer: any) {
-        this.layer.renderer = buildJsImageryRenderer(renderer) as any;
+    async setRenderer(renderer: any) {
+        this.layer.renderer = await buildJsImageryRenderer(renderer, this.layerId, this.viewId) as any;
     }
 
 

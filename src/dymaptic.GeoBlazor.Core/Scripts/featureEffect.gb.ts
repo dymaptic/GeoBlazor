@@ -33,7 +33,7 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     }
     async setFilter(value: any): Promise<void> {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter =  buildJsFeatureFilter(value);
+        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     let jsFeatureEffect = new FeatureEffect();
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
-        jsFeatureEffect.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
+        jsFeatureEffect.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.excludedEffect)) {
@@ -71,8 +71,10 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = featureEffectWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
     
+    let dnInstantiatedObject = await buildDotNetFeatureEffect(jsFeatureEffect);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureEffect', e);
     }

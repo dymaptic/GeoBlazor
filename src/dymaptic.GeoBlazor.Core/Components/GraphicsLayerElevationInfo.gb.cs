@@ -225,7 +225,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFeatureExpressionInfo(GraphicsLayerElevationInfoFeatureExpressionInfo value)
+    public async Task SetFeatureExpressionInfo(GraphicsLayerElevationInfoFeatureExpressionInfo? value)
     {
 #pragma warning disable BL0005
         FeatureExpressionInfo = value;
@@ -245,8 +245,8 @@ public partial class GraphicsLayerElevationInfo : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureExpressionInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureExpressionInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -255,7 +255,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMode(ElevationInfoMode value)
+    public async Task SetMode(ElevationInfoMode? value)
     {
 #pragma warning disable BL0005
         Mode = value;
@@ -285,7 +285,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOffset(double value)
+    public async Task SetOffset(double? value)
     {
 #pragma warning disable BL0005
         Offset = value;
@@ -315,7 +315,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUnit(ElevationUnit value)
+    public async Task SetUnit(ElevationUnit? value)
     {
 #pragma warning disable BL0005
         Unit = value;

@@ -71,8 +71,10 @@ export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = graphicsLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfo;
     
+    let dnInstantiatedObject = await buildDotNetGraphicsLayerElevationInfo(jsGraphicsLayerElevationInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GraphicsLayerElevationInfo', e);
     }

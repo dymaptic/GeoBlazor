@@ -144,7 +144,7 @@ public partial class ImageMediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -174,7 +174,7 @@ public partial class ImageMediaInfo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(ImageMediaInfoValue value)
+    public async Task SetValue(ImageMediaInfoValue? value)
     {
 #pragma warning disable BL0005
         Value = value;
@@ -194,8 +194,8 @@ public partial class ImageMediaInfo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "value", value);
+        await JsComponentReference.InvokeVoidAsync("setValue", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

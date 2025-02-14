@@ -44,22 +44,22 @@ public partial interface ITemporalLayer
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
-    Task SetTimeExtent(TimeExtent value);
+    Task SetTimeExtent(TimeExtent? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeInfo property after render.
     /// </summary>
-    Task SetTimeInfo(TimeInfo value);
+    Task SetTimeInfo(TimeInfo? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeOffset property after render.
     /// </summary>
-    Task SetTimeOffset(TimeInterval value);
+    Task SetTimeOffset(TimeInterval? value);
     
     /// <summary>
     ///    Asynchronously set the value of the UseViewTime property after render.
     /// </summary>
-    Task SetUseViewTime(bool value);
+    Task SetUseViewTime(bool? value);
     
 #endregion
 

@@ -77,7 +77,7 @@ public partial class TextPopupContent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetText(string value)
+    public async Task SetText(string? value)
     {
 #pragma warning disable BL0005
         Text = value;

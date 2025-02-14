@@ -135,7 +135,7 @@ public partial class AuthoringInfoStatistics
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMax(double value)
+    public async Task SetMax(double? value)
     {
 #pragma warning disable BL0005
         Max = value;
@@ -165,7 +165,7 @@ public partial class AuthoringInfoStatistics
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMin(double value)
+    public async Task SetMin(double? value)
     {
 #pragma warning disable BL0005
         Min = value;

@@ -648,7 +648,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAngle(double value)
+    public async Task SetAngle(double? value)
     {
 #pragma warning disable BL0005
         Angle = value;
@@ -678,7 +678,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBackgroundColor(MapColor value)
+    public async Task SetBackgroundColor(MapColor? value)
     {
 #pragma warning disable BL0005
         BackgroundColor = value;
@@ -698,8 +698,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "backgroundColor", value);
+        await JsComponentReference.InvokeVoidAsync("setBackgroundColor", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -708,7 +708,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBorderLineColor(MapColor value)
+    public async Task SetBorderLineColor(MapColor? value)
     {
 #pragma warning disable BL0005
         BorderLineColor = value;
@@ -728,8 +728,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "borderLineColor", value);
+        await JsComponentReference.InvokeVoidAsync("setBorderLineColor", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -738,7 +738,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBorderLineSize(double value)
+    public async Task SetBorderLineSize(double? value)
     {
 #pragma warning disable BL0005
         BorderLineSize = value;
@@ -768,7 +768,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFont(MapFont value)
+    public async Task SetFont(MapFont? value)
     {
 #pragma warning disable BL0005
         Font = value;
@@ -788,8 +788,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "font", value);
+        await JsComponentReference.InvokeVoidAsync("setFont", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -798,7 +798,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHaloColor(MapColor value)
+    public async Task SetHaloColor(MapColor? value)
     {
 #pragma warning disable BL0005
         HaloColor = value;
@@ -818,8 +818,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "haloColor", value);
+        await JsComponentReference.InvokeVoidAsync("setHaloColor", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -828,7 +828,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHaloSize(Dimension value)
+    public async Task SetHaloSize(Dimension? value)
     {
 #pragma warning disable BL0005
         HaloSize = value;
@@ -858,7 +858,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHorizontalAlignment(HorizontalAlignment value)
+    public async Task SetHorizontalAlignment(HorizontalAlignment? value)
     {
 #pragma warning disable BL0005
         HorizontalAlignment = value;
@@ -888,7 +888,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetKerning(bool value)
+    public async Task SetKerning(bool? value)
     {
 #pragma warning disable BL0005
         Kerning = value;
@@ -918,7 +918,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLineHeight(double value)
+    public async Task SetLineHeight(double? value)
     {
 #pragma warning disable BL0005
         LineHeight = value;
@@ -948,7 +948,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLineWidth(Dimension value)
+    public async Task SetLineWidth(Dimension? value)
     {
 #pragma warning disable BL0005
         LineWidth = value;
@@ -978,7 +978,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotated(bool value)
+    public async Task SetRotated(bool? value)
     {
 #pragma warning disable BL0005
         Rotated = value;
@@ -1008,7 +1008,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetText(string value)
+    public async Task SetText(string? value)
     {
 #pragma warning disable BL0005
         Text = value;
@@ -1038,7 +1038,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVerticalAlignment(VerticalAlignment value)
+    public async Task SetVerticalAlignment(VerticalAlignment? value)
     {
 #pragma warning disable BL0005
         VerticalAlignment = value;
@@ -1068,7 +1068,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetXoffset(Dimension value)
+    public async Task SetXoffset(Dimension? value)
     {
 #pragma warning disable BL0005
         Xoffset = value;
@@ -1098,7 +1098,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetYoffset(Dimension value)
+    public async Task SetYoffset(Dimension? value)
     {
 #pragma warning disable BL0005
         Yoffset = value;

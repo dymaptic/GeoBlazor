@@ -58,8 +58,10 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = expressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionInfo;
     
+    let dnInstantiatedObject = await buildDotNetExpressionInfo(jsExpressionInfo);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ExpressionInfo', e);
     }

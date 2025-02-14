@@ -450,7 +450,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsAdd(bool value)
+    public async Task SetSupportsAdd(bool? value)
     {
 #pragma warning disable BL0005
         SupportsAdd = value;
@@ -480,7 +480,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCalculate(bool value)
+    public async Task SetSupportsCalculate(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCalculate = value;
@@ -510,7 +510,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsDelete(bool value)
+    public async Task SetSupportsDelete(bool? value)
     {
 #pragma warning disable BL0005
         SupportsDelete = value;
@@ -540,7 +540,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsEditing(bool value)
+    public async Task SetSupportsEditing(bool? value)
     {
 #pragma warning disable BL0005
         SupportsEditing = value;
@@ -570,7 +570,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQuery(bool value)
+    public async Task SetSupportsQuery(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQuery = value;
@@ -600,7 +600,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQueryAttachments(bool value)
+    public async Task SetSupportsQueryAttachments(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQueryAttachments = value;
@@ -630,7 +630,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsQueryTopFeatures(bool value)
+    public async Task SetSupportsQueryTopFeatures(bool? value)
     {
 #pragma warning disable BL0005
         SupportsQueryTopFeatures = value;
@@ -660,7 +660,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsUpdate(bool value)
+    public async Task SetSupportsUpdate(bool? value)
     {
 #pragma warning disable BL0005
         SupportsUpdate = value;
@@ -690,7 +690,7 @@ public partial class CapabilitiesOperations : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsValidateSql(bool value)
+    public async Task SetSupportsValidateSql(bool? value)
     {
 #pragma warning disable BL0005
         SupportsValidateSql = value;

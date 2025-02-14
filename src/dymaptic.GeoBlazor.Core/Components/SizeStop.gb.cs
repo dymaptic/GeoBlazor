@@ -149,7 +149,7 @@ public partial class SizeStop
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -179,7 +179,7 @@ public partial class SizeStop
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(Dimension value)
+    public async Task SetSize(Dimension? value)
     {
 #pragma warning disable BL0005
         Size = value;
@@ -209,7 +209,7 @@ public partial class SizeStop
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(double value)
+    public async Task SetValue(double? value)
     {
 #pragma warning disable BL0005
         Value = value;

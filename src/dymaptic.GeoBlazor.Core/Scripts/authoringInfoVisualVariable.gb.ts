@@ -34,7 +34,7 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     
     async setSizeStops(value: any): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.sizeStops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId)));
+        this.component.sizeStops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
     }
     
     async getTheme(): Promise<any> {
@@ -110,8 +110,10 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = authoringInfoVisualVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
     
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AuthoringInfoVisualVariable', e);
     }

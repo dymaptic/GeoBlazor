@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer, TileLayer
+///    Interface for types FeatureLayer, SceneLayer, TileLayer
 /// </summary>
 public partial interface IAPIKeyMixin 
 {
@@ -22,7 +22,7 @@ public partial interface IAPIKeyMixin
     /// <summary>
     ///    Asynchronously set the value of the ApiKey property after render.
     /// </summary>
-    Task SetApiKey(string value);
+    Task SetApiKey(string? value);
     
 #endregion
 

@@ -112,7 +112,7 @@ public abstract partial class FormElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDescription(string value)
+    public async Task SetDescription(string? value)
     {
 #pragma warning disable BL0005
         Description = value;
@@ -142,7 +142,7 @@ public abstract partial class FormElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabel(string value)
+    public async Task SetLabel(string? value)
     {
 #pragma warning disable BL0005
         Label = value;
@@ -172,7 +172,7 @@ public abstract partial class FormElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetVisibilityExpression(string value)
+    public async Task SetVisibilityExpression(string? value)
     {
 #pragma warning disable BL0005
         VisibilityExpression = value;

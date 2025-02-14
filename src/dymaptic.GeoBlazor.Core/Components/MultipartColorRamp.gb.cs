@@ -95,7 +95,7 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetColorRamps(IReadOnlyList<AlgorithmicColorRamp> value)
+    public async Task SetColorRamps(IReadOnlyList<AlgorithmicColorRamp>? value)
     {
 #pragma warning disable BL0005
         ColorRamps = value;
@@ -115,8 +115,8 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "colorRamps", value);
+        await JsComponentReference.InvokeVoidAsync("setColorRamps", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

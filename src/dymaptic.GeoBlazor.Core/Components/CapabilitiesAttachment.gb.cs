@@ -360,7 +360,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsCacheHint(bool value)
+    public async Task SetSupportsCacheHint(bool? value)
     {
 #pragma warning disable BL0005
         SupportsCacheHint = value;
@@ -390,7 +390,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsContentType(bool value)
+    public async Task SetSupportsContentType(bool? value)
     {
 #pragma warning disable BL0005
         SupportsContentType = value;
@@ -420,7 +420,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsExifInfo(bool value)
+    public async Task SetSupportsExifInfo(bool? value)
     {
 #pragma warning disable BL0005
         SupportsExifInfo = value;
@@ -450,7 +450,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsKeywords(bool value)
+    public async Task SetSupportsKeywords(bool? value)
     {
 #pragma warning disable BL0005
         SupportsKeywords = value;
@@ -480,7 +480,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsName(bool value)
+    public async Task SetSupportsName(bool? value)
     {
 #pragma warning disable BL0005
         SupportsName = value;
@@ -510,7 +510,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsResize(bool value)
+    public async Task SetSupportsResize(bool? value)
     {
 #pragma warning disable BL0005
         SupportsResize = value;
@@ -540,7 +540,7 @@ public partial class CapabilitiesAttachment : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSupportsSize(bool value)
+    public async Task SetSupportsSize(bool? value)
     {
 #pragma warning disable BL0005
         SupportsSize = value;

@@ -100,8 +100,10 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesOperationsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
     
+    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsArcGISImageServiceCapabilitiesOperations);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ArcGISImageServiceCapabilitiesOperations', e);
     }

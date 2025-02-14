@@ -67,8 +67,10 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = actionButtonWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
     
+    let dnInstantiatedObject = await buildDotNetActionButton(jsActionButton);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ActionButton', e);
     }

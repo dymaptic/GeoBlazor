@@ -95,6 +95,18 @@ export default class PortalGenerated implements IPropertyWrapper {
         let { buildJsBasemap } = await import('./basemap');
         this.component.defaultDevBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
+    async getDefaultExtent(): Promise<any> {
+        if (!hasValue(this.component.defaultExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.component.defaultExtent);
+    }
+    async setDefaultExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.component.defaultExtent =  buildJsExtent(value);
+    }
     async getDefaultVectorBasemap(): Promise<any> {
         if (!hasValue(this.component.defaultVectorBasemap)) {
             return null;
@@ -118,7 +130,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     
     async setFeaturedGroups(value: any): Promise<void> {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId)));
+        this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId))) as any;
     }
     
     async getUser(): Promise<any> {
@@ -144,6 +156,10 @@ export default class PortalGenerated implements IPropertyWrapper {
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortal = new Portal();
+    if (hasValue(dotNetObject.defaultExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsPortal.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
+    }
     if (hasValue(dotNetObject.featuredGroups)) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         jsPortal.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId))) as any;
@@ -211,9 +227,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.customBaseUrl)) {
         jsPortal.customBaseUrl = dotNetObject.customBaseUrl;
-    }
-    if (hasValue(dotNetObject.defaultExtent)) {
-        jsPortal.defaultExtent = dotNetObject.defaultExtent;
     }
     if (hasValue(dotNetObject.description)) {
         jsPortal.description = dotNetObject.description;
@@ -334,8 +347,10 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     
+    let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
+    
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Portal', e);
     }
@@ -352,6 +367,10 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.defaultExtent)) {
+            let { buildDotNetExtent } = await import('./extent');
+            dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
+        }
         if (hasValue(jsObject.featuredGroups)) {
             let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
             dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
@@ -418,9 +437,6 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         }
         if (hasValue(jsObject.customBaseUrl)) {
             dotNetPortal.customBaseUrl = jsObject.customBaseUrl;
-        }
-        if (hasValue(jsObject.defaultExtent)) {
-            dotNetPortal.defaultExtent = jsObject.defaultExtent;
         }
         if (hasValue(jsObject.description)) {
             dotNetPortal.description = jsObject.description;

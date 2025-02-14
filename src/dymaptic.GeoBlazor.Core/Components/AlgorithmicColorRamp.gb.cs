@@ -184,7 +184,7 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFromColor(MapColor value)
+    public async Task SetFromColor(MapColor? value)
     {
 #pragma warning disable BL0005
         FromColor = value;
@@ -204,8 +204,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fromColor", value);
+        await JsComponentReference.InvokeVoidAsync("setFromColor", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -214,7 +214,7 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetToColor(MapColor value)
+    public async Task SetToColor(MapColor? value)
     {
 #pragma warning disable BL0005
         ToColor = value;
@@ -234,8 +234,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "toColor", value);
+        await JsComponentReference.InvokeVoidAsync("setToColor", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

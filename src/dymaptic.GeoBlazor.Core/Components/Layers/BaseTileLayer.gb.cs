@@ -334,7 +334,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBlendMode(BlendMode value)
+    public async Task SetBlendMode(BlendMode? value)
     {
 #pragma warning disable BL0005
         BlendMode = value;
@@ -364,7 +364,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMaxScale(double value)
+    public async Task SetMaxScale(double? value)
     {
 #pragma warning disable BL0005
         MaxScale = value;
@@ -394,7 +394,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetMinScale(double value)
+    public async Task SetMinScale(double? value)
     {
 #pragma warning disable BL0005
         MinScale = value;
@@ -424,7 +424,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRefreshInterval(double value)
+    public async Task SetRefreshInterval(double? value)
     {
 #pragma warning disable BL0005
         RefreshInterval = value;
@@ -454,7 +454,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference value)
+    public async Task SetSpatialReference(SpatialReference? value)
     {
 #pragma warning disable BL0005
         SpatialReference = value;
@@ -474,8 +474,8 @@ public partial class BaseTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -484,7 +484,7 @@ public partial class BaseTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTileInfo(TileInfo value)
+    public async Task SetTileInfo(TileInfo? value)
     {
 #pragma warning disable BL0005
         TileInfo = value;
@@ -506,31 +506,6 @@ public partial class BaseTileLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setTileInfo", 
             CancellationTokenSource.Token, value);
- 
-        TileInfo.Parent = this;
-        TileInfo.View = View;
-        
-        if (TileInfo.JsComponentReference is null)
-        {
-            // new MapComponent, needs to be built and registered in JS
-            // this also calls back to OnJsComponentCreated
-            IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                $"buildJsTileInfo", CancellationTokenSource.Token, 
-                    TileInfo, Layer?.Id, View?.Id);
-            // in case the fallback failed, set this here.
-            TileInfo.JsComponentReference ??= jsObjectReference;
-            
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference, "tileInfo", jsObjectReference);
-        }
-        else
-        {
-            // this component has already been registered, but we'll call setProperty to make sure
-            // it is attached to the parent
-            await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                JsComponentReference,
-                "tileInfo", TileInfo.JsComponentReference);
-        }
     }
     
 #endregion
@@ -653,6 +628,15 @@ public partial class BaseTileLayer : IBlendLayer,
     {
         switch (child)
         {
+            case SpatialReference spatialReference:
+                if (spatialReference != SpatialReference)
+                {
+                    SpatialReference = spatialReference;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                }
+                
+                return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
                 {
@@ -671,6 +655,11 @@ public partial class BaseTileLayer : IBlendLayer,
     {
         switch (child)
         {
+            case SpatialReference _:
+                SpatialReference = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                return true;
             case TileInfo _:
                 TileInfo = null;
                 LayerChanged = true;
@@ -685,6 +674,7 @@ public partial class BaseTileLayer : IBlendLayer,
     internal override void ValidateRequiredGeneratedChildren()
     {
     
+        SpatialReference?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
