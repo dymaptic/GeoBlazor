@@ -37,7 +37,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     }
     async getStops(): Promise<any> {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        return this.component.stops.map(async i => await buildDotNetSizeStop(i));
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     async setStops(value: any): Promise<void> {

@@ -27,13 +27,13 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async add(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.add(jsGraphic);
     }
 
     async addMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
+        let jsGraphics = buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.addMany(jsGraphics);
     }
 
@@ -51,7 +51,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async remove(graphic: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         this.layer.remove(jsGraphic);
     }
 
@@ -61,7 +61,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async removeMany(graphics: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphics = await buildJsGraphic(graphics, this.layerId, this.viewId) as any;
+        let jsGraphics = buildJsGraphic(graphics, this.layerId, this.viewId) as any;
         this.layer.removeMany(jsGraphics);
     }
 
@@ -77,12 +77,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
     async getGraphics(): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics.map(async i => await buildDotNetGraphic(i, this.layerId, this.viewId));
+        return await Promise.all(this.layer.graphics.map(async i => await buildDotNetGraphic(i)));
     }
     
     async setGraphics(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.graphics = value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId));
+        this.layer.graphics = value.map(i => buildJsGraphic(i, this.layerId, this.viewId));
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
@@ -110,7 +110,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.graphics)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGraphicsLayer.graphics = await Promise.all(dotNetObject.graphics.map(async i => await buildJsGraphic(i, layerId, viewId))) as any;
+        jsGraphicsLayer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');

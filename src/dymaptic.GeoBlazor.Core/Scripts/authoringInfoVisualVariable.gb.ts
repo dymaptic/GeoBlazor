@@ -25,12 +25,12 @@ export default class AuthoringInfoVisualVariableGenerated implements IPropertyWr
     
     async getSizeStops(): Promise<any> {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        return this.component.sizeStops.map(async i => await buildDotNetSizeStop(i));
+        return await Promise.all(this.component.sizeStops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     async setSizeStops(value: any): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.sizeStops = value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId));
+        this.component.sizeStops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId)));
     }
     
     async getTheme(): Promise<any> {

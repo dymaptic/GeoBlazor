@@ -29,7 +29,7 @@ export default class PictureFillSymbolGenerated implements IPropertyWrapper {
     }
     async setColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.color =  buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layer
     let jsPictureFillSymbol = new PictureFillSymbol();
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsPictureFillSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
+        jsPictureFillSymbol.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.height)) {

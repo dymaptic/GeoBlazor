@@ -31,7 +31,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = await buildJsGraphic(graphic, this.layerId, this.viewId) as any;
+        let jsGraphic = buildJsGraphic(graphic, this.layerId, this.viewId) as any;
         let result = await this.component.getUniqueValueInfo(jsGraphic);
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
         return await buildDotNetUniqueValueInfo(result);
@@ -61,7 +61,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
     async getUniqueValueGroups(): Promise<any> {
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
-        return this.component.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i));
+        return await Promise.all(this.component.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
     }
     
     async setUniqueValueGroups(value: any): Promise<void> {
@@ -71,7 +71,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async getUniqueValueInfos(): Promise<any> {
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
-        return this.component.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i));
+        return await Promise.all(this.component.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i)));
     }
     
     async setUniqueValueInfos(value: any): Promise<void> {
@@ -81,7 +81,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async getVisualVariables(): Promise<any> {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
-        return this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i));
+        return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {

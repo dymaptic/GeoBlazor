@@ -8,6 +8,11 @@ export default class AuthoringInfoWrapper extends AuthoringInfoGenerated {
     constructor(component: AuthoringInfo) {
         super(component);
     }
+
+    async setColorRamp(value: any): Promise<void> {
+        let { buildJsColorRamp } = await import('./colorRamp');
+        this.component.colorRamp =  await buildJsColorRamp(value, this.layerId, this.viewId);
+    }
     
 }              
 export async function buildJsAuthoringInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

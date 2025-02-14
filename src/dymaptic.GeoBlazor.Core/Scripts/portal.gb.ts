@@ -97,7 +97,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     async getFeaturedGroups(): Promise<any> {
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        return this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i));
+        return await Promise.all(this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
     }
     
     async setFeaturedGroups(value: any): Promise<void> {

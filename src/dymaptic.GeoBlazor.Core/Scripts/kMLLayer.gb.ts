@@ -49,7 +49,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
     }
     async getSublayers(): Promise<any> {
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-        return this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {

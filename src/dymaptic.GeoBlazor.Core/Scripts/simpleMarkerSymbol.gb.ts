@@ -29,7 +29,7 @@ export default class SimpleMarkerSymbolGenerated implements IPropertyWrapper {
     }
     async setColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.color =  buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -44,7 +44,7 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, laye
     let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsSimpleMarkerSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
+        jsSimpleMarkerSymbol.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {

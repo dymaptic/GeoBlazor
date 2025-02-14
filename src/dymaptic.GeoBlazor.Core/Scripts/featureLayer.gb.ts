@@ -28,7 +28,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
+        let jsFeature = buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return await this.layer.addAttachment(jsFeature,
             attachment);
     }
@@ -50,7 +50,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async deleteAttachments(feature: any,
         attachmentIds: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
+        let jsFeature = buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return await this.layer.deleteAttachments(jsFeature,
             attachmentIds);
     }
@@ -85,7 +85,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         attachmentId: any,
         attachment: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
+        let jsFeature = buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return await this.layer.updateAttachment(jsFeature,
             attachmentId,
             attachment);
@@ -115,12 +115,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     async getFields(): Promise<any> {
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields.map(async i => await buildDotNetField(i));
+        return await Promise.all(this.layer.fields.map(async i => await buildDotNetField(i)));
     }
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = value.map(i => buildJsField(i));
+        this.layer.fields = value.map(async i => await buildJsField(i));
     }
     
     async getFloorInfo(): Promise<any> {
@@ -141,7 +141,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     async getLabelingInfo(): Promise<any> {
         let { buildDotNetLabel } = await import('./label');
-        return this.layer.labelingInfo.map(async i => await buildDotNetLabel(i));
+        return await Promise.all(this.layer.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -151,7 +151,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     
     async getOrderBy(): Promise<any> {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        return this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
@@ -185,17 +185,17 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     async getSource(): Promise<any> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.source.map(async i => await buildDotNetGraphic(i, this.layerId, this.viewId));
+        return await Promise.all(this.layer.source.map(async i => await buildDotNetGraphic(i)));
     }
     
     async setSource(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.source = value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId));
+        this.layer.source = value.map(i => buildJsGraphic(i, this.layerId, this.viewId));
     }
     
     async getTemplates(): Promise<any> {
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i, this.layerId, this.viewId));
+        return await Promise.all(this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i)));
     }
     
     async setTemplates(value: any): Promise<void> {
@@ -288,7 +288,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.source)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureLayer.source = await Promise.all(dotNetObject.source.map(async i => await buildJsGraphic(i, layerId, viewId))) as any;
+        jsFeatureLayer.source = dotNetObject.source.map(i => buildJsGraphic(i, layerId, viewId)) as any;
     }
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');

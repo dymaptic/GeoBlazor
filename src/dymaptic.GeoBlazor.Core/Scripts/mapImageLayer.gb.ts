@@ -83,7 +83,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async getAllSublayers(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.allSublayers.map(async i => await buildDotNetSublayer(i));
+        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async getPortalItem(): Promise<any> {
@@ -96,7 +96,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     }
     async getSublayers(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.sublayers.map(async i => await buildDotNetSublayer(i));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -106,7 +106,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     
     async getSubtables(): Promise<any> {
         let { buildDotNetSublayer } = await import('./sublayer');
-        return this.layer.subtables.map(async i => await buildDotNetSublayer(i));
+        return await Promise.all(this.layer.subtables.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSubtables(value: any): Promise<void> {
@@ -163,11 +163,11 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
+        jsMapImageLayer.sublayers = dotNetObject.sublayers.map(i => buildJsSublayer(i)) as any;
     }
     if (hasValue(dotNetObject.subtables)) {
         let { buildJsSublayer } = await import('./jsBuilder');
-        jsMapImageLayer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
+        jsMapImageLayer.subtables = dotNetObject.subtables.map(i => buildJsSublayer(i)) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');

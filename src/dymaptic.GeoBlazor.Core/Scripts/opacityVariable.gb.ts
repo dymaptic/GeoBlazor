@@ -33,7 +33,7 @@ export default class OpacityVariableGenerated implements IPropertyWrapper {
     }
     async getStops(): Promise<any> {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
-        return this.component.stops.map(async i => await buildDotNetOpacityStop(i));
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetOpacityStop(i)));
     }
     
     async setStops(value: any): Promise<void> {

@@ -25,7 +25,7 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     async getElements(): Promise<any> {
         let { buildDotNetFormElement } = await import('./formElement');
-        return this.component.elements.map(async i => await buildDotNetFormElement(i));
+        return await Promise.all(this.component.elements.map(async i => await buildDotNetFormElement(i)));
     }
     
     async setElements(value: any): Promise<void> {
@@ -35,7 +35,7 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
     
     async getExpressionInfos(): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+        return await Promise.all(this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
     }
     
     async setExpressionInfos(value: any): Promise<void> {

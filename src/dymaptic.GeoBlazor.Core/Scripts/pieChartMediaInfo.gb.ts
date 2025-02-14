@@ -44,7 +44,7 @@ export async function buildJsPieChartMediaInfoGenerated(dotNetObject: any, layer
     let jsPieChartMediaInfo = new PieChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        jsPieChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {

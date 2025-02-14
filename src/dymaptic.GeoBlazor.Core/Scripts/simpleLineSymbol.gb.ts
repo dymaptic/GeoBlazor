@@ -29,7 +29,7 @@ export default class SimpleLineSymbolGenerated implements IPropertyWrapper {
     }
     async setColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.color =  buildJsMapColor(value);
     }
     async getMarker(): Promise<any> {
         let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
@@ -52,7 +52,7 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     let jsSimpleLineSymbol = new SimpleLineSymbol();
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsSimpleLineSymbol.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
+        jsSimpleLineSymbol.color = buildJsMapColor(dotNetObject.color) as any;
     }
     if (hasValue(dotNetObject.marker)) {
         let { buildJsLineSymbolMarker } = await import('./lineSymbolMarker');

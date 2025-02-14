@@ -29,7 +29,7 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     }
     async setColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.color = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.color =  buildJsMapColor(value);
     }
     async getHaloColor(): Promise<any> {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -37,7 +37,7 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     }
     async setHaloColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.haloColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.haloColor =  buildJsMapColor(value);
     }
     async getShadowColor(): Promise<any> {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -45,7 +45,7 @@ export default class HighlightOptionsGenerated implements IPropertyWrapper {
     }
     async setShadowColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.shadowColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.shadowColor =  buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -60,15 +60,15 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
     let jsHighlightOptions: any = {}
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.color = await buildJsMapColor(dotNetObject.color, layerId, viewId) as any;
+        jsHighlightOptions.color = buildJsMapColor(dotNetObject.color) as any;
     }
     if (hasValue(dotNetObject.haloColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.haloColor = await buildJsMapColor(dotNetObject.haloColor, layerId, viewId) as any;
+        jsHighlightOptions.haloColor = buildJsMapColor(dotNetObject.haloColor) as any;
     }
     if (hasValue(dotNetObject.shadowColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.shadowColor = await buildJsMapColor(dotNetObject.shadowColor, layerId, viewId) as any;
+        jsHighlightOptions.shadowColor = buildJsMapColor(dotNetObject.shadowColor) as any;
     }
 
     if (hasValue(dotNetObject.fillOpacity)) {

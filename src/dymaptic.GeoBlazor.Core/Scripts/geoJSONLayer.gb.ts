@@ -111,7 +111,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     }
     async getFields(): Promise<any> {
         let { buildDotNetField } = await import('./field');
-        return this.layer.fields.map(async i => await buildDotNetField(i));
+        return await Promise.all(this.layer.fields.map(async i => await buildDotNetField(i)));
     }
     
     async setFields(value: any): Promise<void> {
@@ -121,7 +121,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     
     async getLabelingInfo(): Promise<any> {
         let { buildDotNetLabel } = await import('./label');
-        return this.layer.labelingInfo.map(async i => await buildDotNetLabel(i));
+        return await Promise.all(this.layer.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
@@ -131,7 +131,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     
     async getOrderBy(): Promise<any> {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        return this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i));
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
@@ -145,7 +145,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -165,7 +165,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     }
     async getTemplates(): Promise<any> {
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i));
+        return await Promise.all(this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i)));
     }
     
     async setTemplates(value: any): Promise<void> {
@@ -226,7 +226,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./jsBuilder');
-        jsGeoJSONLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+        jsGeoJSONLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i))) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
@@ -238,7 +238,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsGeoJSONLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsGeoJSONLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');

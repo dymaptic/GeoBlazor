@@ -461,6 +461,7 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="PixelFilter" /> function was registered.
+    /// </summary>
     public bool HasPixelFilter => PixelFilter is not null;
     /// <summary>
     ///     The popup template for the layer.

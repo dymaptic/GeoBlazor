@@ -30,12 +30,12 @@ export default class ChartMediaInfoValueGenerated implements IPropertyWrapper {
     
     async setColors(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.colors = value.map(async i => await buildJsMapColor(i, this.layerId, this.viewId));
+        this.component.colors = value.map(i => buildJsMapColor(i));
     }
     
     async getSeries(): Promise<any> {
         let { buildDotNetChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
-        return this.component.series.map(async i => await buildDotNetChartMediaInfoValueSeries(i));
+        return await Promise.all(this.component.series.map(async i => await buildDotNetChartMediaInfoValueSeries(i)));
     }
     
     async setSeries(value: any): Promise<void> {
@@ -56,7 +56,7 @@ export async function buildJsChartMediaInfoValueGenerated(dotNetObject: any, lay
     let jsChartMediaInfoValue = new ChartMediaInfoValue();
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsChartMediaInfoValue.colors = await Promise.all(dotNetObject.colors.map(async i => await buildJsMapColor(i, layerId, viewId))) as any;
+        jsChartMediaInfoValue.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
     if (hasValue(dotNetObject.series)) {
         let { buildJsChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');

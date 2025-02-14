@@ -33,7 +33,7 @@ export default class ColorVariableGenerated implements IPropertyWrapper {
     }
     async getStops(): Promise<any> {
         let { buildDotNetColorStop } = await import('./colorStop');
-        return this.component.stops.map(async i => await buildDotNetColorStop(i));
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetColorStop(i)));
     }
     
     async setStops(value: any): Promise<void> {

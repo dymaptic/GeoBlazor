@@ -25,7 +25,7 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     async getActions(): Promise<any> {
         let { buildDotNetActionBase } = await import('./actionBase');
-        return this.component.actions.map(async i => await buildDotNetActionBase(i));
+        return await Promise.all(this.component.actions.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActions(value: any): Promise<void> {
@@ -40,22 +40,22 @@ export default class PopupTemplateGenerated implements IPropertyWrapper {
     
     async getExpressionInfos(): Promise<any> {
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i));
+        return await Promise.all(this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
     }
     
     async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = value.map(i => buildJsExpressionInfo(i));
+        this.component.expressionInfos = value.map(async i => await buildJsExpressionInfo(i));
     }
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return await Promise.all(this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i)));
     }
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = value.map(async i => await buildJsFieldInfo(i));
+        this.component.fieldInfos = value.map(i => buildJsFieldInfo(i));
     }
     
     async getLayerOptions(): Promise<any> {
@@ -87,7 +87,7 @@ export async function buildJsPopupTemplateGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.expressionInfos)) {
         let { buildJsExpressionInfo } = await import('./jsBuilder');
-        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
+        jsPopupTemplate.expressionInfos = await Promise.all(dotNetObject.expressionInfos.map(async i => await buildJsExpressionInfo(i))) as any;
     }
     if (hasValue(dotNetObject.fieldInfos)) {
         let { buildJsFieldInfo } = await import('./jsBuilder');

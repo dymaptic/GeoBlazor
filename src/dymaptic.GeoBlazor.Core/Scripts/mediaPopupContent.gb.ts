@@ -25,7 +25,7 @@ export default class MediaPopupContentGenerated implements IPropertyWrapper {
     
     async getMediaInfos(): Promise<any> {
         let { buildDotNetMediaInfo } = await import('./mediaInfo');
-        return this.component.mediaInfos.map(async i => await buildDotNetMediaInfo(i));
+        return await Promise.all(this.component.mediaInfos.map(async i => await buildDotNetMediaInfo(i)));
     }
     
     async setMediaInfos(value: any): Promise<void> {

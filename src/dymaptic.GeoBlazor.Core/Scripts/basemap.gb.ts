@@ -31,7 +31,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     
     async getBaseLayers(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.baseLayers.map(async i => await buildDotNetLayer(i));
+        return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setBaseLayers(value: any): Promise<void> {
@@ -49,7 +49,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     async getReferenceLayers(): Promise<any> {
         let { buildDotNetLayer } = await import('./layer');
-        return this.component.referenceLayers.map(async i => await buildDotNetLayer(i));
+        return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setReferenceLayers(value: any): Promise<void> {

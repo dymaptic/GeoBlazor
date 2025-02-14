@@ -25,7 +25,7 @@ export default class GroupElementGenerated implements IPropertyWrapper {
     
     async getElements(): Promise<any> {
         let { buildDotNetFormElement } = await import('./formElement');
-        return this.component.elements.map(async i => await buildDotNetFormElement(i));
+        return await Promise.all(this.component.elements.map(async i => await buildDotNetFormElement(i)));
     }
     
     async setElements(value: any): Promise<void> {

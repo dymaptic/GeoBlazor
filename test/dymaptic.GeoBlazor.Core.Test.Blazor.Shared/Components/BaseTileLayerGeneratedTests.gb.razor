@@ -23,66 +23,65 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                     </Basemap>
                     <BaseTileLayer 
-                        BlendMode="@(BlendMode.Exclusion)"
+                        BlendMode="@(BlendMode.DestinationOver)"
                         Effect="@(new Effect("tempora",
-                            39164231.3632))"
-                        MaxScale="@(23683007.5045)"
-                        MinScale="@(11440.2086)"
-                        RefreshInterval="@(334.6512)"
-                        SpatialReference="@(new SpatialReference(9,
-                                "magnam",
-                                "suscipit",
-                                "libero"))"
-                        FullExtent="@(new Extent(75.3107,
-                                -11.3407,
-                                84.2770,
-                                13.6498,
-                                872.6891,
-                                884.3707,
-                                356.0136,
-                                608.5454,
-                            new SpatialReference(3,
-                                    "sed",
-                                    "occaecati",
-                                    "nam"),
+                            19004145.1216))"
+                        MaxScale="@(23225212.7180)"
+                        MinScale="@(19437.8012)"
+                        RefreshInterval="@(588.6353)"
+                        SpatialReference="@(new SpatialReference(6,
+                                "temporibus",
+                                "provident",
+                                "veniam"))"
+                        FullExtent="@(new Extent(-67.0901,
+                                -123.7826,
+                                -83.0380,
+                                78.8779,
+                                209.6614,
+                                732.7538,
+                                173.9494,
+                                621.4066,
+                            new SpatialReference(6,
+                                    "libero",
+                                    "nihil",
+                                    "veniam"),
                                 true,
                                 true))"
-                        ListMode="@(ListMode.Hide)"
-                        Opacity="@(0.5278)"
+                        ListMode="@(ListMode.Show)"
+                        Opacity="@(0.3590)"
                         PersistenceEnabled="@(true)"
-                        Title="@("quo in voluptatem")"
+                        Title="@("fugiat eum quae")"
                         OnRefresh="OnRefresh">
                         <TimeExtent 
-                            Start="@(new DateTime(2004, 4, 20, 11, 28, 33))"
-                            End="@(new DateTime(2003, 8, 4, 4, 16, 51))">
+                            Start="@(new DateTime(2022, 2, 7, 15, 34, 47))"
+                            End="@(new DateTime(2013, 3, 22, 17, 58, 2))">
                         </TimeExtent>
                         <TileInfo 
-                            Dpi="@(704.4047)"
-                            Format="@(TileInfoFormat.Mixed)"
+                            Dpi="@(958.4063)"
+                            Format="@(TileInfoFormat.Tiff)"
                             IsWrappable="@(true)"
-                            Lods="@([new LOD(8,
-                                    "ducimus",
-                                    65.6779,
-                                    18426696.2165)])"
-                            Origin="@(new Point(-31.1250,
-                                    67.8059,
-                                    -112.2186,
-                                    41.5247,
-                                    142.4541,
+                            Lods="@([new LOD(6,
+                                    "minus",
+                                    64.8346,
+                                    22191903.8354)])"
+                            Origin="@(new Point(127.0007,
+                                    10.5940,
+                                    174.2366,
+                                    29.6463,
+                                    919.9030,
                                 new SpatialReference(7,
-                                        "expedita",
-                                        "libero",
-                                        "non"),
+                                        "non",
+                                        "eos",
+                                        "officia"),
                                     true,
                                     true,
-                                    468.6188))"
-                            Size="@([6,
-                                3,
-                                1])"
-                            SpatialReference="@(new SpatialReference(9,
-                                    "facilis",
-                                    "optio",
-                                    "ad"))">
+                                    768.7016))"
+                            Size="@([5,
+                                8])"
+                            SpatialReference="@(new SpatialReference(2,
+                                    "ipsa",
+                                    "deserunt",
+                                    "tempora"))">
                         </TileInfo>
                     </BaseTileLayer>
                 </Map>
@@ -99,40 +98,40 @@
         }
         Assert.IsInstanceOfType<RefreshEvent>(refreshResult);
         await AssertJavaScript("assertLayerExists", args: "base-tile");
-        var addResolvingPromiseMethodResult = await baseTileLayer.AddResolvingPromise("unde");
+        var addResolvingPromiseMethodResult = await baseTileLayer.AddResolvingPromise("dolor");
         Assert.IsNotNull(addResolvingPromiseMethodResult);
-        var fetchTileMethodResult = await baseTileLayer.FetchTile(814.6967,
-                840.3073,
-                880.4185,
+        var fetchTileMethodResult = await baseTileLayer.FetchTile(425.2392,
+                314.6036,
+                448.5370,
                 default);
         Assert.IsNotNull(fetchTileMethodResult);
-        var getTileUrlMethodResult = await baseTileLayer.GetTileUrl(25.5725,
-                973.7309,
-                778.6604);
+        var getTileUrlMethodResult = await baseTileLayer.GetTileUrl(819.8564,
+                574.3327,
+                78.7504);
         Assert.IsNotNull(getTileUrlMethodResult);
-        BlendMode testBlendMode = BlendMode.DestinationIn;
+        BlendMode testBlendMode = BlendMode.SoftLight;
         await baseTileLayer.SetBlendMode(testBlendMode);
         var blendMode = await baseTileLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        SpatialReference testSpatialReference = new SpatialReference(9,
-                    "qui",
-                    "magnam",
-                    "et");
+        SpatialReference testSpatialReference = new SpatialReference(3,
+                    "quod",
+                    "temporibus",
+                    "ut");
         await baseTileLayer.SetSpatialReference(testSpatialReference);
         var spatialReference = await baseTileLayer.GetSpatialReference();
         Assert.AreEqual(testSpatialReference, spatialReference);
-        Extent testFullExtent = new Extent(-121.4641,
-                    -88.9392,
-                    -33.6778,
-                    -42.0816,
-                    725.0607,
-                    38.4434,
-                    204.7614,
-                    110.4244,
-                new SpatialReference(6,
-                        "commodi",
-                        "modi",
-                        "vitae"),
+        Extent testFullExtent = new Extent(144.2175,
+                    33.7677,
+                    14.2698,
+                    -64.9008,
+                    598.6446,
+                    952.9569,
+                    824.0080,
+                    287.7884,
+                new SpatialReference(3,
+                        "facere",
+                        "sunt",
+                        "et"),
                     true,
                     true);
         await baseTileLayer.SetFullExtent(testFullExtent);
@@ -142,50 +141,36 @@
         await baseTileLayer.SetListMode(testListMode);
         var listMode = await baseTileLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
-        TileInfo testTileInfo = new TileInfo(256.4263,
-                    TileInfoFormat.Emf,
+        TileInfo testTileInfo = new TileInfo(292.5880,
+                    TileInfoFormat.Dib,
                     true,
                 [new LOD(9,
-                        "accusantium",
-                        28.3841,
-                        27056337.3186),
-                new LOD(9,
-                        "mollitia",
-                        57.7368,
-                        18383035.7960),
-                new LOD(3,
-                        "est",
-                        56.6406,
-                        37945719.0347),
-                new LOD(9,
-                        "nulla",
-                        86.3624,
-                        14645056.3893)],
-                new Point(17.2403,
-                        -65.3958,
-                        -63.7143,
-                        58.5269,
-                        898.3291,
-                    new SpatialReference(5,
-                            "molestiae",
-                            "et",
-                            "aliquam"),
+                        "at",
+                        7.3117,
+                        2808234.9907)],
+                new Point(28.8602,
+                        73.1928,
+                        -14.6309,
+                        66.5838,
+                        811.3130,
+                    new SpatialReference(3,
+                            "amet",
+                            "repudiandae",
+                            "deserunt"),
                         true,
                         true,
-                        5.3522),
-                    [4,
-                        4,
-                        3,
-                        6],
-                new SpatialReference(6,
-                        "alias",
-                        "quo",
-                        "excepturi"));
+                        554.1094),
+                    [7,
+                        8],
+                new SpatialReference(3,
+                        "incidunt",
+                        "veniam",
+                        "quos"));
         await baseTileLayer.SetTileInfo(testTileInfo);
         var tileInfo = await baseTileLayer.GetTileInfo();
         Assert.AreEqual(testTileInfo, tileInfo);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2019, 1, 20, 22, 38, 14),
-                    new DateTime(2004, 3, 1, 8, 39, 39));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2001, 10, 5, 11, 49, 43),
+                    new DateTime(2010, 3, 25, 17, 16, 50));
         await baseTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await baseTileLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

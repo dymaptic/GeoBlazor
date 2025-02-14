@@ -2,6 +2,7 @@
 
 
 import Graphic from '@arcgis/core/Graphic';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class GraphicGenerated implements IPropertyWrapper {

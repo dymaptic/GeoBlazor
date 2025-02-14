@@ -29,7 +29,7 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        this.component.authoringInfo =  buildJsAuthoringInfo(value);
     }
     async getSymbol(): Promise<any> {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -41,7 +41,7 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     }
     async getVisualVariables(): Promise<any> {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
-        return this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i));
+        return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {
@@ -62,7 +62,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     let jsSimpleRenderer = new SimpleRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./jsBuilder');
-        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsSimpleRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./jsBuilder');

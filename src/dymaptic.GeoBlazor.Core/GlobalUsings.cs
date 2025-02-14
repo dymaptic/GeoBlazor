@@ -11,6 +11,7 @@ global using dymaptic.GeoBlazor.Core.Enums;
 global using dymaptic.GeoBlazor.Core.Events;
 global using dymaptic.GeoBlazor.Core.Exceptions;
 global using dymaptic.GeoBlazor.Core.Extensions;
+global using dymaptic.GeoBlazor.Core.Functions;
 global using dymaptic.GeoBlazor.Core.Interfaces;
 global using dymaptic.GeoBlazor.Core.Model;
 global using dymaptic.GeoBlazor.Core.Objects;

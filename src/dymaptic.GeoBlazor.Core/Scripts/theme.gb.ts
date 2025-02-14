@@ -29,7 +29,7 @@ export default class ThemeGenerated implements IPropertyWrapper {
     }
     async setAccentColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.accentColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.accentColor =  buildJsMapColor(value);
     }
     async getTextColor(): Promise<any> {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -37,7 +37,7 @@ export default class ThemeGenerated implements IPropertyWrapper {
     }
     async setTextColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
-        this.component.textColor = await  buildJsMapColor(value, this.layerId, this.viewId);
+        this.component.textColor =  buildJsMapColor(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -52,11 +52,11 @@ export async function buildJsThemeGenerated(dotNetObject: any, layerId: string |
     let jsTheme = new Theme();
     if (hasValue(dotNetObject.accentColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.accentColor = await buildJsMapColor(dotNetObject.accentColor, layerId, viewId) as any;
+        jsTheme.accentColor = buildJsMapColor(dotNetObject.accentColor) as any;
     }
     if (hasValue(dotNetObject.textColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.textColor = await buildJsMapColor(dotNetObject.textColor, layerId, viewId) as any;
+        jsTheme.textColor = buildJsMapColor(dotNetObject.textColor) as any;
     }
 
     let { default: ThemeWrapper } = await import('./theme');

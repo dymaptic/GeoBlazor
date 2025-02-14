@@ -25,7 +25,7 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async getFieldInfos(): Promise<any> {
         let { buildDotNetFieldInfo } = await import('./fieldInfo');
-        return this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i));
+        return await Promise.all(this.component.fieldInfos.map(async i => await buildDotNetFieldInfo(i)));
     }
     
     async setFieldInfos(value: any): Promise<void> {

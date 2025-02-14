@@ -25,7 +25,7 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
     
     async getOrderByFields(): Promise<any> {
         let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        return this.component.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i));
+        return await Promise.all(this.component.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i)));
     }
     
     async setOrderByFields(value: any): Promise<void> {

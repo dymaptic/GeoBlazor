@@ -33,7 +33,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     
     async getLods(): Promise<any> {
         let { buildDotNetLOD } = await import('./lOD');
-        return this.component.lods.map(async i => await buildDotNetLOD(i));
+        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i)));
     }
     
     async setLods(value: any): Promise<void> {

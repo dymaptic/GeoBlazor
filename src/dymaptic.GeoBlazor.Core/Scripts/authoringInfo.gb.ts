@@ -27,10 +27,7 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
         let { buildDotNetColorRamp } = await import('./colorRamp');
         return await buildDotNetColorRamp(this.component.colorRamp);
     }
-    async setColorRamp(value: any): Promise<void> {
-        let { buildJsColorRamp } = await import('./colorRamp');
-        this.component.colorRamp =  buildJsColorRamp(value);
-    }
+
     async getField1(): Promise<any> {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
         return await buildDotNetAuthoringInfoField(this.component.field1);
@@ -57,7 +54,7 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
     }
     async getVisualVariables(): Promise<any> {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        return this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i));
+        return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
     }
     
     async setVisualVariables(value: any): Promise<void> {
