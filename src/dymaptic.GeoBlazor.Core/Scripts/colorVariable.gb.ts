@@ -92,6 +92,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = colorVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;
     
+    let { buildDotNetColorVariable } = await import('./colorVariable');
     let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable);
     
     try {

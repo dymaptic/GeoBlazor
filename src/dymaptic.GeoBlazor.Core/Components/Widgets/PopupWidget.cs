@@ -8,29 +8,9 @@ public partial class PopupWidget : Widget
     ///     LODs and centers on the selected feature.
     /// </summary>
     [CodeGenerationIgnore]
-    public List<ActionBase>? Actions { get; set; }
-    
-    /// <summary>
-    ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
-    /// </summary>
     [Parameter]
-    [JsonIgnore]
-    [CodeGenerationIgnore]
-    public Func<GoToOverrideParameters, Task>? GoToOverride { get; set; }
-
-    /// <summary>
-    ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
-    /// </summary>
-    public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
-    ///     JavaScript-invokable method for internal use
-    /// </summary>
-    [JSInvokable]
-    public Task OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
-    {
-        return GoToOverride?.Invoke(goToOverrideParams) ?? Task.CompletedTask;
-    }
+    [JsonConverter(typeof(ActionBaseConverter))]
+    public IReadOnlyList<ActionBase>? Actions { get; set; }
 
     /// <summary>
     ///     Position of the popup in relation to the selected feature. The default behavior is to display above the feature and

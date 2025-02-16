@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CSVLayer, FeatureLayer, ImageryLayer, MapImageLayer
+///    Interface for types CatalogLayer, CSVLayer, FeatureLayer, ImageryLayer, MapImageLayer
 /// </summary>
 public partial interface ITemporalLayer 
 {

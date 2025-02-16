@@ -321,7 +321,7 @@ public partial class FieldsPopupContent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (FieldInfos is not null)

@@ -81,7 +81,7 @@ public class Map : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Basemap?.ValidateRequiredChildren();

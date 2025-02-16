@@ -459,10 +459,12 @@ public partial class ImageryLayer : IArcGISImageService,
             await PixelFilter.Invoke(pixelData);
         }
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="PixelFilter" /> function was registered.
     /// </summary>
     public bool HasPixelFilter => PixelFilter is not null;
+    
     /// <summary>
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
@@ -3868,7 +3870,7 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (PortalItem is null && Url is null)

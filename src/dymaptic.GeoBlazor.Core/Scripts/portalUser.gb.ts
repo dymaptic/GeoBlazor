@@ -21,14 +21,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         return this.component;
     }
     
-    async addItem(item: any,
-        data: any,
-        folder: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
-        let result = await this.component.addItem(jsItem,
-            data,
-            folder);
+    async addItem(parameters: any): Promise<any> {
+        let result = await this.component.addItem(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
@@ -59,22 +53,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         return await this.component.fetchGroups();
     }
 
-    async fetchItems(folder: any,
-        inRecycleBin: any,
-        includeSubfolderItems: any,
-        num: any,
-        sortField: any,
-        sortOrder: any,
-        start: any): Promise<any> {
-        let { buildJsPortalFolder } = await import('./portalFolder');
-        let jsFolder = await buildJsPortalFolder(folder, this.layerId, this.viewId) as any;
-        return await this.component.fetchItems(jsFolder,
-            inRecycleBin,
-            includeSubfolderItems,
-            num,
-            sortField,
-            sortOrder,
-            start);
+    async fetchItems(parameters: any): Promise<any> {
+        return await this.component.fetchItems(parameters);
     }
 
     async fetchTags(): Promise<any> {
@@ -181,6 +161,7 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
     
+    let { buildDotNetPortalUser } = await import('./portalUser');
     let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser);
     
     try {

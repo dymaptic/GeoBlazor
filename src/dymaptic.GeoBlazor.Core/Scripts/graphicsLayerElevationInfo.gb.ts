@@ -71,6 +71,7 @@ export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = graphicsLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfo;
     
+    let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
     let dnInstantiatedObject = await buildDotNetGraphicsLayerElevationInfo(jsGraphicsLayerElevationInfo);
     
     try {

@@ -11,11 +11,27 @@ export default class ColorRampWrapper extends ColorRampGenerated {
 }
 
 export async function buildJsColorRamp(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsColorRampGenerated } = await import('./colorRamp.gb');
-    return await buildJsColorRampGenerated(dotNetObject, layerId, viewId);
+    switch (dotNetObject?.type) {
+        case 'multipart':
+            let {buildJsMultipartColorRamp} = await import('./multipartColorRamp');
+            return await buildJsMultipartColorRamp(dotNetObject, layerId, viewId);
+        case 'algorithmic':
+            let {buildJsAlgorithmicColorRamp} = await import('./algorithmicColorRamp');
+            return await buildJsAlgorithmicColorRamp(dotNetObject, layerId, viewId);
+        default:
+            throw new Error(`Unsupported color ramp type: ${dotNetObject?.type}`);
+    }
 }     
 
 export async function buildDotNetColorRamp(jsObject: any): Promise<any> {
-    let { buildDotNetColorRampGenerated } = await import('./colorRamp.gb');
-    return await buildDotNetColorRampGenerated(jsObject);
+    switch (jsObject?.type) {
+        case 'multipart':
+            let {buildDotNetMultipartColorRamp} = await import('./multipartColorRamp');
+            return await buildDotNetMultipartColorRamp(jsObject);
+        case 'algorithmic':
+            let {buildDotNetAlgorithmicColorRamp} = await import('./algorithmicColorRamp');
+            return await buildDotNetAlgorithmicColorRamp(jsObject);
+        default:
+            throw new Error(`Unsupported color ramp type: ${jsObject?.type}`);
+    }
 }

@@ -1158,7 +1158,7 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Font?.ValidateRequiredGeneratedChildren();

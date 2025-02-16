@@ -660,7 +660,7 @@ public partial class Field
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Type is null)

@@ -508,7 +508,7 @@ public partial class FormTemplate
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Elements is not null)

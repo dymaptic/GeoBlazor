@@ -55,6 +55,7 @@ export async function buildJsAttachmentsPopupContentGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = attachmentsPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsContent;
     
+    let { buildDotNetAttachmentsPopupContent } = await import('./attachmentsPopupContent');
     let dnInstantiatedObject = await buildDotNetAttachmentsPopupContent(jsAttachmentsContent);
     
     try {

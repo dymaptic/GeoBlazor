@@ -387,7 +387,7 @@ public partial class MediaPopupContent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (MediaInfos is not null)

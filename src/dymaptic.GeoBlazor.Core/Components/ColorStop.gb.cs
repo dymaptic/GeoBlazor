@@ -250,7 +250,7 @@ public partial class ColorStop
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Color is null)

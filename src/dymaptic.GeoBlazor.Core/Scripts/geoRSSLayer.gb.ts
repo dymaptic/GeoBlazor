@@ -174,6 +174,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
+    let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
     let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer);
     
     try {

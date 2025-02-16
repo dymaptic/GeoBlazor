@@ -773,7 +773,7 @@ public partial class Basemap
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         PortalItem?.ValidateRequiredGeneratedChildren();

@@ -1,0 +1,109 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedSearchWidget(Action renderHandler)
+    {
+        SearchWidget? searchWidget = null;
+
+        SearchBlurEvent? searchBlurResult = null;
+        void OnSearchBlur(SearchBlurEvent result)
+        {
+            searchBlurResult = result;
+        }
+        SearchClearEvent? searchClearResult = null;
+        void OnSearchClear(SearchClearEvent result)
+        {
+            searchClearResult = result;
+        }
+        SearchCompleteEvent? searchCompleteResult = null;
+        void OnSearchComplete(SearchCompleteEvent result)
+        {
+            searchCompleteResult = result;
+        }
+        SearchFocusEvent? searchFocusResult = null;
+        void OnSearchFocus(SearchFocusEvent result)
+        {
+            searchFocusResult = result;
+        }
+        SearchStartEvent? searchStartResult = null;
+        void OnSearchStart(SearchStartEvent result)
+        {
+            searchStartResult = result;
+        }
+        SearchSelectResultEvent? selectResultResult = null;
+        void OnSelectResult(SearchSelectResultEvent result)
+        {
+            selectResultResult = result;
+        }
+        SearchSuggestCompleteEvent? suggestCompleteResult = null;
+        void OnSuggestComplete(SearchSuggestCompleteEvent result)
+        {
+            suggestCompleteResult = result;
+        }
+        SearchSuggestStartEvent? suggestStartResult = null;
+        void OnSuggestStart(SearchSuggestStartEvent result)
+        {
+            suggestStartResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <SearchWidget 
+                    OnSearchBlur="OnSearchBlur"
+                    OnSearchClear="OnSearchClear"
+                    OnSearchComplete="OnSearchComplete"
+                    OnSearchFocus="OnSearchFocus"
+                    OnSearchStart="OnSearchStart"
+                    OnSelectResult="OnSelectResult"
+                    OnSuggestComplete="OnSuggestComplete"
+                    OnSuggestStart="OnSuggestStart">
+                </SearchWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(searchWidget!);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "search-blur"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "search-clear"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "search-complete"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "search-focus"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "search-start"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "select-result"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "suggest-complete"]);
+        await AssertJavaScript("dispatchEvent", args: [searchWidget!.Id, "suggest-start"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (searchBlurResult is null || 
+            searchClearResult is null || 
+            searchCompleteResult is null || 
+            searchFocusResult is null || 
+            searchStartResult is null || 
+            selectResultResult is null || 
+            suggestCompleteResult is null || 
+            suggestStartResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<SearchBlurEvent>(searchBlurResult);
+        Assert.IsInstanceOfType<SearchClearEvent>(searchClearResult);
+        Assert.IsInstanceOfType<SearchCompleteEvent>(searchCompleteResult);
+        Assert.IsInstanceOfType<SearchFocusEvent>(searchFocusResult);
+        Assert.IsInstanceOfType<SearchStartEvent>(searchStartResult);
+        Assert.IsInstanceOfType<SearchSelectResultEvent>(selectResultResult);
+        Assert.IsInstanceOfType<SearchSuggestCompleteEvent>(suggestCompleteResult);
+        Assert.IsInstanceOfType<SearchSuggestStartEvent>(suggestStartResult);
+        await AssertJavaScript("assertWidgetExists", args: "search");
+        await searchWidget.Blur();
+        await searchWidget.Clear();
+        await searchWidget.Focus();
+    }
+}

@@ -888,7 +888,7 @@ public partial class PopupTemplate
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if ((Content is null || Content.Count == 0) && ContentFunction is null && StringContent is null)

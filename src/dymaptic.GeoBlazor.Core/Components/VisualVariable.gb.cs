@@ -315,7 +315,7 @@ public abstract partial class VisualVariable
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Field is null)

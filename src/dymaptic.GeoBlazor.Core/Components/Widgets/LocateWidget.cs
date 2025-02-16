@@ -20,15 +20,14 @@ public partial class LocateWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Scale { get; set; } = 2500;
-    
-        
+
     /// <summary>
     ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
     /// </summary>
     [Parameter]
     [JsonIgnore]
     [CodeGenerationIgnore]
-    public Func<GoToOverrideParameters, Task>? GoToOverride { get; set; }
+    public GoToOverride? GoToOverride { get; set; }
 
     /// <summary>
     ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.

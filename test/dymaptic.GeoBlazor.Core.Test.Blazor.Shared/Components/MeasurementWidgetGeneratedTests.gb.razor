@@ -1,0 +1,64 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedMeasurementWidget(Action renderHandler)
+    {
+        MeasurementWidget? measurementWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <MeasurementWidget 
+                    ActiveTool="@(ActiveTool.DirectLine)"
+                    AreaUnit="@(SystemOrAreaUnit.Imperial)"
+                    Icon="@("nihil")"
+                    Label="@("dicta")"
+                    LinearUnit="@(SystemOrLengthUnit.Inches)"
+                    WidgetId="@("doloribus")">
+                    <MeasurementViewModel 
+                        ActiveTool="@(ActiveTool.Area)"
+                        ActiveViewModel="@(new AreaMeasurement2DViewModel(SystemOrAreaUnit.Metric,
+                            [SystemOrAreaUnit.Imperial,
+                            SystemOrAreaUnit.Imperial]))"
+                        AreaUnit="@(SystemOrAreaUnit.Imperial)"
+                        LinearUnit="@(SystemOrLengthUnit.Kilometers)">
+                    </MeasurementViewModel>
+                </MeasurementWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(measurementWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "measurement");
+        await measurementWidget.Clear();
+        await measurementWidget.StartMeasurement();
+        ActiveTool testActiveTool = ActiveTool.DirectLine;
+        await measurementWidget.SetActiveTool(testActiveTool);
+        var activeTool = await measurementWidget.GetActiveTool();
+        Assert.AreEqual(testActiveTool, activeTool);
+        SystemOrAreaUnit testAreaUnit = SystemOrAreaUnit.Metric;
+        await measurementWidget.SetAreaUnit(testAreaUnit);
+        var areaUnit = await measurementWidget.GetAreaUnit();
+        Assert.AreEqual(testAreaUnit, areaUnit);
+        SystemOrLengthUnit testLinearUnit = SystemOrLengthUnit.UsFeet;
+        await measurementWidget.SetLinearUnit(testLinearUnit);
+        var linearUnit = await measurementWidget.GetLinearUnit();
+        Assert.AreEqual(testLinearUnit, linearUnit);
+        MeasurementViewModel testViewModel = new MeasurementViewModel(ActiveTool.DirectLine,
+                new AreaMeasurement2DViewModel(SystemOrAreaUnit.Imperial,
+                    [SystemOrAreaUnit.Metric]),
+                SystemOrAreaUnit.Imperial,
+                SystemOrLengthUnit.Feet);
+        await measurementWidget.SetViewModel(testViewModel);
+        var viewModel = await measurementWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

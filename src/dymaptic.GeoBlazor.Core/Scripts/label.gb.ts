@@ -98,6 +98,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     jsObjectRefs[dotNetObject.id] = labelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
     
+    let { buildDotNetLabel } = await import('./label');
     let dnInstantiatedObject = await buildDotNetLabel(jsLabelClass);
     
     try {

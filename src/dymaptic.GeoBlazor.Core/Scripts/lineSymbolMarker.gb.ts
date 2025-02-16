@@ -68,6 +68,7 @@ export async function buildJsLineSymbolMarkerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = lineSymbolMarkerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbolMarker;
     
+    let { buildDotNetLineSymbolMarker } = await import('./lineSymbolMarker');
     let dnInstantiatedObject = await buildDotNetLineSymbolMarker(jsLineSymbolMarker);
     
     try {

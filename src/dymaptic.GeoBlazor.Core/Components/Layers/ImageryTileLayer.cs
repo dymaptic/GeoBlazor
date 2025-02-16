@@ -206,7 +206,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
         }
     }
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

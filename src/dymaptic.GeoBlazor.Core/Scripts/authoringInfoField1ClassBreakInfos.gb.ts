@@ -52,6 +52,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = authoringInfoField1ClassBreakInfosWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
     
+    let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
     let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos);
     
     try {

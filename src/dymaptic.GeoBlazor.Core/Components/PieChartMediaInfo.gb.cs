@@ -168,7 +168,7 @@ public partial class PieChartMediaInfo : IChartMediaInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Value?.ValidateRequiredGeneratedChildren();

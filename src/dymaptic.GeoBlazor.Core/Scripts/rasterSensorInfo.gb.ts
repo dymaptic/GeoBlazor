@@ -70,6 +70,7 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = rasterSensorInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
+    let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
     let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
     
     try {

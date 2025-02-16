@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer, MapImageLayer, SceneLayer, TileLayer
+///    Interface for types CatalogLayer, FeatureLayer, MapImageLayer, SceneLayer, TileLayer
 /// </summary>
 public partial interface ICustomParametersMixin 
 {

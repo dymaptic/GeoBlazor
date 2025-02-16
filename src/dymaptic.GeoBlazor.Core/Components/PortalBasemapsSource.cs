@@ -22,4 +22,26 @@ public partial class PortalBasemapsSource : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, string>? QueryParams { get; set; }
 
+#region Public Methods
+
+    /// <summary>
+    ///     Refreshes basemaps by fetching them from the Portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public override async ValueTask Refresh()
+    {
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
+            CancellationTokenSource.Token);
+        await base.Refresh();
+    }
+    
+#endregion
 }

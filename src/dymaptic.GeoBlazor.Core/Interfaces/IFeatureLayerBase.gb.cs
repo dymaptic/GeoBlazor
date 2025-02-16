@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer
+///    Interface for types CatalogLayer, FeatureLayer
 /// </summary>
 public partial interface IFeatureLayerBase 
 {

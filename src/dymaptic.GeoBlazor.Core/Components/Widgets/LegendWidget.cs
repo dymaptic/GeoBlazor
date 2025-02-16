@@ -35,7 +35,7 @@ public partial class LegendWidget : Widget
     {
         switch (child)
         {
-            case LegendStyle:
+            case LegendStyle _:
                 Style = null;
 
                 break;

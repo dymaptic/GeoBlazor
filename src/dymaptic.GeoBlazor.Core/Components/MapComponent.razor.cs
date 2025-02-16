@@ -5,7 +5,7 @@
 ///     The abstract base Razor Component class that all GeoBlazor components derive from.
 /// </summary>
 [JsonConverter(typeof(MapComponentConverter))]
-public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
+public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IMapComponent
 {
     /// <summary>
     ///     Represents an instance of a JavaScript runtime to which calls may be dispatched.
@@ -100,7 +100,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>
-    public Guid Id { get; internal set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
     
     /// <summary>
     ///     Whether the component has been disposed.
@@ -683,7 +683,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <exception cref="MissingRequiredOptionsChildElementException">
     ///     The consumer needs to provide ONE of the options of child components
     /// </exception>
-    internal virtual void ValidateRequiredChildren()
+    public virtual void ValidateRequiredChildren()
     {
         if (IsValidated) return;
         
@@ -755,7 +755,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable
     /// <summary>
     ///     Validates source-generated child components.
     /// </summary>
-    internal virtual void ValidateRequiredGeneratedChildren()
+    public virtual void ValidateRequiredGeneratedChildren()
     {
         
     }

@@ -50,7 +50,7 @@ public partial class SimpleFillSymbol : FillSymbol
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();

@@ -572,7 +572,7 @@ public partial class Extent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Center?.ValidateRequiredGeneratedChildren();

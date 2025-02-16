@@ -54,6 +54,7 @@ export async function buildJsChartMediaInfoValueSeriesGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = chartMediaInfoValueSeriesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValueSeries;
     
+    let { buildDotNetChartMediaInfoValueSeries } = await import('./chartMediaInfoValueSeries');
     let dnInstantiatedObject = await buildDotNetChartMediaInfoValueSeries(jsChartMediaInfoValueSeries);
     
     try {

@@ -80,7 +80,7 @@ public partial class Basemap : MapComponent
 
     /// <inheritdoc />
     [CodeGenerationIgnore]
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         if (BaseLayers is not null)
         {

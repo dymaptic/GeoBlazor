@@ -3,7 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 public partial class LayerSearchSource : SearchSource
 {
     /// <inheritdoc/>
-    public override string Type => "layer";
+    public override SearchSourceType Type => SearchSourceType.Layer;
 
     /// <summary>
     ///     The results are displayed using this field. Defaults to the layer's displayField or the first string field.
@@ -74,9 +74,8 @@ public partial class LayerSearchSource : SearchSource
         }
     }
 
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
-
         Layer?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }

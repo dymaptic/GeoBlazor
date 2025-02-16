@@ -83,7 +83,7 @@ public class DynamicDataLayer : DynamicLayer
     }
 
     /// <inheritdoc/>
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         DataSource?.ValidateRequiredChildren();
         foreach (DynamicLayerField field in _fields)

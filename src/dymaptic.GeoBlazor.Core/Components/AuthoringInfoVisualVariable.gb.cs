@@ -1028,7 +1028,7 @@ public partial class AuthoringInfoVisualVariable
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (SizeStops is not null)

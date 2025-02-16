@@ -1,0 +1,266 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedSliderWidget(Action renderHandler)
+    {
+        SliderWidget? sliderWidget = null;
+
+        SliderMaxChangeEvent? maxChangeResult = null;
+        void OnMaxChange(SliderMaxChangeEvent result)
+        {
+            maxChangeResult = result;
+        }
+        SliderMaxClickEvent? maxClickResult = null;
+        void OnMaxClick(SliderMaxClickEvent result)
+        {
+            maxClickResult = result;
+        }
+        SliderMinChangeEvent? minChangeResult = null;
+        void OnMinChange(SliderMinChangeEvent result)
+        {
+            minChangeResult = result;
+        }
+        SliderMinClickEvent? minClickResult = null;
+        void OnMinClick(SliderMinClickEvent result)
+        {
+            minClickResult = result;
+        }
+        SliderSegmentClickEvent? segmentClickResult = null;
+        void OnSegmentClick(SliderSegmentClickEvent result)
+        {
+            segmentClickResult = result;
+        }
+        SliderSegmentDragEvent? segmentDragResult = null;
+        void OnSegmentDrag(SliderSegmentDragEvent result)
+        {
+            segmentDragResult = result;
+        }
+        SliderThumbChangeEvent? thumbChangeResult = null;
+        void OnThumbChange(SliderThumbChangeEvent result)
+        {
+            thumbChangeResult = result;
+        }
+        SliderThumbClickEvent? thumbClickResult = null;
+        void OnThumbClick(SliderThumbClickEvent result)
+        {
+            thumbClickResult = result;
+        }
+        SliderThumbDragEvent? thumbDragResult = null;
+        void OnThumbDrag(SliderThumbDragEvent result)
+        {
+            thumbDragResult = result;
+        }
+        SliderTickClickEvent? tickClickResult = null;
+        void OnTickClick(SliderTickClickEvent result)
+        {
+            tickClickResult = result;
+        }
+        SliderTrackClickEvent? trackClickResult = null;
+        void OnTrackClick(SliderTrackClickEvent result)
+        {
+            trackClickResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <SliderWidget 
+                    ContainerId="@("deserunt")"
+                    Disabled="@(true)"
+                    DraggableSegmentsEnabled="@(true)"
+                    EffectiveMax="@(330.5168)"
+                    EffectiveMin="@(271.7935)"
+                    Label="@("ut")"
+                    LabelInputsEnabled="@(true)"
+                    Layout="@(SliderLayout.HorizontalReversed)"
+                    Max="@(567.2975)"
+                    Min="@(507.2427)"
+                    Precision="@(57.9194)"
+                    RangeLabelInputsEnabled="@(true)"
+                    SnapOnClickEnabled="@(true)"
+                    Steps="@([317.9204,
+                        779.4698])"
+                    StepInterval="@(398.2687)"
+                    SyncedSegmentsEnabled="@(true)"
+                    ThumbsConstrained="@(true)"
+                    Values="@([860.2056])"
+                    InputCreatedFunction="@(new InputCreatedFunction())"
+                    InputFormatFunction="@(new SliderLabelFormatter(274.8228,
+                        SliderLabelFormatterType.Value,
+                            5,
+                            "in"))"
+                    InputParseFunction="@(new InputParserFunction("voluptatem",
+                        SliderInputParserType.Max,
+                        8,
+                        "est"))"
+                    LabelFormatFunction="@(new SliderLabelFormatter(803.4361,
+                        SliderLabelFormatterType.Tick,
+                            3,
+                            "aliquam"))"
+                    ThumbCreatedFunction="@(new ThumbCreatedFunction())"
+                    Visible="@(true)"
+                    Icon="@("asperiores")"
+                    WidgetId="@("nihil")"
+                    OnMaxChange="OnMaxChange"
+                    OnMaxClick="OnMaxClick"
+                    OnMinChange="OnMinChange"
+                    OnMinClick="OnMinClick"
+                    OnSegmentClick="OnSegmentClick"
+                    OnSegmentDrag="OnSegmentDrag"
+                    OnThumbChange="OnThumbChange"
+                    OnThumbClick="OnThumbClick"
+                    OnThumbDrag="OnThumbDrag"
+                    OnTickClick="OnTickClick"
+                    OnTrackClick="OnTrackClick">
+                    <SliderVisibleElements 
+                        Labels="@(true)"
+                        RangeLabels="@(true)">
+                    </SliderVisibleElements>
+                    <SliderViewModel 
+                        EffectiveMax="@(819.3091)"
+                        EffectiveMin="@(801.9235)"
+                        InputFormatFunction="@(new SliderLabelFormatter(905.5350,
+                            SliderLabelFormatterType.Value,
+                                1,
+                                "laudantium"))"
+                        InputParseFunction="@(new InputParser())"
+                        LabelFormatFunction="@(new SliderLabelFormatter(789.1998,
+                            SliderLabelFormatterType.Min,
+                                3,
+                                "ab"))"
+                        Max="@(621.8408)"
+                        Min="@(564.7220)"
+                        Precision="@(873.3621)"
+                        ThumbsConstrained="@(true)"
+                        Values="@([303.5024,
+                            830.4826])">
+                    </SliderViewModel>
+                    <TickConfig 
+                        Mode="@(TickConfigMode.Percent)"
+                        DoubleCollectionValues="@([108.6800,
+                            899.0347])"
+                        DoubleValues="@(246.4221)"
+                        LabelFormatFunction="@(new SliderLabelFormatter(714.7786,
+                            SliderLabelFormatterType.Max,
+                                3,
+                                "vel"))"
+                        LabelsVisible="@(true)"
+                        TickCreatedFunction="@(new TickCreatedFunction())">
+                    </TickConfig>
+                </SliderWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(sliderWidget!);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "max-change"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "max-click"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "min-change"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "min-click"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "segment-click"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "segment-drag"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "thumb-change"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "thumb-click"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "thumb-drag"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "tick-click"]);
+        await AssertJavaScript("dispatchEvent", args: [sliderWidget!.Id, "track-click"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (maxChangeResult is null || 
+            maxClickResult is null || 
+            minChangeResult is null || 
+            minClickResult is null || 
+            segmentClickResult is null || 
+            segmentDragResult is null || 
+            thumbChangeResult is null || 
+            thumbClickResult is null || 
+            thumbDragResult is null || 
+            tickClickResult is null || 
+            trackClickResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<SliderMaxChangeEvent>(maxChangeResult);
+        Assert.IsInstanceOfType<SliderMaxClickEvent>(maxClickResult);
+        Assert.IsInstanceOfType<SliderMinChangeEvent>(minChangeResult);
+        Assert.IsInstanceOfType<SliderMinClickEvent>(minClickResult);
+        Assert.IsInstanceOfType<SliderSegmentClickEvent>(segmentClickResult);
+        Assert.IsInstanceOfType<SliderSegmentDragEvent>(segmentDragResult);
+        Assert.IsInstanceOfType<SliderThumbChangeEvent>(thumbChangeResult);
+        Assert.IsInstanceOfType<SliderThumbClickEvent>(thumbClickResult);
+        Assert.IsInstanceOfType<SliderThumbDragEvent>(thumbDragResult);
+        Assert.IsInstanceOfType<SliderTickClickEvent>(tickClickResult);
+        Assert.IsInstanceOfType<SliderTrackClickEvent>(trackClickResult);
+        await AssertJavaScript("assertWidgetExists", args: "slider");
+        SliderLayout testLayout = SliderLayout.Horizontal;
+        await sliderWidget.SetLayout(testLayout);
+        var layout = await sliderWidget.GetLayout();
+        Assert.AreEqual(testLayout, layout);
+        InputCreatedFunction testInputCreatedFunction = new InputCreatedFunction();
+        await sliderWidget.SetInputCreatedFunction(testInputCreatedFunction);
+        var inputCreatedFunction = await sliderWidget.GetInputCreatedFunction();
+        Assert.AreEqual(testInputCreatedFunction, inputCreatedFunction);
+        SliderLabelFormatter testInputFormatFunction = new SliderLabelFormatter(923.3077,
+                SliderLabelFormatterType.Value,
+                    9,
+                    "occaecati");
+        await sliderWidget.SetInputFormatFunction(testInputFormatFunction);
+        var inputFormatFunction = await sliderWidget.GetInputFormatFunction();
+        Assert.AreEqual(testInputFormatFunction, inputFormatFunction);
+        SliderLabelFormatter testLabelFormatFunction = new SliderLabelFormatter(349.8070,
+                SliderLabelFormatterType.Value,
+                    5,
+                    "dicta");
+        await sliderWidget.SetLabelFormatFunction(testLabelFormatFunction);
+        var labelFormatFunction = await sliderWidget.GetLabelFormatFunction();
+        Assert.AreEqual(testLabelFormatFunction, labelFormatFunction);
+        ThumbCreatedFunction testThumbCreatedFunction = new ThumbCreatedFunction();
+        await sliderWidget.SetThumbCreatedFunction(testThumbCreatedFunction);
+        var thumbCreatedFunction = await sliderWidget.GetThumbCreatedFunction();
+        Assert.AreEqual(testThumbCreatedFunction, thumbCreatedFunction);
+        IReadOnlyList<TickConfig> testTickConfigs = [new TickConfig(TickConfigMode.Count,
+                    [794.7600],
+                    200.1848,
+                new SliderLabelFormatter(883.0759,
+                    SliderLabelFormatterType.Value,
+                        5,
+                        "dolor"),
+                    true,
+                new TickCreatedFunction())];
+        await sliderWidget.SetTickConfigs(testTickConfigs);
+        var tickConfigs = await sliderWidget.GetTickConfigs();
+        Assert.AreEqual(testTickConfigs, tickConfigs);
+        SliderVisibleElements testVisibleElements = new SliderVisibleElements(true,
+                    true);
+        await sliderWidget.SetVisibleElements(testVisibleElements);
+        var visibleElements = await sliderWidget.GetVisibleElements();
+        Assert.AreEqual(testVisibleElements, visibleElements);
+        SliderViewModel testViewModel = new SliderViewModel(677.9820,
+                    779.6975,
+                new SliderLabelFormatter(497.2236,
+                    SliderLabelFormatterType.Value,
+                        6,
+                        "debitis"),
+                new InputParser(),
+                new SliderLabelFormatter(626.9259,
+                    SliderLabelFormatterType.Min,
+                        7,
+                        "quia"),
+                    411.6971,
+                    299.6130,
+                    587.0069,
+                    true,
+                    [230.9353]);
+        await sliderWidget.SetViewModel(testViewModel);
+        var viewModel = await sliderWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

@@ -58,6 +58,7 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = dimensionalDefinitionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
+    let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
     let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
     
     try {

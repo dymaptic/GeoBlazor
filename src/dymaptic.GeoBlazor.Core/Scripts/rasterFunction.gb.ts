@@ -61,6 +61,7 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = rasterFunctionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
     
+    let { buildDotNetRasterFunction } = await import('./rasterFunction');
     let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction);
     
     try {

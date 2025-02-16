@@ -1055,7 +1055,7 @@ public partial class WebTileLayer : IBlendLayer,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         PortalItem?.ValidateRequiredGeneratedChildren();

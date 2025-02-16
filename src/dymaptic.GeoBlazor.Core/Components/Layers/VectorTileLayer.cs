@@ -100,7 +100,7 @@ public partial class VectorTileLayer : Layer
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();

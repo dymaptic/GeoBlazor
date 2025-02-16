@@ -1,20 +1,15 @@
 ﻿import Popup from "@arcgis/core/widgets/Popup";
-import {DotNetGraphic, IPropertyWrapper} from "./definitions";
 import {dotNetRefs} from "./arcGisJsInterop";
-import {buildJsSymbol} from "./jsBuilder";
 import Symbol from "@arcgis/core/symbols/Symbol";
+import { buildJsSymbol } from "./symbol";
+import PopupWidgetGenerated from "./popupWidget.gb";
 
-export default class PopupWidgetWrapper implements IPropertyWrapper {
+export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     private popup: Popup;
 
     constructor(popup: Popup) {
+        super(popup);
         this.popup = popup;
-        // set all properties from graphic
-        for (let prop in popup) {
-            if (prop.hasOwnProperty(prop)) {
-                this[prop] = popup[prop];
-            }
-        }
     }
 
     unwrap() {
@@ -29,19 +24,19 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
         this.popup.close();
     }
 
-    async fetchFeatures(): Promise<Array<DotNetGraphic>> {
+    async fetchFeatures(): Promise<Array<any>> {
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.popup.features.map((g) => buildDotNetGraphic(g, null, null) as DotNetGraphic);
+        return await Promise.all(this.popup.features.map(async (g) => await buildDotNetGraphic(g, null, null)));
     }
 
     getFeatureCount(): number {
         return this.popup.featureCount;
     }
 
-    async getSelectedFeature(viewId: string | null): Promise<DotNetGraphic | null> {
+    async getSelectedFeature(viewId: string | null): Promise<any | null> {
         let feature = this.popup.selectedFeature;
         let { buildDotNetGraphic } = await import('./graphic');
-        let graphic = buildDotNetGraphic(feature, null, viewId);
+        let graphic = await buildDotNetGraphic(feature, null, viewId);
         if (viewId !== null && graphic !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
         }
@@ -64,8 +59,8 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
         this.popup.content = content;
     }
     
-    setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
-        this.popup.viewModel.selectedClusterBoundaryFeature.symbol = buildJsSymbol(symbol) as Symbol;
+    async setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
+        this.popup.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol, this.layerId, this.viewId) as Symbol;
     }
 
     setProperty(prop: string, value: any): void {
@@ -91,4 +86,14 @@ export default class PopupWidgetWrapper implements IPropertyWrapper {
             this.popup[prop].remove(value);
         }
     }
+}
+
+export async function buildJsPopupWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsPopupWidgetGenerated } = await import('./popupWidget.gb');
+    return await buildJsPopupWidgetGenerated(dotNetObject, layerId, viewId);
+}
+
+export async function buildDotNetPopupWidget(jsObject: any): Promise<any> {
+    let { buildDotNetPopupWidgetGenerated } = await import('./popupWidget.gb');
+    return await buildDotNetPopupWidgetGenerated(jsObject);
 }

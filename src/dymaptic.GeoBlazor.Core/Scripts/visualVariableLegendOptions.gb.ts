@@ -52,6 +52,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = visualVariableLegendOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
     
+    let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
     let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions);
     
     try {

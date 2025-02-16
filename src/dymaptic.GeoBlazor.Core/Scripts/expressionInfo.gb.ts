@@ -58,6 +58,7 @@ export async function buildJsExpressionInfoGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = expressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionInfo;
     
+    let { buildDotNetExpressionInfo } = await import('./expressionInfo');
     let dnInstantiatedObject = await buildDotNetExpressionInfo(jsExpressionInfo);
     
     try {

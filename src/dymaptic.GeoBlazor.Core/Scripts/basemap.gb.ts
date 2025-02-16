@@ -79,7 +79,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value);
+        this.component.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
     }
     async getStyle(): Promise<any> {
         if (!hasValue(this.component.style)) {
@@ -117,8 +117,8 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         jsBasemap.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./jsBuilder');
-        jsBasemap.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        let { buildJsSpatialReference } = await import('./spatialReference');
+        jsBasemap.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
@@ -145,6 +145,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     
+    let { buildDotNetBasemap } = await import('./basemap');
     let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
     
     try {

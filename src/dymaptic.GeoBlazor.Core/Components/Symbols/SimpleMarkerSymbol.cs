@@ -60,7 +60,7 @@ public partial class SimpleMarkerSymbol : MarkerSymbol
     
     /// <inheritdoc />
     [CodeGenerationIgnore]
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Outline?.ValidateRequiredChildren();

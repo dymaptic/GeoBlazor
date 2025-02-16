@@ -1,0 +1,42 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedCompassWidget(Action renderHandler)
+    {
+        CompassWidget? compassWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <CompassWidget 
+                    GoToOverride="@(new GoToOverride())"
+                    Icon="@("et")"
+                    Label="@("eos")"
+                    ViewModel="@(new CompassViewModel(new GoToOverride()))"
+                    WidgetId="@("praesentium")">
+                </CompassWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(compassWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "compass");
+        await compassWidget.Reset();
+        GoToOverride testGoToOverride = new GoToOverride();
+        await compassWidget.SetGoToOverride(testGoToOverride);
+        var goToOverride = await compassWidget.GetGoToOverride();
+        Assert.AreEqual(testGoToOverride, goToOverride);
+        CompassViewModel testViewModel = new CompassViewModel(new GoToOverride());
+        await compassWidget.SetViewModel(testViewModel);
+        var viewModel = await compassWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

@@ -2035,7 +2035,7 @@ public partial class Sublayer
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Fields is not null)

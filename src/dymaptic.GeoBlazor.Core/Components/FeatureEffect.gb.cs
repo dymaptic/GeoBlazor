@@ -432,7 +432,7 @@ public partial class FeatureEffect
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Filter?.ValidateRequiredGeneratedChildren();

@@ -61,6 +61,7 @@ export async function buildJsMapFontGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = mapFontWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFont;
     
+    let { buildDotNetMapFont } = await import('./mapFont');
     let dnInstantiatedObject = await buildDotNetMapFont(jsFont);
     
     try {

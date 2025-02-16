@@ -249,7 +249,7 @@ public partial class PixelData : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Extent?.ValidateRequiredGeneratedChildren();

@@ -125,7 +125,7 @@ public abstract partial class Renderer
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         AuthoringInfo?.ValidateRequiredGeneratedChildren();

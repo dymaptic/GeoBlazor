@@ -265,6 +265,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = tileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
     
+    let { buildDotNetTileLayer } = await import('./tileLayer');
     let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer);
     
     try {

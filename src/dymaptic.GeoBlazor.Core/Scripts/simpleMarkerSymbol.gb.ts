@@ -83,6 +83,7 @@ export async function buildJsSimpleMarkerSymbolGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = simpleMarkerSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleMarkerSymbol;
     
+    let { buildDotNetSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
     let dnInstantiatedObject = await buildDotNetSimpleMarkerSymbol(jsSimpleMarkerSymbol);
     
     try {

@@ -52,6 +52,7 @@ export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = layerOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
     
+    let { buildDotNetLayerOptions } = await import('./layerOptions');
     let dnInstantiatedObject = await buildDotNetLayerOptions(jsLayerOptions);
     
     try {

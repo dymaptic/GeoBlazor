@@ -375,7 +375,7 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         FeatureExpressionInfo?.ValidateRequiredGeneratedChildren();

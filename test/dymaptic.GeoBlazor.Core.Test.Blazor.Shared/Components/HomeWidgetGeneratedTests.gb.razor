@@ -1,0 +1,204 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedHomeWidget(Action renderHandler)
+    {
+        HomeWidget? homeWidget = null;
+
+        HomeGoEvent? goResult = null;
+        void OnGo(HomeGoEvent result)
+        {
+            goResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <HomeWidget 
+                    GoToOverride="@(new GoToOverride())"
+                    Icon="@("et")"
+                    Label="@("ducimus")"
+                    UiStrings="@("illo")"
+                    ViewModel="@(new HomeViewModel(new GoToOverride(),
+                        new Viewpoint(new Extent(156.3384,
+                                    45.0327,
+                                    -13.8919,
+                                    -26.3787,
+                                    808.1533,
+                                    728.6402,
+                                    952.9567,
+                                    622.3253,
+                                new SpatialReference(6,
+                                        "molestiae",
+                                        "vel",
+                                        "aperiam"),
+                                    true,
+                                    true),
+                                14817167.7693,
+                                354.9095,
+                            new Camera(237.6413,
+                                    120.2872,
+                                new CameraLayout(945.8802,
+                                        901.0241,
+                                        409.0611,
+                                        666.3350),
+                                new Point(-137.1654,
+                                        -35.4489,
+                                        83.0042,
+                                        78.4645,
+                                        146.9464,
+                                    new SpatialReference(4,
+                                            "repellendus",
+                                            "quisquam",
+                                            "repellat"),
+                                        true,
+                                        true,
+                                        884.9974),
+                                    676.1560))))"
+                    Viewpoint="@(new Viewpoint(new Polygon([new MapPath([new MapPoint([179.1441,
+                                    130.3741]),
+                                new MapPoint([474.7220,
+                                    883.1390])]),
+                                new MapPath([new MapPoint([369.3665,
+                                        775.1881]),
+                                    new MapPoint([230.2169,
+                                        355.4294])])],
+                            new SpatialReference(5,
+                                    "error",
+                                    "nisi",
+                                    "et"),
+                            new Point(11.2610,
+                                    -31.8389,
+                                    126.9257,
+                                    -42.6271,
+                                    713.9833,
+                                new SpatialReference(7,
+                                        "sit",
+                                        "consequatur",
+                                        "sit"),
+                                    true,
+                                    true,
+                                    522.6009),
+                                true,
+                                true,
+                                true),
+                            11345654.1588,
+                            192.7827,
+                        new Camera(987.2937,
+                                96.4827,
+                            new CameraLayout(576.2962,
+                                    434.9967,
+                                    209.2683,
+                                    955.4387),
+                            new Point(153.9870,
+                                    -50.8022,
+                                    -141.5161,
+                                    -52.3471,
+                                    673.7575,
+                                new SpatialReference(4,
+                                        "quam",
+                                        "at",
+                                        "ut"),
+                                    true,
+                                    true,
+                                    266.9724),
+                                595.2321)))"
+                    WidgetId="@("assumenda")"
+                    OnGo="OnGo">
+                </HomeWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(homeWidget!);
+        await AssertJavaScript("dispatchEvent", args: [homeWidget!.Id, "go"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (goResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<HomeGoEvent>(goResult);
+        await AssertJavaScript("assertWidgetExists", args: "home");
+        await homeWidget.CancelGo();
+        await homeWidget.Go();
+        GoToOverride testGoToOverride = new GoToOverride();
+        await homeWidget.SetGoToOverride(testGoToOverride);
+        var goToOverride = await homeWidget.GetGoToOverride();
+        Assert.AreEqual(testGoToOverride, goToOverride);
+        HomeViewModel testViewModel = new HomeViewModel(new GoToOverride(),
+                new Viewpoint(new Polyline([new MapPath([new MapPoint([973.3041])]),
+                            new MapPath([new MapPoint([922.2288]),
+                                new MapPoint([654.0751])])],
+                        new SpatialReference(8,
+                                "quod",
+                                "est",
+                                "tempora"),
+                            true,
+                            true),
+                        10264619.8201,
+                        112.7259,
+                    new Camera(733.2489,
+                            444.9032,
+                        new CameraLayout(98.4057,
+                                316.1494,
+                                710.4307,
+                                69.8083),
+                        new Point(122.2279,
+                                45.4806,
+                                -170.7464,
+                                62.6091,
+                                952.6415,
+                            new SpatialReference(5,
+                                    "totam",
+                                    "vitae",
+                                    "est"),
+                                true,
+                                true,
+                                45.6016),
+                            178.9199)));
+        await homeWidget.SetViewModel(testViewModel);
+        var viewModel = await homeWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+        Viewpoint testViewpoint = new Viewpoint(new Polyline([new MapPath([new MapPoint([24.5619]),
+                        new MapPoint([366.7483])])],
+                    new SpatialReference(5,
+                            "laborum",
+                            "ea",
+                            "magnam"),
+                        true,
+                        true),
+                    98127.9930,
+                    134.9728,
+                new Camera(578.7597,
+                        531.8339,
+                    new CameraLayout(184.9504,
+                            746.1190,
+                            208.5899,
+                            389.7274),
+                    new Point(165.0134,
+                            -67.7227,
+                            -158.9196,
+                            -8.0393,
+                            569.0872,
+                        new SpatialReference(8,
+                                "eos",
+                                "numquam",
+                                "ab"),
+                            true,
+                            true,
+                            679.0219),
+                        91.2280));
+        await homeWidget.SetViewpoint(testViewpoint);
+        var viewpoint = await homeWidget.GetViewpoint();
+        Assert.AreEqual(testViewpoint, viewpoint);
+    }
+}

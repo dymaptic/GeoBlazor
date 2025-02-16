@@ -375,7 +375,7 @@ public partial class CSVLayerElevationInfo : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         FeatureExpressionInfo?.ValidateRequiredGeneratedChildren();

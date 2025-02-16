@@ -73,6 +73,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = capabilitiesEditingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     
+    let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
     let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing);
     
     try {

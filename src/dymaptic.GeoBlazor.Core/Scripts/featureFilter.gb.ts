@@ -63,7 +63,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureFilter = new FeatureFilter();
     if (hasValue(dotNetObject.geometry)) {
-        let { buildJsGeometry } = await import('./jsBuilder');
+        let { buildJsGeometry } = await import('./geometry');
         jsFeatureFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
@@ -97,6 +97,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
     
+    let { buildDotNetFeatureFilter } = await import('./featureFilter');
     let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
     
     try {

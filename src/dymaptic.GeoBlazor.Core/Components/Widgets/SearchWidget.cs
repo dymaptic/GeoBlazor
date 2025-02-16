@@ -134,12 +134,6 @@ public partial class SearchWidget : Widget
     [JsonIgnore]
     public EventCallback<SearchResult> OnSearchSelectResultEvent { get; set; }
 
-
-    /// <summary>
-    ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
-    /// </summary>
-    public bool HasGoToOverride => GoToOverride is not null;
-
     
     /// <summary>
     ///     A customized PopupTemplate for the selected feature. Note that any templates defined on allSources take precedence over those defined directly on the template.
@@ -319,7 +313,7 @@ public async Task<SuggestResult[]> GetSuggestions()
         {
             case SearchSource source:
                 Sources ??= new List<SearchSource>();
-                Sources.Add(source);
+                Sources = [..Sources, source];
                 WidgetChanged = true;
                 break;
             case PopupTemplate popupTemplate:
@@ -351,7 +345,7 @@ public async Task<SuggestResult[]> GetSuggestions()
         switch (child)
         {
             case SearchSource source:
-                Sources?.Remove(source);
+                Sources = Sources?.Except([source]).ToList();
                 break;
             case PopupTemplate _:
                 PopupTemplate = null;
@@ -367,8 +361,8 @@ public async Task<SuggestResult[]> GetSuggestions()
                 break;
         }
     }
-    
-    internal override void ValidateRequiredChildren()
+
+    public override void ValidateRequiredChildren()
     {
 
         PopupTemplate?.ValidateRequiredChildren();

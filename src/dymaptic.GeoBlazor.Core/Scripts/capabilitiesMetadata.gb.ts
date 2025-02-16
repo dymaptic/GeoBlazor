@@ -49,6 +49,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = capabilitiesMetadataWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
+    let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
     let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
     
     try {

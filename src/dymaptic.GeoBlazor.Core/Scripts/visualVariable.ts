@@ -1,3 +1,6 @@
+import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
+import {hasValue} from "./arcGisJsInterop";
+
 export async function buildDotNetVisualVariable(jsObject: any): Promise<any> {
     switch (jsObject?.type){
         case 'color':
@@ -12,6 +15,26 @@ export async function buildDotNetVisualVariable(jsObject: any): Promise<any> {
         case 'rotation':
             let { buildDotNetRotationVariable } = await import('./rotationVariable');
             return await buildDotNetRotationVariable(jsObject);
+        default:
+            throw new Error('Unknown visual variable type');
+    }
+}
+
+export async function buildJsVisualVariable(dotNetVisualVariable, layerId: string | null, viewId: string | null)
+    : Promise<VisualVariable | null> {
+    switch (dotNetVisualVariable?.type) {
+        case 'color':
+            let {buildJsColorVariable} = await import('./colorVariable');
+            return await buildJsColorVariable(dotNetVisualVariable, layerId, viewId);
+        case 'size':
+            let {buildJsSizeVariable} = await import('./sizeVariable');
+            return await buildJsSizeVariable(dotNetVisualVariable, layerId, viewId);
+        case 'opacity':
+            let {buildJsOpacityVariable} = await import('./opacityVariable');
+            return await buildJsOpacityVariable(dotNetVisualVariable, layerId, viewId);
+        case 'rotation':
+            let {buildJsRotationVariable} = await import('./rotationVariable');
+            return await buildJsRotationVariable(dotNetVisualVariable, layerId, viewId);
         default:
             throw new Error('Unknown visual variable type');
     }

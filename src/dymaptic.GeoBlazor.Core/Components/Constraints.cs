@@ -119,7 +119,7 @@ public class Constraints : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();

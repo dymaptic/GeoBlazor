@@ -67,6 +67,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = capabilitiesAttachmentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     
+    let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
     let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment);
     
     try {

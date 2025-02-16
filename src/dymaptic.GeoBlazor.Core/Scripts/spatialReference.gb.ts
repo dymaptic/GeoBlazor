@@ -23,30 +23,6 @@ export default class SpatialReferenceGenerated implements IPropertyWrapper {
     
     // region properties
     
-    async getWebMercator(): Promise<any> {
-        if (!hasValue(this.component.WebMercator)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.WebMercator);
-    }
-    async setWebMercator(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.WebMercator =  buildJsSpatialReference(value);
-    }
-    async getWgs84(): Promise<any> {
-        if (!hasValue(this.component.WGS84)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.WGS84);
-    }
-    async setWgs84(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.WGS84 =  buildJsSpatialReference(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -82,6 +58,7 @@ export async function buildJsSpatialReferenceGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = spatialReferenceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSpatialReference;
     
+    let { buildDotNetSpatialReference } = await import('./spatialReference');
     let dnInstantiatedObject = buildDotNetSpatialReference(jsSpatialReference);
     
     try {

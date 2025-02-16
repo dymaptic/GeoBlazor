@@ -1524,7 +1524,7 @@ public partial class AuthoringInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         ColorRamp?.ValidateRequiredGeneratedChildren();

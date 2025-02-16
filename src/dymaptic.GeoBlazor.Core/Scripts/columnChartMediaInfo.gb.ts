@@ -71,6 +71,7 @@ export async function buildJsColumnChartMediaInfoGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = columnChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColumnChartMediaInfo;
     
+    let { buildDotNetColumnChartMediaInfo } = await import('./columnChartMediaInfo');
     let dnInstantiatedObject = await buildDotNetColumnChartMediaInfo(jsColumnChartMediaInfo);
     
     try {

@@ -67,7 +67,7 @@ public enum WidgetType
     SnappingControls,
     Swipe,
     TableList,
-    TableListListItemPanel,
+    TableListItemPanel,
     TimeSlider,
     TimeZoneLabel,
     Track,

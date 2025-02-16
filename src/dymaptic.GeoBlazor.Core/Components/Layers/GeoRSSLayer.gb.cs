@@ -946,7 +946,7 @@ public partial class GeoRSSLayer : IBlendLayer,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         LineSymbol?.ValidateRequiredGeneratedChildren();

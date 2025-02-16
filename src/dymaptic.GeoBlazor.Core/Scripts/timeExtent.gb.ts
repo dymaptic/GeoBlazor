@@ -68,6 +68,7 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = timeExtentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeExtent;
     
+    let { buildDotNetTimeExtent } = await import('./timeExtent');
     let dnInstantiatedObject = buildDotNetTimeExtent(jsTimeExtent);
     
     try {

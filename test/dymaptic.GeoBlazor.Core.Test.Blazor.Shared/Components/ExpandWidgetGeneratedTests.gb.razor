@@ -1,0 +1,60 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedExpandWidget(Action renderHandler)
+    {
+        ExpandWidget? expandWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <ExpandWidget 
+                    Mode="@(ExpandMode.Auto)"
+                    AutoCollapse="@(true)"
+                    CloseOnEsc="@(true)"
+                    CollapseIcon="@("vero")"
+                    CollapseTooltip="@("repellat")"
+                    Expanded="@(true)"
+                    ExpandIcon="@("ut")"
+                    ExpandTooltip="@("qui")"
+                    Group="@("vero")"
+                    Icon="@("voluptates")"
+                    IconNumber="@(716.5852)"
+                    Label="@("omnis")"
+                    Placement="@(Placement.End)"
+                    WidgetId="@("veritatis")">
+                    <ExpandViewModel 
+                        AutoCollapse="@(true)"
+                        Expanded="@(true)"
+                        Group="@("nihil")">
+                    </ExpandViewModel>
+                </ExpandWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(expandWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "expand");
+        await expandWidget.Collapse();
+        await expandWidget.Expand();
+        await expandWidget.Toggle();
+        Placement testPlacement = Placement.BeginEnd;
+        await expandWidget.SetPlacement(testPlacement);
+        var placement = await expandWidget.GetPlacement();
+        Assert.AreEqual(testPlacement, placement);
+        ExpandViewModel testViewModel = new ExpandViewModel(true,
+                    true,
+                    "temporibus");
+        await expandWidget.SetViewModel(testViewModel);
+        var viewModel = await expandWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

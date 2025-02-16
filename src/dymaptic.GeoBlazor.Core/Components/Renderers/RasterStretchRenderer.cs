@@ -182,7 +182,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
         }
     }
 /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+public override void ValidateRequiredChildren()
     {
         ColorRamp?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();

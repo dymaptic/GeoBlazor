@@ -39,7 +39,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     async getFeatureType(feature: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
+        let jsFeature = buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
@@ -148,7 +148,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         if (!hasValue(this.component.renderer)) {
@@ -204,8 +204,8 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         jsSublayer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        jsSublayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
@@ -259,6 +259,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
     
+    let { buildDotNetSublayer } = await import('./sublayer');
     let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
     
     try {

@@ -347,6 +347,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     
+    let { buildDotNetPortal } = await import('./portal');
     let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
     
     try {

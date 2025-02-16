@@ -52,6 +52,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = portalFeaturedGroupsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
+    let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
     let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
     
     try {

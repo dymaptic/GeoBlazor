@@ -264,7 +264,7 @@ public partial class UniqueValueGroup : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Classes is not null)

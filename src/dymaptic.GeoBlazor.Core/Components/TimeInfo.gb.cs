@@ -663,7 +663,7 @@ public partial class TimeInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         FullTimeExtent?.ValidateRequiredGeneratedChildren();

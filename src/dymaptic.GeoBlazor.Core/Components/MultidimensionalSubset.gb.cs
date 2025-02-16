@@ -354,7 +354,7 @@ public partial class MultidimensionalSubset
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         AreaOfInterest?.ValidateRequiredGeneratedChildren();

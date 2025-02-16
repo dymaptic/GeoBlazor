@@ -711,7 +711,7 @@ public partial class KMLLayer : IBlendLayer,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (PortalItem is null && Url is null)

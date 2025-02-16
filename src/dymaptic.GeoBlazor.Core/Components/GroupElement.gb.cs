@@ -284,7 +284,7 @@ public partial class GroupElement
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Elements is not null)

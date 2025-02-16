@@ -1,6 +1,15 @@
 // override generated code in this file
 import PopupTemplateGenerated from './popupTemplate.gb';
 import PopupTemplate from '@arcgis/core/PopupTemplate';
+import {DotNetPopupContent, DotNetPopupTemplate} from "./definitions";
+import {
+    arcGisObjectRefs, buildJsAction, buildJsExpressionInfo,
+    buildJsFieldInfo,
+    buildJsPopupContent,
+    dotNetRefs,
+    hasValue,
+    popupTemplateRefs
+} from "./arcGisJsInterop";
 
 export default class PopupTemplateWrapper extends PopupTemplateGenerated {
 
@@ -24,7 +33,38 @@ export default class PopupTemplateWrapper extends PopupTemplateGenerated {
 }              
 export async function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsPopupTemplateGenerated } = await import('./popupTemplate.gb');
-    return await buildJsPopupTemplateGenerated(dotNetObject, layerId, viewId);
+    let template = await buildJsPopupTemplateGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.stringContent)) {
+        template.content = dotNetObject.stringContent;
+    } else if (hasValue(dotNetObject.hasContentFunction) && dotNetObject.hasContentFunction) {
+        template.content = async (featureSelection) => {
+            try {
+                if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
+                    return;
+                }
+                let viewRef = dotNetRefs[viewId];
+                let popupRef = dotNetRefs[dotNetObject.id];
+                if (!hasValue(popupRef)) {
+                    popupRef = await viewRef.invokeMethodAsync('GetDotNetdotNetObjectReference', dotNetObject.id);
+                    if (hasValue(popupRef)) {
+                        dotNetRefs[dotNetObject.id] = popupRef;
+                    }
+                }
+
+                if (!hasValue(popupRef)) return null;
+                let {buildDotNetGraphic} = await import('./graphic');
+                let results: DotNetPopupContent[] | null = await popupRef
+                    .invokeMethodAsync("OnContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
+                return results?.map(buildJsPopupContent);
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+    }
+    popupTemplateRefs[dotNetObject.id] = template;
+
+    return template;
 }
 export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
     let { buildDotNetPopupTemplateGenerated } = await import('./popupTemplate.gb');

@@ -2735,7 +2735,7 @@ public partial class PortalItem
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (PortalItemId is null)

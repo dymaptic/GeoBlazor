@@ -716,7 +716,7 @@ public partial class TileInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Lods is not null)

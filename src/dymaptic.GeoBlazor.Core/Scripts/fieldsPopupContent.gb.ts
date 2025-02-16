@@ -34,7 +34,7 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
     
     async setFieldInfos(value: any): Promise<void> {
         let { buildJsFieldInfo } = await import('./fieldInfo');
-        this.component.fieldInfos = await Promise.all(value.map(async i => await buildJsFieldInfo(i))) as any;
+        this.component.fieldInfos = await Promise.all(value.map(async i => await buildJsFieldInfo(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -49,8 +49,8 @@ export default class FieldsPopupContentGenerated implements IPropertyWrapper {
 export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldsContent = new FieldsContent();
     if (hasValue(dotNetObject.fieldInfos)) {
-        let { buildJsFieldInfo } = await import('./jsBuilder');
-        jsFieldsContent.fieldInfos = await Promise.all(dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i))) as any;
+        let { buildJsFieldInfo } = await import('./fieldInfo');
+        jsFieldsContent.fieldInfos = await Promise.all(dotNetObject.fieldInfos.map(async i => await buildJsFieldInfo(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -70,6 +70,7 @@ export async function buildJsFieldsPopupContentGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = fieldsPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsContent;
     
+    let { buildDotNetFieldsPopupContent } = await import('./fieldsPopupContent');
     let dnInstantiatedObject = await buildDotNetFieldsPopupContent(jsFieldsContent);
     
     try {

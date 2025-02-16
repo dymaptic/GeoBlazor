@@ -47,26 +47,16 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return await this.component.fetchRating(options);
     }
 
-    async fetchRelatedItems(relationshipType: any,
-        direction: any,
+    async fetchRelatedItems(parameters: any,
         options: any): Promise<any> {
-        let result = await this.component.fetchRelatedItems(relationshipType,
-            direction,
-            options);
+        let result = await this.component.fetchRelatedItems(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await Promise.all(result.map(async i => await buildDotNetPortalItem(i)));
     }
 
-    async fetchResources(num: any,
-        start: any,
-        sortOrder: any,
-        sortField: any,
+    async fetchResources(parameters: any,
         options: any): Promise<any> {
-        return await this.component.fetchResources(num,
-            start,
-            sortOrder,
-            sortField,
-            options);
+        return await this.component.fetchResources(parameters);
     }
 
     async getThumbnailUrl(width: any): Promise<any> {
@@ -89,16 +79,14 @@ export default class PortalItemGenerated implements IPropertyWrapper {
             options);
     }
 
-    async update(data: any): Promise<any> {
-        let result = await this.component.update(data);
+    async update(parameters: any): Promise<any> {
+        let result = await this.component.update(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
-    async updateThumbnail(thumbnail: any,
-        filename: any): Promise<any> {
-        let result = await this.component.updateThumbnail(thumbnail,
-            filename);
+    async updateThumbnail(parameters: any): Promise<any> {
+        let result = await this.component.updateThumbnail(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
@@ -235,6 +223,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = portalItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
     
+    let { buildDotNetPortalItem } = await import('./portalItem');
     let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem);
     
     try {

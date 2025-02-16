@@ -55,6 +55,7 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = pixelBlockStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     
+    let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
     let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics);
     
     try {

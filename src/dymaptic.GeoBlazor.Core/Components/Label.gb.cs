@@ -913,7 +913,7 @@ public partial class Label
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Symbol?.ValidateRequiredGeneratedChildren();

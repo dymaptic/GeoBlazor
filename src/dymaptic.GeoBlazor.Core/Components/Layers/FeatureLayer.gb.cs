@@ -4910,7 +4910,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (PortalItem is null && (Source is null || Source.Count == 0) && Url is null)

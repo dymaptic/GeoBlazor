@@ -569,7 +569,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         FeatureEffect?.ValidateRequiredGeneratedChildren();

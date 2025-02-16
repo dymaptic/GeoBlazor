@@ -55,6 +55,7 @@ export async function buildJsFieldInfoFormatGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = fieldInfoFormatWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
     
+    let { buildDotNetFieldInfoFormat } = await import('./fieldInfoFormat');
     let dnInstantiatedObject = await buildDotNetFieldInfoFormat(jsFieldInfoFormat);
     
     try {

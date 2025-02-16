@@ -1,0 +1,501 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedBasemapLayerListWidget(Action renderHandler)
+    {
+        BasemapLayerListWidget? basemapLayerListWidget = null;
+
+        BasemapLayerListTriggerActionEvent? triggerActionResult = null;
+        void OnTriggerAction(BasemapLayerListTriggerActionEvent result)
+        {
+            triggerActionResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget 
+                    BaseFilterText="@("voluptates doloribus animi")"
+                    BaseListItemCreatedFunction="@(new ListItemCreatedHandler())"
+                    BasemapTitle="@("est vel quo")"
+                    CatalogOptions="@(new BasemapLayerListCatalogOptions("hic",
+                        new CatalogLayerListListItemCreatedHandler(),
+                            669.6935,
+                            "qui",
+                            "quia",
+                        new BasemapLayerListCatalogOptionsVisibleElements(true,
+                                true,
+                                true,
+                                true)))"
+                    Collapsed="@(true)"
+                    DragEnabled="@(true)"
+                    EditingTitle="@(true)"
+                    FilterPlaceholder="@("quo")"
+                    HeadingLevel="@(2)"
+                    Icon="@("quia")"
+                    Label="@("repellat")"
+                    MinFilterItems="@(307.1191)"
+                    ReferenceFilterText="@("libero accusantium quia")"
+                    ReferenceListItemCreatedFunction="@(new ListItemCreatedHandler())"
+                    SelectionMode="@(SelectionMode.None)"
+                    VisibilityAppearance="@(VisibilityAppearance.Checkbox)"
+                    VisibleElements="@(new BasemapLayerListWidgetVisibleElements())"
+                    WidgetId="@("officia")"
+                    OnTriggerAction="OnTriggerAction">
+                    <BasemapLayerListViewModel 
+                        BaseListItemCreatedFunction="@(new ListItemCreatedHandler())"
+                        BasemapTitle="@("distinctio odio nihil")"
+                        CheckPublishStatusEnabled="@(true)"
+                        ListModeDisabled="@(true)"
+                        ReferenceListItemCreatedFunction="@(new ListItemCreatedHandler())">
+                    </BasemapLayerListViewModel>
+                    <ListItem 
+                        ActionsOpen="@(true)"
+                        ActionsSections="@(new ActionButton("et dolore excepturi",
+                            "https://picsum.photos/640/480/?image=384",
+                            "89203458-4c66-c2b2-1023-847d1b0cbb6a",
+                            () => { Console.WriteLine("consequatur"); return Task.CompletedTask; },
+                            "updatedAt",
+                            true,
+                            true,
+                            true,
+                            "quos"))"
+                        ChildrenSortable="@(true)"
+                        Hidden="@(true)"
+                        Layer="@(new GeoJSONLayer("https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson",
+                                "in",
+                                "laboriosam consequatur voluptas",
+                                0.3724,
+                                true,
+                            ListMode.Show,
+                            BlendMode.Plus,
+                                default,
+                                "dolor",
+                                "et",
+                                true,
+                                new Effect("sed",
+                                    16789106.4742),
+                            new GeoJSONLayerElevationInfo(new GeoJSONLayerElevationInfoFeatureExpressionInfo("return $feature.Name;",
+                                        "neque enim esse"),
+                                ElevationInfoMode.AbsoluteHeight,
+                                    971.8279,
+                                ElevationUnit.Miles),
+                            new FeatureEffect([new Effect("aut",
+                                    106000.0919)],
+                                    true,
+                                new FeatureFilter(641.0242,
+                                    new Extent(175.3579,
+                                            126.7471,
+                                            -57.2846,
+                                            80.4296,
+                                            285.7522,
+                                            868.8924,
+                                            517.8877,
+                                            743.1373,
+                                        new SpatialReference(4,
+                                                "corrupti",
+                                                "quam",
+                                                "rerum"),
+                                            true,
+                                            true),
+                                        [9,
+                                            5],
+                                    SpatialRelationship.Intersects,
+                                    new TimeExtent(new DateTime(2023, 3, 24, 8, 31, 30),
+                                            new DateTime(2006, 4, 19, 18, 15, 6)),
+                                        QueryUnits.Feet,
+                                        "City = 'Toronto'"),
+                                    [new Effect("commodi",
+                                        38993758.1006),
+                                        new Effect("aut",
+                                            38884015.5853)])))"
+                        ListModeDisabled="@(true)"
+                        Open="@(true)"
+                        Sortable="@(true)"
+                        Title="@("pariatur sed doloribus")">
+                    </ListItem>
+                </BasemapLayerListWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(basemapLayerListWidget!);
+        await AssertJavaScript("dispatchEvent", args: [basemapLayerListWidget!.Id, "trigger-action"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (triggerActionResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<BasemapLayerListTriggerActionEvent>(triggerActionResult);
+        await AssertJavaScript("assertWidgetExists", args: "basemap-layer-list");
+        await basemapLayerListWidget.TriggerAction(new ActionButton("eius dolor doloremque",
+                "https://picsum.photos/640/480/?image=528",
+                "20945aa8-0ad9-fde5-10fe-f5aaa54f2469",
+                () => { Console.WriteLine("molestiae"); return Task.CompletedTask; },
+                "avatar",
+                true,
+                true,
+                true,
+                "maiores"),
+            new ListItem(true,
+                    new ActionButton("temporibus repudiandae harum",
+                        "https://picsum.photos/640/480/?image=636",
+                        "1b0e6161-bebf-652d-05d2-b4e6afb7d3da",
+                        () => { Console.WriteLine("minima"); return Task.CompletedTask; },
+                        "password",
+                        true,
+                        true,
+                        true,
+                        "voluptate"),
+                    true,
+                    true,
+                new ElevationLayer("perspiciatis",
+                    new Extent(-90.1307,
+                            -163.3421,
+                            -81.9482,
+                            -40.9307,
+                            855.1689,
+                            400.6270,
+                            304.7618,
+                            337.1921,
+                        new SpatialReference(1,
+                                "officia",
+                                "illum",
+                                "natus"),
+                            true,
+                            true),
+                    ListMode.Hide,
+                        0.7625,
+                        true,
+                    new PortalItem(),
+                    new TileInfo(252.1848,
+                            TileInfoFormat.Dib,
+                            true,
+                        [new LOD(2,
+                                "consequatur",
+                                31.6844,
+                                8520619.2145)],
+                        new Point(-10.8574,
+                                31.7503,
+                                30.4469,
+                                -26.6260,
+                                876.1754,
+                            new SpatialReference(6,
+                                    "consectetur",
+                                    "repellendus",
+                                    "itaque"),
+                                true,
+                                true,
+                                391.7788),
+                            [1],
+                        new SpatialReference(6,
+                                "aspernatur",
+                                "exercitationem",
+                                "sit")),
+                        "et sit non",
+                        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0",
+                    new TimeExtent(new DateTime(2005, 3, 22, 18, 56, 49),
+                            new DateTime(2007, 8, 5, 13, 30, 23))),
+                    true,
+                    true,
+                    true,
+                    "eius deserunt eaque"));
+        ListItemCreatedHandler testBaseListItemCreatedFunction = new ListItemCreatedHandler();
+        await basemapLayerListWidget.SetBaseListItemCreatedFunction(testBaseListItemCreatedFunction);
+        var baseListItemCreatedFunction = await basemapLayerListWidget.GetBaseListItemCreatedFunction();
+        Assert.AreEqual(testBaseListItemCreatedFunction, baseListItemCreatedFunction);
+        BasemapLayerListCatalogOptions testCatalogOptions = new BasemapLayerListCatalogOptions("eum",
+                new CatalogLayerListListItemCreatedHandler(),
+                    229.3182,
+                    "est",
+                    "numquam",
+                new BasemapLayerListCatalogOptionsVisibleElements(true,
+                        true,
+                        true,
+                        true));
+        await basemapLayerListWidget.SetCatalogOptions(testCatalogOptions);
+        var catalogOptions = await basemapLayerListWidget.GetCatalogOptions();
+        Assert.AreEqual(testCatalogOptions, catalogOptions);
+        ListItemCreatedHandler testReferenceListItemCreatedFunction = new ListItemCreatedHandler();
+        await basemapLayerListWidget.SetReferenceListItemCreatedFunction(testReferenceListItemCreatedFunction);
+        var referenceListItemCreatedFunction = await basemapLayerListWidget.GetReferenceListItemCreatedFunction();
+        Assert.AreEqual(testReferenceListItemCreatedFunction, referenceListItemCreatedFunction);
+        IReadOnlyList<ListItem> testSelectedItems = [new ListItem(true,
+                    new ActionButton("dolorem officia illo",
+                        "https://picsum.photos/640/480/?image=799",
+                        "2c1e6544-dec6-8733-95a9-d36f465cefce",
+                        () => { Console.WriteLine("non"); return Task.CompletedTask; },
+                        "id",
+                        true,
+                        true,
+                        true,
+                        "at"),
+                    true,
+                    true,
+                new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/weather_stations_010417/FeatureServer/0",
+                    new PortalItem(),
+                    [new Graphic(new Polygon([new MapPath([new MapPoint([95.6090,
+                                    949.9086]),
+                                new MapPoint([198.1320,
+                                    27.5728])])],
+                            new SpatialReference(1,
+                                    "quam",
+                                    "est",
+                                    "tempore"),
+                            new Point(27.1441,
+                                    5.7441,
+                                    87.9635,
+                                    -85.0878,
+                                    17.5703,
+                                new SpatialReference(7,
+                                        "provident",
+                                        "minima",
+                                        "rerum"),
+                                    true,
+                                    true,
+                                    929.0913),
+                                true,
+                                true,
+                                true),
+                        new TextSymbol("voluptatum dolorum officiis",
+                            new MapColor(58, 118, 220),
+                            new MapColor(35, 194, 252),
+                                new Dimension(494.7837),
+                            new MapFont(new Dimension(106.6412),
+                                    "Courier New",
+                                MapFontStyle.Oblique,
+                                FontWeight.Normal,
+                                TextDecoration.LineThrough),
+                                829.1980,
+                            new MapColor(60, 163, 69),
+                            new MapColor(5, 97, 232),
+                                4.3762,
+                            HorizontalAlignment.Right,
+                                true,
+                                330.2516,
+                                new Dimension(397.5669),
+                                true),
+                        new PopupTemplate("odio atque atque",
+                                "modi",
+                                ["nesciunt",
+                                    "qui"],
+                            [new FieldInfo("group",
+                                    "est",
+                                    "quia",
+                                StringFieldOption.TextArea,
+                                new FieldInfoFormat(8,
+                                        true,
+                                    DateFormat.ShortDateLeLongTime24),
+                                    true,
+                                    true,
+                                StatisticType.Avg)],
+                            [new TextPopupContent("iure dolorem et"),
+                            new ExpressionPopupContent(new ElementExpressionInfo("var x = $feature.X; var y = $feature.Y; return x + ', ' + y;",
+                                        "sed",
+                                        "fugit culpa quia"))],
+                            [new ExpressionInfo("return Date();",
+                                    "phone",
+                                    "maxime eius corporis",
+                                    ExpressionInfoReturnType.String),
+                            new ExpressionInfo("if ($feature.Age > 21) { return 'Adult'; } else { return 'Minor'; }",
+                                    "updatedAt",
+                                    "nihil eligendi aperiam",
+                                    ExpressionInfoReturnType.String)],
+                                true,
+                                true,
+                                [new ActionButton("nam numquam eveniet",
+                                    "https://picsum.photos/640/480/?image=560",
+                                    "9fd2aa89-c0ac-e41a-5383-2475b3b9d843",
+                                    () => { Console.WriteLine("architecto"); return Task.CompletedTask; },
+                                    "password",
+                                    true,
+                                    true,
+                                    true,
+                                    "sit"),
+                                    new ActionButton("temporibus non sequi",
+                                        "https://picsum.photos/640/480/?image=600",
+                                        "3168e31b-d970-35ac-8b37-ed3009e81738",
+                                        () => { Console.WriteLine("vel"); return Task.CompletedTask; },
+                                        "password",
+                                        true,
+                                        true,
+                                        true,
+                                        "ut")]),
+                            new AttributesDictionary(),
+                            true,
+                            "voluptates",
+                            "est",
+                            new GraphicOrigin(Guid.NewGuid(),
+                                "enim",
+                                7))],
+                        ["iste"],
+                        "unde",
+                        39841.7744,
+                        26210712.4427,
+                        "error",
+                        FeatureGeometryType.Polyline,
+                        "quia rerum in",
+                        0.6627,
+                        true,
+                    ListMode.Show,
+                    new PopupTemplate("optio error ipsa",
+                            "delectus",
+                            ["accusantium",
+                                "assumenda"],
+                        [new FieldInfo("updatedAt",
+                                "et",
+                                "reiciendis",
+                            StringFieldOption.TextArea,
+                            new FieldInfoFormat(1,
+                                    true,
+                                DateFormat.ShortDateLeLongTime),
+                                true,
+                                true,
+                            StatisticType.Min),
+                        new FieldInfo("password",
+                                "qui",
+                                "dolorem",
+                            StringFieldOption.TextArea,
+                            new FieldInfoFormat(1,
+                                    true,
+                                DateFormat.ShortDateShortTime),
+                                true,
+                                true,
+                            StatisticType.Max)],
+                        [new ExpressionPopupContent(new ElementExpressionInfo("return $feature.Status == 'Active' ? 'Active' : 'Inactive';",
+                                    "est",
+                                    "nesciunt ut ipsam"))],
+                        [new ExpressionInfo("var area = Geometry($feature).area; return area;",
+                                "comment",
+                                "repellat ullam alias",
+                                ExpressionInfoReturnType.String),
+                        new ExpressionInfo("return $feature.Status == 'Active' ? 'Active' : 'Inactive';",
+                                "createdAt",
+                                "id autem quo",
+                                ExpressionInfoReturnType.String)],
+                            true,
+                            true,
+                            [new ActionButton("alias non non",
+                                "https://picsum.photos/640/480/?image=647",
+                                "32d0be45-d9cc-f556-d877-4ee40ed86de9",
+                                () => { Console.WriteLine("saepe"); return Task.CompletedTask; },
+                                "comment",
+                                true,
+                                true,
+                                true,
+                                "voluptas"),
+                                new ActionButton("possimus aut et",
+                                    "https://picsum.photos/640/480/?image=939",
+                                    "0493d184-2180-68e7-1d33-7b406663c56f",
+                                    () => { Console.WriteLine("ea"); return Task.CompletedTask; },
+                                    "status",
+                                    true,
+                                    true,
+                                    true,
+                                    "labore")])),
+                    true,
+                    true,
+                    true,
+                    "sit vel quam"),
+            new ListItem(true,
+                    new ActionButton("quod architecto officiis",
+                        "https://picsum.photos/640/480/?image=862",
+                        "65577609-0e10-36d5-f599-45740e3eabe3",
+                        () => { Console.WriteLine("nostrum"); return Task.CompletedTask; },
+                        "phone",
+                        true,
+                        true,
+                        true,
+                        "nemo"),
+                    true,
+                    true,
+                new GeoJSONLayer("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
+                        "reprehenderit",
+                        "dolorum officia ea",
+                        0.6996,
+                        true,
+                    ListMode.Show,
+                    BlendMode.DestinationOut,
+                        default,
+                        "soluta",
+                        "accusamus",
+                        true,
+                        new Effect("architecto",
+                            8338552.7684),
+                    new GeoJSONLayerElevationInfo(new GeoJSONLayerElevationInfoFeatureExpressionInfo("return $feature.Status == 'Active' ? 'Active' : 'Inactive';",
+                                "impedit ea non"),
+                        ElevationInfoMode.RelativeToScene,
+                            120.1043,
+                        ElevationUnit.Centimeters),
+                    new FeatureEffect([new Effect("blanditiis",
+                            40592335.5602),
+                            new Effect("voluptatem",
+                                5628903.7182)],
+                            true,
+                        new FeatureFilter(734.3160,
+                            new Polygon([new MapPath([new MapPoint([778.2209]),
+                                    new MapPoint([478.0537,
+                                        520.3268])])],
+                                new SpatialReference(8,
+                                        "omnis",
+                                        "nihil",
+                                        "placeat"),
+                                new Point(-115.7374,
+                                        -19.8798,
+                                        11.5635,
+                                        24.2209,
+                                        722.9738,
+                                    new SpatialReference(8,
+                                            "repudiandae",
+                                            "cum",
+                                            "perferendis"),
+                                        true,
+                                        true,
+                                        826.8997),
+                                    true,
+                                    true,
+                                    true),
+                                [7],
+                            SpatialRelationship.Contains,
+                            new TimeExtent(new DateTime(2015, 10, 25, 14, 0, 0),
+                                    new DateTime(2008, 3, 19, 14, 15, 55)),
+                                QueryUnits.Feet,
+                                "ObjectID = 1"),
+                            [new Effect("itaque",
+                                17897031.9817),
+                                new Effect("labore",
+                                    1995287.3632)])),
+                    true,
+                    true,
+                    true,
+                    "eum aliquam necessitatibus")];
+        await basemapLayerListWidget.SetSelectedItems(testSelectedItems);
+        var selectedItems = await basemapLayerListWidget.GetSelectedItems();
+        Assert.AreEqual(testSelectedItems, selectedItems);
+        SelectionMode testSelectionMode = SelectionMode.Single;
+        await basemapLayerListWidget.SetSelectionMode(testSelectionMode);
+        var selectionMode = await basemapLayerListWidget.GetSelectionMode();
+        Assert.AreEqual(testSelectionMode, selectionMode);
+        BasemapLayerListViewModel testViewModel = new BasemapLayerListViewModel(new ListItemCreatedHandler(),
+                    "vero illum voluptates",
+                    true,
+                    true,
+                new ListItemCreatedHandler());
+        await basemapLayerListWidget.SetViewModel(testViewModel);
+        var viewModel = await basemapLayerListWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+        VisibilityAppearance testVisibilityAppearance = VisibilityAppearance.Checkbox;
+        await basemapLayerListWidget.SetVisibilityAppearance(testVisibilityAppearance);
+        var visibilityAppearance = await basemapLayerListWidget.GetVisibilityAppearance();
+        Assert.AreEqual(testVisibilityAppearance, visibilityAppearance);
+    }
+}

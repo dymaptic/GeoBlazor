@@ -414,7 +414,7 @@ public partial class AuthoringInfoField
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (ClassBreakInfos is not null)

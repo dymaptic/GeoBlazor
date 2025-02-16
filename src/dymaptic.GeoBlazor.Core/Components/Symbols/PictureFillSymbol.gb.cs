@@ -559,7 +559,7 @@ public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Url is null)

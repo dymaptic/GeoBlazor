@@ -93,6 +93,7 @@ export async function buildJsSimpleLineSymbolGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = simpleLineSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
     
+    let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
     let dnInstantiatedObject = await buildDotNetSimpleLineSymbol(jsSimpleLineSymbol);
     
     try {

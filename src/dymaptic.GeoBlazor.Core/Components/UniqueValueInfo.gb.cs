@@ -222,7 +222,7 @@ public partial class UniqueValueInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Symbol?.ValidateRequiredGeneratedChildren();

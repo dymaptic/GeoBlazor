@@ -2,21 +2,9 @@
 
 // region imports
 import {
-    buildJsAction,
-    buildJsAttributes,
-    buildJsBookmark,
-    buildJsDimensionalDefinition,
     buildJsEffect,
-    buildJsFields,
-    buildJsGeometry,
-    buildJsImageryRenderer,
-    buildJsLabelClass,
-    buildJsPoint,
-    buildJsPopup,
     buildJsPopupOptions,
-    buildJsPopupTemplate,
     buildJsSearchSource,
-    buildJsSpatialReference
 } from './jsBuilder';
 import {
     DotNetExtent,
@@ -115,14 +103,15 @@ import { buildJsPortalItem } from './portalItem';
 import SearchWidgetWrapper from "./searchWidget";
 import { buildJsGraphic } from './graphic';
 import { buildDotNetLayer } from './layer';
-import { buildDotNetPoint } from './point';
+import { buildDotNetPoint, buildJsPoint } from './point';
 import { buildDotNetLayerView } from './layerView';
 import { buildDotNetSpatialReference } from './spatialReference';
-import { buildDotNetGeometry } from './geometry';
+import { buildDotNetGeometry, buildJsGeometry } from './geometry';
 import { buildDotNetSymbol, buildJsSymbol } from './symbol';
 import { buildDotNetPopupTemplate } from './popupTemplate';
 import {buildDotNetGoToOverrideParameters, buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
 import { buildJsRenderer } from './renderer';
+import { buildJsLabel } from './label';
 
 // region exports
 
@@ -247,11 +236,12 @@ export async function setSublayerProperty(layerObj: any, sublayerId: number, pro
     }
 }
 
-export function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, layerId: string | null, 
+export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, layerId: string | null, 
                                          viewId: string) {
     const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
-        sublayer.popupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        sublayer.popupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     }
 }
 
@@ -462,8 +452,9 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         let spatialRef: SpatialReference | null = null;
         if (hasValue(spatialReference)) {
-            spatialRef = buildJsSpatialReference(spatialReference);
-            view.spatialReference = spatialRef;
+            let { buildJsSpatialReference } = await import('./spatialReference');
+            spatialRef = await buildJsSpatialReference(spatialReference, null, id);
+            view.spatialReference = spatialRef!;
         }
 
         if (view instanceof MapView) {
@@ -973,11 +964,12 @@ export function setHighlightOptions(highlightOptions: any, viewId: string) {
     }
 }
 
-export function setSpatialReference(spatialReferenceObject: any, viewId: string) {
+export async function setSpatialReference(spatialReferenceObject: any, viewId: string) {
     try {
         const view = arcGisObjectRefs[viewId] as MapView;
         if (view !== undefined) {
-            view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
+            let { buildJsSpatialReference } = await import('./spatialReference');
+            view.spatialReference = await buildJsSpatialReference(spatialReferenceObject, null, viewId);
         }
     } catch (error) {
         logError(error, viewId);
@@ -1000,7 +992,8 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        const popupTemplate = buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
         });
@@ -1066,7 +1059,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 const featureLayer = currentLayer as FeatureLayer;
 
                 if (hasValue(layerObject.popupTemplate)) {
-                    featureLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId) as PopupTemplate;
+                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    featureLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
                 if (hasValue(layerObject.renderer) && layerObject.renderer.type !== featureLayer.renderer.type) {
@@ -1076,11 +1070,12 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     }
                 }
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
-                    featureLayer.fields = buildJsFields(layerObject.fields);
+                    let { buildJsField } = await import('./field');
+                    featureLayer.fields = await Promise.all(layerObject.fields.map(async f => await buildJsField(f, layerObject.id, viewId)));
                 }
 
                 if (hasValue(layerObject.labelingInfo)) {
-                    featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabelClass);
+                    featureLayer.labelingInfo = layerObject.labelingInfo.map(buildJsLabel);
                 }
 
                 if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
@@ -1106,7 +1101,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     });
                 }
                 if (hasValue(layerObject.popupTemplate)) {
-                    geoJsonLayer.popupTemplate = buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId ?? null) as PopupTemplate;
+                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    geoJsonLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId ?? null) as PopupTemplate;
                 }
                 if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
                     await Pro.addFeatureReduction(geoJsonLayer, layerObject.proProperties.FeatureReduction, viewId);
@@ -1141,7 +1137,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.spatialReference) &&
                         layerObject.tileInfo.spatialReference.wkid !== webTileLayer.tileInfo.spatialReference.wkid) {
-                        webTileLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                        let { buildJsSpatialReference } = await import('./spatialReference');
+                        webTileLayer.tileInfo.spatialReference = 
+                            await buildJsSpatialReference(layerObject.tileInfo.spatialReference, layerObject.id, viewId);
                     }
                 }
 
@@ -1172,7 +1170,9 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.spatialReference) &&
                         layerObject.tileInfo.spatialReference.wkid !== openStreetMapLayer.tileInfo.spatialReference.wkid) {
-                        openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(layerObject.tileInfo.spatialReference);
+                        let { buildJsSpatialReference } = await import('./spatialReference');
+                        openStreetMapLayer.tileInfo.spatialReference = 
+                            await buildJsSpatialReference(layerObject.tileInfo.spatialReference, layerObject.id, viewId);
                     }
                 }
 
@@ -1224,6 +1224,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
+                    let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
                     (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(buildJsDimensionalDefinition);
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
@@ -1271,6 +1272,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
             case 'bookmarks':
                 const bookmarks = currentWidget as Bookmarks;
                 if (hasValue(widgetObject.bookmarks)) {
+                    let { buildJsBookmark } = await import('./bookmark');
                     bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
                 }
                 break;
@@ -1287,7 +1289,8 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
 
                 if (hasValue(widgetObject.popupTemplate)) {
-                    search.popupTemplate = buildJsPopupTemplate(widgetObject.popupTemplate, null, viewId) as PopupTemplate;
+                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    search.popupTemplate = await buildJsPopupTemplate(widgetObject.popupTemplate, null, viewId) as PopupTemplate;
                 }
 
                 if (hasValue(widgetObject.portal)) {
@@ -1331,10 +1334,11 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             outFields: addressQueryParams.outFields,
             address: null
         })
-            .then(function (results) {
+            .then(async (results) => {
                 view.popup.close();
                 view.graphics.removeAll();
-                const popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
+                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
                         attributes: result.attributes,
@@ -1355,8 +1359,8 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
 export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
     try {
         const view = arcGisObjectRefs[viewId] as View;
-
-        const jsPopup = await buildJsPopup(dotNetPopup, viewId);
+        let { buildJsPopupWidget } = await import('./popupWidget');
+        const jsPopup = await buildJsPopupWidget(dotNetPopup, viewId);
         if (hasValue(dotNetPopup.widgetContent)) {
             const widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
             if (hasValue(widgetContent)) {
@@ -1456,7 +1460,8 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        const popupTemplate = buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
 
         await (arcGisObjectRefs[viewId] as View).openPopup({
             title: popupTemplate.title as string,
@@ -1605,13 +1610,14 @@ export function getGraphicSymbol(id: string, layerId: string | null, viewId: str
     return null;
 }
 
-export function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
-                                        layerId: string | null, viewId: string): void {
+export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
+                                        layerId: string | null, viewId: string): Promise<void> {
     const graphic = lookupGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     graphicPopupLookupRefs[id] = popupTemplate.id;
     dotNetRefs[popupTemplate.id] = dotNetRef;
-    const jsPopupTemplate = buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
+    let { buildJsPopupTemplate } = await import('./popupTemplate');
+    const jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     if (graphic !== null && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
     }
@@ -1633,9 +1639,10 @@ export async function getGraphicPopupTemplate(id: string, layerId: string | null
     return await buildDotNetPopupTemplate(graphic.popupTemplate);
 }
 
-export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
+export async function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): Promise<void> {
     const graphic = lookupGraphicById(id, layerId, viewId);
     if (graphic !== null) {
+        let { buildJsAttributes } = await import('./attributes');
         graphic.attributes = buildJsAttributes(attributes);
     }
 }
@@ -1928,7 +1935,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
 
             if (hasValue(dotNetWidget.popupTemplate)) {
-                search.popupTemplate = buildJsPopupTemplate(dotNetWidget.popupTemplate, null, viewId) as PopupTemplate;
+                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                search.popupTemplate = await buildJsPopupTemplate(dotNetWidget.popupTemplate, null, viewId) as PopupTemplate;
             }
 
             if (hasValue(dotNetWidget.portal)) {
@@ -2073,7 +2081,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     const dotNetListItem = buildDotNetListItem(evt.item);
                     const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
-                        updateListItem(evt.item, returnItem);
+                        await updateListItem(evt.item, returnItem, dotNetListItem?.layerId, viewId);
                     }
                 };
             }
@@ -2090,7 +2098,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     const dotNetBaseListItem = buildDotNetListItem(evt.item);
                     const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
-                        updateListItem(evt.item, returnItem);
+                        await updateListItem(evt.item, returnItem, dotNetBaseListItem?.layerId, viewId);
                     }
                 };
             }
@@ -2099,7 +2107,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     const dotNetReferenceListItem = buildDotNetListItem(evt.item);
                     const returnItem = await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
                     if (hasValue(returnItem) && hasValue(evt.item)) {
-                        updateListItem(evt.item, returnItem);
+                        await updateListItem(evt.item, returnItem, dotNetReferenceListItem?.layerId, viewId);
                     }
                 };
             }
@@ -2205,6 +2213,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 icon: dotNetWidget.icon
             });
             if (dotNetWidget.bookmarks != null) {
+                let { buildJsBookmark } = await import('./bookmark');
                 bookmarkWidget.bookmarks = dotNetWidget.bookmarks.map(buildJsBookmark);
             }
 
@@ -2366,16 +2375,6 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = await buildJsListItemPanelWidget(dotNetWidget, dotNetWidget.id, viewId);
 
             break;
-        case 'table-list-list-item-panel':
-            let { buildJsTableListListItemPanelWidget } = await import('./tableListListItemPanelWidget');
-            newWidget = await buildJsTableListListItemPanelWidget(dotNetWidget, dotNetWidget.id, viewId);
-
-            break;
-        case 'table-list':
-            let { buildJsTableListWidget } = await import('./tableListWidget');
-            newWidget = await buildJsTableListWidget(dotNetWidget, dotNetWidget.id, viewId);
-
-            break;
         default:
             return null;
     }
@@ -2399,7 +2398,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     return newWidget;
 }
 
-function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
+async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, layerId, viewId) {
     copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
         'open', 'sortable');
     
@@ -2408,19 +2407,20 @@ function updateListItem(jsItem: ListItem, dnItem: DotNetListItem) {
             const child = dnItem.children[i];
             const jsChild = jsItem.children[i];
             if (hasValue(child) && hasValue(jsChild)) {
-                updateListItem(jsChild, child);
+                await updateListItem(jsChild, child, layerId, viewId);
             }
         }
     }
     if (hasValue(dnItem.actionsSections)) {
         const actionsSections: any[] = [];
+        let { buildJsActionBase } = await import('./actionBase');
         for (let i = 0; i < dnItem.actionsSections.length; i++) {
             const section: any[] = [];
             actionsSections.push(section);
             const dnSection = dnItem.actionsSections[i];
             for (let j = 0; j < dnSection.length; j++) {
                 const dnAction = dnSection[j];
-                const action = buildJsAction(dnAction);
+                const action = await buildJsActionBase(dnAction, layerId, viewId);
                 section.push(action);
             }
         }
@@ -2645,7 +2645,9 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 }
 
                 if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
-                    openStreetMapLayer.tileInfo.spatialReference = buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
+                    let { buildJsSpatialReference } = await import('./spatialReference');
+                    openStreetMapLayer.tileInfo.spatialReference = 
+                        await buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference, dotNetLayer.id, viewId);
                 }
             }
 
@@ -2663,6 +2665,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             const imageryLayer = newLayer as ImageryLayer;
 
             if (hasValue(dotNetLayer.renderer)) {
+                let { buildJsImageryRenderer } = await import('./imageryRenderer');
                 imageryLayer.renderer = await buildJsImageryRenderer(dotNetLayer.renderer, dotNetLayer.id, viewId) as any;
             }
             
@@ -2682,7 +2685,8 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             }
             
             if (hasValue(dotNetLayer.popupTemplate)) {
-                imageryLayer.popupTemplate = buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
+                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                imageryLayer.popupTemplate = await buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',

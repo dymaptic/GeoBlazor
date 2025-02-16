@@ -598,7 +598,7 @@ graphics);
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         ElevationInfo?.ValidateRequiredGeneratedChildren();

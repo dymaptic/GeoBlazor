@@ -73,6 +73,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = authoringInfoFieldWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
     
+    let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
     let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1);
     
     try {

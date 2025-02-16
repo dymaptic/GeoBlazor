@@ -215,7 +215,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         FloorInfo?.ValidateRequiredChildren();
 

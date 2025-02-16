@@ -162,6 +162,7 @@ export async function buildJsTextSymbolGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = textSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol;
     
+    let { buildDotNetTextSymbol } = await import('./textSymbol');
     let dnInstantiatedObject = await buildDotNetTextSymbol(jsTextSymbol);
     
     try {

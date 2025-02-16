@@ -1,0 +1,401 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedLayerListWidget(Action renderHandler)
+    {
+        LayerListWidget? layerListWidget = null;
+
+        LayerListTriggerActionEvent? triggerActionResult = null;
+        void OnTriggerAction(LayerListTriggerActionEvent result)
+        {
+            triggerActionResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <LayerListWidget 
+                    CatalogOptions="@(new LayerListCatalogOptions("voluptatibus",
+                        new CatalogLayerListListItemCreatedHandler(),
+                            390.8889,
+                            "odio",
+                            "dolores",
+                        new LayerListCatalogOptionsVisibleElements(true,
+                                true,
+                                true,
+                                true)))"
+                    Collapsed="@(true)"
+                    DragEnabled="@(true)"
+                    FilterPlaceholder="@("quis")"
+                    FilterText="@("suscipit ullam voluptatum")"
+                    HeadingLevel="@(352.7128)"
+                    Icon="@("rerum")"
+                    KnowledgeGraphOptions="@(new LayerListKnowledgeGraphOptions("temporibus",
+                        new TableListListItemCreatedHandler(),
+                            141.0156,
+                            "culpa",
+                        new LayerListKnowledgeGraphOptionsVisibleElements(true,
+                                true,
+                                true)))"
+                    Label="@("reiciendis")"
+                    ListItemCreatedFunction="@(new LayerListListItemCreatedHandler())"
+                    MinDragEnabledItems="@(503.6707)"
+                    MinFilterItems="@(770.7465)"
+                    SelectionMode="@(SelectionMode.SinglePersist)"
+                    VisibilityAppearance="@(VisibilityAppearance.Default)"
+                    WidgetId="@("sapiente")"
+                    OnTriggerAction="OnTriggerAction">
+                    <LayerListVisibleElements 
+                        CatalogLayerList="@(true)"
+                        CloseButton="@(true)"
+                        CollapseButton="@(true)"
+                        Errors="@(true)"
+                        Filter="@(true)"
+                        Flow="@(true)"
+                        Heading="@(true)"
+                        StatusIndicators="@(true)"
+                        TemporaryLayerIndicators="@(true)">
+                    </LayerListVisibleElements>
+                    <LayerListViewModel 
+                        CheckPublishStatusEnabled="@(true)"
+                        ListItemCreatedFunction="@(new LayerListListItemCreatedHandler())"
+                        ListModeDisabled="@(true)">
+                    </LayerListViewModel>
+                    <ListItem 
+                        ActionsOpen="@(true)"
+                        ActionsSections="@(new ActionButton("corporis et saepe",
+                            "https://picsum.photos/640/480/?image=550",
+                            "f48c343f-fd3d-dbf6-efca-5a36eb459ffc",
+                            () => { Console.WriteLine("aut"); return Task.CompletedTask; },
+                            "password",
+                            true,
+                            true,
+                            true,
+                            "quo"))"
+                        ChildrenSortable="@(true)"
+                        Hidden="@(true)"
+                        Layer="@(new GeoRSSLayer("https://arcgis.github.io/arcgis-samples-javascript/sample-data/layers-georss/sample-georss.xml",
+                                "et recusandae corrupti",
+                                0.6342,
+                                true,
+                            ListMode.Show,
+                            BlendMode.DestinationIn,
+                                new Effect("reprehenderit",
+                                    32628248.1140),
+                            new Extent(30.0230,
+                                    65.9591,
+                                    76.5302,
+                                    -88.6397,
+                                    983.4207,
+                                    380.1123,
+                                    19.0531,
+                                    812.9339,
+                                new SpatialReference(9,
+                                        "accusamus",
+                                        "harum",
+                                        "quia"),
+                                    true,
+                                    true),
+                                true,
+                            new SimpleLineSymbol(new MapColor(106, 91, 111),
+                                    new Dimension(856.7918),
+                                SimpleLineSymbolStyle.Solid,
+                                Cap.Butt,
+                                Join.Miter,
+                                new LineSymbolMarker(new MapColor(61, 9, 63),
+                                    LinePlacement.Begin,
+                                    LineSymbolMarkerStyle.Square),
+                                    579.9207),
+                                34453509.9337,
+                                14061.0960,
+                                true,
+                            new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
+                                    new Dimension(485.9429),
+                                    new Dimension(646.2425),
+                                    710.7205,
+                                    new Dimension(854.7196),
+                                    new Dimension(994.5622),
+                                new MapColor(206, 128, 143))))"
+                        ListModeDisabled="@(true)"
+                        Open="@(true)"
+                        Sortable="@(true)"
+                        Title="@("et aut est")">
+                    </ListItem>
+                </LayerListWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(layerListWidget!);
+        await AssertJavaScript("dispatchEvent", args: [layerListWidget!.Id, "trigger-action"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (triggerActionResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<LayerListTriggerActionEvent>(triggerActionResult);
+        await AssertJavaScript("assertWidgetExists", args: "layer-list");
+        await layerListWidget.TriggerAction(new ActionButton("quae sunt et",
+                "https://picsum.photos/640/480/?image=857",
+                "cc34cbcb-66a3-ea57-f544-de2364630982",
+                () => { Console.WriteLine("quae"); return Task.CompletedTask; },
+                "group",
+                true,
+                true,
+                true,
+                "quo"),
+            new ListItem(true,
+                    new ActionButton("temporibus quia et",
+                        "https://picsum.photos/640/480/?image=85",
+                        "30992587-f880-21d2-f633-26b22f554478",
+                        () => { Console.WriteLine("aut"); return Task.CompletedTask; },
+                        "password",
+                        true,
+                        true,
+                        true,
+                        "qui"),
+                    true,
+                    true,
+                new TileLayer("at",
+                    BlendMode.Screen,
+                        "nostrum",
+                        default,
+                        new Effect("soluta",
+                            46073376.0736),
+                    new Extent(3.2105,
+                            100.6848,
+                            -77.9467,
+                            -2.7177,
+                            110.3279,
+                            212.6397,
+                            322.3191,
+                            434.0571,
+                        new SpatialReference(8,
+                                "eum",
+                                "dolores",
+                                "laudantium"),
+                            true,
+                            true),
+                        true,
+                    ListMode.Show,
+                        25194326.4246,
+                        19338.8837,
+                        0.5579,
+                        true,
+                    new PortalItem(),
+                        483.8137),
+                    true,
+                    true,
+                    true,
+                    "hic qui omnis"));
+        LayerListCatalogOptions testCatalogOptions = new LayerListCatalogOptions("quia",
+                new CatalogLayerListListItemCreatedHandler(),
+                    850.0803,
+                    "quia",
+                    "vel",
+                new LayerListCatalogOptionsVisibleElements(true,
+                        true,
+                        true,
+                        true));
+        await layerListWidget.SetCatalogOptions(testCatalogOptions);
+        var catalogOptions = await layerListWidget.GetCatalogOptions();
+        Assert.AreEqual(testCatalogOptions, catalogOptions);
+        LayerListKnowledgeGraphOptions testKnowledgeGraphOptions = new LayerListKnowledgeGraphOptions("molestiae",
+                new TableListListItemCreatedHandler(),
+                    829.1410,
+                    "ipsam",
+                new LayerListKnowledgeGraphOptionsVisibleElements(true,
+                        true,
+                        true));
+        await layerListWidget.SetKnowledgeGraphOptions(testKnowledgeGraphOptions);
+        var knowledgeGraphOptions = await layerListWidget.GetKnowledgeGraphOptions();
+        Assert.AreEqual(testKnowledgeGraphOptions, knowledgeGraphOptions);
+        LayerListListItemCreatedHandler testListItemCreatedFunction = new LayerListListItemCreatedHandler();
+        await layerListWidget.SetListItemCreatedFunction(testListItemCreatedFunction);
+        var listItemCreatedFunction = await layerListWidget.GetListItemCreatedFunction();
+        Assert.AreEqual(testListItemCreatedFunction, listItemCreatedFunction);
+        IReadOnlyList<ListItem> testSelectedItems = [new ListItem(true,
+                    new ActionButton("quia cumque voluptas",
+                        "https://picsum.photos/640/480/?image=723",
+                        "7e05c63a-5c95-d452-173b-1ccf022a1d87",
+                        () => { Console.WriteLine("natus"); return Task.CompletedTask; },
+                        "id",
+                        true,
+                        true,
+                        true,
+                        "quam"),
+                    true,
+                    true,
+                new TileLayer("quia",
+                    BlendMode.ColorDodge,
+                        "esse",
+                        default,
+                        new Effect("neque",
+                            14657185.4289),
+                    new Extent(-43.3737,
+                            155.4408,
+                            -20.0783,
+                            56.4605,
+                            211.6815,
+                            605.7803,
+                            975.0648,
+                            556.0520,
+                        new SpatialReference(7,
+                                "maxime",
+                                "velit",
+                                "voluptatem"),
+                            true,
+                            true),
+                        true,
+                    ListMode.Show,
+                        1939398.9981,
+                        11229.5732,
+                        0.1384,
+                        true,
+                    new PortalItem(),
+                        339.2458),
+                    true,
+                    true,
+                    true,
+                    "est tempora distinctio"),
+            new ListItem(true,
+                    new ActionButton("inventore vel nobis",
+                        "https://picsum.photos/640/480/?image=124",
+                        "cbcde5cb-8230-78cc-8057-80267e2a1863",
+                        () => { Console.WriteLine("tempora"); return Task.CompletedTask; },
+                        "createdAt",
+                        true,
+                        true,
+                        true,
+                        "neque"),
+                    true,
+                    true,
+                new ImageryLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer",
+                    new PortalItem(),
+                        new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
+                                new MapColor(149, 167, 64),
+                                new MapColor(79, 229, 203)),
+                            true,
+                            true,
+                            [8],
+                            1,
+                            4,
+                            StretchType.PercentClip,
+                            [new RasterBandStatistics(846.2867,
+                                7,
+                                281.2570,
+                                324.9975,
+                                865.0217,
+                                88.6025,
+                                250.2379,
+                                548.1476),
+                            new RasterBandStatistics(565.3122,
+                                7,
+                                814.0928,
+                                615.6434,
+                                215.6266,
+                                947.7707,
+                                197.5380,
+                                367.6349)],
+                            true,
+                            8),
+                        [5,
+                            5],
+                    BlendMode.Multiply,
+                        408.3833,
+                        383.5850,
+                        "dolor",
+                        "temporibus",
+                        new Effect("delectus",
+                            5987707.0685),
+                    ImageFormat.Bip,
+                        true,
+                        8,
+                        7,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    new TileInfo(11.5084,
+                            TileInfoFormat.Jpg,
+                            true,
+                        [new LOD(4,
+                                "et",
+                                40.2009,
+                                36012727.9202)],
+                        new Point(-149.8447,
+                                15.5649,
+                                -49.8955,
+                                8.9538,
+                                323.8784,
+                            new SpatialReference(2,
+                                    "corrupti",
+                                    "non",
+                                    "ut"),
+                                true,
+                                true,
+                                634.8522),
+                            [3],
+                        new SpatialReference(3,
+                                "aut",
+                                "nihil",
+                                "magni")),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                        true),
+                    true,
+                    true,
+                    true,
+                    "omnis est eligendi")];
+        await layerListWidget.SetSelectedItems(testSelectedItems);
+        var selectedItems = await layerListWidget.GetSelectedItems();
+        Assert.AreEqual(testSelectedItems, selectedItems);
+        SelectionMode testSelectionMode = SelectionMode.SinglePersist;
+        await layerListWidget.SetSelectionMode(testSelectionMode);
+        var selectionMode = await layerListWidget.GetSelectionMode();
+        Assert.AreEqual(testSelectionMode, selectionMode);
+        LayerListViewModel testViewModel = new LayerListViewModel(true,
+                new LayerListListItemCreatedHandler(),
+                    true);
+        await layerListWidget.SetViewModel(testViewModel);
+        var viewModel = await layerListWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+        VisibilityAppearance testVisibilityAppearance = VisibilityAppearance.Default;
+        await layerListWidget.SetVisibilityAppearance(testVisibilityAppearance);
+        var visibilityAppearance = await layerListWidget.GetVisibilityAppearance();
+        Assert.AreEqual(testVisibilityAppearance, visibilityAppearance);
+        LayerListVisibleElements testVisibleElements = new LayerListVisibleElements(true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true);
+        await layerListWidget.SetVisibleElements(testVisibleElements);
+        var visibleElements = await layerListWidget.GetVisibleElements();
+        Assert.AreEqual(testVisibleElements, visibleElements);
+    }
+}

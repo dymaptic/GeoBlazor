@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer, SceneLayer, TileLayer
+///    Interface for types CatalogLayer, FeatureLayer, SceneLayer, TileLayer
 /// </summary>
 public partial interface IAPIKeyMixin 
 {

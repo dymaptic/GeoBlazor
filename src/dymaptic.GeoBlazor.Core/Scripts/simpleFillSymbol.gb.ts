@@ -68,6 +68,7 @@ export async function buildJsSimpleFillSymbolGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = simpleFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
     
+    let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
     let dnInstantiatedObject = await buildDotNetSimpleFillSymbol(jsSimpleFillSymbol);
     
     try {

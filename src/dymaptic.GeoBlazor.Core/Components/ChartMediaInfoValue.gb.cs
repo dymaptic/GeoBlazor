@@ -531,7 +531,7 @@ public partial class ChartMediaInfoValue
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Series is not null)

@@ -62,6 +62,7 @@ export async function buildJsExpressionPopupContentGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = expressionPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionContent;
     
+    let { buildDotNetExpressionPopupContent } = await import('./expressionPopupContent');
     let dnInstantiatedObject = await buildDotNetExpressionPopupContent(jsExpressionContent);
     
     try {

@@ -1,7 +1,7 @@
 // override generated code in this file
 import SpatialReferenceGenerated from './spatialReference.gb';
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
-import {DotNetSpatialReference} from "./definitions";
+import {hasValue} from "./jsBuilder";
 
 export default class SpatialReferenceWrapper extends SpatialReferenceGenerated {
 
@@ -11,7 +11,7 @@ export default class SpatialReferenceWrapper extends SpatialReferenceGenerated {
     
 }
 
-export function buildDotNetSpatialReference(spatialReference: SpatialReference): DotNetSpatialReference | null {
+export function buildDotNetSpatialReference(spatialReference: SpatialReference) {
     if (spatialReference === undefined || spatialReference === null) return null;
 
     return {
@@ -23,5 +23,10 @@ export function buildDotNetSpatialReference(spatialReference: SpatialReference):
         wkt: spatialReference.wkt,
         wkt2: spatialReference.wkt2,
         imageCoordinateSystem: spatialReference.imageCoordinateSystem
-    } as DotNetSpatialReference;
+    };
+}
+
+export async function buildJsSpatialReference(dotNetSpatialReference, layerId: string | null, viewId: string | null): Promise<SpatialReference> {
+    let { buildJsSpatialReferenceGenerated } = await import('./spatialReference.gb');
+    return await buildJsSpatialReferenceGenerated(dotNetSpatialReference, layerId, viewId);
 }

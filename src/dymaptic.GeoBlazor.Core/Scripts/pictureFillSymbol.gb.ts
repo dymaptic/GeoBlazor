@@ -86,6 +86,7 @@ export async function buildJsPictureFillSymbolGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = pictureFillSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPictureFillSymbol;
     
+    let { buildDotNetPictureFillSymbol } = await import('./pictureFillSymbol');
     let dnInstantiatedObject = await buildDotNetPictureFillSymbol(jsPictureFillSymbol);
     
     try {

@@ -291,7 +291,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Symbol?.ValidateRequiredGeneratedChildren();

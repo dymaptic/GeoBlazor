@@ -28,7 +28,7 @@ export async function buildDotNetFeatureSet(jsFs: FeatureSet, layerId: string | 
     let graphics: DotNetGraphic[] = [];
     for (let i = 0; i < jsFs.features.length; i++) {
         let feature = jsFs.features[i];
-        let graphic: DotNetGraphic = buildDotNetGraphic(feature, layerId, viewId) as DotNetGraphic;
+        let graphic: DotNetGraphic = await buildDotNetGraphic(feature, layerId, viewId) as DotNetGraphic;
         if (viewId !== undefined && viewId !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
             let groupId = layerId ?? viewId;

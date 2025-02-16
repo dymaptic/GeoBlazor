@@ -3364,7 +3364,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Url is null)

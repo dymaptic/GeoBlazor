@@ -71,6 +71,7 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfo;
     
+    let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
     let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo);
     
     try {

@@ -93,8 +93,8 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
 export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAuthoringInfo = new AuthoringInfo();
     if (hasValue(dotNetObject.colorRamp)) {
-        let { buildJsColorRamp } = await import('./jsBuilder');
-        jsAuthoringInfo.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
+        let { buildJsColorRamp } = await import('./colorRamp');
+        jsAuthoringInfo.colorRamp = await buildJsColorRamp(dotNetObject.colorRamp, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.field1)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
@@ -163,6 +163,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = authoringInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     
+    let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
     let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo);
     
     try {

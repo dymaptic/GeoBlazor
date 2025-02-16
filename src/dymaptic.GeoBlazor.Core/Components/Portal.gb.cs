@@ -5103,7 +5103,7 @@ public partial class Portal
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         DefaultExtent?.ValidateRequiredGeneratedChildren();

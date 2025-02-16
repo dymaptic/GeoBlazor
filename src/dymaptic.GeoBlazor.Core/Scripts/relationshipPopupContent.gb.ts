@@ -23,20 +23,6 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
     
     // region properties
     
-    async getOrderByFields(): Promise<any> {
-        if (!hasValue(this.component.orderByFields)) {
-            return null;
-        }
-        
-        let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        return await Promise.all(this.component.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i)));
-    }
-    
-    async setOrderByFields(value: any): Promise<void> {
-        let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        this.component.orderByFields = await Promise.all(value.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, this.layerId, this.viewId))) as any;
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -48,10 +34,6 @@ export default class RelationshipPopupContentGenerated implements IPropertyWrapp
 
 export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelationshipContent = new RelationshipContent();
-    if (hasValue(dotNetObject.orderByFields)) {
-        let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        jsRelationshipContent.orderByFields = await Promise.all(dotNetObject.orderByFields.map(async i => await buildJsRelatedRecordsInfoFieldOrder(i, layerId, viewId))) as any;
-    }
 
     if (hasValue(dotNetObject.description)) {
         jsRelationshipContent.description = dotNetObject.description;
@@ -61,6 +43,9 @@ export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.displayType)) {
         jsRelationshipContent.displayType = dotNetObject.displayType;
+    }
+    if (hasValue(dotNetObject.orderByFields)) {
+        jsRelationshipContent.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.relationshipId)) {
         jsRelationshipContent.relationshipId = dotNetObject.relationshipId;
@@ -79,6 +64,7 @@ export async function buildJsRelationshipPopupContentGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = relationshipPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipContent;
     
+    let { buildDotNetRelationshipPopupContent } = await import('./relationshipPopupContent');
     let dnInstantiatedObject = await buildDotNetRelationshipPopupContent(jsRelationshipContent);
     
     try {
@@ -99,10 +85,6 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelationshipPopupContent.orderByFields = await Promise.all(jsObject.orderByFields.map(async i => await buildDotNetRelatedRecordsInfoFieldOrder(i)));
-        }
         dotNetRelationshipPopupContent.type = jsObject.type;
         if (hasValue(jsObject.description)) {
             dotNetRelationshipPopupContent.description = jsObject.description;
@@ -112,6 +94,9 @@ export async function buildDotNetRelationshipPopupContentGenerated(jsObject: any
         }
         if (hasValue(jsObject.displayType)) {
             dotNetRelationshipPopupContent.displayType = jsObject.displayType;
+        }
+        if (hasValue(jsObject.orderByFields)) {
+            dotNetRelationshipPopupContent.orderByFields = jsObject.orderByFields;
         }
         if (hasValue(jsObject.relationshipId)) {
             dotNetRelationshipPopupContent.relationshipId = jsObject.relationshipId;

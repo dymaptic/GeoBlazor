@@ -46,7 +46,7 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
     
     async setSubsetDefinitions(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.component.subsetDefinitions = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        this.component.subsetDefinitions = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -61,12 +61,12 @@ export default class MultidimensionalSubsetGenerated implements IPropertyWrapper
 export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMultidimensionalSubset = new MultidimensionalSubset();
     if (hasValue(dotNetObject.areaOfInterest)) {
-        let { buildJsGeometry } = await import('./jsBuilder');
+        let { buildJsGeometry } = await import('./geometry');
         jsMultidimensionalSubset.areaOfInterest = buildJsGeometry(dotNetObject.areaOfInterest) as any;
     }
     if (hasValue(dotNetObject.subsetDefinitions)) {
-        let { buildJsDimensionalDefinition } = await import('./jsBuilder');
-        jsMultidimensionalSubset.subsetDefinitions = dotNetObject.subsetDefinitions.map(i => buildJsDimensionalDefinition(i)) as any;
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        jsMultidimensionalSubset.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
 
     let { default: MultidimensionalSubsetWrapper } = await import('./multidimensionalSubset');
@@ -80,6 +80,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = multidimensionalSubsetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
     
+    let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
     let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
     
     try {

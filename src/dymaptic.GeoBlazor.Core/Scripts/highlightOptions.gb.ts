@@ -106,6 +106,7 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = highlightOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
     
+    let { buildDotNetHighlightOptions } = await import('./highlightOptions');
     let dnInstantiatedObject = await buildDotNetHighlightOptions(jsHighlightOptions);
     
     try {

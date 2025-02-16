@@ -671,7 +671,7 @@ public partial class BaseTileLayer : IBlendLayer,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         SpatialReference?.ValidateRequiredGeneratedChildren();

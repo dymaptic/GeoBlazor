@@ -58,6 +58,7 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     jsObjectRefs[dotNetObject.id] = lODWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
+    let { buildDotNetLOD } = await import('./lOD');
     let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
     
     try {

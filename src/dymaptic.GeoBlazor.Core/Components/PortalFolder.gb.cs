@@ -348,7 +348,7 @@ public partial class PortalFolder : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Portal?.ValidateRequiredGeneratedChildren();

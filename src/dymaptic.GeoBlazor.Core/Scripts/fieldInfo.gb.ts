@@ -33,7 +33,7 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
     }
     async setFormat(value: any): Promise<void> {
         let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
-        this.component.format =  buildJsFieldInfoFormat(value);
+        this.component.format = await  buildJsFieldInfoFormat(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -47,8 +47,8 @@ export default class FieldInfoGenerated implements IPropertyWrapper {
 export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldInfo = new FieldInfo();
     if (hasValue(dotNetObject.format)) {
-        let { buildJsFieldInfoFormat } = await import('./jsBuilder');
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
+        let { buildJsFieldInfoFormat } = await import('./fieldInfoFormat');
+        jsFieldInfo.format = await buildJsFieldInfoFormat(dotNetObject.format, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {
@@ -80,6 +80,7 @@ export async function buildJsFieldInfoGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = fieldInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
     
+    let { buildDotNetFieldInfo } = await import('./fieldInfo');
     let dnInstantiatedObject = await buildDotNetFieldInfo(jsFieldInfo);
     
     try {

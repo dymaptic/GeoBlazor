@@ -355,7 +355,7 @@ public partial class Graphic: MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Symbol?.ValidateRequiredChildren();

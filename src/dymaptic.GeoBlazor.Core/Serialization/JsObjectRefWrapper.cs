@@ -10,7 +10,7 @@ internal record struct JsNullableDoubleWrapper(double? Value);
 
 internal record struct JsNullableFloatWrapper(float? Value);
 
-internal record struct JsNullableIntWrapper(int? Value);    
+internal record struct JsNullableIntWrapper(int? Value);
 
 internal record struct JsNullableLongWrapper(long? Value);
 

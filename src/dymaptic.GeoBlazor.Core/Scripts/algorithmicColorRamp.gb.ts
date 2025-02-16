@@ -81,6 +81,7 @@ export async function buildJsAlgorithmicColorRampGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = algorithmicColorRampWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
     
+    let { buildDotNetAlgorithmicColorRamp } = await import('./algorithmicColorRamp');
     let dnInstantiatedObject = await buildDotNetAlgorithmicColorRamp(jsAlgorithmicColorRamp);
     
     try {

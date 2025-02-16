@@ -1,0 +1,50 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedAreaMeasurement2DWidget(Action renderHandler)
+    {
+        AreaMeasurement2DWidget? areaMeasurement2DWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <AreaMeasurement2DWidget 
+                    Icon="@("animi")"
+                    Label="@("eum")"
+                    Unit="@(SystemOrAreaUnit.Metric)"
+                    UnitOptions="@([SystemOrAreaUnit.Imperial])"
+                    WidgetId="@("placeat")">
+                    <AreaMeasurement2DViewModel 
+                        Unit="@(SystemOrAreaUnit.Metric)"
+                        UnitOptions="@([SystemOrAreaUnit.Metric])">
+                    </AreaMeasurement2DViewModel>
+                </AreaMeasurement2DWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(areaMeasurement2DWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "area-measurement2-d");
+        SystemOrAreaUnit testUnit = SystemOrAreaUnit.Metric;
+        await areaMeasurement2DWidget.SetUnit(testUnit);
+        var unit = await areaMeasurement2DWidget.GetUnit();
+        Assert.AreEqual(testUnit, unit);
+        IReadOnlyList<SystemOrAreaUnit> testUnitOptions = [SystemOrAreaUnit.Metric];
+        await areaMeasurement2DWidget.SetUnitOptions(testUnitOptions);
+        var unitOptions = await areaMeasurement2DWidget.GetUnitOptions();
+        Assert.AreEqual(testUnitOptions, unitOptions);
+        AreaMeasurement2DViewModel testViewModel = new AreaMeasurement2DViewModel(SystemOrAreaUnit.Imperial,
+                [SystemOrAreaUnit.Metric]);
+        await areaMeasurement2DWidget.SetViewModel(testViewModel);
+        var viewModel = await areaMeasurement2DWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

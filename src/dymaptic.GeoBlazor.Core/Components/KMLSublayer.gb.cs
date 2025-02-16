@@ -424,7 +424,7 @@ public partial class KMLSublayer : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Sublayers is not null)

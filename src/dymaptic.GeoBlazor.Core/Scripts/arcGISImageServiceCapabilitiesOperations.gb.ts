@@ -100,6 +100,7 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesOperationsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
     
+    let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
     let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsArcGISImageServiceCapabilitiesOperations);
     
     try {

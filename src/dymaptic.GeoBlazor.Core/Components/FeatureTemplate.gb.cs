@@ -455,7 +455,7 @@ public partial class FeatureTemplate
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Prototype?.ValidateRequiredGeneratedChildren();

@@ -74,6 +74,7 @@ export async function buildJsImageMediaInfoGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = imageMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfo;
     
+    let { buildDotNetImageMediaInfo } = await import('./imageMediaInfo');
     let dnInstantiatedObject = await buildDotNetImageMediaInfo(jsImageMediaInfo);
     
     try {

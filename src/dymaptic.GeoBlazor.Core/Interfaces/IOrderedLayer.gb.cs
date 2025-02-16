@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
+///    Interface for types CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
 /// </summary>
 public partial interface IOrderedLayer 
 {

@@ -67,6 +67,7 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = actionButtonWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
     
+    let { buildDotNetActionButton } = await import('./actionButton');
     let dnInstantiatedObject = await buildDotNetActionButton(jsActionButton);
     
     try {

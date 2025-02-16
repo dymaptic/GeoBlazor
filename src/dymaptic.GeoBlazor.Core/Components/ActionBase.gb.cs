@@ -402,7 +402,7 @@ public abstract partial class ActionBase
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (CallbackFunction is null)

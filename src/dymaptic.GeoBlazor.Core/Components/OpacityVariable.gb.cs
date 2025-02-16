@@ -279,7 +279,7 @@ public partial class OpacityVariable
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Stops is not null)

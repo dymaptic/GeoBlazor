@@ -353,7 +353,7 @@ public partial class UniqueValueClass : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Symbol?.ValidateRequiredGeneratedChildren();

@@ -280,7 +280,7 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Stops is not null)

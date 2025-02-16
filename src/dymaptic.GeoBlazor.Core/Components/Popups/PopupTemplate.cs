@@ -119,6 +119,11 @@ public partial class PopupTemplate : MapComponent
     [JsonIgnore]
     [RequiredProperty(nameof(Content), nameof(StringContent))]
     public Func<Graphic, ValueTask<PopupContent[]?>>? ContentFunction { get; set; }
+    
+    /// <summary>
+    ///     Identifies that the <see cref="ContentFunction"/> is defined.
+    /// </summary>
+    public bool HasContentFunction => ContentFunction is not null;
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
@@ -228,7 +233,7 @@ public partial class PopupTemplate : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

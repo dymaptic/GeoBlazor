@@ -93,6 +93,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = timeInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
     
+    let { buildDotNetTimeInfo } = await import('./timeInfo');
     let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo);
     
     try {

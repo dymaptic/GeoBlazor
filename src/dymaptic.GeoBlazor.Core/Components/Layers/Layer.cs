@@ -347,7 +347,7 @@ public abstract partial class Layer : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         FullExtent?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();

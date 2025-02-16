@@ -33,7 +33,7 @@ export default class LineChartMediaInfoGenerated implements IPropertyWrapper {
     }
     async setValue(value: any): Promise<void> {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        this.component.value =  buildJsChartMediaInfoValue(value);
+        this.component.value = await  buildJsChartMediaInfoValue(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any, laye
     let jsLineChartMediaInfo = new LineChartMediaInfo();
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./jsBuilder');
-        jsLineChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        jsLineChartMediaInfo.value = await buildJsChartMediaInfoValue(dotNetObject.value, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
@@ -71,6 +71,7 @@ export async function buildJsLineChartMediaInfoGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = lineChartMediaInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLineChartMediaInfo;
     
+    let { buildDotNetLineChartMediaInfo } = await import('./lineChartMediaInfo');
     let dnInstantiatedObject = await buildDotNetLineChartMediaInfo(jsLineChartMediaInfo);
     
     try {

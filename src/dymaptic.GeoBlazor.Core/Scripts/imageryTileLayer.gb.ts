@@ -122,7 +122,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i, this.layerId, this.viewId))) as any;
     }
     
     async getMultidimensionalSubset(): Promise<any> {
@@ -147,7 +147,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -258,16 +258,16 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         jsImageryTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        let { buildJsDimensionalDefinition } = await import('./jsBuilder');
-        jsImageryTileLayer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        jsImageryTileLayer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
         jsImageryTileLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./jsBuilder');
-        jsImageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        jsImageryTileLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -366,6 +366,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
     
+    let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
     let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
     
     try {

@@ -168,7 +168,7 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Value?.ValidateRequiredGeneratedChildren();

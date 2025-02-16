@@ -31,6 +31,8 @@ public partial class BookmarksWidget : Widget
     ///     Handler delegate for click events on the view.
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
 
     /// <summary>
@@ -54,9 +56,10 @@ public partial class BookmarksWidget : Widget
         switch (child)
         {
             case Bookmark bookmark:
+                Bookmarks ??= [];
                 if (!Bookmarks!.Contains(bookmark))
                 {
-                    Bookmarks.Add(bookmark);
+                    Bookmarks = [..Bookmarks, bookmark];
                     WidgetChanged = true;
                 }
                 break;
@@ -73,7 +76,7 @@ public partial class BookmarksWidget : Widget
         switch (child)
         {
             case Bookmark bookmark:
-                if (Bookmarks!.Contains(bookmark)) Bookmarks.Remove(bookmark);
+                Bookmarks = Bookmarks?.Except([bookmark]).ToList();
                 WidgetChanged = true;
                 break;
             default:

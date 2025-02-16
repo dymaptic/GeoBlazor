@@ -55,6 +55,7 @@ export async function buildJsElementExpressionInfoGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = elementExpressionInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElementExpressionInfo;
     
+    let { buildDotNetElementExpressionInfo } = await import('./elementExpressionInfo');
     let dnInstantiatedObject = await buildDotNetElementExpressionInfo(jsElementExpressionInfo);
     
     try {

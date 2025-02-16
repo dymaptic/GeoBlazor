@@ -848,7 +848,7 @@ public partial class Capabilities : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Analytics?.ValidateRequiredGeneratedChildren();

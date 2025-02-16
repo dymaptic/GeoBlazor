@@ -308,7 +308,7 @@ public partial class GraphicsLayer : Layer
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

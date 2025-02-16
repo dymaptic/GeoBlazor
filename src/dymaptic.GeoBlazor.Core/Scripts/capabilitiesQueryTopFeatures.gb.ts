@@ -49,6 +49,7 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = capabilitiesQueryTopFeaturesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
     
+    let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
     let dnInstantiatedObject = await buildDotNetCapabilitiesQueryTopFeatures(jsCapabilitiesQueryTopFeatures);
     
     try {

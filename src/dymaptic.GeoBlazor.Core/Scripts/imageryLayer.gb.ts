@@ -262,7 +262,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i))) as any;
+        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i, this.layerId, this.viewId))) as any;
     }
     
     async getFullExtent(): Promise<any> {
@@ -299,7 +299,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -418,8 +418,8 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         jsImageryLayer.capabilities = await buildJsArcGISImageServiceCapabilities(dotNetObject.capabilities, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fields)) {
-        let { buildJsField } = await import('./jsBuilder');
-        jsImageryLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i))) as any;
+        let { buildJsField } = await import('./field');
+        jsImageryLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -430,7 +430,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         jsImageryLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./jsBuilder');
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsImageryLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
@@ -576,6 +576,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     
+    let { buildDotNetImageryLayer } = await import('./imageryLayer');
     let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
     
     try {

@@ -14,6 +14,7 @@ public partial class BasemapToggleWidget : Widget
     [Parameter]
     [Obsolete("Use NextBasemapStyle instead")]
     [RequiredProperty(nameof(NextBasemap), nameof(NextBasemapStyle))]
+    [CodeGenerationIgnore]
     public string? NextBasemapName { get; set; }
     
     /// <summary>
@@ -23,7 +24,21 @@ public partial class BasemapToggleWidget : Widget
 #pragma warning disable CS0618 // Type or member is obsolete
     [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemap))]
 #pragma warning restore CS0618 // Type or member is obsolete
+    [CodeGenerationIgnore]
     public BasemapStyleName? NextBasemapStyle { get; set; }
+    
+    /// <summary>
+    ///     The next basemap for toggling.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+#pragma warning disable CS0618 // Type or member is obsolete
+    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemapStyle))]
+#pragma warning restore CS0618 // Type or member is obsolete
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public Basemap? NextBasemap { get; set; }
 
 
     /// <inheritdoc />
@@ -56,6 +71,19 @@ public partial class BasemapToggleWidget : Widget
 
                 break;
         }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+#pragma warning disable CS0618 // Type or member is obsolete
+        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
+        
+        base.ValidateRequiredChildren();
     }
 
 }

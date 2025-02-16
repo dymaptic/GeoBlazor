@@ -33,7 +33,7 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo =  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
     async getSymbol(): Promise<any> {
         if (!hasValue(this.component.symbol)) {
@@ -58,7 +58,7 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     
     async setVisualVariables(value: any): Promise<void> {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i))) as any;
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -73,16 +73,16 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
 export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleRenderer = new SimpleRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
-        let { buildJsAuthoringInfo } = await import('./jsBuilder');
-        jsSimpleRenderer.authoringInfo = buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        let { buildJsAuthoringInfo } = await import('./authoringInfo');
+        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsSimpleRenderer.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
-        let { buildJsVisualVariable } = await import('./jsBuilder');
-        jsSimpleRenderer.visualVariables = dotNetObject.visualVariables.map(i => buildJsVisualVariable(i)) as any;
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        jsSimpleRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -99,6 +99,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = simpleRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
     
+    let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
     let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer);
     
     try {

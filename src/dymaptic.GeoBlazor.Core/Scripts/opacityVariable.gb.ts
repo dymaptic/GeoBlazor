@@ -92,6 +92,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = opacityVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
+    let { buildDotNetOpacityVariable } = await import('./opacityVariable');
     let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable);
     
     try {

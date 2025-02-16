@@ -80,6 +80,7 @@ export async function buildJsPictureMarkerSymbolGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = pictureMarkerSymbolWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPictureMarkerSymbol;
     
+    let { buildDotNetPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
     let dnInstantiatedObject = await buildDotNetPictureMarkerSymbol(jsPictureMarkerSymbol);
     
     try {

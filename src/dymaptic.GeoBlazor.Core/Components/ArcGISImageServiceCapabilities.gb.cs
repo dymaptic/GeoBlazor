@@ -314,7 +314,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Mensuration?.ValidateRequiredGeneratedChildren();

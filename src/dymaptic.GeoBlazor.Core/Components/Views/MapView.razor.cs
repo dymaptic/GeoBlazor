@@ -2373,7 +2373,7 @@ public partial class MapView : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Map?.ValidateRequiredChildren();

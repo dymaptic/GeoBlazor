@@ -102,7 +102,7 @@ public class MapComponentTests
 
     public class TestChildComponent : MapComponent
     {
-        internal override void ValidateRequiredChildren()
+        public override void ValidateRequiredChildren()
         {
             WasValidated = true;
             base.ValidateRequiredChildren();
@@ -113,7 +113,7 @@ public class MapComponentTests
 
     public class TestChildInCollection : MapComponent
     {
-        internal override void ValidateRequiredChildren()
+        public override void ValidateRequiredChildren()
         {
             WasValidated = true;
             base.ValidateRequiredChildren();

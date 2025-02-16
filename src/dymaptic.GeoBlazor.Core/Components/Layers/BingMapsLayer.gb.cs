@@ -396,7 +396,7 @@ public partial class BingMapsLayer : IBlendLayer,
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Key is null)

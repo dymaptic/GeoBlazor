@@ -71,7 +71,7 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
 
     /// <inheritdoc />
     [CodeGenerationIgnore]
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 

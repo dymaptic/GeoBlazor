@@ -6,7 +6,7 @@ public abstract partial class SearchSource : MapComponent
     /// <summary>
     ///     The type of source.
     /// </summary>
-    public virtual string Type => "";
+    public abstract SearchSourceType Type { get; }
 
     /// <summary>
     ///     Indicates whether to automatically navigate to the selected result once selected.
@@ -28,13 +28,6 @@ public abstract partial class SearchSource : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? MinSuggestCharacters { get; set; }
-
-    /// <summary>
-    ///     The name of the source for display.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Name { get; set; }
 
 
     /// <summary>
@@ -64,16 +57,6 @@ public abstract partial class SearchSource : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ResultGraphicEnabled { get; set; }
-
-    /// <summary>
-    ///     A template string used to display multiple fields in a defined order when results are displayed.
-    /// </summary>
-    /// <remarks>
-    ///     Example: "{County}, {State}"
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SearchTemplate { get; set; }
 
     /// <summary>
     ///     Specify this to add a suffix to the user's input for the search value.

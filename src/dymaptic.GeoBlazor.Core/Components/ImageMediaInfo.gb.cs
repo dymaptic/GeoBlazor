@@ -234,7 +234,7 @@ public partial class ImageMediaInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Value?.ValidateRequiredGeneratedChildren();

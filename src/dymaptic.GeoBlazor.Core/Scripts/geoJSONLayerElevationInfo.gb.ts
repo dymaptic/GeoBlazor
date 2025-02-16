@@ -71,6 +71,7 @@ export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = geoJSONLayerElevationInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
     
+    let { buildDotNetGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
     let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfo(jsGeoJSONLayerElevationInfo);
     
     try {

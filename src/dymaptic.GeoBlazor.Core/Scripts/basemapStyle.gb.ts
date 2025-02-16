@@ -61,6 +61,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = basemapStyleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
     
+    let { buildDotNetBasemapStyle } = await import('./basemapStyle');
     let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
     
     try {

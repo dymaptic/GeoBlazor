@@ -194,7 +194,7 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (ColorRamps is not null)

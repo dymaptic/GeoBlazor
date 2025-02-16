@@ -565,7 +565,7 @@ public partial class FieldInfo
     }
     
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         Format?.ValidateRequiredGeneratedChildren();

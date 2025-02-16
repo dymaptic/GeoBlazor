@@ -49,6 +49,7 @@ export async function buildJsTextPopupContentGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = textPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextContent;
     
+    let { buildDotNetTextPopupContent } = await import('./textPopupContent');
     let dnInstantiatedObject = await buildDotNetTextPopupContent(jsTextContent);
     
     try {

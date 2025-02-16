@@ -356,7 +356,7 @@ public partial class SpatialReference
 #endregion
 
     /// <inheritdoc />
-    internal override void ValidateRequiredGeneratedChildren()
+    public override void ValidateRequiredGeneratedChildren()
     {
     
         if (Wkid is null && Wkt is null && Wkt2 is null)

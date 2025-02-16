@@ -73,6 +73,7 @@ export async function buildJsMediaPopupContentGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = mediaPopupContentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMediaContent;
     
+    let { buildDotNetMediaPopupContent } = await import('./mediaPopupContent');
     let dnInstantiatedObject = await buildDotNetMediaPopupContent(jsMediaContent);
     
     try {

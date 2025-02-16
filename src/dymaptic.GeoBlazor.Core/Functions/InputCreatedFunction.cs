@@ -1,3 +1,5 @@
+namespace dymaptic.GeoBlazor.Core.Functions;
+
 /// <summary>
 ///     Passes a JavaScript function to an ArcGIS property.
 /// </summary>/// <param name="InputElement">
@@ -12,4 +14,3 @@
 public delegate Task InputCreatedFunction(ElementReference inputElement,
     InputCreatedFunctionType type,
     int thumbIndex);
-
