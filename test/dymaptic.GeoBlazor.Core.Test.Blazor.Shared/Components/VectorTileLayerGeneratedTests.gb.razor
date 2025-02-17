@@ -18,78 +18,73 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                     </Basemap>
                     <VectorTileLayer 
-                        ApiKey="@("omnis")"
-                        BlendMode="@(BlendMode.Lighten)"
-                        Effect="@(new Effect("non",
-                            29545095.0726))"
-                        ListMode="@(ListMode.Show)"
-                        MaxScale="@(5924337.6164)"
-                        MinScale="@(29121.0384)"
-                        Opacity="@(0.1270)"
+                        ApiKey="@("occaecati")"
+                        BlendMode="@(BlendMode.VividLight)"
+                        Effect="@(new Effect("totam",
+                            20209907.3701))"
+                        ListMode="@(ListMode.Hide)"
+                        MaxScale="@(20913124.9981)"
+                        MinScale="@(17134.1645)"
+                        Opacity="@(0.6927)"
                         PersistenceEnabled="@(true)"
-                        Style="@("dolores")"
-                        Title="@("et voluptas sunt")"
+                        Style="@("architecto")"
+                        Title="@("eius est aut")"
                         Url="@("https://vectortileservices3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_Mountains_Parcels_VTL/VectorTileServer/")">
                         <TimeExtent 
-                            Start="@(new DateTime(2018, 6, 13, 19, 49, 36))"
-                            End="@(new DateTime(2014, 8, 18, 10, 8, 54))">
+                            Start="@(new DateTime(2020, 7, 22, 0, 40, 23))"
+                            End="@(new DateTime(2019, 5, 4, 11, 15, 21))">
                         </TimeExtent>
                         <TileInfo 
-                            Dpi="@(560.8422)"
-                            Format="@(TileInfoFormat.Ps)"
+                            Dpi="@(289.8842)"
+                            Format="@(TileInfoFormat.Png)"
                             IsWrappable="@(true)"
-                            Lods="@([new LOD(5,
-                                    "sint",
-                                    61.9431,
-                                    23835021.3398),
-                            new LOD(7,
-                                    "dolorem",
-                                    81.5288,
-                                    17528163.3622)])"
-                            Origin="@(new Point(-3.3283,
-                                    -37.1780,
-                                    48.0013,
-                                    57.8495,
-                                    11.2048,
-                                new SpatialReference(1,
-                                        "suscipit",
-                                        "sequi",
-                                        "ex"),
+                            Lods="@([new LOD(7,
+                                    "molestiae",
+                                    82.9424,
+                                    28180803.1765)])"
+                            Origin="@(new Point(-73.1427,
+                                    21.7033,
+                                    -177.0792,
+                                    84.0682,
+                                    118.0620,
+                                new SpatialReference(7,
+                                        "excepturi",
+                                        "vitae",
+                                        "debitis"),
                                     true,
                                     true,
-                                    795.0543))"
-                            Size="@([4,
-                                9])">
+                                    931.0516))"
+                            Size="@([8])">
                             <SpatialReference 
-                                Wkid="@(6)"
-                                ImageCoordinateSystem="@("tempore")"
-                                Wkt="@("sunt")"
-                                Wkt2="@("minus")">
+                                Wkid="@(2)"
+                                ImageCoordinateSystem="@("cum")"
+                                Wkt="@("reiciendis")"
+                                Wkt2="@("adipisci")">
                             </SpatialReference>
                         </TileInfo>
                         <SpatialReference 
-                            Wkid="@(3)"
-                            ImageCoordinateSystem="@("qui")"
-                            Wkt="@("asperiores")"
-                            Wkt2="@("voluptatem")">
+                            Wkid="@(6)"
+                            ImageCoordinateSystem="@("maiores")"
+                            Wkt="@("aspernatur")"
+                            Wkt2="@("quaerat")">
                         </SpatialReference>
                         <PortalItem />
                         <Extent 
-                            Xmax="@(96.7483)"
-                            Xmin="@(38.5808)"
-                            Ymax="@(-68.4638)"
-                            Ymin="@(-35.7380)"
-                            Zmax="@(712.3792)"
-                            Zmin="@(447.7950)"
-                            Mmax="@(306.9912)"
-                            Mmin="@(746.3288)"
+                            Xmax="@(158.3836)"
+                            Xmin="@(-105.9943)"
+                            Ymax="@(0.2895)"
+                            Ymin="@(4.0259)"
+                            Zmax="@(319.2999)"
+                            Zmin="@(221.7650)"
+                            Mmax="@(505.0979)"
+                            Mmin="@(519.5548)"
                             HasM="@(true)"
                             HasZ="@(true)">
                             <SpatialReference 
-                                Wkid="@(1)"
-                                ImageCoordinateSystem="@("eaque")"
-                                Wkt="@("eligendi")"
-                                Wkt2="@("consectetur")">
+                                Wkid="@(4)"
+                                ImageCoordinateSystem="@("cupiditate")"
+                                Wkt="@("dolorum")"
+                                Wkt2="@("exercitationem")">
                             </SpatialReference>
                         </Extent>
                     </VectorTileLayer>
@@ -98,73 +93,73 @@
         await WaitForMapToRender();
         Assert.IsNotNull(vectorTileLayer!);
         await AssertJavaScript("assertLayerExists", args: "vector-tile");
-        await vectorTileLayer.DeleteStyleLayer("qui");
-        var getLayoutPropertiesMethodResult = await vectorTileLayer.GetLayoutProperties("nam");
+        await vectorTileLayer.DeleteStyleLayer("amet");
+        var getLayoutPropertiesMethodResult = await vectorTileLayer.GetLayoutProperties("vero");
         Assert.IsNotNull(getLayoutPropertiesMethodResult);
-        var getPaintPropertiesMethodResult = await vectorTileLayer.GetPaintProperties("ut");
+        var getPaintPropertiesMethodResult = await vectorTileLayer.GetPaintProperties("aut");
         Assert.IsNotNull(getPaintPropertiesMethodResult);
-        var getStyleLayerMethodResult = await vectorTileLayer.GetStyleLayer("similique");
+        var getStyleLayerMethodResult = await vectorTileLayer.GetStyleLayer("alias");
         Assert.IsNotNull(getStyleLayerMethodResult);
-        var getStyleLayerIdMethodResult = await vectorTileLayer.GetStyleLayerId(7);
+        var getStyleLayerIdMethodResult = await vectorTileLayer.GetStyleLayerId(9);
         Assert.IsNotNull(getStyleLayerIdMethodResult);
-        var getStyleLayerIndexMethodResult = await vectorTileLayer.GetStyleLayerIndex("unde");
+        var getStyleLayerIndexMethodResult = await vectorTileLayer.GetStyleLayerIndex("quia");
         Assert.IsNotNull(getStyleLayerIndexMethodResult);
-        var getStyleLayerVisibilityMethodResult = await vectorTileLayer.GetStyleLayerVisibility("est");
+        var getStyleLayerVisibilityMethodResult = await vectorTileLayer.GetStyleLayerVisibility("beatae");
         Assert.IsNotNull(getStyleLayerVisibilityMethodResult);
-        var loadStyleMethodResult = await vectorTileLayer.LoadStyle("labore",
+        var loadStyleMethodResult = await vectorTileLayer.LoadStyle("ipsa",
                 default);
         Assert.IsNotNull(loadStyleMethodResult);
-        await vectorTileLayer.SetLayoutProperties("in",
-                "enim");
-        await vectorTileLayer.SetPaintProperties("consequatur",
-                "sint");
-        var setSpriteSourceMethodResult = await vectorTileLayer.SetSpriteSource(new SpriteSourceUrlInfo(191.4211,
-                SpriteFormat.Png,
-                    "http://bernard.biz"));
+        await vectorTileLayer.SetLayoutProperties("consequatur",
+                "neque");
+        await vectorTileLayer.SetPaintProperties("ut",
+                "qui");
+        var setSpriteSourceMethodResult = await vectorTileLayer.SetSpriteSource(new SpriteSourceUrlInfo(50.7778,
+                SpriteFormat.Webp,
+                    "https://kasey.info"));
         Assert.IsNotNull(setSpriteSourceMethodResult);
         await vectorTileLayer.SetStyleLayer("et",
-                6);
-        await vectorTileLayer.SetStyleLayerVisibility("sed",
-            Visibility.None);
-        BlendMode testBlendMode = BlendMode.SourceAtop;
+                3);
+        await vectorTileLayer.SetStyleLayerVisibility("molestiae",
+            Visibility.Visible);
+        BlendMode testBlendMode = BlendMode.ColorBurn;
         await vectorTileLayer.SetBlendMode(testBlendMode);
         var blendMode = await vectorTileLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        Extent testFullExtent = new Extent(-45.2458,
-                    -45.3172,
-                    19.9852,
-                    32.2483,
-                    641.4163,
-                    255.1917,
-                    418.4549,
-                    388.2429,
-                new SpatialReference(5,
-                        "nisi",
-                        "quos",
-                        "modi"),
+        Extent testFullExtent = new Extent(-108.5408,
+                    42.6290,
+                    79.5328,
+                    -48.4464,
+                    605.2598,
+                    53.2890,
+                    90.2139,
+                    154.2237,
+                new SpatialReference(2,
+                        "quis",
+                        "sed",
+                        "rerum"),
                     true,
                     true);
         await vectorTileLayer.SetFullExtent(testFullExtent);
         var fullExtent = await vectorTileLayer.GetFullExtent();
         Assert.AreEqual(testFullExtent, fullExtent);
-        Extent testInitialExtent = new Extent(103.6265,
-                    -98.8637,
-                    51.2692,
-                    53.2996,
-                    943.9050,
-                    277.4214,
-                    574.9160,
-                    236.1020,
-                new SpatialReference(3,
-                        "rerum",
-                        "deleniti",
-                        "ipsa"),
+        Extent testInitialExtent = new Extent(-52.1921,
+                    -89.5676,
+                    -84.6370,
+                    -12.3463,
+                    446.1596,
+                    400.2225,
+                    109.4014,
+                    325.0445,
+                new SpatialReference(1,
+                        "nemo",
+                        "et",
+                        "velit"),
                     true,
                     true);
         await vectorTileLayer.SetInitialExtent(testInitialExtent);
         var initialExtent = await vectorTileLayer.GetInitialExtent();
         Assert.AreEqual(testInitialExtent, initialExtent);
-        ListMode testListMode = ListMode.Show;
+        ListMode testListMode = ListMode.Hide;
         await vectorTileLayer.SetListMode(testListMode);
         var listMode = await vectorTileLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
@@ -172,42 +167,43 @@
         await vectorTileLayer.SetPortalItem(testPortalItem);
         var portalItem = await vectorTileLayer.GetPortalItem();
         Assert.AreEqual(testPortalItem, portalItem);
-        SpatialReference testSpatialReference = new SpatialReference(2,
-                    "minus",
-                    "aut",
-                    "sunt");
+        SpatialReference testSpatialReference = new SpatialReference(4,
+                    "amet",
+                    "accusamus",
+                    "officia");
         await vectorTileLayer.SetSpatialReference(testSpatialReference);
         var spatialReference = await vectorTileLayer.GetSpatialReference();
         Assert.AreEqual(testSpatialReference, spatialReference);
-        TileInfo testTileInfo = new TileInfo(409.2755,
-                    TileInfoFormat.Lerc,
+        TileInfo testTileInfo = new TileInfo(351.6044,
+                    TileInfoFormat.Svg,
                     true,
-                [new LOD(6,
-                        "omnis",
-                        90.9490,
-                        14455423.1291)],
-                new Point(149.1715,
-                        22.1298,
-                        -62.3012,
-                        -54.1536,
-                        166.0709,
-                    new SpatialReference(9,
-                            "aliquam",
-                            "reprehenderit",
-                            "saepe"),
+                [new LOD(8,
+                        "ducimus",
+                        85.5575,
+                        6518307.9217)],
+                new Point(4.5922,
+                        10.0639,
+                        -26.5485,
+                        82.2518,
+                        84.8003,
+                    new SpatialReference(7,
+                            "amet",
+                            "voluptates",
+                            "quisquam"),
                         true,
                         true,
-                        507.3248),
-                    [6],
-                new SpatialReference(2,
-                        "id",
-                        "ea",
-                        "recusandae"));
+                        353.9213),
+                    [5,
+                        7],
+                new SpatialReference(1,
+                        "dolor",
+                        "doloribus",
+                        "totam"));
         await vectorTileLayer.SetTileInfo(testTileInfo);
         var tileInfo = await vectorTileLayer.GetTileInfo();
         Assert.AreEqual(testTileInfo, tileInfo);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2002, 3, 17, 18, 10, 39),
-                    new DateTime(2014, 1, 11, 18, 57, 27));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2017, 9, 3, 3, 54, 23),
+                    new DateTime(2016, 3, 26, 14, 42, 52));
         await vectorTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await vectorTileLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

@@ -1,21 +1,74 @@
 // override generated code in this file
-import PieChartMediaInfoGenerated from './pieChartMediaInfo.gb';
 import PieChartMediaInfo from '@arcgis/core/popup/content/PieChartMediaInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
-export default class PieChartMediaInfoWrapper extends PieChartMediaInfoGenerated {
 
-    constructor(component: PieChartMediaInfo) {
-        super(component);
+export function buildJsPieChartMediaInfo(dotNetObject: any): any {
+    let jsPieChartMediaInfo = new PieChartMediaInfo();
+    if (hasValue(dotNetObject.value)) {
+        jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
-    
-}
 
-export async function buildJsPieChartMediaInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsPieChartMediaInfoGenerated } = await import('./pieChartMediaInfo.gb');
-    return await buildJsPieChartMediaInfoGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.altText)) {
+        jsPieChartMediaInfo.altText = dotNetObject.altText;
+    }
+    if (hasValue(dotNetObject.caption)) {
+        jsPieChartMediaInfo.caption = dotNetObject.caption;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsPieChartMediaInfo.title = dotNetObject.title;
+    }
+
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(pieChartMediaInfoWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsPieChartMediaInfo;
+
+    let dnInstantiatedObject = buildDotNetPieChartMediaInfo(jsPieChartMediaInfo);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PieChartMediaInfo', e);
+    }
+
+    return jsPieChartMediaInfo;
 }     
 
-export async function buildDotNetPieChartMediaInfo(jsObject: any): Promise<any> {
-    let { buildDotNetPieChartMediaInfoGenerated } = await import('./pieChartMediaInfo.gb');
-    return await buildDotNetPieChartMediaInfoGenerated(jsObject);
+export function buildDotNetPieChartMediaInfo(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetPieChartMediaInfo: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.value)) {
+        dotNetPieChartMediaInfo.value = buildDotNetChartMediaInfoValue(jsObject.value);
+    }
+    if (hasValue(jsObject.altText)) {
+        dotNetPieChartMediaInfo.altText = jsObject.altText;
+    }
+    if (hasValue(jsObject.caption)) {
+        dotNetPieChartMediaInfo.caption = jsObject.caption;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPieChartMediaInfo.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPieChartMediaInfo.type = jsObject.type;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPieChartMediaInfo.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetPieChartMediaInfo;
 }

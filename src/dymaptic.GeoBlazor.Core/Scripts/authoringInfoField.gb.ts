@@ -29,7 +29,7 @@ export default class AuthoringInfoFieldGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        return await Promise.all(this.component.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i)));
+        return await Promise.all(this.component.classBreakInfos!.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i)));
     }
     
     async setClassBreakInfos(value: any): Promise<void> {

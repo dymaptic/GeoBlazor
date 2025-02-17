@@ -1,6 +1,6 @@
 ﻿import Search from '@arcgis/core/widgets/Search';
-import {buildJsGeometry} from './jsBuilder';
 import {IPropertyWrapper} from './definitions';
+import { buildJsGeometry } from './geometry';
 
 
 export default class SearchWidgetWrapper implements IPropertyWrapper {

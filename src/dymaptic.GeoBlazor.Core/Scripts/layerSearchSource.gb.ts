@@ -57,7 +57,7 @@ export default class LayerSearchSourceGenerated implements IPropertyWrapper {
     }
     async setResultSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.resultSymbol = await  buildJsSymbol(value, this.layerId, this.viewId);
+        this.component.resultSymbol = await  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -80,7 +80,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLayerSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol, layerId, viewId) as any;
+        jsLayerSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.autoNavigate)) {
@@ -164,7 +164,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsLayerSearchSource;
     
     let { buildDotNetLayerSearchSource } = await import('./layerSearchSource');
-    let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -175,7 +175,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     return jsLayerSearchSource;
 }
 
-export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

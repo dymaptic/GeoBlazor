@@ -74,6 +74,8 @@ public partial class Graphic: MapComponent
         ToSerializationRecord();
     }
     
+#region Public Properties / Blazor Parameters
+    
     /// <summary>
     ///     The aggregateGeometries contains spatial aggregation geometries when [statistics](https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType) query is executed with `envelope-aggregate`, `centroid-aggregate` and/or `convex-hull-aggregate` statistics type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#aggregateGeometries">ArcGIS Maps SDK for JavaScript</a>
@@ -138,15 +140,43 @@ public partial class Graphic: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Symbol { get; set; }
-    
+
     /// <summary>
     ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
     /// </summary>
-    public Guid? LayerId { get; set; }
+    public Guid? LayerId
+    {
+        get => _layerId ??= Layer?.Id;
+        init => _layerId = value;
+    }
 
+    /// <summary>
+    ///     The GeoBlazor Id of the parent view, used when serializing the graphic to/from JavaScript.
+    /// </summary>
+    public Guid? ViewId
+    {
+        get => _viewId ??= View?.Id;
+        init => _viewId = value;
+    }
+    
+
+    /// <summary>
+    ///     Indicates whether the graphic refers to an aggregate, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureReductionCluster.html">cluster</a> graphic.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public bool? IsAggregate { get; protected set; }
+    
+#endregion
+
+#region Property Getters
+    
     /// <summary>
     ///     Retrieves the <see cref = "Geometry"/> from the rendered graphic.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<Geometry?> GetGeometry()
     {
         if (CoreJsModule is not null)
@@ -157,11 +187,140 @@ public partial class Graphic: MapComponent
 
         return Geometry;
     }
+    
+    /// <summary>
+    ///     Gets the current <see cref = "Symbol"/> for the object.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<Symbol?> GetSymbol()
+    {
+        if (CoreJsModule is not null)
+        {
+            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol", CancellationTokenSource.Token, 
+                Id, LayerId, View?.Id);
+        }
+
+        return Symbol;
+    }
+
+    /// <summary>
+    ///     Retrieves the <see cref = "PopupTemplate"/> from the rendered graphic.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<PopupTemplate?> GetPopupTemplate()
+    {
+        if (CoreJsModule is not null)
+        {
+            PopupTemplate = await CoreJsModule.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate", 
+                CancellationTokenSource.Token, Id, LayerId, View?.Id);
+        }
+
+        return PopupTemplate;
+    }
+    
+    [CodeGenerationIgnore]
+    public Task<Layer?> GetLayer()
+    {
+        return Task.FromResult(Parent as Layer);
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AggregateGeometries property.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<string?> GetAggregateGeometries()
+    {
+        if (CoreJsModule is null)
+        {
+            return AggregateGeometries;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return AggregateGeometries;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "aggregateGeometries");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AggregateGeometries = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AggregateGeometries)] = AggregateGeometries;
+        }
+         
+        return AggregateGeometries;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the IsAggregate property.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<bool?> GetIsAggregate()
+    {
+        if (CoreJsModule is null)
+        {
+            return IsAggregate;
+        }
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return IsAggregate;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "isAggregate");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             IsAggregate = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(IsAggregate)] = IsAggregate;
+        }
+         
+        return IsAggregate;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Origin property.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public async Task<GraphicOrigin?> GetOrigin()
+    {
+        if (CoreJsModule is null)
+        {
+            return Origin;
+        }
+
+        // get the property value
+        GraphicOrigin? result = await JsComponentReference!.InvokeAsync<GraphicOrigin?>("getProperty",
+            CancellationTokenSource.Token, "origin");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Origin = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Origin)] = Origin;
+        }
+         
+        return Origin;
+    }
+    
+#endregion
+
+#region Property Setters
 
     /// <summary>
     ///     Sets the <see cref = "Geometry"/> on the rendered graphic.
     /// </summary>
     /// <param name="geometry"></param>
+    [CodeGenerationIgnore]
     public async Task SetGeometry(Geometry geometry)
     {
         Geometry = geometry;
@@ -185,6 +344,7 @@ public partial class Graphic: MapComponent
     /// <param name="symbol">
     ///     The <see cref = "Symbol"/> for the object.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task SetSymbol(Symbol symbol)
     {
         Symbol = symbol;
@@ -203,39 +363,12 @@ public partial class Graphic: MapComponent
     }
 
     /// <summary>
-    ///     Gets the current <see cref = "Symbol"/> for the object.
-    /// </summary>
-    public async Task<Symbol?> GetSymbol()
-    {
-        if (CoreJsModule is not null)
-        {
-            Symbol = await CoreJsModule.InvokeAsync<Symbol>("getGraphicSymbol", CancellationTokenSource.Token, 
-                Id, LayerId, View?.Id);
-        }
-
-        return Symbol;
-    }
-
-    /// <summary>
-    ///     Retrieves the <see cref = "PopupTemplate"/> from the rendered graphic.
-    /// </summary>
-    public async Task<PopupTemplate?> GetPopupTemplate()
-    {
-        if (CoreJsModule is not null)
-        {
-            PopupTemplate = await CoreJsModule.InvokeAsync<PopupTemplate>("getGraphicPopupTemplate", 
-                CancellationTokenSource.Token, Id, LayerId, View?.Id);
-        }
-
-        return PopupTemplate;
-    }
-
-    /// <summary>
     ///     Sets the <see cref = "PopupTemplate"/> on the rendered graphic.
     /// </summary>
     /// <param name="popupTemplate">
     ///     The <see cref = "PopupTemplate"/> for displaying content in a Popup when the graphic is selected.
     /// </param>
+    [CodeGenerationIgnore]
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
         var oldTemplate = PopupTemplate;
@@ -258,10 +391,146 @@ public partial class Graphic: MapComponent
         ToSerializationRecord();
     }
 
-    public Task<Layer?> GetLayer()
+    /// <summary>
+    ///    Asynchronously set the value of the AggregateGeometries property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [CodeGenerationIgnore]
+    public async Task SetAggregateGeometries(string? value)
     {
-        return Task.FromResult(Parent as Layer);
+#pragma warning disable BL0005
+        AggregateGeometries = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AggregateGeometries)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "aggregateGeometries", value);
     }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Origin property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [CodeGenerationIgnore]
+    public async Task SetOrigin(GraphicOrigin? value)
+    {
+#pragma warning disable BL0005
+        Origin = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Origin)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setGraphicOrigin", CancellationTokenSource.Token,
+            Id, value, LayerId, ViewId);
+    }
+    
+#endregion
+
+#region Public Methods
+
+    /// <summary>
+    ///     Returns the value of the specified attribute.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#getAttribute">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the attribute.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<object?> GetAttribute(string name)
+    {
+        if (CoreJsModule is not null)
+        {
+            Attributes = await CoreJsModule.InvokeAsync<AttributesDictionary>("getGraphicAttributes", 
+                CancellationTokenSource.Token, Id, LayerId, ViewId);
+        }
+        
+        return Attributes.TryGetValue(name, out object? value) ? value : null;
+    }
+    
+    /// <summary>
+    ///     Returns the popup template applicable for the graphic.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#getEffectivePopupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="defaultPopupTemplateEnabled">
+    ///     Whether support for default popup templates
+    ///     is enabled. When true, a default popup template may be created automatically if neither
+    ///     the graphic nor its layer have a popup template defined.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<PopupTemplate?> GetEffectivePopupTemplate(bool defaultPopupTemplateEnabled)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
+            "getEffectivePopupTemplate", 
+            CancellationTokenSource.Token,
+            defaultPopupTemplateEnabled);
+    }
+    
+    /// <summary>
+    ///     Returns the Object ID of the feature associated with the graphic, if it exists.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#getObjectId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task<long?> GetObjectId()
+    {
+        if (CoreJsModule is null) return null;
+        
+        return await CoreJsModule!.InvokeAsync<long?>(
+            "getObjectIdForGraphic", 
+            CancellationTokenSource.Token,
+            Id, LayerId, ViewId);
+    }
+    
+    /// <summary>
+    ///     Sets a new value to the specified attribute.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#setAttribute">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="name">
+    ///     The name of the attribute to set.
+    /// </param>
+    /// <param name="newValue">
+    ///     The new value to set on the named attribute.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task SetAttribute(string name,
+        string newValue)
+    {
+        await Attributes.AddOrUpdate(name, newValue);
+
+        if (CoreJsModule is not null)
+        {
+            await CoreJsModule.InvokeVoidAsync("setGraphicAttributes",
+                CancellationTokenSource.Token, Id, LayerId, ViewId);
+        }
+    }
+    
+#endregion
 
     /// <inheritdoc/>
     public override async ValueTask DisposeAsync()
@@ -370,7 +639,7 @@ public partial class Graphic: MapComponent
             _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToSerializationRecord(), 
                 Symbol?.ToSerializationRecord(), PopupTemplate?.ToSerializationRecord(), 
                 Attributes.ToSerializationRecord(), Visible, AggregateGeometries, 
-                Origin?.ToSerializationRecord());
+                Origin?.ToSerializationRecord(), LayerId?.ToString(), ViewId?.ToString());
         }
 
         return _serializationRecord;
@@ -422,6 +691,8 @@ public partial class Graphic: MapComponent
     private bool _updateSymbol;
     private bool _updatePopupTemplate;
     private bool _updateAttributes;
+    private Guid? _layerId;
+    private Guid? _viewId;
     public bool Equals(Graphic? other)
     {
         if (other is null)
@@ -476,7 +747,7 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
     public GraphicSerializationRecord(string Id, GeometrySerializationRecord? Geometry, 
         SymbolSerializationRecord? Symbol, PopupTemplateSerializationRecord? PopupTemplate, 
         AttributeSerializationRecord[]? Attributes, bool? Visible, string? AggregateGeometries,
-        GraphicOriginSerializationRecord? Origin)
+        GraphicOriginSerializationRecord? Origin, string? LayerId, string? ViewId)
     {
         this.Id = Id;
         this.Geometry = Geometry;
@@ -486,6 +757,8 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
         this.Visible = Visible;
         this.AggregateGeometries = AggregateGeometries;
         this.Origin = Origin;
+        this.LayerId = LayerId;
+        this.ViewId = ViewId;
     }
 
     public Graphic FromSerializationRecord()
@@ -495,11 +768,27 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
             graphicId = Guid.NewGuid();
         }
 
+        Guid? layerId = null;
+
+        if (Guid.TryParse(LayerId, out Guid existingLayerId))
+        {
+            layerId = existingLayerId;
+        }
+
+        Guid? viewId = null;
+        
+        if (Guid.TryParse(ViewId, out Guid existingViewId))
+        {
+            viewId = existingViewId;
+        }
+
         return new Graphic(Geometry?.FromSerializationRecord(), Symbol?.FromSerializationRecord(), 
             PopupTemplate?.FromSerializationRecord(), new AttributesDictionary(Attributes),
             Visible, null, AggregateGeometries, Origin?.FromSerializationRecord())
         {
-            Id = graphicId
+            Id = graphicId,
+            LayerId = layerId,
+            ViewId = viewId
         };
     }
 
@@ -533,4 +822,12 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(8)]
     public GraphicOriginSerializationRecord? Origin { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(9)]
+    public string? LayerId { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [ProtoMember(10)]
+    public string? ViewId { get; set; }
 }

@@ -1,19 +1,76 @@
 // override generated code in this file
-import ChartMediaInfoValueGenerated from './chartMediaInfoValue.gb';
 import ChartMediaInfoValue from '@arcgis/core/popup/content/support/ChartMediaInfoValue';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries } from './chartMediaInfoValueSeries';
 
-export default class ChartMediaInfoValueWrapper extends ChartMediaInfoValueGenerated {
-
-    constructor(component: ChartMediaInfoValue) {
-        super(component);
+export function buildJsChartMediaInfoValue(dotNetObject: any): any {
+    let jsChartMediaInfoValue = new ChartMediaInfoValue();
+    if (hasValue(dotNetObject.colors)) {
+        jsChartMediaInfoValue.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
-    
-}              
-export async function buildJsChartMediaInfoValue(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsChartMediaInfoValueGenerated } = await import('./chartMediaInfoValue.gb');
-    return await buildJsChartMediaInfoValueGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.series)) {
+        jsChartMediaInfoValue.series = dotNetObject.series.map(i => buildJsChartMediaInfoValueSeries(i)) as any;
+    }
+
+    if (hasValue(dotNetObject.fields)) {
+        jsChartMediaInfoValue.fields = dotNetObject.fields;
+    }
+    if (hasValue(dotNetObject.normalizeField)) {
+        jsChartMediaInfoValue.normalizeField = dotNetObject.normalizeField;
+    }
+    if (hasValue(dotNetObject.tooltipField)) {
+        jsChartMediaInfoValue.tooltipField = dotNetObject.tooltipField;
+    }
+
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValue;
+
+    let dnInstantiatedObject = buildDotNetChartMediaInfoValue(jsChartMediaInfoValue);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValue', e);
+    }
+
+    return jsChartMediaInfoValue;
 }
-export async function buildDotNetChartMediaInfoValue(jsObject: any): Promise<any> {
-    let { buildDotNetChartMediaInfoValueGenerated } = await import('./chartMediaInfoValue.gb');
-    return await buildDotNetChartMediaInfoValueGenerated(jsObject);
+export function buildDotNetChartMediaInfoValue(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetChartMediaInfoValue: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.colors)) {
+        dotNetChartMediaInfoValue.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
+    }
+    if (hasValue(jsObject.series)) {
+        dotNetChartMediaInfoValue.series = jsObject.series.map(i =>  buildDotNetChartMediaInfoValueSeries(i));
+    }
+    if (hasValue(jsObject.fields)) {
+        dotNetChartMediaInfoValue.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.normalizeField)) {
+        dotNetChartMediaInfoValue.normalizeField = jsObject.normalizeField;
+    }
+    if (hasValue(jsObject.tooltipField)) {
+        dotNetChartMediaInfoValue.tooltipField = jsObject.tooltipField;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetChartMediaInfoValue.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetChartMediaInfoValue;
 }

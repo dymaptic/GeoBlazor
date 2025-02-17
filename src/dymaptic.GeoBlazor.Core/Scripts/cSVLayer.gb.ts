@@ -111,7 +111,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
     async setFeatureEffect(value: any): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+        this.layer.featureEffect = await  buildJsFeatureEffect(value);
     }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
@@ -213,7 +213,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
+        this.layer.spatialReference = await  buildJsSpatialReference(value);
     }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
@@ -280,7 +280,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./jsBuilder');
-        jsCSVLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+        jsCSVLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect) as any;
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
@@ -312,7 +312,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsCSVLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
+        jsCSVLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');

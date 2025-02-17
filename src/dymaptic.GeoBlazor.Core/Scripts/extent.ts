@@ -1,8 +1,8 @@
 import {DotNetExtent} from "./definitions";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Extent from "@arcgis/core/geometry/Extent";
-import {buildJsSpatialReference, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
-import { buildDotNetSpatialReference } from "./spatialReference";
+import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 
 export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null = null): Extent {
     let extent = new Extent();

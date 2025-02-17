@@ -33,7 +33,7 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value, this.layerId, this.viewId);
+        this.component.symbol = await  buildJsSymbol(value);
     }
     async getValues(): Promise<any> {
         if (!hasValue(this.component.values)) {
@@ -62,7 +62,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     let jsUniqueValueClass = new UniqueValueClass();
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsUniqueValueClass.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
+        jsUniqueValueClass.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.values)) {
         let { buildJsUniqueValue } = await import('./uniqueValue');

@@ -113,7 +113,7 @@ public abstract partial class SearchSource : MapComponent
     ///     JavaScript-invokable method for internal use.
     /// </summary>
     [JSInvokable]
-    public async Task<IList<SearchResult>> OnJavaScriptGetResults(GetResultsParameters resultsParams)
+    public async Task<IList<SearchResult>> OnJsGetResults(GetResultsParameters resultsParams)
     {
         return await GetResultsHandler!.Invoke(resultsParams);
     }
@@ -122,7 +122,7 @@ public abstract partial class SearchSource : MapComponent
     ///     JavaScript-invokable method for internal use.
     /// </summary>
     [JSInvokable]
-    public async Task<IList<SuggestResult>> OnJavaScriptGetSuggestions(GetSuggestionsParameters suggestionsParams)
+    public async Task<IList<SuggestResult>> OnJsGetSuggestions(GetSuggestionsParameters suggestionsParams)
     {
         return await GetSuggestionsHandler!.Invoke(suggestionsParams);
     }

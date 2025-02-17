@@ -68,6 +68,26 @@
                           "rule": "repeated",
                           "type": "Attribute",
                           "id": 5
+                        },
+                        "visible": {
+                          "type": "bool",
+                          "id": 6
+                        },
+                        "aggregateGeometries": {
+                          "type": "string",
+                          "id": 7
+                        },
+                        "origin": {
+                          "type": "GraphicOrigin",
+                          "id": 8
+                        },
+                        "layerId": {
+                          "type": "string",
+                          "id": 9
+                        },
+                        "viewId": {
+                          "type": "string",
+                          "id": 10
                         }
                       }
                     },
@@ -667,6 +687,22 @@
                         "value": {
                           "type": "bool",
                           "id": 9
+                        }
+                      }
+                    },
+                    "GraphicOrigin": {
+                      "fields": {
+                        "layerId": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "arcGISLayerId": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "layerIndex": {
+                          "type": "int32",
+                          "id": 3
                         }
                       }
                     }

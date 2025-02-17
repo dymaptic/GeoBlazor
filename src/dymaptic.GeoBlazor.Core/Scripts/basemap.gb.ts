@@ -79,7 +79,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
+        this.component.spatialReference = await  buildJsSpatialReference(value);
     }
     async getStyle(): Promise<any> {
         if (!hasValue(this.component.style)) {
@@ -118,7 +118,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsBasemap.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
+        jsBasemap.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');

@@ -160,7 +160,7 @@ public partial class PopupTemplate : MapComponent
     ///     Should not be called by consuming code.
     /// </summary>
     [JSInvokable]
-    public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
+    public async Task<PopupContent[]?> OnJsContentFunction(Graphic graphic)
     {
         PopupContent[]? content = null;
 

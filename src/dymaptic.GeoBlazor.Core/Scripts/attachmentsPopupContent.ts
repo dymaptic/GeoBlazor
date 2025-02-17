@@ -1,21 +1,67 @@
 // override generated code in this file
-import AttachmentsPopupContentGenerated from './attachmentsPopupContent.gb';
 import AttachmentsContent = __esri.AttachmentsContent;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export default class AttachmentsPopupContentWrapper extends AttachmentsPopupContentGenerated {
+export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
+    let jsAttachmentsContent = new AttachmentsContent();
 
-    constructor(component: AttachmentsContent) {
-        super(component);
+    if (hasValue(dotNetObject.description)) {
+        jsAttachmentsContent.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.displayType)) {
+        jsAttachmentsContent.displayType = dotNetObject.displayType;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jsAttachmentsContent.title = dotNetObject.title;
     }
     
-}
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(attachmentsPopupContentWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsAttachmentsContent;
 
-export async function buildJsAttachmentsPopupContent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsAttachmentsPopupContentGenerated } = await import('./attachmentsPopupContent.gb');
-    return await buildJsAttachmentsPopupContentGenerated(dotNetObject, layerId, viewId);
+    let dnInstantiatedObject = buildDotNetAttachmentsPopupContent(jsAttachmentsContent);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for AttachmentsPopupContent', e);
+    }
+
+    return jsAttachmentsContent;
 }     
 
-export async function buildDotNetAttachmentsPopupContent(jsObject: any): Promise<any> {
-    let { buildDotNetAttachmentsPopupContentGenerated } = await import('./attachmentsPopupContent.gb');
-    return await buildDotNetAttachmentsPopupContentGenerated(jsObject);
+export function buildDotNetAttachmentsPopupContent(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetAttachmentsPopupContent: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    
+    if (hasValue(jsObject.description)) {
+        dotNetAttachmentsPopupContent.description = jsObject.description;
+    }
+    if (hasValue(jsObject.displayType)) {
+        dotNetAttachmentsPopupContent.displayType = jsObject.displayType;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetAttachmentsPopupContent.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetAttachmentsPopupContent.type = jsObject.type;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetAttachmentsPopupContent.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetAttachmentsPopupContent;
 }

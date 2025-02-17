@@ -128,7 +128,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
+        this.component.spatialReference = await  buildJsSpatialReference(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -155,7 +155,7 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeaturesViewModel.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
+        jsFeaturesViewModel.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.actions)) {

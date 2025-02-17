@@ -61,7 +61,7 @@ export default class PointGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
+        this.component.spatialReference = await  buildJsSpatialReference(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];

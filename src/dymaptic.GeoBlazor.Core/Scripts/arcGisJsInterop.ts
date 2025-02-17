@@ -2,11 +2,6 @@
 
 // region imports
 import {
-    buildJsEffect,
-    buildJsPopupOptions,
-    buildJsSearchSource,
-} from './jsBuilder';
-import {
     DotNetExtent,
     DotNetGeometry,
     DotNetGraphic,
@@ -112,6 +107,7 @@ import { buildDotNetPopupTemplate } from './popupTemplate';
 import {buildDotNetGoToOverrideParameters, buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
 import { buildJsRenderer } from './renderer';
 import { buildJsLabel } from './label';
+import { buildJsAttributes } from './attributes';
 
 // region exports
 
@@ -453,7 +449,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         let spatialRef: SpatialReference | null = null;
         if (hasValue(spatialReference)) {
             let { buildJsSpatialReference } = await import('./spatialReference');
-            spatialRef = await buildJsSpatialReference(spatialReference, null, id);
+            spatialRef = buildJsSpatialReference(spatialReference);
             view.spatialReference = spatialRef!;
         }
 
@@ -969,7 +965,7 @@ export async function setSpatialReference(spatialReferenceObject: any, viewId: s
         const view = arcGisObjectRefs[viewId] as MapView;
         if (view !== undefined) {
             let { buildJsSpatialReference } = await import('./spatialReference');
-            view.spatialReference = await buildJsSpatialReference(spatialReferenceObject, null, viewId);
+            view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
         }
     } catch (error) {
         logError(error, viewId);
@@ -1139,7 +1135,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         layerObject.tileInfo.spatialReference.wkid !== webTileLayer.tileInfo.spatialReference.wkid) {
                         let { buildJsSpatialReference } = await import('./spatialReference');
                         webTileLayer.tileInfo.spatialReference = 
-                            await buildJsSpatialReference(layerObject.tileInfo.spatialReference, layerObject.id, viewId);
+                            buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                     }
                 }
 
@@ -1172,7 +1168,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                         layerObject.tileInfo.spatialReference.wkid !== openStreetMapLayer.tileInfo.spatialReference.wkid) {
                         let { buildJsSpatialReference } = await import('./spatialReference');
                         openStreetMapLayer.tileInfo.spatialReference = 
-                            await buildJsSpatialReference(layerObject.tileInfo.spatialReference, layerObject.id, viewId);
+                            buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                     }
                 }
 
@@ -1207,6 +1203,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
                     'timeInfo', 'timeOffset', 'customParameters');
                 if (hasValue(layerObject.effect)) {
+                    let { buildJsEffect } = await import('./effect');
                     (currentLayer as ImageryLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
@@ -1221,6 +1218,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
                     'customParameters');
                 if (hasValue(layerObject.effect)) {
+                    let { buildJsEffect } = await import('./effect');
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
@@ -1281,6 +1279,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 if (hasValue(widgetObject.sources)) {
                     const sources: SearchSource[] = [];
                     for (const source of widgetObject.sources) {
+                        let { buildJsSearchSource } = await import('./searchSource');
                         const jsSource = await buildJsSearchSource(source, viewId);
                         sources.push(jsSource);
                     }
@@ -1360,7 +1359,7 @@ export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup 
     try {
         const view = arcGisObjectRefs[viewId] as View;
         let { buildJsPopupWidget } = await import('./popupWidget');
-        const jsPopup = await buildJsPopupWidget(dotNetPopup, viewId);
+        const jsPopup = await buildJsPopupWidget(dotNetPopup, null, viewId);
         if (hasValue(dotNetPopup.widgetContent)) {
             const widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
             if (hasValue(widgetContent)) {
@@ -1448,6 +1447,52 @@ export async function openPopup(viewId: string, options: any | null): Promise<vo
     }
 }
 
+export async function buildJsPopupOptions(dotNetPopupOptions: any): Promise<any> {
+    let options: any = {};
+
+    if (hasValue(dotNetPopupOptions.title)) {
+        options.title = dotNetPopupOptions.title;
+    }
+    if (hasValue(dotNetPopupOptions.stringContent)) {
+        options.content = dotNetPopupOptions.content;
+    }
+    if (hasValue(dotNetPopupOptions.fetchFeatures)) {
+        options.fetchFeatures = dotNetPopupOptions.fetchFeatures;
+    }
+
+    if (hasValue(dotNetPopupOptions.featureMenuOpen)) {
+        options.featureMenuOpen = dotNetPopupOptions.featureMenuOpen;
+    }
+
+    if (hasValue(dotNetPopupOptions.updateLocationEnabled)) {
+        options.updateLocationEnabled = dotNetPopupOptions.updateLocationEnabled;
+    }
+
+    if (hasValue(dotNetPopupOptions.collapsed)) {
+        options.collapsed = dotNetPopupOptions.collapsed;
+    }
+
+    if (hasValue(dotNetPopupOptions.shouldFocus)) {
+        options.shouldFocus = dotNetPopupOptions.shouldFocus;
+    }
+
+    if (hasValue(dotNetPopupOptions.location)) {
+        options.location = buildJsPoint(dotNetPopupOptions.location) as Point;
+    }
+
+    if (hasValue(dotNetPopupOptions.features)) {
+        let features: Graphic[] = [];
+        for (const f of dotNetPopupOptions.features) {
+            let graphic = buildJsGraphic(f) as Graphic;
+            graphic.layer = arcGisObjectRefs[f.layerId] as Layer;
+            features.push(graphic);
+        }
+        options.features = features;
+    }
+
+    return options;
+}
+
 export function closePopup(viewId: string): void {
     try {
         const view = arcGisObjectRefs[viewId] as View;
@@ -1497,12 +1542,11 @@ export async function addGraphic(streamRefOrGraphicObject: any, viewId: string, 
     try {
         setWaitCursor(viewId);
         let graphic: Graphic;
-        const { buildJsGraphic } = await import('./graphic');
         if (streamRefOrGraphicObject.hasOwnProperty("_streamPromise")) {
             const graphics = await getGraphicsFromProtobufStream(streamRefOrGraphicObject) as any[];
-            graphic = buildJsGraphic(graphics[0], layerId, viewId) as Graphic;
+            graphic = buildJsGraphic(graphics[0]) as Graphic;
         } else {
-            graphic = buildJsGraphic(streamRefOrGraphicObject, layerId, viewId) as Graphic;
+            graphic = buildJsGraphic(streamRefOrGraphicObject) as Graphic;
         }
         const view = arcGisObjectRefs[viewId] as View;
         if (hasValue(layerId)) {
@@ -1536,7 +1580,7 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
             if (abortSignal.aborted) {
                 return;
             }
-            const jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
+            const jsGraphic = buildJsGraphic(g) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
@@ -1562,7 +1606,7 @@ export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: stri
         const existingGraphics = layer?.graphics || view.graphics;
 
         for (const g of graphics) {
-            const jsGraphic = buildJsGraphic(g, layerId, viewId) as Graphic;
+            const jsGraphic = buildJsGraphic(g) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         jsGraphics = jsGraphics.filter(g => !existingGraphics.includes(g));
@@ -1578,14 +1622,14 @@ export function addGraphicsSynchronously(graphicsArray: Uint8Array, viewId: stri
 
 export function setGraphicGeometry(id: string, layerId: string | null, viewId: string | null, geometry: DotNetGeometry): void {
     const jsGeometry = buildJsGeometry(geometry);
-    const graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null && jsGeometry !== null && graphic.geometry !== jsGeometry) {
         graphic.geometry = jsGeometry;
     }
 }
 
 export function getGraphicGeometry(id: string, layerId: string | null, viewId: string | null): DotNetGeometry | null {
-    const graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         return buildDotNetGeometry(graphic.geometry);
     }
@@ -1593,16 +1637,16 @@ export function getGraphicGeometry(id: string, layerId: string | null, viewId: s
     return null;
 }
 
-export async function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): Promise<void> {
-    const graphic = lookupGraphicById(id, layerId, viewId);
-    const jsSymbol = await buildJsSymbol(symbol, layerId, viewId);
+export function setGraphicSymbol(id: string, symbol: any, layerId: string | null, viewId: string | null): void {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
+    const jsSymbol = buildJsSymbol(symbol);
     if (graphic !== null && hasValue(symbol) && graphic.symbol !== jsSymbol) {
         graphic.symbol = jsSymbol as any;
     }
 }
 
 export function getGraphicSymbol(id: string, layerId: string | null, viewId: string | null): any {
-    const graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null) {
         return buildDotNetSymbol(graphic.symbol);
     }
@@ -1612,7 +1656,7 @@ export function getGraphicSymbol(id: string, layerId: string | null, viewId: str
 
 export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
                                         layerId: string | null, viewId: string): Promise<void> {
-    const graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     graphicPopupLookupRefs[id] = popupTemplate.id;
     dotNetRefs[popupTemplate.id] = dotNetRef;
@@ -1634,20 +1678,43 @@ export function removeGraphicPopupTemplate(graphicId: string): void {
 }
 
 export async function getGraphicPopupTemplate(id: string, layerId: string | null, viewId: string): Promise<DotNetPopupTemplate | null> {
-    const graphic = lookupGraphicById(id, layerId, viewId);
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic === null) return null;
     return await buildDotNetPopupTemplate(graphic.popupTemplate);
 }
 
-export async function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): Promise<void> {
-    const graphic = lookupGraphicById(id, layerId, viewId);
+export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic !== null) {
-        let { buildJsAttributes } = await import('./attributes');
         graphic.attributes = buildJsAttributes(attributes);
     }
 }
 
-export function lookupGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {
+export function getGraphicAttributes(id: string, layerId: string | null, viewId: string | null): any {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
+    if (graphic !== null) {
+        return graphic.attributes;
+    }
+
+    return null;
+}
+
+export function getObjectIdForGraphic(id: string, layerId: string | null, viewId: string | null): number | null {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
+    if (graphic !== null) {
+        return graphic.getObjectId();
+    }
+
+    return null;
+}
+
+export async function getEffectivePopupTemplate(graphic: any, defaultPopupTemplateEnabled: any): Promise<any> {
+    let jsGraphic = buildJsGraphic(graphic);
+    let result = jsGraphic?.getEffectivePopupTemplate(defaultPopupTemplateEnabled);
+    return await buildDotNetPopupTemplate(result);
+}
+
+export function lookupJsGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {
     const graphicsCollectionId = layerId ?? viewId;
     if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId) 
         && graphicsRefs[graphicsCollectionId].hasOwnProperty(graphicId)) {
@@ -1660,6 +1727,42 @@ export function lookupGraphicById(graphicId: string, layerId: string | null, vie
         }
     }
     
+    return null;
+}
+
+export function setGraphicOrigin(id: string, origin: any, layerId: string | null, viewId: string | null): void {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
+    if (hasValue(origin) && hasValue(graphic)) {
+        let layer : any | undefined = undefined;
+        if (arcGisObjectRefs.hasOwnProperty(origin.layerId)) {
+            layer = arcGisObjectRefs[origin.layerId] as any;
+        }
+        graphic!.origin = {
+            type: 'vector-tile',
+            layer: layer,
+            layerId: origin.arcGISLayerId,
+            layerIndex: origin.layerIndex
+        }
+    }
+}
+
+export function getGraphicOrigin(id: string, layerId: string | null, viewId: string | null): any {
+    const graphic = lookupJsGraphicById(id, layerId, viewId);
+    if (hasValue(graphic?.origin)) {
+        let layerId: any = null;
+        for (let key in arcGisObjectRefs) {
+            let val = arcGisObjectRefs[key];
+            if (val === graphic!.origin.layer) {
+                layerId = key;
+            }
+        }
+        return {
+            layerId: layerId,
+            arcGISLayerId: graphic!.origin.layerId,
+            layerIndex: graphic!.origin.layerIndex
+        };
+    }
+
     return null;
 }
 
@@ -1819,9 +1922,7 @@ export async function goToGraphics(graphics, viewId: string): Promise<void> {
     const view = arcGisObjectRefs[viewId] as MapView;
     const jsGraphics: Graphic[] = [];
     for (const graphic of graphics) {
-        delete graphic.dotNetGraphicReference;
-        delete graphic.layerId;
-        const jsGraphic = buildJsGraphic(graphic, null, viewId);
+        const jsGraphic = buildJsGraphic(graphic);
         if (jsGraphic !== null) {
             jsGraphics.push(jsGraphic);
         }
@@ -1927,6 +2028,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (hasValue(dotNetWidget.sources)) {
                 const sources: SearchSource[] = [];
+                let { buildJsSearchSource } = await import('./searchSource');
                 for (const source of dotNetWidget.sources) {
                     const jsSource = await buildJsSearchSource(source, viewId);
                     sources.push(jsSource);
@@ -2548,7 +2650,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 graphicsRefs[groupId] = {};
             }
             for (const g of dotNetLayer.graphics) {
-                const jsGraphic = buildJsGraphic(g, dotNetLayer.id, viewId ?? null) as Graphic;
+                const jsGraphic = buildJsGraphic(g) as Graphic;
                 jsGraphics.push(jsGraphic);
             }
             graphicsLayer.addMany(jsGraphics);
@@ -2557,6 +2659,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
 
             if (hasValue(dotNetLayer.effect)) {
+                let { buildJsEffect } = await import('./effect');
                 graphicsLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             break;
@@ -2596,6 +2699,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
 
             if (hasValue(dotNetLayer.effect)) {
+                let { buildJsEffect } = await import('./effect');
                 tileLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             
@@ -2647,7 +2751,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
                     let { buildJsSpatialReference } = await import('./spatialReference');
                     openStreetMapLayer.tileInfo.spatialReference = 
-                        await buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference, dotNetLayer.id, viewId);
+                        await buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
                 }
             }
 
@@ -2670,10 +2774,12 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             }
             
             if (hasValue(dotNetLayer.effect)) {
+                let { buildJsEffect } = await import('./effect');
                 imageryLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             if (hasValue(dotNetLayer.fields && dotNetLayer.fields.length > 0)) {
-                imageryLayer.fields = buildJsFields(dotNetLayer.fields);
+                let { buildJsField } = await import('./field');
+                imageryLayer.fields = await Promise.all(dotNetLayer.fields.map(async f => await buildJsField(f, dotNetLayer.id, viewId)));
             }
             if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
                 let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
@@ -3033,7 +3139,7 @@ export function setVisibility(componentId: string, visible: boolean): void {
         return;
     }
     // check graphics too
-    const graphic = lookupGraphicById(componentId, null, null);
+    const graphic = lookupJsGraphicById(componentId, null, null);
     if (graphic !== null) {
         graphic.visible = visible;
         return;

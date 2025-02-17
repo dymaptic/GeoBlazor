@@ -1202,8 +1202,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         
         await JsComponentReference!.InvokeVoidAsync(
             "addUniqueValueInfo", 
-            CancellationTokenSource.Token,
-valueOrInfo,
+            CancellationTokenSource.Token, valueOrInfo,
             symbol);
     }
     
@@ -1240,7 +1239,7 @@ valueOrInfo,
         await JsComponentReference!.InvokeVoidAsync(
             "removeUniqueValueInfo", 
             CancellationTokenSource.Token,
-value);
+            value);
     }
     
 #endregion

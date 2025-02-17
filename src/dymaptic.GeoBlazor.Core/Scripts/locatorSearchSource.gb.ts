@@ -45,7 +45,7 @@ export default class LocatorSearchSourceGenerated implements IPropertyWrapper {
     }
     async setResultSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.resultSymbol = await  buildJsSymbol(value, this.layerId, this.viewId);
+        this.component.resultSymbol = await  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -64,7 +64,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLocatorSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol, layerId, viewId) as any;
+        jsLocatorSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
@@ -157,7 +157,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     
     let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
-    let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -168,7 +168,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     return jsLocatorSearchSource;
 }
 
-export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

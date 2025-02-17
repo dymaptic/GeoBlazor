@@ -1,34 +1,42 @@
 // override generated code in this file
-import FeatureSetGenerated from './featureSet.gb';
-import FeatureSet from '@arcgis/core/rest/support/FeatureSet';
-import {DotNetFeatureSet, DotNetGraphic} from "./definitions";
-import {buildDotNetGeometry} from "./geometry";
-import {buildDotNetSpatialReference} from "./spatialReference";
-import {buildDotNetGraphic} from "./graphic";
+
+import { buildDotNetGeometry, buildJsGeometry } from "./geometry";
+import { buildDotNetGraphic, buildJsGraphic } from "./graphic";
+import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
 import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
+import {buildDotNetField, buildJsField} from "./field";
 
-export default class FeatureSetWrapper extends FeatureSetGenerated {
-
-    constructor(component: FeatureSet) {
-        super(component);
+export function buildJsFeatureSet(dotNetFs: any): any {
+    let jsFeatureSet: any = {
+        features: [],
+        displayFieldName: dotNetFs.displayFieldName,
+        exceededTransferLimit: dotNetFs.exceededTransferLimit,
+        fields: dotNetFs.fields.map(buildJsField),
+        geometryType: dotNetFs.geometryType,
+        queryGeometry: buildJsGeometry(dotNetFs.queryGeometry),
+        spatialReference: buildJsSpatialReference(dotNetFs.spatialReference)
+    };
+    for (let i = 0; i < dotNetFs.features.length; i++) {
+        let feature = dotNetFs.features[i];
+        jsFeatureSet.features.push(buildJsGraphic(feature));
     }
-    
+    return jsFeatureSet;
 }
 
-export async function buildDotNetFeatureSet(jsFs: FeatureSet, layerId: string | null, viewId: string | null): Promise<DotNetFeatureSet> {
-    let dotNetFeatureSet: DotNetFeatureSet = {
+export async function buildDotNetFeatureSet(jsFs: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let dotNetFeatureSet: any = {
         features: [],
         displayFieldName: jsFs.displayFieldName,
         exceededTransferLimit: jsFs.exceededTransferLimit,
-        fields: jsFs.fields,
+        fields: jsFs.fields.map(buildDotNetField),
         geometryType: jsFs.geometryType,
         queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
         spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)
     };
-    let graphics: DotNetGraphic[] = [];
+    let graphics: any[] = [];
     for (let i = 0; i < jsFs.features.length; i++) {
         let feature = jsFs.features[i];
-        let graphic: DotNetGraphic = await buildDotNetGraphic(feature, layerId, viewId) as DotNetGraphic;
+        let graphic = buildDotNetGraphic(feature, layerId, viewId);
         if (viewId !== undefined && viewId !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
             let groupId = layerId ?? viewId;

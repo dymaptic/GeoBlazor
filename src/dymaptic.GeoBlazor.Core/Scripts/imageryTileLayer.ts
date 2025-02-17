@@ -1,7 +1,6 @@
 import ImageryTileLayerGenerated from './imageryTileLayer.gb';
 import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
 import {hasValue} from './arcGisJsInterop';
-import {buildJsImageryRenderer} from './jsBuilder';
 import { buildDotNetSpatialReference } from './spatialReference';
 import { buildDotNetExtent } from './extent';
 
@@ -10,8 +9,6 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
     constructor(layer: ImageryTileLayer) {
         super(layer);
     }
-
-
     async getServiceRasterInfo() {
         let jsInfo = this.layer.serviceRasterInfo;
         
@@ -44,12 +41,10 @@ export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
     }
     
     async setRenderer(renderer: any) {
+        let { buildJsImageryRenderer } = await import('./imageryRenderer');
         this.layer.renderer = await buildJsImageryRenderer(renderer, this.layerId, this.viewId) as any;
     }
-
-
-
-
+    
 }
 export async function buildJsImageryTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsImageryTileLayerGenerated } = await import('./imageryTileLayer.gb');

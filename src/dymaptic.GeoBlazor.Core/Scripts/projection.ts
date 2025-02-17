@@ -1,9 +1,10 @@
 ﻿import * as projection from "@arcgis/core/geometry/projection";
 import Geometry from "@arcgis/core/geometry/Geometry";
-import {buildJsSpatialReference} from "./jsBuilder";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
-import { buildJsExtent } from "./extent";
 import { buildDotNetGeometry } from "./geometry";
+import { buildJsSpatialReference } from "./spatialReference";
+import { hasValue } from "./arcGisJsInterop";
+import { buildJsExtent } from "./extent";
 
 export default class ProjectionWrapper {
     private dotNetRef: any;
@@ -44,8 +45,15 @@ export default class ProjectionWrapper {
         Promise<DotNetGeographicTransformation | null> {
         try {
             await this.loadIfNeeded();
-            let geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference),
-                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
+            let geoTransform;
+            if (hasValue(extent)) {
+                let jsExtent = buildJsExtent(extent, buildJsSpatialReference(inSpatialReference));
+                geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference),
+                    buildJsSpatialReference(outSpatialReference), jsExtent)
+            } else {
+                geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference),
+                    buildJsSpatialReference(outSpatialReference))
+            }
             let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
             return buildDotNetGeographicTransformation(geoTransform);
         } catch (error) {
@@ -58,8 +66,15 @@ export default class ProjectionWrapper {
         Promise<DotNetGeographicTransformation[] | null> {
         try {
             await this.loadIfNeeded();
-            let geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
-                buildJsSpatialReference(outSpatialReference), buildJsExtent(extent, null));
+            let geoTransforms;
+            if (hasValue(extent)) {
+                let jsExtent = buildJsExtent(extent, buildJsSpatialReference(inSpatialReference));
+                geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
+                    buildJsSpatialReference(outSpatialReference), jsExtent);
+            } else {
+                geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference),
+                    buildJsSpatialReference(outSpatialReference));
+            }
             let dotNetTransforms: Array<DotNetGeographicTransformation> = [];
             let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
             geoTransforms.forEach(t => {

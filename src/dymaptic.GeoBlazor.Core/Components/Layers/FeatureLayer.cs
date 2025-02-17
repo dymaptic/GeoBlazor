@@ -465,7 +465,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 {
                     graphic.View ??= View;
                     graphic.Parent ??= this;
-                    graphic.LayerId ??= Id;
+                    graphic.Layer ??= this;
                     Source = [..Source, graphic];
 
                     LayerChanged = true;
@@ -620,7 +620,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.LayerId = Id;
+            graphic.View = View;
+            graphic.Parent = this;
+            graphic.Layer = this;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -699,7 +701,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                     continue;
                 foreach (Graphic graphic in relatedGraphic)
                 {
-                    graphic.LayerId = Id;
+                    graphic.View = View;
+                    graphic.Parent = this;
+                    graphic.Layer = this;
                 }
                 
                 result[kvp.Key] = kvp.Value with
@@ -824,7 +828,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.LayerId = Id;
+            graphic.View = View;
+            graphic.Parent = this;
+            graphic.Layer = this;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);

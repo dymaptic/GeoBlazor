@@ -33,62 +33,10 @@ export default class LayerOptionsGenerated implements IPropertyWrapper {
 }
 
 export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerOptions = new LayerOptions();
-
-    if (hasValue(dotNetObject.returnTopmostRaster)) {
-        jsLayerOptions.returnTopmostRaster = dotNetObject.returnTopmostRaster;
-    }
-    if (hasValue(dotNetObject.showNoDataRecords)) {
-        jsLayerOptions.showNoDataRecords = dotNetObject.showNoDataRecords;
-    }
-    let { default: LayerOptionsWrapper } = await import('./layerOptions');
-    let layerOptionsWrapper = new LayerOptionsWrapper(jsLayerOptions);
-    layerOptionsWrapper.geoBlazorId = dotNetObject.id;
-    layerOptionsWrapper.viewId = viewId;
-    layerOptionsWrapper.layerId = layerId;
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(layerOptionsWrapper);
-    jsObjectRefs[dotNetObject.id] = layerOptionsWrapper;
-    arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
-    
-    let { buildDotNetLayerOptions } = await import('./layerOptions');
-    let dnInstantiatedObject = await buildDotNetLayerOptions(jsLayerOptions);
-    
-    try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerOptions', e);
-    }
-    
-    return jsLayerOptions;
 }
 
 export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<any> {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
     
-    let dotNetLayerOptions: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
-    };
-        if (hasValue(jsObject.returnTopmostRaster)) {
-            dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;
-        }
-        if (hasValue(jsObject.showNoDataRecords)) {
-            dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
-        }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerOptions.id = k;
-                break;
-            }
-        }
-    }
-
-    return dotNetLayerOptions;
 }
 

@@ -45,7 +45,7 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value, this.layerId, this.viewId);
+        this.component.symbol = await  buildJsSymbol(value);
     }
     async getVisualVariables(): Promise<any> {
         if (!hasValue(this.component.visualVariables)) {
@@ -78,7 +78,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsSimpleRenderer.symbol = await buildJsSymbol(dotNetObject.symbol, layerId, viewId) as any;
+        jsSimpleRenderer.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');

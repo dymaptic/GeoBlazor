@@ -67,7 +67,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value, this.layerId, this.viewId);
+        this.component.spatialReference = await  buildJsSpatialReference(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -90,7 +90,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTileInfo.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
+        jsTileInfo.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {

@@ -83,7 +83,7 @@ public partial class GraphicsLayer : Layer
         foreach (Graphic graphic in newGraphics)
         {
             graphic.View = View;
-            graphic.LayerId = Id;
+            graphic.Layer = this;
             graphic.Parent = this;
         }
 

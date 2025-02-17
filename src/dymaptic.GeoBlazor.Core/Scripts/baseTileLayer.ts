@@ -1,6 +1,5 @@
 import BaseTileLayerGenerated from './baseTileLayer.gb';
 import BaseTileLayer from '@arcgis/core/layers/BaseTileLayer';
-import {buildJsEffect} from './jsBuilder';
 
 export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
 
@@ -12,7 +11,8 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
         return this.layer.getTileBounds(level, row, col);
     }
     
-    setEffect(effect: any) {
+    async setEffect(effect: any) {
+        let { buildJsEffect } = await import('./effect');
         this.layer.effect = buildJsEffect(effect);
     }
     

@@ -1,6 +1,7 @@
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import ColorRamp from "@arcgis/core/rest/support/ColorRamp";
-import {arcGisObjectRefs, buildJsColorRamp, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import { buildJsColorRamp } from "./colorRamp";
 
 export function buildJsRasterStretchRenderer(dotNetRasterStretchRenderer): RasterStretchRenderer | null {
     if (dotNetRasterStretchRenderer === undefined) return null;

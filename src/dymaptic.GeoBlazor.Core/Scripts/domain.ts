@@ -1,13 +1,17 @@
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import {buildJsCodedValue} from "./jsBuilder";
 
 export function buildJsDomain(dotNetDomain) {
     switch (dotNetDomain?.type) {
         case 'coded-value':
             return new CodedValueDomain({
                 name: dotNetDomain.name ?? undefined,
-                codedValues: dotNetDomain.codedValues?.map(c => buildJsCodedValue(c)) ?? undefined
+                codedValues: dotNetDomain.codedValues?.map(c => {
+                    return {
+                        name: c.name,
+                        code: c.code
+                    }
+                }) ?? undefined
             });
         case 'range':
             return new RangeDomain({

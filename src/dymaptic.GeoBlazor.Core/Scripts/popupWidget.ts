@@ -60,7 +60,7 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     }
     
     async setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
-        this.popup.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol, this.layerId, this.viewId) as Symbol;
+        this.popup.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol) as Symbol;
     }
 
     setProperty(prop: string, value: any): void {

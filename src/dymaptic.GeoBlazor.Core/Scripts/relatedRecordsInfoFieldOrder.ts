@@ -1,19 +1,56 @@
 // override generated code in this file
-import RelatedRecordsInfoFieldOrderGenerated from './relatedRecordsInfoFieldOrder.gb';
 import RelatedRecordsInfoFieldOrder from '@arcgis/core/popup/support/RelatedRecordsInfoFieldOrder';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export default class RelatedRecordsInfoFieldOrderWrapper extends RelatedRecordsInfoFieldOrderGenerated {
+export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
+    let jsRelatedRecordsInfoFieldOrder = new RelatedRecordsInfoFieldOrder();
 
-    constructor(component: RelatedRecordsInfoFieldOrder) {
-        super(component);
+    if (hasValue(dotNetObject.field)) {
+        jsRelatedRecordsInfoFieldOrder.field = dotNetObject.field;
     }
-    
-}              
-export async function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsRelatedRecordsInfoFieldOrderGenerated } = await import('./relatedRecordsInfoFieldOrder.gb');
-    return await buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.order)) {
+        jsRelatedRecordsInfoFieldOrder.order = dotNetObject.order;
+    }
+
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(relatedRecordsInfoFieldOrderWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
+
+    let dnInstantiatedObject = buildDotNetRelatedRecordsInfoFieldOrder(jsRelatedRecordsInfoFieldOrder);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RelatedRecordsInfoFieldOrder', e);
+    }
+
+    return jsRelatedRecordsInfoFieldOrder;
 }
-export async function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): Promise<any> {
-    let { buildDotNetRelatedRecordsInfoFieldOrderGenerated } = await import('./relatedRecordsInfoFieldOrder.gb');
-    return await buildDotNetRelatedRecordsInfoFieldOrderGenerated(jsObject);
+export function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetRelatedRecordsInfoFieldOrder: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.field)) {
+        dotNetRelatedRecordsInfoFieldOrder.field = jsObject.field;
+    }
+    if (hasValue(jsObject.order)) {
+        dotNetRelatedRecordsInfoFieldOrder.order = jsObject.order;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRelatedRecordsInfoFieldOrder.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetRelatedRecordsInfoFieldOrder;
 }

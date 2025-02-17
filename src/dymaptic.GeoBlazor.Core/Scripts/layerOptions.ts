@@ -1,19 +1,57 @@
 // override generated code in this file
-import LayerOptionsGenerated from './layerOptions.gb';
-import LayerOptions from '@arcgis/core/popup/LayerOptions';
 
-export default class LayerOptionsWrapper extends LayerOptionsGenerated {
+import LayerOptions from "@arcgis/core/popup/LayerOptions";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-    constructor(component: LayerOptions) {
-        super(component);
+export function buildJsLayerOptions(dotNetObject: any): any {
+    let jsLayerOptions = new LayerOptions();
+
+    if (hasValue(dotNetObject.returnTopmostRaster)) {
+        jsLayerOptions.returnTopmostRaster = dotNetObject.returnTopmostRaster;
     }
-    
-}              
-export async function buildJsLayerOptions(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsLayerOptionsGenerated } = await import('./layerOptions.gb');
-    return await buildJsLayerOptionsGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.showNoDataRecords)) {
+        jsLayerOptions.showNoDataRecords = dotNetObject.showNoDataRecords;
+    }
+
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(layerOptionsWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
+
+    let dnInstantiatedObject = buildDotNetLayerOptions(jsLayerOptions);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for LayerOptions', e);
+    }
+
+    return jsLayerOptions;
 }
-export async function buildDotNetLayerOptions(jsObject: any): Promise<any> {
-    let { buildDotNetLayerOptionsGenerated } = await import('./layerOptions.gb');
-    return await buildDotNetLayerOptionsGenerated(jsObject);
+export function buildDotNetLayerOptions(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetLayerOptions: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.returnTopmostRaster)) {
+        dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;
+    }
+    if (hasValue(jsObject.showNoDataRecords)) {
+        dotNetLayerOptions.showNoDataRecords = jsObject.showNoDataRecords;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetLayerOptions.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetLayerOptions;
 }

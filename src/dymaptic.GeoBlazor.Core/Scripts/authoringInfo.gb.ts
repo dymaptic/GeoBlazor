@@ -94,7 +94,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     let jsAuthoringInfo = new AuthoringInfo();
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./colorRamp');
-        jsAuthoringInfo.colorRamp = await buildJsColorRamp(dotNetObject.colorRamp, layerId, viewId) as any;
+        jsAuthoringInfo.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
     }
     if (hasValue(dotNetObject.field1)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');

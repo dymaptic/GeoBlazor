@@ -24,7 +24,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -39,7 +39,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     async getFeatureType(feature: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = buildJsGraphic(feature, this.layerId, this.viewId) as any;
+        let jsFeature = await buildJsGraphic(feature, this.layerId, this.viewId) as any;
         return this.component.getFeatureType(jsFeature);
     }
 

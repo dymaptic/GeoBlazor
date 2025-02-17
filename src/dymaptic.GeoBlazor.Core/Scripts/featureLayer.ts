@@ -18,14 +18,13 @@ import {
     buildJsQuery,
     buildJsRelationshipQuery,
     buildJsTopFeaturesQuery,
-    buildJsEffect
 } from "./jsBuilder";
 import {
     getGraphicsFromProtobufStream,
     hasValue,
     decodeProtobufGraphics,
     getProtobufGraphicStream,
-    lookupGraphicById
+    lookupJsGraphicById
 } from "./arcGisJsInterop";
 import Graphic from "@arcgis/core/Graphic";
 import { buildDotNetPopupTemplate } from './popupTemplate';
@@ -191,7 +190,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let jsGraphics: Graphic[] = [];
         let { buildJsGraphic } = await import('./graphic');
         for (const g of graphics) {
-            let jsGraphic = buildJsGraphic(g, this.geoBlazorId, viewId) as Graphic;
+            let jsGraphic = buildJsGraphic(g) as Graphic;
             jsGraphics.push(jsGraphic);
         }
         if (abortSignal.aborted) {
@@ -226,7 +225,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let addAttachments = edits.addAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: lookupGraphicById(e.feature.id, this.geoBlazorId, viewId),
+                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -239,7 +238,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let updateAttachments = edits.updateAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: lookupGraphicById(e.feature.id, this.geoBlazorId, viewId),
+                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -268,7 +267,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async getFeatureType(graphic: DotNetGraphic, viewId: string | null): Promise<any> {
         
-        let feature = lookupGraphicById(graphic.id as string, this.geoBlazorId, viewId);
+        let feature = lookupJsGraphicById(graphic.id as string, this.geoBlazorId, viewId);
 
         let result = this.layer.getFeatureType(feature as Graphic);
 
@@ -293,7 +292,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let options: any | undefined = undefined;
         let { buildJsGraphic } = await import('./graphic');
         if (hasValue(graphic)) {
-            let featureGraphic = buildJsGraphic(graphic, this.geoBlazorId, null) as Graphic;
+            let featureGraphic = buildJsGraphic(graphic) as Graphic;
             options = {
                 feature: featureGraphic
             };
@@ -320,7 +319,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         this.layer.refresh();
     }
 
-    setEffect(dnEffect: any): void {
+    async setEffect(dnEffect: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
         this.layer.effect = buildJsEffect(dnEffect);
     }
     hasValue(prop: any): boolean {

@@ -1,15 +1,8 @@
 // override generated code in this file
-import SpatialReferenceGenerated from './spatialReference.gb';
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
 import {hasValue} from "./jsBuilder";
+import {arcGisObjectRefs, jsObjectRefs} from "./arcGisJsInterop";
 
-export default class SpatialReferenceWrapper extends SpatialReferenceGenerated {
-
-    constructor(component: SpatialReference) {
-        super(component);
-    }
-    
-}
 
 export function buildDotNetSpatialReference(spatialReference: SpatialReference) {
     if (spatialReference === undefined || spatialReference === null) return null;
@@ -26,7 +19,24 @@ export function buildDotNetSpatialReference(spatialReference: SpatialReference) 
     };
 }
 
-export async function buildJsSpatialReference(dotNetSpatialReference, layerId: string | null, viewId: string | null): Promise<SpatialReference> {
-    let { buildJsSpatialReferenceGenerated } = await import('./spatialReference.gb');
-    return await buildJsSpatialReferenceGenerated(dotNetSpatialReference, layerId, viewId);
+export function buildJsSpatialReference(dotNetObject): SpatialReference {
+    let jsSpatialReference = new SpatialReference();
+
+    if (hasValue(dotNetObject.imageCoordinateSystem)) {
+        jsSpatialReference.imageCoordinateSystem = dotNetObject.imageCoordinateSystem;
+    }
+    if (hasValue(dotNetObject.wkid)) {
+        jsSpatialReference.wkid = dotNetObject.wkid;
+    }
+    if (hasValue(dotNetObject.wkt)) {
+        jsSpatialReference.wkt = dotNetObject.wkt;
+    }
+    if (hasValue(dotNetObject.wkt2)) {
+        jsSpatialReference.wkt2 = dotNetObject.wkt2;
+    }
+
+    jsObjectRefs[dotNetObject.id] = jsSpatialReference;
+    arcGisObjectRefs[dotNetObject.id] = jsSpatialReference;
+
+    return jsSpatialReference;
 }

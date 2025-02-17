@@ -395,7 +395,9 @@ public partial class FeatureLayerView : LayerView
         
         foreach (Graphic graphic in result.Features!)
         {
-            graphic.LayerId = Layer?.Id;
+            graphic.View = View;
+            graphic.Parent = this;
+            graphic.Layer = Layer;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);

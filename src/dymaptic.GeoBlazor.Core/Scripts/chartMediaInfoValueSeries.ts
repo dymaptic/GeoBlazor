@@ -1,19 +1,57 @@
 // override generated code in this file
-import ChartMediaInfoValueSeriesGenerated from './chartMediaInfoValueSeries.gb';
 import ChartMediaInfoValueSeries from '@arcgis/core/popup/content/support/ChartMediaInfoValueSeries';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {buildDotNetMapColor } from './mapColor';
 
-export default class ChartMediaInfoValueSeriesWrapper extends ChartMediaInfoValueSeriesGenerated {
+export function buildJsChartMediaInfoValueSeries(dotNetObject: any): any {
+    let jsChartMediaInfoValueSeries = new ChartMediaInfoValueSeries();
 
-    constructor(component: ChartMediaInfoValueSeries) {
-        super(component);
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueSeriesWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValueSeries;
+
+    let dnInstantiatedObject = buildDotNetChartMediaInfoValueSeries(jsChartMediaInfoValueSeries);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValueSeries', e);
     }
-    
-}              
-export async function buildJsChartMediaInfoValueSeries(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsChartMediaInfoValueSeriesGenerated } = await import('./chartMediaInfoValueSeries.gb');
-    return await buildJsChartMediaInfoValueSeriesGenerated(dotNetObject, layerId, viewId);
+
+    return jsChartMediaInfoValueSeries;
 }
-export async function buildDotNetChartMediaInfoValueSeries(jsObject: any): Promise<any> {
-    let { buildDotNetChartMediaInfoValueSeriesGenerated } = await import('./chartMediaInfoValueSeries.gb');
-    return await buildDotNetChartMediaInfoValueSeriesGenerated(jsObject);
+
+export function buildDotNetChartMediaInfoValueSeries(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetChartMediaInfoValueSeries: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.color)) {
+        dotNetChartMediaInfoValueSeries.color = buildDotNetMapColor(jsObject.color);
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetChartMediaInfoValueSeries.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.tooltip)) {
+        dotNetChartMediaInfoValueSeries.tooltip = jsObject.tooltip;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetChartMediaInfoValueSeries.value = jsObject.value;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetChartMediaInfoValueSeries.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetChartMediaInfoValueSeries;
 }

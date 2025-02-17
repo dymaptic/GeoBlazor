@@ -1,19 +1,63 @@
 // override generated code in this file
-import FieldInfoFormatGenerated from './fieldInfoFormat.gb';
-import FieldInfoFormat from '@arcgis/core/popup/support/FieldInfoFormat';
+           
+import FieldInfoFormat from "@arcgis/core/popup/support/FieldInfoFormat";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export default class FieldInfoFormatWrapper extends FieldInfoFormatGenerated {
+export function buildJsFieldInfoFormat(dotNetObject: any): any {
+    let jsFieldInfoFormat = new FieldInfoFormat();
 
-    constructor(component: FieldInfoFormat) {
-        super(component);
+    if (hasValue(dotNetObject.dateFormat)) {
+        jsFieldInfoFormat.dateFormat = dotNetObject.dateFormat;
     }
-    
-}              
-export async function buildJsFieldInfoFormat(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsFieldInfoFormatGenerated } = await import('./fieldInfoFormat.gb');
-    return await buildJsFieldInfoFormatGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.digitSeparator)) {
+        jsFieldInfoFormat.digitSeparator = dotNetObject.digitSeparator;
+    }
+    if (hasValue(dotNetObject.places)) {
+        jsFieldInfoFormat.places = dotNetObject.places;
+    }
+
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(fieldInfoFormatWrapper);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
+
+    let dnInstantiatedObject = buildDotNetFieldInfoFormat(jsFieldInfoFormat);
+
+    try {
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FieldInfoFormat', e);
+    }
+
+    return jsFieldInfoFormat;
 }
-export async function buildDotNetFieldInfoFormat(jsObject: any): Promise<any> {
-    let { buildDotNetFieldInfoFormatGenerated } = await import('./fieldInfoFormat.gb');
-    return await buildDotNetFieldInfoFormatGenerated(jsObject);
+export function buildDotNetFieldInfoFormat(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetFieldInfoFormat: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.dateFormat)) {
+        dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;
+    }
+    if (hasValue(jsObject.digitSeparator)) {
+        dotNetFieldInfoFormat.digitSeparator = jsObject.digitSeparator;
+    }
+    if (hasValue(jsObject.places)) {
+        dotNetFieldInfoFormat.places = jsObject.places;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFieldInfoFormat.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetFieldInfoFormat;
 }
