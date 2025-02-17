@@ -20,10 +20,12 @@
                 </Map>
                 <CompassWidget 
                     GoToOverride="@(new GoToOverride())"
-                    Icon="@("et")"
-                    Label="@("eos")"
-                    ViewModel="@(new CompassViewModel(new GoToOverride()))"
-                    WidgetId="@("praesentium")">
+                    Icon="@("nulla")"
+                    Label="@("dolores")"
+                    WidgetId="@("dolores")">
+                    <CompassViewModel 
+                        GoToOverride="@(new GoToOverride())">
+                    </CompassViewModel>
                 </CompassWidget>
             </MapView>);
         await WaitForMapToRender();

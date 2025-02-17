@@ -47,4 +47,4 @@ public partial record BasemapLayerListCatalogOptions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? VisibilityAppearance = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    BasemapLayerListCatalogOptionsVisibleElements? VisibleElements = null);
+    IBasemapLayerListCatalogOptionsVisibleElements? VisibleElements = null);

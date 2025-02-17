@@ -63,6 +63,6 @@ public partial interface IFeatureLayerBase
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
+    Task<RelatedFeaturesCountQueryResult?> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default);
 }

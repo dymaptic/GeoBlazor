@@ -754,12 +754,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task<RelatedFeaturesCountQueryResult> QueryRelatedFeaturesCount(RelationshipQuery query,
+    public async Task<RelatedFeaturesCountQueryResult?> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
+        if (JsComponentReference is null) return null;
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        RelatedFeaturesCountQueryResult result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult>(
+        RelatedFeaturesCountQueryResult? result = await JsComponentReference!.InvokeAsync<RelatedFeaturesCountQueryResult?>(
             "queryRelatedFeaturesCount", cancellationToken, query, new { signal = abortSignal });
 
         await AbortManager.DisposeAbortController(cancellationToken);

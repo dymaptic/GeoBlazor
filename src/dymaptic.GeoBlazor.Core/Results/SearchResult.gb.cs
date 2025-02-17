@@ -23,9 +23,11 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record SearchResult(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Extent? Extent = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Graphic? Feature = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
-    Graphic? Target = null)
-{
-}
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    Graphic? Target = null);

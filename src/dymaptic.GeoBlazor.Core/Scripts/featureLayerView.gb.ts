@@ -63,7 +63,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer);
+        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -78,7 +78,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     let jsFeatureLayerView = new FeatureLayerView();
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./jsBuilder');
-        jsFeatureLayerView.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect) as any;
+        jsFeatureLayerView.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
@@ -118,7 +118,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     return jsFeatureLayerView;
 }
 
-export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -141,7 +141,7 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.layer)) {
             let { buildDotNetFeatureLayer } = await import('./featureLayer');
-            dotNetFeatureLayerView.layer = await buildDotNetFeatureLayer(jsObject.layer);
+            dotNetFeatureLayerView.layer = await buildDotNetFeatureLayer(jsObject.layer, layerId, viewId);
         }
         if (hasValue(jsObject.availableFields)) {
             dotNetFeatureLayerView.availableFields = jsObject.availableFields;

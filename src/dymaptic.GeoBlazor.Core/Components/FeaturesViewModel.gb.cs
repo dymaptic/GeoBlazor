@@ -7,7 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html">Features</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class FeaturesViewModel : MapComponent, IGoTo,
+public partial class FeaturesViewModel : MapComponent,
+    IGoTo,
     IViewModel
 {
 
@@ -261,11 +262,24 @@ public partial class FeaturesViewModel : MapComponent, IGoTo,
     [JsonIgnore]
     public GoToOverride? GoToOverride { get; set; }
     
-
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true

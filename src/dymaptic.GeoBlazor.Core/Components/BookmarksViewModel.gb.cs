@@ -116,9 +116,23 @@ public partial class BookmarksViewModel : IGoTo,
     public GoToOverride? GoToOverride { get; set; }
     
     /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)
+    {
+        if (GoToOverride is not null)
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);
+        }
+    }
+    
+    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     The view model's state.
     ///     default ready

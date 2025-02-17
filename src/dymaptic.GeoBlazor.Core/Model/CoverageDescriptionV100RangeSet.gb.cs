@@ -24,10 +24,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record CoverageDescriptionV100RangeSet(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<CoverageDescriptionV100RangeSetAxis>? Axis = null,
+    IReadOnlyCollection<CoverageDescriptionV100RangeSetAxis>? Axis = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Label = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? NullValues = null);
+    IReadOnlyCollection<double>? NullValues = null);

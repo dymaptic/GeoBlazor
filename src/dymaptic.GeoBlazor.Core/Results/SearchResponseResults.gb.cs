@@ -20,7 +20,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// </param>
 public partial record SearchResponseResults(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<SearchResult>? Results = null,
+    IReadOnlyCollection<SearchResult>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

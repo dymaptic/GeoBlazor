@@ -18,3 +18,4 @@ public record SliderLabelFormatter(double Value,
     SliderLabelFormatterType Type,
     int Index,
     string JavaScriptFunction);
+

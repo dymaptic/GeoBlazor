@@ -7,7 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">Compass</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class CompassViewModel : MapComponent, IGoTo,
+public partial class CompassViewModel : MapComponent,
+    IGoTo,
     IViewModel
 {
 
@@ -48,9 +49,23 @@ public partial class CompassViewModel : MapComponent, IGoTo,
     public GoToOverride? GoToOverride { get; set; }
     
     /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {        
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
+    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     The z axis orientation.
     ///     default { z: 0 }

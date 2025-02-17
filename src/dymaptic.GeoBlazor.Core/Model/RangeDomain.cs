@@ -3,15 +3,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial class RangeDomain : Domain
 {
     /// <summary>
-    ///     Parameterless constructor for use as a Razor Component.
-    /// </summary>
-    [CodeGenerationIgnore]
-    [ActivatorUtilitiesConstructor]
-    public RangeDomain()
-    {
-    }
-
-    /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="maxValue">

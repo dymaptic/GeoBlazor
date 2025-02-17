@@ -10,3 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 /// </param>
 public record FilterFunction(string FilterName,
     string JavaScriptFunction);
+

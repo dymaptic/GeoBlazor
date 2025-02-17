@@ -14,3 +14,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 public delegate Task TickCreatedFunction(double value,
     ElementReference tickElement,
     ElementReference labelElement);
+

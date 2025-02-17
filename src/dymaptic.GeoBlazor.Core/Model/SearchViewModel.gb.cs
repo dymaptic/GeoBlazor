@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget, which performs search operations on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator service(s)</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table(s)</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SearchViewModel : IGoTo,
-    IViewModel
+public partial class SearchViewModel : IViewModel
 {
 
     /// <summary>
@@ -242,9 +241,23 @@ public partial class SearchViewModel : IGoTo,
     public GoToOverride? GoToOverride { get; set; }
     
     /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
+    /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     Indicates whether location services are enabled within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>

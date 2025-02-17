@@ -43,7 +43,6 @@ public partial class PortalBasemapsSource : IBasemapGalleryViewModelSource,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PortalBasemapsSource(
-        IReadOnlyList<Basemap>? basemaps = null,
         BasemapFilter? filterFunction = null,
         Portal? portal = null,
         string? query = null,
@@ -90,10 +89,12 @@ public partial class PortalBasemapsSource : IBasemapGalleryViewModelSource,
         
         return result;
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="FilterFunction" /> function was registered.
     /// </summary>
     public bool HasFilterFunction => FilterFunction is not null;
+    
     /// <summary>
     ///     The Portal from which to fetch basemaps.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#portal">ArcGIS Maps SDK for JavaScript</a>
@@ -137,10 +138,12 @@ public partial class PortalBasemapsSource : IBasemapGalleryViewModelSource,
         
         return result;
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="UpdateBasemapsCallback" /> function was registered.
     /// </summary>
     public bool HasUpdateBasemapsCallback => UpdateBasemapsCallback is not null;
+    
 #endregion
 
 #region Property Getters

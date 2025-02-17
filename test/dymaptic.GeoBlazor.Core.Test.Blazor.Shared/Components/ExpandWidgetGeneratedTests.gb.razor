@@ -19,24 +19,24 @@
                     </Basemap>
                 </Map>
                 <ExpandWidget 
-                    Mode="@(ExpandMode.Auto)"
+                    Mode="@(ExpandMode.Floating)"
                     AutoCollapse="@(true)"
                     CloseOnEsc="@(true)"
-                    CollapseIcon="@("vero")"
-                    CollapseTooltip="@("repellat")"
+                    CollapseIcon="@("minima")"
+                    CollapseTooltip="@("ratione")"
                     Expanded="@(true)"
-                    ExpandIcon="@("ut")"
-                    ExpandTooltip="@("qui")"
-                    Group="@("vero")"
-                    Icon="@("voluptates")"
-                    IconNumber="@(716.5852)"
-                    Label="@("omnis")"
-                    Placement="@(Placement.End)"
-                    WidgetId="@("veritatis")">
+                    ExpandIcon="@("odit")"
+                    ExpandTooltip="@("molestiae")"
+                    Group="@("aut")"
+                    Icon="@("voluptatum")"
+                    IconNumber="@(958.7939)"
+                    Label="@("molestias")"
+                    Placement="@(Placement.BeginEnd)"
+                    WidgetId="@("ab")">
                     <ExpandViewModel 
                         AutoCollapse="@(true)"
                         Expanded="@(true)"
-                        Group="@("nihil")">
+                        Group="@("nobis")">
                     </ExpandViewModel>
                 </ExpandWidget>
             </MapView>);
@@ -46,13 +46,13 @@
         await expandWidget.Collapse();
         await expandWidget.Expand();
         await expandWidget.Toggle();
-        Placement testPlacement = Placement.BeginEnd;
+        Placement testPlacement = Placement.End;
         await expandWidget.SetPlacement(testPlacement);
         var placement = await expandWidget.GetPlacement();
         Assert.AreEqual(testPlacement, placement);
         ExpandViewModel testViewModel = new ExpandViewModel(true,
                     true,
-                    "temporibus");
+                    "est");
         await expandWidget.SetViewModel(testViewModel);
         var viewModel = await expandWidget.GetViewModel();
         Assert.AreEqual(testViewModel, viewModel);

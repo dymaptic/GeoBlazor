@@ -16,6 +16,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ValidationSetItemJSON(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? GlobalIds = null,
+    IReadOnlyCollection<string>? GlobalIds = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? SourceId = null);

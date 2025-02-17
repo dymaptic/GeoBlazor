@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">Locate</a> widget, which animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to the user's current location.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class LocateViewModel : IGeolocationPositioning,
-    IGoTo,
+public partial class LocateViewModel : IGoTo,
     IViewModel
 {
 
@@ -118,11 +117,25 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [Parameter]
     [JsonIgnore]
     public GoToOverride? GoToOverride { get; set; }
-
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     The graphic used to show the user's location on the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#graphic">ArcGIS Maps SDK for JavaScript</a>

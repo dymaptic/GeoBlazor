@@ -42,6 +42,12 @@ public partial interface IArcGISImageService
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     Default mosaic rule of the image service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#defaultMosaicRule">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    MosaicRule? DefaultMosaicRule { get; }
+    
+    /// <summary>
     ///     The SQL where clause used to filter rasters.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -52,6 +58,12 @@ public partial interface IArcGISImageService
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<Field>? Fields { get; set; }
+    
+    /// <summary>
+    ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> by name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    FieldsIndex? FieldsIndex { get; }
     
     /// <summary>
     ///     The format of the exported image.
@@ -92,6 +104,13 @@ public partial interface IArcGISImageService
     MosaicRule? MosaicRule { get; set; }
     
     /// <summary>
+    ///     The multidimensional information associated with the layer if the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">hasMultidimensions</a> property is `true`.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    RasterMultidimensionalInfo? MultidimensionalInfo { get; }
+    
+    /// <summary>
     ///     Represents a multidimensional subset of raster data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -128,10 +147,23 @@ public partial interface IArcGISImageService
     PixelType? PixelType { get; set; }
     
     /// <summary>
+    ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    IReadOnlyList<Field>? RasterFields { get; }
+    
+    /// <summary>
     ///     Specifies the rule for how the requested image should be processed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     RasterFunction? RasterFunction { get; set; }
+    
+    /// <summary>
+    ///     Returns raster function information for the image services, including the name, description, help, function type, and a thumbnail of pre-configured raster function templates.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunctionInfos">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    IReadOnlyList<RasterFunctionInfo>? RasterFunctionInfos { get; }
     
     /// <summary>
     ///     The renderer assigned to the layer.
@@ -140,16 +172,40 @@ public partial interface IArcGISImageService
     IImageryRenderer? Renderer { get; set; }
     
     /// <summary>
+    ///     Source raster information of the image service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    RasterInfo? ServiceRasterInfo { get; }
+    
+    /// <summary>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? SourceJSON { get; set; }
     
     /// <summary>
+    ///     Image service data source type.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceType">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SourceType? SourceType { get; }
+    
+    /// <summary>
+    ///     The spatial reference of the image service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SpatialReference? SpatialReference { get; }
+    
+    /// <summary>
     ///     The URL to the REST endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Url { get; set; }
+    
+    /// <summary>
+    ///     The version of ArcGIS Server in which the image service is published.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#version">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    double? Version { get; }
     
 #endregion
 

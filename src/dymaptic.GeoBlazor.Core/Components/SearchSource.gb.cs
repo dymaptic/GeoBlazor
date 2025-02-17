@@ -47,10 +47,12 @@ public abstract partial class SearchSource
         
         return result;
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GetResults" /> function was registered.
     /// </summary>
     public bool HasGetResults => GetResults is not null;
+    
     /// <summary>
     ///     Function used to get search suggestions.
     ///     default null
@@ -77,10 +79,12 @@ public abstract partial class SearchSource
         
         return result;
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GetSuggestions" /> function was registered.
     /// </summary>
     public bool HasGetSuggestions => GetSuggestions is not null;
+    
     /// <summary>
     ///     Indicates the maximum number of suggestions to return for the widget's input.
     ///     default 6

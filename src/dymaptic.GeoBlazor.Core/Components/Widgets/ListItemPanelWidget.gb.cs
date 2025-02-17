@@ -21,6 +21,10 @@ public partial class ListItemPanelWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="content">
+    ///     The content displayed in the ListItem panel.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="disabled">
     ///     If `true`, disables the ListItem's panel so the user cannot open or interact with it.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#disabled">ArcGIS Maps SDK for JavaScript</a>
@@ -61,6 +65,7 @@ public partial class ListItemPanelWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ListItemPanelWidget(
+        IReadOnlyList<ListItemPanelContent>? content = null,
         bool? disabled = null,
         bool? flowEnabled = null,
         string? icon = null,
@@ -73,6 +78,7 @@ public partial class ListItemPanelWidget
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        Content = content;
         Disabled = disabled;
         FlowEnabled = flowEnabled;
         Icon = icon;
@@ -88,6 +94,15 @@ public partial class ListItemPanelWidget
     
 #region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     The content displayed in the ListItem panel.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<ListItemPanelContent>? Content { get; set; }
+    
     /// <summary>
     ///     If `true`, disables the ListItem's panel so the user cannot open or interact with it.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#disabled">ArcGIS Maps SDK for JavaScript</a>
@@ -115,24 +130,6 @@ public partial class ListItemPanelWidget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Image { get; set; }
-    
-    /// <summary>
-    ///     The content displayed in the ListItem panel.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ListItemPanelContent? LayerListItemPanelContent { get; set; }
-    
-    /// <summary>
-    ///     The content displayed in the ListItem panel.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ListItemPanelContent>? LayerListItemPanelContentCollectionContent { get; set; }
     
     /// <summary>
     ///     The panel's parent ListItem that represents a layer in the map.
@@ -166,6 +163,36 @@ public partial class ListItemPanelWidget
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Content property.
+    /// </summary>
+    public async Task<IReadOnlyList<ListItemPanelContent>?> GetContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return Content;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return Content;
+        }
+
+        // get the property value
+        IReadOnlyList<ListItemPanelContent>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItemPanelContent>?>("getProperty",
+            CancellationTokenSource.Token, "content");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Content = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Content)] = Content;
+        }
+         
+        return Content;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Disabled property.
     /// </summary>
@@ -254,66 +281,6 @@ public partial class ListItemPanelWidget
         }
          
         return Image;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LayerListItemPanelContent property.
-    /// </summary>
-    public async Task<ListItemPanelContent?> GetLayerListItemPanelContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return LayerListItemPanelContent;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return LayerListItemPanelContent;
-        }
-
-        // get the property value
-        ListItemPanelContent? result = await JsComponentReference!.InvokeAsync<ListItemPanelContent?>("getProperty",
-            CancellationTokenSource.Token, "layerListItemPanelContent");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             LayerListItemPanelContent = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerListItemPanelContent)] = LayerListItemPanelContent;
-        }
-         
-        return LayerListItemPanelContent;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the LayerListItemPanelContentCollectionContent property.
-    /// </summary>
-    public async Task<IReadOnlyList<ListItemPanelContent>?> GetLayerListItemPanelContentCollectionContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return LayerListItemPanelContentCollectionContent;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return LayerListItemPanelContentCollectionContent;
-        }
-
-        // get the property value
-        IReadOnlyList<ListItemPanelContent>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItemPanelContent>?>("getProperty",
-            CancellationTokenSource.Token, "layerListItemPanelContentCollectionContent");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             LayerListItemPanelContentCollectionContent = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerListItemPanelContentCollectionContent)] = LayerListItemPanelContentCollectionContent;
-        }
-         
-        return LayerListItemPanelContentCollectionContent;
     }
     
     /// <summary>
@@ -411,6 +378,36 @@ public partial class ListItemPanelWidget
 #region Property Setters
 
     /// <summary>
+    ///    Asynchronously set the value of the Content property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetContent(IReadOnlyList<ListItemPanelContent>? value)
+    {
+#pragma warning disable BL0005
+        Content = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Content)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "content", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Disabled property after render.
     /// </summary>
     /// <param name="value">
@@ -501,66 +498,6 @@ public partial class ListItemPanelWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the LayerListItemPanelContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLayerListItemPanelContent(ListItemPanelContent? value)
-    {
-#pragma warning disable BL0005
-        LayerListItemPanelContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LayerListItemPanelContent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layerListItemPanelContent", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the LayerListItemPanelContentCollectionContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLayerListItemPanelContentCollectionContent(IReadOnlyList<ListItemPanelContent>? value)
-    {
-#pragma warning disable BL0005
-        LayerListItemPanelContentCollectionContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LayerListItemPanelContentCollectionContent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layerListItemPanelContentCollectionContent", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ListItem property after render.
     /// </summary>
     /// <param name="value">
@@ -648,6 +585,44 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+    }
+    
+#endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the Content property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToContent(params ListItemPanelContent[] values)
+    {
+        ListItemPanelContent[] join = Content is null
+            ? values
+            : [..Content, ..values];
+        await SetContent(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Content property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromContent(params ListItemPanelContent[] values)
+    {
+        if (Content is null)
+        {
+            return;
+        }
+        await SetContent(Content.Except(values).ToArray());
     }
     
 #endregion

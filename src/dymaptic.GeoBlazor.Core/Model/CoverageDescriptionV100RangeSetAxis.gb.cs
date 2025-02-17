@@ -24,4 +24,4 @@ public partial record CoverageDescriptionV100RangeSetAxis(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? Values = null);
+    IReadOnlyCollection<string>? Values = null);

@@ -63,18 +63,6 @@ export default class SlideGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
-    async getViewpoint(): Promise<any> {
-        if (!hasValue(this.component.viewpoint)) {
-            return null;
-        }
-        
-        let { buildDotNetViewpoint } = await import('./viewpoint');
-        return buildDotNetViewpoint(this.component.viewpoint);
-    }
-    async setViewpoint(value: any): Promise<void> {
-        let { buildJsViewpoint } = await import('./viewpoint');
-        this.component.viewpoint =  buildJsViewpoint(value);
-    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -93,10 +81,6 @@ export async function buildJsSlideGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsSlide.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.viewpoint)) {
-        let { buildJsViewpoint } = await import('./viewpoint');
-        jsSlide.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -119,6 +103,9 @@ export async function buildJsSlideGenerated(dotNetObject: any, layerId: string |
     }
     if (hasValue(dotNetObject.title)) {
         jsSlide.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.viewpoint)) {
+        jsSlide.viewpoint = dotNetObject.viewpoint;
     }
     if (hasValue(dotNetObject.visibleLayers)) {
         jsSlide.visibleLayers = dotNetObject.visibleLayers;
@@ -163,10 +150,6 @@ export async function buildDotNetSlideGenerated(jsObject: any, layerId: string |
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetSlide.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.viewpoint)) {
-            let { buildDotNetViewpoint } = await import('./viewpoint');
-            dotNetSlide.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
-        }
         if (hasValue(jsObject.description)) {
             dotNetSlide.description = jsObject.description;
         }
@@ -187,6 +170,9 @@ export async function buildDotNetSlideGenerated(jsObject: any, layerId: string |
         }
         if (hasValue(jsObject.title)) {
             dotNetSlide.title = jsObject.title;
+        }
+        if (hasValue(jsObject.viewpoint)) {
+            dotNetSlide.viewpoint = jsObject.viewpoint;
         }
         if (hasValue(jsObject.visibleLayers)) {
             dotNetSlide.visibleLayers = jsObject.visibleLayers;

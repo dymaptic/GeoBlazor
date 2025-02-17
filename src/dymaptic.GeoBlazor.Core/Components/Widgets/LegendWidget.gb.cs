@@ -78,7 +78,7 @@ public partial class LegendWidget
         bool? hideLayersNotInCurrentView = null,
         string? icon = null,
         string? label = null,
-        List<LayerInfo>? layerInfos = null,
+        IReadOnlyList<LegendLayerInfos>? layerInfos = null,
         bool? respectLayerDefinitionExpression = null,
         bool? respectLayerVisibility = null,
         LegendViewModel? viewModel = null,
@@ -149,7 +149,7 @@ public partial class LegendWidget
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<LayerInfo>? LayerInfos { get; set; }
+    public IReadOnlyList<LegendLayerInfos>? LayerInfos { get; set; }
     
     /// <summary>
     ///     Indicates the style of the legend.
@@ -327,7 +327,7 @@ public partial class LegendWidget
     /// <summary>
     ///     Asynchronously retrieve the current value of the LayerInfos property.
     /// </summary>
-    public async Task<IReadOnlyList<LayerInfo>?> GetLayerInfos()
+    public async Task<IReadOnlyList<LegendLayerInfos>?> GetLayerInfos()
     {
         if (CoreJsModule is null)
         {
@@ -341,7 +341,7 @@ public partial class LegendWidget
         }
 
         // get the property value
-        List<LayerInfo>? result = await JsComponentReference!.InvokeAsync<List<LayerInfo>?>("getProperty",
+        IReadOnlyList<LegendLayerInfos>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<LegendLayerInfos>?>("getProperty",
             CancellationTokenSource.Token, "layerInfos");
         if (result is not null)
         {
@@ -664,7 +664,7 @@ public partial class LegendWidget
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayerInfos(IReadOnlyList<LayerInfo>? value)
+    public async Task SetLayerInfos(IReadOnlyList<LegendLayerInfos>? value)
     {
 #pragma warning disable BL0005
         LayerInfos = value;
@@ -892,9 +892,9 @@ public partial class LegendWidget
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToLayerInfos(params LayerInfo[] values)
+    public async Task AddToLayerInfos(params LegendLayerInfos[] values)
     {
-        LayerInfo[] join = LayerInfos is null
+        LegendLayerInfos[] join = LayerInfos is null
             ? values
             : [..LayerInfos, ..values];
         await SetLayerInfos(join);
@@ -927,7 +927,7 @@ public partial class LegendWidget
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromLayerInfos(params LayerInfo[] values)
+    public async Task RemoveFromLayerInfos(params LegendLayerInfos[] values)
     {
         if (LayerInfos is null)
         {
@@ -953,7 +953,7 @@ public partial class LegendWidget
                 }
                 
                 return true;
-            case LayerInfo layerInfos:
+            case LegendLayerInfos layerInfos:
                 LayerInfos ??= [];
                 if (!LayerInfos.Contains(layerInfos))
                 {
@@ -995,7 +995,7 @@ public partial class LegendWidget
                 WidgetChanged = true;
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 return true;
-            case LayerInfo layerInfos:
+            case LegendLayerInfos layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
                 WidgetChanged = true;
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
@@ -1032,7 +1032,7 @@ public partial class LegendWidget
         }
         if (LayerInfos is not null)
         {
-            foreach (LayerInfo child in LayerInfos)
+            foreach (LegendLayerInfos child in LayerInfos)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

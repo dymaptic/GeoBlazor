@@ -56,13 +56,13 @@ public partial record CoverageDescriptionV110(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Metadata = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<CoverageDescriptionV110Range>? Range = null,
+    IReadOnlyCollection<CoverageDescriptionV110Range>? Range = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CoverageDescriptionV110Resolution? Resolution = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? SupportedCRSs = null,
+    IReadOnlyCollection<string>? SupportedCRSs = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? SupportedFormats = null,
+    IReadOnlyCollection<string>? SupportedFormats = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Title = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

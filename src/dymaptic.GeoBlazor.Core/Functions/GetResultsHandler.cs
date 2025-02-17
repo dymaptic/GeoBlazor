@@ -6,3 +6,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 ///    
 /// </param>
 public delegate Task<SearchResult[]> GetResultsHandler(string parameters);
+

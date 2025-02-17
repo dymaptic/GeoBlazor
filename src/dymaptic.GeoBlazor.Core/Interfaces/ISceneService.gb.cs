@@ -33,6 +33,12 @@ public partial interface ISceneService
     /// </summary>
     string? Url { get; set; }
     
+    /// <summary>
+    ///     The version of the scene service specification used for this service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#version">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SceneServiceVersion? Version { get; }
+    
 #endregion
 
 #region Property Setters

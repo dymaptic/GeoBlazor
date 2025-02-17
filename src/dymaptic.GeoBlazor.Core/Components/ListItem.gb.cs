@@ -9,7 +9,15 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class ListItem
 {
-    
+
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public ListItem()
+    {
+    }
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

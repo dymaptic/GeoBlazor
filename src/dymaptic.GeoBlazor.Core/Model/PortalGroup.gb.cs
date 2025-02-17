@@ -66,7 +66,7 @@ public partial record PortalGroup(
 {
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    protected readonly CancellationTokenSource _cancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>

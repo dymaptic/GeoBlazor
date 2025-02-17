@@ -12,4 +12,4 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record WebSceneWidgets(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    TimeSlider? TimeSlider = null);
+    IWebDocTimeSlider? TimeSlider = null);

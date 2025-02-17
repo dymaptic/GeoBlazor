@@ -206,6 +206,33 @@ public partial class PopupWidget : IGoTo
     public IReadOnlyList<Graphic>? Features { get; set; }
     
     /// <summary>
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public GoToOverride? GoToOverride { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
+    /// </summary>
+    public bool HasGoToOverride => GoToOverride is not null;
+    
+    /// <summary>
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -845,17 +872,22 @@ public partial class PopupWidget : IGoTo
             return ViewModel;
         }
 
-        // get the property value
-        PopupViewModel? result = await JsComponentReference!.InvokeAsync<PopupViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        PopupViewModel? result = await JsComponentReference.InvokeAsync<PopupViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -1404,8 +1436,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1648,6 +1680,15 @@ actionIndex);
                 }
                 
                 return true;
+            case PopupViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                }
+                
+                return true;
             case PopupVisibleElements visibleElements:
                 if (visibleElements != VisibleElements)
                 {
@@ -1681,6 +1722,11 @@ actionIndex);
                 WidgetChanged = true;
                 ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
                 return true;
+            case PopupViewModel _:
+                ViewModel = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
                 WidgetChanged = true;
@@ -1698,9 +1744,9 @@ actionIndex);
         DockOptions?.ValidateRequiredGeneratedChildren();
         Location?.ValidateRequiredGeneratedChildren();
         SelectedFeatureWidget?.ValidateRequiredGeneratedChildren();
+        ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
-
-    public GoToOverride? GoToOverride { get; set; }
+      
 }

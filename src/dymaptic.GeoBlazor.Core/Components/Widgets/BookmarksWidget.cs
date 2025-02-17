@@ -45,6 +45,7 @@ public partial class BookmarksWidget : Widget
     ///     Fires after a user clicks on a bookmark.
     /// </remarks>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJavascriptBookmarkSelect(BookmarkSelectEvent bookmarkSelectEvent)
     {
         await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);

@@ -16,6 +16,12 @@ public partial interface IArcGISCachedService
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     The spatial reference of the layer as defined by the service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SpatialReference? SpatialReference { get; }
+    
+    /// <summary>
     ///     Contains information about the tiling scheme for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISCachedService.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -3337,36 +3337,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the GeometryType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGeometryType(FeatureGeometryType? value)
-    {
-#pragma warning disable BL0005
-        GeometryType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GeometryType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometryType", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
     /// </summary>
     /// <param name="value">
@@ -4519,6 +4489,48 @@ public partial class FeatureLayer : IAPIKeyMixin,
 #region Public Methods
 
     /// <summary>
+    ///     Adds an attachment to a feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#addAttachment">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="feature">
+    /// </param>
+    /// <param name="attachment">
+    /// </param>
+    [ArcGISMethod]
+    public async Task<FeatureEditResult?> AddAttachment(Graphic feature,
+        ElementReference attachment)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
+            "addAttachment", 
+            CancellationTokenSource.Token,
+            feature,
+            attachment);
+    }
+    
+    /// <summary>
+    ///     Deletes attachments from a feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#deleteAttachments">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="feature">
+    /// </param>
+    /// <param name="attachmentIds">
+    /// </param>
+    [ArcGISMethod]
+    public async Task<FeatureEditResult[]?> DeleteAttachments(Graphic feature,
+        IReadOnlyCollection<long> attachmentIds)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<FeatureEditResult[]?>(
+            "deleteAttachments", 
+            CancellationTokenSource.Token,
+            feature,
+            attachmentIds);
+    }
+    
+    /// <summary>
     ///     Query information about attachments associated with features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#queryAttachments">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -4596,7 +4608,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<FeatureEditResult?> UpdateAttachment(Graphic feature,
         long attachmentId,
-        IIFeatureLayerBaseAttachment attachment)
+        ElementReference attachment)
     {
         if (JsComponentReference is null) return null;
         

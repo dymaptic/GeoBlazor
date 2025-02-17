@@ -123,7 +123,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     async setFeatureEffect(value: any): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        this.layer.featureEffect = await  buildJsFeatureEffect(value);
+        this.layer.featureEffect =  buildJsFeatureEffect(value);
     }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
@@ -150,6 +150,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async setFloorInfo(value: any): Promise<void> {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
         this.layer.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
+    }
+    async getFormTemplate(): Promise<any> {
+        if (!hasValue(this.layer.formTemplate)) {
+            return null;
+        }
+        
+        let { buildDotNetFormTemplate } = await import('./formTemplate');
+        return await buildDotNetFormTemplate(this.layer.formTemplate);
+    }
+    async setFormTemplate(value: any): Promise<void> {
+        let { buildJsFormTemplate } = await import('./formTemplate');
+        this.layer.formTemplate =  buildJsFormTemplate(value);
     }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
@@ -332,7 +344,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./jsBuilder');
-        jsFeatureLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect) as any;
+        jsFeatureLayer.featureEffect = buildJsFeatureEffect(dotNetObject.featureEffect) as any;
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
@@ -341,6 +353,10 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
         jsFeatureLayer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.formTemplate)) {
+        let { buildJsFormTemplate } = await import('./jsBuilder');
+        jsFeatureLayer.formTemplate = buildJsFormTemplate(dotNetObject.formTemplate) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -434,14 +450,8 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.featureReduction)) {
         jsFeatureLayer.featureReduction = dotNetObject.featureReduction;
     }
-    if (hasValue(dotNetObject.formTemplate)) {
-        jsFeatureLayer.formTemplate = dotNetObject.formTemplate;
-    }
     if (hasValue(dotNetObject.gdbVersion)) {
         jsFeatureLayer.gdbVersion = dotNetObject.gdbVersion;
-    }
-    if (hasValue(dotNetObject.geometryType)) {
-        jsFeatureLayer.geometryType = dotNetObject.geometryType;
     }
     if (hasValue(dotNetObject.hasM)) {
         jsFeatureLayer.hasM = dotNetObject.hasM;
@@ -575,6 +585,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
             let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
             dotNetFeatureLayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
         }
+        if (hasValue(jsObject.formTemplate)) {
+            let { buildDotNetFormTemplate } = await import('./formTemplate');
+            dotNetFeatureLayer.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetFeatureLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -679,9 +693,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.fieldsIndex)) {
             dotNetFeatureLayer.fieldsIndex = jsObject.fieldsIndex;
-        }
-        if (hasValue(jsObject.formTemplate)) {
-            dotNetFeatureLayer.formTemplate = jsObject.formTemplate;
         }
         if (hasValue(jsObject.gdbVersion)) {
             dotNetFeatureLayer.gdbVersion = jsObject.gdbVersion;

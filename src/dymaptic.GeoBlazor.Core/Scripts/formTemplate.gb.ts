@@ -91,6 +91,7 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = formTemplateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFormTemplate;
     
+    let { buildDotNetFormTemplate } = await import('./formTemplate');
     let dnInstantiatedObject = await buildDotNetFormTemplate(jsFormTemplate);
     
     try {

@@ -18,4 +18,6 @@ internal record struct JsNullableBoolWrapper(bool? Value);
 
 internal record struct JsNullableDateTimeWrapper(DateTime? Value);
 
+internal record struct JsNullableElementReferenceWrapper(ElementReference? Value);
+
 internal record struct JsNullableEnumWrapper<T>(T? Value) where T : struct, Enum;

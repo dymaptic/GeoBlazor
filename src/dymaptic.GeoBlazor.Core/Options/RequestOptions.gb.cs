@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     If `true`, the browser will send a request to the server instead of using the browser's local cache.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="FormDataBody">
+/// <param name="ElementReferenceBody">
 ///     If uploading a file, specify the form data or element used to submit the file here.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -22,12 +22,12 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Headers to use for the request.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="HTMLFormElementBody">
-///     If uploading a file, specify the form data or element used to submit the file here.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Method">
 ///     Indicates if the request should be made using the HTTP DELETE, HEAD, POST, or PUT method.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ObjectCollectionBody">
+///     If uploading a file, specify the form data or element used to submit the file here.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Query">
@@ -61,10 +61,10 @@ namespace dymaptic.GeoBlazor.Core.Options;
 public partial record RequestOptions(
     AuthMode? AuthMode = null,
     bool? CacheBust = null,
-    FormData? FormDataBody = null,
+    ElementReference? ElementReferenceBody = null,
     string? Headers = null,
-    HTMLFormElement? HTMLFormElementBody = null,
     RequestMethod? Method = null,
+    Dictionary<string, object?>? ObjectCollectionBody = null,
     Dictionary<string, object?>? Query = null,
     ResponseType? ResponseType = null,
     string? StringBody = null,
@@ -88,7 +88,7 @@ public partial record RequestOptions(
     ///     If uploading a file, specify the form data or element used to submit the file here.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public FormData? FormDataBody { get; set; } = FormDataBody;
+    public ElementReference? ElementReferenceBody { get; set; } = ElementReferenceBody;
     
     /// <summary>
     ///     Headers to use for the request.
@@ -97,16 +97,16 @@ public partial record RequestOptions(
     public string? Headers { get; set; } = Headers;
     
     /// <summary>
-    ///     If uploading a file, specify the form data or element used to submit the file here.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public HTMLFormElement? HTMLFormElementBody { get; set; } = HTMLFormElementBody;
-    
-    /// <summary>
     ///     Indicates if the request should be made using the HTTP DELETE, HEAD, POST, or PUT method.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public RequestMethod? Method { get; set; } = Method;
+    
+    /// <summary>
+    ///     If uploading a file, specify the form data or element used to submit the file here.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Dictionary<string, object?>? ObjectCollectionBody { get; set; } = ObjectCollectionBody;
     
     /// <summary>
     ///     Query parameters for the request.

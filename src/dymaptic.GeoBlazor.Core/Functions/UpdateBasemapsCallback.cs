@@ -6,3 +6,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 ///    
 /// </param>
 public delegate Task<Basemap[]> UpdateBasemapsCallback(IReadOnlyCollection<Basemap> items);
+

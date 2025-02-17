@@ -14,3 +14,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 public delegate Task<bool> BasemapFilter(Basemap item,
     int index,
     IReadOnlyCollection<Basemap> array);
+

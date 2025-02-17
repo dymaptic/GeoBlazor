@@ -47,16 +47,26 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return await this.component.fetchRating(options);
     }
 
-    async fetchRelatedItems(parameters: any,
+    async fetchRelatedItems(relationshipType: any,
+        direction: any,
         options: any): Promise<any> {
-        let result = await this.component.fetchRelatedItems(parameters);
+        let result = await this.component.fetchRelatedItems(relationshipType,
+            direction,
+            options);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await Promise.all(result.map(async i => await buildDotNetPortalItem(i)));
     }
 
-    async fetchResources(parameters: any,
+    async fetchResources(num: any,
+        start: any,
+        sortOrder: any,
+        sortField: any,
         options: any): Promise<any> {
-        return await this.component.fetchResources(parameters);
+        return await this.component.fetchResources(num,
+            start,
+            sortOrder,
+            sortField,
+            options);
     }
 
     async getThumbnailUrl(width: any): Promise<any> {
@@ -79,14 +89,16 @@ export default class PortalItemGenerated implements IPropertyWrapper {
             options);
     }
 
-    async update(parameters: any): Promise<any> {
-        let result = await this.component.update(parameters);
+    async update(data: any): Promise<any> {
+        let result = await this.component.update(data);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
-    async updateThumbnail(parameters: any): Promise<any> {
-        let result = await this.component.updateThumbnail(parameters);
+    async updateThumbnail(thumbnail: any,
+        filename: any): Promise<any> {
+        let result = await this.component.updateThumbnail(thumbnail,
+            filename);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }

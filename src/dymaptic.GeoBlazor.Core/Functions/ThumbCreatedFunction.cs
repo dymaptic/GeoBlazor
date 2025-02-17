@@ -18,3 +18,4 @@ public delegate Task ThumbCreatedFunction(int index,
     double value,
     ElementReference thumbElement,
     ElementReference labelElement);
+

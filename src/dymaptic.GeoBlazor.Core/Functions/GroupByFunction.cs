@@ -10,3 +10,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 /// </param>
 public record GroupByFunction(string Grouping,
     string JavaScriptFunction);
+

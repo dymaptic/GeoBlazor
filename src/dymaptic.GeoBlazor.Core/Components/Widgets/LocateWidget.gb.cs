@@ -82,7 +82,7 @@ public partial class LocateWidget : IGoTo
 #pragma warning disable BL0005
         GeolocationOptions = geolocationOptions;
         GoToLocationEnabled = goToLocationEnabled;
-        
+        GoToOverride = goToOverride;
         Graphic = graphic;
         Icon = icon;
         Label = label;

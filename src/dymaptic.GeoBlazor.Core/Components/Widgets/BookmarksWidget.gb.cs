@@ -106,6 +106,7 @@ public partial class BookmarksWidget : IGoTo
         DragEnabled = dragEnabled;
         FilterPlaceholder = filterPlaceholder;
         FilterText = filterText;
+        GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
@@ -182,11 +183,24 @@ public partial class BookmarksWidget : IGoTo
     [JsonIgnore]
     public GoToOverride? GoToOverride { get; set; }
     
-
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -495,17 +509,22 @@ public partial class BookmarksWidget : IGoTo
             return ViewModel;
         }
 
-        // get the property value
-        BookmarksViewModel? result = await JsComponentReference!.InvokeAsync<BookmarksViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        BookmarksViewModel? result = await JsComponentReference.InvokeAsync<BookmarksViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -839,8 +858,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -958,6 +977,15 @@ public partial class BookmarksWidget : IGoTo
     {
         switch (child)
         {
+            case BookmarksViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                }
+                
+                return true;
             case BookmarksVisibleElements visibleElements:
                 if (visibleElements != VisibleElements)
                 {
@@ -976,6 +1004,11 @@ public partial class BookmarksWidget : IGoTo
     {
         switch (child)
         {
+            case BookmarksViewModel _:
+                ViewModel = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
             case BookmarksVisibleElements _:
                 VisibleElements = null;
                 WidgetChanged = true;
@@ -990,6 +1023,7 @@ public partial class BookmarksWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

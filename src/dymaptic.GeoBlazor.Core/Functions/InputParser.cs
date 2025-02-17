@@ -18,3 +18,4 @@ public record InputParser(string Value,
     InputParserType Type,
     int Index,
     string JavaScriptFunction);
+

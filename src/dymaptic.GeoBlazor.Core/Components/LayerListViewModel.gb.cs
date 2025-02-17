@@ -85,10 +85,12 @@ public partial class LayerListViewModel : MapComponent,
             await ListItemCreatedFunction.Invoke(@event);
         }
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="ListItemCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasListItemCreatedFunction => ListItemCreatedFunction is not null;
+    
     /// <summary>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
     ///     default false

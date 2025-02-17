@@ -97,6 +97,7 @@ public partial class TickConfig
     ///     A convenience property that signifies whether a custom <see cref="LabelFormatFunction" /> function was registered.
     /// </summary>
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
+    
     /// <summary>
     ///     Callback that fires for each tick.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
@@ -122,10 +123,12 @@ public partial class TickConfig
                 labelElement);
         }
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="TickCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasTickCreatedFunction => TickCreatedFunction is not null;
+    
 #endregion
 
 #region Property Getters

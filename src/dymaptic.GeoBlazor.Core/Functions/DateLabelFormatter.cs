@@ -18,3 +18,4 @@ public delegate Task DateLabelFormatter(DateTime value,
     DateLabelFormatterType type,
     ElementReference element,
     DateLabelFormatterLayout layout);
+

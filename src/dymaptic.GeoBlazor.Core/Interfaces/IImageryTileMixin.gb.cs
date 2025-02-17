@@ -60,6 +60,12 @@ public partial interface IImageryTileMixin
     IImageryRenderer? Renderer { get; set; }
     
     /// <summary>
+    ///     Raster information retrieved from tiled imagery data source.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    RasterInfo? ServiceRasterInfo { get; }
+    
+    /// <summary>
     ///     The layer's time extent.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>

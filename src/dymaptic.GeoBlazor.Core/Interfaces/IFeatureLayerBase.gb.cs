@@ -10,6 +10,12 @@ public partial interface IFeatureLayerBase
 #region Properties
 
     /// <summary>
+    ///     Describes the layer's supported capabilities.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    FeatureLayerCapabilities? Capabilities { get; }
+    
+    /// <summary>
     ///     Copyright information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -20,6 +26,13 @@ public partial interface IFeatureLayerBase
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? DateFieldsTimeZone { get; set; }
+    
+    /// <summary>
+    ///     This property is set by the service publisher and indicates that dates should be considered without the local timezone.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#datesInUnknownTimezone">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? DatesInUnknownTimezone { get; }
     
     /// <summary>
     ///     The SQL where clause used to filter features on the client.
@@ -34,10 +47,40 @@ public partial interface IFeatureLayerBase
     string? DisplayField { get; set; }
     
     /// <summary>
+    ///     The editor tracking fields, which record who adds or edits the data through the feature service and when edits are made.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    EditFieldsInfo? EditFieldsInfo { get; }
+    
+    /// <summary>
+    ///     Specifies information about editing.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#editingInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    EditingInfo? EditingInfo { get; }
+    
+    /// <summary>
+    ///     Describes effective capabilities of the layer taking in to consideration privileges of the currently signed-in user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveCapabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    Capabilities? EffectiveCapabilities { get; }
+    
+    /// <summary>
+    ///     Indicates whether the layer is editable taking in to consideration privileges of the currently signed-in user.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#effectiveEditingEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? EffectiveEditingEnabled { get; }
+    
+    /// <summary>
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FeatureLayerBaseElevationInfo? ElevationInfo { get; set; }
+    
+    /// <summary>
+    ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    FieldsIndex? FieldsIndex { get; }
     
     /// <summary>
     ///     When a feature layer is configured as floor-aware, it has a floorInfo property defined.
@@ -58,10 +101,16 @@ public partial interface IFeatureLayerBase
     string? GdbVersion { get; set; }
     
     /// <summary>
+    ///     Provides information on the system maintained area and length fields along with their respective units.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    GeometryFieldsInfo? GeometryFieldsInfo { get; }
+    
+    /// <summary>
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    FeatureGeometryType? GeometryType { get; set; }
+    FeatureGeometryType? GeometryType { get; }
     
     /// <summary>
     ///     Indicates whether the client-side features in the layer have `M` (measurement) values.
@@ -84,6 +133,13 @@ public partial interface IFeatureLayerBase
     DateTime? HistoricMoment { get; set; }
     
     /// <summary>
+    ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#isTable">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? IsTable { get; }
+    
+    /// <summary>
     ///     The layer ID, or layer index, of a Feature Service layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -94,6 +150,18 @@ public partial interface IFeatureLayerBase
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? ObjectIdField { get; set; }
+    
+    /// <summary>
+    ///     The IANA time zone the author of the service intended data from date fields to be viewed in.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#preferredTimeZone">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? PreferredTimeZone { get; }
+    
+    /// <summary>
+    ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Relationship.html">relationships</a> set up for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#relationships">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    IReadOnlyList<Relationship>? Relationships { get; }
     
     /// <summary>
     ///     When `true`, indicates that M values will be returned.
@@ -110,10 +178,40 @@ public partial interface IFeatureLayerBase
     bool? ReturnZ { get; set; }
     
     /// <summary>
+    ///     The service definition expression limits the features available for display and query.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceDefinitionExpression">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? ServiceDefinitionExpression { get; }
+    
+    /// <summary>
+    ///     Indicates the portal item of the hosted feature service that contains this layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#serviceItemId">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? ServiceItemId { get; }
+    
+    /// <summary>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? SourceJSON { get; set; }
+    
+    /// <summary>
+    ///     The name of the field which holds the id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">subtypes</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypeField">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? SubtypeField { get; }
+    
+    /// <summary>
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Subtype.html">subtypes</a> defined in the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    IReadOnlyList<Subtype>? Subtypes { get; }
+    
+    /// <summary>
+    ///     The version of ArcGIS Server in which the layer is published.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#version">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    double? Version { get; }
     
 #endregion
 
@@ -158,11 +256,6 @@ public partial interface IFeatureLayerBase
     ///    Asynchronously set the value of the GdbVersion property after render.
     /// </summary>
     Task SetGdbVersion(string? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the GeometryType property after render.
-    /// </summary>
-    Task SetGeometryType(FeatureGeometryType? value);
     
     /// <summary>
     ///    Asynchronously set the value of the HasM property after render.
@@ -454,7 +547,7 @@ public partial interface IFeatureLayerBase
     [ArcGISMethod]
     Task<FeatureEditResult?> UpdateAttachment(Graphic feature,
         long attachmentId,
-        IIFeatureLayerBaseAttachment attachment);
+        ElementReference attachment);
     
 #endregion
 

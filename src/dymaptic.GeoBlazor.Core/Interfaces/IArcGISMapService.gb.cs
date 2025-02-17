@@ -10,6 +10,12 @@ public partial interface IArcGISMapService
 #region Properties
 
     /// <summary>
+    ///     Indicates the layer's supported capabilities.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    ArcGISMapServiceCapabilities? Capabilities { get; }
+    
+    /// <summary>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -27,6 +33,18 @@ public partial interface IArcGISMapService
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     bool? LegendEnabled { get; set; }
+    
+    /// <summary>
+    ///     The spatial reference of the layer as defined by the service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SpatialReference? SpatialReference { get; }
+    
+    /// <summary>
+    ///     The version of ArcGIS Server in which the map service is published.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#version">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    double? Version { get; }
     
 #endregion
 

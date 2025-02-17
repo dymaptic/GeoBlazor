@@ -16,6 +16,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record CoverageDescriptionV100SupportedCRSs(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? NativeCRSs = null,
+    IReadOnlyCollection<string>? NativeCRSs = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? RequestResponseCRSs = null);
+    IReadOnlyCollection<string>? RequestResponseCRSs = null);

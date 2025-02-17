@@ -11,6 +11,14 @@ public partial class RangeDomain : IFieldColumnTemplateDomain,
     IFieldInputDomain
 {
 
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
+    [ActivatorUtilitiesConstructor]
+    public RangeDomain()
+    {
+    }
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

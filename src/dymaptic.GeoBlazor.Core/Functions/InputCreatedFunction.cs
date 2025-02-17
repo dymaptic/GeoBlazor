@@ -14,3 +14,4 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 public delegate Task InputCreatedFunction(ElementReference inputElement,
     InputCreatedFunctionType type,
     int thumbIndex);
+

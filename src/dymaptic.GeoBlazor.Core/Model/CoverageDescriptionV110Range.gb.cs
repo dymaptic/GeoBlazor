@@ -42,7 +42,7 @@ public partial record CoverageDescriptionV110Range(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Abstract = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<CoverageDescriptionV110RangeAxis>? Axis = null,
+    IReadOnlyCollection<CoverageDescriptionV110RangeAxis>? Axis = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Definition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -50,8 +50,8 @@ public partial record CoverageDescriptionV110Range(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Identifier = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? NullValues = null,
+    IReadOnlyCollection<double>? NullValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? SupportedInterpolations = null,
+    IReadOnlyCollection<string>? SupportedInterpolations = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Title = null);

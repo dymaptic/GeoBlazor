@@ -10,6 +10,18 @@ public partial interface IFeatureLayerViewMixin
 #region Properties
 
     /// <summary>
+    ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    IReadOnlyList<string>? AvailableFields { get; }
+    
+    /// <summary>
+    ///     Indicates if the layer view is updating its data and new features are being fetched.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? DataUpdating { get; }
+    
+    /// <summary>
     ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -20,6 +32,24 @@ public partial interface IFeatureLayerViewMixin
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FeatureFilter? Filter { get; set; }
+    
+    /// <summary>
+    ///     Indicates whether the layer view contains all available features from the service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? HasAllFeatures { get; }
+    
+    /// <summary>
+    ///     Indicates whether the layer view has all the features available in the current view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? HasAllFeaturesInView { get; }
+    
+    /// <summary>
+    ///     Indicates whether the layer view has geometries at full resolution.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    bool? HasFullGeometries { get; }
     
     /// <summary>
     ///     The maximum number of features that can be displayed at a time.

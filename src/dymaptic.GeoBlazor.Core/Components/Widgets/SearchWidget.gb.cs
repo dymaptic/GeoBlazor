@@ -54,11 +54,24 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public GoToOverride? GoToOverride { get; set; }
     
-
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
+    {  
+        if (GoToOverride is not null)  
+        {
+            await GoToOverride.Invoke(goToOverrideParameters);  
+        }
+    }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
     /// </summary>
     public bool HasGoToOverride => GoToOverride is not null;
+    
     /// <summary>
     ///     The graphic used to highlight the resulting feature or location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">ArcGIS Maps SDK for JavaScript</a>
@@ -114,6 +127,36 @@ public partial class SearchWidget : IGoTo
 #region Property Getters
 
     /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveSource property.
+    /// </summary>
+    public async Task<ISearchWidgetActiveSource?> GetActiveSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveSource;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return ActiveSource;
+        }
+
+        // get the property value
+        ISearchWidgetActiveSource? result = await JsComponentReference!.InvokeAsync<ISearchWidgetActiveSource?>("getProperty",
+            CancellationTokenSource.Token, "activeSource");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ActiveSource = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+        }
+         
+        return ActiveSource;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the AllPlaceholder property.
     /// </summary>
     public async Task<string?> GetAllPlaceholder()
@@ -144,6 +187,36 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the AllSources property.
+    /// </summary>
+    public async Task<IReadOnlyList<ISearchWidgetAllSources>?> GetAllSources()
+    {
+        if (CoreJsModule is null)
+        {
+            return AllSources;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return AllSources;
+        }
+
+        // get the property value
+        IReadOnlyList<ISearchWidgetAllSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchWidgetAllSources>?>("getProperty",
+            CancellationTokenSource.Token, "allSources");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             AllSources = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(AllSources)] = AllSources;
+        }
+         
+        return AllSources;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the AutoSelect property.
     /// </summary>
     public async Task<bool?> GetAutoSelect()
@@ -171,6 +244,36 @@ public partial class SearchWidget : IGoTo
         }
          
         return AutoSelect;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DefaultSources property.
+    /// </summary>
+    public async Task<IReadOnlyList<ISearchWidgetDefaultSources>?> GetDefaultSources()
+    {
+        if (CoreJsModule is null)
+        {
+            return DefaultSources;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return DefaultSources;
+        }
+
+        // get the property value
+        IReadOnlyList<ISearchWidgetDefaultSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchWidgetDefaultSources>?>("getProperty",
+            CancellationTokenSource.Token, "defaultSources");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             DefaultSources = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(DefaultSources)] = DefaultSources;
+        }
+         
+        return DefaultSources;
     }
     
     /// <summary>

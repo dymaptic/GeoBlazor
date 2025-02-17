@@ -123,6 +123,7 @@ public partial class SliderViewModel : IViewModel
     ///     A convenience property that signifies whether a custom <see cref="InputFormatFunction" /> function was registered.
     /// </summary>
     public bool HasInputFormatFunction => InputFormatFunction is not null;
+    
     /// <summary>
     ///     Function used to parse slider inputs formatted by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#inputFormatFunction">inputFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#inputParseFunction">ArcGIS Maps SDK for JavaScript</a>
@@ -135,6 +136,7 @@ public partial class SliderViewModel : IViewModel
     ///     A convenience property that signifies whether a custom <see cref="InputParseFunction" /> function was registered.
     /// </summary>
     public bool HasInputParseFunction => InputParseFunction is not null;
+    
     /// <summary>
     ///     A function used to format labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labelFormatFunction">ArcGIS Maps SDK for JavaScript</a>
@@ -147,6 +149,7 @@ public partial class SliderViewModel : IViewModel
     ///     A convenience property that signifies whether a custom <see cref="LabelFormatFunction" /> function was registered.
     /// </summary>
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
+    
     /// <summary>
     ///     An array of strings associated with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> generated using an internal label formatter or the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labelFormatFunction">labelFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labels">ArcGIS Maps SDK for JavaScript</a>

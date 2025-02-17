@@ -28,7 +28,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record CoverageDescriptionV110RangeAxis(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<double>? BandNoDataValues = null,
+    IReadOnlyCollection<double>? BandNoDataValues = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? DataType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -36,4 +36,4 @@ public partial record CoverageDescriptionV110RangeAxis(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Uom = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<string>? Values = null);
+    IReadOnlyCollection<string>? Values = null);

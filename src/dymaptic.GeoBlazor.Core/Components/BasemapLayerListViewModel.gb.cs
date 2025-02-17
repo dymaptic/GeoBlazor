@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class BasemapLayerListViewModel : MapComponent,
-    IViewModel
+public partial class BasemapLayerListViewModel : IViewModel
 {
 
     /// <summary>
@@ -53,9 +52,11 @@ public partial class BasemapLayerListViewModel : MapComponent,
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        BaseListItemCreatedFunction = baseListItemCreatedFunction;
         BasemapTitle = basemapTitle;
         CheckPublishStatusEnabled = checkPublishStatusEnabled;
         ListModeDisabled = listModeDisabled;
+        ReferenceListItemCreatedFunction = referenceListItemCreatedFunction;
 #pragma warning restore BL0005    
     }
     
@@ -69,6 +70,33 @@ public partial class BasemapLayerListViewModel : MapComponent,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
+    
+    /// <summary>
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public ListItemCreatedHandler? BaseListItemCreatedFunction { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="BaseListItemCreatedFunction"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBaseListItemCreatedFunction(string @event)
+    {
+        if (BaseListItemCreatedFunction is not null)
+        {
+            await BaseListItemCreatedFunction.Invoke(@event);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="BaseListItemCreatedFunction" /> function was registered.
+    /// </summary>
+    public bool HasBaseListItemCreatedFunction => BaseListItemCreatedFunction is not null;
     
     /// <summary>
     ///     The current basemap's title.
@@ -106,6 +134,33 @@ public partial class BasemapLayerListViewModel : MapComponent,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
+    
+    /// <summary>
+    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing reference layers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public ListItemCreatedHandler? ReferenceListItemCreatedFunction { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="ReferenceListItemCreatedFunction"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsReferenceListItemCreatedFunction(string @event)
+    {
+        if (ReferenceListItemCreatedFunction is not null)
+        {
+            await ReferenceListItemCreatedFunction.Invoke(@event);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="ReferenceListItemCreatedFunction" /> function was registered.
+    /// </summary>
+    public bool HasReferenceListItemCreatedFunction => ReferenceListItemCreatedFunction is not null;
     
     /// <summary>
     ///     The view model's state.

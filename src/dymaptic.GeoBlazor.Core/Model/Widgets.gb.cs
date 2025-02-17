@@ -18,4 +18,4 @@ public partial record Widgets(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     WebMapFloorFilter? FloorFilter = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    TimeSlider? TimeSlider = null);
+    IWebDocTimeSlider? TimeSlider = null);

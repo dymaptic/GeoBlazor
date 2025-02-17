@@ -277,10 +277,12 @@ public partial class SliderWidget
                 thumbIndex);
         }
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="InputCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasInputCreatedFunction => InputCreatedFunction is not null;
+    
     /// <summary>
     ///     A function used to format user inputs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">ArcGIS Maps SDK for JavaScript</a>
@@ -293,6 +295,7 @@ public partial class SliderWidget
     ///     A convenience property that signifies whether a custom <see cref="InputFormatFunction" /> function was registered.
     /// </summary>
     public bool HasInputFormatFunction => InputFormatFunction is not null;
+    
     /// <summary>
     ///     Function used to parse slider inputs formatted by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">inputFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputParseFunction">ArcGIS Maps SDK for JavaScript</a>
@@ -322,6 +325,7 @@ public partial class SliderWidget
     ///     A convenience property that signifies whether a custom <see cref="LabelFormatFunction" /> function was registered.
     /// </summary>
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
+    
     /// <summary>
     ///     An array of strings associated with 'values' generated using an internal label formatter or the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelFormatFunction">labelFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labels">ArcGIS Maps SDK for JavaScript</a>
@@ -389,10 +393,12 @@ public partial class SliderWidget
                 labelElement);
         }
     }
+    
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="ThumbCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasThumbCreatedFunction => ThumbCreatedFunction is not null;
+    
     /// <summary>
     ///     The HTML Element nodes representing slider thumbs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#thumbElements">ArcGIS Maps SDK for JavaScript</a>
@@ -1667,7 +1673,6 @@ public partial class SliderWidget
     }
     
 #endregion
-    
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {

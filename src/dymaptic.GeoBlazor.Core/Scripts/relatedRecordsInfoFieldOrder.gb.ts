@@ -52,6 +52,7 @@ export async function buildJsRelatedRecordsInfoFieldOrderGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = relatedRecordsInfoFieldOrderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
     
+    let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
     let dnInstantiatedObject = await buildDotNetRelatedRecordsInfoFieldOrder(jsRelatedRecordsInfoFieldOrder);
     
     try {
