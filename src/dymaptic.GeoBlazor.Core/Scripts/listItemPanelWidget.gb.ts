@@ -135,8 +135,8 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(listItemPanelWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = listItemPanelWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
-    
     let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
     let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel, layerId, viewId);
     

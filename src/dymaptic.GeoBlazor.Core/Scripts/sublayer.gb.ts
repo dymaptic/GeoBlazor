@@ -93,7 +93,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.component.fields.map(async i => await buildDotNetField(i)));
+        return this.component.fields!.map(i => buildDotNetField(i));
     }
     
     async getFloorInfo(): Promise<any> {
@@ -148,7 +148,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         if (!hasValue(this.component.renderer)) {
@@ -205,7 +205,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsSublayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
@@ -257,8 +257,8 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
-    
     let { buildDotNetSublayer } = await import('./sublayer');
     let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
     
@@ -282,7 +282,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     };
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetSublayer.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetField(i)));
+            dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.floorInfo)) {
             let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');

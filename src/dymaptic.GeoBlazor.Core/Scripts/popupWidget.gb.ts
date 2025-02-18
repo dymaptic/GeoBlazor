@@ -111,12 +111,12 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await Promise.all(this.widget.features.map(async i => await buildDotNetGraphic(i)));
+        return this.widget.features!.map(i => buildDotNetGraphic(i));
     }
     
     async setFeatures(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.features = await Promise.all(value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId))) as any;
+        this.widget.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
     async getLocation(): Promise<any> {
@@ -180,7 +180,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsPopup.features = dotNetObject.features.map(i => buildJsGraphic(i, layerId, viewId)) as any;
+        jsPopup.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
@@ -261,8 +261,8 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = popupWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPopup;
-    
     let { buildDotNetPopupWidget } = await import('./popupWidget');
     let dnInstantiatedObject = await buildDotNetPopupWidget(jsPopup);
     
@@ -290,7 +290,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.features)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupWidget.features = await Promise.all(jsObject.features.map(async i => await buildDotNetGraphic(i, layerId, viewId)));
+            dotNetPopupWidget.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');
@@ -298,7 +298,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.selectedFeature)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupWidget.selectedFeature = await buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
+            dotNetPopupWidget.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');

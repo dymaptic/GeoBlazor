@@ -47,8 +47,8 @@ export async function buildJsLegendStyleGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(legendStyleWrapper);
     jsObjectRefs[dotNetObject.id] = legendStyleWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLegendStyle;
-    
     let { buildDotNetLegendStyle } = await import('./legendStyle');
     let dnInstantiatedObject = await buildDotNetLegendStyle(jsLegendStyle, layerId, viewId);
     

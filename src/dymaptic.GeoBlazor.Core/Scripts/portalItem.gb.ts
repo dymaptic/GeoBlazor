@@ -233,8 +233,8 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalItemWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
-    
     let { buildDotNetPortalItem } = await import('./portalItem');
     let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem);
     

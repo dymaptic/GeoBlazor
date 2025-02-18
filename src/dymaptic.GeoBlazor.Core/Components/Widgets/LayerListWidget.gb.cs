@@ -17,8 +17,7 @@ public partial class LayerListWidget
     public LayerListWidget()
     {
     }
-    
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -1246,7 +1245,7 @@ public partial class LayerListWidget
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-action,
+            action,
             item);
     }
     

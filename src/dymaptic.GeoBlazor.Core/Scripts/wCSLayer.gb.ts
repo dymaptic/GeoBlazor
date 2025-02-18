@@ -115,7 +115,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -135,12 +135,12 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.layer.rasterFields.map(async i => await buildDotNetField(i)));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async setRasterFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.rasterFields = await Promise.all(value.map(async i => await buildJsField(i, this.layerId, this.viewId))) as any;
+        this.layer.rasterFields = value.map(i => buildJsField(i)) as any;
     }
     
     async getTimeExtent(): Promise<any> {
@@ -216,7 +216,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsWCSLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsWCSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -224,7 +224,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.rasterFields)) {
         let { buildJsField } = await import('./field');
-        jsWCSLayer.rasterFields = await Promise.all(dotNetObject.rasterFields.map(async i => await buildJsField(i, layerId, viewId))) as any;
+        jsWCSLayer.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -315,8 +315,8 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
-    
     let { buildDotNetWCSLayer } = await import('./wCSLayer');
     let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer);
     
@@ -360,7 +360,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetWCSLayer.rasterFields = await Promise.all(jsObject.rasterFields.map(async i => await buildDotNetField(i)));
+            dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

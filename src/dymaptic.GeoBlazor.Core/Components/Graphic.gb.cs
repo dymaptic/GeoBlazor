@@ -11,6 +11,4 @@ public partial class Graphic : IHitTestItem,
     IIntersectItem
 {
 
-
-
 }

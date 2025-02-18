@@ -53,10 +53,10 @@ export async function buildJsAttachmentsCapabilitiesOperationsGenerated(dotNetOb
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsCapabilitiesOperationsWrapper);
     jsObjectRefs[dotNetObject.id] = attachmentsCapabilitiesOperationsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsCapabilitiesOperations;
-    
     let { buildDotNetAttachmentsCapabilitiesOperations } = await import('./attachmentsCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetAttachmentsCapabilitiesOperations(jsAttachmentsCapabilitiesOperations, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetAttachmentsCapabilitiesOperations(jsAttachmentsCapabilitiesOperations);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -67,7 +67,7 @@ export async function buildJsAttachmentsCapabilitiesOperationsGenerated(dotNetOb
     return jsAttachmentsCapabilitiesOperations;
 }
 
-export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

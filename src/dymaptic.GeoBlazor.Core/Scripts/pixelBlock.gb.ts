@@ -99,8 +99,8 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
-    
     let { buildDotNetPixelBlock } = await import('./pixelBlock');
     let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
     

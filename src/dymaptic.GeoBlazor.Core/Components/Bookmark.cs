@@ -1,4 +1,5 @@
 namespace dymaptic.GeoBlazor.Core.Components;
+
 public partial class Bookmark : MapComponent
 {
     /// <summary>

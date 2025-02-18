@@ -24,7 +24,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        let jsSymbol = await buildJsSymbol(symbol) as any;
+        let jsSymbol = buildJsSymbol(symbol) as any;
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
@@ -180,8 +180,8 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
-    
     let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
     let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer);
     

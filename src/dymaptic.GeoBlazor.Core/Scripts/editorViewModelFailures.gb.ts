@@ -47,10 +47,10 @@ export async function buildJsEditorViewModelFailuresGenerated(dotNetObject: any,
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(editorViewModelFailuresWrapper);
     jsObjectRefs[dotNetObject.id] = editorViewModelFailuresWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsEditorViewModelFailures;
-    
     let { buildDotNetEditorViewModelFailures } = await import('./editorViewModelFailures');
-    let dnInstantiatedObject = await buildDotNetEditorViewModelFailures(jsEditorViewModelFailures, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetEditorViewModelFailures(jsEditorViewModelFailures);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -61,7 +61,7 @@ export async function buildJsEditorViewModelFailuresGenerated(dotNetObject: any,
     return jsEditorViewModelFailures;
 }
 
-export async function buildDotNetEditorViewModelFailuresGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetEditorViewModelFailuresGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

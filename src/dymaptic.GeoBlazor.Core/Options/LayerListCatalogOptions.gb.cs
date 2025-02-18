@@ -35,15 +35,14 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record LayerListCatalogOptions(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? FilterPlaceholder = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    CatalogLayerListListItemCreatedHandler? ListItemCreatedFunction = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore] Func<ListItem, Task<ListItem>>? ListItemCreatedFunction = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? MinFilterItems = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SelectionMode = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? VisibilityAppearance = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     LayerListCatalogOptionsVisibleElements? VisibleElements = null);

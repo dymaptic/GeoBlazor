@@ -53,8 +53,8 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(searchViewModelDefaultSymbolsWrapper);
     jsObjectRefs[dotNetObject.id] = searchViewModelDefaultSymbolsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
-    
     let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
     let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols, layerId, viewId);
     

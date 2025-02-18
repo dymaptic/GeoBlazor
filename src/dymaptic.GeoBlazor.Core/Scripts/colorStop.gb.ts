@@ -66,8 +66,8 @@ export async function buildJsColorStopGenerated(dotNetObject: any, layerId: stri
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorStopWrapper);
     jsObjectRefs[dotNetObject.id] = colorStopWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
-    
     let { buildDotNetColorStop } = await import('./colorStop');
     let dnInstantiatedObject = await buildDotNetColorStop(jsColorStop);
     

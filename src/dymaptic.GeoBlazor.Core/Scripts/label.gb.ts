@@ -29,11 +29,11 @@ export default class LabelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     let jsLabelClass = new LabelClass();
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLabelClass.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
+        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.allowOverrun)) {
@@ -96,8 +96,8 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(labelWrapper);
     jsObjectRefs[dotNetObject.id] = labelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
-    
     let { buildDotNetLabel } = await import('./label');
     let dnInstantiatedObject = await buildDotNetLabel(jsLabelClass);
     
@@ -121,7 +121,7 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLabel.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.allowOverrun)) {
             dotNetLabel.allowOverrun = jsObject.allowOverrun;

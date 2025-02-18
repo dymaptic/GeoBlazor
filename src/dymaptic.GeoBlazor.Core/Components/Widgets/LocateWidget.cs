@@ -32,12 +32,14 @@ public partial class LocateWidget : Widget
     /// <summary>
     ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
     
     /// <summary>
     ///     JavaScript-invokable method for internal use
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public Task OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
     {
         return GoToOverride?.Invoke(goToOverrideParams) ?? Task.CompletedTask;

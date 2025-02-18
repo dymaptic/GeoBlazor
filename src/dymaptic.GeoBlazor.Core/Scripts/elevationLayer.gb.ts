@@ -187,8 +187,8 @@ export async function buildJsElevationLayerGenerated(dotNetObject: any, layerId:
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elevationLayerWrapper);
     jsObjectRefs[dotNetObject.id] = elevationLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsElevationLayer;
-    
     let { buildDotNetElevationLayer } = await import('./elevationLayer');
     let dnInstantiatedObject = await buildDotNetElevationLayer(jsElevationLayer);
     

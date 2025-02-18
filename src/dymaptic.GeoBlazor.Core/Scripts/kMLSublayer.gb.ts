@@ -82,8 +82,8 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLSublayerWrapper);
     jsObjectRefs[dotNetObject.id] = kMLSublayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
-    
     let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
     let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer);
     

@@ -299,12 +299,12 @@ public partial class FeatureViewModel : MapComponent,
         }
 
         // get the property value
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>("getProperty",
-            CancellationTokenSource.Token, "elementReferenceContent");
-        if (result is not null)
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result;
+             ElementReferenceContent = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
         }
@@ -1010,7 +1010,7 @@ public partial class FeatureViewModel : MapComponent,
         await JsComponentReference!.InvokeVoidAsync(
             "nextMedia", 
             CancellationTokenSource.Token,
-contentElementIndex);
+            contentElementIndex);
     }
     
     /// <summary>
@@ -1028,7 +1028,7 @@ contentElementIndex);
         await JsComponentReference!.InvokeVoidAsync(
             "previousMedia", 
             CancellationTokenSource.Token,
-contentElementIndex);
+            contentElementIndex);
     }
     
     /// <summary>
@@ -1050,7 +1050,7 @@ contentElementIndex);
         await JsComponentReference!.InvokeVoidAsync(
             "setActiveMedia", 
             CancellationTokenSource.Token,
-contentElementIndex,
+            contentElementIndex,
             mediaInfoIndex);
     }
     

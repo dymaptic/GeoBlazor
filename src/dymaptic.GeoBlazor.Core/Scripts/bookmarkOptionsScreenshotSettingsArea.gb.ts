@@ -56,8 +56,8 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bookmarkOptionsScreenshotSettingsAreaWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarkOptionsScreenshotSettingsAreaWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettingsArea;
-    
     let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
     let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea, layerId, viewId);
     

@@ -1091,7 +1091,7 @@ public partial class VectorTileLayer : IBlendLayer,
         await JsComponentReference!.InvokeVoidAsync(
             "deleteStyleLayer", 
             CancellationTokenSource.Token,
-layerId);
+            layerId);
     }
     
     /// <summary>
@@ -1255,7 +1255,7 @@ layerId);
         await JsComponentReference!.InvokeVoidAsync(
             "setLayoutProperties", 
             CancellationTokenSource.Token,
-layerId,
+            layerId,
             layout);
     }
     
@@ -1279,7 +1279,7 @@ layerId,
         await JsComponentReference!.InvokeVoidAsync(
             "setPaintProperties", 
             CancellationTokenSource.Token,
-layerId,
+            layerId,
             painter);
     }
     
@@ -1324,7 +1324,7 @@ layerId,
         await JsComponentReference!.InvokeVoidAsync(
             "setStyleLayer", 
             CancellationTokenSource.Token,
-layer,
+            layer,
             index);
     }
     
@@ -1348,7 +1348,7 @@ layer,
         await JsComponentReference!.InvokeVoidAsync(
             "setStyleLayerVisibility", 
             CancellationTokenSource.Token,
-layerId,
+            layerId,
             visibility);
     }
     

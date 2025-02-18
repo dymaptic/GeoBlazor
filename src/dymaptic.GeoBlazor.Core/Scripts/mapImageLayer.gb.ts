@@ -322,8 +322,8 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapImageLayerWrapper);
     jsObjectRefs[dotNetObject.id] = mapImageLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
-    
     let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
     let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer);
     

@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class PortalBasemapsSource : MapComponent
+public partial class PortalBasemapsSource : LocalBasemapsSource
 {
     /// <summary>
     ///     An query string used to create a custom basemap gallery group query.

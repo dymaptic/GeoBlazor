@@ -74,42 +74,42 @@
                     </Basemap>
                 </Map>
                 <SliderWidget 
-                    ContainerId="@("perspiciatis")"
+                    ContainerId="@("adipisci")"
                     Disabled="@(true)"
                     DraggableSegmentsEnabled="@(true)"
-                    EffectiveMax="@(309.8564)"
-                    EffectiveMin="@(281.5501)"
-                    Label="@("deserunt")"
+                    EffectiveMax="@(609.3892)"
+                    EffectiveMin="@(352.7130)"
+                    Label="@("voluptatem")"
                     LabelInputsEnabled="@(true)"
-                    Layout="@(SliderLayout.VerticalReversed)"
-                    Max="@(375.2439)"
-                    Min="@(154.8544)"
-                    Precision="@(927.4710)"
+                    Layout="@(SliderLayout.Horizontal)"
+                    Max="@(42.4009)"
+                    Min="@(977.8720)"
+                    Precision="@(689.6173)"
                     RangeLabelInputsEnabled="@(true)"
                     SnapOnClickEnabled="@(true)"
-                    Steps="@([962.6591,
-                        868.2810])"
-                    StepInterval="@(102.2686)"
+                    Steps="@([189.6594])"
+                    StepInterval="@(604.7569)"
                     SyncedSegmentsEnabled="@(true)"
                     ThumbsConstrained="@(true)"
-                    Values="@([556.1294])"
+                    Values="@([353.8442,
+                        419.7618])"
                     InputCreatedFunction="@(new InputCreatedFunction())"
-                    InputFormatFunction="@(new SliderLabelFormatter(456.0000,
+                    InputFormatFunction="@(new SliderLabelFormatter(88.4984,
                         SliderLabelFormatterType.Max,
-                            8,
-                            "ut"))"
-                    InputParseFunction="@(new InputParserFunction("quidem",
-                        SliderInputParserType.Tick,
+                            9,
+                            "velit"))"
+                    InputParseFunction="@(new InputParserFunction("natus",
+                        SliderInputParserType.Average,
                         8,
-                        "dolor"))"
-                    LabelFormatFunction="@(new SliderLabelFormatter(174.7801,
-                        SliderLabelFormatterType.Average,
-                            5,
-                            "rem"))"
+                        "porro"))"
+                    LabelFormatFunction="@(new SliderLabelFormatter(722.4891,
+                        SliderLabelFormatterType.Tick,
+                            9,
+                            "laudantium"))"
                     ThumbCreatedFunction="@(new ThumbCreatedFunction())"
                     Visible="@(true)"
-                    Icon="@("magni")"
-                    WidgetId="@("consequatur")"
+                    Icon="@("minima")"
+                    WidgetId="@("qui")"
                     OnMaxChange="OnMaxChange"
                     OnMaxClick="OnMaxClick"
                     OnMinChange="OnMinChange"
@@ -126,35 +126,35 @@
                         RangeLabels="@(true)">
                     </SliderVisibleElements>
                     <SliderViewModel 
-                        EffectiveMax="@(110.2490)"
-                        EffectiveMin="@(150.3151)"
-                        InputFormatFunction="@(new SliderLabelFormatter(415.4037,
-                            SliderLabelFormatterType.Max,
-                                9,
-                                "tempora"))"
-                        InputParseFunction="@(new InputParser("iusto",
-                            InputParserType.Max,
-                                9,
-                                "sapiente"))"
-                        LabelFormatFunction="@(new SliderLabelFormatter(822.4566,
+                        EffectiveMax="@(963.3812)"
+                        EffectiveMin="@(708.9228)"
+                        InputFormatFunction="@(new SliderLabelFormatter(466.2165,
+                            SliderLabelFormatterType.Min,
+                                4,
+                                "voluptatum"))"
+                        InputParseFunction="@(new InputParser("necessitatibus",
+                            InputParserType.Min,
+                                5,
+                                "sunt"))"
+                        LabelFormatFunction="@(new SliderLabelFormatter(17.5012,
                             SliderLabelFormatterType.Max,
                                 2,
-                                "quas"))"
-                        Max="@(246.3099)"
-                        Min="@(448.1300)"
-                        Precision="@(900.9483)"
+                                "eum"))"
+                        Max="@(154.5543)"
+                        Min="@(807.8994)"
+                        Precision="@(267.4045)"
                         ThumbsConstrained="@(true)"
-                        Values="@([408.5878])">
+                        Values="@([791.2439,
+                            43.5669])">
                     </SliderViewModel>
                     <TickConfig 
-                        Mode="@(TickConfigMode.Count)"
-                        DoubleCollectionValues="@([446.5933,
-                            259.4399])"
-                        DoubleValues="@(390.5319)"
-                        LabelFormatFunction="@(new SliderLabelFormatter(758.8241,
-                            SliderLabelFormatterType.Tick,
+                        Mode="@(TickConfigMode.Percent)"
+                        DoubleCollectionValues="@([126.2948])"
+                        DoubleValues="@(828.9581)"
+                        LabelFormatFunction="@(new SliderLabelFormatter(70.7606,
+                            SliderLabelFormatterType.Average,
                                 6,
-                                "consequuntur"))"
+                                "repellat"))"
                         LabelsVisible="@(true)"
                         TickCreatedFunction="@(new TickCreatedFunction())">
                     </TickConfig>
@@ -202,7 +202,7 @@
         Assert.IsInstanceOfType<SliderTickClickEvent>(tickClickResult);
         Assert.IsInstanceOfType<SliderTrackClickEvent>(trackClickResult);
         await AssertJavaScript("assertWidgetExists", args: "slider");
-        SliderLayout testLayout = SliderLayout.Horizontal;
+        SliderLayout testLayout = SliderLayout.HorizontalReversed;
         await sliderWidget.SetLayout(testLayout);
         var layout = await sliderWidget.GetLayout();
         Assert.AreEqual(testLayout, layout);
@@ -210,17 +210,17 @@
         await sliderWidget.SetInputCreatedFunction(testInputCreatedFunction);
         var inputCreatedFunction = await sliderWidget.GetInputCreatedFunction();
         Assert.AreEqual(testInputCreatedFunction, inputCreatedFunction);
-        SliderLabelFormatter testInputFormatFunction = new SliderLabelFormatter(343.0862,
-                SliderLabelFormatterType.Value,
-                    4,
-                    "iure");
+        SliderLabelFormatter testInputFormatFunction = new SliderLabelFormatter(817.5060,
+                SliderLabelFormatterType.Average,
+                    7,
+                    "et");
         await sliderWidget.SetInputFormatFunction(testInputFormatFunction);
         var inputFormatFunction = await sliderWidget.GetInputFormatFunction();
         Assert.AreEqual(testInputFormatFunction, inputFormatFunction);
-        SliderLabelFormatter testLabelFormatFunction = new SliderLabelFormatter(517.4542,
+        SliderLabelFormatter testLabelFormatFunction = new SliderLabelFormatter(934.4758,
                 SliderLabelFormatterType.Average,
-                    3,
-                    "ipsa");
+                    2,
+                    "reiciendis");
         await sliderWidget.SetLabelFormatFunction(testLabelFormatFunction);
         var labelFormatFunction = await sliderWidget.GetLabelFormatFunction();
         Assert.AreEqual(testLabelFormatFunction, labelFormatFunction);
@@ -229,22 +229,13 @@
         var thumbCreatedFunction = await sliderWidget.GetThumbCreatedFunction();
         Assert.AreEqual(testThumbCreatedFunction, thumbCreatedFunction);
         IReadOnlyList<TickConfig> testTickConfigs = [new TickConfig(TickConfigMode.Position,
-                    [585.7764,
-                        798.0967],
-                    733.5754,
-                new SliderLabelFormatter(985.5829,
-                    SliderLabelFormatterType.Max,
-                        9,
-                        "reiciendis"),
-                    true,
-                new TickCreatedFunction()),
-            new TickConfig(TickConfigMode.Position,
-                    [172.8586],
-                    701.2663,
-                new SliderLabelFormatter(983.9585,
-                    SliderLabelFormatterType.Min,
-                        5,
-                        "repellat"),
+                    [808.3390,
+                        492.3187],
+                    561.2420,
+                new SliderLabelFormatter(284.2368,
+                    SliderLabelFormatterType.Average,
+                        6,
+                        "placeat"),
                     true,
                 new TickCreatedFunction())];
         await sliderWidget.SetTickConfigs(testTickConfigs);
@@ -255,25 +246,25 @@
         await sliderWidget.SetVisibleElements(testVisibleElements);
         var visibleElements = await sliderWidget.GetVisibleElements();
         Assert.AreEqual(testVisibleElements, visibleElements);
-        SliderViewModel testViewModel = new SliderViewModel(576.7631,
-                    653.5954,
-                new SliderLabelFormatter(607.1682,
-                    SliderLabelFormatterType.Max,
+        SliderViewModel testViewModel = new SliderViewModel(403.1238,
+                    823.9323,
+                new SliderLabelFormatter(438.4205,
+                    SliderLabelFormatterType.Average,
+                        6,
+                        "dolorum"),
+                new InputParser("facere",
+                    InputParserType.Max,
                         2,
-                        "dolores"),
-                new InputParser("odit",
-                    InputParserType.Value,
-                        4,
-                        "dolor"),
-                new SliderLabelFormatter(252.1716,
-                    SliderLabelFormatterType.Value,
-                        8,
-                        "asperiores"),
-                    130.1197,
-                    706.0811,
-                    249.5124,
+                        "minima"),
+                new SliderLabelFormatter(343.4375,
+                    SliderLabelFormatterType.Tick,
+                        9,
+                        "omnis"),
+                    460.6519,
+                    807.1987,
+                    515.0056,
                     true,
-                    [786.8768]);
+                    [306.5214]);
         await sliderWidget.SetViewModel(testViewModel);
         var viewModel = await sliderWidget.GetViewModel();
         Assert.AreEqual(testViewModel, viewModel);

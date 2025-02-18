@@ -147,7 +147,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference = await  buildJsSpatialReference(value);
+        this.layer.spatialReference =  buildJsSpatialReference(value);
     }
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
@@ -198,7 +198,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsVectorTileLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsVectorTileLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -257,8 +257,8 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = vectorTileLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
-    
     let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
     let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
     

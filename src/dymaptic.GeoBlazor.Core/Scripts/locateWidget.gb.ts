@@ -79,11 +79,11 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
     }
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value, this.layerId, this.viewId);
+        this.widget.graphic =  buildJsGraphic(value);
     }
     getProperty(prop: string): any {
         return this.widget[prop];
@@ -98,7 +98,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     let jsLocate = new Locate();
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsLocate.graphic = buildJsGraphic(dotNetObject.graphic, layerId, viewId) as any;
+        jsLocate.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.container)) {
@@ -154,8 +154,8 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
-    
     let { buildDotNetLocateWidget } = await import('./locateWidget');
     let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate, layerId, viewId);
     
@@ -179,7 +179,7 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
     };
         if (hasValue(jsObject.graphic)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetLocateWidget.graphic = await buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+            dotNetLocateWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
         if (hasValue(jsObject.container)) {
             dotNetLocateWidget.container = jsObject.container;

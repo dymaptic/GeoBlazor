@@ -171,8 +171,8 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = legendWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLegend;
-    
     let { buildDotNetLegendWidget } = await import('./legendWidget');
     let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend, layerId, viewId);
     

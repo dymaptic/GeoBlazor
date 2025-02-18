@@ -61,11 +61,11 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-        return await buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
+        return buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
     }
     async setLineSymbol(value: any): Promise<void> {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        this.layer.lineSymbol = await  buildJsSimpleLineSymbol(value, this.layerId, this.viewId);
+        this.layer.lineSymbol =  buildJsSimpleLineSymbol(value);
     }
     async getPolygonSymbol(): Promise<any> {
         if (!hasValue(this.layer.polygonSymbol)) {
@@ -73,11 +73,11 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-        return await buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
+        return buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
     }
     async setPolygonSymbol(value: any): Promise<void> {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        this.layer.polygonSymbol = await  buildJsSimpleFillSymbol(value, this.layerId, this.viewId);
+        this.layer.polygonSymbol =  buildJsSimpleFillSymbol(value);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
@@ -108,7 +108,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        jsGeoRSSLayer.lineSymbol = await buildJsSimpleLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
+        jsGeoRSSLayer.lineSymbol = buildJsSimpleLineSymbol(dotNetObject.lineSymbol) as any;
     }
     if (hasValue(dotNetObject.pointSymbol)) {
         let { buildJsMarkerSymbol } = await import('./markerSymbol');
@@ -116,7 +116,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.polygonSymbol)) {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        jsGeoRSSLayer.polygonSymbol = await buildJsSimpleFillSymbol(dotNetObject.polygonSymbol, layerId, viewId) as any;
+        jsGeoRSSLayer.polygonSymbol = buildJsSimpleFillSymbol(dotNetObject.polygonSymbol) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -172,8 +172,8 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
-    
     let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
     let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer);
     
@@ -201,7 +201,7 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         }
         if (hasValue(jsObject.lineSymbol)) {
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
-            dotNetGeoRSSLayer.lineSymbol = await buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
+            dotNetGeoRSSLayer.lineSymbol = buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
         }
         if (hasValue(jsObject.pointSymbol)) {
             let { buildDotNetMarkerSymbol } = await import('./markerSymbol');
@@ -209,7 +209,7 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         }
         if (hasValue(jsObject.polygonSymbol)) {
             let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-            dotNetGeoRSSLayer.polygonSymbol = await buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
+            dotNetGeoRSSLayer.polygonSymbol = buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
         }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

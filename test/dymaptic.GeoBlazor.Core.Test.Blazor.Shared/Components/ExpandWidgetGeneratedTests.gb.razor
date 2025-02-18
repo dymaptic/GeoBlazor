@@ -19,24 +19,24 @@
                     </Basemap>
                 </Map>
                 <ExpandWidget 
-                    Mode="@(ExpandMode.Floating)"
+                    Mode="@(ExpandMode.Auto)"
                     AutoCollapse="@(true)"
                     CloseOnEsc="@(true)"
-                    CollapseIcon="@("minima")"
-                    CollapseTooltip="@("ratione")"
+                    CollapseIcon="@("impedit")"
+                    CollapseTooltip="@("blanditiis")"
                     Expanded="@(true)"
-                    ExpandIcon="@("odit")"
-                    ExpandTooltip="@("molestiae")"
-                    Group="@("aut")"
-                    Icon="@("voluptatum")"
-                    IconNumber="@(958.7939)"
-                    Label="@("molestias")"
-                    Placement="@(Placement.BeginEnd)"
-                    WidgetId="@("ab")">
+                    ExpandIcon="@("mollitia")"
+                    ExpandTooltip="@("rerum")"
+                    Group="@("occaecati")"
+                    Icon="@("molestiae")"
+                    IconNumber="@(963.8564)"
+                    Label="@("sit")"
+                    Placement="@(Placement.Begin)"
+                    WidgetId="@("eius")">
                     <ExpandViewModel 
                         AutoCollapse="@(true)"
                         Expanded="@(true)"
-                        Group="@("nobis")">
+                        Group="@("est")">
                     </ExpandViewModel>
                 </ExpandWidget>
             </MapView>);
@@ -52,7 +52,7 @@
         Assert.AreEqual(testPlacement, placement);
         ExpandViewModel testViewModel = new ExpandViewModel(true,
                     true,
-                    "est");
+                    "dolore");
         await expandWidget.SetViewModel(testViewModel);
         var viewModel = await expandWidget.GetViewModel();
         Assert.AreEqual(testViewModel, viewModel);

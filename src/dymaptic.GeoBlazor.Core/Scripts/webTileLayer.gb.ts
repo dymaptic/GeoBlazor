@@ -197,8 +197,8 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
-    
     let { buildDotNetWebTileLayer } = await import('./webTileLayer');
     let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
     

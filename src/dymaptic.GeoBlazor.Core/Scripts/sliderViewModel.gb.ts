@@ -112,8 +112,8 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sliderViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSliderViewModel;
-    
     let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
     let dnInstantiatedObject = await buildDotNetSliderViewModel(jsSliderViewModel, layerId, viewId);
     

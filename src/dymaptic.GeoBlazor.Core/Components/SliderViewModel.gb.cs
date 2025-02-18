@@ -876,7 +876,7 @@ public partial class SliderViewModel : IViewModel
         await JsComponentReference!.InvokeVoidAsync(
             "setValue", 
             CancellationTokenSource.Token,
-index,
+            index,
             value);
     }
     

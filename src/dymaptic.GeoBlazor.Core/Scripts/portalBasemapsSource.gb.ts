@@ -91,8 +91,8 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalBasemapsSourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalBasemapsSourceWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
-    
     let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
     let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource, layerId, viewId);
     

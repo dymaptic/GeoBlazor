@@ -29,7 +29,7 @@ export default class FeatureTemplateGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await buildDotNetGraphic(this.component.prototype, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.prototype, this.layerId, this.viewId);
     }
     async setPrototype(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
@@ -72,8 +72,8 @@ export async function buildJsFeatureTemplateGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureTemplateWrapper);
     jsObjectRefs[dotNetObject.id] = featureTemplateWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplate;
-    
     let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
     let dnInstantiatedObject = await buildDotNetFeatureTemplate(jsFeatureTemplate);
     
@@ -97,7 +97,7 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
     };
         if (hasValue(jsObject.prototype)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureTemplate.prototype = await buildDotNetGraphic(jsObject.prototype, layerId, viewId);
+            dotNetFeatureTemplate.prototype = buildDotNetGraphic(jsObject.prototype, layerId, viewId);
         }
         if (hasValue(jsObject.description)) {
             dotNetFeatureTemplate.description = jsObject.description;

@@ -50,8 +50,8 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerBaseElevationInfoFeatureExpressionInfoWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerBaseElevationInfoFeatureExpressionInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
-    
     let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
     let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsFeatureLayerBaseElevationInfoFeatureExpressionInfo);
     

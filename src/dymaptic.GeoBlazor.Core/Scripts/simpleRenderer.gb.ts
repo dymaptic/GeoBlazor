@@ -41,11 +41,11 @@ export default class SimpleRendererGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     async getVisualVariables(): Promise<any> {
         if (!hasValue(this.component.visualVariables)) {
@@ -78,7 +78,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsSimpleRenderer.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
+        jsSimpleRenderer.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
@@ -97,8 +97,8 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleRendererWrapper);
     jsObjectRefs[dotNetObject.id] = simpleRendererWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
-    
     let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
     let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer);
     
@@ -126,7 +126,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         }
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetSimpleRenderer.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.visualVariables)) {
             let { buildDotNetVisualVariable } = await import('./visualVariable');

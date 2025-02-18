@@ -55,7 +55,7 @@ export default class FeatureViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupContent } = await import('./popupContent');
-        return await Promise.all(this.component.content.map(async i => await buildDotNetPopupContent(i)));
+        return this.component.content!.map(i => buildDotNetPopupContent(i));
     }
     
     async getFormattedAttributes(): Promise<any> {
@@ -72,11 +72,11 @@ export default class FeatureViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
     }
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.component.graphic =  buildJsGraphic(value, this.layerId, this.viewId);
+        this.component.graphic =  buildJsGraphic(value);
     }
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
@@ -100,7 +100,7 @@ export default class FeatureViewModelGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value);
+        this.component.spatialReference =  buildJsSpatialReference(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -119,7 +119,7 @@ export async function buildJsFeatureViewModelGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureViewModel.graphic = buildJsGraphic(dotNetObject.graphic, layerId, viewId) as any;
+        jsFeatureViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
@@ -127,7 +127,7 @@ export async function buildJsFeatureViewModelGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeatureViewModel.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsFeatureViewModel.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
@@ -151,8 +151,8 @@ export async function buildJsFeatureViewModelGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = featureViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureViewModel;
-    
     let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
     let dnInstantiatedObject = await buildDotNetFeatureViewModel(jsFeatureViewModel, layerId, viewId);
     
@@ -180,7 +180,7 @@ export async function buildDotNetFeatureViewModelGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.content)) {
             let { buildDotNetPopupContent } = await import('./popupContent');
-            dotNetFeatureViewModel.content = await Promise.all(jsObject.content.map(async i => await buildDotNetPopupContent(i)));
+            dotNetFeatureViewModel.content = jsObject.content.map(i => buildDotNetPopupContent(i));
         }
         if (hasValue(jsObject.formattedAttributes)) {
             let { buildDotNetFeatureViewModelFormattedAttributes } = await import('./featureViewModelFormattedAttributes');
@@ -188,7 +188,7 @@ export async function buildDotNetFeatureViewModelGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.graphic)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureViewModel.graphic = await buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+            dotNetFeatureViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');

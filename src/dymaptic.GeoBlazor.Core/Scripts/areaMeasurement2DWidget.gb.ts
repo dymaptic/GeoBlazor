@@ -123,8 +123,8 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
-    
     let { buildDotNetAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
     let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D, layerId, viewId);
     

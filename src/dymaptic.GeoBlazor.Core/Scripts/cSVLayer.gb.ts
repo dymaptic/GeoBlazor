@@ -50,7 +50,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     async getField(fieldName: any): Promise<any> {
         let result = this.layer.getField(fieldName);
         let { buildDotNetField } = await import('./field');
-        return await buildDotNetField(result);
+        return buildDotNetField(result);
     }
 
     async getFieldDomain(fieldName: any,
@@ -119,12 +119,12 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.layer.fields.map(async i => await buildDotNetField(i)));
+        return this.layer.fields!.map(i => buildDotNetField(i));
     }
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i, this.layerId, this.viewId))) as any;
+        this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
     
     async getFullExtent(): Promise<any> {
@@ -177,7 +177,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -213,7 +213,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference = await  buildJsSpatialReference(value);
+        this.layer.spatialReference =  buildJsSpatialReference(value);
     }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
@@ -284,7 +284,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
-        jsCSVLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i, layerId, viewId))) as any;
+        jsCSVLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -300,7 +300,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsCSVLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsCSVLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -312,7 +312,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsCSVLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsCSVLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -425,8 +425,8 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayer;
-    
     let { buildDotNetCSVLayer } = await import('./cSVLayer');
     let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer);
     
@@ -458,7 +458,7 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
         }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetCSVLayer.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetField(i)));
+            dotNetCSVLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');

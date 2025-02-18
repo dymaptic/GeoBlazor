@@ -206,33 +206,6 @@ public partial class PopupWidget : IGoTo
     public IReadOnlyList<Graphic>? Features { get; set; }
     
     /// <summary>
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public GoToOverride? GoToOverride { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
-    {  
-        if (GoToOverride is not null)  
-        {
-            await GoToOverride.Invoke(goToOverrideParameters);  
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
-    /// </summary>
-    public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -563,12 +536,12 @@ public partial class PopupWidget : IGoTo
         }
 
         // get the property value
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>("getProperty",
-            CancellationTokenSource.Token, "elementReferenceContent");
-        if (result is not null)
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result;
+             ElementReferenceContent = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
         }
@@ -1598,7 +1571,7 @@ public partial class PopupWidget : IGoTo
         await JsComponentReference!.InvokeVoidAsync(
             "open", 
             CancellationTokenSource.Token,
-options);
+            options);
     }
     
     /// <summary>
@@ -1643,7 +1616,7 @@ options);
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-actionIndex);
+            actionIndex);
     }
     
 #endregion

@@ -89,8 +89,8 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
-    
     let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
     let dnInstantiatedObject = await buildDotNetBookmarksViewModel(jsBookmarksViewModel, layerId, viewId);
     

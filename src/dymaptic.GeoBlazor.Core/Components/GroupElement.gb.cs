@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    A `GroupElement` form element defines a container that holds a set of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-FormTemplate.html#elements">form elements</a> that can be expanded, collapsed, or displayed together.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-GroupElement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class GroupElement : IElement
+public partial class GroupElement
 {
 
     /// <summary>

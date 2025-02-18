@@ -73,6 +73,18 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getViewpoint(): Promise<any> {
+        if (!hasValue(this.widget.viewpoint)) {
+            return null;
+        }
+        
+        let { buildDotNetViewpoint } = await import('./viewpoint');
+        return buildDotNetViewpoint(this.widget.viewpoint);
+    }
+    async setViewpoint(value: any): Promise<void> {
+        let { buildJsViewpoint } = await import('./viewpoint');
+        this.widget.viewpoint =  buildJsViewpoint(value);
+    }
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -84,6 +96,10 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHome = new Home();
+    if (hasValue(dotNetObject.viewpoint)) {
+        let { buildJsViewpoint } = await import('./viewpoint');
+        jsHome.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
+    }
 
     if (hasValue(dotNetObject.container)) {
         jsHome.container = dotNetObject.container;
@@ -106,9 +122,6 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.viewModel)) {
         jsHome.viewModel = dotNetObject.viewModel;
     }
-    if (hasValue(dotNetObject.viewpoint)) {
-        jsHome.viewpoint = dotNetObject.viewpoint;
-    }
     if (hasValue(dotNetObject.widgetId)) {
         jsHome.id = dotNetObject.widgetId;
     }
@@ -125,8 +138,8 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsHome;
-    
     let { buildDotNetHomeWidget } = await import('./homeWidget');
     let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, layerId, viewId);
     
@@ -148,6 +161,10 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: str
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.viewpoint)) {
+            let { buildDotNetViewpoint } = await import('./viewpoint');
+            dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
+        }
         if (hasValue(jsObject.container)) {
             dotNetHomeWidget.container = jsObject.container;
         }
@@ -171,9 +188,6 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: str
         }
         if (hasValue(jsObject.viewModel)) {
             dotNetHomeWidget.viewModel = jsObject.viewModel;
-        }
-        if (hasValue(jsObject.viewpoint)) {
-            dotNetHomeWidget.viewpoint = jsObject.viewpoint;
         }
         if (hasValue(jsObject.id)) {
             dotNetHomeWidget.widgetId = jsObject.id;

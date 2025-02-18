@@ -76,8 +76,8 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelDataWrapper);
     jsObjectRefs[dotNetObject.id] = pixelDataWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;
-    
     let { buildDotNetPixelData } = await import('./pixelData');
     let dnInstantiatedObject = await buildDotNetPixelData(jsPixelData);
     

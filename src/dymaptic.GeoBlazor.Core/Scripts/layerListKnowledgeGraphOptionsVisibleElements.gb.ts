@@ -53,8 +53,8 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListKnowledgeGraphOptionsVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = layerListKnowledgeGraphOptionsVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
-    
     let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
     let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements, layerId, viewId);
     

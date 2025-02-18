@@ -527,7 +527,7 @@ public partial class GraphicsLayer : IBlendLayer,
         await JsComponentReference!.InvokeVoidAsync(
             "addMany", 
             CancellationTokenSource.Token,
-graphics);
+            graphics);
     }
     
     /// <summary>
@@ -559,7 +559,7 @@ graphics);
         await JsComponentReference!.InvokeVoidAsync(
             "removeMany", 
             CancellationTokenSource.Token,
-graphics);
+            graphics);
     }
     
 #endregion

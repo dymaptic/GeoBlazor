@@ -76,8 +76,8 @@ export async function buildJsThemeGenerated(dotNetObject: any, layerId: string |
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(themeWrapper);
     jsObjectRefs[dotNetObject.id] = themeWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsTheme;
-    
     let { buildDotNetTheme } = await import('./theme');
     let dnInstantiatedObject = await buildDotNetTheme(jsTheme);
     

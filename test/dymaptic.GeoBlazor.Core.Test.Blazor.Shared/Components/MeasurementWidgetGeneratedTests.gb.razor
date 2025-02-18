@@ -19,18 +19,18 @@
                     </Basemap>
                 </Map>
                 <MeasurementWidget 
-                    ActiveTool="@(ActiveTool.Distance)"
-                    AreaUnit="@(SystemOrAreaUnit.Metric)"
-                    Icon="@("qui")"
-                    Label="@("sed")"
-                    LinearUnit="@(SystemOrLengthUnit.Kilometers)"
-                    WidgetId="@("voluptatum")">
+                    ActiveTool="@(ActiveTool.Area)"
+                    AreaUnit="@(SystemOrAreaUnit.Imperial)"
+                    Icon="@("et")"
+                    Label="@("quo")"
+                    LinearUnit="@(SystemOrLengthUnit.Feet)"
+                    WidgetId="@("pariatur")">
                     <MeasurementViewModel 
-                        ActiveTool="@(ActiveTool.DirectLine)"
+                        ActiveTool="@(ActiveTool.Area)"
                         ActiveViewModel="@(new AreaMeasurement2DViewModel(SystemOrAreaUnit.Metric,
-                            [SystemOrAreaUnit.Imperial]))"
+                            [SystemOrAreaUnit.Metric]))"
                         AreaUnit="@(SystemOrAreaUnit.Imperial)"
-                        LinearUnit="@(SystemOrLengthUnit.Meters)">
+                        LinearUnit="@(SystemOrLengthUnit.Yards)">
                     </MeasurementViewModel>
                 </MeasurementWidget>
             </MapView>);
@@ -39,7 +39,7 @@
         await AssertJavaScript("assertWidgetExists", args: "measurement");
         await measurementWidget.Clear();
         await measurementWidget.StartMeasurement();
-        ActiveTool testActiveTool = ActiveTool.Area;
+        ActiveTool testActiveTool = ActiveTool.Distance;
         await measurementWidget.SetActiveTool(testActiveTool);
         var activeTool = await measurementWidget.GetActiveTool();
         Assert.AreEqual(testActiveTool, activeTool);
@@ -47,15 +47,15 @@
         await measurementWidget.SetAreaUnit(testAreaUnit);
         var areaUnit = await measurementWidget.GetAreaUnit();
         Assert.AreEqual(testAreaUnit, areaUnit);
-        SystemOrLengthUnit testLinearUnit = SystemOrLengthUnit.Kilometers;
+        SystemOrLengthUnit testLinearUnit = SystemOrLengthUnit.Decimeters;
         await measurementWidget.SetLinearUnit(testLinearUnit);
         var linearUnit = await measurementWidget.GetLinearUnit();
         Assert.AreEqual(testLinearUnit, linearUnit);
-        MeasurementViewModel testViewModel = new MeasurementViewModel(ActiveTool.Area,
-                new AreaMeasurement2DViewModel(SystemOrAreaUnit.Metric,
+        MeasurementViewModel testViewModel = new MeasurementViewModel(ActiveTool.Distance,
+                new AreaMeasurement2DViewModel(SystemOrAreaUnit.Imperial,
                     [SystemOrAreaUnit.Metric]),
                 SystemOrAreaUnit.Imperial,
-                SystemOrLengthUnit.Decimeters);
+                SystemOrLengthUnit.Millimeters);
         await measurementWidget.SetViewModel(testViewModel);
         var viewModel = await measurementWidget.GetViewModel();
         Assert.AreEqual(testViewModel, viewModel);

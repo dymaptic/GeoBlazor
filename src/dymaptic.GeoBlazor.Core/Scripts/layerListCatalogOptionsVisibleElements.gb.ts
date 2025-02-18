@@ -56,8 +56,8 @@ export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dot
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListCatalogOptionsVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = layerListCatalogOptionsVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerListCatalogOptionsVisibleElements;
-    
     let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
     let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements, layerId, viewId);
     

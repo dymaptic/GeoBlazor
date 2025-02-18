@@ -138,8 +138,8 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webSceneWrapper);
     jsObjectRefs[dotNetObject.id] = webSceneWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
-    
     let { buildDotNetWebScene } = await import('./webScene');
     let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene, layerId, viewId);
     

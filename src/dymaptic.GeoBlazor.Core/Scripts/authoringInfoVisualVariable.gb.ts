@@ -108,8 +108,8 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoVisualVariableWrapper);
     jsObjectRefs[dotNetObject.id] = authoringInfoVisualVariableWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
-    
     let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
     let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable);
     

@@ -257,12 +257,12 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.layer.fields.map(async i => await buildDotNetField(i)));
+        return this.layer.fields!.map(i => buildDotNetField(i));
     }
     
     async setFields(value: any): Promise<void> {
         let { buildJsField } = await import('./field');
-        this.layer.fields = await Promise.all(value.map(async i => await buildJsField(i, this.layerId, this.viewId))) as any;
+        this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
     
     async getFullExtent(): Promise<any> {
@@ -299,7 +299,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -319,7 +319,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.layer.rasterFields.map(async i => await buildDotNetField(i)));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async getRasterFunction(): Promise<any> {
@@ -419,7 +419,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
-        jsImageryLayer.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsField(i, layerId, viewId))) as any;
+        jsImageryLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -431,7 +431,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsImageryLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsImageryLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -574,8 +574,8 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
-    
     let { buildDotNetImageryLayer } = await import('./imageryLayer');
     let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
     
@@ -603,7 +603,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetField(i)));
+            dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
@@ -623,7 +623,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.rasterFields = await Promise.all(jsObject.rasterFields.map(async i => await buildDotNetField(i)));
+            dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.rasterFunction)) {
             let { buildDotNetRasterFunction } = await import('./rasterFunction');

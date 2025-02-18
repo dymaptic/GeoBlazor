@@ -93,8 +93,8 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = layerListViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
-    
     let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
     let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel, layerId, viewId);
     

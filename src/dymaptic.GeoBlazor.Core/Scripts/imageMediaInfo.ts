@@ -1,16 +1,7 @@
 // override generated code in this file
-import ImageMediaInfoGenerated from './imageMediaInfo.gb';
 import ImageMediaInfo from '@arcgis/core/popup/content/ImageMediaInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetImageMediaInfoValue, buildJsImageMediaInfoValue } from './imageMediaInfoValue';
-
-export default class ImageMediaInfoWrapper extends ImageMediaInfoGenerated {
-
-    constructor(component: ImageMediaInfo) {
-        super(component);
-    }
-    
-}
 
 export function buildJsImageMediaInfo(dotNetObject: any): any {
     let jsImageMediaInfo = new ImageMediaInfo();

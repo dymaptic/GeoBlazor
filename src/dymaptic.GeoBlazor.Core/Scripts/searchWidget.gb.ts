@@ -87,7 +87,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.widget.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.widget.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortal(): Promise<any> {
         if (!hasValue(this.widget.portal)) {
@@ -107,12 +107,12 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSearchSource } = await import('./searchSource');
-        return this.widget.sources!.map(i => buildDotNetSearchSource(i));
+        return await Promise.all(this.widget.sources.map(async i => await buildDotNetSearchSource(i)));
     }
     
     async setSources(value: any): Promise<void> {
         let { buildJsSearchSource } = await import('./searchSource');
-        this.widget.sources = value.map(i => buildJsSearchSource(i, this.viewId)) as any;
+        this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -128,14 +128,14 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     let jswidgetsSearch = new widgetsSearch();
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jswidgetsSearch.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jswidgetsSearch.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
         jswidgetsSearch.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources)) {
-        let { buildJsSearchSource } = await import('./jsBuilder');
+        let { buildJsSearchSource } = await import('./searchSource');
         jswidgetsSearch.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
     }
 
@@ -246,8 +246,8 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
-    
     let { buildDotNetSearchWidget } = await import('./searchWidget');
     let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
     
@@ -279,11 +279,11 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.resultGraphic)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSearchWidget.resultGraphic = await buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
+            dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
         }
         if (hasValue(jsObject.sources)) {
             let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchWidget.sources = jsObject.sources.map(i => buildDotNetSearchSource(i));
+            dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
         }
         if (hasValue(jsObject.activeMenu)) {
             dotNetSearchWidget.activeMenu = jsObject.activeMenu;

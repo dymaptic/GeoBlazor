@@ -74,8 +74,8 @@ export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldElementWrapper);
     jsObjectRefs[dotNetObject.id] = fieldElementWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFieldElement;
-    
     let { buildDotNetFieldElement } = await import('./fieldElement');
     let dnInstantiatedObject = await buildDotNetFieldElement(jsFieldElement);
     

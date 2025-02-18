@@ -254,33 +254,6 @@ public partial class FeaturesViewModel : MapComponent,
     public IReadOnlyList<FeatureViewModel>? FeatureViewModels { get; protected set; }
     
     /// <summary>
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public GoToOverride? GoToOverride { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
-    {  
-        if (GoToOverride is not null)  
-        {
-            await GoToOverride.Invoke(goToOverrideParameters);  
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
-    /// </summary>
-    public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
     ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -666,12 +639,12 @@ public partial class FeaturesViewModel : MapComponent,
         }
 
         // get the property value
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>("getProperty",
-            CancellationTokenSource.Token, "elementReferenceContent");
-        if (result is not null)
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result;
+             ElementReferenceContent = result.Value.Value;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
         }
@@ -2107,7 +2080,7 @@ public partial class FeaturesViewModel : MapComponent,
             "fetchFeatures", 
             CancellationTokenSource.Token,
             screenPoint,
-            new { @event = options.Event, signal = abortSignal });
+            new { clickEvent = options.ClickEvent, signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2143,7 +2116,7 @@ public partial class FeaturesViewModel : MapComponent,
         await JsComponentReference!.InvokeVoidAsync(
             "open", 
             CancellationTokenSource.Token,
-options);
+            options);
     }
     
     /// <summary>
@@ -2175,7 +2148,7 @@ options);
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-actionIndex);
+            actionIndex);
     }
     
 #endregion

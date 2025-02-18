@@ -53,8 +53,8 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(orderedLayerOrderByWrapper);
     jsObjectRefs[dotNetObject.id] = orderedLayerOrderByWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
-    
     let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
     let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
     

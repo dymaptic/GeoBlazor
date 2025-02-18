@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    
+///    Interface for types GroupLayer
 /// </summary>
 public partial interface ITablesMixin 
 {

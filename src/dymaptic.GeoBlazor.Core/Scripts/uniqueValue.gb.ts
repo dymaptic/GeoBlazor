@@ -53,8 +53,8 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValue;
-    
     let { buildDotNetUniqueValue } = await import('./uniqueValue');
     let dnInstantiatedObject = await buildDotNetUniqueValue(jsUniqueValue);
     

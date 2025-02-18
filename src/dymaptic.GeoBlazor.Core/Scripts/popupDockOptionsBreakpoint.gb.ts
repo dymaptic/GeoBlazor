@@ -50,8 +50,8 @@ export async function buildJsPopupDockOptionsBreakpointGenerated(dotNetObject: a
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupDockOptionsBreakpointWrapper);
     jsObjectRefs[dotNetObject.id] = popupDockOptionsBreakpointWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptionsBreakpoint;
-    
     let { buildDotNetPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
     let dnInstantiatedObject = await buildDotNetPopupDockOptionsBreakpoint(jsPopupDockOptionsBreakpoint, layerId, viewId);
     

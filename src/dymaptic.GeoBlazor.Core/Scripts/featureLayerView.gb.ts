@@ -82,7 +82,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
-        jsFeatureLayerView.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
+        jsFeatureLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
@@ -104,8 +104,8 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
-    
     let { buildDotNetFeatureLayerView } = await import('./featureLayerView');
     let dnInstantiatedObject = await buildDotNetFeatureLayerView(jsFeatureLayerView);
     

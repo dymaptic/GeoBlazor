@@ -47,8 +47,8 @@ export async function buildJsOrientationGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(orientationWrapper);
     jsObjectRefs[dotNetObject.id] = orientationWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsOrientation;
-    
     let { buildDotNetOrientation } = await import('./orientation');
     let dnInstantiatedObject = await buildDotNetOrientation(jsOrientation, layerId, viewId);
     

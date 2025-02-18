@@ -45,7 +45,7 @@ export default class LayerSearchSourceGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getResultSymbol(): Promise<any> {
         if (!hasValue(this.component.resultSymbol)) {
@@ -53,11 +53,11 @@ export default class LayerSearchSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.resultSymbol);
+        return buildDotNetSymbol(this.component.resultSymbol);
     }
     async setResultSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.resultSymbol = await  buildJsSymbol(value);
+        this.component.resultSymbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -76,11 +76,11 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsLayerSearchSource.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsLayerSearchSource.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLayerSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol) as any;
+        jsLayerSearchSource.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.autoNavigate)) {
@@ -161,8 +161,8 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerSearchSourceWrapper);
     jsObjectRefs[dotNetObject.id] = layerSearchSourceWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerSearchSource;
-    
     let { buildDotNetLayerSearchSource } = await import('./layerSearchSource');
     let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource);
     
@@ -194,7 +194,7 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
         }
         if (hasValue(jsObject.resultSymbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLayerSearchSource.resultSymbol = await buildDotNetSymbol(jsObject.resultSymbol);
+            dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
         }
         if (hasValue(jsObject.autoNavigate)) {
             dotNetLayerSearchSource.autoNavigate = jsObject.autoNavigate;

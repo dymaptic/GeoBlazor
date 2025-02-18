@@ -62,8 +62,8 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(abilitiesWrapper);
     jsObjectRefs[dotNetObject.id] = abilitiesWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAbilities;
-    
     let { buildDotNetAbilities } = await import('./abilities');
     let dnInstantiatedObject = await buildDotNetAbilities(jsAbilities, layerId, viewId);
     

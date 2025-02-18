@@ -56,8 +56,8 @@ export async function buildJsCameraLayoutGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cameraLayoutWrapper);
     jsObjectRefs[dotNetObject.id] = cameraLayoutWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsCameraLayout;
-    
     let { buildDotNetCameraLayout } = await import('./cameraLayout');
     let dnInstantiatedObject = await buildDotNetCameraLayout(jsCameraLayout, layerId, viewId);
     

@@ -50,8 +50,8 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerElevationInfoFeatureExpressionInfoWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerElevationInfoFeatureExpressionInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfoFeatureExpressionInfo;
-    
     let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
     let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsCSVLayerElevationInfoFeatureExpressionInfo);
     

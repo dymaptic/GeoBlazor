@@ -52,8 +52,8 @@ export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: stri
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerViewWrapper);
     jsObjectRefs[dotNetObject.id] = layerViewWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerView;
-    
     let { buildDotNetLayerView } = await import('./layerView');
     let dnInstantiatedObject = await buildDotNetLayerView(jsLayerView);
     

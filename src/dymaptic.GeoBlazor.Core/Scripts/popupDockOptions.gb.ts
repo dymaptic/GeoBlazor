@@ -53,8 +53,8 @@ export async function buildJsPopupDockOptionsGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupDockOptionsWrapper);
     jsObjectRefs[dotNetObject.id] = popupDockOptionsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptions;
-    
     let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
     let dnInstantiatedObject = await buildDotNetPopupDockOptions(jsPopupDockOptions, layerId, viewId);
     

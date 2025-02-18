@@ -791,7 +791,7 @@ public partial class FeatureWidget : Widget
         await JsComponentReference!.InvokeVoidAsync(
             "nextMedia", 
             CancellationTokenSource.Token,
-contentElementIndex);
+            contentElementIndex);
     }
     
     /// <summary>
@@ -808,7 +808,7 @@ contentElementIndex);
         await JsComponentReference!.InvokeVoidAsync(
             "previousMedia", 
             CancellationTokenSource.Token,
-contentElementIndex);
+            contentElementIndex);
     }
     
     /// <summary>
@@ -828,7 +828,7 @@ contentElementIndex);
         await JsComponentReference!.InvokeVoidAsync(
             "setActiveMedia", 
             CancellationTokenSource.Token,
-contentElementIndex,
+            contentElementIndex,
             mediaInfoIndex);
     }
     

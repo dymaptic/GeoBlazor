@@ -17,8 +17,7 @@ public partial class BasemapLayerListWidget
     public BasemapLayerListWidget()
     {
     }
-    
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -1295,7 +1294,7 @@ public partial class BasemapLayerListWidget
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-action,
+            action,
             item);
     }
     

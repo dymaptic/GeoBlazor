@@ -165,8 +165,8 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
-    
     let { buildDotNetExpandWidget } = await import('./expandWidget');
     let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, layerId, viewId);
     

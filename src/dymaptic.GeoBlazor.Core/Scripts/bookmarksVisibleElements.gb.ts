@@ -74,8 +74,8 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksVisibleElements;
-    
     let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
     let dnInstantiatedObject = await buildDotNetBookmarksVisibleElements(jsBookmarksVisibleElements, layerId, viewId);
     

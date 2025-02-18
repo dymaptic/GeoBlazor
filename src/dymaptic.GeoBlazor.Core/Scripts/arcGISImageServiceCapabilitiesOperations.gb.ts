@@ -98,8 +98,8 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcGISImageServiceCapabilitiesOperationsWrapper);
     jsObjectRefs[dotNetObject.id] = arcGISImageServiceCapabilitiesOperationsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
-    
     let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
     let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsArcGISImageServiceCapabilitiesOperations);
     

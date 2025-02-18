@@ -397,7 +397,7 @@ public partial class LayerListViewModel : MapComponent,
         await JsComponentReference!.InvokeVoidAsync(
             "moveListItem", 
             CancellationTokenSource.Token,
-targetItem,
+            targetItem,
             fromParentItem,
             toParentItem,
             newIndex);
@@ -422,7 +422,7 @@ targetItem,
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-action,
+            action,
             item);
     }
     

@@ -1,6 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Functions;
 
 /// <summary>
-///     Represents a method that can be used to override the default GoTo behavior of the map.
+///     This function provides the ability to override a goTo() method with your own implementation.
 /// </summary>
-public delegate Task GoToOverride(GoToOverrideParameters parameters);
+[CodeGenerationIgnore]
+public delegate Task GoToOverride(GoToOverrideParameters goToOverrideParams);
+

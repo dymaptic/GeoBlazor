@@ -175,8 +175,8 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBookmarks;
-    
     let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
     let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks, layerId, viewId);
     

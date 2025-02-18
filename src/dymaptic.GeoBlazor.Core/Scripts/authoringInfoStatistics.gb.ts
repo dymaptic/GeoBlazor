@@ -50,8 +50,8 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoStatisticsWrapper);
     jsObjectRefs[dotNetObject.id] = authoringInfoStatisticsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
-    
     let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
     let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics);
     

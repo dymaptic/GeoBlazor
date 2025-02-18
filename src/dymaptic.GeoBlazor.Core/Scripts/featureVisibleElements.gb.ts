@@ -53,8 +53,8 @@ export async function buildJsFeatureVisibleElementsGenerated(dotNetObject: any, 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = featureVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureVisibleElements;
-    
     let { buildDotNetFeatureVisibleElements } = await import('./featureVisibleElements');
     let dnInstantiatedObject = await buildDotNetFeatureVisibleElements(jsFeatureVisibleElements, layerId, viewId);
     

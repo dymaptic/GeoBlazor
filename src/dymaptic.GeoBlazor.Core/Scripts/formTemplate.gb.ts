@@ -43,12 +43,12 @@ export default class FormTemplateGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        return await Promise.all(this.component.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
+        return this.component.expressionInfos!.map(i => buildDotNetExpressionInfo(i));
     }
     
     async setExpressionInfos(value: any): Promise<void> {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        this.component.expressionInfos = await Promise.all(value.map(async i => await buildJsExpressionInfo(i, this.layerId, this.viewId))) as any;
+        this.component.expressionInfos = value.map(i => buildJsExpressionInfo(i)) as any;
     }
     
     getProperty(prop: string): any {
@@ -68,7 +68,7 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.expressionInfos)) {
         let { buildJsExpressionInfo } = await import('./expressionInfo');
-        jsFormTemplate.expressionInfos = await Promise.all(dotNetObject.expressionInfos.map(async i => await buildJsExpressionInfo(i, layerId, viewId))) as any;
+        jsFormTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -89,8 +89,8 @@ export async function buildJsFormTemplateGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(formTemplateWrapper);
     jsObjectRefs[dotNetObject.id] = formTemplateWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFormTemplate;
-    
     let { buildDotNetFormTemplate } = await import('./formTemplate');
     let dnInstantiatedObject = await buildDotNetFormTemplate(jsFormTemplate);
     
@@ -118,7 +118,7 @@ export async function buildDotNetFormTemplateGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.expressionInfos)) {
             let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-            dotNetFormTemplate.expressionInfos = await Promise.all(jsObject.expressionInfos.map(async i => await buildDotNetExpressionInfo(i)));
+            dotNetFormTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
         }
         if (hasValue(jsObject.description)) {
             dotNetFormTemplate.description = jsObject.description;

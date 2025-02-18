@@ -125,8 +125,8 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webMapWrapper);
     jsObjectRefs[dotNetObject.id] = webMapWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsWebMap;
-    
     let { buildDotNetWebMap } = await import('./webMap');
     let dnInstantiatedObject = await buildDotNetWebMap(jsWebMap, layerId, viewId);
     

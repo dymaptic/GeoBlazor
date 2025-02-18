@@ -56,8 +56,8 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(capabilitiesQueryRelatedWrapper);
     jsObjectRefs[dotNetObject.id] = capabilitiesQueryRelatedWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
-    
     let { buildDotNetCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
     let dnInstantiatedObject = await buildDotNetCapabilitiesQueryRelated(jsCapabilitiesQueryRelated);
     

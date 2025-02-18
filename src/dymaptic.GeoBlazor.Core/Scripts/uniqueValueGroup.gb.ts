@@ -65,8 +65,8 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueGroupWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueGroupWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
-    
     let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
     let dnInstantiatedObject = await buildDotNetUniqueValueGroup(jsUniqueValueGroup);
     

@@ -50,8 +50,8 @@ export async function buildJsSwipeVisibleElementsGenerated(dotNetObject: any, la
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(swipeVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = swipeVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSwipeVisibleElements;
-    
     let { buildDotNetSwipeVisibleElements } = await import('./swipeVisibleElements');
     let dnInstantiatedObject = await buildDotNetSwipeVisibleElements(jsSwipeVisibleElements, layerId, viewId);
     

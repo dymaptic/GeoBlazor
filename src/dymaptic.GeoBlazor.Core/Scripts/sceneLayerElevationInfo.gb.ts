@@ -53,8 +53,8 @@ export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any,
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sceneLayerElevationInfoWrapper);
     jsObjectRefs[dotNetObject.id] = sceneLayerElevationInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSceneLayerElevationInfo;
-    
     let { buildDotNetSceneLayerElevationInfo } = await import('./sceneLayerElevationInfo');
     let dnInstantiatedObject = await buildDotNetSceneLayerElevationInfo(jsSceneLayerElevationInfo, layerId, viewId);
     

@@ -1,15 +1,7 @@
 // override generated code in this file
-import ElementExpressionInfoGenerated from './elementExpressionInfo.gb';
 import ElementExpressionInfo from '@arcgis/core/popup/ElementExpressionInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export default class ElementExpressionInfoWrapper extends ElementExpressionInfoGenerated {
-
-    constructor(component: ElementExpressionInfo) {
-        super(component);
-    }
-    
-}              
 export function buildJsElementExpressionInfo(dotNetObject: any): any {
     let jsElementExpressionInfo = new ElementExpressionInfo();
 

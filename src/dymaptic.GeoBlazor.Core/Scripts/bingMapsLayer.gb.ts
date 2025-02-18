@@ -97,7 +97,7 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference = await  buildJsSpatialReference(value);
+        this.layer.spatialReference =  buildJsSpatialReference(value);
     }
     async setTileInfo(value: any): Promise<void> {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -132,7 +132,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsBingMapsLayer.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsBingMapsLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -198,8 +198,8 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
-    
     let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
     let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
     

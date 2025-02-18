@@ -62,8 +62,8 @@ export async function buildJsLocalBasemapsSourceGenerated(dotNetObject: any, lay
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(localBasemapsSourceWrapper);
     jsObjectRefs[dotNetObject.id] = localBasemapsSourceWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLocalBasemapsSource;
-    
     let { buildDotNetLocalBasemapsSource } = await import('./localBasemapsSource');
     let dnInstantiatedObject = await buildDotNetLocalBasemapsSource(jsLocalBasemapsSource, layerId, viewId);
     

@@ -47,8 +47,8 @@ export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject:
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapToggleVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleVisibleElements;
-    
     let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
     let dnInstantiatedObject = await buildDotNetBasemapToggleVisibleElements(jsBasemapToggleVisibleElements, layerId, viewId);
     

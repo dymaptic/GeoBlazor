@@ -47,8 +47,8 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerFloorInfoWrapper);
     jsObjectRefs[dotNetObject.id] = layerFloorInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
-    
     let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
     let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
     

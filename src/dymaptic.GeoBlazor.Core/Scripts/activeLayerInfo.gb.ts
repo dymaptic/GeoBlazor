@@ -120,8 +120,8 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(activeLayerInfoWrapper);
     jsObjectRefs[dotNetObject.id] = activeLayerInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
-    
     let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
     let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo, layerId, viewId);
     

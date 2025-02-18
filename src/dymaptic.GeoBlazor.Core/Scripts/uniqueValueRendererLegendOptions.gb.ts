@@ -47,8 +47,8 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererLegendOptionsWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererLegendOptionsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
-    
     let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
     let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions);
     

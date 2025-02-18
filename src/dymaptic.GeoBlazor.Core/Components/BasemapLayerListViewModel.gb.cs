@@ -532,7 +532,7 @@ public partial class BasemapLayerListViewModel : IViewModel
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
             CancellationTokenSource.Token,
-action,
+            action,
             item);
     }
     

@@ -65,8 +65,8 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = popupVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
-    
     let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
     let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements, layerId, viewId);
     

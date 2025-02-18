@@ -123,8 +123,8 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
-    
     let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
     let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar, layerId, viewId);
     

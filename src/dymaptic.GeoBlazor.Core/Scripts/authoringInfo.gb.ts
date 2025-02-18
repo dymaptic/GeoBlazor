@@ -29,7 +29,7 @@ export default class AuthoringInfoGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetColorRamp } = await import('./colorRamp');
-        return await buildDotNetColorRamp(this.component.colorRamp);
+        return buildDotNetColorRamp(this.component.colorRamp);
     }
     async getField1(): Promise<any> {
         if (!hasValue(this.component.field1)) {
@@ -161,8 +161,8 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(authoringInfoWrapper);
     jsObjectRefs[dotNetObject.id] = authoringInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
-    
     let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
     let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo);
     
@@ -186,7 +186,7 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
     };
         if (hasValue(jsObject.colorRamp)) {
             let { buildDotNetColorRamp } = await import('./colorRamp');
-            dotNetAuthoringInfo.colorRamp = await buildDotNetColorRamp(jsObject.colorRamp);
+            dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
         }
         if (hasValue(jsObject.field1)) {
             let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');

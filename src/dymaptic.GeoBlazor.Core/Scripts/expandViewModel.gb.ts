@@ -56,8 +56,8 @@ export async function buildJsExpandViewModelGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expandViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = expandViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsExpandViewModel;
-    
     let { buildDotNetExpandViewModel } = await import('./expandViewModel');
     let dnInstantiatedObject = await buildDotNetExpandViewModel(jsExpandViewModel, layerId, viewId);
     

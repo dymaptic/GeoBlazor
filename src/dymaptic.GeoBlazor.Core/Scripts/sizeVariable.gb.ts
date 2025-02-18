@@ -121,8 +121,8 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
-    
     let { buildDotNetSizeVariable } = await import('./sizeVariable');
     let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable);
     

@@ -75,8 +75,8 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rotationVariableWrapper);
     jsObjectRefs[dotNetObject.id] = rotationVariableWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
-    
     let { buildDotNetRotationVariable } = await import('./rotationVariable');
     let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable);
     

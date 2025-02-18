@@ -29,11 +29,11 @@ export default class UniqueValueClassGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     async getValues(): Promise<any> {
         if (!hasValue(this.component.values)) {
@@ -62,7 +62,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     let jsUniqueValueClass = new UniqueValueClass();
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsUniqueValueClass.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
+        jsUniqueValueClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.values)) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
@@ -81,8 +81,8 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueClassWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueClassWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
-    
     let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
     let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass);
     
@@ -106,7 +106,7 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetUniqueValueClass.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.values)) {
             let { buildDotNetUniqueValue } = await import('./uniqueValue');

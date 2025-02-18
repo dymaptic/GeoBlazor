@@ -95,8 +95,8 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
-    
     let { buildDotNetFeatureFilter } = await import('./featureFilter');
     let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
     

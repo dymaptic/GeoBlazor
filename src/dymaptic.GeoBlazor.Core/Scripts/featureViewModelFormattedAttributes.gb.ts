@@ -50,8 +50,8 @@ export async function buildJsFeatureViewModelFormattedAttributesGenerated(dotNet
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureViewModelFormattedAttributesWrapper);
     jsObjectRefs[dotNetObject.id] = featureViewModelFormattedAttributesWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureViewModelFormattedAttributes;
-    
     let { buildDotNetFeatureViewModelFormattedAttributes } = await import('./featureViewModelFormattedAttributes');
     let dnInstantiatedObject = await buildDotNetFeatureViewModelFormattedAttributes(jsFeatureViewModelFormattedAttributes, layerId, viewId);
     

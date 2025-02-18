@@ -67,7 +67,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value);
+        this.component.spatialReference =  buildJsSpatialReference(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -90,7 +90,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTileInfo.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsTileInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {
@@ -114,8 +114,8 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
-    
     let { buildDotNetTileInfo } = await import('./tileInfo');
     let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
     

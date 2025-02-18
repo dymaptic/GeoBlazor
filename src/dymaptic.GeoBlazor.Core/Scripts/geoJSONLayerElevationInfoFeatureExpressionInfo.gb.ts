@@ -50,8 +50,8 @@ export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGener
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerElevationInfoFeatureExpressionInfoWrapper);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerElevationInfoFeatureExpressionInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
-    
     let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
     let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsGeoJSONLayerElevationInfoFeatureExpressionInfo);
     

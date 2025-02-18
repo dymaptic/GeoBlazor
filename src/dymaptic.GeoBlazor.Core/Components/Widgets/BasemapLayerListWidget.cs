@@ -147,8 +147,7 @@ public partial class BasemapLayerListWidget : Widget
     
     /// <inheritdoc />
     public override WidgetType Type => WidgetType.BasemapLayerList;
-
-
+    
     /// <summary>
     ///     A delegate to implement a custom handler for setting up a base type of<see cref="ListItem" />.
     ///     Function must take in a ListItem and return a Task with the designated base type of item.

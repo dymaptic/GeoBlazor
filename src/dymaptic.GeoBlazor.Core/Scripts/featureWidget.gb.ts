@@ -85,11 +85,11 @@ export default class FeatureWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
+        return buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
     }
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value, this.layerId, this.viewId);
+        this.widget.graphic =  buildJsGraphic(value);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.widget.spatialReference)) {
@@ -101,7 +101,7 @@ export default class FeatureWidgetGenerated implements IPropertyWrapper {
     }
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        this.widget.spatialReference = await  buildJsSpatialReference(value);
+        this.widget.spatialReference =  buildJsSpatialReference(value);
     }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
@@ -140,11 +140,11 @@ export async function buildJsFeatureWidgetGenerated(dotNetObject: any, layerId: 
     let jsFeature = new Feature();
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeature.graphic = buildJsGraphic(dotNetObject.graphic, layerId, viewId) as any;
+        jsFeature.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeature.spatialReference = await buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        jsFeature.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsFeatureViewModel } = await import('./featureViewModel');
@@ -191,8 +191,8 @@ export async function buildJsFeatureWidgetGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = featureWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeature;
-    
     let { buildDotNetFeatureWidget } = await import('./featureWidget');
     let dnInstantiatedObject = await buildDotNetFeatureWidget(jsFeature, layerId, viewId);
     
@@ -216,7 +216,7 @@ export async function buildDotNetFeatureWidgetGenerated(jsObject: any, layerId: 
     };
         if (hasValue(jsObject.graphic)) {
             let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureWidget.graphic = await buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+            dotNetFeatureWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

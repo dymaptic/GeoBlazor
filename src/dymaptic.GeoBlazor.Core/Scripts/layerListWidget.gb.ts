@@ -214,8 +214,8 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = layerListWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
-    
     let { buildDotNetLayerListWidget } = await import('./layerListWidget');
     let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, layerId, viewId);
     

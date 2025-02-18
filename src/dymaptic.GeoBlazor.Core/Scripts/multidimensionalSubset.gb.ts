@@ -78,8 +78,8 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(multidimensionalSubsetWrapper);
     jsObjectRefs[dotNetObject.id] = multidimensionalSubsetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
-    
     let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
     let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
     

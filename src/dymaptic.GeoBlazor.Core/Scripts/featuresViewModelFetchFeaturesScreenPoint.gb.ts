@@ -50,8 +50,8 @@ export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featuresViewModelFetchFeaturesScreenPointWrapper);
     jsObjectRefs[dotNetObject.id] = featuresViewModelFetchFeaturesScreenPointWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelFetchFeaturesScreenPoint;
-    
     let { buildDotNetFeaturesViewModelFetchFeaturesScreenPoint } = await import('./featuresViewModelFetchFeaturesScreenPoint');
     let dnInstantiatedObject = await buildDotNetFeaturesViewModelFetchFeaturesScreenPoint(jsFeaturesViewModelFetchFeaturesScreenPoint, layerId, viewId);
     

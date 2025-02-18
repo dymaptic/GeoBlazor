@@ -75,33 +75,6 @@ public partial class HomeWidget : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public GoToOverride? GoToOverride { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToOverrideParameters)  
-    {  
-        if (GoToOverride is not null)  
-        {
-            await GoToOverride.Invoke(goToOverrideParameters);  
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
-    /// </summary>
-    public bool HasGoToOverride => GoToOverride is not null;
-    
-    /// <summary>
     ///     Overwrite localized strings for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#uiStrings">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -372,8 +345,8 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewpoint", value);
+        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -429,4 +402,45 @@ public partial class HomeWidget : IGoTo
    
 #endregion
 
+
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Viewpoint viewpoint:
+                if (viewpoint != Viewpoint)
+                {
+                    Viewpoint = viewpoint;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Viewpoint _:
+                Viewpoint = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Viewpoint?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

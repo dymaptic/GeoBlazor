@@ -81,8 +81,8 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
-    
     let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel, layerId, viewId);
     

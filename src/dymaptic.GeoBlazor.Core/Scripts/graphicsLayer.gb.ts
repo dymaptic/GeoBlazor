@@ -97,12 +97,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return await Promise.all(this.layer.graphics.map(async i => await buildDotNetGraphic(i)));
+        return this.layer.graphics!.map(i => buildDotNetGraphic(i));
     }
     
     async setGraphics(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
-        this.layer.graphics = await Promise.all(value.map(async i => await buildJsGraphic(i, this.layerId, this.viewId))) as any;
+        this.layer.graphics = value.map(i => buildJsGraphic(i, this.layerId, this.viewId)) as any;
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
@@ -184,8 +184,8 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
-    
     let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
     let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
     

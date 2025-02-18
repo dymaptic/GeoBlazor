@@ -29,11 +29,11 @@ export default class UniqueValueInfoGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.symbol);
+        return buildDotNetSymbol(this.component.symbol);
     }
     async setSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.symbol = await  buildJsSymbol(value);
+        this.component.symbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     let jsUniqueValueInfo = new UniqueValueInfo();
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsUniqueValueInfo.symbol = await buildJsSymbol(dotNetObject.symbol) as any;
+        jsUniqueValueInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -66,8 +66,8 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueInfoWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueInfoWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueInfo;
-    
     let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
     let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo);
     
@@ -91,7 +91,7 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
     };
         if (hasValue(jsObject.symbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetUniqueValueInfo.symbol = await buildDotNetSymbol(jsObject.symbol);
+            dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
         if (hasValue(jsObject.label)) {
             dotNetUniqueValueInfo.label = jsObject.label;

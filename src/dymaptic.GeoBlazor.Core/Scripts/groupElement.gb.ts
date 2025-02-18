@@ -74,8 +74,8 @@ export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(groupElementWrapper);
     jsObjectRefs[dotNetObject.id] = groupElementWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsGroupElement;
-    
     let { buildDotNetGroupElement } = await import('./groupElement');
     let dnInstantiatedObject = await buildDotNetGroupElement(jsGroupElement);
     

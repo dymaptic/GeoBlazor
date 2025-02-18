@@ -50,8 +50,8 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeIntervalWrapper);
     jsObjectRefs[dotNetObject.id] = timeIntervalWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
-    
     let { buildDotNetTimeInterval } = await import('./timeInterval');
     let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
     

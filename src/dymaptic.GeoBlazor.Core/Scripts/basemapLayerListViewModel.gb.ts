@@ -88,8 +88,8 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListViewModelWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListViewModel;
-    
     let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel, layerId, viewId);
     

@@ -53,8 +53,8 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeStopWrapper);
     jsObjectRefs[dotNetObject.id] = sizeStopWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
-    
     let { buildDotNetSizeStop } = await import('./sizeStop');
     let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop);
     

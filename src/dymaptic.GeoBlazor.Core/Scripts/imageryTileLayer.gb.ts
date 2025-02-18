@@ -147,7 +147,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
@@ -167,7 +167,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetField } = await import('./field');
-        return await Promise.all(this.layer.rasterFields.map(async i => await buildDotNetField(i)));
+        return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
     async getRasterFunction(): Promise<any> {
@@ -267,7 +267,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsImageryTileLayer.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsImageryTileLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -364,8 +364,8 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
-    
     let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
     let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
     
@@ -409,7 +409,7 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.rasterFields)) {
             let { buildDotNetField } = await import('./field');
-            dotNetImageryTileLayer.rasterFields = await Promise.all(jsObject.rasterFields.map(async i => await buildDotNetField(i)));
+            dotNetImageryTileLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
         }
         if (hasValue(jsObject.rasterFunction)) {
             let { buildDotNetRasterFunction } = await import('./rasterFunction');

@@ -466,7 +466,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                             longitude: long as number,
                             spatialReference: spatialRef as SpatialReference
                         });
-                        center = await resetCenterToSpatialReference(center, spatialRef as SpatialReference);
+                        center = resetCenterToSpatialReference(center, spatialRef as SpatialReference);
                     } else {
                         center = [long, lat];
                     }
@@ -1067,7 +1067,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
                     let { buildJsField } = await import('./field');
-                    featureLayer.fields = await Promise.all(layerObject.fields.map(async f => await buildJsField(f, layerObject.id, viewId)));
+                    featureLayer.fields = layerObject.fields.map(f => buildJsField(f));
                 }
 
                 if (hasValue(layerObject.labelingInfo)) {
@@ -2322,7 +2322,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             bookmarkWidget.on('bookmark-select', async (event) => {
                 const { buildDotNetBookmark } = await import('./bookmark');
                 const bookmark = await buildDotNetBookmark(event.bookmark);
-                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavascriptBookmarkSelect', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', {
                     bookmark: bookmark
                 });
             });
@@ -2462,21 +2462,6 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             const { default: SliderWidgetWrapper } = await import('./sliderWidget');
             wrapper = new SliderWidgetWrapper(slider);
             break;
-        case 'area-measurement2-d':
-            let { buildJsAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
-            newWidget = await buildJsAreaMeasurement2DWidget(dotNetWidget, dotNetWidget.id, viewId);
-
-            break;
-        case 'feature':
-            let { buildJsFeatureWidget } = await import('./featureWidget');
-            newWidget = await buildJsFeatureWidget(dotNetWidget, dotNetWidget.id, viewId);
-
-            break;
-        case 'list-item-panel':
-            let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
-            newWidget = await buildJsListItemPanelWidget(dotNetWidget, dotNetWidget.id, viewId);
-
-            break;
         default:
             return null;
     }
@@ -2500,7 +2485,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     return newWidget;
 }
 
-async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, layerId, viewId) {
+export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, layerId, viewId) {
     copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
         'open', 'sortable');
     
@@ -2779,7 +2764,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             }
             if (hasValue(dotNetLayer.fields && dotNetLayer.fields.length > 0)) {
                 let { buildJsField } = await import('./field');
-                imageryLayer.fields = await Promise.all(dotNetLayer.fields.map(async f => await buildJsField(f, dotNetLayer.id, viewId)));
+                imageryLayer.fields = dotNetLayer.fields.map(f => buildJsField(f));
             }
             if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
                 let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
@@ -2897,8 +2882,8 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
     }
 }
 
-async function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Promise<Point> {
-    return await projection.project(center, spatialReference) as Point;
+function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Point {
+    return projection.project(center, spatialReference) as Point;
 }
 
 export function logError(error, viewId: string | null) {

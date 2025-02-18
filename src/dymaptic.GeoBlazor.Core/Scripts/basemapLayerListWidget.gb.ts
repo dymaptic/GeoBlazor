@@ -216,8 +216,8 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListWidgetWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
-    
     let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
     let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
     

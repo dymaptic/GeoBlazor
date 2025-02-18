@@ -33,7 +33,7 @@ export default class LocatorSearchSourceGenerated implements IPropertyWrapper {
     }
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate = await  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     async getResultSymbol(): Promise<any> {
         if (!hasValue(this.component.resultSymbol)) {
@@ -41,11 +41,11 @@ export default class LocatorSearchSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSymbol } = await import('./symbol');
-        return await buildDotNetSymbol(this.component.resultSymbol);
+        return buildDotNetSymbol(this.component.resultSymbol);
     }
     async setResultSymbol(value: any): Promise<void> {
         let { buildJsSymbol } = await import('./symbol');
-        this.component.resultSymbol = await  buildJsSymbol(value);
+        this.component.resultSymbol =  buildJsSymbol(value);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -60,11 +60,11 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     let jsLocatorSearchSource = new LocatorSearchSource();
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsLocatorSearchSource.popupTemplate = await buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        jsLocatorSearchSource.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLocatorSearchSource.resultSymbol = await buildJsSymbol(dotNetObject.resultSymbol) as any;
+        jsLocatorSearchSource.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
@@ -154,8 +154,8 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locatorSearchSourceWrapper);
     jsObjectRefs[dotNetObject.id] = locatorSearchSourceWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
-    
     let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
     let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource);
     
@@ -183,7 +183,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
         }
         if (hasValue(jsObject.resultSymbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLocatorSearchSource.resultSymbol = await buildDotNetSymbol(jsObject.resultSymbol);
+            dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
         }
         if (hasValue(jsObject.apiKey)) {
             dotNetLocatorSearchSource.apiKey = jsObject.apiKey;

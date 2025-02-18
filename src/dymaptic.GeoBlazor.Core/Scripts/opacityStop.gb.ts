@@ -53,8 +53,8 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: st
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityStopWrapper);
     jsObjectRefs[dotNetObject.id] = opacityStopWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsOpacityStop;
-    
     let { buildDotNetOpacityStop } = await import('./opacityStop');
     let dnInstantiatedObject = await buildDotNetOpacityStop(jsOpacityStop);
     

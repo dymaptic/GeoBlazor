@@ -50,8 +50,8 @@ export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any, l
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sliderVisibleElementsWrapper);
     jsObjectRefs[dotNetObject.id] = sliderVisibleElementsWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsSliderVisibleElements;
-    
     let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
     let dnInstantiatedObject = await buildDotNetSliderVisibleElements(jsSliderVisibleElements, layerId, viewId);
     

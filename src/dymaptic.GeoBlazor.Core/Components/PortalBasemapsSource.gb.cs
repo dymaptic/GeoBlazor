@@ -43,6 +43,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryViewModelSource,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#updateBasemapsCallback">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PortalBasemapsSource(
+        IReadOnlyList<Basemap>? basemaps = null,
         BasemapFilter? filterFunction = null,
         Portal? portal = null,
         string? query = null,
@@ -50,6 +51,7 @@ public partial class PortalBasemapsSource : IBasemapGalleryViewModelSource,
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        Basemaps = basemaps;
         FilterFunction = filterFunction;
         Portal = portal;
         Query = query;

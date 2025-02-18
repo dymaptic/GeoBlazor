@@ -69,8 +69,8 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureEffectWrapper);
     jsObjectRefs[dotNetObject.id] = featureEffectWrapper;
+
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
-    
     let { buildDotNetFeatureEffect } = await import('./featureEffect');
     let dnInstantiatedObject = await buildDotNetFeatureEffect(jsFeatureEffect);
     

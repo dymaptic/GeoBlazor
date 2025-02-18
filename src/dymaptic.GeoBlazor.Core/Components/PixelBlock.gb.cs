@@ -696,7 +696,7 @@ public partial class PixelBlock : MapComponent
         await JsComponentReference!.InvokeVoidAsync(
             "addData", 
             CancellationTokenSource.Token,
-planeData);
+            planeData);
     }
     
     /// <summary>
