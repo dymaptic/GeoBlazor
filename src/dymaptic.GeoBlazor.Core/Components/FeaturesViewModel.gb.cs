@@ -2080,7 +2080,7 @@ public partial class FeaturesViewModel : MapComponent,
             "fetchFeatures", 
             CancellationTokenSource.Token,
             screenPoint,
-            new { event = options.Event, signal = abortSignal });
+            new { Event = options.Event, Signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

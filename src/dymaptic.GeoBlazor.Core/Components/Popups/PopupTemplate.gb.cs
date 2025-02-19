@@ -829,6 +829,16 @@ public partial class PopupTemplate
     {
         switch (child)
         {
+            case ExpressionInfo expressionInfos:
+                ExpressionInfos ??= [];
+                if (!ExpressionInfos.Contains(expressionInfos))
+                {
+                    ExpressionInfos = [..ExpressionInfos, expressionInfos];
+                    
+                    ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+                }
+                
+                return true;
             case FieldInfo fieldInfos:
                 FieldInfos ??= [];
                 if (!FieldInfos.Contains(fieldInfos))
@@ -857,6 +867,11 @@ public partial class PopupTemplate
     {
         switch (child)
         {
+            case ExpressionInfo expressionInfos:
+                ExpressionInfos = ExpressionInfos?.Where(e => e != expressionInfos).ToList();
+                
+                ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+                return true;
             case FieldInfo fieldInfos:
                 FieldInfos = FieldInfos?.Where(f => f != fieldInfos).ToList();
                 
@@ -879,6 +894,13 @@ public partial class PopupTemplate
         if ((Content is null || Content.Count == 0) && ContentFunction is null && StringContent is null)
         {
             throw new MissingRequiredOptionsChildElementException(nameof(PopupTemplate), [nameof(Content), nameof(ContentFunction), nameof(StringContent)]);
+        }
+        if (ExpressionInfos is not null)
+        {
+            foreach (ExpressionInfo child in ExpressionInfos)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
         }
         if (FieldInfos is not null)
         {

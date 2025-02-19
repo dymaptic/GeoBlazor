@@ -1,0 +1,63 @@
+import { buildDotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams } from './popupUtilsCreatePopupTemplateForFeatureReductionParams';import popupUtilsCreatePopupTemplateForFeatureReductionParams = __esri.popupUtilsCreatePopupTemplateForFeatureReductionParams;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+export async function buildJsPopupUtilsCreatePopupTemplateForFeatureReductionParamsGenerated(dotNetObject: any): Promise<any> {
+    let jspopupUtilsCreatePopupTemplateForFeatureReductionParams: any = {}
+    if (hasValue(dotNetObject.fields)) {
+        let { buildJsField } = await import('./field');
+        jspopupUtilsCreatePopupTemplateForFeatureReductionParams.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+    }
+
+    if (hasValue(dotNetObject.featureReduction)) {
+        jspopupUtilsCreatePopupTemplateForFeatureReductionParams.featureReduction = dotNetObject.featureReduction;
+    }
+    if (hasValue(dotNetObject.title)) {
+        jspopupUtilsCreatePopupTemplateForFeatureReductionParams.title = dotNetObject.title;
+    }
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(jspopupUtilsCreatePopupTemplateForFeatureReductionParams);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jspopupUtilsCreatePopupTemplateForFeatureReductionParams;
+    
+    let dnInstantiatedObject = await buildDotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams(jspopupUtilsCreatePopupTemplateForFeatureReductionParams);
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for PopupUtilsCreatePopupTemplateForFeatureReductionParams', e);
+    }
+    
+    return jspopupUtilsCreatePopupTemplateForFeatureReductionParams;
+}
+export async function buildDotNetPopupUtilsCreatePopupTemplateForFeatureReductionParamsGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fields)) {
+            let { buildDotNetField } = await import('./field');
+            dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.fields = jsObject.fields.map(i => buildDotNetField(i));
+        }
+        if (hasValue(jsObject.featureReduction)) {
+            dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.featureReduction = jsObject.featureReduction;
+        }
+        if (hasValue(jsObject.title)) {
+            dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.title = jsObject.title;
+        }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams;
+}
+

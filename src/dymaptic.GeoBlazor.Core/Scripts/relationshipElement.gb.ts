@@ -1,0 +1,95 @@
+import { buildDotNetRelationshipElement } from './relationshipElement';import RelationshipElement from '@arcgis/core/form/elements/RelationshipElement';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+export async function buildJsRelationshipElementGenerated(dotNetObject: any): Promise<any> {
+    let jsRelationshipElement = new RelationshipElement();
+
+    if (hasValue(dotNetObject.description)) {
+        jsRelationshipElement.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.displayCount)) {
+        jsRelationshipElement.displayCount = dotNetObject.displayCount;
+    }
+    if (hasValue(dotNetObject.displayType)) {
+        jsRelationshipElement.displayType = dotNetObject.displayType;
+    }
+    if (hasValue(dotNetObject.editableExpression)) {
+        jsRelationshipElement.editableExpression = dotNetObject.editableExpression;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsRelationshipElement.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.orderByFields)) {
+        jsRelationshipElement.orderByFields = dotNetObject.orderByFields;
+    }
+    if (hasValue(dotNetObject.relationshipId)) {
+        jsRelationshipElement.relationshipId = dotNetObject.relationshipId;
+    }
+    if (hasValue(dotNetObject.visibilityExpression)) {
+        jsRelationshipElement.visibilityExpression = dotNetObject.visibilityExpression;
+    }
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipElement);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsRelationshipElement;
+    
+    let dnInstantiatedObject = await buildDotNetRelationshipElement(jsRelationshipElement);
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for RelationshipElement', e);
+    }
+    
+    return jsRelationshipElement;
+}
+export async function buildDotNetRelationshipElementGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetRelationshipElement: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.type)) {
+            let { buildDotNetRelationshipRendererCreator } = await import('./relationshipRendererCreator');
+            dotNetRelationshipElement.type = await buildDotNetRelationshipRendererCreator(jsObject.type);
+        }
+        if (hasValue(jsObject.description)) {
+            dotNetRelationshipElement.description = jsObject.description;
+        }
+        if (hasValue(jsObject.displayCount)) {
+            dotNetRelationshipElement.displayCount = jsObject.displayCount;
+        }
+        if (hasValue(jsObject.displayType)) {
+            dotNetRelationshipElement.displayType = jsObject.displayType;
+        }
+        if (hasValue(jsObject.editableExpression)) {
+            dotNetRelationshipElement.editableExpression = jsObject.editableExpression;
+        }
+        if (hasValue(jsObject.label)) {
+            dotNetRelationshipElement.label = jsObject.label;
+        }
+        if (hasValue(jsObject.orderByFields)) {
+            dotNetRelationshipElement.orderByFields = jsObject.orderByFields;
+        }
+        if (hasValue(jsObject.relationshipId)) {
+            dotNetRelationshipElement.relationshipId = jsObject.relationshipId;
+        }
+        if (hasValue(jsObject.visibilityExpression)) {
+            dotNetRelationshipElement.visibilityExpression = jsObject.visibilityExpression;
+        }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetRelationshipElement.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetRelationshipElement;
+}
+

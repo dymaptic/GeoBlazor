@@ -673,8 +673,7 @@ public partial class Graphic: MapComponent
     private bool _updateSymbol;
     private bool _updatePopupTemplate;
     private bool _updateAttributes;
-    private Guid? _layerId;
-    private Guid? _viewId;
+
     public bool Equals(Graphic? other)
     {
         if (other is null)

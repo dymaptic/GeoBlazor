@@ -1,0 +1,121 @@
+import { buildDotNetFeatureReductionCluster } from './featureReductionCluster';import FeatureReductionCluster from '@arcgis/core/layers/support/FeatureReductionCluster';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+export async function buildJsFeatureReductionClusterGenerated(dotNetObject: any): Promise<any> {
+    let jsFeatureReductionCluster = new FeatureReductionCluster();
+    if (hasValue(dotNetObject.fields)) {
+        let { buildJsAggregateField } = await import('./aggregateField');
+        jsFeatureReductionCluster.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsAggregateField(i, layerId, viewId))) as any;
+    }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        jsFeatureReductionCluster.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.renderer)) {
+        let { buildJsRenderer } = await import('./renderer');
+        jsFeatureReductionCluster.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.symbol)) {
+        let { buildJsSymbol } = await import('./symbol');
+        jsFeatureReductionCluster.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+    }
+
+    if (hasValue(dotNetObject.clusterMaxSize)) {
+        jsFeatureReductionCluster.clusterMaxSize = dotNetObject.clusterMaxSize;
+    }
+    if (hasValue(dotNetObject.clusterMinSize)) {
+        jsFeatureReductionCluster.clusterMinSize = dotNetObject.clusterMinSize;
+    }
+    if (hasValue(dotNetObject.clusterRadius)) {
+        jsFeatureReductionCluster.clusterRadius = dotNetObject.clusterRadius;
+    }
+    if (hasValue(dotNetObject.labelingInfo)) {
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedlabelingInfo } = dotNetObject.labelingInfo;
+        jsFeatureReductionCluster.labelingInfo = sanitizedlabelingInfo;
+    }
+    if (hasValue(dotNetObject.labelsVisible)) {
+        jsFeatureReductionCluster.labelsVisible = dotNetObject.labelsVisible;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsFeatureReductionCluster.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.popupEnabled)) {
+        jsFeatureReductionCluster.popupEnabled = dotNetObject.popupEnabled;
+    }
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureReductionCluster);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureReductionCluster;
+    
+    let dnInstantiatedObject = await buildDotNetFeatureReductionCluster(jsFeatureReductionCluster);
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for FeatureReductionCluster', e);
+    }
+    
+    return jsFeatureReductionCluster;
+}
+export async function buildDotNetFeatureReductionClusterGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetFeatureReductionCluster: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.fields)) {
+            let { buildDotNetAggregateField } = await import('./aggregateField');
+            dotNetFeatureReductionCluster.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetAggregateField(i)));
+        }
+        if (hasValue(jsObject.popupTemplate)) {
+            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+            dotNetFeatureReductionCluster.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        }
+        if (hasValue(jsObject.renderer)) {
+            let { buildDotNetRenderer } = await import('./renderer');
+            dotNetFeatureReductionCluster.renderer = await buildDotNetRenderer(jsObject.renderer);
+        }
+        if (hasValue(jsObject.symbol)) {
+            let { buildDotNetSymbol } = await import('./symbol');
+            dotNetFeatureReductionCluster.symbol = buildDotNetSymbol(jsObject.symbol);
+        }
+        if (hasValue(jsObject.clusterMaxSize)) {
+            dotNetFeatureReductionCluster.clusterMaxSize = jsObject.clusterMaxSize;
+        }
+        if (hasValue(jsObject.clusterMinSize)) {
+            dotNetFeatureReductionCluster.clusterMinSize = jsObject.clusterMinSize;
+        }
+        if (hasValue(jsObject.clusterRadius)) {
+            dotNetFeatureReductionCluster.clusterRadius = jsObject.clusterRadius;
+        }
+        if (hasValue(jsObject.labelingInfo)) {
+            dotNetFeatureReductionCluster.labelingInfo = jsObject.labelingInfo;
+        }
+        if (hasValue(jsObject.labelsVisible)) {
+            dotNetFeatureReductionCluster.labelsVisible = jsObject.labelsVisible;
+        }
+        if (hasValue(jsObject.maxScale)) {
+            dotNetFeatureReductionCluster.maxScale = jsObject.maxScale;
+        }
+        if (hasValue(jsObject.popupEnabled)) {
+            dotNetFeatureReductionCluster.popupEnabled = jsObject.popupEnabled;
+        }
+        if (hasValue(jsObject.type)) {
+            dotNetFeatureReductionCluster.type = jsObject.type;
+        }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetFeatureReductionCluster.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetFeatureReductionCluster;
+}
+
