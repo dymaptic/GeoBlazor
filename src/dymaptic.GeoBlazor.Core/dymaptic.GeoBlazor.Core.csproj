@@ -80,12 +80,10 @@
         <None Remove="Scripts\wMSLayer.ts" />
         <None Remove="Scripts\voxelLayer.ts" />
         <None Remove="Scripts\visualVariablesResultSize.ts" />
-        <None Remove="Scripts\virtualLighting.ts" />
         <None Remove="Scripts\viewAnimation.ts" />
         <None Remove="Scripts\videoPlayerWidget.ts" />
         <None Remove="Scripts\videoPlayerViewModel.ts" />
         <None Remove="Scripts\videoLayer.ts" />
-        <None Remove="Scripts\versionManagementViewModel.ts" />
         <None Remove="Scripts\versionManagementService.ts" />
         <None Remove="Scripts\valuePickerWidget.ts" />
         <None Remove="Scripts\utilityNetworkValidateTopologyWidget.ts" />
@@ -105,7 +103,6 @@
         <None Remove="Scripts\tileMatrixSet.ts" />
         <None Remove="Scripts\tableMenuConfig.ts" />
         <None Remove="Scripts\tableListItemPanelWidget.ts" />
-        <None Remove="Scripts\synthesizeAssociationGeometries.ts" />
         <None Remove="Scripts\symbolsWaterSymbol3DLayer.ts" />
         <None Remove="Scripts\symbolsObjectSymbol3DLayer.ts" />
         <None Remove="Scripts\symbolsLineSymbol3DLayer.ts" />
@@ -114,7 +111,6 @@
         <None Remove="Scripts\symbologyType.ts" />
         <None Remove="Scripts\symbologySize.ts" />
         <None Remove="Scripts\symbologyPredominance.ts" />
-        <None Remove="Scripts\symbologyPieChart.ts" />
         <None Remove="Scripts\symbologyLocation.ts" />
         <None Remove="Scripts\symbologyDotDensity.ts" />
         <None Remove="Scripts\symbolService.ts" />
@@ -122,14 +118,11 @@
         <None Remove="Scripts\symbol3D.ts" />
         <None Remove="Scripts\svgUtils.ts" />
         <None Remove="Scripts\supportUtils.ts" />
-        <None Remove="Scripts\sunLighting.ts" />
         <None Remove="Scripts\summaryStatisticsSummaryStatisticsParams.ts" />
         <None Remove="Scripts\subtypeGroupLayer.ts" />
         <None Remove="Scripts\styleUtils.ts" />
         <None Remove="Scripts\streamLayer.ts" />
-        <None Remove="Scripts\stopsByInterval.ts" />
         <None Remove="Scripts\stopsByCount.ts" />
-        <None Remove="Scripts\statisticsClassBreaks.ts" />
         <None Remove="Scripts\sql.ts" />
         <None Remove="Scripts\snappingControlsWidget.ts" />
         <None Remove="Scripts\smartMappingSupportUtils.ts" />
@@ -149,13 +142,10 @@
         <None Remove="Scripts\shadedRelief.ts" />
         <None Remove="Scripts\serviceAreaService.ts" />
         <None Remove="Scripts\serviceAreaParameters.ts" />
-        <None Remove="Scripts\searchViewModel.ts" />
         <None Remove="Scripts\search.ts" />
         <None Remove="Scripts\sceneViewerUtils.ts" />
-        <None Remove="Scripts\sceneViewerSymbolUtils.ts" />
         <None Remove="Scripts\sceneViewMediaHit.ts" />
         <None Remove="Scripts\sceneLayerView.ts" />
-        <None Remove="Scripts\scaleRanges.ts" />
         <None Remove="Scripts\scaleRangeSliderWidget.ts" />
         <None Remove="Scripts\scaleRangeSliderViewModel.ts" />
         <None Remove="Scripts\scaleBarWidget.gb.ts" />
@@ -202,9 +192,7 @@
         <None Remove="Scripts\orientedImageryLayer.ts" />
         <None Remove="Scripts\opacitySliderViewModel.ts" />
         <None Remove="Scripts\opacitySlider.ts" />
-        <None Remove="Scripts\opacity.ts" />
         <None Remove="Scripts\oGCFeatureLayer.ts" />
-        <None Remove="Scripts\normalizeUtils.ts" />
         <None Remove="Scripts\navigationToggleWidget.ts" />
         <None Remove="Scripts\navigationToggleViewModel.ts" />
         <None Remove="Scripts\multipointDrawAction.ts" />
@@ -237,7 +225,6 @@
         <None Remove="Scripts\integratedMesh3DTilesLayer.ts" />
         <None Remove="Scripts\imageryLayerView.ts" />
         <None Remove="Scripts\identityManagerCredentialCreateEvent.ts" />
-        <None Remove="Scripts\identifyParameters.ts" />
         <None Remove="Scripts\iWaterSymbol3DLayer.ts" />
         <None Remove="Scripts\iTextSymbol3DLayer.ts" />
         <None Remove="Scripts\iTemporalSceneLayer.ts" />
@@ -256,7 +243,6 @@
         <None Remove="Scripts\iObjectSymbol3DLayer.ts" />
         <None Remove="Scripts\iLineSymbol3DLayer.ts" />
         <None Remove="Scripts\iLayersMixin.ts" />
-        <None Remove="Scripts\iImageryTileMixin.ts" />
         <None Remove="Scripts\iIconSymbol3DLayer.ts" />
         <None Remove="Scripts\iFillSymbol3DLayer.ts" />
         <None Remove="Scripts\iFeatureReductionLayer.ts" />
@@ -279,7 +265,6 @@
         <None Remove="Scripts\handleOwner.ts" />
         <None Remove="Scripts\groupColumn.ts" />
         <None Remove="Scripts\groundView.ts" />
-        <None Remove="Scripts\ground.ts" />
         <None Remove="Scripts\graphicsLayerView.ts" />
         <None Remove="Scripts\geoprocessingService.ts" />
         <None Remove="Scripts\geometryService.ts" />
@@ -301,11 +286,9 @@
         <None Remove="Scripts\externalRenderers.ts" />
         <None Remove="Scripts\expandWidget.gb.ts" />
         <None Remove="Scripts\elevationProfileWidget.ts" />
-        <None Remove="Scripts\elevationProfileViewModel.ts" />
         <None Remove="Scripts\drawAction.ts" />
         <None Remove="Scripts\dotDensityRenderer.ts" />
         <None Remove="Scripts\dotDensity.ts" />
-        <None Remove="Scripts\distanceMeasurement2DViewModel.ts" />
         <None Remove="Scripts\directionsWidget.ts" />
         <None Remove="Scripts\directionsViewModelLastRoute.ts" />
         <None Remove="Scripts\directionsViewModel.ts" />
@@ -338,7 +321,6 @@
         <None Remove="Scripts\classedSizeSliderViewModel.ts" />
         <None Remove="Scripts\classedSizeSlider.ts" />
         <None Remove="Scripts\classedColorSliderViewModel.ts" />
-        <None Remove="Scripts\classedColorSlider.ts" />
         <None Remove="Scripts\classBreaksRendererResult.ts" />
         <None Remove="Scripts\classBreaks.ts" />
         <None Remove="Scripts\cimSymbolUtils.ts" />
@@ -367,7 +349,6 @@
         <None Remove="Scripts\basemapGalleryWidget.gb.ts" />
         <None Remove="Scripts\basemapGalleryViewModel.ts" />
         <None Remove="Scripts\basemapGalleryViewModel.gb.ts" />
-        <None Remove="Scripts\basemapGalleryItem.ts" />
         <None Remove="Scripts\basemapGalleryItem.gb.ts" />
         <None Remove="Scripts\baseLayerViewGL2DRenderRenderParameters.ts" />
         <None Remove="Scripts\baseLayerViewGL2D.ts" />
@@ -381,7 +362,6 @@
         <None Remove="Scripts\areaMeasurement2DViewModel.gb.ts" />
         <None Remove="Scripts\arcade.ts" />
         <None Remove="Scripts\ageUtils.ts" />
-        <None Remove="Scripts\ageRendererResult.ts" />
         <None Remove="Scripts\slide.gb.ts" />
         <None Remove="Scripts\listItemPanelWidget.gb.ts" />
         <None Remove="Scripts\layerListWidget.gb.ts" />

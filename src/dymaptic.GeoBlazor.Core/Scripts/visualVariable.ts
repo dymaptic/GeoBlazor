@@ -1,5 +1,4 @@
 import VisualVariable from "@arcgis/core/renderers/visualVariables/VisualVariable";
-import {hasValue} from "./arcGisJsInterop";
 
 export async function buildDotNetVisualVariable(jsObject: any): Promise<any> {
     switch (jsObject?.type){

@@ -1,4 +1,5 @@
-﻿import * as engine from "@arcgis/core/geometry/geometryEngine";
+import GeometryEngineGenerated from './geometryEngine.gb';
+import * as engine from "@arcgis/core/geometry/geometryEngine";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -16,11 +17,11 @@ import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
 import NearestPointResult = __esri.NearestPointResult;
 
-export default class GeometryEngineWrapper {
+export default class GeometryEngineWrapper extends GeometryEngineGenerated {
     private dotNetRef: any;
 
-    constructor(dotNetReference) {
-        this.dotNetRef = dotNetReference;
+    constructor(component) {
+        super(component);
     }
 
     async buffer(geometries: DotNetGeometry | Array<DotNetGeometry>, distances: number | Array<number>,
@@ -632,4 +633,21 @@ export default class GeometryEngineWrapper {
         let jsExtent = buildJsExtent(extent, null);
         return jsExtent.width;
     }
+
+    async intersectLinesToPoints(line1: any,
+                                 line2: any): Promise<any> {
+        let { buildJsPolyline } = await import('./polyline');
+        let jsLine1 = buildJsPolyline(line1) as any;
+        let jsLine2 = buildJsPolyline(line2) as any;
+        return this.component.intersectLinesToPoints(jsLine1,
+            jsLine2);
+    }
+}
+export async function buildJsGeometryEngine(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsGeometryEngineGenerated } = await import('./geometryEngine.gb');
+    return await buildJsGeometryEngineGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetGeometryEngine(jsObject: any): Promise<any> {
+    let { buildDotNetGeometryEngineGenerated } = await import('./geometryEngine.gb');
+    return await buildDotNetGeometryEngineGenerated(jsObject);
 }

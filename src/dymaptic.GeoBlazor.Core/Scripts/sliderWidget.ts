@@ -1,23 +1,15 @@
-﻿import Slider from '@arcgis/core/widgets/Slider';
+import SliderWidgetGenerated from './sliderWidget.gb';
+import Slider from '@arcgis/core/widgets/Slider';
 import {IPropertyWrapper} from './definitions';
 import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 
-export default class SliderWidgetWrapper implements IPropertyWrapper {
+export default class SliderWidgetWrapper extends SliderWidgetGenerated {
     private slider: Slider;
 
     constructor(slider: Slider) {
-        this.slider = slider;
-        // set all properties from graphic
-        for (let prop in slider) {
-            if (prop.hasOwnProperty(prop)) {
-                this[prop] = slider[prop];
-            }
-        }
+        super(widget);
     }
 
-    unwrap() {
-        return this.slider;
-    }
     getEffectiveSegmentElements() {
         return this.slider.effectiveSegmentElements;
     }
@@ -58,32 +50,16 @@ export default class SliderWidgetWrapper implements IPropertyWrapper {
         return this.slider.trackElement;
     }
 
-    setProperty(prop, value) {
-        this.slider[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.slider[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.slider[prop].addMany(value);
-        } else {
-            this.slider[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.slider[prop].removeMany(value);
-        } else {
-            this.slider[prop].remove(value);
-        }
-    }
 }
 
 export async function buildJsSliderWidget(dotNetObject: any): Promise<any> {
     let slider = new Slider(dotNetObject);
     return new SliderWidgetWrapper(slider);
+}
+export async function buildDotNetSliderWidget(jsObject: any): Promise<any> {
+    let { buildDotNetSliderWidgetGenerated } = await import('./sliderWidget.gb');
+    return await buildDotNetSliderWidgetGenerated(jsObject);
 }

@@ -19,3 +19,7 @@ export function buildJsTickConfig(dnTickConfig: any) {
 
     return tickConfig;
 }
+export async function buildDotNetTickConfig(jsObject: any): Promise<any> {
+    let { buildDotNetTickConfigGenerated } = await import('./tickConfig.gb');
+    return await buildDotNetTickConfigGenerated(jsObject);
+}

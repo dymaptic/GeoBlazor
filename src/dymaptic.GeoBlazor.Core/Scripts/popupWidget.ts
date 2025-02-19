@@ -1,4 +1,6 @@
-﻿import Popup from "@arcgis/core/widgets/Popup";
+import Popup from '@arcgis/core/widgets/Popup';
+import PopupWidgetGenerated from './popupWidget.gb';
+import Popup from "@arcgis/core/widgets/Popup";
 import {dotNetRefs} from "./arcGisJsInterop";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import { buildJsSymbol } from "./symbol";
@@ -9,12 +11,8 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
 
     constructor(popup: Popup) {
         super(popup);
-        this.popup = popup;
     }
 
-    unwrap() {
-        return this.popup;
-    }
 
     clear() {
         this.popup.clear();
@@ -63,29 +61,9 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
         this.popup.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol) as Symbol;
     }
 
-    setProperty(prop: string, value: any): void {
-        this.popup[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.popup[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.popup[prop].addMany(value);
-        } else {
-            this.popup[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.popup[prop].removeMany(value);
-        } else {
-            this.popup[prop].remove(value);
-        }
-    }
 }
 
 export async function buildJsPopupWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

@@ -1233,8 +1233,10 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
-                    let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-                    (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(buildJsDimensionalDefinition);
+                    (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(d => {
+                        const { id, dotNetObjectReference, ...sanitizedDef } = d;
+                        return sanitizedDef;
+                    });
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
                     let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
@@ -2061,10 +2063,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
 
             if (dotNetWidget.hasGoToOverride) {
-                search.goToOverride = async (view, parameters) => {
-                    const dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
-                }
+                search.goToOverride = buildJsGoToOverride(dotNetWidget, viewId);
             }
 
             search.on('select-result', async (evt) => {
@@ -2145,7 +2144,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = legend;
 
             if (hasValue(dotNetWidget.layerInfos) && dotNetWidget.layerInfos.length > 0) {
-                view.when(() => {
+                let _ = view.when(() => {
                     legend.layerInfos = dotNetWidget.layerInfos.map(li => {
                         const jsLayerInfo = {
                             layer: arcGisObjectRefs[li.layerId]
@@ -2921,7 +2920,7 @@ function unsetWaitCursor(viewId: string | null): void {
 
 function waitForRender(viewId: string, dotNetRef: any): void {
     const view = arcGisObjectRefs[viewId] as View;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     view.when().then(_ => {
         let isRendered = false;
         let rendering = false;

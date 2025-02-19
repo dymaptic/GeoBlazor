@@ -9,3 +9,11 @@ export default class ElevationSamplerWrapper extends ElevationSamplerGenerated {
     }
     
 }              
+export async function buildJsElevationSampler(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsElevationSamplerGenerated } = await import('./elevationSampler.gb');
+    return await buildJsElevationSamplerGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetElevationSampler(jsObject: any): Promise<any> {
+    let { buildDotNetElevationSamplerGenerated } = await import('./elevationSampler.gb');
+    return await buildDotNetElevationSamplerGenerated(jsObject);
+}

@@ -9,3 +9,11 @@ export default class FieldsIndexWrapper extends FieldsIndexGenerated {
     }
     
 }              
+export async function buildJsFieldsIndex(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsFieldsIndexGenerated } = await import('./fieldsIndex.gb');
+    return await buildJsFieldsIndexGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetFieldsIndex(jsObject: any): Promise<any> {
+    let { buildDotNetFieldsIndexGenerated } = await import('./fieldsIndex.gb');
+    return await buildDotNetFieldsIndexGenerated(jsObject);
+}

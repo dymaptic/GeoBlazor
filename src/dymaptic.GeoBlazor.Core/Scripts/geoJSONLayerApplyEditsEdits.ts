@@ -1,11 +1,10 @@
 // override generated code in this file
-import GeoJSONLayerApplyEditsEditsGenerated from './geoJSONLayerApplyEditsEdits.gb';
-import GeoJSONLayerApplyEditsEdits = __esri.GeoJSONLayerApplyEditsEdits;
-
-export default class GeoJSONLayerApplyEditsEditsWrapper extends GeoJSONLayerApplyEditsEditsGenerated {
-
-    constructor(component: GeoJSONLayerApplyEditsEdits) {
-        super(component);
-    }
-    
-}              
+              
+export async function buildJsGeoJSONLayerApplyEditsEdits(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsGeoJSONLayerApplyEditsEditsGenerated } = await import('./geoJSONLayerApplyEditsEdits.gb');
+    return await buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetGeoJSONLayerApplyEditsEdits(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildDotNetGeoJSONLayerApplyEditsEditsGenerated } = await import('./geoJSONLayerApplyEditsEdits.gb');
+    return await buildDotNetGeoJSONLayerApplyEditsEditsGenerated(jsObject, layerId, viewId);
+}

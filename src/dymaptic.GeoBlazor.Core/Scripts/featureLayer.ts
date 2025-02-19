@@ -1,3 +1,4 @@
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import FeatureLayerGenerated from './featureLayer.gb';
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";

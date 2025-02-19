@@ -1,11 +1,9 @@
 // override generated code in this file
-import CSVLayerGetFieldDomainOptionsGenerated from './cSVLayerGetFieldDomainOptions.gb';
-import CSVLayerGetFieldDomainOptions = __esri.CSVLayerGetFieldDomainOptions;
-
-export default class CSVLayerGetFieldDomainOptionsWrapper extends CSVLayerGetFieldDomainOptionsGenerated {
-
-    constructor(component: CSVLayerGetFieldDomainOptions) {
-        super(component);
-    }
-    
-}              
+export async function buildJsCSVLayerGetFieldDomainOptions(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsCSVLayerGetFieldDomainOptionsGenerated } = await import('./cSVLayerGetFieldDomainOptions.gb');
+    return await buildJsCSVLayerGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetCSVLayerGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildDotNetCSVLayerGetFieldDomainOptionsGenerated } = await import('./cSVLayerGetFieldDomainOptions.gb');
+    return await buildDotNetCSVLayerGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
+}

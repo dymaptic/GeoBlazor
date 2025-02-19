@@ -18,7 +18,8 @@ export default [
         'no-prototype-builtins': 'off',
         "@typescript-eslint/ban-ts-comment": 'off',
         'no-case-declarations': "off",
-        '@typescript-eslint/no-unsafe-function-type': "off"
+        '@typescript-eslint/no-unsafe-function-type': "off",
+        '@typescript-eslint/no-unused-vars': 'off'
     }
   }
 ];

@@ -1,3 +1,4 @@
+import BingMapsLayer from '@arcgis/core/layers/BingMapsLayer';
 import BingMapsLayerGenerated from './bingMapsLayer.gb';
 import BingMapsLayer from "@arcgis/core/layers/BingMapsLayer";
 

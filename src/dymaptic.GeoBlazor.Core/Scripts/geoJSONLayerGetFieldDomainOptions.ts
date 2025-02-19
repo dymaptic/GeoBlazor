@@ -1,11 +1,10 @@
 // override generated code in this file
-import GeoJSONLayerGetFieldDomainOptionsGenerated from './geoJSONLayerGetFieldDomainOptions.gb';
-import GeoJSONLayerGetFieldDomainOptions = __esri.GeoJSONLayerGetFieldDomainOptions;
 
-export default class GeoJSONLayerGetFieldDomainOptionsWrapper extends GeoJSONLayerGetFieldDomainOptionsGenerated {
-
-    constructor(component: GeoJSONLayerGetFieldDomainOptions) {
-        super(component);
-    }
-    
-}              
+export async function buildJsGeoJSONLayerGetFieldDomainOptions(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsGeoJSONLayerGetFieldDomainOptionsGenerated } = await import('./geoJSONLayerGetFieldDomainOptions.gb');
+    return await buildJsGeoJSONLayerGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetGeoJSONLayerGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildDotNetGeoJSONLayerGetFieldDomainOptionsGenerated } = await import('./geoJSONLayerGetFieldDomainOptions.gb');
+    return await buildDotNetGeoJSONLayerGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
+}

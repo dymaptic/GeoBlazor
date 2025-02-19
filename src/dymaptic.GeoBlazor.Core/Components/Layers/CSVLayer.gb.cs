@@ -2011,8 +2011,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureEffect", value);
     }
     
     /// <summary>
@@ -2641,8 +2641,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeInfo", value);
     }
     
     /// <summary>

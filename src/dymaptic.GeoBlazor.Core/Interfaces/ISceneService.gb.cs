@@ -19,7 +19,7 @@ public partial interface ISceneService
     ///     The layer ID, or layer index, of a Scene Service layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    long? LayerId { get; set; }
+    long? SceneServiceLayerId { get; set; }
     
     /// <summary>
     ///     The spatial reference of the layer.
@@ -49,9 +49,9 @@ public partial interface ISceneService
     Task SetCopyright(string? value);
     
     /// <summary>
-    ///    Asynchronously set the value of the LayerId property after render.
+    ///    Asynchronously set the value of the SceneServiceLayerId property after render.
     /// </summary>
-    Task SetLayerId(long? value);
+    Task SetSceneServiceLayerId(long? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
@@ -73,9 +73,9 @@ public partial interface ISceneService
     Task<string?> GetCopyright();
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the LayerId property.
+    ///     Asynchronously retrieve the current value of the SceneServiceLayerId property.
     /// </summary>
-    Task<long?> GetLayerId();
+    Task<long?> GetSceneServiceLayerId();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.

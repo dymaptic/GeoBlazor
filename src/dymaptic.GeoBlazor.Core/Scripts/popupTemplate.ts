@@ -1,5 +1,4 @@
 // override generated code in this file
-import PopupTemplateGenerated from './popupTemplate.gb';
 import PopupTemplate from '@arcgis/core/PopupTemplate';
 import {
     arcGisObjectRefs,
@@ -12,27 +11,6 @@ import { buildJsExpressionInfo } from './expressionInfo';
 import { buildDotNetGraphic } from './graphic';
 import { buildJsFieldInfo } from './fieldInfo';
 import { buildJsLayerOptions } from './layerOptions';
-
-export default class PopupTemplateWrapper extends PopupTemplateGenerated {
-
-    constructor(component: PopupTemplate) {
-        super(component);
-    }
-
-    async getContent(): Promise<any> {
-        let { buildDotNetPopupContent } = await import('./popupContent');
-        if (!this.component.content) {
-            return null;
-        }
-        
-        if (Array.isArray(this.component.content)) {
-            return this.component.content.map(async i => await buildDotNetPopupContent(i));
-        }
-
-        return this.component.content;
-    }
-    
-}              
 
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     let jsPopupTemplate = new PopupTemplate();

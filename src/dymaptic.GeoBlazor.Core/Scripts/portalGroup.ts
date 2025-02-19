@@ -9,3 +9,11 @@ export default class PortalGroupWrapper extends PortalGroupGenerated {
     }
     
 }              
+export async function buildJsPortalGroup(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsPortalGroupGenerated } = await import('./portalGroup.gb');
+    return await buildJsPortalGroupGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetPortalGroup(jsObject: any): Promise<any> {
+    let { buildDotNetPortalGroupGenerated } = await import('./portalGroup.gb');
+    return await buildDotNetPortalGroupGenerated(jsObject);
+}

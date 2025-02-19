@@ -1,24 +1,17 @@
-﻿import Search from '@arcgis/core/widgets/Search';
+import widgetsSearch from '@arcgis/core/widgets/Search';
+import SearchWidgetGenerated from './searchWidget.gb';
+import Search from '@arcgis/core/widgets/Search';
 import {IPropertyWrapper} from './definitions';
 import { buildJsGeometry } from './geometry';
 
 
-export default class SearchWidgetWrapper implements IPropertyWrapper {
+export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     private searchWidget: Search;
 
     constructor(search: Search) {
-        this.searchWidget = search;
-        // set all properties from graphic
-        for (let prop in search) {
-            if (prop.hasOwnProperty(prop)) {
-                this[prop] = search[prop];
-            }
-        }
+        super(widget);
     }
 
-    unwrap() {
-        return this.searchWidget;
-    }
     async getActiveSource() {
         let jsSource = this.searchWidget.activeSource;
         let { buildDotNetSearchSource } = await import('./searchSource');
@@ -106,27 +99,15 @@ export default class SearchWidgetWrapper implements IPropertyWrapper {
         return this.searchWidget.suggest(term);
     }
 
-    setProperty(prop: string, value: any): void {
-        this.searchWidget[prop] = value;
-    }
 
-    getProperty(prop: string) {
-        return this.searchWidget[prop];
-    }
 
-    addToProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.searchWidget[prop].addMany(value);
-        } else {
-            this.searchWidget[prop].add(value);
-        }
-    }
 
-    removeFromProperty(prop: string, value: any) {
-        if (Array.isArray(value)) {
-            this.searchWidget[prop].removeMany(value);
-        } else {
-            this.searchWidget[prop].remove(value);
-        }
-    }
+}
+export async function buildJsSearchWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsSearchWidgetGenerated } = await import('./searchWidget.gb');
+    return await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetSearchWidget(jsObject: any): Promise<any> {
+    let { buildDotNetSearchWidgetGenerated } = await import('./searchWidget.gb');
+    return await buildDotNetSearchWidgetGenerated(jsObject);
 }

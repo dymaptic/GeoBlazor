@@ -9,3 +9,11 @@ export default class PortalItemResourceWrapper extends PortalItemResourceGenerat
     }
     
 }              
+export async function buildJsPortalItemResource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsPortalItemResourceGenerated } = await import('./portalItemResource.gb');
+    return await buildJsPortalItemResourceGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetPortalItemResource(jsObject: any): Promise<any> {
+    let { buildDotNetPortalItemResourceGenerated } = await import('./portalItemResource.gb');
+    return await buildDotNetPortalItemResourceGenerated(jsObject);
+}

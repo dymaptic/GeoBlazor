@@ -1,20 +1,8 @@
 // override generated code in this file
-import FeatureTypeGenerated from './featureType.gb';
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
 import {hasValue} from "./arcGisJsInterop";
 
-export default class FeatureTypeWrapper extends FeatureTypeGenerated {
-
-    constructor(component: FeatureType) {
-        super(component);
-    }
-    
-}
-
 export async function buildDotNetFeatureType(result: FeatureType) {
-    // let { buildDotNetFeatureTypeGenerated } = await import('./featureType.gb');
-    // TODO: compare with generated and possibly remove
-    // return await buildDotNetFeatureTypeGenerated(result);
     if (!hasValue(result)) {
         return null;
     }
@@ -34,4 +22,8 @@ export async function buildDotNetFeatureType(result: FeatureType) {
         name: result.name,
         templates: result.templates?.map(buildDotNetFeatureTemplate)
     }
+}
+export async function buildJsFeatureType(dotNetObject: any): Promise<any> {
+    let { buildJsFeatureTypeGenerated } = await import('./featureType.gb');
+    return await buildJsFeatureTypeGenerated(dotNetObject);
 }

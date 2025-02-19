@@ -1,11 +1,9 @@
 // override generated code in this file
-import FeatureLayerBaseSaveAsOptionsGenerated from './featureLayerBaseSaveAsOptions.gb';
-import FeatureLayerBaseSaveAsOptions = __esri.FeatureLayerBaseSaveAsOptions;
-
-export default class FeatureLayerBaseSaveAsOptionsWrapper extends FeatureLayerBaseSaveAsOptionsGenerated {
-
-    constructor(component: FeatureLayerBaseSaveAsOptions) {
-        super(component);
-    }
-    
-}              
+export async function buildJsFeatureLayerBaseSaveAsOptions(dotNetObject: any): Promise<any> {
+    let { buildJsFeatureLayerBaseSaveAsOptionsGenerated } = await import('./featureLayerBaseSaveAsOptions.gb');
+    return await buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject);
+}
+export async function buildDotNetFeatureLayerBaseSaveAsOptions(jsObject: any): Promise<any> {
+    let { buildDotNetFeatureLayerBaseSaveAsOptionsGenerated } = await import('./featureLayerBaseSaveAsOptions.gb');
+    return await buildDotNetFeatureLayerBaseSaveAsOptionsGenerated(jsObject);
+}

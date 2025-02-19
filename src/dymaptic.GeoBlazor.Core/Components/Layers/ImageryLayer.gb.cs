@@ -2927,8 +2927,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeInfo", value);
     }
     
     /// <summary>
