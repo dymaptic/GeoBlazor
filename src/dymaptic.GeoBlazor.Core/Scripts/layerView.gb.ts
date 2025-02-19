@@ -75,10 +75,6 @@ export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.layer)) {
-            let { buildDotNetLayer } = await import('./layer');
-            dotNetLayerView.layer = await buildDotNetLayer(jsObject.layer);
-        }
         if (hasValue(jsObject.spatialReferenceSupported)) {
             dotNetLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
         }

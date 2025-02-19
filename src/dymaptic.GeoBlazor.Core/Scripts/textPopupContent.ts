@@ -1,6 +1,6 @@
 // override generated code in this file
-import TextContent = __esri.TextContent;
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import TextContent from "@arcgis/core/popup/content/TextContent";
 
 export function buildJsTextPopupContent(dotNetObject: any): any {
     let jsTextContent = new TextContent();

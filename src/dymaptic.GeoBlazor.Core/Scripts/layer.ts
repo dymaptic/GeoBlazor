@@ -105,6 +105,6 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
             let { buildDotNetWebTileLayer } = await import('./webTileLayer');
             return await buildDotNetWebTileLayer(jsObject);
         default:
-            throw new Error(`Unsupported layer type: ${jsObject.type}`);
+            return jsObject;
     }
 }

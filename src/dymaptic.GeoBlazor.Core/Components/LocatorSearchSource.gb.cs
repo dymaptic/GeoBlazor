@@ -7,13 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    The following properties define a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> pointing to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html#url">url</a> that represents a locator service, which may be used to geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget instance.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class LocatorSearchSource : ISearchViewModelActiveSource,
-    ISearchViewModelAllSources,
-    ISearchViewModelDefaultSources,
-    ISearchViewModelSources,
-    ISearchWidgetActiveSource,
-    ISearchWidgetAllSources,
-    ISearchWidgetDefaultSources
+public partial class LocatorSearchSource
 {
 
     /// <summary>

@@ -3,34 +3,7 @@
 
 import ActionButton from '@arcgis/core/support/actions/ActionButton';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
-import {IPropertyWrapper} from './definitions';
 
-export default class ActionButtonGenerated implements IPropertyWrapper {
-    public component: ActionButton;
-    public geoBlazorId: string | null = null;
-    public viewId: string | null = null;
-    public layerId: string | null = null;
-
-    constructor(component: ActionButton) {
-        this.component = component;
-    }
-    
-    // region methods
-   
-    unwrap() {
-        return this.component;
-    }
-    
-    // region properties
-    
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
-    
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
-}
 
 export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsActionButton = new ActionButton();

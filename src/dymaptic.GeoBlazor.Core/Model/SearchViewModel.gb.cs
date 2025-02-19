@@ -127,7 +127,7 @@ public partial class SearchViewModel : IViewModel
         bool? resultGraphicEnabled = null,
         bool? searchAllEnabled = null,
         string? searchTerm = null,
-        IReadOnlyList<ISearchViewModelSources>? sources = null,
+        IReadOnlyList<SearchSource>? sources = null,
         double? suggestionDelay = null,
         bool? suggestionsEnabled = null)
     {
@@ -164,7 +164,7 @@ public partial class SearchViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchViewModelActiveSource? ActiveSource { get; protected set; }
+    public SearchSource? ActiveSource { get; protected set; }
     
     /// <summary>
     ///     The selected source's index.
@@ -192,7 +192,7 @@ public partial class SearchViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ISearchViewModelAllSources>? AllSources { get; protected set; }
+    public IReadOnlyList<SearchSource>? AllSources { get; protected set; }
     
     /// <summary>
     ///     Indicates whether to automatically select and zoom to the first geocoded result.
@@ -220,7 +220,7 @@ public partial class SearchViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ISearchViewModelDefaultSources>? DefaultSources { get; protected set; }
+    public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
     ///     The default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">symbol(s)</a> for the search result.
@@ -390,7 +390,7 @@ public partial class SearchViewModel : IViewModel
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ISearchViewModelSources>? Sources { get; set; }
+    public IReadOnlyList<SearchSource>? Sources { get; set; }
     
     /// <summary>
     ///     The current state of the widget.
@@ -456,7 +456,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveSource property.
     /// </summary>
-    public async Task<ISearchViewModelActiveSource?> GetActiveSource()
+    public async Task<SearchSource?> GetActiveSource()
     {
         if (CoreJsModule is null)
         {
@@ -470,7 +470,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        ISearchViewModelActiveSource? result = await JsComponentReference!.InvokeAsync<ISearchViewModelActiveSource?>("getProperty",
+        SearchSource? result = await JsComponentReference!.InvokeAsync<SearchSource?>("getProperty",
             CancellationTokenSource.Token, "activeSource");
         if (result is not null)
         {
@@ -546,7 +546,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllSources property.
     /// </summary>
-    public async Task<IReadOnlyList<ISearchViewModelAllSources>?> GetAllSources()
+    public async Task<IReadOnlyList<SearchSource>?> GetAllSources()
     {
         if (CoreJsModule is null)
         {
@@ -560,7 +560,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        IReadOnlyList<ISearchViewModelAllSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchViewModelAllSources>?>("getProperty",
+        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
             CancellationTokenSource.Token, "allSources");
         if (result is not null)
         {
@@ -636,7 +636,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSources property.
     /// </summary>
-    public async Task<IReadOnlyList<ISearchViewModelDefaultSources>?> GetDefaultSources()
+    public async Task<IReadOnlyList<SearchSource>?> GetDefaultSources()
     {
         if (CoreJsModule is null)
         {
@@ -650,7 +650,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        IReadOnlyList<ISearchViewModelDefaultSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchViewModelDefaultSources>?>("getProperty",
+        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
             CancellationTokenSource.Token, "defaultSources");
         if (result is not null)
         {
@@ -1186,7 +1186,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the Sources property.
     /// </summary>
-    public async Task<IReadOnlyList<ISearchViewModelSources>?> GetSources()
+    public async Task<IReadOnlyList<SearchSource>?> GetSources()
     {
         if (CoreJsModule is null)
         {
@@ -1200,7 +1200,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        IReadOnlyList<ISearchViewModelSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchViewModelSources>?>("getProperty",
+        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
             CancellationTokenSource.Token, "sources");
         if (result is not null)
         {
@@ -1913,7 +1913,7 @@ public partial class SearchViewModel : IViewModel
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSources(IReadOnlyList<ISearchViewModelSources>? value)
+    public async Task SetSources(IReadOnlyList<SearchSource>? value)
     {
 #pragma warning disable BL0005
         Sources = value;
@@ -2067,9 +2067,9 @@ public partial class SearchViewModel : IViewModel
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToSources(params ISearchViewModelSources[] values)
+    public async Task AddToSources(params SearchSource[] values)
     {
-        ISearchViewModelSources[] join = Sources is null
+        SearchSource[] join = Sources is null
             ? values
             : [..Sources, ..values];
         await SetSources(join);
@@ -2086,7 +2086,7 @@ public partial class SearchViewModel : IViewModel
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromSources(params ISearchViewModelSources[] values)
+    public async Task RemoveFromSources(params SearchSource[] values)
     {
         if (Sources is null)
         {

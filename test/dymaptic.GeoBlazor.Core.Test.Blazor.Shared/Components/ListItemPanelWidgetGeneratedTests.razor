@@ -1,0 +1,101 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedListItemPanelWidget(Action renderHandler)
+    {
+        ListItemPanelWidget? listItemPanelWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <ListItemPanelWidget 
+                    Content="@([new ListItemPanelContent()])"
+                    Disabled="@(true)"
+                    FlowEnabled="@(true)"
+                    Icon="@("aspernatur")"
+                    Image="@("https://picsum.photos/640/480/?image=725")"
+                    Label="@("tempora")"
+                    Open="@(true)"
+                    Title="@("harum occaecati incidunt")"
+                    WidgetId="@("et")">
+                    <ListItem 
+                        ActionsOpen="@(true)"
+                        ChildrenSortable="@(true)"
+                        Hidden="@(true)"
+                        Layer="@(new BaseTileLayer(BlendMode.DestinationOut,
+                                new Effect("odit",
+                                    26439558.9518),
+                                29859597.0710,
+                                17998.6008,
+                                117.3636,
+                            new SpatialReference(3,
+                                    "impedit",
+                                    "voluptatem",
+                                    "vitae"),
+                            new Extent(108.9956,
+                                    64.5362,
+                                    58.4505,
+                                    69.5468,
+                                    470.7259,
+                                    302.9262,
+                                    212.2140,
+                                    656.3023,
+                                new SpatialReference(4,
+                                        "praesentium",
+                                        "ut",
+                                        "et"),
+                                    true,
+                                    true),
+                            ListMode.Hide,
+                                0.2584,
+                                true,
+                            new TileInfo(706.5613,
+                                    TileInfoFormat.Gif,
+                                    true,
+                                [new LOD(4,
+                                        "amet",
+                                        48.9164,
+                                        47420283.7838)],
+                                new Point(-151.2372,
+                                        -81.7702,
+                                        72.2491,
+                                        40.0575,
+                                        393.4169,
+                                    new SpatialReference(2,
+                                            "aut",
+                                            "nobis",
+                                            "a"),
+                                        true,
+                                        true,
+                                        76.7648),
+                                    [4,
+                                        4],
+                                new SpatialReference(3,
+                                        "suscipit",
+                                        "id",
+                                        "facere")),
+                                "error ut omnis",
+                            new TimeExtent(new DateTime(2013, 8, 1, 21, 0, 49),
+                                    new DateTime(2003, 5, 17, 18, 6, 36))))"
+                        ListModeDisabled="@(true)"
+                        Open="@(true)"
+                        Sortable="@(true)"
+                        Title="@("et laborum est")">
+                    </ListItem>
+                </ListItemPanelWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(listItemPanelWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "list-item-panel");
+    }
+}

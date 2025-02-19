@@ -1,0 +1,38 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedCompassWidget(Action renderHandler)
+    {
+        CompassWidget? compassWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <CompassWidget 
+                    Icon="@("consequatur")"
+                    Label="@("ex")"
+                    WidgetId="@("eos")">
+                    <CompassViewModel>
+                    </CompassViewModel>
+                </CompassWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(compassWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "compass");
+        await compassWidget.Reset();
+        CompassViewModel testViewModel = new CompassViewModel();
+        await compassWidget.SetViewModel(testViewModel);
+        var viewModel = await compassWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

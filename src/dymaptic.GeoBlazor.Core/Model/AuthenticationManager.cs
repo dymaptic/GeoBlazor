@@ -208,9 +208,8 @@ public class AuthenticationManager
     /// </summary>
     public async Task<IJSObjectReference> GetArcGisJsInterop()
     {
-        var token = new CancellationToken();
-        IJSObjectReference? arcGisPro = await _jsModuleManager.GetArcGisJsPro(_jsRuntime, token);
-        IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, token);
+        IJSObjectReference? arcGisPro = await _jsModuleManager.GetArcGisJsPro(_jsRuntime, CancellationToken.None);
+        IJSObjectReference arcGisJsInterop = await _jsModuleManager.GetArcGisJsCore(_jsRuntime, arcGisPro, CancellationToken.None);
         
         return arcGisJsInterop;
     }

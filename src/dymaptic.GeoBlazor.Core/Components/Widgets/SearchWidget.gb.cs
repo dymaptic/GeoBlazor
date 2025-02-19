@@ -27,7 +27,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchWidgetActiveSource? ActiveSource { get; protected set; }
+    public SearchSource? ActiveSource { get; protected set; }
     
     /// <summary>
     ///     The combined collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#sources">sources</a>.
@@ -35,7 +35,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ISearchWidgetAllSources>? AllSources { get; protected set; }
+    public IReadOnlyList<SearchSource>? AllSources { get; protected set; }
     
     /// <summary>
     ///     A read-only property that is a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">LayerSearchSource</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LocatorSearchSource.html">LocatorSearchSource</a>.
@@ -43,7 +43,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ISearchWidgetDefaultSources>? DefaultSources { get; protected set; }
+    public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
     ///     The graphic used to highlight the resulting feature or location.
@@ -102,7 +102,7 @@ public partial class SearchWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the ActiveSource property.
     /// </summary>
-    public async Task<ISearchWidgetActiveSource?> GetActiveSource()
+    public async Task<SearchSource?> GetActiveSource()
     {
         if (CoreJsModule is null)
         {
@@ -116,7 +116,7 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        ISearchWidgetActiveSource? result = await JsComponentReference!.InvokeAsync<ISearchWidgetActiveSource?>("getProperty",
+        SearchSource? result = await JsComponentReference!.InvokeAsync<SearchSource?>("getProperty",
             CancellationTokenSource.Token, "activeSource");
         if (result is not null)
         {
@@ -162,7 +162,7 @@ public partial class SearchWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the AllSources property.
     /// </summary>
-    public async Task<IReadOnlyList<ISearchWidgetAllSources>?> GetAllSources()
+    public async Task<IReadOnlyList<SearchSource>?> GetAllSources()
     {
         if (CoreJsModule is null)
         {
@@ -176,7 +176,7 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<ISearchWidgetAllSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchWidgetAllSources>?>("getProperty",
+        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
             CancellationTokenSource.Token, "allSources");
         if (result is not null)
         {
@@ -222,7 +222,7 @@ public partial class SearchWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSources property.
     /// </summary>
-    public async Task<IReadOnlyList<ISearchWidgetDefaultSources>?> GetDefaultSources()
+    public async Task<IReadOnlyList<SearchSource>?> GetDefaultSources()
     {
         if (CoreJsModule is null)
         {
@@ -236,7 +236,7 @@ public partial class SearchWidget : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<ISearchWidgetDefaultSources>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISearchWidgetDefaultSources>?>("getProperty",
+        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
             CancellationTokenSource.Token, "defaultSources");
         if (result is not null)
         {

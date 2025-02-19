@@ -1,5 +1,5 @@
 // override generated code in this file
-import MediaContent = __esri.MediaContent;
+import MediaContent from "@arcgis/core/popup/content/MediaContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMediaInfo, buildJsMediaInfo } from './mediaInfo';
 

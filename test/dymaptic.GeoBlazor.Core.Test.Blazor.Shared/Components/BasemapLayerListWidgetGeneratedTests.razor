@@ -1,0 +1,163 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedBasemapLayerListWidget(Action renderHandler)
+    {
+        BasemapLayerListWidget? basemapLayerListWidget = null;
+
+        BasemapLayerListTriggerActionEvent? triggerActionResult = null;
+        void OnTriggerAction(BasemapLayerListTriggerActionEvent result)
+        {
+            triggerActionResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget 
+                    BaseFilterText="@("facere tempora perspiciatis")"
+                    BasemapTitle="@("et quo optio")"
+                    Collapsed="@(true)"
+                    DragEnabled="@(true)"
+                    EditingTitle="@(true)"
+                    FilterPlaceholder="@("commodi")"
+                    HeadingLevel="@(4)"
+                    Icon="@("dolores")"
+                    Label="@("voluptates")"
+                    MinFilterItems="@(41.4767)"
+                    ReferenceFilterText="@("dolorum perspiciatis qui")"
+                    SelectionMode="@(SelectionMode.Single)"
+                    VisibilityAppearance="@(VisibilityAppearance.Checkbox)"
+                    VisibleElements="@(new BasemapLayerListWidgetVisibleElements())"
+                    WidgetId="@("non")"
+                    OnTriggerAction="OnTriggerAction">
+                    <BasemapLayerListViewModel 
+                        BasemapTitle="@("quo sit deleniti")"
+                        CheckPublishStatusEnabled="@(true)"
+                        ListModeDisabled="@(true)">
+                    </BasemapLayerListViewModel>
+                    <ListItem 
+                        ActionsOpen="@(true)"
+                        ChildrenSortable="@(true)"
+                        Hidden="@(true)"
+                        Layer="@(new ImageryLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer",
+                            new PortalItem(),
+                                new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.LabLch,
+                                        new MapColor(170, 198, 149),
+                                        new MapColor(250, 39, 12)),
+                                    true,
+                                    true,
+                                    [2],
+                                    7,
+                                    8,
+                                    StretchType.None,
+                                    [new RasterBandStatistics(429.0662,
+                                        7,
+                                        402.7981,
+                                        408.6350,
+                                        235.6533,
+                                        25.5274,
+                                        795.8446,
+                                        484.9271)],
+                                    true,
+                                    8),
+                                [9,
+                                    9],
+                            BlendMode.HardLight,
+                                209.3941,
+                                197.9944,
+                                "qui",
+                                "voluptatem",
+                                new Effect("quaerat",
+                                    26475066.4060),
+                            ImageFormat.Jpgpng,
+                                true,
+                                9,
+                                3,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            new TileInfo(528.2730,
+                                    TileInfoFormat.Jpg,
+                                    true,
+                                [new LOD(7,
+                                        "modi",
+                                        47.6554,
+                                        32523344.5764),
+                                new LOD(6,
+                                        "aliquid",
+                                        83.1566,
+                                        23459642.4265)],
+                                new Point(-68.0653,
+                                        -70.4390,
+                                        -11.2969,
+                                        -59.3842,
+                                        564.9707,
+                                    new SpatialReference(2,
+                                            "vel",
+                                            "accusamus",
+                                            "est"),
+                                        true,
+                                        true,
+                                        866.6419),
+                                    [7,
+                                        4],
+                                new SpatialReference(6,
+                                        "repellat",
+                                        "placeat",
+                                        "dolor")),
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                                true))"
+                        ListModeDisabled="@(true)"
+                        Open="@(true)"
+                        Sortable="@(true)"
+                        Title="@("consequatur qui et")">
+                    </ListItem>
+                </BasemapLayerListWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(basemapLayerListWidget!);
+        await AssertJavaScript("dispatchEvent", args: [basemapLayerListWidget!.Id, "trigger-action"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (triggerActionResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<BasemapLayerListTriggerActionEvent>(triggerActionResult);
+        await AssertJavaScript("assertWidgetExists", args: "basemap-layer-list");
+        
+        SelectionMode testSelectionMode = SelectionMode.Multiple;
+        await basemapLayerListWidget.SetSelectionMode(testSelectionMode);
+        var selectionMode = await basemapLayerListWidget.GetSelectionMode();
+        Assert.AreEqual(testSelectionMode, selectionMode);
+        VisibilityAppearance testVisibilityAppearance = VisibilityAppearance.Checkbox;
+        await basemapLayerListWidget.SetVisibilityAppearance(testVisibilityAppearance);
+        var visibilityAppearance = await basemapLayerListWidget.GetVisibilityAppearance();
+        Assert.AreEqual(testVisibilityAppearance, visibilityAppearance);
+    }
+}

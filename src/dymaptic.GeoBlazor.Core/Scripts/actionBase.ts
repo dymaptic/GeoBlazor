@@ -1,14 +1,4 @@
 // override generated code in this file
-import ActionBaseGenerated from './actionBase.gb';
-import ActionBase from '@arcgis/core/support/actions/ActionBase';
-
-export default class ActionBaseWrapper extends ActionBaseGenerated {
-
-    constructor(component: ActionBase) {
-        super(component);
-    }
-    
-}
 
 export async function buildJsActionBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     switch (dotNetObject?.type) {

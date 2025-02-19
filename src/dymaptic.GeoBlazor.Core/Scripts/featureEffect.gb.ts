@@ -33,7 +33,7 @@ export default class FeatureEffectGenerated implements IPropertyWrapper {
     }
     async setFilter(value: any): Promise<void> {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter =  buildJsFeatureFilter(value);
+        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -48,7 +48,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     let jsFeatureEffect = new FeatureEffect();
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./jsBuilder');
-        jsFeatureEffect.filter = buildJsFeatureFilter(dotNetObject.filter) as any;
+        jsFeatureEffect.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.excludedEffect)) {

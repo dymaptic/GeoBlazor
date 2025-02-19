@@ -1,0 +1,450 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedImageryTileLayer(Action renderHandler)
+    {
+        ImageryTileLayer? imageryTileLayer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <ImageryTileLayer 
+                        Url="@("https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer")"
+                        Renderer="@(new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.LabLch,
+                                new MapColor(114, 228, 248),
+                                new MapColor(49, 124, 141)),
+                            true,
+                            true,
+                            [2],
+                            1,
+                            2,
+                            StretchType.None,
+                            [new RasterBandStatistics(145.9413,
+                                3,
+                                356.1199,
+                                123.4977,
+                                203.7395,
+                                192.0397,
+                                291.6283,
+                                990.7152)],
+                            true,
+                            4))"
+                        BandIds="@([6])"
+                        BlendMode="@(BlendMode.DestinationIn)"
+                        Copyright="@("ducimus")"
+                        Effect="@(new Effect("totam",
+                            32657085.6739))"
+                        Interpolation="@(PixelInterpolation.Bilinear)"
+                        LegendEnabled="@(true)"
+                        ListMode="@(ListMode.Show)"
+                        MaxScale="@(22852566.7751)"
+                        MinScale="@(4489.7456)"
+                        PersistenceEnabled="@(true)"
+                        PopupEnabled="@(true)"
+                        UseViewTime="@(true)"
+                        Opacity="@(0.5339)"
+                        Title="@("vel veritatis officia")">
+                        <TimeInterval 
+                            Unit="@(TemporalTime.Decades)"
+                            Value="@(257.6354)">
+                        </TimeInterval>
+                        <TimeInfo 
+                            StartField="@("minima")"
+                            EndField="@("repudiandae")"
+                            Stops="@([new DateTime(2005, 7, 9, 14, 15, 3)])"
+                            TimeZone="@("Asia/Kolkata")"
+                            TrackIdField="@("deleniti")">
+                            <TimeInterval 
+                                Unit="@(TemporalTime.Seconds)"
+                                Value="@(544.0827)">
+                            </TimeInterval>
+                            <TimeExtent 
+                                Start="@(new DateTime(2018, 10, 12, 21, 10, 42))"
+                                End="@(new DateTime(2000, 1, 13, 6, 24, 2))">
+                            </TimeExtent>
+                        </TimeInfo>
+                        <TimeExtent 
+                            Start="@(new DateTime(2022, 8, 15, 18, 23, 18))"
+                            End="@(new DateTime(2008, 2, 14, 11, 14, 21))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(710.5726)"
+                            Format="@(TileInfoFormat.Mixed)"
+                            IsWrappable="@(true)"
+                            Lods="@([new LOD(4,
+                                    "saepe",
+                                    50.5269,
+                                    7829855.6139),
+                            new LOD(2,
+                                    "dolorum",
+                                    29.2193,
+                                    29143808.4766)])"
+                            Size="@([9,
+                                2])"
+                            SpatialReference="@(new SpatialReference(9,
+                                    "odio",
+                                    "aut",
+                                    "iusto"))">
+                            <Point 
+                                Longitude="@(59.2113)"
+                                Latitude="@(74.8183)"
+                                X="@(-18.2035)"
+                                Y="@(81.8495)"
+                                Z="@(803.4392)"
+                                HasM="@(true)"
+                                HasZ="@(true)"
+                                M="@(819.4604)">
+                                <SpatialReference 
+                                    Wkid="@(9)"
+                                    ImageCoordinateSystem="@("dolorum")"
+                                    Wkt="@("voluptatem")"
+                                    Wkt2="@("neque")">
+                                </SpatialReference>
+                            </Point>
+                        </TileInfo>
+                        <RasterFunction 
+                            FunctionArguments="@("voluptatem")"
+                            FunctionName="@("name")"
+                            OutputPixelType="@(OutputPixelType.Unknown)"
+                            RasterFunctionDefinition="@("corrupti")"
+                            VariableName="@("status")">
+                        </RasterFunction>
+                        <PortalItem />
+                        <PopupTemplate 
+                            Title="@("consequatur labore nihil")"
+                            StringContent="@("aut")"
+                            OutFields="@(["debitis"])"
+                            FieldInfos="@([new FieldInfo("comment",
+                                    "qui",
+                                    "rem",
+                                StringFieldOption.TextBox,
+                                new FieldInfoFormat(4,
+                                        true,
+                                    DateFormat.ShortDateShortTime),
+                                    true,
+                                    true,
+                                StatisticType.Sum),
+                            new FieldInfo("category",
+                                    "earum",
+                                    "laborum",
+                                StringFieldOption.RichText,
+                                new FieldInfoFormat(8,
+                                        true,
+                                    DateFormat.DayShortMonthYearShortTime24),
+                                    true,
+                                    true,
+                                StatisticType.Max)])"
+                            Content="@([new FieldsPopupContent([new FieldInfo("avatar",
+                                        "eum",
+                                        "quam",
+                                    StringFieldOption.RichText,
+                                    new FieldInfoFormat(7,
+                                            true,
+                                        DateFormat.Year),
+                                        true,
+                                        true,
+                                    StatisticType.Count)],
+                                    "et voluptates natus ea",
+                                    "incidunt nam explicabo")])"
+                            ExpressionInfos="@([new ExpressionInfo("return $feature.Population / $feature.Area;",
+                                    "phone",
+                                    "sequi dicta ducimus",
+                                    ExpressionInfoReturnType.String),
+                            new ExpressionInfo("return $feature.Name;",
+                                    "group",
+                                    "veritatis et rerum",
+                                    ExpressionInfoReturnType.String)])"
+                            OverwriteActions="@(true)"
+                            ReturnGeometry="@(true)"
+                            Actions="@([new ActionButton("nisi autem ut",
+                                "https://picsum.photos/640/480/?image=1081",
+                                "436cb0f1-ff6c-c061-afc2-49207d76b25f",
+                                () => { Console.WriteLine("magni"); return Task.CompletedTask; },
+                                "name",
+                                true,
+                                true,
+                                true,
+                                "autem")])">
+                        </PopupTemplate>
+                        <MultidimensionalSubset 
+                            AreaOfInterest="@(new Point(15.7944,
+                                    69.3038,
+                                    -138.1353,
+                                    -35.2873,
+                                    777.3062,
+                                new SpatialReference(6,
+                                        "accusamus",
+                                        "omnis",
+                                        "sequi"),
+                                    true,
+                                    true,
+                                    883.1927))">
+                            <DimensionalDefinition 
+                                DimensionName="@("title")"
+                                IsSlice="@(true)"
+                                VariableName="@("name")"
+>
+                            </DimensionalDefinition>
+                        </MultidimensionalSubset>
+                        <DimensionalDefinition 
+                            DimensionName="@("updatedAt")"
+                            IsSlice="@(true)"
+                            VariableName="@("avatar")"
+>
+                        </DimensionalDefinition>
+                        <Extent 
+                            Xmax="@(2.5877)"
+                            Xmin="@(92.8284)"
+                            Ymax="@(26.2087)"
+                            Ymin="@(85.3368)"
+                            Zmax="@(64.1890)"
+                            Zmin="@(435.2529)"
+                            Mmax="@(937.9229)"
+                            Mmin="@(500.1581)"
+                            SpatialReference="@(new SpatialReference(5,
+                                    "eveniet",
+                                    "vel",
+                                    "adipisci"))"
+                            HasM="@(true)"
+                            HasZ="@(true)">
+                        </Extent>
+                    </ImageryTileLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(imageryTileLayer!);
+        await AssertJavaScript("assertLayerExists", args: "imagery-tile");
+        var computeStatisticsHistogramsMethodResult = await imageryTileLayer.ComputeStatisticsHistograms(new ImageHistogramParameters(new Point(55.5858,
+                        -29.1861,
+                        -157.8592,
+                        65.2602,
+                        299.8209,
+                    new SpatialReference(1,
+                            "vel",
+                            "omnis",
+                            "molestias"),
+                        true,
+                        true,
+                        434.1155),
+                new MosaicRule(true,
+                    new RasterFunction("nihil",
+                            "group",
+                        OutputPixelType.F32,
+                            "maxime",
+                            "status"),
+                        [3],
+                    Method.Attribute,
+                    [new DimensionalDefinition("token",
+                            true,
+                            "id"),
+                    new DimensionalDefinition("token",
+                            true,
+                            "category")],
+                        [2,
+                            3],
+                    Operation.First,
+                        "aperiam",
+                        "tempora",
+                    new Point(158.7619,
+                            15.6139,
+                            -7.8081,
+                            9.8625,
+                            498.4153,
+                        new SpatialReference(5,
+                                "ut",
+                                "et",
+                                "laborum"),
+                            true,
+                            true,
+                            64.4866),
+                        "City = 'Toronto'"),
+                new PixelSize(27.0814,
+                        60.0656,
+                    new PixelSizeSpatialReference(4,
+                            660.6515)),
+                new RasterFunction("id",
+                        "password",
+                    OutputPixelType.S8,
+                        "maiores",
+                        "updatedAt"),
+                new TimeExtent(new DateTime(2015, 3, 25, 8, 4, 40),
+                        new DateTime(2023, 9, 25, 7, 12, 44))),
+                "temporibus");
+        Assert.IsNotNull(computeStatisticsHistogramsMethodResult);
+        var createPopupTemplateMethodResult = await imageryTileLayer.CreatePopupTemplate(new CreatePopupTemplateOptions(["praesentium"],
+                    ["createdAt",
+                        "password"]));
+        Assert.IsNotNull(createPopupTemplateMethodResult);
+        var fetchPixelsMethodResult = await imageryTileLayer.FetchPixels(new Extent(131.8556,
+                    95.7517,
+                    -38.7321,
+                    32.4529,
+                    655.5110,
+                    183.2374,
+                    43.5601,
+                    88.0601,
+                new SpatialReference(1,
+                        "error",
+                        "delectus",
+                        "illum"),
+                    true,
+                    true),
+                7,
+                2,
+            new ImageryTileMixinFetchPixelsOptions(Interpolation.Nearest));
+        Assert.IsNotNull(fetchPixelsMethodResult);
+        var fetchTileMethodResult = await imageryTileLayer.FetchTile(174.4951,
+                691.9696,
+                644.6994,
+                default);
+        Assert.IsNotNull(fetchTileMethodResult);
+        var identifyMethodResult = await imageryTileLayer.Identify(new Point(-45.9106,
+                    67.8815,
+                    15.1389,
+                    -13.4546,
+                    601.4984,
+                new SpatialReference(1,
+                        "quidem",
+                        "vitae",
+                        "quisquam"),
+                    true,
+                    true,
+                    794.3727),
+            new RasterIdentifyOptions([new DimensionalDefinition("status",
+                        true,
+                        "status")],
+                    "avatar"));
+        Assert.IsNotNull(identifyMethodResult);
+        var saveMethodResult = await imageryTileLayer.Save(new ImageryTileLayerSaveOptions(new ImageryTileLayerSaveOptionsValidationOptions(true)));
+        Assert.IsNotNull(saveMethodResult);
+        var saveAsMethodResult = await imageryTileLayer.SaveAs(new PortalItem(),
+            new ImageryTileLayerSaveAsOptions(new PortalFolder(new DateTime(2017, 11, 15, 14, 27, 58),
+                        "ad",
+                        "velit atque aliquam"),
+                new ImageryTileLayerSaveAsOptionsValidationOptions(true)));
+        Assert.IsNotNull(saveAsMethodResult);
+        PortalItem testPortalItem = new PortalItem();
+        await imageryTileLayer.SetPortalItem(testPortalItem);
+        var portalItem = await imageryTileLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        BlendMode testBlendMode = BlendMode.Luminosity;
+        await imageryTileLayer.SetBlendMode(testBlendMode);
+        var blendMode = await imageryTileLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        ListMode testListMode = ListMode.Show;
+        await imageryTileLayer.SetListMode(testListMode);
+        var listMode = await imageryTileLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        IReadOnlyList<DimensionalDefinition> testMultidimensionalDefinition = [new DimensionalDefinition("email",
+                    true,
+                    "email"),
+            new DimensionalDefinition("category",
+                    true,
+                    "group")];
+        await imageryTileLayer.SetMultidimensionalDefinition(testMultidimensionalDefinition);
+        var multidimensionalDefinition = await imageryTileLayer.GetMultidimensionalDefinition();
+        Assert.AreEqual(testMultidimensionalDefinition, multidimensionalDefinition);
+        MultidimensionalSubset testMultidimensionalSubset = new MultidimensionalSubset(new Polyline([new MapPath([new MapPoint([505.8396])])],
+                    new SpatialReference(2,
+                            "quasi",
+                            "dolor",
+                            "error"),
+                        true,
+                        true),
+                [new DimensionalDefinition("updatedAt",
+                        true,
+                        "comment")]);
+        await imageryTileLayer.SetMultidimensionalSubset(testMultidimensionalSubset);
+        var multidimensionalSubset = await imageryTileLayer.GetMultidimensionalSubset();
+        Assert.AreEqual(testMultidimensionalSubset, multidimensionalSubset);
+        Extent testFullExtent = new Extent(-140.3032,
+                    160.3698,
+                    3.4423,
+                    -54.6423,
+                    273.8620,
+                    517.0061,
+                    298.0289,
+                    792.7532,
+                new SpatialReference(2,
+                        "minima",
+                        "quo",
+                        "nesciunt"),
+                    true,
+                    true);
+        await imageryTileLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await imageryTileLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        RasterFunction testRasterFunction = new RasterFunction("cumque",
+                    "password",
+                OutputPixelType.U2,
+                    "placeat",
+                    "comment");
+        await imageryTileLayer.SetRasterFunction(testRasterFunction);
+        var rasterFunction = await imageryTileLayer.GetRasterFunction();
+        Assert.AreEqual(testRasterFunction, rasterFunction);
+        TileInfo testTileInfo = new TileInfo(129.9966,
+                    TileInfoFormat.Svgz,
+                    true,
+                [new LOD(5,
+                        "eos",
+                        91.0147,
+                        39957564.3673)],
+                new Point(173.9174,
+                        16.0096,
+                        -18.4693,
+                        8.8994,
+                        791.6488,
+                    new SpatialReference(9,
+                            "magnam",
+                            "dolor",
+                            "placeat"),
+                        true,
+                        true,
+                        182.2269),
+                    [6,
+                        6],
+                new SpatialReference(4,
+                        "illum",
+                        "et",
+                        "quia"));
+        await imageryTileLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await imageryTileLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        TimeExtent testTimeExtent = new TimeExtent(new DateTime(2007, 3, 14, 13, 43, 58),
+                    new DateTime(2021, 4, 18, 10, 35, 0));
+        await imageryTileLayer.SetTimeExtent(testTimeExtent);
+        var timeExtent = await imageryTileLayer.GetTimeExtent();
+        Assert.AreEqual(testTimeExtent, timeExtent);
+        TimeInfo testTimeInfo = new TimeInfo("porro",
+                    "animi",
+                new TimeExtent(new DateTime(2002, 11, 5, 2, 27, 16),
+                        new DateTime(2021, 9, 11, 9, 0, 6)),
+                new TimeInterval(TemporalTime.Decades,
+                        146.7623),
+                    [new DateTime(2009, 4, 14, 4, 18, 39)],
+                    "Europe/Amsterdam",
+                    "voluptates");
+        await imageryTileLayer.SetTimeInfo(testTimeInfo);
+        var timeInfo = await imageryTileLayer.GetTimeInfo();
+        Assert.AreEqual(testTimeInfo, timeInfo);
+        TimeInterval testTimeOffset = new TimeInterval(TemporalTime.Weeks,
+                    463.2492);
+        await imageryTileLayer.SetTimeOffset(testTimeOffset);
+        var timeOffset = await imageryTileLayer.GetTimeOffset();
+        Assert.AreEqual(testTimeOffset, timeOffset);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2008, 3, 11, 1, 50, 47),
+                    new DateTime(2012, 6, 18, 15, 24, 12));
+        await imageryTileLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await imageryTileLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

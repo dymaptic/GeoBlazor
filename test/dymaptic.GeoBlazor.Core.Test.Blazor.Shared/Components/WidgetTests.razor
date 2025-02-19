@@ -228,7 +228,7 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
                     </Basemap>
                 </Map>
-                <MeasurementWidget LinearUnit="LengthUnit.NauticalMiles" />
+                <MeasurementWidget LinearUnit="SystemOrLengthUnit.NauticalMiles" />
             </MapView>
     );
         await WaitForMapToRender();
@@ -245,7 +245,7 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
                     </Basemap>
                 </Map>
-                <MeasurementWidget AreaUnit="AreaUnit.SquareKilometers" />
+                <MeasurementWidget AreaUnit="SystemOrAreaUnit.SquareKilometers" />
             </MapView>
     );
         await WaitForMapToRender();
@@ -463,9 +463,9 @@
         Assert.IsNotNull(activeSource);
         int activeSourceIndex = await widget.GetActiveSourceIndex();
         Assert.AreEqual(0, activeSourceIndex);
-        IReadOnlyList<SearchSource> allSources = await widget.GetAllSources();
+        IReadOnlyList<SearchSource> allSources = (await widget.GetAllSources())!;
         Assert.AreEqual(1, allSources.Count);
-        IReadOnlyList<SearchSource> defaultSources = await widget.GetDefaultSources();
+        IReadOnlyList<SearchSource> defaultSources = (await widget.GetDefaultSources())!;
         Assert.AreEqual(1, defaultSources.Count);
         Graphic resultGraphic = (await widget.GetResultGraphic())!;
         Assert.IsNotNull(resultGraphic);

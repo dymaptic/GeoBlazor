@@ -61,7 +61,7 @@ import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
 import Measurement from "@arcgis/core/widgets/Measurement";
-import normalizeUtils = __esri.normalizeUtils;
+import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
 import Polygon from "@arcgis/core/geometry/Polygon";
@@ -616,7 +616,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             const result = {
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
-                layerView: buildDotNetLayerView(evt.layerView),
+                layerView: await buildDotNetLayerView(evt.layerView),
                 layer: await buildDotNetLayer(evt.layer),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
@@ -645,7 +645,17 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             // return dotNetResult in small chunks to avoid memory issues in Blazor Server
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
-            const jsonLayerResult = JSON.stringify(result.layer);
+            const seenObjects = new WeakMap();
+            const jsonLayerResult = JSON.stringify(result.layer, function(key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
+                        return '[Circular]';
+                    }
+                    seenObjects.set(value, true);
+                }
+                return value;
+            });
             const jsonLayerViewResult = JSON.stringify(result.layerView);
             const chunkSize = 1000;
             let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
@@ -771,7 +781,7 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
     }
 }
 
-export async function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
+export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
     if (arcGisObjectRefs.hasOwnProperty(geoBlazorId)) {
         return;
     }
@@ -2519,8 +2529,8 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
     }
     
     if (hasValue(dnItem.panel)) {
-        if (hasValue(dnItem.panel.contentDivId)) {
-            const contentDiv = document.getElementById(dnItem.panel.contentDivId);
+        if (hasValue(dnItem.panel.containerId)) {
+            const contentDiv = document.getElementById(dnItem.panel.containerId);
             if (contentDiv !== null) {
                 jsItem.panel = {
                     content: contentDiv,
@@ -2985,58 +2995,12 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
 
 // this function should only be used for simple types that are guaranteed to succeed in serialization and conversion
 export function copyValuesIfExists(originalObject: any, newObject: any, ...params: Array<string>) {
-    params.forEach(p => {
-        if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
-            newObject[p] = originalObject[p];
-        }
-    });
-}
-
-export async function createGeoBlazorObject(arcGisObject: any, newGeoBlazorObject: any = {}): Promise<any> {
-    try {
-        if ('items' in arcGisObject) {
-            const items = arcGisObject.items;
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                const newItem = {};
-                await createGeoBlazorObject(item, newItem);
-                newGeoBlazorObject.items.push(newItem);
+    if (hasValue(originalObject)) {
+        params.forEach(p => {
+            if (hasValue(originalObject[p]) && originalObject[p] !== newObject[p]) {
+                newObject[p] = originalObject[p];
             }
-            return newGeoBlazorObject;
-        }
-        if ('toJSON' in arcGisObject) {
-            try {
-                newGeoBlazorObject = arcGisObject.toJSON();
-                return newGeoBlazorObject;
-            } catch (error) {
-                logError(error, null);
-            }
-        }
-
-        await copyValuesToGeoBlazor(arcGisObject, newGeoBlazorObject);
-        return newGeoBlazorObject;
-    } catch (error) {
-        logError(error, null);
-        return null;
-    }
-}
-
-export async function copyValuesToGeoBlazor(originalObject: any, newObject: any) {
-    for (const key in originalObject) {
-        if (typeof originalObject[key] === 'function') {
-            continue;
-        }
-        const value = originalObject[key];
-        if (!hasValue(value)) {
-            continue;
-        }
-        if (typeof value === 'object') {
-            const newValue = Array.isArray(value) ? [] : {};
-            await createGeoBlazorObject(value, newValue);
-            newObject[key] = newValue;
-        } else {
-            newObject[key] = value;
-        }
+        });
     }
 }
 

@@ -1,0 +1,152 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedLayerListWidget(Action renderHandler)
+    {
+        LayerListWidget? layerListWidget = null;
+
+        LayerListTriggerActionEvent? triggerActionResult = null;
+        void OnTriggerAction(LayerListTriggerActionEvent result)
+        {
+            triggerActionResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <LayerListWidget 
+                    Collapsed="@(true)"
+                    DragEnabled="@(true)"
+                    FilterPlaceholder="@("cum")"
+                    FilterText="@("aut facilis quibusdam")"
+                    HeadingLevel="@(219.8772)"
+                    Icon="@("nihil")"
+                    Label="@("sapiente")"
+                    MinDragEnabledItems="@(666.2314)"
+                    MinFilterItems="@(202.6705)"
+                    SelectionMode="@(SelectionMode.None)"
+                    VisibilityAppearance="@(VisibilityAppearance.Checkbox)"
+                    WidgetId="@("perferendis")"
+                    OnTriggerAction="OnTriggerAction">
+                    <LayerListVisibleElements 
+                        CatalogLayerList="@(true)"
+                        CloseButton="@(true)"
+                        CollapseButton="@(true)"
+                        Errors="@(true)"
+                        Filter="@(true)"
+                        Flow="@(true)"
+                        Heading="@(true)"
+                        StatusIndicators="@(true)"
+                        TemporaryLayerIndicators="@(true)">
+                    </LayerListVisibleElements>
+                    <LayerListViewModel 
+                        CheckPublishStatusEnabled="@(true)"
+                        ListModeDisabled="@(true)">
+                    </LayerListViewModel>
+                    <ListItem 
+                        ActionsOpen="@(true)"
+                        ChildrenSortable="@(true)"
+                        Hidden="@(true)"
+                        Layer="@(new WebTileLayer(BlendMode.Exclusion,
+                                "odio",
+                                new Effect("voluptas",
+                                    13441608.3460),
+                            new Extent(-105.7970,
+                                    -153.8275,
+                                    26.8113,
+                                    -28.6056,
+                                    78.3716,
+                                    944.2435,
+                                    405.0883,
+                                    134.1290,
+                                new SpatialReference(6,
+                                        "a",
+                                        "minima",
+                                        "officia"),
+                                    true,
+                                    true),
+                            ListMode.Show,
+                                48851983.2436,
+                                10580.7198,
+                                0.2019,
+                                true,
+                            new PortalItem(),
+                                763.1361,
+                                ["alias"],
+                            new TileInfo(175.3974,
+                                    TileInfoFormat.Lerc,
+                                    true,
+                                [new LOD(1,
+                                        "distinctio",
+                                        81.4486,
+                                        17610833.2236)],
+                                new Point(62.8981,
+                                        29.8480,
+                                        165.7717,
+                                        -17.4445,
+                                        166.7946,
+                                    new SpatialReference(7,
+                                            "repudiandae",
+                                            "vel",
+                                            "autem"),
+                                        true,
+                                        true,
+                                        742.8111),
+                                    [1,
+                                        9],
+                                new SpatialReference(4,
+                                        "iusto",
+                                        "velit",
+                                        "provident")),
+                                "illo ut tenetur"))"
+                        ListModeDisabled="@(true)"
+                        Open="@(true)"
+                        Sortable="@(true)"
+                        Title="@("laboriosam est sed")">
+                    </ListItem>
+                </LayerListWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(layerListWidget!);
+        await AssertJavaScript("dispatchEvent", args: [layerListWidget.Id, "trigger-action"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (triggerActionResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<LayerListTriggerActionEvent>(triggerActionResult);
+        await AssertJavaScript("assertWidgetExists", args: "layer-list");
+        
+        SelectionMode testSelectionMode = SelectionMode.None;
+        await layerListWidget.SetSelectionMode(testSelectionMode);
+        var selectionMode = await layerListWidget.GetSelectionMode();
+        Assert.AreEqual(testSelectionMode, selectionMode);
+        VisibilityAppearance testVisibilityAppearance = VisibilityAppearance.Default;
+        await layerListWidget.SetVisibilityAppearance(testVisibilityAppearance);
+        var visibilityAppearance = await layerListWidget.GetVisibilityAppearance();
+        Assert.AreEqual(testVisibilityAppearance, visibilityAppearance);
+        LayerListVisibleElements testVisibleElements = new LayerListVisibleElements(true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true);
+        await layerListWidget.SetVisibleElements(testVisibleElements);
+        var visibleElements = await layerListWidget.GetVisibleElements();
+        Assert.AreEqual(testVisibleElements, visibleElements);
+    }
+}

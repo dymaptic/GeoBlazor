@@ -61,7 +61,7 @@ public partial class Abilities : MapComponent
         FieldsContent = fieldsContent;
         MediaContent = mediaContent;
         TextContent = textContent;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005 
     }
     
     

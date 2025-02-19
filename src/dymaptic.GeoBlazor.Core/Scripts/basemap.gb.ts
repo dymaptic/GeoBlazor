@@ -166,17 +166,9 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.baseLayers)) {
-            let { buildDotNetLayer } = await import('./layer');
-            dotNetBasemap.baseLayers = await Promise.all(jsObject.baseLayers.map(async i => await buildDotNetLayer(i)));
-        }
         if (hasValue(jsObject.portalItem)) {
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.referenceLayers)) {
-            let { buildDotNetLayer } = await import('./layer');
-            dotNetBasemap.referenceLayers = await Promise.all(jsObject.referenceLayers.map(async i => await buildDotNetLayer(i)));
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

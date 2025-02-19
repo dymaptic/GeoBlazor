@@ -3,34 +3,7 @@
 
 import ActionToggle from '@arcgis/core/support/actions/ActionToggle';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
-import {IPropertyWrapper} from './definitions';
 
-export default class ActionToggleGenerated implements IPropertyWrapper {
-    public component: ActionToggle;
-    public geoBlazorId: string | null = null;
-    public viewId: string | null = null;
-    public layerId: string | null = null;
-
-    constructor(component: ActionToggle) {
-        this.component = component;
-    }
-    
-    // region methods
-   
-    unwrap() {
-        return this.component;
-    }
-    
-    // region properties
-    
-    getProperty(prop: string): any {
-        return this.component[prop];
-    }
-    
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
-}
 
 export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsActionToggle = new ActionToggle();

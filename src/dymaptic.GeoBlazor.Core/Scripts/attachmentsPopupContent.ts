@@ -1,5 +1,5 @@
 // override generated code in this file
-import AttachmentsContent = __esri.AttachmentsContent;
+import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsAttachmentsPopupContent(dotNetObject: any): any {

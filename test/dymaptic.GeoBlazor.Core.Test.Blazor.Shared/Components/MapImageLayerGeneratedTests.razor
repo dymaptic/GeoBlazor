@@ -1,0 +1,1212 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedMapImageLayer(Action renderHandler)
+    {
+        MapImageLayer? mapImageLayer = null;
+
+        RefreshEvent? refreshResult = null;
+        void OnRefresh(RefreshEvent result)
+        {
+            refreshResult = result;
+        }
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <MapImageLayer 
+                        Url="@("https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer")"
+                        BlendMode="@(BlendMode.SoftLight)"
+                        Dpi="@(429.1588)"
+                        Effect="@(new Effect("nemo",
+                            32296843.5883))"
+                        GdbVersion="@("1.0.4.5")"
+                        ImageFormat="@(MapImageFormat.Bmp)"
+                        ImageMaxHeight="@(6)"
+                        ImageMaxWidth="@(3)"
+                        ImageTransparency="@(true)"
+                        LegendEnabled="@(true)"
+                        MaxScale="@(5492416.1468)"
+                        MinScale="@(9263.8536)"
+                        PersistenceEnabled="@(true)"
+                        RefreshInterval="@(406.8110)"
+                        UseViewTime="@(true)"
+                        ListMode="@(ListMode.Hide)"
+                        Visible="@(true)"
+                        Opacity="@(0.0444)"
+                        Copyright="@("ducimus")"
+                        Title="@("id velit libero")"
+                        OnRefresh="OnRefresh">
+                        <TimeInterval 
+                            Unit="@(TemporalTime.Minutes)"
+                            Value="@(644.6098)">
+                        </TimeInterval>
+                        <TimeInfo 
+                            StartField="@("itaque")"
+                            EndField="@("voluptate")"
+                            Stops="@([new DateTime(2002, 3, 23, 6, 6, 21)])"
+                            TimeZone="@("Pacific/Fiji")"
+                            TrackIdField="@("molestias")">
+                            <TimeInterval 
+                                Unit="@(TemporalTime.Weeks)"
+                                Value="@(414.3585)">
+                            </TimeInterval>
+                            <TimeExtent 
+                                Start="@(new DateTime(2009, 8, 21, 8, 56, 46))"
+                                End="@(new DateTime(2008, 11, 2, 12, 19, 9))">
+                            </TimeExtent>
+                        </TimeInfo>
+                        <TimeExtent 
+                            Start="@(new DateTime(2015, 3, 10, 11, 52, 30))"
+                            End="@(new DateTime(2011, 9, 14, 7, 12, 7))">
+                        </TimeExtent>
+                        <PortalItem />
+                        <Extent 
+                            Xmax="@(51.9928)"
+                            Xmin="@(17.0411)"
+                            Ymax="@(40.7835)"
+                            Ymin="@(-71.2893)"
+                            Zmax="@(718.7719)"
+                            Zmin="@(955.6318)"
+                            Mmax="@(841.7433)"
+                            Mmin="@(978.0690)"
+                            HasM="@(true)"
+                            HasZ="@(true)">
+                            <SpatialReference 
+                                Wkid="@(1)"
+                                ImageCoordinateSystem="@("id")"
+                                Wkt="@("est")"
+                                Wkt2="@("at")">
+                            </SpatialReference>
+                        </Extent>
+                        <Sublayer 
+                            SublayerId="@(1)"
+                            LabelsVisible="@(true)"
+                            LegendEnabled="@(true)"
+                            ListMode="@(ListMode.Hide)"
+                            MaxScale="@(5376321.5687)"
+                            MinScale="@(759.6215)"
+                            Opacity="@(0.7801)"
+                            PopupEnabled="@(true)"
+                            Title="@("laudantium perferendis optio")"
+                            Visible="@(true)"
+                            DefinitionExpression="@("explicabo")"
+                            FloorInfo="@(new LayerFloorInfo("soluta"))"
+                            LabelingInfo="@([new Label(LabelPlacement.CenterCenter,
+                                    "accusantium",
+                                    new LabelExpressionInfo(),
+                                    true,
+                                DeconflictionStrategy.None,
+                                LabelPosition.Curved,
+                                    21237772.3031,
+                                    41554.3650,
+                                    true,
+                                    new Dimension(112.5124),
+                                new TextSymbol("est qui amet",
+                                    new MapColor(183, 3, 207),
+                                    new MapColor(33, 91, 109),
+                                        new Dimension(935.7993),
+                                    new MapFont(new Dimension(492.3472),
+                                            "Georgia",
+                                        MapFontStyle.Oblique,
+                                        FontWeight.Normal,
+                                        TextDecoration.None),
+                                        3.8753,
+                                    new MapColor(251, 220, 230),
+                                    new MapColor(162, 96, 233),
+                                        509.0760,
+                                    HorizontalAlignment.Left,
+                                        true,
+                                        624.0493,
+                                        new Dimension(75.2393),
+                                        true),
+                                    true,
+                                    "City = 'Toronto'")])"
+                            PopupTemplate="@(new PopupTemplate("voluptatem tempora aut",
+                                    "iusto",
+                                    ["atque"],
+                                [new FieldInfo("title",
+                                        "ullam",
+                                        "qui",
+                                    StringFieldOption.TextBox,
+                                    new FieldInfoFormat(4,
+                                            true,
+                                        DateFormat.ShortDateLe),
+                                        true,
+                                        true,
+                                    StatisticType.Sum)],
+                                [new TextPopupContent("nobis placeat molestiae")],
+                                [new ExpressionInfo("if ($feature.Age > 21) { return 'Adult'; } else { return 'Minor'; }",
+                                        "updatedAt",
+                                        "numquam placeat sint",
+                                        ExpressionInfoReturnType.String),
+                                new ExpressionInfo("return $feature.Name;",
+                                        "name",
+                                        "dicta autem labore",
+                                        ExpressionInfoReturnType.String)],
+                                    true,
+                                    true,
+                                    [new ActionButton("provident itaque cupiditate",
+                                        "https://picsum.photos/640/480/?image=493",
+                                        "6705031d-4c4c-e16d-a7d3-25d16eb194c2",
+                                        () => { Console.WriteLine("officia"); return Task.CompletedTask; },
+                                        "avatar",
+                                        true,
+                                        true,
+                                        true,
+                                        "maiores"),
+                                        new ActionButton("odit et est",
+                                            "https://picsum.photos/640/480/?image=601",
+                                            "a39858f3-1e32-5120-20ae-a3deeecbfbb4",
+                                            () => { Console.WriteLine("dignissimos"); return Task.CompletedTask; },
+                                            "id",
+                                            true,
+                                            true,
+                                            true,
+                                            "quia")]))"
+                            Renderer="@(new UniqueValueRenderer(new AuthoringInfo(ClassificationMethod.Quantile,
+                                    new MultipartColorRamp([new AlgorithmicColorRamp(Algorithm.CieLab,
+                                            new MapColor(157, 104, 66),
+                                            new MapColor(42, 40, 9)),
+                                        new AlgorithmicColorRamp(Algorithm.CieLab,
+                                            new MapColor(132, 226, 33),
+                                            new MapColor(155, 234, 157))]),
+                                        479.7869,
+                                    new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(776.8938,
+                                                932.2783),
+                                        new AuthoringInfoField1ClassBreakInfos(156.5626,
+                                                390.3128)],
+                                            "dignissimos",
+                                            "similique",
+                                            "in"),
+                                    new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(673.1329,
+                                                313.7401)],
+                                            "sed",
+                                            "accusantium",
+                                            "eligendi"),
+                                        ["et",
+                                            "facilis"],
+                                    AuthoringInfoFlowTheme.WaveFront,
+                                        "aut",
+                                        true,
+                                    LengthUnit.Inches,
+                                        313.3333,
+                                        260.1507,
+                                        48.6688,
+                                        207.9757),
+                                new PictureFillSymbol("https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/NDFD_Precipitation_v1/FeatureServer/0",
+                                    new Dimension(958.4066),
+                                    new Dimension(320.8967),
+                                    new Dimension(798.7832),
+                                    new Dimension(878.0851),
+                                    -152.7265,
+                                    13.9007,
+                                    new Outline(new MapColor(205, 38, 111),
+                                        new Dimension(221.2105),
+                                        SimpleLineSymbolStyle.ShortDash,
+                                        Cap.Butt,
+                                        Join.Miter,
+                                        new LineSymbolMarker(new MapColor(93, 232, 7),
+                                            LinePlacement.End,
+                                            LineSymbolMarkerStyle.Circle),
+                                        892.9040),
+                                    new MapColor(55, 222, 28)),
+                                    "ipsam",
+                                    new DefaultSymbol(),
+                                    "sed",
+                                    "eaque",
+                                    "aut",
+                                    "qui",
+                                new UniqueValueRendererLegendOptions("et quibusdam molestias"),
+                                    true,
+                                [new UniqueValueGroup([new UniqueValueClass("aut",
+                                        new TextSymbol("quis alias natus",
+                                            new MapColor(214, 172, 245),
+                                            new MapColor(118, 67, 212),
+                                                new Dimension(675.9034),
+                                            new MapFont(new Dimension(343.4820),
+                                                    "Georgia",
+                                                MapFontStyle.Normal,
+                                                FontWeight.Bold,
+                                                TextDecoration.None),
+                                                465.5283,
+                                            new MapColor(241, 195, 101),
+                                            new MapColor(68, 241, 38),
+                                                81.4466,
+                                            HorizontalAlignment.Center,
+                                                true,
+                                                695.9745,
+                                                new Dimension(196.9084),
+                                                true),
+                                        [new UniqueValue("quia",
+                                                "repudiandae",
+                                                "quo"),
+                                        new UniqueValue("adipisci",
+                                                "libero",
+                                                "omnis")])],
+                                        "voluptatibus"),
+                                new UniqueValueGroup([new UniqueValueClass("non",
+                                        new TextSymbol("aut perferendis ipsam",
+                                            new MapColor(98, 65, 146),
+                                            new MapColor(196, 184, 173),
+                                                new Dimension(430.2367),
+                                            new MapFont(new Dimension(226.3814),
+                                                    "Verdana",
+                                                MapFontStyle.Italic,
+                                                FontWeight.Bolder,
+                                                TextDecoration.Underline),
+                                                717.2432,
+                                            new MapColor(55, 240, 63),
+                                            new MapColor(108, 247, 66),
+                                                871.1073,
+                                            HorizontalAlignment.Right,
+                                                true,
+                                                846.0833,
+                                                new Dimension(71.1605),
+                                                true),
+                                        [new UniqueValue("molestiae",
+                                                "aut",
+                                                "et")]),
+                                    new UniqueValueClass("voluptate",
+                                        new TextSymbol("dolorem consequuntur soluta",
+                                            new MapColor(6, 69, 136),
+                                            new MapColor(206, 24, 16),
+                                                new Dimension(768.9590),
+                                            new MapFont(new Dimension(439.8902),
+                                                    "Times New Roman",
+                                                MapFontStyle.Oblique,
+                                                FontWeight.Bold,
+                                                TextDecoration.LineThrough),
+                                                570.6100,
+                                            new MapColor(109, 30, 150),
+                                            new MapColor(28, 231, 185),
+                                                202.4029,
+                                            HorizontalAlignment.Right,
+                                                true,
+                                                120.0707,
+                                                new Dimension(406.9348),
+                                                true),
+                                        [new UniqueValue("unde",
+                                                "recusandae",
+                                                "est")])],
+                                        "ut")],
+                                [new UniqueValueInfo("expedita",
+                                    new TextSymbol("autem odit aut",
+                                        new MapColor(93, 136, 172),
+                                        new MapColor(98, 24, 30),
+                                            new Dimension(832.7649),
+                                        new MapFont(new Dimension(689.5822),
+                                                "Bookman",
+                                            MapFontStyle.Oblique,
+                                            FontWeight.Normal,
+                                            TextDecoration.Underline),
+                                            273.8622,
+                                        new MapColor(217, 70, 81),
+                                        new MapColor(237, 56, 19),
+                                            562.0152,
+                                        HorizontalAlignment.Right,
+                                            true,
+                                            547.7068,
+                                            new Dimension(530.9069),
+                                            true),
+                                        "occaecati")],
+                                    "tenetur",
+                                    "mollitia voluptatum quia"))"
+                            Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0")">
+                            <Sublayer 
+                                SublayerId="@(5)"
+                                LabelsVisible="@(true)"
+                                LegendEnabled="@(true)"
+                                ListMode="@(ListMode.Hide)"
+                                MaxScale="@(16617949.9359)"
+                                MinScale="@(43061.9973)"
+                                Opacity="@(0.1380)"
+                                PopupEnabled="@(true)"
+                                Title="@("quisquam optio qui")"
+                                Visible="@(true)"
+                                DefinitionExpression="@("sed")"
+                                Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0")">
+                                <Sublayer 
+                                    SublayerId="@(7)"
+                                    LabelsVisible="@(true)"
+                                    LegendEnabled="@(true)"
+                                    ListMode="@(ListMode.Show)"
+                                    MaxScale="@(47923920.1007)"
+                                    MinScale="@(30582.9297)"
+                                    Opacity="@(0.9351)"
+                                    PopupEnabled="@(true)"
+                                    Title="@("architecto voluptatem inventore")"
+                                    Visible="@(true)"
+                                    DefinitionExpression="@("fugiat")"
+                                    Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0")">
+                                    <Sublayer 
+                                        SublayerId="@(4)"
+                                        LabelsVisible="@(true)"
+                                        LegendEnabled="@(true)"
+                                        ListMode="@(ListMode.Show)"
+                                        MaxScale="@(4583295.0300)"
+                                        MinScale="@(30769.8438)"
+                                        Opacity="@(0.6959)"
+                                        PopupEnabled="@(true)"
+                                        Title="@("aut rerum magni")"
+                                        Visible="@(true)"
+                                        DefinitionExpression="@("laboriosam")"
+                                        Url="@("https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0")">
+                                        <Sublayer 
+                                            SublayerId="@(2)"
+                                            LabelsVisible="@(true)"
+                                            LegendEnabled="@(true)"
+                                            ListMode="@(ListMode.Show)"
+                                            MaxScale="@(14211798.6808)"
+                                            MinScale="@(20535.4326)"
+                                            Opacity="@(0.0722)"
+                                            PopupEnabled="@(true)"
+                                            Title="@("distinctio voluptatibus aliquam")"
+                                            Visible="@(true)"
+                                            DefinitionExpression="@("quaerat")"
+                                            Url="@("https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads_Styled/FeatureServer/0")">
+                                            <Sublayer 
+                                                SublayerId="@(3)"
+                                                LabelsVisible="@(true)"
+                                                LegendEnabled="@(true)"
+                                                ListMode="@(ListMode.Hide)"
+                                                MaxScale="@(6403532.1638)"
+                                                MinScale="@(16886.0527)"
+                                                Opacity="@(0.5513)"
+                                                PopupEnabled="@(true)"
+                                                Title="@("quis at repellendus")"
+                                                Visible="@(true)"
+                                                DefinitionExpression="@("asperiores")"
+                                                Url="@("https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Countries_(Generalized)/FeatureServer/0")">
+                                                <Sublayer 
+                                                    SublayerId="@(6)"
+                                                    LabelsVisible="@(true)"
+                                                    LegendEnabled="@(true)"
+                                                    ListMode="@(ListMode.Show)"
+                                                    MaxScale="@(14533971.2379)"
+                                                    MinScale="@(8425.5842)"
+                                                    Opacity="@(0.8720)"
+                                                    PopupEnabled="@(true)"
+                                                    Title="@("et saepe distinctio")"
+                                                    Visible="@(true)"
+                                                    DefinitionExpression="@("libero")"
+                                                    Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0")">
+                                                    <Sublayer 
+                                                        Visible="@(true)"
+>
+                                                    </Sublayer>
+                                                    <UniqueValueRenderer 
+>
+                                                    </UniqueValueRenderer>
+                                                    <PopupTemplate 
+                                                        Title="@("voluptas aperiam ut")"
+                                                        StringContent="@("consequuntur")"
+>
+                                                    </PopupTemplate>
+                                                    <Label 
+>
+                                                    </Label>
+                                                    <LayerFloorInfo 
+                                                        FloorField="@("esse")">
+                                                    </LayerFloorInfo>
+                                                </Sublayer>
+                                                <SimpleRenderer 
+                                                    AuthoringInfo="@(new AuthoringInfo())">
+                                                </SimpleRenderer>
+                                                <PopupTemplate 
+                                                    Title="@("nemo delectus qui")"
+                                                    StringContent="@("similique")"
+                                                    OutFields="@(["soluta",
+                                                        "aliquam"])"
+                                                    FieldInfos="@([new FieldInfo(null,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                            true)])"
+                                                    Content="@([new AttachmentsPopupContent()])"
+                                                    ExpressionInfos="@([new ExpressionInfo(),
+                                                    new ExpressionInfo()])"
+                                                    OverwriteActions="@(true)"
+                                                    ReturnGeometry="@(true)"
+                                                    Actions="@([new ActionButton("autem exercitationem consequatur",
+                                                        "https://picsum.photos/640/480/?image=458",
+                                                        "974e994b-73f1-08df-9279-953159043256",
+                                                        () => { Console.WriteLine("quae"); return Task.CompletedTask; },
+                                                        "phone",
+                                                        true,
+                                                        true,
+                                                        true,
+                                                        "eligendi")])">
+                                                </PopupTemplate>
+                                                <Label 
+                                                    LabelPlacement="@(LabelPlacement.CenterStart)"
+                                                    LabelExpression="@("quis")"
+                                                    LabelExpressionInfo="@(new LabelExpressionInfo())"
+                                                    AllowOverrun="@(true)"
+                                                    DeconflictionStrategy="@(DeconflictionStrategy.None)"
+                                                    LabelPosition="@(LabelPosition.Curved)"
+                                                    MaxScale="@(13046376.4352)"
+                                                    MinScale="@(7374.4425)"
+                                                    RepeatLabel="@(true)"
+                                                    RepeatLabelDistance="@(new Dimension(809.0408))"
+                                                    Symbol="@(new TextSymbol("dolore qui porro"))"
+                                                    UseCodedValues="@(true)"
+                                                    Where="@("ObjectID = 1")">
+                                                </Label>
+                                                <LayerFloorInfo 
+                                                    FloorField="@("at")">
+                                                </LayerFloorInfo>
+                                            </Sublayer>
+                                            <UniqueValueRenderer 
+                                                AuthoringInfo="@(new AuthoringInfo(ClassificationMethod.DefinedInterval,
+                                                    new AlgorithmicColorRamp(Algorithm.CieLab),
+                                                        935.9681,
+                                                    new AuthoringInfoField(),
+                                                    new AuthoringInfoField(),
+                                                        ["et"],
+                                                    AuthoringInfoFlowTheme.WaveFront,
+                                                        "dolores",
+                                                        true,
+                                                    LengthUnit.Yards,
+                                                        78.0032,
+                                                        976.2952,
+                                                        229.9551,
+                                                        428.5490))">
+                                            </UniqueValueRenderer>
+                                            <PopupTemplate 
+                                                Title="@("in velit commodi")"
+                                                StringContent="@("vero")"
+                                                OutFields="@(["ex"])"
+                                                FieldInfos="@([new FieldInfo("status",
+                                                        "iure",
+                                                        "nemo",
+                                                    StringFieldOption.RichText,
+                                                    new FieldInfoFormat(),
+                                                        true,
+                                                        true,
+                                                    StatisticType.Count),
+                                                new FieldInfo("token",
+                                                        "eaque",
+                                                        "ipsa",
+                                                    StringFieldOption.TextBox,
+                                                    new FieldInfoFormat(),
+                                                        true,
+                                                        true,
+                                                    StatisticType.Var)])"
+                                                Content="@([new MediaPopupContent("aut tempora pariatur",
+                                                        "dolores hic modi",
+                                                    [new LineChartMediaInfo()],
+                                                        4),
+                                                new AttachmentsPopupContent("laudantium doloremque consequatur",
+                                                        "facilis quia provident")])"
+                                                ExpressionInfos="@([new ExpressionInfo("return $feature.Population / $feature.Area;",
+                                                        "token",
+                                                        "occaecati vel ullam"),
+                                                new ExpressionInfo("return $feature.Name;",
+                                                        "updatedAt",
+                                                        "iusto repellendus beatae")])"
+                                                OverwriteActions="@(true)"
+                                                ReturnGeometry="@(true)"
+                                                Actions="@([new ActionButton("sed cupiditate nulla",
+                                                    "https://picsum.photos/640/480/?image=269",
+                                                    "21b51165-d74f-52c2-acb5-51210f267ea3",
+                                                    () => { Console.WriteLine("dolore"); return Task.CompletedTask; },
+                                                    "group",
+                                                    true,
+                                                    true,
+                                                    true,
+                                                    "suscipit")])">
+                                            </PopupTemplate>
+                                            <Label 
+                                                LabelPlacement="@(LabelPlacement.AboveAfter)"
+                                                LabelExpression="@("quaerat")"
+                                                LabelExpressionInfo="@(new LabelExpressionInfo())"
+                                                AllowOverrun="@(true)"
+                                                DeconflictionStrategy="@(DeconflictionStrategy.Static)"
+                                                LabelPosition="@(LabelPosition.Parallel)"
+                                                MaxScale="@(34840843.7708)"
+                                                MinScale="@(35231.7701)"
+                                                RepeatLabel="@(true)"
+                                                RepeatLabelDistance="@(new Dimension(809.8699))"
+                                                Symbol="@(new TextSymbol("quia quae dolorem",
+                                                    new MapColor(92, 113, 38),
+                                                    new MapColor(231, 142, 184),
+                                                        null,
+                                                    new MapFont(),
+                                                        23.8029,
+                                                    new MapColor(43, 32, 50),
+                                                    new MapColor(149, 229, 131),
+                                                        40.7811,
+                                                    HorizontalAlignment.Left,
+                                                        true,
+                                                        339.1200,
+                                                        null,
+                                                        true))"
+                                                UseCodedValues="@(true)"
+                                                Where="@("Country = 'Canada'")">
+                                            </Label>
+                                            <LayerFloorInfo 
+                                                FloorField="@("et")">
+                                            </LayerFloorInfo>
+                                        </Sublayer>
+                                        <SimpleRenderer 
+                                            AuthoringInfo="@(new AuthoringInfo(ClassificationMethod.Quantile,
+                                                new MultipartColorRamp([new AlgorithmicColorRamp(Algorithm.Hsv)]),
+                                                    612.2467,
+                                                new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos()],
+                                                        "accusantium",
+                                                        "est",
+                                                        "qui"),
+                                                new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(),
+                                                    new AuthoringInfoField1ClassBreakInfos()],
+                                                        "et",
+                                                        "laudantium",
+                                                        "nulla"),
+                                                    ["esse"],
+                                                AuthoringInfoFlowTheme.WaveFront,
+                                                    "non",
+                                                    true,
+                                                LengthUnit.Feet,
+                                                    222.6178,
+                                                    252.7926,
+                                                    729.9641,
+                                                    996.8254))">
+                                        </SimpleRenderer>
+                                        <PopupTemplate 
+                                            Title="@("velit illo reiciendis")"
+                                            StringContent="@("deserunt")"
+                                            OutFields="@(["ad",
+                                                "quia"])"
+                                            FieldInfos="@([new FieldInfo("title",
+                                                    "aspernatur",
+                                                    "et",
+                                                StringFieldOption.RichText,
+                                                new FieldInfoFormat(5,
+                                                        true,
+                                                    DateFormat.LongMonthDayYearShortTime24),
+                                                    true,
+                                                    true,
+                                                StatisticType.Stddev)])"
+                                            Content="@([new ExpressionPopupContent(new ElementExpressionInfo("return $feature.City + ', ' + $feature.Country;",
+                                                        "fugit",
+                                                        "totam ab et")),
+                                            new FieldsPopupContent([new FieldInfo("updatedAt",
+                                                        "non",
+                                                        "ea",
+                                                    StringFieldOption.TextArea,
+                                                    new FieldInfoFormat(),
+                                                        true,
+                                                        true,
+                                                    StatisticType.Count),
+                                                new FieldInfo("comment",
+                                                        "autem",
+                                                        "aut",
+                                                    StringFieldOption.RichText,
+                                                    new FieldInfoFormat(),
+                                                        true,
+                                                        true,
+                                                    StatisticType.Count)],
+                                                    "consequatur suscipit amet",
+                                                    "et inventore consequatur")])"
+                                            ExpressionInfos="@([new ExpressionInfo("var area = Geometry($feature).area; return area;",
+                                                    "email",
+                                                    "ipsam quod magni",
+                                                    ExpressionInfoReturnType.String),
+                                            new ExpressionInfo("var x = $feature.X; var y = $feature.Y; return x + ', ' + y;",
+                                                    "updatedAt",
+                                                    "accusamus eveniet accusamus",
+                                                    ExpressionInfoReturnType.String)])"
+                                            OverwriteActions="@(true)"
+                                            ReturnGeometry="@(true)"
+                                            Actions="@([new ActionButton("voluptatibus sunt culpa",
+                                                "https://picsum.photos/640/480/?image=324",
+                                                "c82a4870-b5ad-3570-6f89-34d0ef594366",
+                                                () => { Console.WriteLine("reprehenderit"); return Task.CompletedTask; },
+                                                "group",
+                                                true,
+                                                true,
+                                                true,
+                                                "laborum")])">
+                                        </PopupTemplate>
+                                        <Label 
+                                            LabelPlacement="@(LabelPlacement.CenterBefore)"
+                                            LabelExpression="@("magni")"
+                                            LabelExpressionInfo="@(new LabelExpressionInfo())"
+                                            AllowOverrun="@(true)"
+                                            DeconflictionStrategy="@(DeconflictionStrategy.Static)"
+                                            LabelPosition="@(LabelPosition.Curved)"
+                                            MaxScale="@(27880397.4271)"
+                                            MinScale="@(17157.1564)"
+                                            RepeatLabel="@(true)"
+                                            RepeatLabelDistance="@(new Dimension(189.0202))"
+                                            Symbol="@(new TextSymbol("quod et soluta",
+                                                new MapColor(101, 55, 200),
+                                                new MapColor(39, 155, 48),
+                                                    new Dimension(898.5952),
+                                                new MapFont(new Dimension(13.1306),
+                                                        "Georgia",
+                                                    MapFontStyle.Oblique,
+                                                    FontWeight.Normal,
+                                                    TextDecoration.Underline),
+                                                    605.3421,
+                                                new MapColor(116, 38, 29),
+                                                new MapColor(229, 209, 207),
+                                                    579.8377,
+                                                HorizontalAlignment.Left,
+                                                    true,
+                                                    469.5622,
+                                                    new Dimension(878.9058),
+                                                    true))"
+                                            UseCodedValues="@(true)"
+                                            Where="@("Age > 21")">
+                                        </Label>
+                                        <LayerFloorInfo 
+                                            FloorField="@("adipisci")">
+                                        </LayerFloorInfo>
+                                    </Sublayer>
+                                    <UniqueValueRenderer 
+                                        AuthoringInfo="@(new AuthoringInfo(ClassificationMethod.Quantile,
+                                            new AlgorithmicColorRamp(Algorithm.LabLch,
+                                                new MapColor(95, 190, 158),
+                                                new MapColor(129, 84, 252)),
+                                                48.1084,
+                                            new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(871.2613,
+                                                        764.8730),
+                                                new AuthoringInfoField1ClassBreakInfos(280.6488,
+                                                        332.2942)],
+                                                    "atque",
+                                                    "fugit",
+                                                    "eos"),
+                                            new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(776.3983,
+                                                        321.7637)],
+                                                    "illum",
+                                                    "est",
+                                                    "labore"),
+                                                ["ut",
+                                                    "qui"],
+                                            AuthoringInfoFlowTheme.FlowLine,
+                                                "expedita",
+                                                true,
+                                            LengthUnit.Feet,
+                                                350.5384,
+                                                919.5433,
+                                                313.8796,
+                                                402.9135))">
+                                    </UniqueValueRenderer>
+                                    <PopupTemplate 
+                                        Title="@("veniam porro omnis")"
+                                        StringContent="@("velit")"
+                                        OutFields="@(["asperiores",
+                                            "non"])"
+                                        FieldInfos="@([new FieldInfo("comment",
+                                                "dolorem",
+                                                "nostrum",
+                                            StringFieldOption.RichText,
+                                            new FieldInfoFormat(1,
+                                                    true,
+                                                DateFormat.DayShortMonthYearLongTime24),
+                                                true,
+                                                true,
+                                            StatisticType.Min)])"
+                                        Content="@([new TextPopupContent("alias velit cupiditate"),
+                                        new TextPopupContent("temporibus qui ut")])"
+                                        ExpressionInfos="@([new ExpressionInfo("return $feature['FieldName'];",
+                                                "group",
+                                                "doloremque et molestiae",
+                                                ExpressionInfoReturnType.String),
+                                        new ExpressionInfo("return $feature.Name;",
+                                                "email",
+                                                "reiciendis atque laborum",
+                                                ExpressionInfoReturnType.String)])"
+                                        OverwriteActions="@(true)"
+                                        ReturnGeometry="@(true)"
+                                        Actions="@([new ActionButton("architecto deserunt soluta",
+                                            "https://picsum.photos/640/480/?image=651",
+                                            "35538997-4b40-a5f4-8a08-999cb791fdea",
+                                            () => { Console.WriteLine("sunt"); return Task.CompletedTask; },
+                                            "status",
+                                            true,
+                                            true,
+                                            true,
+                                            "qui")])">
+                                    </PopupTemplate>
+                                    <Label 
+                                        LabelPlacement="@(LabelPlacement.CenterAlong)"
+                                        LabelExpression="@("excepturi")"
+                                        LabelExpressionInfo="@(new LabelExpressionInfo())"
+                                        AllowOverrun="@(true)"
+                                        DeconflictionStrategy="@(DeconflictionStrategy.None)"
+                                        LabelPosition="@(LabelPosition.Curved)"
+                                        MaxScale="@(47000452.7100)"
+                                        MinScale="@(25175.4083)"
+                                        RepeatLabel="@(true)"
+                                        RepeatLabelDistance="@(new Dimension(10.1609))"
+                                        Symbol="@(new TextSymbol("nobis nulla facere",
+                                            new MapColor(73, 134, 127),
+                                            new MapColor(71, 18, 1),
+                                                new Dimension(398.2317),
+                                            new MapFont(new Dimension(565.0927),
+                                                    "Palatino",
+                                                MapFontStyle.Normal,
+                                                FontWeight.Lighter,
+                                                TextDecoration.Underline),
+                                                78.0005,
+                                            new MapColor(10, 60, 152),
+                                            new MapColor(8, 182, 160),
+                                                585.2936,
+                                            HorizontalAlignment.Left,
+                                                true,
+                                                246.2554,
+                                                new Dimension(62.4088),
+                                                true))"
+                                        UseCodedValues="@(true)"
+                                        Where="@("Phone = '555-555-5555'")">
+                                    </Label>
+                                    <LayerFloorInfo 
+                                        FloorField="@("quis")">
+                                    </LayerFloorInfo>
+                                </Sublayer>
+                                <SimpleRenderer 
+                                    AuthoringInfo="@(new AuthoringInfo(ClassificationMethod.EqualInterval,
+                                        new MultipartColorRamp([new AlgorithmicColorRamp(Algorithm.CieLab,
+                                                new MapColor(126, 127, 188),
+                                                new MapColor(216, 94, 95))]),
+                                            774.8992,
+                                        new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(141.9783,
+                                                    715.0338)],
+                                                "iusto",
+                                                "voluptas",
+                                                "quis"),
+                                        new AuthoringInfoField([new AuthoringInfoField1ClassBreakInfos(608.3432,
+                                                    53.9758),
+                                            new AuthoringInfoField1ClassBreakInfos(535.6042,
+                                                    597.9305)],
+                                                "consequuntur",
+                                                "consectetur",
+                                                "molestiae"),
+                                            ["quos"],
+                                        AuthoringInfoFlowTheme.FlowLine,
+                                            "at",
+                                            true,
+                                        LengthUnit.Kilometers,
+                                            412.7348,
+                                            982.0458,
+                                            667.6858,
+                                            133.6276))">
+                                </SimpleRenderer>
+                                <PopupTemplate 
+                                    Title="@("est qui eaque")"
+                                    StringContent="@("molestiae")"
+                                    OutFields="@(["accusamus",
+                                        "quos"])"
+                                    FieldInfos="@([new FieldInfo("password",
+                                            "eaque",
+                                            "omnis",
+                                        StringFieldOption.RichText,
+                                        new FieldInfoFormat(5,
+                                                true,
+                                            DateFormat.ShortDateLeShortTime),
+                                            true,
+                                            true,
+                                        StatisticType.Stddev)])"
+                                    Content="@([new AttachmentsPopupContent("consequatur modi beatae",
+                                            "rerum consequatur quis numquam",
+                                            AttachmentsPopupContentDisplayType.Preview)])"
+                                    ExpressionInfos="@([new ExpressionInfo("return $feature.Status == 'Active' ? 'Active' : 'Inactive';",
+                                            "comment",
+                                            "exercitationem accusantium pariatur",
+                                            ExpressionInfoReturnType.String),
+                                    new ExpressionInfo("if ($feature.Age > 21) { return 'Adult'; } else { return 'Minor'; }",
+                                            "password",
+                                            "et autem corrupti",
+                                            ExpressionInfoReturnType.String)])"
+                                    OverwriteActions="@(true)"
+                                    ReturnGeometry="@(true)"
+                                    Actions="@([new ActionButton("voluptas dignissimos deserunt",
+                                        "https://picsum.photos/640/480/?image=883",
+                                        "34b98b0b-b1ff-bb47-28e7-8bb5d2a34791",
+                                        () => { Console.WriteLine("voluptas"); return Task.CompletedTask; },
+                                        "createdAt",
+                                        true,
+                                        true,
+                                        true,
+                                        "blanditiis")])">
+                                </PopupTemplate>
+                                <Label 
+                                    LabelPlacement="@(LabelPlacement.AboveCenter)"
+                                    LabelExpression="@("in")"
+                                    LabelExpressionInfo="@(new LabelExpressionInfo())"
+                                    AllowOverrun="@(true)"
+                                    DeconflictionStrategy="@(DeconflictionStrategy.Static)"
+                                    LabelPosition="@(LabelPosition.Parallel)"
+                                    MaxScale="@(34585015.3409)"
+                                    MinScale="@(11748.4925)"
+                                    RepeatLabel="@(true)"
+                                    RepeatLabelDistance="@(new Dimension(918.7026))"
+                                    Symbol="@(new TextSymbol("et tempora sit",
+                                        new MapColor(243, 69, 82),
+                                        new MapColor(193, 214, 194),
+                                            new Dimension(962.2183),
+                                        new MapFont(new Dimension(361.6703),
+                                                "Helvetica",
+                                            MapFontStyle.Italic,
+                                            FontWeight.Bolder,
+                                            TextDecoration.None),
+                                            601.9399,
+                                        new MapColor(218, 111, 211),
+                                        new MapColor(203, 14, 58),
+                                            271.0632,
+                                        HorizontalAlignment.Center,
+                                            true,
+                                            933.9178,
+                                            new Dimension(9.1975),
+                                            true))"
+                                    UseCodedValues="@(true)"
+                                    Where="@("Name = 'John Doe'")">
+                                </Label>
+                                <LayerFloorInfo 
+                                    FloorField="@("enim")">
+                                </LayerFloorInfo>
+                            </Sublayer>
+                        </Sublayer>
+                    </MapImageLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(mapImageLayer!);
+        await AssertJavaScript("dispatchEvent", args: [mapImageLayer!.Id, "refresh"]);
+        int tries = 100;
+        while (tries > 0 &&
+            (refreshResult is null))
+        {
+            await Task.Delay(100);
+            tries--;
+        }
+        Assert.IsInstanceOfType<RefreshEvent>(refreshResult);
+        await AssertJavaScript("assertLayerExists", args: "map-image");
+        var createExportImageParametersMethodResult = await mapImageLayer.CreateExportImageParameters(new Extent(-14.1445,
+                    5.2830,
+                    7.1643,
+                    29.2507,
+                    927.2454,
+                    417.5936,
+                    670.5206,
+                    254.2908,
+                new SpatialReference(9,
+                        "labore",
+                        "optio",
+                        "ut"),
+                    true,
+                    true),
+                7,
+                4,
+            new MapImageLayerCreateExportImageParametersOptions(825.2824,
+                    22.7542,
+                    "amet"));
+        Assert.IsNotNull(createExportImageParametersMethodResult);
+        var createServiceSublayersMethodResult = await mapImageLayer.CreateServiceSublayers();
+        Assert.IsNotNull(createServiceSublayersMethodResult);
+        var fetchImageMethodResult = await mapImageLayer.FetchImage(new Extent(156.2488,
+                    -129.2571,
+                    29.9872,
+                    -84.7652,
+                    845.6549,
+                    372.9139,
+                    429.5903,
+                    886.8662,
+                new SpatialReference(3,
+                        "voluptas",
+                        "voluptatibus",
+                        "harum"),
+                    true,
+                    true),
+                3,
+                9,
+            new MapImageLayerFetchImageOptions(720.3952,
+                    262.2672,
+                    "explicabo"));
+        Assert.IsNotNull(fetchImageMethodResult);
+        var findSublayerByIdMethodResult = await mapImageLayer.FindSublayerById(9);
+        Assert.IsNotNull(findSublayerByIdMethodResult);
+        var loadAllMethodResult = await mapImageLayer.LoadAll();
+        Assert.IsNotNull(loadAllMethodResult);
+        await mapImageLayer.Refresh();
+        PortalItem testPortalItem = new PortalItem();
+        await mapImageLayer.SetPortalItem(testPortalItem);
+        var portalItem = await mapImageLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        BlendMode testBlendMode = BlendMode.SourceOut;
+        await mapImageLayer.SetBlendMode(testBlendMode);
+        var blendMode = await mapImageLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        TimeExtent testTimeExtent = new TimeExtent(new DateTime(2023, 9, 6, 18, 10, 50),
+                    new DateTime(2006, 10, 7, 8, 27, 5));
+        await mapImageLayer.SetTimeExtent(testTimeExtent);
+        var timeExtent = await mapImageLayer.GetTimeExtent();
+        Assert.AreEqual(testTimeExtent, timeExtent);
+        TimeInfo testTimeInfo = new TimeInfo("dolor",
+                    "omnis",
+                new TimeExtent(new DateTime(2023, 1, 19, 12, 19, 9),
+                        new DateTime(2010, 9, 21, 2, 1, 43)),
+                new TimeInterval(TemporalTime.Decades,
+                        391.8703),
+                    [new DateTime(2017, 6, 2, 14, 47, 29)],
+                    "Australia/Melbourne",
+                    "odio");
+        await mapImageLayer.SetTimeInfo(testTimeInfo);
+        var timeInfo = await mapImageLayer.GetTimeInfo();
+        Assert.AreEqual(testTimeInfo, timeInfo);
+        IReadOnlyList<Sublayer> testSublayers = [new Sublayer(4,
+                    true,
+                    true,
+                ListMode.Hide,
+                    24313370.9506,
+                    27340.9711,
+                    0.4552,
+                    true,
+                    "animi laborum ea",
+                    true,
+                    "ducimus",
+                new LayerFloorInfo("eveniet"),
+                [new Label(LabelPlacement.AboveLeft,
+                        "unde",
+                        new LabelExpressionInfo(),
+                        true,
+                    DeconflictionStrategy.Static,
+                    LabelPosition.Curved,
+                        30408859.8288,
+                        8045.6214,
+                        true,
+                        new Dimension(289.1961),
+                    new TextSymbol("earum laborum est",
+                        new MapColor(19, 94, 130),
+                        new MapColor(98, 189, 80),
+                            new Dimension(250.9943),
+                        new MapFont(new Dimension(798.1843),
+                                "Helvetica",
+                            MapFontStyle.Oblique,
+                            FontWeight.Bold,
+                            TextDecoration.LineThrough),
+                            257.0550,
+                        new MapColor(60, 44, 31),
+                        new MapColor(176, 197, 248),
+                            235.9496,
+                        HorizontalAlignment.Center,
+                            true,
+                            91.2110,
+                            new Dimension(962.1057),
+                            true),
+                        true,
+                        "Street = '123 Main St.'")],
+                new PopupTemplate("incidunt doloribus dolore",
+                        "consequatur",
+                        ["voluptas"],
+                    [new FieldInfo("updatedAt",
+                            "molestiae",
+                            "ea",
+                        StringFieldOption.RichText,
+                        new FieldInfoFormat(9,
+                                true,
+                            DateFormat.ShortDateShortTime),
+                            true,
+                            true,
+                        StatisticType.Min),
+                    new FieldInfo("updatedAt",
+                            "dolore",
+                            "molestiae",
+                        StringFieldOption.RichText,
+                        new FieldInfoFormat(2,
+                                true,
+                            DateFormat.ShortDateLeLongTime24),
+                            true,
+                            true,
+                        StatisticType.Min)],
+                    [new ExpressionPopupContent(new ElementExpressionInfo("if ($feature.Age > 21) { return 'Adult'; } else { return 'Minor'; }",
+                                "possimus",
+                                "labore quasi minus"))],
+                    [new ExpressionInfo("return $feature.City + ', ' + $feature.Country;",
+                            "id",
+                            "iure laborum a",
+                            ExpressionInfoReturnType.String)],
+                        true,
+                        true,
+                        [new ActionButton("dolorum optio quam",
+                            "https://picsum.photos/640/480/?image=902",
+                            "e665b5aa-9b71-2978-0a89-a75a1bc2ca3b",
+                            () => { Console.WriteLine("ut"); return Task.CompletedTask; },
+                            "avatar",
+                            true,
+                            true,
+                            true,
+                            "aut")]))];
+        await mapImageLayer.SetSublayers(testSublayers);
+        var sublayers = await mapImageLayer.GetSublayers();
+        Assert.AreEqual(testSublayers, sublayers);
+        ListMode testListMode = ListMode.Hide;
+        await mapImageLayer.SetListMode(testListMode);
+        var listMode = await mapImageLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        Extent testFullExtent = new Extent(-76.0032,
+                    147.4982,
+                    83.0389,
+                    -57.3341,
+                    405.5797,
+                    148.2091,
+                    410.6625,
+                    302.0820,
+                new SpatialReference(4,
+                        "et",
+                        "sed",
+                        "rerum"),
+                    true,
+                    true);
+        await mapImageLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await mapImageLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        IReadOnlyList<Sublayer> testSubtables = [new Sublayer(2,
+                    true,
+                    true,
+                ListMode.Show,
+                    41677723.0880,
+                    42595.9897,
+                    0.5077,
+                    true,
+                    "similique perspiciatis voluptatem",
+                    true,
+                    "atque",
+                new LayerFloorInfo("asperiores"),
+                [new Label(LabelPlacement.BelowRight,
+                        "quo",
+                        new LabelExpressionInfo(),
+                        true,
+                    DeconflictionStrategy.None,
+                    LabelPosition.Curved,
+                        39265496.8857,
+                        39719.8776,
+                        true,
+                        new Dimension(34.4941),
+                    new TextSymbol("quasi esse sit",
+                        new MapColor(29, 112, 65),
+                        new MapColor(87, 95, 0),
+                            new Dimension(945.0211),
+                        new MapFont(new Dimension(341.0228),
+                                "Garamond",
+                            MapFontStyle.Italic,
+                            FontWeight.Bold,
+                            TextDecoration.None),
+                            714.0248,
+                        new MapColor(223, 48, 134),
+                        new MapColor(119, 57, 16),
+                            748.5901,
+                        HorizontalAlignment.Right,
+                            true,
+                            479.6508,
+                            new Dimension(51.5395),
+                            true),
+                        true,
+                        "Province = 'Ontario'"),
+                new Label(LabelPlacement.CenterStart,
+                        "rerum",
+                        new LabelExpressionInfo(),
+                        true,
+                    DeconflictionStrategy.None,
+                    LabelPosition.Parallel,
+                        8293429.5686,
+                        16907.4594,
+                        true,
+                        new Dimension(258.6978),
+                    new TextSymbol("qui asperiores assumenda",
+                        new MapColor(115, 204, 130),
+                        new MapColor(121, 253, 118),
+                            new Dimension(572.4787),
+                        new MapFont(new Dimension(339.3639),
+                                "Arial",
+                            MapFontStyle.Oblique,
+                            FontWeight.Bold,
+                            TextDecoration.LineThrough),
+                            374.0211,
+                        new MapColor(87, 71, 62),
+                        new MapColor(160, 21, 111),
+                            436.6918,
+                        HorizontalAlignment.Left,
+                            true,
+                            516.2607,
+                            new Dimension(299.0410),
+                            true),
+                        true,
+                        "Age > 21")],
+                new PopupTemplate("quo et molestias",
+                        "quis",
+                        ["ratione"],
+                    [new FieldInfo("status",
+                            "consequuntur",
+                            "accusamus",
+                        StringFieldOption.TextArea,
+                        new FieldInfoFormat(5,
+                                true,
+                            DateFormat.LongMonthDayYearShortTime24),
+                            true,
+                            true,
+                        StatisticType.Stddev)],
+                    [new RelationshipPopupContent("modi excepturi velit",
+                            "adipisci numquam",
+                            2,
+                            "laudantium",
+                        [new RelatedRecordsInfoFieldOrder("saepe",
+                            OrderBy.Asc),
+                        new RelatedRecordsInfoFieldOrder("dicta",
+                            OrderBy.Desc)],
+                            8)],
+                    [new ExpressionInfo("var length = Geometry($feature).length; return length;",
+                            "avatar",
+                            "voluptatem sit quod",
+                            ExpressionInfoReturnType.String),
+                    new ExpressionInfo("return $feature.Population / $feature.Area;",
+                            "group",
+                            "suscipit dolor sed",
+                            ExpressionInfoReturnType.String)],
+                        true,
+                        true,
+                        [new ActionButton("minima est et",
+                            "https://picsum.photos/640/480/?image=823",
+                            "3609a35a-1cce-500d-6061-9530b77e736c",
+                            () => { Console.WriteLine("exercitationem"); return Task.CompletedTask; },
+                            "category",
+                            true,
+                            true,
+                            true,
+                            "qui"),
+                            new ActionButton("ab a expedita",
+                                "https://picsum.photos/640/480/?image=694",
+                                "4f08fc7e-f970-d470-f4a2-42f8cf5f96e6",
+                                () => { Console.WriteLine("autem"); return Task.CompletedTask; },
+                                "token",
+                                true,
+                                true,
+                                true,
+                                "alias")]))];
+        await mapImageLayer.SetSubtables(testSubtables);
+        var subtables = await mapImageLayer.GetSubtables();
+        Assert.AreEqual(testSubtables, subtables);
+        TimeInterval testTimeOffset = new TimeInterval(TemporalTime.Years,
+                    793.0276);
+        await mapImageLayer.SetTimeOffset(testTimeOffset);
+        var timeOffset = await mapImageLayer.GetTimeOffset();
+        Assert.AreEqual(testTimeOffset, timeOffset);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2015, 3, 8, 12, 47, 32),
+                    new DateTime(2009, 1, 25, 12, 44, 46));
+        await mapImageLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await mapImageLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

@@ -2,20 +2,17 @@
 
 
 import VectorTileLayerCapabilities = __esri.VectorTileLayerCapabilities;
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
-
 
 export default class VectorTileLayerCapabilitiesGenerated implements IPropertyWrapper {
     public component: VectorTileLayerCapabilities;
+    public geoBlazorId: string | null = null;
+    public viewId: string | null = null;
+    public layerId: string | null = null;
 
     constructor(component: VectorTileLayerCapabilities) {
         this.component = component;
-        // set all properties from component
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
     }
     
     // region methods
@@ -33,20 +30,65 @@ export default class VectorTileLayerCapabilitiesGenerated implements IPropertyWr
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
-    addToProperty(prop: string, value: any): void {
-        if (Array.isArray(value)) {
-            this.component[prop].addMany(value);
-        } else {
-            this.component[prop].add(value);
-        }
-    }
-    
-    removeFromProperty(prop: string, value: any): any {
-        if (Array.isArray(value)) {
-            this.component[prop].removeMany(value);
-        } else {
-            this.component[prop].remove(value);
-        }
-    }
 }
+
+export async function buildJsVectorTileLayerCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let jsVectorTileLayerCapabilities: any = {}
+
+    if (hasValue(dotNetObject.exportTiles)) {
+        jsVectorTileLayerCapabilities.exportTiles = dotNetObject.exportTiles;
+    }
+    if (hasValue(dotNetObject.operations)) {
+        jsVectorTileLayerCapabilities.operations = dotNetObject.operations;
+    }
+    let { default: VectorTileLayerCapabilitiesWrapper } = await import('./vectorTileLayerCapabilities');
+    let vectorTileLayerCapabilitiesWrapper = new VectorTileLayerCapabilitiesWrapper(jsVectorTileLayerCapabilities);
+    vectorTileLayerCapabilitiesWrapper.geoBlazorId = dotNetObject.id;
+    vectorTileLayerCapabilitiesWrapper.viewId = viewId;
+    vectorTileLayerCapabilitiesWrapper.layerId = layerId;
+    
+    // @ts-ignore
+    let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerCapabilitiesWrapper);
+    jsObjectRefs[dotNetObject.id] = vectorTileLayerCapabilitiesWrapper;
+
+    arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayerCapabilities;
+    let { buildDotNetVectorTileLayerCapabilities } = await import('./vectorTileLayerCapabilities');
+    let dnInstantiatedObject = await buildDotNetVectorTileLayerCapabilities(jsVectorTileLayerCapabilities);
+    
+    try {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for VectorTileLayerCapabilities', e);
+    }
+    
+    return jsVectorTileLayerCapabilities;
+}
+
+export async function buildDotNetVectorTileLayerCapabilitiesGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetVectorTileLayerCapabilities: any = {
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+        if (hasValue(jsObject.exportTiles)) {
+            dotNetVectorTileLayerCapabilities.exportTiles = jsObject.exportTiles;
+        }
+        if (hasValue(jsObject.operations)) {
+            dotNetVectorTileLayerCapabilities.operations = jsObject.operations;
+        }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetVectorTileLayerCapabilities.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetVectorTileLayerCapabilities;
+}
+
