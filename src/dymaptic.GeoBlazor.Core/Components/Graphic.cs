@@ -140,24 +140,6 @@ public partial class Graphic: MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Symbol? Symbol { get; set; }
-
-    /// <summary>
-    ///     The GeoBlazor Id of the parent layer, used when serializing the graphic to/from JavaScript.
-    /// </summary>
-    public Guid? LayerId
-    {
-        get => _layerId ??= Layer?.Id;
-        init => _layerId = value;
-    }
-
-    /// <summary>
-    ///     The GeoBlazor Id of the parent view, used when serializing the graphic to/from JavaScript.
-    /// </summary>
-    public Guid? ViewId
-    {
-        get => _viewId ??= View?.Id;
-        init => _viewId = value;
-    }
     
 
     /// <summary>

@@ -165,8 +165,8 @@ public partial class PixelData : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "extent", value);
     }
     
     /// <summary>

@@ -3596,8 +3596,8 @@ public partial class Portal
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setDefaultExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "defaultExtent", value);
     }
     
     /// <summary>
@@ -3716,8 +3716,8 @@ public partial class Portal
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeaturedGroups", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featuredGroups", value);
     }
     
     /// <summary>

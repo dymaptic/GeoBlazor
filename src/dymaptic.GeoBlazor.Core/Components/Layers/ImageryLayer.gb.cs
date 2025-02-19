@@ -2027,8 +2027,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "capabilities", value);
     }
     
     /// <summary>
@@ -2237,8 +2237,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFields", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fields", value);
     }
     
     /// <summary>
@@ -2537,8 +2537,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "multidimensionalSubset", value);
     }
     
     /// <summary>
@@ -2717,8 +2717,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>
@@ -2777,8 +2777,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "rasterFunction", value);
     }
     
     /// <summary>
@@ -2957,8 +2957,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeOffset", value);
     }
     
     /// <summary>

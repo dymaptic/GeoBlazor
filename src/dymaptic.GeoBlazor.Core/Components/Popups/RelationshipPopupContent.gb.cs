@@ -368,8 +368,8 @@ public partial class RelationshipPopupContent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrderByFields", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "orderByFields", value);
     }
     
     /// <summary>

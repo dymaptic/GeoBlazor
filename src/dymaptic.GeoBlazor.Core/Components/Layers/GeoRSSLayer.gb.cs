@@ -659,8 +659,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLineSymbol", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "lineSymbol", value);
     }
     
     /// <summary>
@@ -749,8 +749,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPointSymbol", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "pointSymbol", value);
     }
     
     /// <summary>
@@ -779,8 +779,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPolygonSymbol", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "polygonSymbol", value);
     }
     
     /// <summary>

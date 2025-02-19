@@ -529,8 +529,8 @@ public partial class Basemap
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>
@@ -559,8 +559,8 @@ public partial class Basemap
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStyle", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "style", value);
     }
     
     /// <summary>

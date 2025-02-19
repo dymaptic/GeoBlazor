@@ -111,7 +111,8 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
         jsLocate.goToLocationEnabled = dotNetObject.goToLocationEnabled;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsLocate.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsLocate.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.icon)) {
         jsLocate.icon = dotNetObject.icon;

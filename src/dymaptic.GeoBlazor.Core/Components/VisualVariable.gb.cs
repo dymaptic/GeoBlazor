@@ -215,8 +215,8 @@ public abstract partial class VisualVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendOptions", value);
     }
     
     /// <summary>

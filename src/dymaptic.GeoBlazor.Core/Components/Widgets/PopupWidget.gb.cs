@@ -1079,8 +1079,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setDockOptions", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "dockOptions", value);
     }
     
     /// <summary>
@@ -1139,8 +1139,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatures", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "features", value);
     }
     
     /// <summary>
@@ -1229,8 +1229,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLocation", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "location", value);
     }
     
     /// <summary>
@@ -1439,8 +1439,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
     /// <summary>
@@ -1469,8 +1469,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setWidgetContent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "widgetContent", value);
     }
     
 #endregion

@@ -101,7 +101,8 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         jsCompass.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsCompass.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsCompass.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.icon)) {
         jsCompass.icon = dotNetObject.icon;

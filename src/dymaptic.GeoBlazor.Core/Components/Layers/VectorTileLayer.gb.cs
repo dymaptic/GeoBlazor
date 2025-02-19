@@ -857,8 +857,8 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setInitialExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "initialExtent", value);
     }
     
     /// <summary>
@@ -977,8 +977,8 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>

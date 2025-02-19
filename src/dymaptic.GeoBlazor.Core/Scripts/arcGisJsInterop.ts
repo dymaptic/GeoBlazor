@@ -104,10 +104,11 @@ import { buildDotNetSpatialReference } from './spatialReference';
 import { buildDotNetGeometry, buildJsGeometry } from './geometry';
 import { buildDotNetSymbol, buildJsSymbol } from './symbol';
 import { buildDotNetPopupTemplate } from './popupTemplate';
-import {buildDotNetGoToOverrideParameters, buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
+import {buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
 import { buildJsRenderer } from './renderer';
 import { buildJsLabel } from './label';
 import { buildJsAttributes } from './attributes';
+import {buildJsGoToOverride} from "./goToOverride";
 
 // region exports
 
@@ -1740,6 +1741,16 @@ export function lookupJsGraphicById(graphicId: string, layerId: string | null, v
     return null;
 }
 
+export function lookupGeoBlazorId(jsObject: any): string | null {
+    for (const key in arcGisObjectRefs) {
+        if (arcGisObjectRefs[key] === jsObject) {
+            return key;
+        }
+    }
+
+    return null;
+}
+
 export function setGraphicOrigin(id: string, origin: any, layerId: string | null, viewId: string | null): void {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(origin) && hasValue(graphic)) {
@@ -1759,13 +1770,8 @@ export function setGraphicOrigin(id: string, origin: any, layerId: string | null
 export function getGraphicOrigin(id: string, layerId: string | null, viewId: string | null): any {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.origin)) {
-        let layerId: any = null;
-        for (let key in arcGisObjectRefs) {
-            let val = arcGisObjectRefs[key];
-            if (val === graphic!.origin.layer) {
-                layerId = key;
-            }
-        }
+        let layerId: any = lookupGeoBlazorId(graphic!.origin.layer);
+        
         return {
             layerId: layerId,
             arcGISLayerId: graphic!.origin.layerId,
@@ -2023,10 +2029,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = locate;
 
             if (dotNetWidget.hasGoToOverride) {
-                locate.goToOverride = async (_, parameters) => {
-                    const dnParams = buildDotNetGoToOverrideParameters(parameters, viewId);
-                    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptGoToOverride', dnParams);
-                }
+                locate.goToOverride = buildJsGoToOverride(dotNetWidget, viewId);
             }
 
             break;
@@ -2975,15 +2978,8 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
         }
     });
     
-    let layerId: string | null = null;
-    // iterate through arcGisObjectRefs and find the value that equals the layer
-    for (const key in arcGisObjectRefs) {
-        if (arcGisObjectRefs[key] === item.layer) {
-            layerId = key;
-            break;
-        }
-    }
-
+    let layerId: string | null = lookupGeoBlazorId(item.layer);
+    
     return {
         title: item.title,
         visible: item.visible,

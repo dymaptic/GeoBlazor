@@ -300,8 +300,8 @@ public partial class PopupDockOptions
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupDockOptionsBreakpoint", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupDockOptionsBreakpoint", value);
     }
     
     /// <summary>

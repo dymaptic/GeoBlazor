@@ -115,8 +115,8 @@ public partial class MultipartColorRamp : IClassBreaksCreateRendererParamsColorR
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setColorRamps", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "colorRamps", value);
     }
     
 #endregion

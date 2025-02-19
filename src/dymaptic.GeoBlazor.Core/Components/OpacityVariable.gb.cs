@@ -200,8 +200,8 @@ public partial class OpacityVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStops", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "stops", value);
     }
     
 #endregion

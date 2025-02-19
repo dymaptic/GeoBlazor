@@ -201,8 +201,8 @@ public partial class ColorVariable : IColorSizeSliderUpdateVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStops", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "stops", value);
     }
     
 #endregion

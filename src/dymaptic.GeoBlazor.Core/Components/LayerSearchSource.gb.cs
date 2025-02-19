@@ -39,12 +39,12 @@ public partial class LayerSearchSource
     ///     For filtering suggests or search results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="getResults">
+    /// <param name="getResultsHandler">
     ///     Function used to get search results.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getResults">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="getSuggestions">
+    /// <param name="getSuggestionsHandler">
     ///     Function used to get search suggestions.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getSuggestions">ArcGIS Maps SDK for JavaScript</a>
@@ -140,8 +140,8 @@ public partial class LayerSearchSource
         string? displayField = null,
         bool? exactMatch = null,
         SearchSourceFilter? filter = null,
-        GetResultsHandler? getResults = null,
-        GetSuggestionsParameters? getSuggestions = null,
+        GetResultsHandler? getResultsHandler = null,
+        GetSuggestionsHandler? getSuggestionsHandler = null,
         Layer? layer = null,
         int? maxResults = null,
         double? maxSuggestions = null,
@@ -169,8 +169,8 @@ public partial class LayerSearchSource
         DisplayField = displayField;
         ExactMatch = exactMatch;
         Filter = filter;
-        GetResults = getResults;
-        GetSuggestions = getSuggestions;
+        GetResultsHandler = getResultsHandler;
+        GetSuggestionsHandler = getSuggestionsHandler;
         Layer = layer;
         MaxResults = maxResults;
         MaxSuggestions = maxSuggestions;

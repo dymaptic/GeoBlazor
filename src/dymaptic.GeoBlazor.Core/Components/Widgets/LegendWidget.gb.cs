@@ -564,8 +564,8 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setActiveLayerInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activeLayerInfos", value);
     }
     
     /// <summary>
@@ -684,8 +684,8 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayerInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layerInfos", value);
     }
     
     /// <summary>
@@ -714,8 +714,8 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLegendStyle", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendStyle", value);
     }
     
     /// <summary>
@@ -864,8 +864,8 @@ public partial class LegendWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "viewModel", value);
     }
     
 #endregion

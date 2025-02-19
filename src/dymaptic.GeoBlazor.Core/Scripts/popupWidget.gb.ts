@@ -220,7 +220,8 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         jsPopup.dockEnabled = dotNetObject.dockEnabled;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsPopup.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsPopup.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsPopup.headingLevel = dotNetObject.headingLevel;

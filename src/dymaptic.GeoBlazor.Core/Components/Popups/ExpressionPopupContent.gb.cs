@@ -97,8 +97,8 @@ public partial class ExpressionPopupContent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setExpressionInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "expressionInfo", value);
     }
     
 #endregion

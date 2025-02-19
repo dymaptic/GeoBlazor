@@ -313,8 +313,8 @@ public partial class HighlightOptions
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "color", value);
     }
     
     /// <summary>
@@ -373,8 +373,8 @@ public partial class HighlightOptions
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setHaloColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "haloColor", value);
     }
     
     /// <summary>
@@ -433,8 +433,8 @@ public partial class HighlightOptions
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setShadowColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "shadowColor", value);
     }
     
     /// <summary>

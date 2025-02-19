@@ -332,8 +332,8 @@ public partial class ScaleBarWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewModel", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "viewModel", value);
     }
     
 #endregion

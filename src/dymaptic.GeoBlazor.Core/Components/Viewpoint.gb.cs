@@ -228,8 +228,8 @@ public partial class Viewpoint
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setCamera", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "camera", value);
     }
     
     /// <summary>
@@ -318,8 +318,8 @@ public partial class Viewpoint
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTargetGeometry", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "targetGeometry", value);
     }
     
 #endregion

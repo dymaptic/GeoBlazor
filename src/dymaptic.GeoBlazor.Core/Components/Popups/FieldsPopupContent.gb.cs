@@ -212,8 +212,8 @@ public partial class FieldsPopupContent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFieldInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fieldInfos", value);
     }
     
     /// <summary>

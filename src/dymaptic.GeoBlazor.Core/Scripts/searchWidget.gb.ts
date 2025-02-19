@@ -158,7 +158,8 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
         jswidgetsSearch.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jswidgetsSearch.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jswidgetsSearch.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.icon)) {
         jswidgetsSearch.icon = dotNetObject.icon;

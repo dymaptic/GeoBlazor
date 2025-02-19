@@ -453,8 +453,8 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGraphic", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "graphic", value);
     }
     
     /// <summary>
@@ -573,8 +573,8 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

@@ -375,8 +375,8 @@ public partial class FieldInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFormat", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "format", value);
     }
     
     /// <summary>

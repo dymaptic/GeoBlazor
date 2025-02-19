@@ -245,8 +245,8 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatureExpressionInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureExpressionInfo", value);
     }
     
     /// <summary>

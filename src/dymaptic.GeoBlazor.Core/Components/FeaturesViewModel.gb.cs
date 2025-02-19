@@ -1542,8 +1542,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatures", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "features", value);
     }
     
     /// <summary>
@@ -1602,8 +1602,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatureViewModelAbilities", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureViewModelAbilities", value);
     }
     
     /// <summary>
@@ -1692,8 +1692,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLocation", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "location", value);
     }
     
     /// <summary>
@@ -1812,8 +1812,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>
@@ -1962,8 +1962,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setWidgetContent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "widgetContent", value);
     }
     
 #endregion
@@ -2069,7 +2069,7 @@ public partial class FeaturesViewModel : MapComponent,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<FetchPopupFeaturesResult?> FetchFeatures(FeaturesViewModelFetchFeaturesScreenPoint screenPoint,
+    public async Task<FetchPopupFeaturesResult?> FetchFeatures(ScreenPoint screenPoint,
         PopupFetchFeaturesOptions options,
         CancellationToken cancellationToken = default)
     {
@@ -2080,7 +2080,7 @@ public partial class FeaturesViewModel : MapComponent,
             "fetchFeatures", 
             CancellationTokenSource.Token,
             screenPoint,
-            new { clickEvent = options.ClickEvent, signal = abortSignal });
+            new { event = options.Event, signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         

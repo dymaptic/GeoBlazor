@@ -200,8 +200,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMensuration", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "mensuration", value);
     }
     
     /// <summary>
@@ -230,8 +230,8 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOperations", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "operations", value);
     }
     
     /// <summary>

@@ -389,7 +389,7 @@
     {
         var suggestionsHandlerWasCalled = false;
 
-        Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsParameters parameters)
+        Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsHandler parameters)
         {
             Assert.IsNotNull(parameters);
             suggestionsHandlerWasCalled = true;

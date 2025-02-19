@@ -322,8 +322,8 @@ public partial class Bookmark
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "viewpoint", value);
     }
     
 #endregion

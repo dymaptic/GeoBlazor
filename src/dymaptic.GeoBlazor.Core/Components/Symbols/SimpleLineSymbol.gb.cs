@@ -324,8 +324,8 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMarker", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "marker", value);
     }
     
     /// <summary>

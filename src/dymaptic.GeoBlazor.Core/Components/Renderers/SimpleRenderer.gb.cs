@@ -198,8 +198,8 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visualVariables", value);
     }
     
 #endregion

@@ -1510,8 +1510,8 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTickConfigs", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "tickConfigs", value);
     }
     
     /// <summary>
@@ -1600,8 +1600,8 @@ public partial class SliderWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
 #endregion
@@ -1673,6 +1673,11 @@ public partial class SliderWidget
     }
     
 #endregion
+
+#region Event Handlers
+
+#endregion
+
 
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {

@@ -155,8 +155,8 @@ public partial class UniqueValueGroup : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setClasses", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "classes", value);
     }
     
     /// <summary>

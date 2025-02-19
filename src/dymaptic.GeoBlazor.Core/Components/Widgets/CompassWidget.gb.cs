@@ -61,7 +61,7 @@ public partial class CompassWidget : IGoTo
     
     
 #region Public Properties / Blazor Parameters
-    
+
     /// <summary>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html#viewModel">ArcGIS Maps SDK for JavaScript</a>

@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    A `FieldElement` form element defines how a feature layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">field</a> participates in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureForm.html">FeatureForm</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-FieldElement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class FieldElement
+public partial class FieldElement : IElement
 {
 
     /// <summary>

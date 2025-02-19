@@ -245,8 +245,8 @@ public partial class AuthoringInfoField
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setClassBreakInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "classBreakInfos", value);
     }
     
     /// <summary>

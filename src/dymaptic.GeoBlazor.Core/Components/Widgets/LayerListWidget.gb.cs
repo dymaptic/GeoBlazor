@@ -1182,8 +1182,8 @@ public partial class LayerListWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
 #endregion

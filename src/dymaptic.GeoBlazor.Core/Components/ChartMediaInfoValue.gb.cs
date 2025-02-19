@@ -272,8 +272,8 @@ public partial class ChartMediaInfoValue
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setColors", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "colors", value);
     }
     
     /// <summary>
@@ -362,8 +362,8 @@ public partial class ChartMediaInfoValue
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSeries", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "series", value);
     }
     
     /// <summary>

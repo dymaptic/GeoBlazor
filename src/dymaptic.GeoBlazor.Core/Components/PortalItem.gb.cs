@@ -1655,8 +1655,8 @@ public partial class PortalItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "extent", value);
     }
     
     /// <summary>
@@ -2507,7 +2507,8 @@ public partial class PortalItem
         PortalItem[]? result = await JsComponentReference!.InvokeAsync<PortalItem[]?>(
             "fetchRelatedItems", 
             CancellationTokenSource.Token,
-            new { relationshipType, direction },
+            relationshipType,
+            direction,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -2551,7 +2552,10 @@ public partial class PortalItem
         FetchResourcesResult? result = await JsComponentReference!.InvokeAsync<FetchResourcesResult?>(
             "fetchResources", 
             CancellationTokenSource.Token,
-            new { num, start, sortOrder, sortField },
+            num,
+            start,
+            sortOrder,
+            sortField,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -2658,7 +2662,7 @@ public partial class PortalItem
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "update", 
             CancellationTokenSource.Token,
-            new { data });
+            data);
     }
     
     /// <summary>
@@ -2682,7 +2686,8 @@ public partial class PortalItem
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "updateThumbnail", 
             CancellationTokenSource.Token,
-            new { thumbnail, filename });
+            thumbnail,
+            filename);
     }
     
 #endregion

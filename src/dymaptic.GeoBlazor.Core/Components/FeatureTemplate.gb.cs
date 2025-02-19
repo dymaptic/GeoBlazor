@@ -385,8 +385,8 @@ public partial class FeatureTemplate
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPrototype", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "prototype", value);
     }
     
     /// <summary>

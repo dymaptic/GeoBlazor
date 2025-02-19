@@ -38,7 +38,7 @@ public partial class CompassViewModel : MapComponent,
     
     
 #region Public Properties / Blazor Parameters
-    
+
     /// <summary>
     ///     The z axis orientation.
     ///     default { z: 0 }

@@ -896,8 +896,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "legendOptions", value);
     }
     
     /// <summary>
@@ -956,8 +956,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setUniqueValueGroups", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "uniqueValueGroups", value);
     }
     
     /// <summary>
@@ -986,8 +986,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setUniqueValueInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "uniqueValueInfos", value);
     }
     
     /// <summary>
@@ -1076,8 +1076,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visualVariables", value);
     }
     
 #endregion

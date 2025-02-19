@@ -85,8 +85,8 @@ public abstract partial class Renderer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAuthoringInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "authoringInfo", value);
     }
     
 #endregion

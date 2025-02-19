@@ -177,7 +177,8 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         jsPopupViewModel.featuresPerPage = dotNetObject.featuresPerPage;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsPopupViewModel.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsPopupViewModel.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
         jsPopupViewModel.highlightEnabled = dotNetObject.highlightEnabled;

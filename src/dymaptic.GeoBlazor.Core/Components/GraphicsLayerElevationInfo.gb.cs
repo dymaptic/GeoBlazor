@@ -245,8 +245,8 @@ public partial class GraphicsLayerElevationInfo : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFeatureExpressionInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureExpressionInfo", value);
     }
     
     /// <summary>

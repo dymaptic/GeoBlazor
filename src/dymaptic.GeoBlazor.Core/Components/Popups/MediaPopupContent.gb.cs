@@ -278,8 +278,8 @@ public partial class MediaPopupContent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMediaInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "mediaInfos", value);
     }
     
     /// <summary>

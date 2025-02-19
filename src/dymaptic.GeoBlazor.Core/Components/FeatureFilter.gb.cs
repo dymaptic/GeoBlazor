@@ -374,8 +374,8 @@ public partial class FeatureFilter
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGeometry", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "geometry", value);
     }
     
     /// <summary>

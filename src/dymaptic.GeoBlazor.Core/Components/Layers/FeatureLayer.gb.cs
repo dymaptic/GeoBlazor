@@ -314,7 +314,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         IFeatureReduction? featureReduction = null,
         IReadOnlyList<Field>? fields = null,
         LayerFloorInfo? floorInfo = null,
-        FormTemplate? formTemplate = null,
+        IFormTemplate? formTemplate = null,
         Extent? fullExtent = null,
         string? gdbVersion = null,
         bool? hasM = null,
@@ -573,7 +573,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public FormTemplate? FormTemplate { get; set; }
+    public IFormTemplate? FormTemplate { get; set; }
     
     /// <summary>
     ///     The version of the geodatabase of the feature service data.
@@ -1555,7 +1555,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     Asynchronously retrieve the current value of the FormTemplate property.
     /// </summary>
-    public async Task<FormTemplate?> GetFormTemplate()
+    public async Task<IFormTemplate?> GetFormTemplate()
     {
         if (CoreJsModule is null)
         {
@@ -1569,7 +1569,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        FormTemplate? result = await JsComponentReference!.InvokeAsync<FormTemplate?>("getProperty",
+        IFormTemplate? result = await JsComponentReference!.InvokeAsync<IFormTemplate?>("getProperty",
             CancellationTokenSource.Token, "formTemplate");
         if (result is not null)
         {
@@ -3182,8 +3182,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "elevationInfo", value);
     }
     
     /// <summary>
@@ -3242,8 +3242,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFields", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fields", value);
     }
     
     /// <summary>
@@ -3272,8 +3272,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "floorInfo", value);
     }
     
     /// <summary>
@@ -3282,7 +3282,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFormTemplate(FormTemplate? value)
+    public async Task SetFormTemplate(IFormTemplate? value)
     {
 #pragma warning disable BL0005
         FormTemplate = value;
@@ -3302,8 +3302,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFormTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "formTemplate", value);
     }
     
     /// <summary>
@@ -3452,8 +3452,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "labelingInfo", value);
     }
     
     /// <summary>
@@ -3662,8 +3662,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "orderBy", value);
     }
     
     /// <summary>
@@ -3812,8 +3812,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRenderer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "renderer", value);
     }
     
     /// <summary>
@@ -3932,8 +3932,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSource", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "source", value);
     }
     
     /// <summary>
@@ -3992,8 +3992,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>
@@ -4022,8 +4022,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTemplates", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "templates", value);
     }
     
     /// <summary>
@@ -4112,8 +4112,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeOffset", value);
     }
     
     /// <summary>
@@ -4710,15 +4710,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case FormTemplate formTemplate:
-                if (formTemplate != FormTemplate)
-                {
-                    FormTemplate = formTemplate;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
-                }
-                
-                return true;
             case Label labelingInfo:
                 LabelingInfo ??= [];
                 if (!LabelingInfo.Contains(labelingInfo))
@@ -4856,11 +4847,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
                 return true;
-            case FormTemplate _:
-                FormTemplate = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(FormTemplate)] = FormTemplate;
-                return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 LayerChanged = true;
@@ -4940,7 +4926,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             }
         }
         FloorInfo?.ValidateRequiredGeneratedChildren();
-        FormTemplate?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)

@@ -449,8 +449,8 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLods", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "lods", value);
     }
     
     /// <summary>
@@ -479,8 +479,8 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOrigin", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "origin", value);
     }
     
     /// <summary>
@@ -539,8 +539,8 @@ public partial class TileInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
 #endregion

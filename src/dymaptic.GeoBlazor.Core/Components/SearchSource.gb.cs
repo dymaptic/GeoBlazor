@@ -22,70 +22,6 @@ public abstract partial class SearchSource
     public SearchSourceFilter? Filter { get; set; }
     
     /// <summary>
-    ///     Function used to get search results.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getResults">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public GetResultsHandler? GetResults { get; set; }
-    
-    /// <summary>
-    ///     JS-invokable method that triggers the <see cref="GetResults"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task<SearchResult[]?> OnJsGetResults(string parameters)
-    {
-        SearchResult[]? result = null;
-    
-        if (GetResults is not null)
-        {
-            result = await GetResults.Invoke(parameters);
-        }
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="GetResults" /> function was registered.
-    /// </summary>
-    public bool HasGetResults => GetResults is not null;
-    
-    /// <summary>
-    ///     Function used to get search suggestions.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getSuggestions">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public GetSuggestionsParameters? GetSuggestions { get; set; }
-    
-    /// <summary>
-    ///     JS-invokable method that triggers the <see cref="GetSuggestions"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task<SuggestResult[]?> OnJsGetSuggestions(string parameters)
-    {
-        SuggestResult[]? result = null;
-    
-        if (GetSuggestions is not null)
-        {
-            result = await GetSuggestions.Invoke(parameters);
-        }
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="GetSuggestions" /> function was registered.
-    /// </summary>
-    public bool HasGetSuggestions => GetSuggestions is not null;
-    
-    /// <summary>
     ///     Indicates the maximum number of suggestions to return for the widget's input.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
@@ -876,8 +812,8 @@ public abstract partial class SearchSource
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>
@@ -966,8 +902,8 @@ public abstract partial class SearchSource
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setResultSymbol", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "resultSymbol", value);
     }
     
     /// <summary>
@@ -1180,6 +1116,11 @@ public abstract partial class SearchSource
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
+    
+        if (Layer is null && LayerId is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(SearchSource), [nameof(Layer), nameof(LayerId)]);
+        }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         ResultSymbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

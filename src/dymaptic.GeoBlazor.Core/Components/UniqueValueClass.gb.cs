@@ -230,8 +230,8 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSymbol", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "symbol", value);
     }
     
     /// <summary>
@@ -260,8 +260,8 @@ public partial class UniqueValueClass : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setValues", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "values", value);
     }
     
 #endregion

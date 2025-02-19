@@ -128,8 +128,8 @@ public partial class PieChartMediaInfo : IChartMediaInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setValue", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "value", value);
     }
     
 #endregion

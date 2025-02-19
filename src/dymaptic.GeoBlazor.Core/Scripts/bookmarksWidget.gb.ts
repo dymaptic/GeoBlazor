@@ -141,7 +141,8 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         jsBookmarks.filterText = dotNetObject.filterText;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsBookmarks.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsBookmarks.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsBookmarks.headingLevel = dotNetObject.headingLevel;

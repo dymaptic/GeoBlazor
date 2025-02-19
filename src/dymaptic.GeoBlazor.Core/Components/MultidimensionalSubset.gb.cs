@@ -231,8 +231,8 @@ public partial class MultidimensionalSubset
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAreaOfInterest", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "areaOfInterest", value);
     }
     
     /// <summary>
@@ -261,8 +261,8 @@ public partial class MultidimensionalSubset
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSubsetDefinitions", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "subsetDefinitions", value);
     }
     
 #endregion

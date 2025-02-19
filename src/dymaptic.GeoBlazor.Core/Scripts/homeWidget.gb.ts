@@ -105,7 +105,8 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         jsHome.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsHome.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsHome.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.icon)) {
         jsHome.icon = dotNetObject.icon;

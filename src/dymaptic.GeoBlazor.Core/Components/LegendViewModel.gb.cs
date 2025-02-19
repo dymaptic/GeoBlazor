@@ -366,8 +366,8 @@ public partial class LegendViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setActiveLayerInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activeLayerInfos", value);
     }
     
     /// <summary>
@@ -456,8 +456,8 @@ public partial class LegendViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayerInfos", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layerInfos", value);
     }
     
     /// <summary>

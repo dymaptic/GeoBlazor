@@ -777,8 +777,8 @@ public partial class FeatureViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAbilities", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "abilities", value);
     }
     
     /// <summary>
@@ -837,8 +837,8 @@ public partial class FeatureViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGraphic", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "graphic", value);
     }
     
     /// <summary>
@@ -867,8 +867,8 @@ public partial class FeatureViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLocation", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "location", value);
     }
     
     /// <summary>
@@ -927,8 +927,8 @@ public partial class FeatureViewModel : MapComponent,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>

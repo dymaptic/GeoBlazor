@@ -561,8 +561,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "bookmarks", value);
+        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -861,8 +861,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
 #endregion

@@ -1880,8 +1880,8 @@ public partial class MapImageLayer : IArcGISMapService,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeOffset", value);
     }
     
     /// <summary>

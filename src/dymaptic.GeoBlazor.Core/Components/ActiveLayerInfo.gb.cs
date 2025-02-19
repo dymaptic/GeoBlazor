@@ -727,8 +727,8 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayerView", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layerView", value);
     }
     
     /// <summary>

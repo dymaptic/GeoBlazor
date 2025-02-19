@@ -74,13 +74,6 @@ public partial class ListItem: MapComponent
 #pragma warning restore BL0005    
     }
     
-    /// <summary>
-    ///     Sets the relevant layer values for this item.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Guid? LayerId { get; set; }
-    
 #region Add to Collection Methods
 
     /// <summary>

@@ -907,8 +907,8 @@ public partial class AuthoringInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setColorRamp", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "colorRamp", value);
     }
     
     /// <summary>
@@ -967,8 +967,8 @@ public partial class AuthoringInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setField1", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "field1", value);
     }
     
     /// <summary>
@@ -997,8 +997,8 @@ public partial class AuthoringInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setField2", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "field2", value);
     }
     
     /// <summary>
@@ -1297,8 +1297,8 @@ public partial class AuthoringInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setStatistics", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "statistics", value);
     }
     
     /// <summary>
@@ -1387,8 +1387,8 @@ public partial class AuthoringInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visualVariables", value);
     }
     
 #endregion

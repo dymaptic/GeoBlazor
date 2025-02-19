@@ -1461,8 +1461,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "multidimensionalDefinition", value);
     }
     
     /// <summary>
@@ -1491,8 +1491,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "multidimensionalSubset", value);
     }
     
     /// <summary>
@@ -1581,8 +1581,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>
@@ -1641,8 +1641,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "rasterFunction", value);
     }
     
     /// <summary>
@@ -1791,8 +1791,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeOffset", value);
     }
     
     /// <summary>

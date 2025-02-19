@@ -1064,8 +1064,8 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>
@@ -1184,8 +1184,8 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSources", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "sources", value);
     }
     
     /// <summary>
@@ -1274,8 +1274,8 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -1502,16 +1502,6 @@ public partial class SearchWidget : IGoTo
                 }
                 
                 return true;
-            case SearchSource sources:
-                Sources ??= [];
-                if (!Sources.Contains(sources))
-                {
-                    Sources = [..Sources, sources];
-                    WidgetChanged = true;
-                    ModifiedParameters[nameof(Sources)] = Sources;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1526,11 +1516,6 @@ public partial class SearchWidget : IGoTo
                 WidgetChanged = true;
                 ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
                 return true;
-            case SearchSource sources:
-                Sources = Sources?.Where(s => s != sources).ToList();
-                WidgetChanged = true;
-                ModifiedParameters[nameof(Sources)] = Sources;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -1541,13 +1526,6 @@ public partial class SearchWidget : IGoTo
     {
     
         ResultGraphic?.ValidateRequiredGeneratedChildren();
-        if (Sources is not null)
-        {
-            foreach (SearchSource child in Sources)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         base.ValidateRequiredGeneratedChildren();
     }
       

@@ -48,7 +48,8 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     let jsCompassViewModel = new CompassViewModel();
 
     if (hasValue(dotNetObject.goToOverride)) {
-        jsCompassViewModel.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsCompassViewModel.goToOverride = buildJsGoToOverride(dotNetObject, viewId);
     }
     if (hasValue(dotNetObject.view)) {
         jsCompassViewModel.view = dotNetObject.view;

@@ -1180,8 +1180,8 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "floorInfo", value);
     }
     
     /// <summary>
@@ -1210,8 +1210,8 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "labelingInfo", value);
     }
     
     /// <summary>
@@ -1450,8 +1450,8 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>
@@ -1480,8 +1480,8 @@ public partial class Sublayer
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setRenderer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "renderer", value);
     }
     
     /// <summary>

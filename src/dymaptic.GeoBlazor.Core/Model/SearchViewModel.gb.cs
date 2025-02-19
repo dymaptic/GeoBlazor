@@ -231,7 +231,6 @@ public partial class SearchViewModel : IViewModel
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public SearchViewModelDefaultSymbols? DefaultSymbols { get; set; }
     
-    
     /// <summary>
     ///     Indicates whether location services are enabled within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -1573,8 +1572,8 @@ public partial class SearchViewModel : IViewModel
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setDefaultSymbols", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "defaultSymbols", value);
     }
     
     /// <summary>
@@ -1783,8 +1782,8 @@ public partial class SearchViewModel : IViewModel
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "popupTemplate", value);
     }
     
     /// <summary>

@@ -698,8 +698,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBackgroundColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "backgroundColor", value);
     }
     
     /// <summary>
@@ -728,8 +728,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBorderLineColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "borderLineColor", value);
     }
     
     /// <summary>
@@ -788,8 +788,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFont", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "font", value);
     }
     
     /// <summary>
@@ -818,8 +818,8 @@ public partial class TextSymbol : ISearchViewModelDefaultSymbolsPoint,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setHaloColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "haloColor", value);
     }
     
     /// <summary>

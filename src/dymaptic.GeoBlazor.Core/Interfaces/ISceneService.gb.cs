@@ -19,7 +19,7 @@ public partial interface ISceneService
     ///     The layer ID, or layer index, of a Scene Service layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SceneService.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    long? LayerId { get; set; }
+    long? SceneServiceLayerId { get; set; }
     
     /// <summary>
     ///     The spatial reference of the layer.

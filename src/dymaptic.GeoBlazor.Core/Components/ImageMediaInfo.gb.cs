@@ -194,8 +194,8 @@ public partial class ImageMediaInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setValue", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "value", value);
     }
     
 #endregion

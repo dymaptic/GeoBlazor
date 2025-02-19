@@ -359,8 +359,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "bookmarks", value);
+        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -389,8 +389,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "capabilities", value);
     }
     
     /// <summary>

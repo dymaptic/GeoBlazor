@@ -19,18 +19,6 @@ public partial class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ExactMatch { get; set; }
 
-    /// <summary>
-    ///     The Id for the layer queried in the search. This is required. The layer can be a map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer or OGCFeatureLayer. See the SceneLayer Guide page on how to publish SceneLayers with associated feature layers.
-    /// </summary>
-    /// <remarks>
-    ///     You may either specify a LayerId for an existing map layer, or nest a new <see cref = "FeatureLayer"/> inside this Search Source.
-    ///     Feature layers created from client-side graphics are not supported.
-    /// </remarks>
-    [Parameter]
-    [RequiredProperty(nameof(Layer))]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Guid? LayerId { get; set; }
-
 
     /// <summary>
     ///     A template string used to display multiple fields in a defined order when suggestions are displayed. This takes precedence over displayField. Field names in the template must have the following format: {FieldName}. An example suggestionTemplate could look something like: Name: {OWNER}, Parcel: {PARCEL_ID}.

@@ -361,8 +361,8 @@ public partial class Camera : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayout", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layout", value);
     }
     
     /// <summary>
@@ -391,8 +391,8 @@ public partial class Camera : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPosition", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "position", value);
     }
     
     /// <summary>

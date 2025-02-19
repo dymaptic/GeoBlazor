@@ -556,8 +556,8 @@ public partial class LocateViewModel : IGoTo,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGraphic", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "graphic", value);
     }
     
     /// <summary>

@@ -470,8 +470,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAnalytics", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "analytics", value);
     }
     
     /// <summary>
@@ -500,8 +500,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAttachment", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attachment", value);
     }
     
     /// <summary>
@@ -530,8 +530,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setData", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "data", value);
     }
     
     /// <summary>
@@ -560,8 +560,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setEditing", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "editing", value);
     }
     
     /// <summary>
@@ -590,8 +590,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setMetadata", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "metadata", value);
     }
     
     /// <summary>
@@ -620,8 +620,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setOperations", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "operations", value);
     }
     
     /// <summary>
@@ -680,8 +680,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setQueryRelated", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "queryRelated", value);
     }
     
     /// <summary>
@@ -710,8 +710,8 @@ public partial class Capabilities : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setQueryTopFeatures", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "queryTopFeatures", value);
     }
     
 #endregion

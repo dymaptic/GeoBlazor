@@ -451,8 +451,8 @@ public partial class TimeInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setInterval", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "interval", value);
     }
     
     /// <summary>

@@ -204,8 +204,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFromColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fromColor", value);
     }
     
     /// <summary>
@@ -234,8 +234,8 @@ public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setToColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "toColor", value);
     }
     
 #endregion

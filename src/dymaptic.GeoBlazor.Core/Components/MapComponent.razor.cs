@@ -86,13 +86,25 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [CascadingParameter(Name = "View")]
     [JsonIgnore]
     public MapView? View { get; set; }
-    
+
+    public Guid? ViewId
+    {
+        get => _viewId ??= View?.Id;
+        set => _viewId = value;
+    }
+
     /// <summary>
     ///     The relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
     [JsonIgnore]
     public Layer? Layer { get; set; }
     
+    public Guid? LayerId
+    {
+        get => _layerId ??= Layer?.Id;
+        set => _layerId = value;
+    }
+
     /// <summary>
     ///     Indicates the visibility of the component. Default value: true.
     /// </summary>
@@ -966,6 +978,8 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     private bool _registered;
     private IJSObjectReference? _coreJsModule;
     private IJSObjectReference? _proJsModule;
+    private Guid? _layerId;
+    private Guid? _viewId;
 
     /// <summary>
     ///     The application is running with just GeoBlazor Core, not Pro

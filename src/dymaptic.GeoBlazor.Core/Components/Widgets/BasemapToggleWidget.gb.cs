@@ -318,8 +318,8 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
 #endregion
@@ -406,6 +406,13 @@ public partial class BasemapToggleWidget
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
+    
+#pragma warning disable CS0618 // Type or member is obsolete
+        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
         ActiveBasemap?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();

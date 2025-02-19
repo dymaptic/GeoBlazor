@@ -1,6 +1,6 @@
 import LayerSearchSource from "@arcgis/core/widgets/Search/LayerSearchSource";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
-import {arcGisObjectRefs, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
 import {buildDotNetPoint} from "./point";
 import {buildDotNetSpatialReference} from "./spatialReference";
 import {buildJsExtent} from "./extent";
@@ -30,14 +30,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string): Pr
 
     if (dotNetSource.hasGetResultsHandler) {
         jsSource.getResults = async (params: any) => {
-            let viewId: string | null = null;
-
-            for (let key in arcGisObjectRefs) {
-                if (arcGisObjectRefs[key] === params.view) {
-                    viewId = key;
-                    break;
-                }
-            }
+            let viewId: string | null = lookupGeoBlazorId(params.view);
 
             let dnParams = {
                 exactMatch: params.exactMatch,

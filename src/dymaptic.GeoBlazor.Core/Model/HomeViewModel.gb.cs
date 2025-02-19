@@ -43,7 +43,7 @@ public partial class HomeViewModel : IViewModel
     
     
 #region Public Properties / Blazor Parameters
-    
+
     /// <summary>
     ///     The current state of the widget.
     ///     default disabled
@@ -217,8 +217,8 @@ public partial class HomeViewModel : IViewModel
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "viewpoint", value);
     }
     
 #endregion

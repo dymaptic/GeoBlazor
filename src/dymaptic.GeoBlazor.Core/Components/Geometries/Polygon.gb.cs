@@ -163,8 +163,8 @@ public partial class Polygon
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setCentroid", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "centroid", value);
     }
     
     /// <summary>

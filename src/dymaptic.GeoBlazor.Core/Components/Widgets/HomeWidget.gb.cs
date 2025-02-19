@@ -315,8 +315,8 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -345,8 +345,8 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "viewpoint", value);
     }
     
 #endregion

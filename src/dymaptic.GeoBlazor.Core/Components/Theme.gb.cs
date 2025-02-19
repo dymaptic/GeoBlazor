@@ -155,8 +155,8 @@ public partial class Theme : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAccentColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "accentColor", value);
     }
     
     /// <summary>
@@ -185,8 +185,8 @@ public partial class Theme : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTextColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "textColor", value);
     }
     
 #endregion

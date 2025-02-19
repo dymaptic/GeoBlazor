@@ -559,8 +559,8 @@ public partial class FeatureWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setGraphic", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "graphic", value);
     }
     
     /// <summary>
@@ -649,8 +649,8 @@ public partial class FeatureWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "spatialReference", value);
     }
     
     /// <summary>
@@ -769,8 +769,8 @@ public partial class FeatureWidget : Widget
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibleElements", value);
     }
     
 #endregion

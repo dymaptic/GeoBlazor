@@ -815,8 +815,8 @@ public partial class AuthoringInfoVisualVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSizeStops", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "sizeStops", value);
     }
     
     /// <summary>
@@ -905,8 +905,8 @@ public partial class AuthoringInfoVisualVariable
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTheme", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "theme", value);
     }
     
     /// <summary>

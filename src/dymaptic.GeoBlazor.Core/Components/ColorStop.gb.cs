@@ -183,8 +183,8 @@ public partial class ColorStop
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setColor", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "color", value);
     }
     
     /// <summary>
