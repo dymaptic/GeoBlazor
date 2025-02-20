@@ -10,8 +10,7 @@ export async function buildJsUIMoveComponentGenerated(dotNetObject: any, layerId
     }
 
     if (hasValue(dotNetObject.component)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedComponent } = dotNetObject.component;
-        jsUIMoveComponent.component = sanitizedComponent;
+        jsUIMoveComponent.component = dotNetObject.component;
     }
     if (hasValue(dotNetObject.index)) {
         jsUIMoveComponent.index = dotNetObject.index;

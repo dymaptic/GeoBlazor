@@ -19,62 +19,18 @@ export default class FeatureWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
-    async classes(): Promise<any> {
-        return this.widget.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.widget.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.widget.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.widget.isResolved();
-    }
-
     async nextMedia(contentElementIndex: any): Promise<void> {
         this.widget.nextMedia(contentElementIndex);
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.widget.postInitialize();
     }
 
     async previousMedia(contentElementIndex: any): Promise<void> {
         this.widget.previousMedia(contentElementIndex);
     }
 
-    async render(): Promise<any> {
-        return this.widget.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.widget.renderNow();
-    }
-
-    async scheduleRender(): Promise<void> {
-        this.widget.scheduleRender();
-    }
-
     async setActiveMedia(contentElementIndex: any,
         mediaInfoIndex: any): Promise<void> {
         this.widget.setActiveMedia(contentElementIndex,
             mediaInfoIndex);
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
     }
 
     // region properties
@@ -140,36 +96,18 @@ export async function buildJsFeatureWidgetGenerated(dotNetObject: any, layerId: 
         jsFeature.viewModel = await buildJsFeatureViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsFeature.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         jsFeature.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsFeature.headingLevel = dotNetObject.headingLevel;
     }
-    if (hasValue(dotNetObject.icon)) {
-        jsFeature.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsFeature.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.map)) {
-        jsFeature.map = dotNetObject.map;
-    }
     if (hasValue(dotNetObject.timeZone)) {
         jsFeature.timeZone = dotNetObject.timeZone;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsFeature.view = dotNetObject.view;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsFeature.visibleElements = sanitizedVisibleElements;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsFeature.id = dotNetObject.widgetId;
     }
 
     let { default: FeatureWidgetWrapper } = await import('./featureWidget');
@@ -215,23 +153,11 @@ export async function buildDotNetFeatureWidgetGenerated(jsObject: any, layerId: 
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
             dotNetFeatureWidget.viewModel = await buildDotNetFeatureViewModel(jsObject.viewModel, layerId, viewId);
         }
-    if (hasValue(jsObject.container)) {
-        dotNetFeatureWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
         dotNetFeatureWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
     }
     if (hasValue(jsObject.headingLevel)) {
         dotNetFeatureWidget.headingLevel = jsObject.headingLevel;
-    }
-    if (hasValue(jsObject.icon)) {
-        dotNetFeatureWidget.icon = jsObject.icon;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetFeatureWidget.label = jsObject.label;
-    }
-    if (hasValue(jsObject.map)) {
-        dotNetFeatureWidget.map = jsObject.map;
     }
     if (hasValue(jsObject.timeZone)) {
         dotNetFeatureWidget.timeZone = jsObject.timeZone;
@@ -242,14 +168,8 @@ export async function buildDotNetFeatureWidgetGenerated(jsObject: any, layerId: 
     if (hasValue(jsObject.type)) {
         dotNetFeatureWidget.type = jsObject.type;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetFeatureWidget.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleElements)) {
         dotNetFeatureWidget.visibleElements = jsObject.visibleElements;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetFeatureWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

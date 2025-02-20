@@ -9,9 +9,6 @@ export async function buildJsOpenStreetMapLayerLayerviewDestroyEventGenerated(do
         jsOpenStreetMapLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsOpenStreetMapLayerLayerviewDestroyEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpenStreetMapLayerLayerviewDestroyEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetOpenStreetMapLayerLayerviewDestroyEventGenerate
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetOpenStreetMapLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetOpenStreetMapLayerLayerviewDestroyEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

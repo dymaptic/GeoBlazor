@@ -283,10 +283,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allSublayers)) {
-            let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetTileLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetSublayer(i)));
-        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);

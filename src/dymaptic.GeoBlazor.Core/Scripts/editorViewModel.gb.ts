@@ -69,7 +69,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel, this.layerId, this.viewId);
+        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel);
     }
     async setAttachmentsViewModel(value: any): Promise<void> {
         let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
@@ -99,7 +99,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel, this.layerId, this.viewId);
+        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel);
     }
     async setFeatureFormViewModel(value: any): Promise<void> {
         let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
@@ -137,7 +137,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
-        return await buildDotNetSketchViewModel(this.component.sketchViewModel, this.layerId, this.viewId);
+        return await buildDotNetSketchViewModel(this.component.sketchViewModel);
     }
     async setSketchViewModel(value: any): Promise<void> {
         let { buildJsSketchViewModel } = await import('./sketchViewModel');
@@ -204,9 +204,6 @@ export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.valueOptions)) {
         jsEditorViewModel.valueOptions = dotNetObject.valueOptions;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsEditorViewModel.view = dotNetObject.view;
-    }
     jsEditorViewModel.on('sketch-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSketchCreate', evt);
     });
@@ -238,7 +235,7 @@ export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId
     return jsEditorViewModel;
 }
 
-export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -249,7 +246,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
     };
         if (hasValue(jsObject.attachmentsViewModel)) {
             let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel, layerId, viewId);
+            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel);
         }
         if (hasValue(jsObject.editableItems)) {
             let { buildDotNetEditableItem } = await import('./editableItem');
@@ -261,7 +258,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
         }
         if (hasValue(jsObject.featureFormViewModel)) {
             let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
+            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel);
         }
         if (hasValue(jsObject.featureTemplatesViewModel)) {
             let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
@@ -273,7 +270,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
         }
         if (hasValue(jsObject.sketchViewModel)) {
             let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
-            dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel, layerId, viewId);
+            dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel);
         }
         if (hasValue(jsObject.snappingOptions)) {
             let { buildDotNetSnappingOptions } = await import('./snappingOptions');
@@ -308,9 +305,6 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.valueOptions)) {
         dotNetEditorViewModel.valueOptions = jsObject.valueOptions;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetEditorViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

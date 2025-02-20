@@ -79,9 +79,6 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     if (hasValue(dotNetObject.listModeDisabled)) {
         jsBasemapLayerListViewModel.listModeDisabled = dotNetObject.listModeDisabled;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsBasemapLayerListViewModel.view = dotNetObject.view;
-    }
 
     let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
     let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsBasemapLayerListViewModel);
@@ -139,9 +136,6 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
     }
     if (hasValue(jsObject.state)) {
         dotNetBasemapLayerListViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBasemapLayerListViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

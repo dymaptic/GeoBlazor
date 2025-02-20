@@ -63,9 +63,6 @@ export async function buildJsTypeCreateRendererParamsGenerated(dotNetObject: any
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jstypeCreateRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jstypeCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jstypeCreateRendererParams);
@@ -145,9 +142,6 @@ export async function buildDotNetTypeCreateRendererParamsGenerated(jsObject: any
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetTypeCreateRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetTypeCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

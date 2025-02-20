@@ -52,9 +52,6 @@ export async function buildJsColorCreateVisualVariableParamsGenerated(dotNetObje
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jscolorCreateVisualVariableParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorCreateVisualVariableParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jscolorCreateVisualVariableParams.worldScale = dotNetObject.worldScale;
     }
@@ -126,9 +123,6 @@ export async function buildDotNetColorCreateVisualVariableParamsGenerated(jsObje
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetColorCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorCreateVisualVariableParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetColorCreateVisualVariableParams.worldScale = jsObject.worldScale;

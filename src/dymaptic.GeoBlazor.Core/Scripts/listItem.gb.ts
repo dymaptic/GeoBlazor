@@ -34,9 +34,6 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.title)) {
         jsListItem.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsListItem.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsListItem);
@@ -102,9 +99,6 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.updating)) {
         dotNetListItem.updating = jsObject.updating;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetListItem.view = jsObject.view;
     }
     if (hasValue(jsObject.visibilityMode)) {
         dotNetListItem.visibilityMode = jsObject.visibilityMode;

@@ -105,9 +105,6 @@ export async function buildJsUtilityNetworkAssociationsViewModelGenerated(dotNet
     if (hasValue(dotNetObject.showArrowsStructuralAttachment)) {
         jsUtilityNetworkAssociationsViewModel.showArrowsStructuralAttachment = dotNetObject.showArrowsStructuralAttachment;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsUtilityNetworkAssociationsViewModel.view = dotNetObject.view;
-    }
 
     let { default: UtilityNetworkAssociationsViewModelWrapper } = await import('./utilityNetworkAssociationsViewModel');
     let utilityNetworkAssociationsViewModelWrapper = new UtilityNetworkAssociationsViewModelWrapper(jsUtilityNetworkAssociationsViewModel);
@@ -169,9 +166,6 @@ export async function buildDotNetUtilityNetworkAssociationsViewModelGenerated(js
     }
     if (hasValue(jsObject.state)) {
         dotNetUtilityNetworkAssociationsViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUtilityNetworkAssociationsViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

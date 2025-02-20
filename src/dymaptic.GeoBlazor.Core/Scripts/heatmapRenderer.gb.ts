@@ -7,7 +7,7 @@ export async function buildJsHeatmapRendererGenerated(dotNetObject: any, layerId
     let jsHeatmapRenderer = new HeatmapRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsHeatmapRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsHeatmapRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.colorStops)) {
         let { buildJsHeatmapColorStop } = await import('./heatmapColorStop');

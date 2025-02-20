@@ -21,9 +21,6 @@ export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParam
     if (hasValue(dotNetObject.unit)) {
         jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = dotNetObject.unit;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssummaryStatisticsForAgeSummaryStatisticsForAgeParams);
@@ -61,9 +58,6 @@ export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeP
     }
     if (hasValue(jsObject.unit)) {
         dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = jsObject.unit;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

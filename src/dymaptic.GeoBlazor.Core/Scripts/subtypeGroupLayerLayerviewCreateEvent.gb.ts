@@ -9,9 +9,6 @@ export async function buildJsSubtypeGroupLayerLayerviewCreateEventGenerated(dotN
         jsSubtypeGroupLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsSubtypeGroupLayerLayerviewCreateEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSubtypeGroupLayerLayerviewCreateEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetSubtypeGroupLayerLayerviewCreateEventGenerated(
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetSubtypeGroupLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetSubtypeGroupLayerLayerviewCreateEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

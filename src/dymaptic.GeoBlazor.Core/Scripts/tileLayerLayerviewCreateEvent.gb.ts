@@ -9,9 +9,6 @@ export async function buildJsTileLayerLayerviewCreateEventGenerated(dotNetObject
         jsTileLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsTileLayerLayerviewCreateEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTileLayerLayerviewCreateEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetTileLayerLayerviewCreateEventGenerated(jsObject
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetTileLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetTileLayerLayerviewCreateEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

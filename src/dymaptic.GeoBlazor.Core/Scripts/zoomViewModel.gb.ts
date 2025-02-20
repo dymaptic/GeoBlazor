@@ -48,9 +48,6 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.canZoomOut)) {
         jsZoomViewModel.canZoomOut = dotNetObject.canZoomOut;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsZoomViewModel.view = dotNetObject.view;
-    }
 
     let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
     let zoomViewModelWrapper = new ZoomViewModelWrapper(jsZoomViewModel);
@@ -91,9 +88,6 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.state)) {
         dotNetZoomViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetZoomViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

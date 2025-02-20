@@ -342,10 +342,6 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allSublayers)) {
-            let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-            dotNetWMSLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
-        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);

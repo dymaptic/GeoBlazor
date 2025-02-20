@@ -37,9 +37,7 @@ export default class TimeUtilsGenerated implements IPropertyWrapper {
 
     async getTimeSliderSettingsFromWebMap(webMap: any,
         signal: any): Promise<any> {
-        let { buildJsWebMap } = await import('./webMap');
-        let jsWebMap = await buildJsWebMap(webMap, this.layerId, this.viewId) as any;
-        return await this.component.getTimeSliderSettingsFromWebMap(jsWebMap,
+        return await this.component.getTimeSliderSettingsFromWebMap(webMap,
             signal);
     }
 

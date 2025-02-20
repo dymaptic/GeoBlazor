@@ -21,9 +21,6 @@ export async function buildJsColorGetSchemeByNameParamsGenerated(dotNetObject: a
     if (hasValue(dotNetObject.name)) {
         jscolorGetSchemeByNameParams.name = dotNetObject.name;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorGetSchemeByNameParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jscolorGetSchemeByNameParams.worldScale = dotNetObject.worldScale;
     }
@@ -68,9 +65,6 @@ export async function buildDotNetColorGetSchemeByNameParamsGenerated(jsObject: a
     }
     if (hasValue(jsObject.name)) {
         dotNetColorGetSchemeByNameParams.name = jsObject.name;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorGetSchemeByNameParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetColorGetSchemeByNameParams.worldScale = jsObject.worldScale;

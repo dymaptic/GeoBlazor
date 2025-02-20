@@ -18,9 +18,6 @@ export async function buildJsColorGetSchemesParamsGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.geometryType)) {
         jscolorGetSchemesParams.geometryType = dotNetObject.geometryType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorGetSchemesParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jscolorGetSchemesParams.worldScale = dotNetObject.worldScale;
     }
@@ -62,9 +59,6 @@ export async function buildDotNetColorGetSchemesParamsGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.geometryType)) {
         dotNetColorGetSchemesParams.geometryType = jsObject.geometryType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorGetSchemesParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetColorGetSchemesParams.worldScale = jsObject.worldScale;

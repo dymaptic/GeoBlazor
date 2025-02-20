@@ -54,9 +54,6 @@ export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsGener
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jsunivariateColorSizeCreateVisualVariablesParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsunivariateColorSizeCreateVisualVariablesParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jsunivariateColorSizeCreateVisualVariablesParams.worldScale = dotNetObject.worldScale;
     }
@@ -130,9 +127,6 @@ export async function buildDotNetUnivariateColorSizeCreateVisualVariablesParamsG
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetUnivariateColorSizeCreateVisualVariablesParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUnivariateColorSizeCreateVisualVariablesParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetUnivariateColorSizeCreateVisualVariablesParams.worldScale = jsObject.worldScale;

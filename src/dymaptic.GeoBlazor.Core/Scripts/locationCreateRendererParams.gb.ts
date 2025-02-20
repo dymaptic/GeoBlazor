@@ -30,9 +30,6 @@ export async function buildJsLocationCreateRendererParamsGenerated(dotNetObject:
     if (hasValue(dotNetObject.symbolType)) {
         jslocationCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jslocationCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jslocationCreateRendererParams);
@@ -79,9 +76,6 @@ export async function buildDotNetLocationCreateRendererParamsGenerated(jsObject:
     }
     if (hasValue(jsObject.symbolType)) {
         dotNetLocationCreateRendererParams.symbolType = jsObject.symbolType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetLocationCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

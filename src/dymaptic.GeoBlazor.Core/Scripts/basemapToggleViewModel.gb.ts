@@ -68,9 +68,6 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
         jsBasemapToggleViewModel.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsBasemapToggleViewModel.view = dotNetObject.view;
-    }
 
     let { default: BasemapToggleViewModelWrapper } = await import('./basemapToggleViewModel');
     let basemapToggleViewModelWrapper = new BasemapToggleViewModelWrapper(jsBasemapToggleViewModel);
@@ -113,9 +110,6 @@ export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any):
         }
     if (hasValue(jsObject.state)) {
         dotNetBasemapToggleViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBasemapToggleViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

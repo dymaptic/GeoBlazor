@@ -53,9 +53,6 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
     if (hasValue(dotNetObject.valueExpression)) {
         jssummaryStatisticsSummaryStatisticsParams.valueExpression = dotNetObject.valueExpression;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssummaryStatisticsSummaryStatisticsParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssummaryStatisticsSummaryStatisticsParams);
@@ -125,9 +122,6 @@ export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerat
     }
     if (hasValue(jsObject.valueExpression)) {
         dotNetSummaryStatisticsSummaryStatisticsParams.valueExpression = jsObject.valueExpression;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSummaryStatisticsSummaryStatisticsParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

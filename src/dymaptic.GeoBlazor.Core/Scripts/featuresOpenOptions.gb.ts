@@ -4,10 +4,6 @@ import { buildDotNetFeaturesOpenOptions } from './featuresOpenOptions';
 
 export async function buildJsFeaturesOpenOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeaturesOpenOptions: any = {}
-    if (hasValue(dotNetObject.actions)) {
-        let { buildJsActionButton } = await import('./actionButton');
-        jsFeaturesOpenOptions.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionButton(i, layerId, viewId))) as any;
-    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeaturesOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -17,6 +13,9 @@ export async function buildJsFeaturesOpenOptionsGenerated(dotNetObject: any, lay
         jsFeaturesOpenOptions.location = buildJsPoint(dotNetObject.location) as any;
     }
 
+    if (hasValue(dotNetObject.actions)) {
+        jsFeaturesOpenOptions.actions = dotNetObject.actions;
+    }
     if (hasValue(dotNetObject.collapsed)) {
         jsFeaturesOpenOptions.collapsed = dotNetObject.collapsed;
     }
@@ -64,10 +63,6 @@ export async function buildDotNetFeaturesOpenOptionsGenerated(jsObject: any, lay
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.actions)) {
-            let { buildDotNetActionButton } = await import('./actionButton');
-            dotNetFeaturesOpenOptions.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionButton(i)));
-        }
         if (hasValue(jsObject.features)) {
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeaturesOpenOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
@@ -76,6 +71,9 @@ export async function buildDotNetFeaturesOpenOptionsGenerated(jsObject: any, lay
             let { buildDotNetPoint } = await import('./point');
             dotNetFeaturesOpenOptions.location = buildDotNetPoint(jsObject.location);
         }
+    if (hasValue(jsObject.actions)) {
+        dotNetFeaturesOpenOptions.actions = jsObject.actions;
+    }
     if (hasValue(jsObject.collapsed)) {
         dotNetFeaturesOpenOptions.collapsed = jsObject.collapsed;
     }

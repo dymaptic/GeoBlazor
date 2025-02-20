@@ -49,9 +49,6 @@ export async function buildJsFullscreenViewModelGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.element)) {
         jsFullscreenViewModel.element = dotNetObject.element;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsFullscreenViewModel.view = dotNetObject.view;
-    }
 
     let { default: FullscreenViewModelWrapper } = await import('./fullscreenViewModel');
     let fullscreenViewModelWrapper = new FullscreenViewModelWrapper(jsFullscreenViewModel);
@@ -89,9 +86,6 @@ export async function buildDotNetFullscreenViewModelGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.state)) {
         dotNetFullscreenViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFullscreenViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -65,9 +65,6 @@ export async function buildJsDrawActionGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.hasZ)) {
         jsDrawAction.hasZ = dotNetObject.hasZ;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsDrawAction.view = dotNetObject.view;
-    }
 
     let { default: DrawActionWrapper } = await import('./drawAction');
     let drawActionWrapper = new DrawActionWrapper(jsDrawAction);
@@ -105,9 +102,6 @@ export async function buildDotNetDrawActionGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.vertices)) {
         dotNetDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

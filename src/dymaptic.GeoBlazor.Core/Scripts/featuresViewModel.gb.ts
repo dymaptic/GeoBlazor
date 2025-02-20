@@ -76,18 +76,6 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         return await Promise.all(this.component.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
             return null;
@@ -144,10 +132,6 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
         let { buildJsGraphic } = await import('./graphic');
         jsFeaturesViewModel.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsFeaturesViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         jsFeaturesViewModel.location = buildJsPoint(dotNetObject.location) as any;
@@ -179,14 +163,14 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
         jsFeaturesViewModel.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsFeaturesViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.highlightEnabled)) {
         jsFeaturesViewModel.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.includeDefaultActions)) {
         jsFeaturesViewModel.includeDefaultActions = dotNetObject.includeDefaultActions;
-    }
-    if (hasValue(dotNetObject.map)) {
-        jsFeaturesViewModel.map = dotNetObject.map;
     }
     if (hasValue(dotNetObject.promises)) {
         jsFeaturesViewModel.promises = dotNetObject.promises;
@@ -199,9 +183,6 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.title)) {
         jsFeaturesViewModel.title = dotNetObject.title;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsFeaturesViewModel.view = dotNetObject.view;
     }
     jsFeaturesViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
@@ -245,11 +226,7 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetFeaturesViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetFeaturesViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+            dotNetFeaturesViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');
@@ -300,14 +277,14 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
     if (hasValue(jsObject.featureViewModelAbilities)) {
         dotNetFeaturesViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
     }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetFeaturesViewModel.goToOverride = jsObject.goToOverride;
+    }
     if (hasValue(jsObject.highlightEnabled)) {
         dotNetFeaturesViewModel.highlightEnabled = jsObject.highlightEnabled;
     }
     if (hasValue(jsObject.includeDefaultActions)) {
         dotNetFeaturesViewModel.includeDefaultActions = jsObject.includeDefaultActions;
-    }
-    if (hasValue(jsObject.map)) {
-        dotNetFeaturesViewModel.map = jsObject.map;
     }
     if (hasValue(jsObject.pendingPromisesCount)) {
         dotNetFeaturesViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
@@ -329,9 +306,6 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
     }
     if (hasValue(jsObject.title)) {
         dotNetFeaturesViewModel.title = jsObject.title;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFeaturesViewModel.view = jsObject.view;
     }
     if (hasValue(jsObject.waitingForResult)) {
         dotNetFeaturesViewModel.waitingForResult = jsObject.waitingForResult;

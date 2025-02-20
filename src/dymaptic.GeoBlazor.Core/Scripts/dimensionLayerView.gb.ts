@@ -126,9 +126,6 @@ export async function buildDotNetDimensionLayerViewGenerated(jsObject: any): Pro
     if (hasValue(jsObject.updating)) {
         dotNetDimensionLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetDimensionLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetDimensionLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

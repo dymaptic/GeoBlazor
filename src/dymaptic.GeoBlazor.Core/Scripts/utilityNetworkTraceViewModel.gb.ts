@@ -195,18 +195,6 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
         this.component.flags = await Promise.all(value.map(async i => await buildJsFlagProperty(i, this.layerId, this.viewId))) as any;
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getTraceResults(): Promise<any> {
         if (!hasValue(this.component.traceResults)) {
             return null;
@@ -249,10 +237,6 @@ export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject:
         let { buildJsFlagProperty } = await import('./flagProperty');
         jsUtilityNetworkTraceViewModel.flags = await Promise.all(dotNetObject.flags.map(async i => await buildJsFlagProperty(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsUtilityNetworkTraceViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.traceResults)) {
         let { buildJsTraceResultExtend } = await import('./traceResultExtend');
         jsUtilityNetworkTraceViewModel.traceResults = await Promise.all(dotNetObject.traceResults.map(async i => await buildJsTraceResultExtend(i, layerId, viewId))) as any;
@@ -272,6 +256,9 @@ export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject:
     if (hasValue(dotNetObject.gdbVersion)) {
         jsUtilityNetworkTraceViewModel.gdbVersion = dotNetObject.gdbVersion;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsUtilityNetworkTraceViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.resultAreaProperties)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResultAreaProperties } = dotNetObject.resultAreaProperties;
         jsUtilityNetworkTraceViewModel.resultAreaProperties = sanitizedResultAreaProperties;
@@ -287,9 +274,6 @@ export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject:
     }
     if (hasValue(dotNetObject.showSelectionAttributes)) {
         jsUtilityNetworkTraceViewModel.showSelectionAttributes = dotNetObject.showSelectionAttributes;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsUtilityNetworkTraceViewModel.view = dotNetObject.view;
     }
 
     let { default: UtilityNetworkTraceViewModelWrapper } = await import('./utilityNetworkTraceViewModel');
@@ -327,10 +311,6 @@ export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject:
             let { buildDotNetFlagProperty } = await import('./flagProperty');
             dotNetUtilityNetworkTraceViewModel.flags = await Promise.all(jsObject.flags.map(async i => await buildDotNetFlagProperty(i, layerId, viewId)));
         }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetUtilityNetworkTraceViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.traceResults)) {
             let { buildDotNetTraceResultExtend } = await import('./traceResultExtend');
             dotNetUtilityNetworkTraceViewModel.traceResults = await Promise.all(jsObject.traceResults.map(async i => await buildDotNetTraceResultExtend(i)));
@@ -347,6 +327,9 @@ export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject:
     }
     if (hasValue(jsObject.gdbVersion)) {
         dotNetUtilityNetworkTraceViewModel.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetUtilityNetworkTraceViewModel.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.resultAreaProperties)) {
         dotNetUtilityNetworkTraceViewModel.resultAreaProperties = jsObject.resultAreaProperties;
@@ -365,9 +348,6 @@ export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject:
     }
     if (hasValue(jsObject.state)) {
         dotNetUtilityNetworkTraceViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUtilityNetworkTraceViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

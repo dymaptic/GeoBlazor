@@ -52,9 +52,6 @@ export async function buildJsSizeCreateAgeRendererParamsGenerated(dotNetObject: 
     if (hasValue(dotNetObject.unit)) {
         jssizeCreateAgeRendererParams.unit = dotNetObject.unit;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeCreateAgeRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeCreateAgeRendererParams);
@@ -123,9 +120,6 @@ export async function buildDotNetSizeCreateAgeRendererParamsGenerated(jsObject: 
     }
     if (hasValue(jsObject.unit)) {
         dotNetSizeCreateAgeRendererParams.unit = jsObject.unit;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeCreateAgeRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

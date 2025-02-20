@@ -16,9 +16,6 @@ export async function buildJsColorGetMatchingSchemesParamsGenerated(dotNetObject
     if (hasValue(dotNetObject.geometryType)) {
         jscolorGetMatchingSchemesParams.geometryType = dotNetObject.geometryType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorGetMatchingSchemesParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jscolorGetMatchingSchemesParams.worldScale = dotNetObject.worldScale;
     }
@@ -58,9 +55,6 @@ export async function buildDotNetColorGetMatchingSchemesParamsGenerated(jsObject
         }
     if (hasValue(jsObject.geometryType)) {
         dotNetColorGetMatchingSchemesParams.geometryType = jsObject.geometryType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorGetMatchingSchemesParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetColorGetMatchingSchemesParams.worldScale = jsObject.worldScale;

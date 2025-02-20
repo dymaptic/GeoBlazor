@@ -19,44 +19,6 @@ export default class BinaryColorSizeSliderGenerated implements IPropertyWrapper 
         return this.component;
     }
     
-    async classes(): Promise<any> {
-        return this.component.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.component.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.component.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.component.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.component.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.component.postInitialize();
-    }
-
-    async render(): Promise<any> {
-        return this.component.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.component.renderNow();
-    }
-
-    async scheduleRender(): Promise<void> {
-        this.component.scheduleRender();
-    }
-
     async updateFromRendererResult(rendererResult: any,
         histogramResult: any): Promise<void> {
         let { buildJsUnivariateColorSizeContinuousRendererResult } = await import('./univariateColorSizeContinuousRendererResult');
@@ -71,12 +33,6 @@ export default class BinaryColorSizeSliderGenerated implements IPropertyWrapper 
         let result = this.component.updateRenderer(jsRenderer);
         let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
         return await buildDotNetClassBreaksRenderer(result);
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.component.when(callback,
-            errback);
     }
 
     // region properties
@@ -162,21 +118,12 @@ export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, l
         jsBinaryColorSizeSlider.viewModel = await buildJsBinaryColorSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsBinaryColorSizeSlider.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
         jsBinaryColorSizeSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsBinaryColorSizeSlider.histogramConfig = sanitizedHistogramConfig;
-    }
-    if (hasValue(dotNetObject.icon)) {
-        jsBinaryColorSizeSlider.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsBinaryColorSizeSlider.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsBinaryColorSizeSlider.max = dotNetObject.max;
@@ -200,9 +147,6 @@ export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsBinaryColorSizeSlider.visibleElements = sanitizedVisibleElements;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsBinaryColorSizeSlider.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsBinaryColorSizeSlider.zoomOptions = dotNetObject.zoomOptions;
@@ -267,26 +211,17 @@ export async function buildDotNetBinaryColorSizeSliderGenerated(jsObject: any): 
             let { buildDotNetBinaryColorSizeSliderViewModel } = await import('./binaryColorSizeSliderViewModel');
             dotNetBinaryColorSizeSlider.viewModel = await buildDotNetBinaryColorSizeSliderViewModel(jsObject.viewModel);
         }
-    if (hasValue(jsObject.container)) {
-        dotNetBinaryColorSizeSlider.container = jsObject.container;
-    }
     if (hasValue(jsObject.handlesSyncedToPrimary)) {
         dotNetBinaryColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
     }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetBinaryColorSizeSlider.histogramConfig = jsObject.histogramConfig;
     }
-    if (hasValue(jsObject.icon)) {
-        dotNetBinaryColorSizeSlider.icon = jsObject.icon;
-    }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetBinaryColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetBinaryColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetBinaryColorSizeSlider.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetBinaryColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -317,9 +252,6 @@ export async function buildDotNetBinaryColorSizeSliderGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetBinaryColorSizeSlider.visibleElements = jsObject.visibleElements;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetBinaryColorSizeSlider.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetBinaryColorSizeSlider.zoomOptions = jsObject.zoomOptions;

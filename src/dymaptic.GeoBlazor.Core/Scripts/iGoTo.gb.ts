@@ -4,11 +4,10 @@ import { buildDotNetIGoTo } from './iGoTo';
 
 export async function buildJsIGoToGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGoTo = new GoTo();
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsGoTo.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
 
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsGoTo.goToOverride = dotNetObject.goToOverride;
+    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGoTo);
@@ -35,10 +34,9 @@ export async function buildDotNetIGoToGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetIGoTo.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetIGoTo.goToOverride = jsObject.goToOverride;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

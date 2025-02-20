@@ -19,56 +19,12 @@ export default class CoordinateConversionWidgetGenerated implements IPropertyWra
         return this.widget;
     }
     
-    async classes(): Promise<any> {
-        return this.widget.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.widget.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.widget.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.widget.postInitialize();
-    }
-
-    async render(): Promise<any> {
-        return this.widget.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.widget.renderNow();
-    }
-
     async reverseConvert(coordinate: any,
         format: any): Promise<any> {
         let { buildJsFormat } = await import('./format');
         let jsFormat = await buildJsFormat(format, this.layerId, this.viewId) as any;
         return await this.widget.reverseConvert(coordinate,
             jsFormat);
-    }
-
-    async scheduleRender(): Promise<void> {
-        this.widget.scheduleRender();
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
     }
 
     // region properties
@@ -109,18 +65,6 @@ export default class CoordinateConversionWidgetGenerated implements IPropertyWra
         this.widget.formats = await Promise.all(value.map(async i => await buildJsFormat(i, this.layerId, this.viewId))) as any;
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.widget.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getLocationSymbol(): Promise<any> {
         if (!hasValue(this.widget.locationSymbol)) {
             return null;
@@ -165,10 +109,6 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
         let { buildJsFormat } = await import('./format');
         jsCoordinateConversion.formats = await Promise.all(dotNetObject.formats.map(async i => await buildJsFormat(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsCoordinateConversion.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.locationSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsCoordinateConversion.locationSymbol = buildJsSymbol(dotNetObject.locationSymbol) as any;
@@ -178,17 +118,11 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
         jsCoordinateConversion.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsCoordinateConversion.container = dotNetObject.container;
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsCoordinateConversion.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsCoordinateConversion.headingLevel = dotNetObject.headingLevel;
-    }
-    if (hasValue(dotNetObject.icon)) {
-        jsCoordinateConversion.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsCoordinateConversion.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.mode)) {
         jsCoordinateConversion.mode = dotNetObject.mode;
@@ -206,15 +140,9 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
     if (hasValue(dotNetObject.storageType)) {
         jsCoordinateConversion.storageType = dotNetObject.storageType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsCoordinateConversion.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsCoordinateConversion.visibleElements = sanitizedVisibleElements;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsCoordinateConversion.id = dotNetObject.widgetId;
     }
 
     let { default: CoordinateConversionWidgetWrapper } = await import('./coordinateConversionWidget');
@@ -260,10 +188,6 @@ export async function buildDotNetCoordinateConversionWidgetGenerated(jsObject: a
             let { buildDotNetFormat } = await import('./format');
             dotNetCoordinateConversionWidget.formats = await Promise.all(jsObject.formats.map(async i => await buildDotNetFormat(i)));
         }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetCoordinateConversionWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.locationSymbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetCoordinateConversionWidget.locationSymbol = buildDotNetSymbol(jsObject.locationSymbol);
@@ -272,17 +196,11 @@ export async function buildDotNetCoordinateConversionWidgetGenerated(jsObject: a
             let { buildDotNetCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
             dotNetCoordinateConversionWidget.viewModel = await buildDotNetCoordinateConversionViewModel(jsObject.viewModel);
         }
-    if (hasValue(jsObject.container)) {
-        dotNetCoordinateConversionWidget.container = jsObject.container;
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCoordinateConversionWidget.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.headingLevel)) {
         dotNetCoordinateConversionWidget.headingLevel = jsObject.headingLevel;
-    }
-    if (hasValue(jsObject.icon)) {
-        dotNetCoordinateConversionWidget.icon = jsObject.icon;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetCoordinateConversionWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.mode)) {
         dotNetCoordinateConversionWidget.mode = jsObject.mode;
@@ -302,14 +220,8 @@ export async function buildDotNetCoordinateConversionWidgetGenerated(jsObject: a
     if (hasValue(jsObject.type)) {
         dotNetCoordinateConversionWidget.type = jsObject.type;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetCoordinateConversionWidget.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleElements)) {
         dotNetCoordinateConversionWidget.visibleElements = jsObject.visibleElements;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetCoordinateConversionWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -10,9 +10,6 @@ export async function buildJsSnappingControlsViewModelGenerated(dotNetObject: an
         jsSnappingControlsViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsSnappingControlsViewModel.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSnappingControlsViewModel);
@@ -45,9 +42,6 @@ export async function buildDotNetSnappingControlsViewModelGenerated(jsObject: an
         }
     if (hasValue(jsObject.state)) {
         dotNetSnappingControlsViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSnappingControlsViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -21,9 +21,6 @@ export async function buildJsTypeGetSchemeByNameParamsGenerated(dotNetObject: an
     if (hasValue(dotNetObject.name)) {
         jstypeGetSchemeByNameParams.name = dotNetObject.name;
     }
-    if (hasValue(dotNetObject.view)) {
-        jstypeGetSchemeByNameParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jstypeGetSchemeByNameParams.worldScale = dotNetObject.worldScale;
     }
@@ -68,9 +65,6 @@ export async function buildDotNetTypeGetSchemeByNameParamsGenerated(jsObject: an
     }
     if (hasValue(jsObject.name)) {
         dotNetTypeGetSchemeByNameParams.name = jsObject.name;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetTypeGetSchemeByNameParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetTypeGetSchemeByNameParams.worldScale = jsObject.worldScale;

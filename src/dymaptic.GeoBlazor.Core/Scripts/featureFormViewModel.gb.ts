@@ -106,9 +106,6 @@ export async function buildJsFeatureFormViewModelGenerated(dotNetObject: any, la
         jsFeatureFormViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.map)) {
-        jsFeatureFormViewModel.map = dotNetObject.map;
-    }
     if (hasValue(dotNetObject.submittable)) {
         jsFeatureFormViewModel.submittable = dotNetObject.submittable;
     }
@@ -165,9 +162,6 @@ export async function buildDotNetFeatureFormViewModelGenerated(jsObject: any, la
         }
     if (hasValue(jsObject.inputs)) {
         dotNetFeatureFormViewModel.inputs = jsObject.inputs;
-    }
-    if (hasValue(jsObject.map)) {
-        dotNetFeatureFormViewModel.map = jsObject.map;
     }
     if (hasValue(jsObject.state)) {
         dotNetFeatureFormViewModel.state = jsObject.state;

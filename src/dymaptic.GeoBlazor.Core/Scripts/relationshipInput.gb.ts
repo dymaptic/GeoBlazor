@@ -36,10 +36,6 @@ export async function buildDotNetRelationshipInputGenerated(jsObject: any): Prom
             let { buildDotNetGroupInput } = await import('./groupInput');
             dotNetRelationshipInput.group = await buildDotNetGroupInput(jsObject.group);
         }
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelationshipInput.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
-        }
     if (hasValue(jsObject.description)) {
         dotNetRelationshipInput.description = jsObject.description;
     }
@@ -51,6 +47,9 @@ export async function buildDotNetRelationshipInputGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.editable)) {
         dotNetRelationshipInput.editable = jsObject.editable;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetRelationshipInput.orderByFields = jsObject.orderByFields;
     }
     if (hasValue(jsObject.type)) {
         dotNetRelationshipInput.type = jsObject.type;

@@ -9,9 +9,6 @@ export async function buildJsBingMapsLayerLayerviewCreateEventGenerated(dotNetOb
         jsBingMapsLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsBingMapsLayerLayerviewCreateEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBingMapsLayerLayerviewCreateEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetBingMapsLayerLayerviewCreateEventGenerated(jsOb
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetBingMapsLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetBingMapsLayerLayerviewCreateEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

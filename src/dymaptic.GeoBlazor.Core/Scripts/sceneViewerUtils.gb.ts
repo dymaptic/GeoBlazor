@@ -20,9 +20,7 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
     }
     
     async canSaveAs(webscene: any): Promise<any> {
-        let { buildJsWebScene } = await import('./webScene');
-        let jsWebscene = await buildJsWebScene(webscene, this.layerId, this.viewId) as any;
-        return this.component.canSaveAs(jsWebscene);
+        return this.component.canSaveAs(webscene);
     }
 
     async closeCatalogLayer(layerList: any): Promise<void> {

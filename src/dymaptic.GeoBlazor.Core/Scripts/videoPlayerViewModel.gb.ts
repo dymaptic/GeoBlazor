@@ -114,9 +114,6 @@ export async function buildJsVideoPlayerViewModelGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.seekLength)) {
         jsVideoPlayerViewModel.seekLength = dotNetObject.seekLength;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsVideoPlayerViewModel.view = dotNetObject.view;
-    }
 
     let { default: VideoPlayerViewModelWrapper } = await import('./videoPlayerViewModel');
     let videoPlayerViewModelWrapper = new VideoPlayerViewModelWrapper(jsVideoPlayerViewModel);
@@ -175,9 +172,6 @@ export async function buildDotNetVideoPlayerViewModelGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.state)) {
         dotNetVideoPlayerViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetVideoPlayerViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

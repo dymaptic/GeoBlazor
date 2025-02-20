@@ -147,9 +147,6 @@ export async function buildJsVersionManagementViewModelGenerated(dotNetObject: a
     if (hasValue(dotNetObject.versionInfoLookup)) {
         jsVersionManagementViewModel.versionInfoLookup = dotNetObject.versionInfoLookup;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsVersionManagementViewModel.view = dotNetObject.view;
-    }
 
     let { default: VersionManagementViewModelWrapper } = await import('./versionManagementViewModel');
     let versionManagementViewModelWrapper = new VersionManagementViewModelWrapper(jsVersionManagementViewModel);
@@ -224,9 +221,6 @@ export async function buildDotNetVersionManagementViewModelGenerated(jsObject: a
     }
     if (hasValue(jsObject.versionInfoLookup)) {
         dotNetVersionManagementViewModel.versionInfoLookup = jsObject.versionInfoLookup;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetVersionManagementViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -10,8 +10,7 @@ export async function buildJsUIAddComponentGenerated(dotNetObject: any, layerId:
     }
 
     if (hasValue(dotNetObject.component)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedComponent } = dotNetObject.component;
-        jsUIAddComponent.component = sanitizedComponent;
+        jsUIAddComponent.component = dotNetObject.component;
     }
     if (hasValue(dotNetObject.index)) {
         jsUIAddComponent.index = dotNetObject.index;

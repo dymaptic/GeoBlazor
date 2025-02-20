@@ -45,9 +45,6 @@ export async function buildDotNetCatalogDynamicGroupLayerViewGenerated(jsObject:
     if (hasValue(jsObject.updating)) {
         dotNetCatalogDynamicGroupLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetCatalogDynamicGroupLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetCatalogDynamicGroupLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

@@ -72,9 +72,6 @@ export async function buildJsPolylineDrawActionGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.mode)) {
         jsPolylineDrawAction.mode = dotNetObject.mode;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsPolylineDrawAction.view = dotNetObject.view;
-    }
     jsPolylineDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
@@ -139,9 +136,6 @@ export async function buildDotNetPolylineDrawActionGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.vertices)) {
         dotNetPolylineDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPolylineDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

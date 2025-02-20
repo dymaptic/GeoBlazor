@@ -18,9 +18,6 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.linearUnit)) {
         jsMeasurementViewModel.linearUnit = dotNetObject.linearUnit;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsMeasurementViewModel.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMeasurementViewModel);
@@ -61,9 +58,6 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.state)) {
         dotNetMeasurementViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetMeasurementViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

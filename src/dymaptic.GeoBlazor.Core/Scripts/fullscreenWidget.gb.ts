@@ -19,50 +19,6 @@ export default class FullscreenWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
-    async classes(): Promise<any> {
-        return this.widget.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.widget.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.widget.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.widget.postInitialize();
-    }
-
-    async render(): Promise<any> {
-        return this.widget.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.widget.renderNow();
-    }
-
-    async scheduleRender(): Promise<void> {
-        this.widget.scheduleRender();
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
-    }
-
     // region properties
     
     async getViewModel(): Promise<any> {
@@ -94,23 +50,8 @@ export async function buildJsFullscreenWidgetGenerated(dotNetObject: any, layerI
         jsFullscreen.viewModel = await buildJsFullscreenViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsFullscreen.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.element)) {
         jsFullscreen.element = dotNetObject.element;
-    }
-    if (hasValue(dotNetObject.icon)) {
-        jsFullscreen.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsFullscreen.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsFullscreen.view = dotNetObject.view;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsFullscreen.id = dotNetObject.widgetId;
     }
 
     let { default: FullscreenWidgetWrapper } = await import('./fullscreenWidget');
@@ -148,26 +89,11 @@ export async function buildDotNetFullscreenWidgetGenerated(jsObject: any): Promi
             let { buildDotNetFullscreenViewModel } = await import('./fullscreenViewModel');
             dotNetFullscreenWidget.viewModel = await buildDotNetFullscreenViewModel(jsObject.viewModel);
         }
-    if (hasValue(jsObject.container)) {
-        dotNetFullscreenWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.element)) {
         dotNetFullscreenWidget.element = jsObject.element;
     }
-    if (hasValue(jsObject.icon)) {
-        dotNetFullscreenWidget.icon = jsObject.icon;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetFullscreenWidget.label = jsObject.label;
-    }
     if (hasValue(jsObject.type)) {
         dotNetFullscreenWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFullscreenWidget.view = jsObject.view;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetFullscreenWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -69,9 +69,6 @@ export async function buildJsSizeCreateClassBreaksRendererParamsGenerated(dotNet
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jssizeCreateClassBreaksRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeCreateClassBreaksRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeCreateClassBreaksRendererParams);
@@ -157,9 +154,6 @@ export async function buildDotNetSizeCreateClassBreaksRendererParamsGenerated(js
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetSizeCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeCreateClassBreaksRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

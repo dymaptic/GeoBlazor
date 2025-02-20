@@ -5,10 +5,6 @@ import { buildDotNetRelationshipElement } from './relationshipElement';
 
 export async function buildJsRelationshipElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelationshipElement = new RelationshipElement();
-    if (hasValue(dotNetObject.orderByFields)) {
-        let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        jsRelationshipElement.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
-    }
 
     if (hasValue(dotNetObject.description)) {
         jsRelationshipElement.description = dotNetObject.description;
@@ -24,6 +20,9 @@ export async function buildJsRelationshipElementGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.label)) {
         jsRelationshipElement.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.orderByFields)) {
+        jsRelationshipElement.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.relationshipId)) {
         jsRelationshipElement.relationshipId = dotNetObject.relationshipId;
@@ -57,10 +56,6 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelationshipElement.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
-        }
     if (hasValue(jsObject.description)) {
         dotNetRelationshipElement.description = jsObject.description;
     }
@@ -75,6 +70,9 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.label)) {
         dotNetRelationshipElement.label = jsObject.label;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetRelationshipElement.orderByFields = jsObject.orderByFields;
     }
     if (hasValue(jsObject.relationshipId)) {
         dotNetRelationshipElement.relationshipId = jsObject.relationshipId;

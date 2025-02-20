@@ -9,9 +9,6 @@ export async function buildJsWFSLayerLayerviewDestroyEventGenerated(dotNetObject
         jsWFSLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsWFSLayerLayerviewDestroyEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSLayerLayerviewDestroyEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetWFSLayerLayerviewDestroyEventGenerated(jsObject
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetWFSLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetWFSLayerLayerviewDestroyEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

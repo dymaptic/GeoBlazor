@@ -9,9 +9,6 @@ export async function buildJsBaseDynamicLayerLayerviewCreateEventGenerated(dotNe
         jsBaseDynamicLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsBaseDynamicLayerLayerviewCreateEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBaseDynamicLayerLayerviewCreateEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetBaseDynamicLayerLayerviewCreateEventGenerated(j
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetBaseDynamicLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetBaseDynamicLayerLayerviewCreateEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

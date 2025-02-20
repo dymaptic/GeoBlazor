@@ -330,10 +330,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allSublayers)) {
-            let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetSublayer(i)));
-        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetMapImageLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);

@@ -59,9 +59,6 @@ export async function buildDotNetMediaLayerViewGenerated(jsObject: any): Promise
     if (hasValue(jsObject.updating)) {
         dotNetMediaLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetMediaLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetMediaLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

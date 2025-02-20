@@ -106,9 +106,6 @@ export async function buildJsShadowCastViewModelGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.utcOffset)) {
         jsShadowCastViewModel.utcOffset = dotNetObject.utcOffset;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsShadowCastViewModel.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.visualizationType)) {
         jsShadowCastViewModel.visualizationType = dotNetObject.visualizationType;
     }
@@ -170,9 +167,6 @@ export async function buildDotNetShadowCastViewModelGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.utcOffset)) {
         dotNetShadowCastViewModel.utcOffset = jsObject.utcOffset;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetShadowCastViewModel.view = jsObject.view;
     }
     if (hasValue(jsObject.visualizationType)) {
         dotNetShadowCastViewModel.visualizationType = jsObject.visualizationType;

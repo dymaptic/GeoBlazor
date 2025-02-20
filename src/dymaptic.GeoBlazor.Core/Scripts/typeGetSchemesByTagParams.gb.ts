@@ -24,9 +24,6 @@ export async function buildJsTypeGetSchemesByTagParamsGenerated(dotNetObject: an
     if (hasValue(dotNetObject.includedTags)) {
         jstypeGetSchemesByTagParams.includedTags = dotNetObject.includedTags;
     }
-    if (hasValue(dotNetObject.view)) {
-        jstypeGetSchemesByTagParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jstypeGetSchemesByTagParams.worldScale = dotNetObject.worldScale;
     }
@@ -74,9 +71,6 @@ export async function buildDotNetTypeGetSchemesByTagParamsGenerated(jsObject: an
     }
     if (hasValue(jsObject.includedTags)) {
         dotNetTypeGetSchemesByTagParams.includedTags = jsObject.includedTags;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetTypeGetSchemesByTagParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetTypeGetSchemesByTagParams.worldScale = jsObject.worldScale;

@@ -10,9 +10,6 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
         jsBasemapGalleryItem.basemap = await buildJsBasemap(dotNetObject.basemap, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsBasemapGalleryItem.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapGalleryItem);
@@ -48,9 +45,6 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.state)) {
         dotNetBasemapGalleryItem.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBasemapGalleryItem.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -188,9 +188,6 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.timeZone)) {
         jsFeatureTableViewModel.timeZone = dotNetObject.timeZone;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsFeatureTableViewModel.view = dotNetObject.view;
-    }
     jsFeatureTableViewModel.on('cell-click', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', evt);
     });
@@ -319,9 +316,6 @@ export async function buildDotNetFeatureTableViewModelGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.timeZone)) {
         dotNetFeatureTableViewModel.timeZone = jsObject.timeZone;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFeatureTableViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

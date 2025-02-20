@@ -642,12 +642,15 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
                 return;
             }
+            
+            findCircularReferences(result.layer);
+            findCircularReferences(result.layerView);
 
             // return dotNetResult in small chunks to avoid memory issues in Blazor Server
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
-            const seenObjects = new WeakMap();
-            const jsonLayerResult = JSON.stringify(result.layer, function (key, value) {
+            let seenObjects = new WeakMap();
+            const jsonLayerResult = JSON.stringify(structuredClone(result.layer), function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
@@ -657,7 +660,18 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 }
                 return value;
             });
-            const jsonLayerViewResult = JSON.stringify(result.layerView);
+            
+            seenObjects = new WeakMap();
+            const jsonLayerViewResult = JSON.stringify(structuredClone(result.layerView), function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in layerView type ${result.layerView.type} detected at path: ${key}, value: ${value}`);
+                        return '[Circular]';
+                    }
+                    seenObjects.set(value, true);
+                }
+                return value;
+            });
             const chunkSize = 1000;
             let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
 
@@ -3385,4 +3399,29 @@ export function toUpperFirstChar(str: string): string {
 
 export function toLowerFirstChar(str: string): string {
     return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+function findCircularReferences(obj: any, path = '') {
+    const seen = new WeakMap();
+    const circularPaths: string[] = [];
+
+    function detect(obj: any, currentPath: string) {
+        if (obj === null || typeof obj !== 'object') return;
+
+        if (seen.has(obj)) {
+            let circularMessage = `Circular reference found at: ${currentPath} -> ${seen.get(obj)}`;
+            circularPaths.push(circularMessage);
+            console.log(circularMessage);
+            return;
+        }
+
+        seen.set(obj, currentPath);
+
+        for (const [key, value] of Object.entries(obj)) {
+            detect(value, `${currentPath}${currentPath ? '.' : ''}${key}`);
+        }
+    }
+
+    detect(obj, path);
+    return circularPaths;
 }

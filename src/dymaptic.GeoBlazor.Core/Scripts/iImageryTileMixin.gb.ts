@@ -73,7 +73,7 @@ export default class IImageryTileMixinGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.component.rasterInfo);
+        return await buildDotNetRasterInfo(this.component.rasterInfo, this.layerId, this.viewId);
     }
     async getServiceRasterInfo(): Promise<any> {
         if (!hasValue(this.component.serviceRasterInfo)) {
@@ -81,7 +81,7 @@ export default class IImageryTileMixinGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.component.serviceRasterInfo);
+        return await buildDotNetRasterInfo(this.component.serviceRasterInfo, this.layerId, this.viewId);
     }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.component.timeExtent)) {
@@ -185,7 +185,7 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
     return jsImageryTileMixin;
 }
 
-export async function buildDotNetIImageryTileMixinGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIImageryTileMixinGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -204,11 +204,11 @@ export async function buildDotNetIImageryTileMixinGenerated(jsObject: any): Prom
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIImageryTileMixin.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
+            dotNetIImageryTileMixin.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIImageryTileMixin.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetIImageryTileMixin.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

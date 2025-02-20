@@ -57,9 +57,6 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: s
     if (hasValue(jsObject.updating)) {
         dotNetKMLLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetKMLLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetKMLLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

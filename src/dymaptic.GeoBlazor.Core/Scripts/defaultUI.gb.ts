@@ -73,9 +73,6 @@ export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.padding)) {
         jsDefaultUI.padding = dotNetObject.padding;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsDefaultUI.view = dotNetObject.view;
-    }
 
     let { default: DefaultUIWrapper } = await import('./defaultUI');
     let defaultUIWrapper = new DefaultUIWrapper(jsDefaultUI);
@@ -119,9 +116,6 @@ export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.padding)) {
         dotNetDefaultUI.padding = jsObject.padding;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetDefaultUI.view = jsObject.view;
     }
     if (hasValue(jsObject.width)) {
         dotNetDefaultUI.width = jsObject.width;

@@ -4,9 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Information about the coded values belonging to the domain.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-CodedValueDomain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public class CodedValueDomain<T> : Domain,
-    IFieldColumnTemplateDomain,
-IFieldInputDomain
+[CodeGenerationIgnore]
+public class CodedValueDomain<T> : Domain
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.

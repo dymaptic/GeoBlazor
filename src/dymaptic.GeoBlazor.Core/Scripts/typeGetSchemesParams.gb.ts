@@ -18,9 +18,6 @@ export async function buildJsTypeGetSchemesParamsGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.geometryType)) {
         jstypeGetSchemesParams.geometryType = dotNetObject.geometryType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jstypeGetSchemesParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jstypeGetSchemesParams.worldScale = dotNetObject.worldScale;
     }
@@ -62,9 +59,6 @@ export async function buildDotNetTypeGetSchemesParamsGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.geometryType)) {
         dotNetTypeGetSchemesParams.geometryType = jsObject.geometryType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetTypeGetSchemesParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetTypeGetSchemesParams.worldScale = jsObject.worldScale;

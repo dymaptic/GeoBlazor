@@ -170,9 +170,6 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promi
     if (hasValue(jsObject.updating)) {
         dotNetFeatureLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetFeatureLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetFeatureLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

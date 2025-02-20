@@ -15,9 +15,6 @@ export async function buildJsSizeRangeSizeRangeParamsGenerated(dotNetObject: any
     if (hasValue(dotNetObject.signal)) {
         jssizeRangeSizeRangeParams.signal = dotNetObject.signal;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeRangeSizeRangeParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeRangeSizeRangeParams);
@@ -49,9 +46,6 @@ export async function buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject: any
     }
     if (hasValue(jsObject.signal)) {
         dotNetSizeRangeSizeRangeParams.signal = jsObject.signal;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeRangeSizeRangeParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

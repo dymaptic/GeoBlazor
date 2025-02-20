@@ -123,9 +123,6 @@ export async function buildJsBaseLayerViewGL2DGenerated(dotNetObject: any, layer
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
         jsBaseLayerViewGL2D.tiles = sanitizedTiles;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsBaseLayerViewGL2D.view = dotNetObject.view;
-    }
 
     let { default: BaseLayerViewGL2DWrapper } = await import('./baseLayerViewGL2D');
     let baseLayerViewGL2DWrapper = new BaseLayerViewGL2DWrapper(jsBaseLayerViewGL2D);
@@ -172,9 +169,6 @@ export async function buildDotNetBaseLayerViewGL2DGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.updating)) {
         dotNetBaseLayerViewGL2D.updating = jsObject.updating;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBaseLayerViewGL2D.view = jsObject.view;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetBaseLayerViewGL2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

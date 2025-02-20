@@ -131,9 +131,6 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promi
     if (hasValue(jsObject.updating)) {
         dotNetImageryLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetImageryLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetImageryLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

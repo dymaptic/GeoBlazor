@@ -353,6 +353,20 @@ public abstract partial class Layer : MapComponent
         base.ValidateRequiredChildren();
     }
 
+    [JSInvokable]
+    public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
+        string? instantiatedComponentJson)
+    {
+        Layer? renderedLayer = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Layer;
+
+        if (renderedLayer is not null)
+        {
+            await UpdateFromJavaScript(renderedLayer);
+        }
+
+        return renderedLayer;
+    }
+
     /// <summary>
     ///     Copies values from the rendered JavaScript layer back to the .NET implementation.
     /// </summary>

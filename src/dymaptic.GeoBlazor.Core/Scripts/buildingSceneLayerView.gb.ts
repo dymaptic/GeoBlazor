@@ -104,9 +104,6 @@ export async function buildDotNetBuildingSceneLayerViewGenerated(jsObject: any):
     if (hasValue(jsObject.updating)) {
         dotNetBuildingSceneLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetBuildingSceneLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetBuildingSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

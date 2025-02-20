@@ -6,7 +6,7 @@ export async function buildJsVisualVariablesResultGenerated(dotNetObject: any, l
     let jsVisualVariablesResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.color)) {
         let { buildJsVisualVariablesResultColor } = await import('./visualVariablesResultColor');

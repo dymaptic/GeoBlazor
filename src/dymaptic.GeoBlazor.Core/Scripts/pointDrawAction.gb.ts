@@ -69,9 +69,6 @@ export async function buildJsPointDrawActionGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.hasZ)) {
         jsPointDrawAction.hasZ = dotNetObject.hasZ;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsPointDrawAction.view = dotNetObject.view;
-    }
     jsPointDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
@@ -117,9 +114,6 @@ export async function buildDotNetPointDrawActionGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.vertices)) {
         dotNetPointDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPointDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

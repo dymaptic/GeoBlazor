@@ -75,9 +75,6 @@ export async function buildJsSliceViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.tiltEnabled)) {
         jsSliceViewModel.tiltEnabled = dotNetObject.tiltEnabled;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsSliceViewModel.view = dotNetObject.view;
-    }
 
     let { default: SliceViewModelWrapper } = await import('./sliceViewModel');
     let sliceViewModelWrapper = new SliceViewModelWrapper(jsSliceViewModel);
@@ -129,9 +126,6 @@ export async function buildDotNetSliceViewModelGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.tiltEnabled)) {
         dotNetSliceViewModel.tiltEnabled = jsObject.tiltEnabled;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSliceViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

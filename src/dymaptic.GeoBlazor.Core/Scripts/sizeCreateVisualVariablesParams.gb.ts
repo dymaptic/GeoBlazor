@@ -61,9 +61,6 @@ export async function buildJsSizeCreateVisualVariablesParamsGenerated(dotNetObje
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jssizeCreateVisualVariablesParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeCreateVisualVariablesParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jssizeCreateVisualVariablesParams.worldScale = dotNetObject.worldScale;
     }
@@ -144,9 +141,6 @@ export async function buildDotNetSizeCreateVisualVariablesParamsGenerated(jsObje
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetSizeCreateVisualVariablesParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeCreateVisualVariablesParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetSizeCreateVisualVariablesParams.worldScale = jsObject.worldScale;

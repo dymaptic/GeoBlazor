@@ -72,9 +72,6 @@ export async function buildJsSegmentDrawActionGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.mode)) {
         jsSegmentDrawAction.mode = dotNetObject.mode;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsSegmentDrawAction.view = dotNetObject.view;
-    }
     jsSegmentDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
@@ -127,9 +124,6 @@ export async function buildDotNetSegmentDrawActionGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.vertices)) {
         dotNetSegmentDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSegmentDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

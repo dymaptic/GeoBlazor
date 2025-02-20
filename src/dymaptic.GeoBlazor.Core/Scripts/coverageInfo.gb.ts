@@ -57,7 +57,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     return jsCoverageInfo;
 }
 
-export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,7 +72,7 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
+            dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
         }
     if (hasValue(jsObject.bandNames)) {
         dotNetCoverageInfo.bandNames = jsObject.bandNames;

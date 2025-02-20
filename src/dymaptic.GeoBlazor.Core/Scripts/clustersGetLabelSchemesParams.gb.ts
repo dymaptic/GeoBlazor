@@ -16,9 +16,6 @@ export async function buildJsClustersGetLabelSchemesParamsGenerated(dotNetObject
     if (hasValue(dotNetObject.field)) {
         jsclustersGetLabelSchemesParams.field = dotNetObject.field;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsclustersGetLabelSchemesParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclustersGetLabelSchemesParams);
@@ -51,9 +48,6 @@ export async function buildDotNetClustersGetLabelSchemesParamsGenerated(jsObject
         }
     if (hasValue(jsObject.field)) {
         dotNetClustersGetLabelSchemesParams.field = jsObject.field;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetClustersGetLabelSchemesParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

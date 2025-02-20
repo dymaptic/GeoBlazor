@@ -41,9 +41,6 @@ export async function buildJsNavigationToggleViewModelGenerated(dotNetObject: an
     if (hasValue(dotNetObject.navigationMode)) {
         jsNavigationToggleViewModel.navigationMode = dotNetObject.navigationMode;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsNavigationToggleViewModel.view = dotNetObject.view;
-    }
 
     let { default: NavigationToggleViewModelWrapper } = await import('./navigationToggleViewModel');
     let navigationToggleViewModelWrapper = new NavigationToggleViewModelWrapper(jsNavigationToggleViewModel);
@@ -81,9 +78,6 @@ export async function buildDotNetNavigationToggleViewModelGenerated(jsObject: an
     }
     if (hasValue(jsObject.state)) {
         dotNetNavigationToggleViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetNavigationToggleViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

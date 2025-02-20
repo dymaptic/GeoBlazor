@@ -29,18 +29,6 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
             return null;
@@ -65,10 +53,6 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLocateViewModel = new LocateViewModel();
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsLocateViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
         jsLocateViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -83,14 +67,14 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.goToLocationEnabled)) {
         jsLocateViewModel.goToLocationEnabled = dotNetObject.goToLocationEnabled;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsLocateViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.popupEnabled)) {
         jsLocateViewModel.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.scale)) {
         jsLocateViewModel.scale = dotNetObject.scale;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsLocateViewModel.view = dotNetObject.view;
     }
     jsLocateViewModel.on('locate', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', evt);
@@ -132,10 +116,6 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetLocateViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.graphic)) {
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
@@ -149,6 +129,9 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
     if (hasValue(jsObject.goToLocationEnabled)) {
         dotNetLocateViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
     }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetLocateViewModel.goToOverride = jsObject.goToOverride;
+    }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocateViewModel.popupEnabled = jsObject.popupEnabled;
     }
@@ -157,9 +140,6 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.state)) {
         dotNetLocateViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetLocateViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

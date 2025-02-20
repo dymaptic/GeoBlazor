@@ -87,9 +87,6 @@ export async function buildJsElevationProfileViewModelGenerated(dotNetObject: an
     if (hasValue(dotNetObject.unitOptions)) {
         jsElevationProfileViewModel.unitOptions = dotNetObject.unitOptions;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsElevationProfileViewModel.view = dotNetObject.view;
-    }
 
     let { default: ElevationProfileViewModelWrapper } = await import('./elevationProfileViewModel');
     let elevationProfileViewModelWrapper = new ElevationProfileViewModelWrapper(jsElevationProfileViewModel);
@@ -155,9 +152,6 @@ export async function buildDotNetElevationProfileViewModelGenerated(jsObject: an
     }
     if (hasValue(jsObject.unitOptions)) {
         dotNetElevationProfileViewModel.unitOptions = jsObject.unitOptions;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetElevationProfileViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

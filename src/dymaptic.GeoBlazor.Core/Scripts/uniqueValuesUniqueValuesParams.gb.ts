@@ -41,9 +41,6 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
     if (hasValue(dotNetObject.valueExpression)) {
         jsuniqueValuesUniqueValuesParams.valueExpression = dotNetObject.valueExpression;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsuniqueValuesUniqueValuesParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsuniqueValuesUniqueValuesParams);
@@ -101,9 +98,6 @@ export async function buildDotNetUniqueValuesUniqueValuesParamsGenerated(jsObjec
     }
     if (hasValue(jsObject.valueExpression)) {
         dotNetUniqueValuesUniqueValuesParams.valueExpression = jsObject.valueExpression;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUniqueValuesUniqueValuesParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -53,7 +53,7 @@ export default class ClassBreaksRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
     async getClassBreakInfos(): Promise<any> {
         if (!hasValue(this.component.classBreakInfos)) {
@@ -109,7 +109,7 @@ export async function buildJsClassBreaksRendererGenerated(dotNetObject: any, lay
     let jsClassBreaksRenderer = new ClassBreaksRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsClassBreaksRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsClassBreaksRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.classBreakInfos)) {
         let { buildJsClassBreakInfo } = await import('./classBreakInfo');

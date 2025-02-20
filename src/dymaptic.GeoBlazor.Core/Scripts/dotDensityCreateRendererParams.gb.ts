@@ -35,9 +35,6 @@ export async function buildJsDotDensityCreateRendererParamsGenerated(dotNetObjec
     if (hasValue(dotNetObject.signal)) {
         jsdotDensityCreateRendererParams.signal = dotNetObject.signal;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsdotDensityCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsdotDensityCreateRendererParams);
@@ -88,9 +85,6 @@ export async function buildDotNetDotDensityCreateRendererParamsGenerated(jsObjec
     }
     if (hasValue(jsObject.signal)) {
         dotNetDotDensityCreateRendererParams.signal = jsObject.signal;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetDotDensityCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

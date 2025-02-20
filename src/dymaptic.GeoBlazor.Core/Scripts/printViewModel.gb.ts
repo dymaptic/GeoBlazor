@@ -96,9 +96,6 @@ export async function buildJsPrintViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.updateDelay)) {
         jsPrintViewModel.updateDelay = dotNetObject.updateDelay;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsPrintViewModel.view = dotNetObject.view;
-    }
 
     let { default: PrintViewModelWrapper } = await import('./printViewModel');
     let printViewModelWrapper = new PrintViewModelWrapper(jsPrintViewModel);
@@ -183,9 +180,6 @@ export async function buildDotNetPrintViewModelGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.updateDelay)) {
         dotNetPrintViewModel.updateDelay = jsObject.updateDelay;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPrintViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

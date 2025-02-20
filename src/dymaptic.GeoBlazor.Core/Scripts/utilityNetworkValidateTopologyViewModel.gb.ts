@@ -60,9 +60,6 @@ export async function buildJsUtilityNetworkValidateTopologyViewModelGenerated(do
     if (hasValue(dotNetObject.loadErrors)) {
         jsUtilityNetworkValidateTopologyViewModel.loadErrors = dotNetObject.loadErrors;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsUtilityNetworkValidateTopologyViewModel.view = dotNetObject.view;
-    }
 
     let { default: UtilityNetworkValidateTopologyViewModelWrapper } = await import('./utilityNetworkValidateTopologyViewModel');
     let utilityNetworkValidateTopologyViewModelWrapper = new UtilityNetworkValidateTopologyViewModelWrapper(jsUtilityNetworkValidateTopologyViewModel);
@@ -110,9 +107,6 @@ export async function buildDotNetUtilityNetworkValidateTopologyViewModelGenerate
     }
     if (hasValue(jsObject.state)) {
         dotNetUtilityNetworkValidateTopologyViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUtilityNetworkValidateTopologyViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

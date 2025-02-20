@@ -38,9 +38,6 @@ export async function buildJsPieChartCreateRendererParamsGenerated(dotNetObject:
     if (hasValue(dotNetObject.sizeOptimizationEnabled)) {
         jspieChartCreateRendererParams.sizeOptimizationEnabled = dotNetObject.sizeOptimizationEnabled;
     }
-    if (hasValue(dotNetObject.view)) {
-        jspieChartCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspieChartCreateRendererParams);
@@ -94,9 +91,6 @@ export async function buildDotNetPieChartCreateRendererParamsGenerated(jsObject:
     }
     if (hasValue(jsObject.sizeOptimizationEnabled)) {
         dotNetPieChartCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPieChartCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

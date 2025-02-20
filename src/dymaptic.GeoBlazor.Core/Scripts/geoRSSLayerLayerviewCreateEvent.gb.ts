@@ -9,9 +9,6 @@ export async function buildJsGeoRSSLayerLayerviewCreateEventGenerated(dotNetObje
         jsGeoRSSLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsGeoRSSLayerLayerviewCreateEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoRSSLayerLayerviewCreateEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetGeoRSSLayerLayerviewCreateEventGenerated(jsObje
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetGeoRSSLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetGeoRSSLayerLayerviewCreateEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -69,9 +69,6 @@ export async function buildJsMultipointDrawActionGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.hasZ)) {
         jsMultipointDrawAction.hasZ = dotNetObject.hasZ;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsMultipointDrawAction.view = dotNetObject.view;
-    }
     jsMultipointDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
@@ -133,9 +130,6 @@ export async function buildDotNetMultipointDrawActionGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.vertices)) {
         dotNetMultipointDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetMultipointDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

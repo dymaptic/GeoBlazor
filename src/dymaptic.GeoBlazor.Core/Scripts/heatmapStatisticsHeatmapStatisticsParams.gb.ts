@@ -18,9 +18,6 @@ export async function buildJsHeatmapStatisticsHeatmapStatisticsParamsGenerated(d
     if (hasValue(dotNetObject.signal)) {
         jsheatmapStatisticsHeatmapStatisticsParams.signal = dotNetObject.signal;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsheatmapStatisticsHeatmapStatisticsParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsheatmapStatisticsHeatmapStatisticsParams);
@@ -55,9 +52,6 @@ export async function buildDotNetHeatmapStatisticsHeatmapStatisticsParamsGenerat
     }
     if (hasValue(jsObject.signal)) {
         dotNetHeatmapStatisticsHeatmapStatisticsParams.signal = jsObject.signal;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetHeatmapStatisticsHeatmapStatisticsParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

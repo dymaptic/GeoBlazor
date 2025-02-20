@@ -5,9 +5,6 @@ import { buildDotNetBasemapView } from './basemapView';
 export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBasemapView = new BasemapView();
 
-    if (hasValue(dotNetObject.view)) {
-        jsBasemapView.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapView);
@@ -44,9 +41,6 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<an
         }
     if (hasValue(jsObject.updating)) {
         dotNetBasemapView.updating = jsObject.updating;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBasemapView.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

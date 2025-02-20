@@ -51,9 +51,6 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     if (hasValue(dotNetObject.unitOptions)) {
         jsDistanceMeasurement2DViewModel.unitOptions = dotNetObject.unitOptions;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsDistanceMeasurement2DViewModel.view = dotNetObject.view;
-    }
 
     let { default: DistanceMeasurement2DViewModelWrapper } = await import('./distanceMeasurement2DViewModel');
     let distanceMeasurement2DViewModelWrapper = new DistanceMeasurement2DViewModelWrapper(jsDistanceMeasurement2DViewModel);
@@ -103,9 +100,6 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
     }
     if (hasValue(jsObject.unitOptions)) {
         dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetDistanceMeasurement2DViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

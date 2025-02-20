@@ -637,9 +637,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public virtual ValueTask OnJsComponentCreated(IJSObjectReference jsComponentReference, string? instantiatedComponentJson)
+    public virtual ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference, 
+        string? instantiatedComponentJson)
     {
         JsComponentReference = jsComponentReference;
+        MapComponent? instantiatedComponent = null;
 
         try
         {
@@ -650,8 +652,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                 JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
 
                 if (JsonSerializer.Deserialize(instantiatedComponentJson, componentType, options) 
-                    is MapComponent instantiatedComponent)
+                    is MapComponent deserialized)
                 {
+                    instantiatedComponent = deserialized;
                     CopyProperties(instantiatedComponent);
                 }
             }
@@ -660,7 +663,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         {
             Console.WriteLine($"Error deserializing instantiated component: {ex}");
         }
-        return ValueTask.CompletedTask;
+        return new ValueTask<MapComponent?>(instantiatedComponent);
     }
     
     internal void CopyProperties(MapComponent component)

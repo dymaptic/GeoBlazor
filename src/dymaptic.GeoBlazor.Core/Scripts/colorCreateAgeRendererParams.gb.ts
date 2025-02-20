@@ -55,9 +55,6 @@ export async function buildJsColorCreateAgeRendererParamsGenerated(dotNetObject:
     if (hasValue(dotNetObject.unit)) {
         jscolorCreateAgeRendererParams.unit = dotNetObject.unit;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorCreateAgeRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreateAgeRendererParams);
@@ -129,9 +126,6 @@ export async function buildDotNetColorCreateAgeRendererParamsGenerated(jsObject:
     }
     if (hasValue(jsObject.unit)) {
         dotNetColorCreateAgeRendererParams.unit = jsObject.unit;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorCreateAgeRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

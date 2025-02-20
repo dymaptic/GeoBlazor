@@ -52,9 +52,6 @@ export async function buildJsPredominanceCreateRendererParamsGenerated(dotNetObj
     if (hasValue(dotNetObject.symbolType)) {
         jspredominanceCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jspredominanceCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspredominanceCreateRendererParams);
@@ -122,9 +119,6 @@ export async function buildDotNetPredominanceCreateRendererParamsGenerated(jsObj
     }
     if (hasValue(jsObject.symbolType)) {
         dotNetPredominanceCreateRendererParams.symbolType = jsObject.symbolType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPredominanceCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

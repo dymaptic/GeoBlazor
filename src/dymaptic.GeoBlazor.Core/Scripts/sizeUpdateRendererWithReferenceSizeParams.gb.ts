@@ -38,9 +38,6 @@ export async function buildJsSizeUpdateRendererWithReferenceSizeParamsGenerated(
     if (hasValue(dotNetObject.typeScheme)) {
         jssizeUpdateRendererWithReferenceSizeParams.typeScheme = dotNetObject.typeScheme;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeUpdateRendererWithReferenceSizeParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeUpdateRendererWithReferenceSizeParams);
@@ -94,9 +91,6 @@ export async function buildDotNetSizeUpdateRendererWithReferenceSizeParamsGenera
     }
     if (hasValue(jsObject.typeScheme)) {
         dotNetSizeUpdateRendererWithReferenceSizeParams.typeScheme = jsObject.typeScheme;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeUpdateRendererWithReferenceSizeParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

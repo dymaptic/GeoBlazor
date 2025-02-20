@@ -72,9 +72,6 @@ export async function buildJsPolygonDrawActionGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.mode)) {
         jsPolygonDrawAction.mode = dotNetObject.mode;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsPolygonDrawAction.view = dotNetObject.view;
-    }
     jsPolygonDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
@@ -139,9 +136,6 @@ export async function buildDotNetPolygonDrawActionGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.vertices)) {
         dotNetPolygonDrawAction.vertices = jsObject.vertices;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPolygonDrawAction.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -73,18 +73,6 @@ export default class DirectionsViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getLastRoute(): Promise<any> {
         if (!hasValue(this.component.lastRoute)) {
             return null;
@@ -129,10 +117,6 @@ export default class DirectionsViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsDirectionsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDirectionsViewModel = new DirectionsViewModel();
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsDirectionsViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsRouteLayer } = await import('./routeLayer');
         jsDirectionsViewModel.layer = await buildJsRouteLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -145,14 +129,14 @@ export async function buildJsDirectionsViewModelGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.apiKey)) {
         jsDirectionsViewModel.apiKey = dotNetObject.apiKey;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsDirectionsViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.maxStops)) {
         jsDirectionsViewModel.maxStops = dotNetObject.maxStops;
     }
     if (hasValue(dotNetObject.selectedTravelMode)) {
         jsDirectionsViewModel.selectedTravelMode = dotNetObject.selectedTravelMode;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsDirectionsViewModel.view = dotNetObject.view;
     }
 
     let { default: DirectionsViewModelWrapper } = await import('./directionsViewModel');
@@ -186,10 +170,6 @@ export async function buildDotNetDirectionsViewModelGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetDirectionsViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.lastRoute)) {
             let { buildDotNetDirectionsViewModelLastRoute } = await import('./directionsViewModelLastRoute');
             dotNetDirectionsViewModel.lastRoute = await buildDotNetDirectionsViewModelLastRoute(jsObject.lastRoute);
@@ -200,6 +180,9 @@ export async function buildDotNetDirectionsViewModelGenerated(jsObject: any): Pr
         }
     if (hasValue(jsObject.apiKey)) {
         dotNetDirectionsViewModel.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetDirectionsViewModel.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.impedanceAttribute)) {
         dotNetDirectionsViewModel.impedanceAttribute = jsObject.impedanceAttribute;
@@ -221,9 +204,6 @@ export async function buildDotNetDirectionsViewModelGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.travelModes)) {
         dotNetDirectionsViewModel.travelModes = jsObject.travelModes;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetDirectionsViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

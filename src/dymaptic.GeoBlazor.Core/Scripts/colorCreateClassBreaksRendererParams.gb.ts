@@ -72,9 +72,6 @@ export async function buildJsColorCreateClassBreaksRendererParamsGenerated(dotNe
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jscolorCreateClassBreaksRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorCreateClassBreaksRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreateClassBreaksRendererParams);
@@ -163,9 +160,6 @@ export async function buildDotNetColorCreateClassBreaksRendererParamsGenerated(j
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetColorCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorCreateClassBreaksRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

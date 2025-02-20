@@ -89,18 +89,6 @@ export default class CoordinateConversionViewModelGenerated implements IProperty
         this.component.formats = await Promise.all(value.map(async i => await buildJsFormat(i, this.layerId, this.viewId))) as any;
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getLocationSymbol(): Promise<any> {
         if (!hasValue(this.component.locationSymbol)) {
             return null;
@@ -137,15 +125,14 @@ export async function buildJsCoordinateConversionViewModelGenerated(dotNetObject
         let { buildJsFormat } = await import('./format');
         jsCoordinateConversionViewModel.formats = await Promise.all(dotNetObject.formats.map(async i => await buildJsFormat(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsCoordinateConversionViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.locationSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsCoordinateConversionViewModel.locationSymbol = buildJsSymbol(dotNetObject.locationSymbol) as any;
     }
 
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsCoordinateConversionViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.mode)) {
         jsCoordinateConversionViewModel.mode = dotNetObject.mode;
     }
@@ -154,9 +141,6 @@ export async function buildJsCoordinateConversionViewModelGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.storageType)) {
         jsCoordinateConversionViewModel.storageType = dotNetObject.storageType;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsCoordinateConversionViewModel.view = dotNetObject.view;
     }
 
     let { default: CoordinateConversionViewModelWrapper } = await import('./coordinateConversionViewModel');
@@ -202,14 +186,13 @@ export async function buildDotNetCoordinateConversionViewModelGenerated(jsObject
             let { buildDotNetFormat } = await import('./format');
             dotNetCoordinateConversionViewModel.formats = await Promise.all(jsObject.formats.map(async i => await buildDotNetFormat(i)));
         }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetCoordinateConversionViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.locationSymbol)) {
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetCoordinateConversionViewModel.locationSymbol = buildDotNetSymbol(jsObject.locationSymbol);
         }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCoordinateConversionViewModel.goToOverride = jsObject.goToOverride;
+    }
     if (hasValue(jsObject.mode)) {
         dotNetCoordinateConversionViewModel.mode = jsObject.mode;
     }
@@ -221,9 +204,6 @@ export async function buildDotNetCoordinateConversionViewModelGenerated(jsObject
     }
     if (hasValue(jsObject.storageType)) {
         dotNetCoordinateConversionViewModel.storageType = jsObject.storageType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetCoordinateConversionViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

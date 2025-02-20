@@ -43,9 +43,6 @@ export async function buildJsFlowCreateRendererParamsGenerated(dotNetObject: any
     if (hasValue(dotNetObject.signal)) {
         jsflowCreateRendererParams.signal = dotNetObject.signal;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsflowCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsflowCreateRendererParams);
@@ -103,9 +100,6 @@ export async function buildDotNetFlowCreateRendererParamsGenerated(jsObject: any
     }
     if (hasValue(jsObject.signal)) {
         dotNetFlowCreateRendererParams.signal = jsObject.signal;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFlowCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

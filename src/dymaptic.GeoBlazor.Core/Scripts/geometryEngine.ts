@@ -5,7 +5,14 @@ import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Point from "@arcgis/core/geometry/Point";
-import {DotNetExtent, DotNetGeometry, DotNetPoint, DotNetPolygon, DotNetPolyline} from "./definitions";
+import {
+    DotNetExtent,
+    DotNetGeometry,
+    DotNetPoint,
+    DotNetPolygon,
+    DotNetPolyline,
+    IPropertyWrapper
+} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
 import {buildDotNetPolygon, buildJsPolygon} from "./polygon";
@@ -18,12 +25,17 @@ import AreaUnits = __esri.AreaUnits;
 import NearestPointResult = __esri.NearestPointResult;
 
 export default class GeometryEngineWrapper extends GeometryEngineGenerated {
-    private dotNetRef: any;
-
+    private component: any;
+    
     constructor(component) {
         super(component);
     }
 
+
+    // region properties
+
+
+    
     async buffer(geometries: DotNetGeometry | Array<DotNetGeometry>, distances: number | Array<number>,
                  unit: LinearUnits | null, unionResults: boolean | null): Promise<DotNetPolygon | DotNetPolygon[] | null> {
         let jsGeometries: Geometry | Array<Geometry>;
@@ -644,12 +656,10 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
     }
 }
 
-export async function buildJsGeometryEngine(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsGeometryEngineGenerated} = await import('./geometryEngine.gb');
-    return await buildJsGeometryEngineGenerated(dotNetObject, layerId, viewId);
+export async function buildJsGeometryEngine(dotNetObject: any): Promise<any> {
+    return new GeometryEngineWrapper(dotNetObject);
 }
 
 export async function buildDotNetGeometryEngine(jsObject: any): Promise<any> {
-    let {buildDotNetGeometryEngineGenerated} = await import('./geometryEngine.gb');
-    return await buildDotNetGeometryEngineGenerated(jsObject);
+    return null; // not used
 }

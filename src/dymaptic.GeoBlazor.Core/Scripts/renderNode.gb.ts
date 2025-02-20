@@ -80,9 +80,6 @@ export async function buildJsRenderNodeGenerated(dotNetObject: any, layerId: str
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight } = dotNetObject.sunLight;
         jsRenderNode.sunLight = sanitizedSunLight;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsRenderNode.view = dotNetObject.view;
-    }
 
     let { default: RenderNodeWrapper } = await import('./renderNode');
     let renderNodeWrapper = new RenderNodeWrapper(jsRenderNode);
@@ -129,9 +126,6 @@ export async function buildDotNetRenderNodeGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.sunLight)) {
         dotNetRenderNode.sunLight = jsObject.sunLight;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetRenderNode.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

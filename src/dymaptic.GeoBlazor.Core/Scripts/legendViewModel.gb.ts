@@ -23,9 +23,6 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.respectLayerVisibility)) {
         jsLegendViewModel.respectLayerVisibility = dotNetObject.respectLayerVisibility;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsLegendViewModel.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLegendViewModel);
@@ -71,9 +68,6 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.state)) {
         dotNetLegendViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetLegendViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

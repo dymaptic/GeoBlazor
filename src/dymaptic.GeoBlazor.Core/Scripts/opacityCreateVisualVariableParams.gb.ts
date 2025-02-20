@@ -45,9 +45,6 @@ export async function buildJsOpacityCreateVisualVariableParamsGenerated(dotNetOb
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jsopacityCreateVisualVariableParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsopacityCreateVisualVariableParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsopacityCreateVisualVariableParams);
@@ -109,9 +106,6 @@ export async function buildDotNetOpacityCreateVisualVariableParamsGenerated(jsOb
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetOpacityCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetOpacityCreateVisualVariableParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

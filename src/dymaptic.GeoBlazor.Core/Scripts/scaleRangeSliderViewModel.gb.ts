@@ -94,9 +94,6 @@ export async function buildJsScaleRangeSliderViewModelGenerated(dotNetObject: an
     if (hasValue(dotNetObject.minScaleLimit)) {
         jsScaleRangeSliderViewModel.minScaleLimit = dotNetObject.minScaleLimit;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsScaleRangeSliderViewModel.view = dotNetObject.view;
-    }
 
     let { default: ScaleRangeSliderViewModelWrapper } = await import('./scaleRangeSliderViewModel');
     let scaleRangeSliderViewModelWrapper = new ScaleRangeSliderViewModelWrapper(jsScaleRangeSliderViewModel);
@@ -151,9 +148,6 @@ export async function buildDotNetScaleRangeSliderViewModelGenerated(jsObject: an
     }
     if (hasValue(jsObject.state)) {
         dotNetScaleRangeSliderViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetScaleRangeSliderViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

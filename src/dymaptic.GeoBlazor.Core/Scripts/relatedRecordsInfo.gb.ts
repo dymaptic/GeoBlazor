@@ -5,11 +5,10 @@ import { buildDotNetRelatedRecordsInfo } from './relatedRecordsInfo';
 
 export async function buildJsRelatedRecordsInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelatedRecordsInfo = new RelatedRecordsInfo();
-    if (hasValue(dotNetObject.orderByFields)) {
-        let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-        jsRelatedRecordsInfo.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
-    }
 
+    if (hasValue(dotNetObject.orderByFields)) {
+        jsRelatedRecordsInfo.orderByFields = dotNetObject.orderByFields;
+    }
     if (hasValue(dotNetObject.showRelatedRecords)) {
         jsRelatedRecordsInfo.showRelatedRecords = dotNetObject.showRelatedRecords;
     }
@@ -39,10 +38,9 @@ export async function buildDotNetRelatedRecordsInfoGenerated(jsObject: any): Pro
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelatedRecordsInfo.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
-        }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetRelatedRecordsInfo.orderByFields = jsObject.orderByFields;
+    }
     if (hasValue(jsObject.showRelatedRecords)) {
         dotNetRelatedRecordsInfo.showRelatedRecords = jsObject.showRelatedRecords;
     }

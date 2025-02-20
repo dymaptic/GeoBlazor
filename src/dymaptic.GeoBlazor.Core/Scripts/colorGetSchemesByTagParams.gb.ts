@@ -24,9 +24,6 @@ export async function buildJsColorGetSchemesByTagParamsGenerated(dotNetObject: a
     if (hasValue(dotNetObject.includedTags)) {
         jscolorGetSchemesByTagParams.includedTags = dotNetObject.includedTags;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorGetSchemesByTagParams.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.worldScale)) {
         jscolorGetSchemesByTagParams.worldScale = dotNetObject.worldScale;
     }
@@ -74,9 +71,6 @@ export async function buildDotNetColorGetSchemesByTagParamsGenerated(jsObject: a
     }
     if (hasValue(jsObject.includedTags)) {
         dotNetColorGetSchemesByTagParams.includedTags = jsObject.includedTags;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorGetSchemesByTagParams.view = jsObject.view;
     }
     if (hasValue(jsObject.worldScale)) {
         dotNetColorGetSchemesByTagParams.worldScale = jsObject.worldScale;

@@ -67,9 +67,6 @@ export async function buildJsSizeCreateContinuousRendererParamsGenerated(dotNetO
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jssizeCreateContinuousRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jssizeCreateContinuousRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeCreateContinuousRendererParams);
@@ -153,9 +150,6 @@ export async function buildDotNetSizeCreateContinuousRendererParamsGenerated(jsO
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetSizeCreateContinuousRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSizeCreateContinuousRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -32,7 +32,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
@@ -44,7 +44,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -76,18 +76,6 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         return await Promise.all(this.component.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
             return null;
@@ -144,10 +132,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         let { buildJsGraphic } = await import('./graphic');
         jsPopupViewModel.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsPopupViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         jsPopupViewModel.location = buildJsPoint(dotNetObject.location) as any;
@@ -179,14 +163,14 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
         jsPopupViewModel.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsPopupViewModel.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.highlightEnabled)) {
         jsPopupViewModel.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.includeDefaultActions)) {
         jsPopupViewModel.includeDefaultActions = dotNetObject.includeDefaultActions;
-    }
-    if (hasValue(dotNetObject.map)) {
-        jsPopupViewModel.map = dotNetObject.map;
     }
     if (hasValue(dotNetObject.promises)) {
         jsPopupViewModel.promises = dotNetObject.promises;
@@ -199,9 +183,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.title)) {
         jsPopupViewModel.title = dotNetObject.title;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsPopupViewModel.view = dotNetObject.view;
     }
     jsPopupViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
@@ -245,11 +226,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetPopupViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');
@@ -300,14 +277,14 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     if (hasValue(jsObject.featureViewModelAbilities)) {
         dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
     }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetPopupViewModel.goToOverride = jsObject.goToOverride;
+    }
     if (hasValue(jsObject.highlightEnabled)) {
         dotNetPopupViewModel.highlightEnabled = jsObject.highlightEnabled;
     }
     if (hasValue(jsObject.includeDefaultActions)) {
         dotNetPopupViewModel.includeDefaultActions = jsObject.includeDefaultActions;
-    }
-    if (hasValue(jsObject.map)) {
-        dotNetPopupViewModel.map = jsObject.map;
     }
     if (hasValue(jsObject.pendingPromisesCount)) {
         dotNetPopupViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
@@ -329,9 +306,6 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     if (hasValue(jsObject.title)) {
         dotNetPopupViewModel.title = jsObject.title;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPopupViewModel.view = jsObject.view;
     }
     if (hasValue(jsObject.waitingForResult)) {
         dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;

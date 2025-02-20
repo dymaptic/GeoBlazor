@@ -70,9 +70,6 @@ export async function buildJsUIGenerated(dotNetObject: any, layerId: string | nu
     if (hasValue(dotNetObject.padding)) {
         jsUI.padding = dotNetObject.padding;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsUI.view = dotNetObject.view;
-    }
 
     let { default: UIWrapper } = await import('./uI');
     let uIWrapper = new UIWrapper(jsUI);
@@ -113,9 +110,6 @@ export async function buildDotNetUIGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.padding)) {
         dotNetUI.padding = jsObject.padding;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUI.view = jsObject.view;
     }
     if (hasValue(jsObject.width)) {
         dotNetUI.width = jsObject.width;

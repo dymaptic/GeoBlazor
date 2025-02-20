@@ -6,9 +6,6 @@ import { buildDotNetAttributionViewModel } from './attributionViewModel';
 export async function buildJsAttributionViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAttributionViewModel = new AttributionViewModel();
 
-    if (hasValue(dotNetObject.view)) {
-        jsAttributionViewModel.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAttributionViewModel);
@@ -41,9 +38,6 @@ export async function buildDotNetAttributionViewModelGenerated(jsObject: any): P
         }
     if (hasValue(jsObject.state)) {
         dotNetAttributionViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetAttributionViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

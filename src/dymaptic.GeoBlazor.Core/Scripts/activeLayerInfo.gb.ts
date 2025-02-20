@@ -41,9 +41,6 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.version)) {
         jsActiveLayerInfo.version = dotNetObject.version;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsActiveLayerInfo.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsActiveLayerInfo);
@@ -103,9 +100,6 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.version)) {
         dotNetActiveLayerInfo.version = jsObject.version;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetActiveLayerInfo.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -115,9 +115,6 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
     if (hasValue(jsObject.updating)) {
         dotNetGraphicsLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetGraphicsLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGraphicsLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

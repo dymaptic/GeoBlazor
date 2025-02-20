@@ -19,56 +19,12 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
-    async classes(): Promise<any> {
-        return this.widget.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.widget.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.widget.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.widget.postInitialize();
-    }
-
-    async render(): Promise<any> {
-        return this.widget.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.widget.renderNow();
-    }
-
-    async scheduleRender(): Promise<void> {
-        this.widget.scheduleRender();
-    }
-
     async triggerAction(action: any,
         item: any): Promise<void> {
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.widget.triggerAction(action,
             jsItem);
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
     }
 
     // region properties
@@ -140,9 +96,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.collapsed)) {
         jsLayerList.collapsed = dotNetObject.collapsed;
     }
-    if (hasValue(dotNetObject.container)) {
-        jsLayerList.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.dragEnabled)) {
         jsLayerList.dragEnabled = dotNetObject.dragEnabled;
     }
@@ -155,14 +108,8 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.headingLevel)) {
         jsLayerList.headingLevel = dotNetObject.headingLevel;
     }
-    if (hasValue(dotNetObject.icon)) {
-        jsLayerList.icon = dotNetObject.icon;
-    }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
         jsLayerList.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsLayerList.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.minDragEnabledItems)) {
         jsLayerList.minDragEnabledItems = dotNetObject.minDragEnabledItems;
@@ -179,18 +126,12 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.selectionMode)) {
         jsLayerList.selectionMode = dotNetObject.selectionMode;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsLayerList.view = dotNetObject.view;
-    }
     if (hasValue(dotNetObject.visibilityAppearance)) {
         jsLayerList.visibilityAppearance = dotNetObject.visibilityAppearance;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsLayerList.visibleElements = sanitizedVisibleElements;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsLayerList.id = dotNetObject.widgetId;
     }
     jsLayerList.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
@@ -249,9 +190,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.collapsed)) {
         dotNetLayerListWidget.collapsed = jsObject.collapsed;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetLayerListWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
@@ -264,14 +202,8 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.headingLevel)) {
         dotNetLayerListWidget.headingLevel = jsObject.headingLevel;
     }
-    if (hasValue(jsObject.icon)) {
-        dotNetLayerListWidget.icon = jsObject.icon;
-    }
     if (hasValue(jsObject.knowledgeGraphOptions)) {
         dotNetLayerListWidget.knowledgeGraphOptions = jsObject.knowledgeGraphOptions;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetLayerListWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.listItemCreatedFunction)) {
         dotNetLayerListWidget.listItemCreatedFunction = jsObject.listItemCreatedFunction;
@@ -297,17 +229,11 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.type)) {
         dotNetLayerListWidget.type = jsObject.type;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetLayerListWidget.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibilityAppearance)) {
         dotNetLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetLayerListWidget.visibleElements = jsObject.visibleElements;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetLayerListWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

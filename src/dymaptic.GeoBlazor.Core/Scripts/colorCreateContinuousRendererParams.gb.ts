@@ -67,9 +67,6 @@ export async function buildJsColorCreateContinuousRendererParamsGenerated(dotNet
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jscolorCreateContinuousRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jscolorCreateContinuousRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreateContinuousRendererParams);
@@ -153,9 +150,6 @@ export async function buildDotNetColorCreateContinuousRendererParamsGenerated(js
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetColorCreateContinuousRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetColorCreateContinuousRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

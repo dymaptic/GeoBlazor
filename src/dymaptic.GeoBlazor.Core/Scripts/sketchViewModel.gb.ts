@@ -178,9 +178,6 @@ export async function buildJsSketchViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.valueOptions)) {
         jsSketchViewModel.valueOptions = dotNetObject.valueOptions;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsSketchViewModel.view = dotNetObject.view;
-    }
     jsSketchViewModel.on('create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', evt);
     });
@@ -281,9 +278,6 @@ export async function buildDotNetSketchViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.valueOptions)) {
         dotNetSketchViewModel.valueOptions = jsObject.valueOptions;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetSketchViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

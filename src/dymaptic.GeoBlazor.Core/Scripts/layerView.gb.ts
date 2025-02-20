@@ -41,9 +41,6 @@ export async function buildDotNetLayerViewGenerated(jsObject: any): Promise<any>
     if (hasValue(jsObject.updating)) {
         dotNetLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

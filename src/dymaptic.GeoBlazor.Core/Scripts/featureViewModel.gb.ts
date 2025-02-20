@@ -112,14 +112,8 @@ export async function buildJsFeatureViewModelGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         jsFeatureViewModel.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
-    if (hasValue(dotNetObject.map)) {
-        jsFeatureViewModel.map = dotNetObject.map;
-    }
     if (hasValue(dotNetObject.timeZone)) {
         jsFeatureViewModel.timeZone = dotNetObject.timeZone;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsFeatureViewModel.view = dotNetObject.view;
     }
 
     let { default: FeatureViewModelWrapper } = await import('./featureViewModel');
@@ -181,9 +175,6 @@ export async function buildDotNetFeatureViewModelGenerated(jsObject: any, layerI
     if (hasValue(jsObject.lastEditInfo)) {
         dotNetFeatureViewModel.lastEditInfo = jsObject.lastEditInfo;
     }
-    if (hasValue(jsObject.map)) {
-        dotNetFeatureViewModel.map = jsObject.map;
-    }
     if (hasValue(jsObject.state)) {
         dotNetFeatureViewModel.state = jsObject.state;
     }
@@ -192,9 +183,6 @@ export async function buildDotNetFeatureViewModelGenerated(jsObject: any, layerI
     }
     if (hasValue(jsObject.title)) {
         dotNetFeatureViewModel.title = jsObject.title;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetFeatureViewModel.view = jsObject.view;
     }
     if (hasValue(jsObject.waitingForContent)) {
         dotNetFeatureViewModel.waitingForContent = jsObject.waitingForContent;

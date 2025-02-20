@@ -229,9 +229,6 @@ export async function buildDotNetStreamLayerViewGenerated(jsObject: any): Promis
     if (hasValue(jsObject.updating)) {
         dotNetStreamLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetStreamLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetStreamLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

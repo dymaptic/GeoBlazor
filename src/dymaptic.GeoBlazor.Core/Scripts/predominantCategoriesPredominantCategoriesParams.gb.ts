@@ -18,9 +18,6 @@ export async function buildJsPredominantCategoriesPredominantCategoriesParamsGen
     if (hasValue(dotNetObject.signal)) {
         jspredominantCategoriesPredominantCategoriesParams.signal = dotNetObject.signal;
     }
-    if (hasValue(dotNetObject.view)) {
-        jspredominantCategoriesPredominantCategoriesParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspredominantCategoriesPredominantCategoriesParams);
@@ -55,9 +52,6 @@ export async function buildDotNetPredominantCategoriesPredominantCategoriesParam
     }
     if (hasValue(jsObject.signal)) {
         dotNetPredominantCategoriesPredominantCategoriesParams.signal = jsObject.signal;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPredominantCategoriesPredominantCategoriesParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

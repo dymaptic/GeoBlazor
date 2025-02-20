@@ -19,68 +19,12 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
-    async classes(): Promise<any> {
-        return this.widget.classes();
-    }
-
-    async isFulfilled(): Promise<any> {
-        return this.widget.isFulfilled();
-    }
-
-    async isRejected(): Promise<any> {
-        return this.widget.isRejected();
-    }
-
-    async isResolved(): Promise<any> {
-        return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
-    async postInitialize(): Promise<void> {
-        this.widget.postInitialize();
-    }
-
-    async render(): Promise<any> {
-        return this.widget.render();
-    }
-
-    async renderNow(): Promise<void> {
-        this.widget.renderNow();
-    }
-
     async reset(): Promise<void> {
         this.widget.reset();
     }
 
-    async scheduleRender(): Promise<void> {
-        this.widget.scheduleRender();
-    }
-
-    async when(callback: any,
-        errback: any): Promise<any> {
-        return await this.widget.when(callback,
-            errback);
-    }
-
     // region properties
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.widget.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride);
-    }
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -105,29 +49,13 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCompass = new Compass();
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        jsCompass.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsCompassViewModel } = await import('./compassViewModel');
         jsCompass.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsCompass.container = dotNetObject.container;
-    }
-    if (hasValue(dotNetObject.icon)) {
-        jsCompass.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.label)) {
-        jsCompass.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.view)) {
-        jsCompass.view = dotNetObject.view;
-    }
-    if (hasValue(dotNetObject.widgetId)) {
-        jsCompass.id = dotNetObject.widgetId;
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsCompass.goToOverride = dotNetObject.goToOverride;
     }
 
     let { default: CompassWidgetWrapper } = await import('./compassWidget');
@@ -161,31 +89,15 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetCompassWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetCompassViewModel } = await import('./compassViewModel');
             dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
         }
-    if (hasValue(jsObject.container)) {
-        dotNetCompassWidget.container = jsObject.container;
-    }
-    if (hasValue(jsObject.icon)) {
-        dotNetCompassWidget.icon = jsObject.icon;
-    }
-    if (hasValue(jsObject.label)) {
-        dotNetCompassWidget.label = jsObject.label;
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCompassWidget.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.type)) {
         dotNetCompassWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetCompassWidget.view = jsObject.view;
-    }
-    if (hasValue(jsObject.id)) {
-        dotNetCompassWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

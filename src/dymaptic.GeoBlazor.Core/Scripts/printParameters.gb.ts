@@ -17,9 +17,6 @@ export async function buildJsPrintParametersGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.extraParameters)) {
         jsPrintParameters.extraParameters = dotNetObject.extraParameters;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsPrintParameters.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPrintParameters);
@@ -56,9 +53,6 @@ export async function buildDotNetPrintParametersGenerated(jsObject: any): Promis
         }
     if (hasValue(jsObject.extraParameters)) {
         dotNetPrintParameters.extraParameters = jsObject.extraParameters;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetPrintParameters.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

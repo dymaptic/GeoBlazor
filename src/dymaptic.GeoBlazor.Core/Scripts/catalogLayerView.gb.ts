@@ -52,9 +52,6 @@ export async function buildDotNetCatalogLayerViewGenerated(jsObject: any): Promi
     if (hasValue(jsObject.updating)) {
         dotNetCatalogLayerView.updating = jsObject.updating;
     }
-    if (hasValue(jsObject.view)) {
-        dotNetCatalogLayerView.view = jsObject.view;
-    }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetCatalogLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }

@@ -9,9 +9,6 @@ export async function buildJsMapImageLayerLayerviewDestroyEventGenerated(dotNetO
         jsMapImageLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsMapImageLayerLayerviewDestroyEvent.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapImageLayerLayerviewDestroyEvent);
@@ -42,9 +39,6 @@ export async function buildDotNetMapImageLayerLayerviewDestroyEventGenerated(jsO
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetMapImageLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-    if (hasValue(jsObject.view)) {
-        dotNetMapImageLayerLayerviewDestroyEvent.view = jsObject.view;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

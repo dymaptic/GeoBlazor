@@ -833,14 +833,9 @@ public partial class MapView : MapComponent
                 ? Map?.Basemap?.ReferenceLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
                 : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
 
-        if (createdLayer is not null) // layer already exists in C#
+        if (createdLayer is not null) // layer already exists in GeoBlazor
         {
             createdLayer.LayerView = layerView;
-
-            createdLayer.JsComponentReference ??= layerViewCreateEvent.LayerObjectRef;
-
-            createdLayer.AbortManager = new AbortManager(CoreJsModule!);
-            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
 
             if (layerView is not null)
             {

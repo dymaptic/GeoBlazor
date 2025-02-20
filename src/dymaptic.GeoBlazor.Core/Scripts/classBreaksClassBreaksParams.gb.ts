@@ -56,9 +56,6 @@ export async function buildJsClassBreaksClassBreaksParamsGenerated(dotNetObject:
     if (hasValue(dotNetObject.valueExpression)) {
         jsclassBreaksClassBreaksParams.valueExpression = dotNetObject.valueExpression;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsclassBreaksClassBreaksParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclassBreaksClassBreaksParams);
@@ -131,9 +128,6 @@ export async function buildDotNetClassBreaksClassBreaksParamsGenerated(jsObject:
     }
     if (hasValue(jsObject.valueExpression)) {
         dotNetClassBreaksClassBreaksParams.valueExpression = jsObject.valueExpression;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetClassBreaksClassBreaksParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

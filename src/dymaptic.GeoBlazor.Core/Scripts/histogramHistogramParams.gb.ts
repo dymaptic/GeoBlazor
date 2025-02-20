@@ -62,9 +62,6 @@ export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any
     if (hasValue(dotNetObject.valueExpression)) {
         jshistogramHistogramParams.valueExpression = dotNetObject.valueExpression;
     }
-    if (hasValue(dotNetObject.view)) {
-        jshistogramHistogramParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jshistogramHistogramParams);
@@ -143,9 +140,6 @@ export async function buildDotNetHistogramHistogramParamsGenerated(jsObject: any
     }
     if (hasValue(jsObject.valueExpression)) {
         dotNetHistogramHistogramParams.valueExpression = jsObject.valueExpression;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetHistogramHistogramParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

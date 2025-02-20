@@ -30,7 +30,7 @@ export async function buildJsFeatureTemplatesSelectEventGenerated(dotNetObject: 
     return jsFeatureTemplatesSelectEvent;
 }
 
-export async function buildDotNetFeatureTemplatesSelectEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureTemplatesSelectEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -45,7 +45,7 @@ export async function buildDotNetFeatureTemplatesSelectEventGenerated(jsObject: 
         }
         if (hasValue(jsObject.template)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetFeatureTemplatesSelectEvent.template = await buildDotNetFeatureTemplate(jsObject.template, layerId, viewId);
+            dotNetFeatureTemplatesSelectEvent.template = await buildDotNetFeatureTemplate(jsObject.template);
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

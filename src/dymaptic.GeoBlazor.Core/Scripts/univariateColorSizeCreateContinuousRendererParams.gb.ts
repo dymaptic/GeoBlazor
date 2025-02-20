@@ -67,9 +67,6 @@ export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsGe
     if (hasValue(dotNetObject.valueExpressionTitle)) {
         jsunivariateColorSizeCreateContinuousRendererParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsunivariateColorSizeCreateContinuousRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsunivariateColorSizeCreateContinuousRendererParams);
@@ -153,9 +150,6 @@ export async function buildDotNetUnivariateColorSizeCreateContinuousRendererPara
     }
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetUnivariateColorSizeCreateContinuousRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetUnivariateColorSizeCreateContinuousRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

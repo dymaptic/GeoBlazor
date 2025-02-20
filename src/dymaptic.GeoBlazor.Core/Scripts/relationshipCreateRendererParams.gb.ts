@@ -53,9 +53,6 @@ export async function buildJsRelationshipCreateRendererParamsGenerated(dotNetObj
     if (hasValue(dotNetObject.symbolType)) {
         jsrelationshipCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsrelationshipCreateRendererParams.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsrelationshipCreateRendererParams);
@@ -123,9 +120,6 @@ export async function buildDotNetRelationshipCreateRendererParamsGenerated(jsObj
     }
     if (hasValue(jsObject.symbolType)) {
         dotNetRelationshipCreateRendererParams.symbolType = jsObject.symbolType;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetRelationshipCreateRendererParams.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -78,9 +78,6 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.listModeDisabled)) {
         jsLayerListViewModel.listModeDisabled = dotNetObject.listModeDisabled;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsLayerListViewModel.view = dotNetObject.view;
-    }
     jsLayerListViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });
@@ -132,9 +129,6 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.state)) {
         dotNetLayerListViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetLayerListViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

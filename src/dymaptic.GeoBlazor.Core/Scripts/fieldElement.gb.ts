@@ -5,13 +5,12 @@ import { buildDotNetFieldElement } from './fieldElement';
 
 export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldElement = new FieldElement();
-    if (hasValue(dotNetObject.domain)) {
-        let { buildJsDomain } = await import('./domain');
-        jsFieldElement.domain = buildJsDomain(dotNetObject.domain) as any;
-    }
 
     if (hasValue(dotNetObject.description)) {
         jsFieldElement.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.domain)) {
+        jsFieldElement.domain = dotNetObject.domain;
     }
     if (hasValue(dotNetObject.editableExpression)) {
         jsFieldElement.editableExpression = dotNetObject.editableExpression;
@@ -63,12 +62,11 @@ export async function buildDotNetFieldElementGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.domain)) {
-            let { buildDotNetDomain } = await import('./domain');
-            dotNetFieldElement.domain = buildDotNetDomain(jsObject.domain);
-        }
     if (hasValue(jsObject.description)) {
         dotNetFieldElement.description = jsObject.description;
+    }
+    if (hasValue(jsObject.domain)) {
+        dotNetFieldElement.domain = jsObject.domain;
     }
     if (hasValue(jsObject.editableExpression)) {
         dotNetFieldElement.editableExpression = jsObject.editableExpression;

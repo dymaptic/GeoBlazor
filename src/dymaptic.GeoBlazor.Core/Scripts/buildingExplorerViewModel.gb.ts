@@ -10,9 +10,6 @@ export async function buildJsBuildingExplorerViewModelGenerated(dotNetObject: an
         jsBuildingExplorerViewModel.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsBuildingSceneLayer(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.view)) {
-        jsBuildingExplorerViewModel.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBuildingExplorerViewModel);
@@ -49,9 +46,6 @@ export async function buildDotNetBuildingExplorerViewModelGenerated(jsObject: an
         }
     if (hasValue(jsObject.state)) {
         dotNetBuildingExplorerViewModel.state = jsObject.state;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetBuildingExplorerViewModel.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -19,9 +19,6 @@ export async function buildJsIGeolocationPositioningGenerated(dotNetObject: any,
     if (hasValue(dotNetObject.scale)) {
         jsGeolocationPositioning.scale = dotNetObject.scale;
     }
-    if (hasValue(dotNetObject.view)) {
-        jsGeolocationPositioning.view = dotNetObject.view;
-    }
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGeolocationPositioning);
@@ -60,9 +57,6 @@ export async function buildDotNetIGeolocationPositioningGenerated(jsObject: any,
     }
     if (hasValue(jsObject.scale)) {
         dotNetIGeolocationPositioning.scale = jsObject.scale;
-    }
-    if (hasValue(jsObject.view)) {
-        dotNetIGeolocationPositioning.view = jsObject.view;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
