@@ -22,11 +22,33 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalUserAddItemParams(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Data = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalItem? Item = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalFolder? PortalFolder = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringFolder = null);
+    string? StringFolder = null)
+{
+    /// <summary>
+    ///     The component used to stream the data represented by the item to the client.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? Data { get; set; } = Data;
+    
+    /// <summary>
+    ///     The item to add to the user's content.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public PortalItem? Item { get; set; } = Item;
+    
+    /// <summary>
+    ///     The portal folder in which to store the item.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public PortalFolder? PortalFolder { get; set; } = PortalFolder;
+    
+    /// <summary>
+    ///     The portal folder in which to store the item.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringFolder { get; set; } = StringFolder;
+    
+}

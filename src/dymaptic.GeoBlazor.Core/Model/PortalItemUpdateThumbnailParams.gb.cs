@@ -18,9 +18,26 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalItemUpdateThumbnailParams(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Filename = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Stream? StreamThumbnail = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringThumbnail = null);
+    string? StringThumbnail = null)
+{
+    /// <summary>
+    ///     The file name used for the thumbnail in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">thumbnailUrl</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? Filename { get; set; } = Filename;
+    
+    /// <summary>
+    ///     A URL, Data URI, Blob, or File.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Stream? StreamThumbnail { get; set; } = StreamThumbnail;
+    
+    /// <summary>
+    ///     A URL, Data URI, Blob, or File.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringThumbnail { get; set; } = StringThumbnail;
+    
+}

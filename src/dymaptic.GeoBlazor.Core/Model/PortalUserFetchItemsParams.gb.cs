@@ -38,17 +38,58 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalUserFetchItemsParams(
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalFolder? Folder = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? IncludeSubfolderItems = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? InRecycleBin = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Num = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SortField = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SortOrder = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    double? Start = null);
+    double? Start = null)
+{
+    /// <summary>
+    ///     The folder to retrieve items from.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public PortalFolder? Folder { get; set; } = Folder;
+    
+    /// <summary>
+    ///     Option to include items from subfolders along with items in the root folder.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public bool? IncludeSubfolderItems { get; set; } = IncludeSubfolderItems;
+    
+    /// <summary>
+    ///     Option to retrieve items from the recycle bin instead.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public bool? InRecycleBin { get; set; } = InRecycleBin;
+    
+    /// <summary>
+    ///     The maximum number of results to be included in the result set response.
+    ///     default 10
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? Num { get; set; } = Num;
+    
+    /// <summary>
+    ///     A comma-delimited list of fields to sort by.
+    ///     default created
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? SortField { get; set; } = SortField;
+    
+    /// <summary>
+    ///     The order in which to sort the results.
+    ///     default asc
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? SortOrder { get; set; } = SortOrder;
+    
+    /// <summary>
+    ///     The index of the first entry in the result set response.
+    ///     default 1
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? Start { get; set; } = Start;
+    
+}
