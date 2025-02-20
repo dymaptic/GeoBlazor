@@ -753,37 +753,6 @@
                                 Wkt2="@("eaque")">
                             </SpatialReference>
                         </Extent>
-                        <FormTemplate 
-                            Title="@("eum facilis et")"
-                            Description="@("blanditiis laboriosam illum dignissimos")"
-                            PreserveFieldValuesWhenHidden="@(true)"
-                            Elements="@([new FieldElement("id",
-                                    "in",
-                                    "alias itaque illo sed",
-                                    "voluptatem",
-                                    "a",
-                                    "eum",
-                                    "reiciendis",
-                                new InheritedDomain("email"),
-                                    default,
-                                    "quas"),
-                            new FieldElement("createdAt",
-                                    "recusandae",
-                                    "nihil totam",
-                                    "ut",
-                                    "repellat",
-                                    "beatae",
-                                    "sit",
-                                new RangeDomain("laudantium",
-                                        "repellat",
-                                        "createdAt"),
-                                    default,
-                                    "voluptas")])"
-                            ExpressionInfos="@([new ExpressionInfo("return Date();",
-                                    "createdAt",
-                                    "enim magnam nihil",
-                                    ExpressionInfoReturnType.String)])">
-                        </FormTemplate>
                         <LayerFloorInfo 
                             FloorField="@("quisquam")">
                         </LayerFloorInfo>
@@ -838,8 +807,8 @@
             </MapView>);
         await WaitForMapToRender();
         Assert.IsNotNull(featureLayer!);
-        await AssertJavaScript("dispatchEvent", args: [featureLayer!.Id, "edits"]);
-        await AssertJavaScript("dispatchEvent", args: [featureLayer!.Id, "refresh"]);
+        await AssertJavaScript("dispatchEvent", args: [featureLayer.Id, "edits"]);
+        await AssertJavaScript("dispatchEvent", args: [featureLayer.Id, "refresh"]);
         int tries = 100;
         while (tries > 0 &&
             (editsResult is null || 
@@ -1209,30 +1178,6 @@
         await featureLayer.SetFloorInfo(testFloorInfo);
         var floorInfo = await featureLayer.GetFloorInfo();
         Assert.AreEqual(testFloorInfo, floorInfo);
-        FormTemplate testFormTemplate = new FormTemplate("repellat tempore doloremque",
-                    "voluptas minima",
-                    true,
-                [new GroupElement("et minima eos",
-                    [new FieldElement("updatedAt",
-                            "non",
-                            "distinctio reiciendis hic quis",
-                            "nesciunt",
-                            "vitae",
-                            "laboriosam",
-                            "at",
-                        new InheritedDomain("updatedAt"),
-                            default,
-                            "perspiciatis")],
-                    InitialState.Expanded,
-                        "et",
-                        "quasi")],
-                [new ExpressionInfo("return $feature.Name;",
-                        "title",
-                        "nihil vel non",
-                        ExpressionInfoReturnType.String)]);
-        await featureLayer.SetFormTemplate(testFormTemplate);
-        var formTemplate = await featureLayer.GetFormTemplate();
-        Assert.AreEqual(testFormTemplate, formTemplate);
         Extent testFullExtent = new Extent(-178.6670,
                     49.0151,
                     -81.5414,

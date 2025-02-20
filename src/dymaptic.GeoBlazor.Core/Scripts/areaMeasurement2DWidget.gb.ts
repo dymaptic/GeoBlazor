@@ -19,6 +19,50 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getViewModel(): Promise<any> {
@@ -50,6 +94,15 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
         jsAreaMeasurement2D.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsAreaMeasurement2D.container = dotNetObject.container;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsAreaMeasurement2D.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsAreaMeasurement2D.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.unit)) {
         jsAreaMeasurement2D.unit = dotNetObject.unit;
     }
@@ -58,6 +111,9 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     }
     if (hasValue(dotNetObject.view)) {
         jsAreaMeasurement2D.view = dotNetObject.view;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsAreaMeasurement2D.id = dotNetObject.widgetId;
     }
 
     let { default: AreaMeasurement2DWidgetWrapper } = await import('./areaMeasurement2DWidget');
@@ -95,6 +151,15 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
             let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
             dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetAreaMeasurement2DWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetAreaMeasurement2DWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetAreaMeasurement2DWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.type)) {
         dotNetAreaMeasurement2DWidget.type = jsObject.type;
     }
@@ -106,6 +171,9 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
     }
     if (hasValue(jsObject.view)) {
         dotNetAreaMeasurement2DWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetAreaMeasurement2DWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -83,45 +83,45 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPresentation } = await import('./presentation');
             dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation);
         }
-        if (hasValue(jsObject.applicationProperties)) {
-            dotNetWebScene.applicationProperties = jsObject.applicationProperties;
-        }
-        if (hasValue(jsObject.authoringApp)) {
-            dotNetWebScene.authoringApp = jsObject.authoringApp;
-        }
-        if (hasValue(jsObject.authoringAppVersion)) {
-            dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
-        }
-        if (hasValue(jsObject.clippingEnabled)) {
-            dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetWebScene.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.heightModelInfo)) {
-            dotNetWebScene.heightModelInfo = jsObject.heightModelInfo;
-        }
-        if (hasValue(jsObject.initialViewProperties)) {
-            dotNetWebScene.initialViewProperties = jsObject.initialViewProperties;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWebScene.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetWebScene.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetWebScene.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.sourceVersion)) {
-            dotNetWebScene.sourceVersion = jsObject.sourceVersion;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetWebScene.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.widgets)) {
-            dotNetWebScene.widgets = jsObject.widgets;
-        }
+    if (hasValue(jsObject.applicationProperties)) {
+        dotNetWebScene.applicationProperties = jsObject.applicationProperties;
+    }
+    if (hasValue(jsObject.authoringApp)) {
+        dotNetWebScene.authoringApp = jsObject.authoringApp;
+    }
+    if (hasValue(jsObject.authoringAppVersion)) {
+        dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
+    }
+    if (hasValue(jsObject.clippingEnabled)) {
+        dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetWebScene.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.heightModelInfo)) {
+        dotNetWebScene.heightModelInfo = jsObject.heightModelInfo;
+    }
+    if (hasValue(jsObject.initialViewProperties)) {
+        dotNetWebScene.initialViewProperties = jsObject.initialViewProperties;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWebScene.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetWebScene.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetWebScene.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.sourceVersion)) {
+        dotNetWebScene.sourceVersion = jsObject.sourceVersion;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetWebScene.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.widgets)) {
+        dotNetWebScene.widgets = jsObject.widgets;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

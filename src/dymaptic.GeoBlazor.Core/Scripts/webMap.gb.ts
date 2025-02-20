@@ -88,42 +88,42 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
             let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
             dotNetWebMap.utilityNetworks = await Promise.all(jsObject.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i, layerId, viewId)));
         }
-        if (hasValue(jsObject.applicationProperties)) {
-            dotNetWebMap.applicationProperties = jsObject.applicationProperties;
-        }
-        if (hasValue(jsObject.authoringApp)) {
-            dotNetWebMap.authoringApp = jsObject.authoringApp;
-        }
-        if (hasValue(jsObject.authoringAppVersion)) {
-            dotNetWebMap.authoringAppVersion = jsObject.authoringAppVersion;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetWebMap.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.initialViewProperties)) {
-            dotNetWebMap.initialViewProperties = jsObject.initialViewProperties;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWebMap.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetWebMap.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetWebMap.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.presentation)) {
-            dotNetWebMap.presentation = jsObject.presentation;
-        }
-        if (hasValue(jsObject.sourceVersion)) {
-            dotNetWebMap.sourceVersion = jsObject.sourceVersion;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetWebMap.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.widgets)) {
-            dotNetWebMap.widgets = jsObject.widgets;
-        }
+    if (hasValue(jsObject.applicationProperties)) {
+        dotNetWebMap.applicationProperties = jsObject.applicationProperties;
+    }
+    if (hasValue(jsObject.authoringApp)) {
+        dotNetWebMap.authoringApp = jsObject.authoringApp;
+    }
+    if (hasValue(jsObject.authoringAppVersion)) {
+        dotNetWebMap.authoringAppVersion = jsObject.authoringAppVersion;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetWebMap.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.initialViewProperties)) {
+        dotNetWebMap.initialViewProperties = jsObject.initialViewProperties;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWebMap.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetWebMap.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetWebMap.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.presentation)) {
+        dotNetWebMap.presentation = jsObject.presentation;
+    }
+    if (hasValue(jsObject.sourceVersion)) {
+        dotNetWebMap.sourceVersion = jsObject.sourceVersion;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetWebMap.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.widgets)) {
+        dotNetWebMap.widgets = jsObject.widgets;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

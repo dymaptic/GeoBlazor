@@ -77,8 +77,10 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         folder: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        let jsFolder = await buildJsPortalFolder(folder, this.layerId, this.viewId) as any;
         return await this.component.restoreItem(jsItem,
-            folder);
+            jsFolder);
     }
 
     // region properties

@@ -19,6 +19,50 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     getProperty(prop: string): any {
@@ -70,9 +114,18 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         };
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsSmartMappingSliderBase.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsSmartMappingSliderBase.histogramConfig = sanitizedHistogramConfig;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsSmartMappingSliderBase.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsSmartMappingSliderBase.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsSmartMappingSliderBase.max = dotNetObject.max;
@@ -89,6 +142,9 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsSmartMappingSliderBase.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsSmartMappingSliderBase.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsSmartMappingSliderBase.zoomOptions = dotNetObject.zoomOptions;
@@ -145,14 +201,23 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.container)) {
+        dotNetISmartMappingSliderBaseWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetISmartMappingSliderBaseWidget.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetISmartMappingSliderBaseWidget.icon = jsObject.icon;
     }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetISmartMappingSliderBaseWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
@@ -177,6 +242,9 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetISmartMappingSliderBaseWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetISmartMappingSliderBaseWidget.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;

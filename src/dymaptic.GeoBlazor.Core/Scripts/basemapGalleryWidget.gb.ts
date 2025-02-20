@@ -19,6 +19,50 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getActiveBasemap(): Promise<any> {
@@ -66,17 +110,29 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         jsBasemapGallery.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsBasemapGallery.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.disabled)) {
         jsBasemapGallery.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsBasemapGallery.headingLevel = dotNetObject.headingLevel;
     }
+    if (hasValue(dotNetObject.icon)) {
+        jsBasemapGallery.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsBasemapGallery.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.source)) {
         jsBasemapGallery.source = dotNetObject.source;
     }
     if (hasValue(dotNetObject.view)) {
         jsBasemapGallery.view = dotNetObject.view;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsBasemapGallery.id = dotNetObject.widgetId;
     }
 
     let { default: BasemapGalleryWidgetWrapper } = await import('./basemapGalleryWidget');
@@ -118,11 +174,20 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
             let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
             dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetBasemapGalleryWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.disabled)) {
         dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
     }
     if (hasValue(jsObject.headingLevel)) {
         dotNetBasemapGalleryWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetBasemapGalleryWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetBasemapGalleryWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.source)) {
         dotNetBasemapGalleryWidget.source = jsObject.source;
@@ -132,6 +197,9 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.view)) {
         dotNetBasemapGalleryWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetBasemapGalleryWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

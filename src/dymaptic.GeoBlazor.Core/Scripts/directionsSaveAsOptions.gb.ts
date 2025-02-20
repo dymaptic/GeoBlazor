@@ -4,11 +4,11 @@ import { buildDotNetDirectionsSaveAsOptions } from './directionsSaveAsOptions';
 
 export async function buildJsDirectionsSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDirectionsSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsDirectionsSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsDirectionsSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsSaveAsOptions);
@@ -35,9 +35,10 @@ export async function buildDotNetDirectionsSaveAsOptionsGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetDirectionsSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetDirectionsSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

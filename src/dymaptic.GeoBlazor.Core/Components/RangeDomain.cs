@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class RangeDomain : Domain
 {

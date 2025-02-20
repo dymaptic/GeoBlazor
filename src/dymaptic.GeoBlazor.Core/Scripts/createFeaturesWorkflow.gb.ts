@@ -57,7 +57,7 @@ export default class CreateFeaturesWorkflowGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetCreateFeaturesWorkflowData } = await import('./createFeaturesWorkflowData');
-        return await buildDotNetCreateFeaturesWorkflowData(this.component.data, this.layerId, this.viewId);
+        return await buildDotNetCreateFeaturesWorkflowData(this.component.data);
     }
     async getPendingFeatures(): Promise<any> {
         if (!hasValue(this.component.pendingFeatures)) {
@@ -115,7 +115,7 @@ export async function buildDotNetCreateFeaturesWorkflowGenerated(jsObject: any, 
     };
         if (hasValue(jsObject.data)) {
             let { buildDotNetCreateFeaturesWorkflowData } = await import('./createFeaturesWorkflowData');
-            dotNetCreateFeaturesWorkflow.data = await buildDotNetCreateFeaturesWorkflowData(jsObject.data, layerId, viewId);
+            dotNetCreateFeaturesWorkflow.data = await buildDotNetCreateFeaturesWorkflowData(jsObject.data);
         }
         if (hasValue(jsObject.pendingFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');

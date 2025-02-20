@@ -4,11 +4,11 @@ import { buildDotNetStreamLayerSaveAsOptions } from './streamLayerSaveAsOptions'
 
 export async function buildJsStreamLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsStreamLayerSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsStreamLayerSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsStreamLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.validationOptions)) {
         jsStreamLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
@@ -38,9 +38,10 @@ export async function buildDotNetStreamLayerSaveAsOptionsGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetStreamLayerSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetStreamLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
     if (hasValue(jsObject.validationOptions)) {
         dotNetStreamLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

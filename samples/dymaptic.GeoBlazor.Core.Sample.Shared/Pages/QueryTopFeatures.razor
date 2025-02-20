@@ -188,7 +188,7 @@
         Graphic feature = _results!.Features![index];
         var options = new PopupOpenOptions
         {
-            Location = await feature.GetGeometry(),
+            Location = await feature.GetGeometry() as Point,
             Features = [feature]
         };
         await _mapView!.ClosePopup();

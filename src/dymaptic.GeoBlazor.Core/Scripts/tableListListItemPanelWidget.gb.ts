@@ -13,6 +13,9 @@ export async function buildJsTableListListItemPanelWidgetGenerated(dotNetObject:
     if (hasValue(dotNetObject.className)) {
         jsTableListListItemPanel.className = dotNetObject.className;
     }
+    if (hasValue(dotNetObject.container)) {
+        jsTableListListItemPanel.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.content)) {
         jsTableListListItemPanel.content = dotNetObject.content;
     }
@@ -22,14 +25,23 @@ export async function buildJsTableListListItemPanelWidgetGenerated(dotNetObject:
     if (hasValue(dotNetObject.flowEnabled)) {
         jsTableListListItemPanel.flowEnabled = dotNetObject.flowEnabled;
     }
+    if (hasValue(dotNetObject.icon)) {
+        jsTableListListItemPanel.icon = dotNetObject.icon;
+    }
     if (hasValue(dotNetObject.image)) {
         jsTableListListItemPanel.image = dotNetObject.image;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsTableListListItemPanel.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.open)) {
         jsTableListListItemPanel.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.title)) {
         jsTableListListItemPanel.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsTableListListItemPanel.id = dotNetObject.widgetId;
     }
     
     // @ts-ignore
@@ -61,30 +73,42 @@ export async function buildDotNetTableListListItemPanelWidgetGenerated(jsObject:
             let { buildDotNetTableListListItem } = await import('./tableListListItem');
             dotNetTableListListItemPanelWidget.listItem = await buildDotNetTableListListItem(jsObject.listItem);
         }
-        if (hasValue(jsObject.className)) {
-            dotNetTableListListItemPanelWidget.className = jsObject.className;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetTableListListItemPanelWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableListListItemPanelWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.flowEnabled)) {
-            dotNetTableListListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetTableListListItemPanelWidget.image = jsObject.image;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetTableListListItemPanelWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTableListListItemPanelWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetTableListListItemPanelWidget.type = jsObject.type;
-        }
+    if (hasValue(jsObject.className)) {
+        dotNetTableListListItemPanelWidget.className = jsObject.className;
+    }
+    if (hasValue(jsObject.container)) {
+        dotNetTableListListItemPanelWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetTableListListItemPanelWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableListListItemPanelWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.flowEnabled)) {
+        dotNetTableListListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetTableListListItemPanelWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetTableListListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetTableListListItemPanelWidget.label = jsObject.label;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetTableListListItemPanelWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTableListListItemPanelWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetTableListListItemPanelWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetTableListListItemPanelWidget.widgetId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

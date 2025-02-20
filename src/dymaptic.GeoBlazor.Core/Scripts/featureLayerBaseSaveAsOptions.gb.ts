@@ -2,13 +2,13 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureLayerBaseSaveAsOptions } from './featureLayerBaseSaveAsOptions';
 
-export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsFeatureLayerBaseSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsFeatureLayerBaseSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.validationOptions)) {
         jsFeatureLayerBaseSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
@@ -38,9 +38,10 @@ export async function buildDotNetFeatureLayerBaseSaveAsOptionsGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetFeatureLayerBaseSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetFeatureLayerBaseSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
     if (hasValue(jsObject.validationOptions)) {
         dotNetFeatureLayerBaseSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

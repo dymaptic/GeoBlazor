@@ -19,6 +19,50 @@ export default class DirectLineMeasurement3DWidgetGenerated implements IProperty
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getAnalysis(): Promise<any> {
@@ -58,6 +102,15 @@ export async function buildJsDirectLineMeasurement3DWidgetGenerated(dotNetObject
         jsDirectLineMeasurement3D.viewModel = await buildJsDirectLineMeasurement3DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsDirectLineMeasurement3D.container = dotNetObject.container;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsDirectLineMeasurement3D.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsDirectLineMeasurement3D.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.unit)) {
         jsDirectLineMeasurement3D.unit = dotNetObject.unit;
     }
@@ -66,6 +119,9 @@ export async function buildJsDirectLineMeasurement3DWidgetGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.view)) {
         jsDirectLineMeasurement3D.view = dotNetObject.view;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsDirectLineMeasurement3D.id = dotNetObject.widgetId;
     }
 
     let { default: DirectLineMeasurement3DWidgetWrapper } = await import('./directLineMeasurement3DWidget');
@@ -107,6 +163,15 @@ export async function buildDotNetDirectLineMeasurement3DWidgetGenerated(jsObject
             let { buildDotNetDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
             dotNetDirectLineMeasurement3DWidget.viewModel = await buildDotNetDirectLineMeasurement3DViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetDirectLineMeasurement3DWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetDirectLineMeasurement3DWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetDirectLineMeasurement3DWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.type)) {
         dotNetDirectLineMeasurement3DWidget.type = jsObject.type;
     }
@@ -118,6 +183,9 @@ export async function buildDotNetDirectLineMeasurement3DWidgetGenerated(jsObject
     }
     if (hasValue(jsObject.view)) {
         dotNetDirectLineMeasurement3DWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetDirectLineMeasurement3DWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

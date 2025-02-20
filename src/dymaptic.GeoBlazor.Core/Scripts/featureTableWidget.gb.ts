@@ -19,6 +19,10 @@ export default class FeatureTableWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async clearSelectionFilter(): Promise<void> {
         this.widget.clearSelectionFilter();
     }
@@ -39,12 +43,46 @@ export default class FeatureTableWidgetGenerated implements IPropertyWrapper {
         this.widget.hideColumn(fieldName);
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
     async refresh(): Promise<void> {
         await this.widget.refresh();
     }
 
     async refreshCellContent(): Promise<void> {
         this.widget.refreshCellContent();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
     }
 
     async scrollToIndex(index: any): Promise<void> {
@@ -67,6 +105,12 @@ export default class FeatureTableWidgetGenerated implements IPropertyWrapper {
 
     async toggleColumn(fieldName: any): Promise<void> {
         this.widget.toggleColumn(fieldName);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     async zoomToSelection(): Promise<void> {
@@ -189,6 +233,9 @@ export async function buildJsFeatureTableWidgetGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.columnReorderingEnabled)) {
         jsFeatureTable.columnReorderingEnabled = dotNetObject.columnReorderingEnabled;
     }
+    if (hasValue(dotNetObject.container)) {
+        jsFeatureTable.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.description)) {
         jsFeatureTable.description = dotNetObject.description;
     }
@@ -209,6 +256,12 @@ export async function buildJsFeatureTableWidgetGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.highlightIds)) {
         jsFeatureTable.highlightIds = dotNetObject.highlightIds;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsFeatureTable.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsFeatureTable.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.multipleSelectionEnabled)) {
         jsFeatureTable.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
@@ -253,6 +306,9 @@ export async function buildJsFeatureTableWidgetGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsFeatureTable.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsFeatureTable.id = dotNetObject.widgetId;
     }
     jsFeatureTable.on('cell-click', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', evt);
@@ -343,6 +399,9 @@ export async function buildDotNetFeatureTableWidgetGenerated(jsObject: any): Pro
     if (hasValue(jsObject.columns)) {
         dotNetFeatureTableWidget.columns = jsObject.columns;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetFeatureTableWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.description)) {
         dotNetFeatureTableWidget.description = jsObject.description;
     }
@@ -363,6 +422,12 @@ export async function buildDotNetFeatureTableWidgetGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.highlightIds)) {
         dotNetFeatureTableWidget.highlightIds = jsObject.highlightIds;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetFeatureTableWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetFeatureTableWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.layers)) {
         dotNetFeatureTableWidget.layers = jsObject.layers;
@@ -417,6 +482,9 @@ export async function buildDotNetFeatureTableWidgetGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetFeatureTableWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureTableWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

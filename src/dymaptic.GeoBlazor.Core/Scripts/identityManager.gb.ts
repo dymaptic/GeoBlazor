@@ -123,7 +123,8 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     let jsIdentityManager = new IdentityManager();
 
     if (hasValue(dotNetObject.dialog)) {
-        jsIdentityManager.dialog = dotNetObject.dialog;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDialog } = dotNetObject.dialog;
+        jsIdentityManager.dialog = sanitizedDialog;
     }
     if (hasValue(dotNetObject.tokenValidity)) {
         jsIdentityManager.tokenValidity = dotNetObject.tokenValidity;

@@ -19,6 +19,44 @@ export default class ColorSizeSliderGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+    async classes(): Promise<any> {
+        return this.component.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.component.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.component.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.component.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.component.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.component.scheduleRender();
+    }
+
     async updateFromRendererResult(rendererResult: any,
         histogramResult: any): Promise<void> {
         let { buildJsUnivariateColorSizeContinuousRendererResult } = await import('./univariateColorSizeContinuousRendererResult');
@@ -37,6 +75,12 @@ export default class ColorSizeSliderGenerated implements IPropertyWrapper {
 
     async updateVisualVariables(variables: any): Promise<any> {
         return this.component.updateVisualVariables(variables);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -124,12 +168,21 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
         jsColorSizeSlider.viewModel = await buildJsColorSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsColorSizeSlider.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
         jsColorSizeSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsColorSizeSlider.histogramConfig = sanitizedHistogramConfig;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsColorSizeSlider.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsColorSizeSlider.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsColorSizeSlider.max = dotNetObject.max;
@@ -152,6 +205,9 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsColorSizeSlider.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsColorSizeSlider.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsColorSizeSlider.zoomOptions = dotNetObject.zoomOptions;
@@ -216,17 +272,26 @@ export async function buildDotNetColorSizeSliderGenerated(jsObject: any): Promis
             let { buildDotNetColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
             dotNetColorSizeSlider.viewModel = await buildDotNetColorSizeSliderViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetColorSizeSlider.container = jsObject.container;
+    }
     if (hasValue(jsObject.handlesSyncedToPrimary)) {
         dotNetColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
     }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetColorSizeSlider.histogramConfig = jsObject.histogramConfig;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetColorSizeSlider.icon = jsObject.icon;
+    }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetColorSizeSlider.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -257,6 +322,9 @@ export async function buildDotNetColorSizeSliderGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetColorSizeSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSizeSlider.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetColorSizeSlider.zoomOptions = jsObject.zoomOptions;

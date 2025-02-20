@@ -160,7 +160,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.rasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.layer.rasterInfo);
     }
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
@@ -347,7 +347,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     return jsImageryTileLayer;
 }
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -378,11 +378,11 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryTileLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
+            dotNetImageryTileLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+            dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');

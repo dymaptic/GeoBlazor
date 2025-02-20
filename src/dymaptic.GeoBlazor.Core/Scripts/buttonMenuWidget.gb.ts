@@ -19,6 +19,50 @@ export default class ButtonMenuWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     getProperty(prop: string): any {
@@ -34,8 +78,14 @@ export default class ButtonMenuWidgetGenerated implements IPropertyWrapper {
 export async function buildJsButtonMenuWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsButtonMenu = new ButtonMenu();
 
+    if (hasValue(dotNetObject.container)) {
+        jsButtonMenu.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.disabled)) {
         jsButtonMenu.disabled = dotNetObject.disabled;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsButtonMenu.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.iconClass)) {
         jsButtonMenu.iconClass = dotNetObject.iconClass;
@@ -44,12 +94,18 @@ export async function buildJsButtonMenuWidgetGenerated(dotNetObject: any, layerI
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItems } = dotNetObject.items;
         jsButtonMenu.items = sanitizedItems;
     }
+    if (hasValue(dotNetObject.label)) {
+        jsButtonMenu.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.open)) {
         jsButtonMenu.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
         jsButtonMenu.viewModel = sanitizedViewModel;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsButtonMenu.id = dotNetObject.widgetId;
     }
 
     let { default: ButtonMenuWidgetWrapper } = await import('./buttonMenuWidget');
@@ -83,14 +139,23 @@ export async function buildDotNetButtonMenuWidgetGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.container)) {
+        dotNetButtonMenuWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.disabled)) {
         dotNetButtonMenuWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetButtonMenuWidget.icon = jsObject.icon;
     }
     if (hasValue(jsObject.iconClass)) {
         dotNetButtonMenuWidget.iconClass = jsObject.iconClass;
     }
     if (hasValue(jsObject.items)) {
         dotNetButtonMenuWidget.items = jsObject.items;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetButtonMenuWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.open)) {
         dotNetButtonMenuWidget.open = jsObject.open;
@@ -100,6 +165,9 @@ export async function buildDotNetButtonMenuWidgetGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.viewModel)) {
         dotNetButtonMenuWidget.viewModel = jsObject.viewModel;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetButtonMenuWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

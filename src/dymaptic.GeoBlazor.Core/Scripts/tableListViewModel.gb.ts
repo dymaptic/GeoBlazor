@@ -54,21 +54,21 @@ export async function buildDotNetTableListViewModelGenerated(jsObject: any): Pro
             let { buildDotNetTableListListItem } = await import('./tableListListItem');
             dotNetTableListViewModel.tableItems = await Promise.all(jsObject.tableItems.map(async i => await buildDotNetTableListListItem(i)));
         }
-        if (hasValue(jsObject.checkPublishStatusEnabled)) {
-            dotNetTableListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
-        }
-        if (hasValue(jsObject.listItemCreatedFunction)) {
-            dotNetTableListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetTableListViewModel.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetTableListViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetTableListViewModel.state = jsObject.state;
-        }
+    if (hasValue(jsObject.checkPublishStatusEnabled)) {
+        dotNetTableListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
+    }
+    if (hasValue(jsObject.listItemCreatedFunction)) {
+        dotNetTableListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetTableListViewModel.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetTableListViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetTableListViewModel.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

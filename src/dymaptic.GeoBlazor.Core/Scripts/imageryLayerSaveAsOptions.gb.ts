@@ -4,11 +4,11 @@ import { buildDotNetImageryLayerSaveAsOptions } from './imageryLayerSaveAsOption
 
 export async function buildJsImageryLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsImageryLayerSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsImageryLayerSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsImageryLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.validationOptions)) {
         jsImageryLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
@@ -38,9 +38,10 @@ export async function buildDotNetImageryLayerSaveAsOptionsGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetImageryLayerSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetImageryLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
     if (hasValue(jsObject.validationOptions)) {
         dotNetImageryLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

@@ -354,12 +354,13 @@
         SearchWidget? widget = null;
         var resultsHandlerWasCalled = false;
 
-        Task<IList<SearchResult>> GetResultsHandler(GetResultsParameters parameters)
+        Task<IReadOnlyList<SearchResult>> GetResultsHandler(bool? exactMatch, Point? location, int? maxResults, 
+            int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
         {
-            Assert.IsNotNull(parameters);
+            Assert.IsNotNull(viewId);
             resultsHandlerWasCalled = true;
 
-            return Task.FromResult<IList<SearchResult>>(new List<SearchResult>());
+            return Task.FromResult<IReadOnlyList<SearchResult>>(new List<SearchResult>());
         }
 
         AddMapRenderFragment(
@@ -389,12 +390,13 @@
     {
         var suggestionsHandlerWasCalled = false;
 
-        Task<IList<SuggestResult>> GetSuggestionsHandler(GetSuggestionsHandler parameters)
+        Task<IReadOnlyList<SuggestResult>> GetSuggestionsHandler(int? maxSuggestions, int? sourceIndex, 
+            SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
         {
-            Assert.IsNotNull(parameters);
+            Assert.IsNotNull(viewId);
             suggestionsHandlerWasCalled = true;
 
-            return Task.FromResult<IList<SuggestResult>>(new List<SuggestResult>());
+            return Task.FromResult<IReadOnlyList<SuggestResult>>(new List<SuggestResult>());
         }
 
         AddMapRenderFragment(

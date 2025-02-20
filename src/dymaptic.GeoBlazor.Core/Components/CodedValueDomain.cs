@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Model;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///    Information about the coded values belonging to the domain.

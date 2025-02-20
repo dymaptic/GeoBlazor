@@ -4,11 +4,11 @@ import { buildDotNetRouteLayerSaveAsOptions } from './routeLayerSaveAsOptions';
 
 export async function buildJsRouteLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRouteLayerSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsRouteLayerSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsRouteLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteLayerSaveAsOptions);
@@ -35,9 +35,10 @@ export async function buildDotNetRouteLayerSaveAsOptionsGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetRouteLayerSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetRouteLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -19,10 +19,54 @@ export default class ClassedSizeSliderGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+    async classes(): Promise<any> {
+        return this.component.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.component.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.component.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.component.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.component.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.component.scheduleRender();
+    }
+
     async updateClassBreakInfos(breakInfos: any): Promise<any> {
         let { buildJsClassBreakInfo } = await import('./classBreakInfo');
         let jsBreakInfos = await buildJsClassBreakInfo(breakInfos, this.layerId, this.viewId) as any;
         return this.component.updateClassBreakInfos(jsBreakInfos);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -112,9 +156,18 @@ export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layer
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBreaks } = dotNetObject.breaks;
         jsClassedSizeSlider.breaks = sanitizedBreaks;
     }
+    if (hasValue(dotNetObject.container)) {
+        jsClassedSizeSlider.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsClassedSizeSlider.histogramConfig = sanitizedHistogramConfig;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsClassedSizeSlider.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsClassedSizeSlider.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsClassedSizeSlider.max = dotNetObject.max;
@@ -131,6 +184,9 @@ export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsClassedSizeSlider.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsClassedSizeSlider.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsClassedSizeSlider.zoomOptions = dotNetObject.zoomOptions;
@@ -198,14 +254,23 @@ export async function buildDotNetClassedSizeSliderGenerated(jsObject: any): Prom
     if (hasValue(jsObject.breaks)) {
         dotNetClassedSizeSlider.breaks = jsObject.breaks;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetClassedSizeSlider.container = jsObject.container;
+    }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetClassedSizeSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetClassedSizeSlider.icon = jsObject.icon;
     }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetClassedSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetClassedSizeSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetClassedSizeSlider.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetClassedSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -230,6 +295,9 @@ export async function buildDotNetClassedSizeSliderGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetClassedSizeSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetClassedSizeSlider.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetClassedSizeSlider.zoomOptions = jsObject.zoomOptions;

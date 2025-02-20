@@ -88,7 +88,7 @@ export default class IFeatureLayerBaseGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
-        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
+        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');

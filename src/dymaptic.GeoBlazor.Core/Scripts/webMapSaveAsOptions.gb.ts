@@ -4,11 +4,11 @@ import { buildDotNetWebMapSaveAsOptions } from './webMapSaveAsOptions';
 
 export async function buildJsWebMapSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebMapSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsWebMapSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsWebMapSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.ignoreUnsupported)) {
         jsWebMapSaveAsOptions.ignoreUnsupported = dotNetObject.ignoreUnsupported;
     }
@@ -38,9 +38,10 @@ export async function buildDotNetWebMapSaveAsOptionsGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetWebMapSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetWebMapSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
     if (hasValue(jsObject.ignoreUnsupported)) {
         dotNetWebMapSaveAsOptions.ignoreUnsupported = jsObject.ignoreUnsupported;
     }

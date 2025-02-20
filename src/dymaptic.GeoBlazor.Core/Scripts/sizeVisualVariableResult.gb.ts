@@ -6,7 +6,7 @@ export async function buildJsSizeVisualVariableResultGenerated(dotNetObject: any
     let jssizeVisualVariableResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jssizeVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jssizeVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsSizeVariable } = await import('./sizeVariable');

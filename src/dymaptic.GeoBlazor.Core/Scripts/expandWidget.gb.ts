@@ -19,6 +19,10 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async collapse(): Promise<void> {
         this.widget.collapse();
     }
@@ -27,8 +31,48 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         this.widget.expand();
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
     async toggle(): Promise<void> {
         this.widget.toggle();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -58,6 +102,9 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.collapseTooltip)) {
         jsExpand.collapseTooltip = dotNetObject.collapseTooltip;
     }
+    if (hasValue(dotNetObject.container)) {
+        jsExpand.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.content)) {
         jsExpand.content = dotNetObject.content;
     }
@@ -73,8 +120,14 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.group)) {
         jsExpand.group = dotNetObject.group;
     }
+    if (hasValue(dotNetObject.icon)) {
+        jsExpand.icon = dotNetObject.icon;
+    }
     if (hasValue(dotNetObject.iconNumber)) {
         jsExpand.iconNumber = dotNetObject.iconNumber;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsExpand.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.mode)) {
         jsExpand.mode = dotNetObject.mode;
@@ -88,6 +141,9 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
         jsExpand.viewModel = sanitizedViewModel;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsExpand.id = dotNetObject.widgetId;
     }
 
     let { default: ExpandWidgetWrapper } = await import('./expandWidget');
@@ -133,6 +189,9 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.collapseTooltip)) {
         dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetExpandWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.content)) {
         dotNetExpandWidget.content = jsObject.content;
     }
@@ -148,8 +207,14 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.group)) {
         dotNetExpandWidget.group = jsObject.group;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetExpandWidget.icon = jsObject.icon;
+    }
     if (hasValue(jsObject.iconNumber)) {
         dotNetExpandWidget.iconNumber = jsObject.iconNumber;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetExpandWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.mode)) {
         dotNetExpandWidget.mode = jsObject.mode;
@@ -165,6 +230,9 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.viewModel)) {
         dotNetExpandWidget.viewModel = jsObject.viewModel;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetExpandWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

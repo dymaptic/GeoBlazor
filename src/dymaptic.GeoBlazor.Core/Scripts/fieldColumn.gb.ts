@@ -65,6 +65,18 @@ export default class FieldColumnGenerated implements IPropertyWrapper {
         let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
         return await buildDotNetColumnTableMenuConfig(this.component.menuConfig);
     }
+    async getTemplate(): Promise<any> {
+        if (!hasValue(this.component.template)) {
+            return null;
+        }
+        
+        let { buildDotNetFieldColumnTemplate } = await import('./fieldColumnTemplate');
+        return await buildDotNetFieldColumnTemplate(this.component.template);
+    }
+    async setTemplate(value: any): Promise<void> {
+        let { buildJsFieldColumnTemplate } = await import('./fieldColumnTemplate');
+        this.component.template = await  buildJsFieldColumnTemplate(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -90,6 +102,10 @@ export async function buildJsFieldColumnGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsFieldColumn.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.template)) {
+        let { buildJsFieldColumnTemplate } = await import('./fieldColumnTemplate');
+        jsFieldColumn.template = await buildJsFieldColumnTemplate(dotNetObject.template, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.autoWidth)) {
@@ -121,9 +137,6 @@ export async function buildJsFieldColumnGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.sortable)) {
         jsFieldColumn.sortable = dotNetObject.sortable;
-    }
-    if (hasValue(dotNetObject.template)) {
-        jsFieldColumn.template = dotNetObject.template;
     }
     if (hasValue(dotNetObject.textAlign)) {
         jsFieldColumn.textAlign = dotNetObject.textAlign;
@@ -177,6 +190,10 @@ export async function buildDotNetFieldColumnGenerated(jsObject: any): Promise<an
         if (hasValue(jsObject.menuConfig)) {
             let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
             dotNetFieldColumn.menuConfig = await buildDotNetColumnTableMenuConfig(jsObject.menuConfig);
+        }
+        if (hasValue(jsObject.template)) {
+            let { buildDotNetFieldColumnTemplate } = await import('./fieldColumnTemplate');
+            dotNetFieldColumn.template = await buildDotNetFieldColumnTemplate(jsObject.template);
         }
     if (hasValue(jsObject.alias)) {
         dotNetFieldColumn.alias = jsObject.alias;
@@ -255,9 +272,6 @@ export async function buildDotNetFieldColumnGenerated(jsObject: any): Promise<an
     }
     if (hasValue(jsObject.sortable)) {
         dotNetFieldColumn.sortable = jsObject.sortable;
-    }
-    if (hasValue(jsObject.template)) {
-        dotNetFieldColumn.template = jsObject.template;
     }
     if (hasValue(jsObject.textAlign)) {
         dotNetFieldColumn.textAlign = jsObject.textAlign;

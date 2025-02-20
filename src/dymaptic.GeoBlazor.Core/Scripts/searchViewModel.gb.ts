@@ -75,6 +75,18 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         this.component.defaultSymbols = await  buildJsSearchViewModelDefaultSymbols(value, this.layerId, this.viewId);
     }
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
@@ -137,6 +149,10 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         jsSearchViewModel.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jsSearchViewModel.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsSearchViewModel.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
@@ -158,9 +174,6 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.autoSelect)) {
         jsSearchViewModel.autoSelect = dotNetObject.autoSelect;
-    }
-    if (hasValue(dotNetObject.goToOverride)) {
-        jsSearchViewModel.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.includeDefaultSources)) {
         jsSearchViewModel.includeDefaultSources = dotNetObject.includeDefaultSources;
@@ -273,6 +286,10 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
             let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
             dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols);
         }
+        if (hasValue(jsObject.goToOverride)) {
+            let { buildDotNetGoToOverride } = await import('./goToOverride');
+            dotNetSearchViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+        }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
@@ -297,9 +314,6 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchViewModel.autoSelect = jsObject.autoSelect;
-    }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetSearchViewModel.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.includeDefaultSources)) {
         dotNetSearchViewModel.includeDefaultSources = jsObject.includeDefaultSources;

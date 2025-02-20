@@ -94,11 +94,11 @@
     }
     @if (_showDistanceMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
+        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="SystemOrLengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
     }
     @if (_showAreaMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
+        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="SystemOrAreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
     }
     @if (_showBookmarks)
     {
@@ -161,7 +161,7 @@
     private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
     {
         new Bookmark("Angeles National Forest",
-            thumbnail: "/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
+            thumbnail: new BookmarkThumbnail("/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png"),
             viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678, 
                 4090610.189673263, 4047767.23531948, spatialReference: new SpatialReference(102100)))),
         new Bookmark("Crystal Lake",

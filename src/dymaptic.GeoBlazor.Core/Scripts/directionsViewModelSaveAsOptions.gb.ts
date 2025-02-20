@@ -4,11 +4,11 @@ import { buildDotNetDirectionsViewModelSaveAsOptions } from './directionsViewMod
 
 export async function buildJsDirectionsViewModelSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDirectionsViewModelSaveAsOptions: any = {}
-
     if (hasValue(dotNetObject.folder)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFolder } = dotNetObject.folder;
-        jsDirectionsViewModelSaveAsOptions.folder = sanitizedFolder;
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsDirectionsViewModelSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
     }
+
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsViewModelSaveAsOptions);
@@ -35,9 +35,10 @@ export async function buildDotNetDirectionsViewModelSaveAsOptionsGenerated(jsObj
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.folder)) {
-        dotNetDirectionsViewModelSaveAsOptions.folder = jsObject.folder;
-    }
+        if (hasValue(jsObject.folder)) {
+            let { buildDotNetPortalFolder } = await import('./portalFolder');
+            dotNetDirectionsViewModelSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+        }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

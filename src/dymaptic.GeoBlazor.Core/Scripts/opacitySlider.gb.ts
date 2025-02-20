@@ -19,12 +19,56 @@ export default class OpacitySliderGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+    async classes(): Promise<any> {
+        return this.component.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.component.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.component.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.component.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.component.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.component.scheduleRender();
+    }
+
     async updateFromVisualVariableResult(visualVariableResult: any,
         histogramResult: any): Promise<void> {
         let { buildJsOpacityVisualVariableResult } = await import('./opacityVisualVariableResult');
         let jsVisualVariableResult = await buildJsOpacityVisualVariableResult(visualVariableResult, this.layerId, this.viewId) as any;
         this.component.updateFromVisualVariableResult(jsVisualVariableResult,
             histogramResult);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -110,9 +154,18 @@ export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: 
         jsOpacitySlider.viewModel = await buildJsOpacitySliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsOpacitySlider.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsOpacitySlider.histogramConfig = sanitizedHistogramConfig;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsOpacitySlider.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsOpacitySlider.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsOpacitySlider.max = dotNetObject.max;
@@ -133,6 +186,9 @@ export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsOpacitySlider.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsOpacitySlider.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsOpacitySlider.zoomOptions = dotNetObject.zoomOptions;
@@ -197,14 +253,23 @@ export async function buildDotNetOpacitySliderGenerated(jsObject: any): Promise<
             let { buildDotNetOpacitySliderViewModel } = await import('./opacitySliderViewModel');
             dotNetOpacitySlider.viewModel = await buildDotNetOpacitySliderViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetOpacitySlider.container = jsObject.container;
+    }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetOpacitySlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetOpacitySlider.icon = jsObject.icon;
     }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetOpacitySlider.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetOpacitySlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetOpacitySlider.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetOpacitySlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -232,6 +297,9 @@ export async function buildDotNetOpacitySliderGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetOpacitySlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetOpacitySlider.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetOpacitySlider.zoomOptions = jsObject.zoomOptions;

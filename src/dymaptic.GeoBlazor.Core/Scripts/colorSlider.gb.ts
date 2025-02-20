@@ -19,12 +19,56 @@ export default class ColorSliderGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+    async classes(): Promise<any> {
+        return this.component.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.component.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.component.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.component.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.component.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.component.scheduleRender();
+    }
+
     async updateFromRendererResult(rendererResult: any,
         histogramResult: any): Promise<void> {
         let { buildJsContinuousRendererResult } = await import('./continuousRendererResult');
         let jsRendererResult = await buildJsContinuousRendererResult(rendererResult, this.layerId, this.viewId) as any;
         this.component.updateFromRendererResult(jsRendererResult,
             histogramResult);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -112,12 +156,21 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
         jsColorSlider.viewModel = await buildJsColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        jsColorSlider.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
         jsColorSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsColorSlider.histogramConfig = sanitizedHistogramConfig;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        jsColorSlider.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jsColorSlider.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.max)) {
         jsColorSlider.max = dotNetObject.max;
@@ -137,6 +190,9 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsColorSlider.visibleElements = sanitizedVisibleElements;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jsColorSlider.id = dotNetObject.widgetId;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
         jsColorSlider.zoomOptions = dotNetObject.zoomOptions;
@@ -201,17 +257,26 @@ export async function buildDotNetColorSliderGenerated(jsObject: any): Promise<an
             let { buildDotNetColorSliderViewModel } = await import('./colorSliderViewModel');
             dotNetColorSlider.viewModel = await buildDotNetColorSliderViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetColorSlider.container = jsObject.container;
+    }
     if (hasValue(jsObject.handlesSyncedToPrimary)) {
         dotNetColorSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
     }
     if (hasValue(jsObject.histogramConfig)) {
         dotNetColorSlider.histogramConfig = jsObject.histogramConfig;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetColorSlider.icon = jsObject.icon;
+    }
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
     }
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetColorSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetColorSlider.label = jsObject.label;
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -239,6 +304,9 @@ export async function buildDotNetColorSliderGenerated(jsObject: any): Promise<an
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetColorSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSlider.widgetId = jsObject.id;
     }
     if (hasValue(jsObject.zoomOptions)) {
         dotNetColorSlider.zoomOptions = jsObject.zoomOptions;

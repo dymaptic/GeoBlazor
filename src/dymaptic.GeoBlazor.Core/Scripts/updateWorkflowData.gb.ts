@@ -46,7 +46,7 @@ export async function buildDotNetUpdateWorkflowDataGenerated(jsObject: any, laye
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetEditorViewModel } = await import('./editorViewModel');
-            dotNetUpdateWorkflowData.viewModel = await buildDotNetEditorViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetUpdateWorkflowData.viewModel = await buildDotNetEditorViewModel(jsObject.viewModel);
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

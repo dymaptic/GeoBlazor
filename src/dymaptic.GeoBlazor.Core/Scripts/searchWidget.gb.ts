@@ -23,6 +23,10 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         this.widget.blur();
     }
 
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async clear(): Promise<void> {
         this.widget.clear();
     }
@@ -31,8 +35,60 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         this.widget.focus();
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.widget.popupTemplate)) {
             return null;
@@ -77,7 +133,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-        return await buildDotNetSearchViewModel(this.widget.viewModel);
+        return await buildDotNetSearchViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsSearchViewModel } = await import('./searchViewModel');
@@ -95,6 +151,10 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jswidgetsSearch = new widgetsSearch();
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        jswidgetsSearch.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         jswidgetsSearch.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
@@ -124,14 +184,20 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.autoSelect)) {
         jswidgetsSearch.autoSelect = dotNetObject.autoSelect;
     }
+    if (hasValue(dotNetObject.container)) {
+        jswidgetsSearch.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.disabled)) {
         jswidgetsSearch.disabled = dotNetObject.disabled;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        jswidgetsSearch.goToOverride = dotNetObject.goToOverride;
+    if (hasValue(dotNetObject.icon)) {
+        jswidgetsSearch.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.includeDefaultSources)) {
         jswidgetsSearch.includeDefaultSources = dotNetObject.includeDefaultSources;
+    }
+    if (hasValue(dotNetObject.label)) {
+        jswidgetsSearch.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.locationEnabled)) {
         jswidgetsSearch.locationEnabled = dotNetObject.locationEnabled;
@@ -162,6 +228,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.view)) {
         jswidgetsSearch.view = dotNetObject.view;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        jswidgetsSearch.id = dotNetObject.widgetId;
     }
     jswidgetsSearch.on('search-blur', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchBlur', evt);
@@ -239,6 +308,10 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
             let { buildDotNetSearchSource } = await import('./searchSource');
             dotNetSearchWidget.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
         }
+        if (hasValue(jsObject.goToOverride)) {
+            let { buildDotNetGoToOverride } = await import('./goToOverride');
+            dotNetSearchWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+        }
         if (hasValue(jsObject.popupTemplate)) {
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
@@ -261,7 +334,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-            dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel);
+            dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel, layerId, viewId);
         }
     if (hasValue(jsObject.activeMenu)) {
         dotNetSearchWidget.activeMenu = jsObject.activeMenu;
@@ -275,14 +348,20 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchWidget.autoSelect = jsObject.autoSelect;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetSearchWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.disabled)) {
         dotNetSearchWidget.disabled = jsObject.disabled;
     }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetSearchWidget.goToOverride = jsObject.goToOverride;
+    if (hasValue(jsObject.icon)) {
+        dotNetSearchWidget.icon = jsObject.icon;
     }
     if (hasValue(jsObject.includeDefaultSources)) {
         dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetSearchWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.locationEnabled)) {
         dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
@@ -322,6 +401,9 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.view)) {
         dotNetSearchWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetSearchWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

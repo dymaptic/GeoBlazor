@@ -36,7 +36,9 @@ export default class VersionManagementServiceGenerated implements IPropertyWrapp
     async changeVersion(input: any,
         fromVersion: any,
         toVersion: any): Promise<any> {
-        return await this.component.changeVersion(input,
+        let { buildJsWebMap } = await import('./webMap');
+        let jsInput = await buildJsWebMap(input, this.layerId, this.viewId) as any;
+        return await this.component.changeVersion(jsInput,
             fromVersion,
             toVersion);
     }
@@ -44,7 +46,9 @@ export default class VersionManagementServiceGenerated implements IPropertyWrapp
     async changeVersionWithResult(input: any,
         fromVersion: any,
         toVersion: any): Promise<any> {
-        return await this.component.changeVersionWithResult(input,
+        let { buildJsWebMap } = await import('./webMap');
+        let jsInput = await buildJsWebMap(input, this.layerId, this.viewId) as any;
+        return await this.component.changeVersionWithResult(jsInput,
             fromVersion,
             toVersion);
     }

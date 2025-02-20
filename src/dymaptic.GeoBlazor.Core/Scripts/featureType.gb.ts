@@ -5,14 +5,15 @@ import { buildDotNetFeatureType } from './featureType';
 
 export async function buildJsFeatureTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureType = new FeatureType();
+    if (hasValue(dotNetObject.domains)) {
+        let { buildJsDomain } = await import('./domain');
+        jsFeatureType.domains = buildJsDomain(dotNetObject.domains) as any;
+    }
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
         jsFeatureType.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.domains)) {
-        jsFeatureType.domains = dotNetObject.domains;
-    }
     if (hasValue(dotNetObject.featureTypeId)) {
         jsFeatureType.id = dotNetObject.featureTypeId;
     }
