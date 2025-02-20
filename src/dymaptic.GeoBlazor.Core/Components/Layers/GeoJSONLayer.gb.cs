@@ -990,17 +990,17 @@ public partial class GeoJSONLayer : IBlendLayer,
             return Fields;
         }
 
-        // get the property value
-        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, "fields");
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Fields = result;
+            Fields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Fields)] = Fields;
+            ModifiedParameters[nameof(Fields)] = Fields;
         }
-         
+        
         return Fields;
     }
     
@@ -1020,20 +1020,17 @@ public partial class GeoJSONLayer : IBlendLayer,
             return FieldsIndex;
         }
 
-        // get the property value
-        FieldsIndex? result = await JsComponentReference!.InvokeAsync<FieldsIndex?>("getProperty",
-            CancellationTokenSource.Token, "fieldsIndex");
+        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
+            "getFieldsIndex", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldsIndex = result;
+            FieldsIndex = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            FieldsIndex.JsComponentReference = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-                "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-                "fieldsIndex"))?.Value;
+            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-         
+        
         return FieldsIndex;
     }
     
@@ -1143,17 +1140,17 @@ public partial class GeoJSONLayer : IBlendLayer,
             return LabelingInfo;
         }
 
-        // get the property value
-        IReadOnlyList<Label>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Label>?>("getProperty",
-            CancellationTokenSource.Token, "labelingInfo");
+        IReadOnlyList<Label>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Label>?>(
+            "getLabelingInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelingInfo = result;
+            LabelingInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+            ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
         }
-         
+        
         return LabelingInfo;
     }
     
@@ -1598,17 +1595,17 @@ public partial class GeoJSONLayer : IBlendLayer,
             return Templates;
         }
 
-        // get the property value
-        IReadOnlyList<FeatureTemplate>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FeatureTemplate>?>("getProperty",
-            CancellationTokenSource.Token, "templates");
+        IReadOnlyList<FeatureTemplate>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureTemplate>?>(
+            "getTemplates", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Templates = result;
+            Templates = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Templates)] = Templates;
+            ModifiedParameters[nameof(Templates)] = Templates;
         }
-         
+        
         return Templates;
     }
     

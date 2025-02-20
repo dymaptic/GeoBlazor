@@ -1,3 +1,4 @@
+import widgetsSearch from '@arcgis/core/widgets/Search';
 import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';

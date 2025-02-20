@@ -41,17 +41,17 @@ public abstract partial class Renderer
             return AuthoringInfo;
         }
 
-        // get the property value
-        AuthoringInfo? result = await JsComponentReference!.InvokeAsync<AuthoringInfo?>("getProperty",
-            CancellationTokenSource.Token, "authoringInfo");
+        AuthoringInfo? result = await JsComponentReference.InvokeAsync<AuthoringInfo?>(
+            "getAuthoringInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AuthoringInfo = result;
+            AuthoringInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
+            ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
         }
-         
+        
         return AuthoringInfo;
     }
     

@@ -1326,9 +1326,7 @@ public partial class PortalUser : MapComponent
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "addItem", 
             CancellationTokenSource.Token,
-            item,
-            data,
-            folder);
+            new { item, data, folder });
     }
     
     /// <summary>
@@ -1455,13 +1453,7 @@ public partial class PortalUser : MapComponent
         return await JsComponentReference!.InvokeAsync<FetchItemsResult?>(
             "fetchItems", 
             CancellationTokenSource.Token,
-            folder,
-            inRecycleBin,
-            includeSubfolderItems,
-            num,
-            sortField,
-            sortOrder,
-            start);
+            new { folder, inRecycleBin, includeSubfolderItems, num, sortField, sortOrder, start });
     }
     
     /// <summary>

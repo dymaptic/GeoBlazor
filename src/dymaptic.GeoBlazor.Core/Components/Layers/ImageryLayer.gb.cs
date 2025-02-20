@@ -800,17 +800,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return DefaultMosaicRule;
         }
 
-        // get the property value
-        MosaicRule? result = await JsComponentReference!.InvokeAsync<MosaicRule?>("getProperty",
-            CancellationTokenSource.Token, "defaultMosaicRule");
+        MosaicRule? result = await JsComponentReference.InvokeAsync<MosaicRule?>(
+            "getDefaultMosaicRule", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultMosaicRule = result;
+            DefaultMosaicRule = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultMosaicRule)] = DefaultMosaicRule;
+            ModifiedParameters[nameof(DefaultMosaicRule)] = DefaultMosaicRule;
         }
-         
+        
         return DefaultMosaicRule;
     }
     
@@ -890,17 +890,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return Fields;
         }
 
-        // get the property value
-        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, "fields");
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Fields = result;
+            Fields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Fields)] = Fields;
+            ModifiedParameters[nameof(Fields)] = Fields;
         }
-         
+        
         return Fields;
     }
     
@@ -920,20 +920,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return FieldsIndex;
         }
 
-        // get the property value
-        FieldsIndex? result = await JsComponentReference!.InvokeAsync<FieldsIndex?>("getProperty",
-            CancellationTokenSource.Token, "fieldsIndex");
+        FieldsIndex? result = await JsComponentReference.InvokeAsync<FieldsIndex?>(
+            "getFieldsIndex", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldsIndex = result;
+            FieldsIndex = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
-            FieldsIndex.JsComponentReference = (await CoreJsModule!.InvokeAsync<JsObjectRefWrapper?>(
-                "getObjectRefForProperty", CancellationTokenSource.Token, JsComponentReference, 
-                "fieldsIndex"))?.Value;
+            ModifiedParameters[nameof(FieldsIndex)] = FieldsIndex;
         }
-         
+        
         return FieldsIndex;
     }
     
@@ -1193,17 +1190,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return MosaicRule;
         }
 
-        // get the property value
-        MosaicRule? result = await JsComponentReference!.InvokeAsync<MosaicRule?>("getProperty",
-            CancellationTokenSource.Token, "mosaicRule");
+        MosaicRule? result = await JsComponentReference.InvokeAsync<MosaicRule?>(
+            "getMosaicRule", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MosaicRule = result;
+            MosaicRule = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MosaicRule)] = MosaicRule;
+            ModifiedParameters[nameof(MosaicRule)] = MosaicRule;
         }
-         
+        
         return MosaicRule;
     }
     
@@ -1253,17 +1250,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return MultidimensionalSubset;
         }
 
-        // get the property value
-        MultidimensionalSubset? result = await JsComponentReference!.InvokeAsync<MultidimensionalSubset?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalSubset");
+        MultidimensionalSubset? result = await JsComponentReference.InvokeAsync<MultidimensionalSubset?>(
+            "getMultidimensionalSubset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalSubset = result;
+            MultidimensionalSubset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+            ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
         }
-         
+        
         return MultidimensionalSubset;
     }
     
@@ -1498,17 +1495,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return RasterFields;
         }
 
-        // get the property value
-        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, "rasterFields");
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getRasterFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RasterFields = result;
+            RasterFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RasterFields)] = RasterFields;
+            ModifiedParameters[nameof(RasterFields)] = RasterFields;
         }
-         
+        
         return RasterFields;
     }
     
@@ -1648,17 +1645,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return ServiceRasterInfo;
         }
 
-        // get the property value
-        RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>("getProperty",
-            CancellationTokenSource.Token, "serviceRasterInfo");
+        RasterInfo? result = await JsComponentReference.InvokeAsync<RasterInfo?>(
+            "getServiceRasterInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ServiceRasterInfo = result;
+            ServiceRasterInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
+            ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
         }
-         
+        
         return ServiceRasterInfo;
     }
     

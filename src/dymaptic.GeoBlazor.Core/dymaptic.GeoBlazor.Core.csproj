@@ -365,6 +365,7 @@
         <None Remove="Scripts\slide.gb.ts" />
         <None Remove="Scripts\listItemPanelWidget.gb.ts" />
         <None Remove="Scripts\layerListWidget.gb.ts" />
+        <None Remove="Scripts\areaMeasurement3DViewModel.gb.ts" />
     </ItemGroup>
 
     <ItemGroup>

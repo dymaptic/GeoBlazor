@@ -652,17 +652,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return MultidimensionalSubset;
         }
 
-        // get the property value
-        MultidimensionalSubset? result = await JsComponentReference!.InvokeAsync<MultidimensionalSubset?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalSubset");
+        MultidimensionalSubset? result = await JsComponentReference.InvokeAsync<MultidimensionalSubset?>(
+            "getMultidimensionalSubset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalSubset = result;
+            MultidimensionalSubset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+            ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
         }
-         
+        
         return MultidimensionalSubset;
     }
     
@@ -807,17 +807,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return RasterFields;
         }
 
-        // get the property value
-        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, "rasterFields");
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getRasterFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RasterFields = result;
+            RasterFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RasterFields)] = RasterFields;
+            ModifiedParameters[nameof(RasterFields)] = RasterFields;
         }
-         
+        
         return RasterFields;
     }
     

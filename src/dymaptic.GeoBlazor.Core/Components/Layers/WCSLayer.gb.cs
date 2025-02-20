@@ -605,17 +605,17 @@ public partial class WCSLayer : IBlendLayer,
             return CoverageInfo;
         }
 
-        // get the property value
-        CoverageInfo? result = await JsComponentReference!.InvokeAsync<CoverageInfo?>("getProperty",
-            CancellationTokenSource.Token, "coverageInfo");
+        CoverageInfo? result = await JsComponentReference.InvokeAsync<CoverageInfo?>(
+            "getCoverageInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CoverageInfo = result;
+            CoverageInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CoverageInfo)] = CoverageInfo;
+            ModifiedParameters[nameof(CoverageInfo)] = CoverageInfo;
         }
-         
+        
         return CoverageInfo;
     }
     
@@ -845,17 +845,17 @@ public partial class WCSLayer : IBlendLayer,
             return MultidimensionalSubset;
         }
 
-        // get the property value
-        MultidimensionalSubset? result = await JsComponentReference!.InvokeAsync<MultidimensionalSubset?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalSubset");
+        MultidimensionalSubset? result = await JsComponentReference.InvokeAsync<MultidimensionalSubset?>(
+            "getMultidimensionalSubset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalSubset = result;
+            MultidimensionalSubset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+            ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
         }
-         
+        
         return MultidimensionalSubset;
     }
     
@@ -970,17 +970,17 @@ public partial class WCSLayer : IBlendLayer,
             return RasterFields;
         }
 
-        // get the property value
-        IReadOnlyList<Field>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Field>?>("getProperty",
-            CancellationTokenSource.Token, "rasterFields");
+        IReadOnlyList<Field>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Field>?>(
+            "getRasterFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RasterFields = result;
+            RasterFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RasterFields)] = RasterFields;
+            ModifiedParameters[nameof(RasterFields)] = RasterFields;
         }
-         
+        
         return RasterFields;
     }
     
@@ -1030,17 +1030,17 @@ public partial class WCSLayer : IBlendLayer,
             return ServiceRasterInfo;
         }
 
-        // get the property value
-        RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>("getProperty",
-            CancellationTokenSource.Token, "serviceRasterInfo");
+        RasterInfo? result = await JsComponentReference.InvokeAsync<RasterInfo?>(
+            "getServiceRasterInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ServiceRasterInfo = result;
+            ServiceRasterInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
+            ModifiedParameters[nameof(ServiceRasterInfo)] = ServiceRasterInfo;
         }
-         
+        
         return ServiceRasterInfo;
     }
     

@@ -15,8 +15,7 @@ import {buildJsPopupTemplate} from './popupTemplate';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildJsAttributes} from './attributes';
 
-export function buildJsGraphic(graphicObject: any)
-    : Graphic | null {
+export function buildJsGraphic(graphicObject: any): Graphic {
     let graphic: Graphic | null = lookupJsGraphicById(graphicObject.id, graphicObject.layerId, graphicObject.viewId);
     if (graphic !== null) {
         graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
