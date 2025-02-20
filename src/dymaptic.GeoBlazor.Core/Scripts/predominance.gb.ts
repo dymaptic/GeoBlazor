@@ -12,25 +12,25 @@ export default class PredominanceGenerated implements IPropertyWrapper {
     constructor(component: predominance) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsPredominanceCreateRendererParams } = await import('./predominanceCreateRendererParams');
+        let {buildJsPredominanceCreateRendererParams} = await import('./predominanceCreateRendererParams');
         let jsparameters = await buildJsPredominanceCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsPredominanceGenerated(dotNetObject: any, layerId: s
     let jspredominance: any = {}
 
 
-    let { default: PredominanceWrapper } = await import('./predominance');
+    let {default: PredominanceWrapper} = await import('./predominance');
     let predominanceWrapper = new PredominanceWrapper(jspredominance);
     predominanceWrapper.geoBlazorId = dotNetObject.id;
     predominanceWrapper.viewId = viewId;
     predominanceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(predominanceWrapper);
     jsObjectRefs[dotNetObject.id] = predominanceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspredominance;
-    let { buildDotNetPredominance } = await import('./predominance');
+    let {buildDotNetPredominance} = await import('./predominance');
     let dnInstantiatedObject = await buildDotNetPredominance(jspredominance);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Predominance', e);
     }
-    
+
     return jspredominance;
 }
+
 export async function buildDotNetPredominanceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPredominance: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

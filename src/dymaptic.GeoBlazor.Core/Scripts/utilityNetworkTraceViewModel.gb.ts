@@ -12,34 +12,34 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     constructor(component: UtilityNetworkTraceViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addFlagByHit(type: any): Promise<any> {
         return await this.component.addFlagByHit(type);
     }
 
     async addResultAreaToMap(trace: any): Promise<void> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTrace = await buildJsTraceResultExtend(trace, this.layerId, this.viewId) as any;
         this.component.addResultAreaToMap(jsTrace);
     }
 
     async addResultGraphicToView(trace: any,
-        color: any): Promise<any> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+                                 color: any): Promise<any> {
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTrace = await buildJsTraceResultExtend(trace, this.layerId, this.viewId) as any;
         return await this.component.addResultGraphicToView(jsTrace,
             color);
     }
 
     async addTerminal(selectedTerminal: any,
-        feature: any): Promise<void> {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+                      feature: any): Promise<void> {
+        let {buildJsFlagProperty} = await import('./flagProperty');
         let jsFeature = await buildJsFlagProperty(feature, this.layerId, this.viewId) as any;
         this.component.addTerminal(selectedTerminal,
             jsFeature);
@@ -50,8 +50,8 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async changeResultGraphicColor(color: any,
-        trace: any): Promise<void> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+                                   trace: any): Promise<void> {
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTrace = await buildJsTraceResultExtend(trace, this.layerId, this.viewId) as any;
         this.component.changeResultGraphicColor(color,
             jsTrace);
@@ -70,15 +70,15 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async createResultAreaGraphic(traceResults: any): Promise<any> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTraceResults = await buildJsTraceResultExtend(traceResults, this.layerId, this.viewId) as any;
         return await this.component.createResultAreaGraphic(jsTraceResults);
     }
 
     async executeTrace(traceItem: any,
-        url: any,
-        parameters: any): Promise<any> {
-        let { buildJsTraceParameters } = await import('./traceParameters');
+                       url: any,
+                       parameters: any): Promise<any> {
+        let {buildJsTraceParameters} = await import('./traceParameters');
         let jsparameters = await buildJsTraceParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.executeTrace(traceItem,
             url,
@@ -91,20 +91,20 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
 
     async loadUtilityNetwork(): Promise<any> {
         let result = await this.component.loadUtilityNetwork();
-        let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
+        let {buildDotNetUtilityNetwork} = await import('./utilityNetwork');
         return await buildDotNetUtilityNetwork(result, this.layerId, this.viewId);
     }
 
     async manageFilterBarrier(status: any,
-        feature: any): Promise<void> {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+                              feature: any): Promise<void> {
+        let {buildJsFlagProperty} = await import('./flagProperty');
         let jsFeature = await buildJsFlagProperty(feature, this.layerId, this.viewId) as any;
         this.component.manageFilterBarrier(status,
             jsFeature);
     }
 
     async mergeSelection(status: any,
-        trace: any): Promise<void> {
+                         trace: any): Promise<void> {
         this.component.mergeSelection(status,
             trace);
     }
@@ -114,7 +114,7 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async queryFlagByHitTest(event: any,
-        flagType: any): Promise<any> {
+                             flagType: any): Promise<any> {
         return await this.component.queryFlagByHitTest(event,
             flagType);
     }
@@ -124,19 +124,19 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async removeFlag(flag: any): Promise<void> {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+        let {buildJsFlagProperty} = await import('./flagProperty');
         let jsFlag = await buildJsFlagProperty(flag, this.layerId, this.viewId) as any;
         this.component.removeFlag(jsFlag);
     }
 
     async removeResultAreaFromMap(trace: any): Promise<void> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTrace = await buildJsTraceResultExtend(trace, this.layerId, this.viewId) as any;
         this.component.removeResultAreaFromMap(jsTrace);
     }
 
     async removeResultGraphicFromView(trace: any): Promise<void> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         let jsTrace = await buildJsTraceResultExtend(trace, this.layerId, this.viewId) as any;
         this.component.removeResultGraphicFromView(jsTrace);
     }
@@ -146,8 +146,8 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async removeTerminal(selectedTerminal: any,
-        feature: any): Promise<void> {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+                         feature: any): Promise<void> {
+        let {buildJsFlagProperty} = await import('./flagProperty');
         let jsFeature = await buildJsFlagProperty(feature, this.layerId, this.viewId) as any;
         this.component.removeTerminal(selectedTerminal,
             jsFeature);
@@ -166,7 +166,7 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     async selectTraces(state: any,
-        traceId: any): Promise<void> {
+                       traceId: any): Promise<void> {
         this.component.selectTraces(state,
             traceId);
     }
@@ -180,51 +180,53 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
     }
 
     // region properties
-    
+
     async getFlags(): Promise<any> {
         if (!hasValue(this.component.flags)) {
             return null;
         }
-        
-        let { buildDotNetFlagProperty } = await import('./flagProperty');
+
+        let {buildDotNetFlagProperty} = await import('./flagProperty');
         return await Promise.all(this.component.flags.map(async i => await buildDotNetFlagProperty(i)));
     }
-    
+
     async setFlags(value: any): Promise<void> {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+        let {buildJsFlagProperty} = await import('./flagProperty');
         this.component.flags = await Promise.all(value.map(async i => await buildJsFlagProperty(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getTraceResults(): Promise<any> {
         if (!hasValue(this.component.traceResults)) {
             return null;
         }
-        
-        let { buildDotNetTraceResultExtend } = await import('./traceResultExtend');
+
+        let {buildDotNetTraceResultExtend} = await import('./traceResultExtend');
         return await Promise.all(this.component.traceResults.map(async i => await buildDotNetTraceResultExtend(i)));
     }
-    
+
     async setTraceResults(value: any): Promise<void> {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         this.component.traceResults = await Promise.all(value.map(async i => await buildJsTraceResultExtend(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getUtilityNetwork(): Promise<any> {
         if (!hasValue(this.component.utilityNetwork)) {
             return null;
         }
-        
-        let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
+
+        let {buildDotNetUtilityNetwork} = await import('./utilityNetwork');
         return await buildDotNetUtilityNetwork(this.component.utilityNetwork, this.layerId, this.viewId);
     }
+
     async setUtilityNetwork(value: any): Promise<void> {
-        let { buildJsUtilityNetwork } = await import('./utilityNetwork');
-        this.component.utilityNetwork = await  buildJsUtilityNetwork(value, this.layerId, this.viewId);
+        let {buildJsUtilityNetwork} = await import('./utilityNetwork');
+        this.component.utilityNetwork = await buildJsUtilityNetwork(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -233,20 +235,26 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
 export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUtilityNetworkTraceViewModel = new UtilityNetworkTraceViewModel();
     if (hasValue(dotNetObject.flags)) {
-        let { buildJsFlagProperty } = await import('./flagProperty');
+        let {buildJsFlagProperty} = await import('./flagProperty');
         jsUtilityNetworkTraceViewModel.flags = await Promise.all(dotNetObject.flags.map(async i => await buildJsFlagProperty(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.traceResults)) {
-        let { buildJsTraceResultExtend } = await import('./traceResultExtend');
+        let {buildJsTraceResultExtend} = await import('./traceResultExtend');
         jsUtilityNetworkTraceViewModel.traceResults = await Promise.all(dotNetObject.traceResults.map(async i => await buildJsTraceResultExtend(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.utilityNetwork)) {
-        let { buildJsUtilityNetwork } = await import('./utilityNetwork');
+        let {buildJsUtilityNetwork} = await import('./utilityNetwork');
         jsUtilityNetworkTraceViewModel.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.defaultGraphicColor)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDefaultGraphicColor } = dotNetObject.defaultGraphicColor;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedDefaultGraphicColor
+        } = dotNetObject.defaultGraphicColor;
         jsUtilityNetworkTraceViewModel.defaultGraphicColor = sanitizedDefaultGraphicColor;
     }
     if (hasValue(dotNetObject.enableResultArea)) {
@@ -259,7 +267,13 @@ export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject:
         jsUtilityNetworkTraceViewModel.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.resultAreaProperties)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResultAreaProperties } = dotNetObject.resultAreaProperties;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedResultAreaProperties
+        } = dotNetObject.resultAreaProperties;
         jsUtilityNetworkTraceViewModel.resultAreaProperties = sanitizedResultAreaProperties;
     }
     if (hasValue(dotNetObject.selectedTraces)) {
@@ -278,81 +292,82 @@ export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject:
         jsUtilityNetworkTraceViewModel.view = dotNetObject.view;
     }
 
-    let { default: UtilityNetworkTraceViewModelWrapper } = await import('./utilityNetworkTraceViewModel');
+    let {default: UtilityNetworkTraceViewModelWrapper} = await import('./utilityNetworkTraceViewModel');
     let utilityNetworkTraceViewModelWrapper = new UtilityNetworkTraceViewModelWrapper(jsUtilityNetworkTraceViewModel);
     utilityNetworkTraceViewModelWrapper.geoBlazorId = dotNetObject.id;
     utilityNetworkTraceViewModelWrapper.viewId = viewId;
     utilityNetworkTraceViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(utilityNetworkTraceViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = utilityNetworkTraceViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUtilityNetworkTraceViewModel;
-    let { buildDotNetUtilityNetworkTraceViewModel } = await import('./utilityNetworkTraceViewModel');
+    let {buildDotNetUtilityNetworkTraceViewModel} = await import('./utilityNetworkTraceViewModel');
     let dnInstantiatedObject = await buildDotNetUtilityNetworkTraceViewModel(jsUtilityNetworkTraceViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UtilityNetworkTraceViewModel', e);
     }
-    
+
     return jsUtilityNetworkTraceViewModel;
 }
+
 export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUtilityNetworkTraceViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.flags)) {
-            let { buildDotNetFlagProperty } = await import('./flagProperty');
-            dotNetUtilityNetworkTraceViewModel.flags = await Promise.all(jsObject.flags.map(async i => await buildDotNetFlagProperty(i)));
-        }
-        if (hasValue(jsObject.traceResults)) {
-            let { buildDotNetTraceResultExtend } = await import('./traceResultExtend');
-            dotNetUtilityNetworkTraceViewModel.traceResults = await Promise.all(jsObject.traceResults.map(async i => await buildDotNetTraceResultExtend(i)));
-        }
-        if (hasValue(jsObject.utilityNetwork)) {
-            let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
-            dotNetUtilityNetworkTraceViewModel.utilityNetwork = await buildDotNetUtilityNetwork(jsObject.utilityNetwork, layerId, viewId);
-        }
-        if (hasValue(jsObject.defaultGraphicColor)) {
-            dotNetUtilityNetworkTraceViewModel.defaultGraphicColor = jsObject.defaultGraphicColor;
-        }
-        if (hasValue(jsObject.enableResultArea)) {
-            dotNetUtilityNetworkTraceViewModel.enableResultArea = jsObject.enableResultArea;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetUtilityNetworkTraceViewModel.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetUtilityNetworkTraceViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.resultAreaProperties)) {
-            dotNetUtilityNetworkTraceViewModel.resultAreaProperties = jsObject.resultAreaProperties;
-        }
-        if (hasValue(jsObject.selectedTraces)) {
-            dotNetUtilityNetworkTraceViewModel.selectedTraces = jsObject.selectedTraces;
-        }
-        if (hasValue(jsObject.selectOnComplete)) {
-            dotNetUtilityNetworkTraceViewModel.selectOnComplete = jsObject.selectOnComplete;
-        }
-        if (hasValue(jsObject.showGraphicsOnComplete)) {
-            dotNetUtilityNetworkTraceViewModel.showGraphicsOnComplete = jsObject.showGraphicsOnComplete;
-        }
-        if (hasValue(jsObject.showSelectionAttributes)) {
-            dotNetUtilityNetworkTraceViewModel.showSelectionAttributes = jsObject.showSelectionAttributes;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetUtilityNetworkTraceViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUtilityNetworkTraceViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.flags)) {
+        let {buildDotNetFlagProperty} = await import('./flagProperty');
+        dotNetUtilityNetworkTraceViewModel.flags = await Promise.all(jsObject.flags.map(async i => await buildDotNetFlagProperty(i, layerId, viewId)));
+    }
+    if (hasValue(jsObject.traceResults)) {
+        let {buildDotNetTraceResultExtend} = await import('./traceResultExtend');
+        dotNetUtilityNetworkTraceViewModel.traceResults = await Promise.all(jsObject.traceResults.map(async i => await buildDotNetTraceResultExtend(i)));
+    }
+    if (hasValue(jsObject.utilityNetwork)) {
+        let {buildDotNetUtilityNetwork} = await import('./utilityNetwork');
+        dotNetUtilityNetworkTraceViewModel.utilityNetwork = await buildDotNetUtilityNetwork(jsObject.utilityNetwork, layerId, viewId);
+    }
+    if (hasValue(jsObject.defaultGraphicColor)) {
+        dotNetUtilityNetworkTraceViewModel.defaultGraphicColor = jsObject.defaultGraphicColor;
+    }
+    if (hasValue(jsObject.enableResultArea)) {
+        dotNetUtilityNetworkTraceViewModel.enableResultArea = jsObject.enableResultArea;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetUtilityNetworkTraceViewModel.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetUtilityNetworkTraceViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.resultAreaProperties)) {
+        dotNetUtilityNetworkTraceViewModel.resultAreaProperties = jsObject.resultAreaProperties;
+    }
+    if (hasValue(jsObject.selectedTraces)) {
+        dotNetUtilityNetworkTraceViewModel.selectedTraces = jsObject.selectedTraces;
+    }
+    if (hasValue(jsObject.selectOnComplete)) {
+        dotNetUtilityNetworkTraceViewModel.selectOnComplete = jsObject.selectOnComplete;
+    }
+    if (hasValue(jsObject.showGraphicsOnComplete)) {
+        dotNetUtilityNetworkTraceViewModel.showGraphicsOnComplete = jsObject.showGraphicsOnComplete;
+    }
+    if (hasValue(jsObject.showSelectionAttributes)) {
+        dotNetUtilityNetworkTraceViewModel.showSelectionAttributes = jsObject.showSelectionAttributes;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetUtilityNetworkTraceViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUtilityNetworkTraceViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

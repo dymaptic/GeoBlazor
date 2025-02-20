@@ -12,13 +12,13 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
     constructor(widget: Zoom) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async zoomIn(): Promise<void> {
         this.widget.zoomIn();
     }
@@ -28,23 +28,25 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
+
+        let {buildDotNetZoomViewModel} = await import('./zoomViewModel');
         return await buildDotNetZoomViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsZoomViewModel } = await import('./zoomViewModel');
-        this.widget.viewModel = await  buildJsZoomViewModel(value, this.layerId, this.viewId);
+        let {buildJsZoomViewModel} = await import('./zoomViewModel');
+        this.widget.viewModel = await buildJsZoomViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -53,7 +55,7 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
 export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsZoom = new Zoom();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsZoomViewModel } = await import('./zoomViewModel');
+        let {buildJsZoomViewModel} = await import('./zoomViewModel');
         jsZoom.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -64,49 +66,50 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
         jsZoom.view = dotNetObject.view;
     }
 
-    let { default: ZoomWidgetWrapper } = await import('./zoomWidget');
+    let {default: ZoomWidgetWrapper} = await import('./zoomWidget');
     let zoomWidgetWrapper = new ZoomWidgetWrapper(jsZoom);
     zoomWidgetWrapper.geoBlazorId = dotNetObject.id;
     zoomWidgetWrapper.viewId = viewId;
     zoomWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
-    let { buildDotNetZoomWidget } = await import('./zoomWidget');
+    let {buildDotNetZoomWidget} = await import('./zoomWidget');
     let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ZoomWidget', e);
     }
-    
+
     return jsZoom;
 }
+
 export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetZoomWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-            dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetZoomWidget.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetZoomWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetZoomWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetZoomViewModel} = await import('./zoomViewModel');
+        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetZoomWidget.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetZoomWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetZoomWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

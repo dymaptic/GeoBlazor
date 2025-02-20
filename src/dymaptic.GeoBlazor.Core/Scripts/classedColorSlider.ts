@@ -6,14 +6,15 @@ export default class ClassedColorSliderWrapper extends ClassedColorSliderGenerat
     constructor(component: ClassedColorSlider) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsClassedColorSlider(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsClassedColorSliderGenerated } = await import('./classedColorSlider.gb');
+    let {buildJsClassedColorSliderGenerated} = await import('./classedColorSlider.gb');
     return await buildJsClassedColorSliderGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetClassedColorSlider(jsObject: any): Promise<any> {
-    let { buildDotNetClassedColorSliderGenerated } = await import('./classedColorSlider.gb');
+    let {buildDotNetClassedColorSliderGenerated} = await import('./classedColorSlider.gb');
     return await buildDotNetClassedColorSliderGenerated(jsObject);
 }

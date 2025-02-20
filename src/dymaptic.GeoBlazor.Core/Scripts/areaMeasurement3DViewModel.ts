@@ -7,15 +7,15 @@ export default class AreaMeasurement3DViewModelWrapper extends AreaMeasurement3D
     constructor(component: AreaMeasurement3DViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsAreaMeasurement3DViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsAreaMeasurement3DViewModelGenerated } = await import('./areaMeasurement3DViewModel.gb');
+    let {buildJsAreaMeasurement3DViewModelGenerated} = await import('./areaMeasurement3DViewModel.gb');
     return await buildJsAreaMeasurement3DViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetAreaMeasurement3DViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetAreaMeasurement3DViewModelGenerated } = await import('./areaMeasurement3DViewModel.gb');
+    let {buildDotNetAreaMeasurement3DViewModelGenerated} = await import('./areaMeasurement3DViewModel.gb');
     return await buildDotNetAreaMeasurement3DViewModelGenerated(jsObject);
 }

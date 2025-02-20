@@ -12,33 +12,33 @@ export default class CatalogUtilsGenerated implements IPropertyWrapper {
     constructor(component: catalogUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getCatalogLayerForLayer(layer: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         let result = this.component.getCatalogLayerForLayer(jsLayer);
-        let { buildDotNetCatalogLayer } = await import('./catalogLayer');
+        let {buildDotNetCatalogLayer} = await import('./catalogLayer');
         return await buildDotNetCatalogLayer(result, this.layerId, this.viewId);
     }
 
     async isLayerFromCatalog(layer: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         return this.component.isLayerFromCatalog(jsLayer);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -48,32 +48,33 @@ export async function buildJsCatalogUtilsGenerated(dotNetObject: any, layerId: s
     let jscatalogUtils: any = {}
 
 
-    let { default: CatalogUtilsWrapper } = await import('./catalogUtils');
+    let {default: CatalogUtilsWrapper} = await import('./catalogUtils');
     let catalogUtilsWrapper = new CatalogUtilsWrapper(jscatalogUtils);
     catalogUtilsWrapper.geoBlazorId = dotNetObject.id;
     catalogUtilsWrapper.viewId = viewId;
     catalogUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(catalogUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = catalogUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscatalogUtils;
-    let { buildDotNetCatalogUtils } = await import('./catalogUtils');
+    let {buildDotNetCatalogUtils} = await import('./catalogUtils');
     let dnInstantiatedObject = await buildDotNetCatalogUtils(jscatalogUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CatalogUtils', e);
     }
-    
+
     return jscatalogUtils;
 }
+
 export async function buildDotNetCatalogUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCatalogUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

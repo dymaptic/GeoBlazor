@@ -7,15 +7,15 @@ export default class PredominantCategoriesWrapper extends PredominantCategoriesG
     constructor(component: predominantCategories) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsPredominantCategories(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsPredominantCategoriesGenerated } = await import('./predominantCategories.gb');
+    let {buildJsPredominantCategoriesGenerated} = await import('./predominantCategories.gb');
     return await buildJsPredominantCategoriesGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetPredominantCategories(jsObject: any): Promise<any> {
-    let { buildDotNetPredominantCategoriesGenerated } = await import('./predominantCategories.gb');
+    let {buildDotNetPredominantCategoriesGenerated} = await import('./predominantCategories.gb');
     return await buildDotNetPredominantCategoriesGenerated(jsObject);
 }

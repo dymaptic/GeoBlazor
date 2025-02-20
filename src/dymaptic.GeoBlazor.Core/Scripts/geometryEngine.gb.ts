@@ -12,19 +12,19 @@ export default class GeometryEngineGenerated implements IPropertyWrapper {
     constructor(component: geometryEngine) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -34,32 +34,33 @@ export async function buildJsGeometryEngineGenerated(dotNetObject: any, layerId:
     let jsgeometryEngine: any = {}
 
 
-    let { default: GeometryEngineWrapper } = await import('./geometryEngine');
+    let {default: GeometryEngineWrapper} = await import('./geometryEngine');
     let geometryEngineWrapper = new GeometryEngineWrapper(jsgeometryEngine);
     geometryEngineWrapper.geoBlazorId = dotNetObject.id;
     geometryEngineWrapper.viewId = viewId;
     geometryEngineWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geometryEngineWrapper);
     jsObjectRefs[dotNetObject.id] = geometryEngineWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsgeometryEngine;
-    let { buildDotNetGeometryEngine } = await import('./geometryEngine');
+    let {buildDotNetGeometryEngine} = await import('./geometryEngine');
     let dnInstantiatedObject = await buildDotNetGeometryEngine(jsgeometryEngine);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeometryEngine', e);
     }
-    
+
     return jsgeometryEngine;
 }
+
 export async function buildDotNetGeometryEngineGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetGeometryEngine: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

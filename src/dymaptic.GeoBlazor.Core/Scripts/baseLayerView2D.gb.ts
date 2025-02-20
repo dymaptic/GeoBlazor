@@ -12,13 +12,13 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
     constructor(component: BaseLayerView2D) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async attach(): Promise<void> {
         this.component.attach();
     }
@@ -28,15 +28,15 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
     }
 
     async hitTest(mapPoint: any,
-        screenPoint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                  screenPoint: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsMapPoint = buildJsPoint(mapPoint) as any;
         return await this.component.hitTest(jsMapPoint,
             screenPoint);
     }
 
     async render(renderParameters: any): Promise<void> {
-        let { buildJsBaseLayerView2DRenderRenderParameters } = await import('./baseLayerView2DRenderRenderParameters');
+        let {buildJsBaseLayerView2DRenderRenderParameters} = await import('./baseLayerView2DRenderRenderParameters');
         let jsRenderParameters = await buildJsBaseLayerView2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
         this.component.render(jsRenderParameters);
     }
@@ -46,25 +46,26 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
     }
 
     async tilesChanged(added: any,
-        removed: any): Promise<void> {
+                       removed: any): Promise<void> {
         this.component.tilesChanged(added,
             removed);
     }
 
     // region properties
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -74,64 +75,65 @@ export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId
     let jsBaseLayerView2D = new BaseLayerView2D();
 
     if (hasValue(dotNetObject.tiles)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles} = dotNetObject.tiles;
         jsBaseLayerView2D.tiles = sanitizedTiles;
     }
     if (hasValue(dotNetObject.view)) {
         jsBaseLayerView2D.view = dotNetObject.view;
     }
 
-    let { default: BaseLayerView2DWrapper } = await import('./baseLayerView2D');
+    let {default: BaseLayerView2DWrapper} = await import('./baseLayerView2D');
     let baseLayerView2DWrapper = new BaseLayerView2DWrapper(jsBaseLayerView2D);
     baseLayerView2DWrapper.geoBlazorId = dotNetObject.id;
     baseLayerView2DWrapper.viewId = viewId;
     baseLayerView2DWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseLayerView2DWrapper);
     jsObjectRefs[dotNetObject.id] = baseLayerView2DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerView2D;
-    let { buildDotNetBaseLayerView2D } = await import('./baseLayerView2D');
+    let {buildDotNetBaseLayerView2D} = await import('./baseLayerView2D');
     let dnInstantiatedObject = await buildDotNetBaseLayerView2D(jsBaseLayerView2D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BaseLayerView2D', e);
     }
-    
+
     return jsBaseLayerView2D;
 }
+
 export async function buildDotNetBaseLayerView2DGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBaseLayerView2D: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetBaseLayerView2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBaseLayerView2D.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.tiles)) {
-            dotNetBaseLayerView2D.tiles = jsObject.tiles;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBaseLayerView2D.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBaseLayerView2D.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetBaseLayerView2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetBaseLayerView2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetBaseLayerView2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBaseLayerView2D.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.tiles)) {
+        dotNetBaseLayerView2D.tiles = jsObject.tiles;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBaseLayerView2D.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBaseLayerView2D.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetBaseLayerView2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetBaseLayerView2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

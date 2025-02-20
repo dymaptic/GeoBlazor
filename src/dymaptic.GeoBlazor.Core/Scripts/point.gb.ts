@@ -2,7 +2,7 @@
 
 
 import Point from '@arcgis/core/geometry/Point';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+import {hasValue} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class PointGenerated implements IPropertyWrapper {
@@ -14,59 +14,62 @@ export default class PointGenerated implements IPropertyWrapper {
     constructor(component: Point) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async copy(other: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         let jsOther = buildJsPoint(other) as any;
         let result = this.component.copy(jsOther);
-        let { buildDotNetPoint } = await import('./point');
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(result);
     }
 
     async distance(other: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         let jsOther = buildJsPoint(other) as any;
         return this.component.distance(jsOther);
     }
 
     async normalize(): Promise<any> {
         let result = this.component.normalize();
-        let { buildDotNetPoint } = await import('./point');
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(result);
     }
 
     // region properties
-    
+
     async getExtent(): Promise<any> {
         if (!hasValue(this.component.extent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = await buildJsSpatialReference(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }

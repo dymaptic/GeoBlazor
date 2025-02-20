@@ -12,13 +12,13 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
     constructor(component: FieldsIndex) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async get(fieldName: any): Promise<any> {
         return this.component.get(fieldName);
     }
@@ -36,25 +36,25 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getDateFields(): Promise<any> {
         if (!hasValue(this.component.dateFields)) {
             return null;
         }
-        
-        let { buildDotNetField } = await import('./field');
+
+        let {buildDotNetField} = await import('./field');
         return this.component.dateFields!.map(i => buildDotNetField(i));
     }
-    
+
     async setDateFields(value: any): Promise<void> {
-        let { buildJsField } = await import('./field');
+        let {buildJsField} = await import('./field');
         this.component.dateFields = value.map(i => buildJsField(i)) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -63,45 +63,46 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
 export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFieldsIndex = new FieldsIndex();
     if (hasValue(dotNetObject.dateFields)) {
-        let { buildJsField } = await import('./field');
+        let {buildJsField} = await import('./field');
         jsFieldsIndex.dateFields = dotNetObject.dateFields.map(i => buildJsField(i)) as any;
     }
 
 
-    let { default: FieldsIndexWrapper } = await import('./fieldsIndex');
+    let {default: FieldsIndexWrapper} = await import('./fieldsIndex');
     let fieldsIndexWrapper = new FieldsIndexWrapper(jsFieldsIndex);
     fieldsIndexWrapper.geoBlazorId = dotNetObject.id;
     fieldsIndexWrapper.viewId = viewId;
     fieldsIndexWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldsIndexWrapper);
     jsObjectRefs[dotNetObject.id] = fieldsIndexWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsIndex;
-    let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+    let {buildDotNetFieldsIndex} = await import('./fieldsIndex');
     let dnInstantiatedObject = await buildDotNetFieldsIndex(jsFieldsIndex);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FieldsIndex', e);
     }
-    
+
     return jsFieldsIndex;
 }
+
 export async function buildDotNetFieldsIndexGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFieldsIndex: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dateFields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
-        }
+    if (hasValue(jsObject.dateFields)) {
+        let {buildDotNetField} = await import('./field');
+        dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

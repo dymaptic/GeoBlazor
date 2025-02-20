@@ -89,26 +89,26 @@ import WebMap from "@arcgis/core/WebMap";
 import WebScene from "@arcgis/core/WebScene";
 import Widget from "@arcgis/core/widgets/Widget";
 import {load} from "protobufjs";
+import {buildDotNetExtent, buildJsExtent} from './extent';
+import {buildJsPortalItem} from './portalItem';
+import SearchWidgetWrapper from "./searchWidget";
+import {buildJsGraphic} from './graphic';
+import {buildDotNetLayer} from './layer';
+import {buildDotNetPoint, buildJsPoint} from './point';
+import {buildDotNetLayerView} from './layerView';
+import {buildDotNetSpatialReference} from './spatialReference';
+import {buildDotNetGeometry, buildJsGeometry} from './geometry';
+import {buildDotNetSymbol, buildJsSymbol} from './symbol';
+import {buildDotNetPopupTemplate} from './popupTemplate';
+import {buildDotNetHitTestResult, buildViewExtentUpdate} from './mapView';
+import {buildJsRenderer} from './renderer';
+import {buildJsLabel} from './label';
+import {buildJsAttributes} from './attributes';
+import {buildJsGoToOverride} from "./goToOverride";
 import HitTestResult = __esri.HitTestResult;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
-import {buildDotNetExtent, buildJsExtent } from './extent';
-import { buildJsPortalItem } from './portalItem';
-import SearchWidgetWrapper from "./searchWidget";
-import { buildJsGraphic } from './graphic';
-import { buildDotNetLayer } from './layer';
-import { buildDotNetPoint, buildJsPoint } from './point';
-import { buildDotNetLayerView } from './layerView';
-import { buildDotNetSpatialReference } from './spatialReference';
-import { buildDotNetGeometry, buildJsGeometry } from './geometry';
-import { buildDotNetSymbol, buildJsSymbol } from './symbol';
-import { buildDotNetPopupTemplate } from './popupTemplate';
-import {buildDotNetHitTestResult, buildViewExtentUpdate } from './mapView';
-import { buildJsRenderer } from './renderer';
-import { buildJsLabel } from './label';
-import { buildJsAttributes } from './attributes';
-import {buildJsGoToOverride} from "./goToOverride";
 
 // region exports
 
@@ -176,7 +176,7 @@ export async function getProperty(obj: any, prop: string): Promise<any> {
     } else {
         val = obj[prop];
     }
-    
+
     return val;
 }
 
@@ -218,7 +218,7 @@ export function removeFromProperty(obj, prop, value) {
 
 export function getJsComponent(id: string) {
     const component = jsObjectRefs[id];
-    
+
     if (hasValue(component)) {
         // @ts-ignore
         return DotNet.createJSObjectReference();
@@ -233,11 +233,11 @@ export async function setSublayerProperty(layerObj: any, sublayerId: number, pro
     }
 }
 
-export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, layerId: string | null, 
-                                         viewId: string) {
+export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number, popupTemplate: any, layerId: string | null,
+                                               viewId: string) {
     const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         sublayer.popupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     }
 }
@@ -271,11 +271,11 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
-    rotation: number, mapObject: any, zoom: number | null, scale: number,
-    mapType: string, widgets: any[], graphics: any,
-    spatialReference: any, constraints: any, extent: any,
-    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-    isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, zIndex?: number, tilt?: number)
+                                   rotation: number, mapObject: any, zoom: number | null, scale: number,
+                                   mapType: string, widgets: any[], graphics: any,
+                                   spatialReference: any, constraints: any, extent: any,
+                                   eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
+                                   isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     try {
@@ -314,10 +314,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 if (hasValue(mapObject.basemap.style.serviceUrl)) {
                     style.serviceUrl = mapObject.basemap.style.serviceUrl;
                 }
-                basemap = new Basemap({ style: style })
+                basemap = new Basemap({style: style})
             } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
                 const portalItem = await buildJsPortalItem(mapObject.basemap.portalItem, mapObject.basemap.id, id);
-                basemap = new Basemap({ portalItem: portalItem });
+                basemap = new Basemap({portalItem: portalItem});
             } else if (mapObject.basemap?.baseLayers?.length > 0 || mapObject.basemap?.referenceLayers?.length > 0) {
                 if (hasValue(mapObject.basemap.baseLayers)) {
                     for (let i = 0; i < mapObject.basemap.baseLayers.length; i++) {
@@ -345,7 +345,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webmap':
                 let webMap: WebMap;
                 const portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webMap = new WebMap({ portalItem: portalItem });
+                webMap = new WebMap({portalItem: portalItem});
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
@@ -354,7 +354,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             case 'webscene':
                 let webScene: WebScene;
                 const scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webScene = new WebScene({ portalItem: scenePortalItem });
+                webScene = new WebScene({portalItem: scenePortalItem});
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -393,11 +393,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 });
                 break;
         }
-        
+
         if (hasValue(popupEnabled)) {
             view.popupEnabled = popupEnabled as boolean;
         }
-        
+
         if (hasValue(constraints)) {
             (view as MapView).constraints = constraints;
         }
@@ -432,7 +432,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             const layerObject = basemapBaseLayers[i];
             await addLayer(layerObject, id, true);
         }
-        
+
         for (let i = basemapReferenceLayers.length - 1; i >= 0; i--) {
             const layerObject = basemapReferenceLayers[i];
             await addLayer(layerObject, id, false, true);
@@ -449,7 +449,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         let spatialRef: SpatialReference | null = null;
         if (hasValue(spatialReference)) {
-            let { buildJsSpatialReference } = await import('./spatialReference');
+            let {buildJsSpatialReference} = await import('./spatialReference');
             spatialRef = buildJsSpatialReference(spatialReference);
             view.spatialReference = spatialRef!;
         }
@@ -492,7 +492,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-    activeEventHandlers: Array<string>): Promise<void> {
+                                 activeEventHandlers: Array<string>): Promise<void> {
     view.on('click', async (evt) => {
         evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
         await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
@@ -603,9 +603,9 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             let jsLayerView: any = evt.layerView;
 
             if (jsLayer.type == 'feature') {
-                const { default: FeatureLayerWrapper } = await import('./featureLayer');
+                const {default: FeatureLayerWrapper} = await import('./featureLayer');
                 jsLayer = new FeatureLayerWrapper(jsLayer);
-                const { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
+                const {default: FeatureLayerViewWrapper} = await import('./featureLayerView');
                 jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
             }
 
@@ -647,7 +647,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
             const seenObjects = new WeakMap();
-            const jsonLayerResult = JSON.stringify(result.layer, function(key, value) {
+            const jsonLayerResult = JSON.stringify(result.layer, function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
@@ -678,7 +678,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 arcGisObjectRefs[layerViewId] = evt.layerView;
                 jsObjectRefs[layerViewId] = jsLayerView;
             }
-            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);    
+            uploadingLayers.splice(uploadingLayers.indexOf(layerUid), 1);
         } catch (e) {
             console.error(e);
             throw e;
@@ -696,7 +696,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
         });
     }
-    
+
     view.on('mouse-wheel', (evt) => {
         userChangedViewExtent = true;
         const mouseWheelCallback = () => dotNetRef.invokeMethodAsync('OnJavascriptMouseWheel', evt);
@@ -729,13 +729,13 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 buildDotNetPoint((view as MapView).center), (view as MapView).zoom, (view as MapView).scale,
                 (view as MapView).rotation, null);
         }
-        
+
         debounce(extentCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 }
 
 function debounce(func: Function, wait: number | null, immediate: boolean) {
-    
+
     // 'private' variable for instance
     // The returned function will be able to reference this due to closure.
     // Each call to the returned function will share this common timer.
@@ -765,7 +765,7 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
         clearTimeout(timeout);
 
         // Set the new timeout
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
 
             // Inside the timeout function, clear the timeout variable
             // which will let the next execution run when in 'immediate' mode
@@ -787,8 +787,8 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
         return;
     }
     arcGisObjectRefs[geoBlazorId] = jsObjectRef;
-    jsObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap') 
-        ? jsObjectRef.unwrap() 
+    jsObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap')
+        ? jsObjectRef.unwrap()
         : jsObjectRef;
 }
 
@@ -815,9 +815,9 @@ export async function hitTest(screenPoint: any, viewId: string, options: DotNetH
             const streamRef = getProtobufViewHitStream(dotNetResult.results);
             dotNetResult.results = [];
             const dotNetRef = dotNetRefs[viewId];
-            await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);    
+            await dotNetRef.invokeMethodAsync('OnHitTestStreamCallback', streamRef, hitTestId);
         }
-        
+
         return dotNetResult;
     } catch (e) {
         logError(e, viewId);
@@ -975,7 +975,7 @@ export async function setSpatialReference(spatialReferenceObject: any, viewId: s
     try {
         const view = arcGisObjectRefs[viewId] as MapView;
         if (view !== undefined) {
-            let { buildJsSpatialReference } = await import('./spatialReference');
+            let {buildJsSpatialReference} = await import('./spatialReference');
             view.spatialReference = buildJsSpatialReference(spatialReferenceObject);
         }
     } catch (error) {
@@ -984,7 +984,7 @@ export async function setSpatialReference(spatialReferenceObject: any, viewId: s
 }
 
 export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any,
-    layerId: string | null, viewId: string): Promise<void> {
+                                        layerId: string | null, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
         const query = new Query({
@@ -999,7 +999,7 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
         } else if (hasValue(queryObject.geometry)) {
             query.geometry = buildJsGeometry(queryObject.geometry)!;
         }
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, layerObject.id, viewId) as PopupTemplate;
         await addLayer(layerObject, viewId, false, false, true, () => {
             displayQueryResults(query, symbol, popupTemplate, viewId);
@@ -1015,11 +1015,11 @@ export function removeGraphics(graphicWrapperIds: string[], viewId: string, laye
         setWaitCursor(viewId);
         const view = arcGisObjectRefs[viewId] as View;
         const graphicsToRemove: Graphic[] = [];
-        
+
         for (const id of graphicWrapperIds) {
             disposeGraphic(id);
         }
-        
+
         if (hasValue(layerId)) {
             const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
             layer.removeMany(graphicsToRemove);
@@ -1055,7 +1055,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
     try {
         setWaitCursor(viewId);
         const currentLayer = arcGisObjectRefs[layerObject.id] as Layer;
-        
+
         if (currentLayer === undefined) {
             unsetWaitCursor(viewId);
             return;
@@ -1066,7 +1066,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 const featureLayer = currentLayer as FeatureLayer;
 
                 if (hasValue(layerObject.popupTemplate)) {
-                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    let {buildJsPopupTemplate} = await import('./popupTemplate');
                     featureLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId) as PopupTemplate;
                 }
                 // on first pass the renderer is often left blank, but it fills in when the round trip happens to the server
@@ -1077,7 +1077,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     }
                 }
                 if (hasValue(layerObject.fields) && layerObject.fields.length > 0) {
-                    let { buildJsField } = await import('./field');
+                    let {buildJsField} = await import('./field');
                     featureLayer.fields = layerObject.fields.map(f => buildJsField(f));
                 }
 
@@ -1108,7 +1108,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     });
                 }
                 if (hasValue(layerObject.popupTemplate)) {
-                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    let {buildJsPopupTemplate} = await import('./popupTemplate');
                     geoJsonLayer.popupTemplate = await buildJsPopupTemplate(layerObject.popupTemplate, layerObject.id, viewId ?? null) as PopupTemplate;
                 }
                 if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
@@ -1144,8 +1144,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.spatialReference) &&
                         layerObject.tileInfo.spatialReference.wkid !== webTileLayer.tileInfo.spatialReference.wkid) {
-                        let { buildJsSpatialReference } = await import('./spatialReference');
-                        webTileLayer.tileInfo.spatialReference = 
+                        let {buildJsSpatialReference} = await import('./spatialReference');
+                        webTileLayer.tileInfo.spatialReference =
                             buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                     }
                 }
@@ -1177,8 +1177,8 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
 
                     if (hasValue(layerObject.tileInfo.spatialReference) &&
                         layerObject.tileInfo.spatialReference.wkid !== openStreetMapLayer.tileInfo.spatialReference.wkid) {
-                        let { buildJsSpatialReference } = await import('./spatialReference');
-                        openStreetMapLayer.tileInfo.spatialReference = 
+                        let {buildJsSpatialReference} = await import('./spatialReference');
+                        openStreetMapLayer.tileInfo.spatialReference =
                             buildJsSpatialReference(layerObject.tileInfo.spatialReference);
                     }
                 }
@@ -1198,52 +1198,52 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                     'useViewTime');
 
-                let { buildJsSublayer } = await import('./sublayer');
+                let {buildJsSublayer} = await import('./sublayer');
                 if (hasValue(layerObject.sublayers) && layerObject.sublayers.length > 0 &&
                     (currentLayer as MapImageLayer).capabilities?.exportMap.supportsDynamicLayers &&
                     (currentLayer as MapImageLayer).capabilities?.exportMap.supportsSublayersChanges) {
                     (currentLayer as MapImageLayer).sublayers = layerObject.sublayers.map(buildJsSublayer);
                 }
                 break;
-                
+
             case 'imagery':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
                     'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
                     'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
-                    'noData', 'noDataInterpretation', 'objectIdField', 'pixelType', 
+                    'noData', 'noDataInterpretation', 'objectIdField', 'pixelType',
                     'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
                     'timeInfo', 'timeOffset', 'customParameters');
                 if (hasValue(layerObject.effect)) {
-                    let { buildJsEffect } = await import('./effect');
+                    let {buildJsEffect} = await import('./effect');
                     (currentLayer as ImageryLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
-                    let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-                    (currentLayer as ImageryLayer).multidimensionalSubset = 
+                    let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
+                    (currentLayer as ImageryLayer).multidimensionalSubset =
                         await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
                 }
                 break;
-                
+
             case 'imagery-tile':
                 copyValuesIfExists(layerObject, currentLayer, 'blendMode', 'maxScale', 'minScale', 'bandIds',
-                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime', 
+                    'copyright', 'interpolation', 'legendEnabled', 'useViewTime',
                     'customParameters');
                 if (hasValue(layerObject.effect)) {
-                    let { buildJsEffect } = await import('./effect');
+                    let {buildJsEffect} = await import('./effect');
                     (currentLayer as ImageryTileLayer).effect = buildJsEffect(layerObject.effect);
                 }
                 if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                     (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(d => {
-                        const { id, dotNetObjectReference, ...sanitizedDef } = d;
+                        const {id, dotNetObjectReference, ...sanitizedDef} = d;
                         return sanitizedDef;
                     });
                 }
                 if (hasValue(layerObject.multidimensionalSubset)) {
-                    let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-                    (currentLayer as ImageryTileLayer).multidimensionalSubset = 
+                    let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
+                    (currentLayer as ImageryTileLayer).multidimensionalSubset =
                         await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
                 }
-                
+
                 break;
         }
 
@@ -1283,7 +1283,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
             case 'bookmarks':
                 const bookmarks = currentWidget as Bookmarks;
                 if (hasValue(widgetObject.bookmarks)) {
-                    let { buildJsBookmark } = await import('./bookmark');
+                    let {buildJsBookmark} = await import('./bookmark');
                     bookmarks.bookmarks = widgetObject.bookmarks.map(buildJsBookmark);
                 }
                 break;
@@ -1292,7 +1292,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 if (hasValue(widgetObject.sources)) {
                     const sources: SearchSource[] = [];
                     for (const source of widgetObject.sources) {
-                        let { buildJsSearchSource } = await import('./searchSource');
+                        let {buildJsSearchSource} = await import('./searchSource');
                         const jsSource = await buildJsSearchSource(source, viewId);
                         sources.push(jsSource);
                     }
@@ -1301,7 +1301,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                 }
 
                 if (hasValue(widgetObject.popupTemplate)) {
-                    let { buildJsPopupTemplate } = await import('./popupTemplate');
+                    let {buildJsPopupTemplate} = await import('./popupTemplate');
                     search.popupTemplate = await buildJsPopupTemplate(widgetObject.popupTemplate, null, viewId) as PopupTemplate;
                 }
 
@@ -1335,6 +1335,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
         logError(error, viewId);
     }
 }
+
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
     try {
         setWaitCursor(viewId);
@@ -1349,7 +1350,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
             .then(async (results) => {
                 view.popup.close();
                 view.graphics.removeAll();
-                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                let {buildJsPopupTemplate} = await import('./popupTemplate');
                 const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
                 results.forEach(function (result) {
                     view.graphics.add(new Graphic({
@@ -1361,8 +1362,8 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
                 });
                 unsetWaitCursor(viewId);
             }).catch((error) => {
-                logError(error, viewId)
-            });
+            logError(error, viewId)
+        });
     } catch (error) {
         logError(error, viewId);
     }
@@ -1371,7 +1372,7 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
 export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
     try {
         const view = arcGisObjectRefs[viewId] as View;
-        let { buildJsPopupWidget } = await import('./popupWidget');
+        let {buildJsPopupWidget} = await import('./popupWidget');
         const jsPopup = await buildJsPopupWidget(dotNetPopup, null, viewId);
         if (hasValue(dotNetPopup.widgetContent)) {
             const widgetContent = await createWidget(dotNetPopup.widgetContent, dotNetPopup.viewId);
@@ -1402,15 +1403,14 @@ async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
         if (!hasValue(view.popup.on)) {
             reactiveUtils.once(() => view.popup.on !== undefined)
                 .then(() => {
-                    triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
-                            event => triggerActionCallback(event, viewId, dotNetPopup));
+                    triggerActionHandlers[viewId] = view.popup.on("trigger-action",
+                        event => triggerActionCallback(event, viewId, dotNetPopup));
                 })
         } else {
-            triggerActionHandlers[viewId] = view.popup.on("trigger-action", 
-                    event => triggerActionCallback(event, viewId, dotNetPopup));
+            triggerActionHandlers[viewId] = view.popup.on("trigger-action",
+                event => triggerActionCallback(event, viewId, dotNetPopup));
         }
-    }
-    catch (error) {
+    } catch (error) {
         logError(error, viewId);
     }
 }
@@ -1431,7 +1431,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
                 dotNetRefs[k] = popupRef;
             }
         }
-        
+
         if (hasValue(popupRef)) {
             await popupRef.invokeMethodAsync("OnTriggerAction", event.action.id);
         }
@@ -1518,7 +1518,7 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     try {
         setWaitCursor(viewId);
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
 
         await (arcGisObjectRefs[viewId] as View).openPopup({
@@ -1588,7 +1588,7 @@ export async function addGraphicsFromStream(streamRef: any, viewId: string, abor
         const layer = hasValue(layerId) ? arcGisObjectRefs[layerId as string] as GraphicsLayer : null;
         const view = arcGisObjectRefs[viewId] as View;
         const existingGraphics = layer?.graphics || view.graphics;
-        
+
         for (const g of graphics) {
             if (abortSignal.aborted) {
                 return;
@@ -1663,17 +1663,17 @@ export function getGraphicSymbol(id: string, layerId: string | null, viewId: str
     if (graphic !== null) {
         return buildDotNetSymbol(graphic.symbol);
     }
-    
+
     return null;
 }
 
-export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any, 
-                                        layerId: string | null, viewId: string): Promise<void> {
+export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetPopupTemplate, dotNetRef: any,
+                                              layerId: string | null, viewId: string): Promise<void> {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
     graphicPopupLookupRefs[id] = popupTemplate.id;
     dotNetRefs[popupTemplate.id] = dotNetRef;
-    let { buildJsPopupTemplate } = await import('./popupTemplate');
+    let {buildJsPopupTemplate} = await import('./popupTemplate');
     const jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     if (graphic !== null && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
         graphic.popupTemplate = jsPopupTemplate;
@@ -1729,17 +1729,17 @@ export async function getEffectivePopupTemplate(graphic: any, defaultPopupTempla
 
 export function lookupJsGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {
     const graphicsCollectionId = layerId ?? viewId;
-    if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId) 
+    if (graphicsCollectionId !== null && graphicsRefs.hasOwnProperty(graphicsCollectionId)
         && graphicsRefs[graphicsCollectionId].hasOwnProperty(graphicId)) {
         return graphicsRefs[graphicsCollectionId][graphicId] ?? null;
     }
-    
+
     for (const graphicsCollection of Object.values(graphicsRefs)) {
         if (graphicsCollection.hasOwnProperty(graphicId)) {
             return graphicsCollection[graphicId];
         }
     }
-    
+
     return null;
 }
 
@@ -1756,7 +1756,7 @@ export function lookupGeoBlazorId(jsObject: any): string | null {
 export function setGraphicOrigin(id: string, origin: any, layerId: string | null, viewId: string | null): void {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(origin) && hasValue(graphic)) {
-        let layer : any | undefined = undefined;
+        let layer: any | undefined = undefined;
         if (arcGisObjectRefs.hasOwnProperty(origin.layerId)) {
             layer = arcGisObjectRefs[origin.layerId] as any;
         }
@@ -1773,7 +1773,7 @@ export function getGraphicOrigin(id: string, layerId: string | null, viewId: str
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (hasValue(graphic?.origin)) {
         let layerId: any = lookupGeoBlazorId(graphic!.origin.layer);
-        
+
         return {
             layerId: layerId,
             arcGISLayerId: graphic!.origin.layerId,
@@ -1977,8 +1977,8 @@ export function displayQueryResults(query: Query, symbol: ArcGisSymbol, popupTem
             view.graphics.addMany(results.features);
             unsetWaitCursor(viewId);
         }).catch((error) => {
-            logError(error, viewId);
-        });
+        logError(error, viewId);
+    });
 }
 
 export async function addWidget(widget: any, viewId: string, setInContainerByDefault: boolean = false)
@@ -2043,7 +2043,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             if (hasValue(dotNetWidget.sources)) {
                 const sources: SearchSource[] = [];
-                let { buildJsSearchSource } = await import('./searchSource');
+                let {buildJsSearchSource} = await import('./searchSource');
                 for (const source of dotNetWidget.sources) {
                     const jsSource = await buildJsSearchSource(source, viewId);
                     sources.push(jsSource);
@@ -2052,7 +2052,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
 
             if (hasValue(dotNetWidget.popupTemplate)) {
-                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                let {buildJsPopupTemplate} = await import('./popupTemplate');
                 search.popupTemplate = await buildJsPopupTemplate(dotNetWidget.popupTemplate, null, viewId) as PopupTemplate;
             }
 
@@ -2067,7 +2067,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
 
             search.on('select-result', async (evt) => {
-                const { buildDotNetGraphic } = await import('./graphic');
+                const {buildDotNetGraphic} = await import('./graphic');
                 dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetGraphic(evt.result.feature, null, viewId),
@@ -2079,7 +2079,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 'autoSelect', 'disabled', 'includeDefaultSources', 'locationEnabled', 'maxResults',
                 'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
                 'searchTerm', 'suggestionsEnabled');
-            
+
             wrapper = new SearchWidgetWrapper(search);
             jsObjectRefs[dotNetWidget.id] = wrapper;
             break;
@@ -2091,8 +2091,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             newWidget = basemapToggle;
             if (hasValue(dotNetWidget.nextBasemapStyle)) {
                 basemapToggle.nextBasemap = dotNetWidget.nextBasemapStyle;
-            }
-            else if (hasValue(dotNetWidget.nextBasemapName)) {
+            } else if (hasValue(dotNetWidget.nextBasemapName)) {
                 // @ts-ignore
                 basemapToggle.nextBasemap = dotNetWidget.nextBasemapName;
             } else {
@@ -2166,8 +2165,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                         type: dotNetWidget.style.type,
                         layout: dotNetWidget.style.layout
                     };
-                }
-                else {
+                } else {
                     legend.style = dotNetWidget.style.type;
                 }
             }
@@ -2225,7 +2223,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     }
                 };
             }
-            
+
             if (hasValue(dotNetWidget.visibleElements)) {
                 basemapLayerListWidget.visibleElements = {
                     statusIndicators: dotNetWidget.visibleElements.statusIndicators,
@@ -2234,24 +2232,24 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     errors: dotNetWidget.visibleElements.errors
                 };
             }
-            
+
             copyValuesIfExists(dotNetWidget, basemapLayerListWidget, 'basemapTitle', 'editingEnabled', 'headingLevel',
                 'multipleSelectionEnabled');
-            
+
             break;
         case 'expand':
-            const expandWidgetDiv = 
+            const expandWidgetDiv =
                 document.getElementById(`widget-container-${dotNetWidget.id}`) as HTMLElement;
             if (expandWidgetDiv === null) {
                 return null;
             }
-            
+
             // remove comment nodes
             for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
                 const childNode = expandWidgetDiv.childNodes[i];
                 if (childNode.nodeType === 8) {
                     expandWidgetDiv.removeChild(childNode);
-                    i --;
+                    i--;
                 }
             }
             expandWidgetDiv.hidden = false;
@@ -2260,7 +2258,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 templatedContent.innerHTML = dotNetWidget.htmlContent;
                 expandWidgetDiv.appendChild(templatedContent.content.firstChild!);
             }
-            
+
             if (hasValue(dotNetWidget.widgetContent)) {
                 await addWidget(dotNetWidget.widgetContent, viewId, true);
             }
@@ -2299,7 +2297,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             break;
         case 'popup':
             newWidget = await setPopup(dotNetWidget, viewId) as Popup;
-            const { default: PopupWidgetWrapper } = await import('./popupWidget');
+            const {default: PopupWidgetWrapper} = await import('./popupWidget');
             wrapper = new PopupWidgetWrapper(newWidget as Popup);
             break;
         case 'measurement':
@@ -2327,12 +2325,12 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                 icon: dotNetWidget.icon
             });
             if (dotNetWidget.bookmarks != null) {
-                let { buildJsBookmark } = await import('./bookmark');
+                let {buildJsBookmark} = await import('./bookmark');
                 bookmarkWidget.bookmarks = dotNetWidget.bookmarks.map(buildJsBookmark);
             }
 
             bookmarkWidget.on('bookmark-select', async (event) => {
-                const { buildDotNetBookmark } = await import('./bookmark');
+                const {buildDotNetBookmark} = await import('./bookmark');
                 const bookmark = await buildDotNetBookmark(event.bookmark);
                 await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', {
                     bookmark: bookmark
@@ -2347,22 +2345,22 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             });
             newWidget = slider;
             copyValuesIfExists(dotNetWidget, slider, 'disabled', 'draggableSegmentsEnabled', 'effectiveMax',
-                'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision', 
+                'effectiveMin', 'labelInputsEnabled', 'layout', 'max', 'min', 'precision',
                 'rangeLabelInputsEnabled', 'snapOnClickEnabled', 'syncedSegmentsEnabled', 'thumbsConstrained',
                 'values');
-            
+
             if (hasValue(dotNetWidget.steps)) {
                 slider.steps = dotNetWidget.steps;
             } else if (hasValue(dotNetWidget.stepInterval)) {
                 slider.steps = dotNetWidget.stepInterval;
             }
-            
+
             if (hasValue(dotNetWidget.inputCreatedFunction)) {
                 slider.inputCreatedFunction = (inputElement, type, thumbIndex) => {
                     return new Function('inputElement', 'type', 'thumbIndex', dotNetWidget.inputCreatedFunction)(inputElement, type, thumbIndex);
                 };
             }
-            
+
             if (hasValue(dotNetWidget.inputFormatFunction)) {
                 slider.inputFormatFunction = (value, type, index) => {
                     return new Function('value', 'type', 'index', dotNetWidget.inputFormatFunction)(value, type, index);
@@ -2380,12 +2378,12 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             }
             if (hasValue(dotNetWidget.thumbCreatedFunction)) {
                 slider.thumbCreatedFunction = (index, value, thumbElement, labelElement) => {
-                    return new Function ('index', 'value', 'thumbElement', 'labelElement', dotNetWidget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
+                    return new Function('index', 'value', 'thumbElement', 'labelElement', dotNetWidget.thumbCreatedFunction)(index, value, thumbElement, labelElement);
                 };
             }
-            
+
             if (hasValue(dotNetWidget.tickConfigs) && dotNetWidget.tickConfigs.length > 0) {
-                let { buildJsTickConfig } = await import('./tickConfig');
+                let {buildJsTickConfig} = await import('./tickConfig');
                 slider.tickConfigs = dotNetWidget.tickConfigs.map(buildJsTickConfig);
             }
             if (hasValue(dotNetWidget.visibleElements)) {
@@ -2394,7 +2392,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     rangeLabels: dotNetWidget.visibleElements.rangeLabels ?? false
                 };
             }
-            
+
             slider.on('max-change', async (event) => {
                 await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMaxChange', {
                     value: event.value,
@@ -2404,7 +2402,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             slider.on('max-click', async (event) => {
                 await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMaxClick', {
                     value: event.value
-                });                
+                });
             });
             slider.on('min-change', async (event) => {
                 await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsMinChange', {
@@ -2470,8 +2468,8 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
                     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', slider.values);
                 }
             );
-            
-            const { default: SliderWidgetWrapper } = await import('./sliderWidget');
+
+            const {default: SliderWidgetWrapper} = await import('./sliderWidget');
             wrapper = new SliderWidgetWrapper(slider);
             break;
         default:
@@ -2487,20 +2485,20 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     arcGisObjectRefs[dotNetWidget.id] = newWidget;
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
     jsObjectRefs[dotNetWidget.id] = wrapper;
-    
+
     // @ts-ignore
     const jsRef = DotNet.createJSObjectReference(wrapper);
-    
+
     // register, to be removed when we finish code generation of all widgets
     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
-    
+
     return newWidget;
 }
 
 export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, layerId, viewId) {
     copyValuesIfExists(dnItem, jsItem, 'title', 'visible', 'childrenSortable', 'hidden',
         'open', 'sortable');
-    
+
     if (hasValue(dnItem.children)) {
         for (let i = 0; i < dnItem.children.length; i++) {
             const child = dnItem.children[i];
@@ -2512,7 +2510,7 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
     }
     if (hasValue(dnItem.actionsSections)) {
         const actionsSections: any[] = [];
-        let { buildJsActionBase } = await import('./actionBase');
+        let {buildJsActionBase} = await import('./actionBase');
         for (let i = 0; i < dnItem.actionsSections.length; i++) {
             const section: any[] = [];
             actionsSections.push(section);
@@ -2525,11 +2523,11 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
         }
         jsItem.actionsSections = actionsSections as any;
     }
-    
+
     if (hasValue(dnItem.layerId)) {
         jsItem.layer = arcGisObjectRefs[dnItem.layerId] as Layer;
     }
-    
+
     if (hasValue(dnItem.panel)) {
         if (hasValue(dnItem.panel.containerId)) {
             const contentDiv = document.getElementById(dnItem.panel.containerId);
@@ -2598,7 +2596,7 @@ export function removeWidget(widgetId: string, viewId: string): void {
     delete arcGisObjectRefs.widgetId;
 }
 
-export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean, 
+export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
                                isQueryLayer?: boolean, callback?: Function): Promise<void> {
     try {
         const view = arcGisObjectRefs[viewId] as View;
@@ -2651,32 +2649,32 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 jsGraphics.push(jsGraphic);
             }
             graphicsLayer.addMany(jsGraphics);
-            
+
             copyValuesIfExists(dotNetLayer, graphicsLayer, 'blendMode',
                 'maxScale', 'minScale', 'screenSizePerspectiveEnabled');
 
             if (hasValue(dotNetLayer.effect)) {
-                let { buildJsEffect } = await import('./effect');
+                let {buildJsEffect} = await import('./effect');
                 graphicsLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             break;
         case 'map-image':
             if (hasValue(dotNetLayer.portalItem)) {
                 const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
-                newLayer = new MapImageLayer({ portalItem: portalItem });
+                newLayer = new MapImageLayer({portalItem: portalItem});
             } else {
                 newLayer = new MapImageLayer({
                     url: dotNetLayer.url
                 });
             }
-            
+
             copyValuesIfExists(dotNetLayer, newLayer, 'blendMode', 'customParameters', 'dpi',
                 'gdbVersion', 'imageFormat', 'imageMaxHeight', 'imageMaxWidth', 'imageTransparency', 'legendEnabled',
                 'maxScale', 'minScale', 'refreshInterval', 'timeExtent', 'timeInfo',
                 'useViewTime');
-            
+
             if (hasValue(dotNetLayer.sublayers) && dotNetLayer.sublayers.length > 0) {
-                let { buildJsSublayer } = await import('./sublayer');
+                let {buildJsSublayer} = await import('./sublayer');
                 (newLayer as MapImageLayer).sublayers = dotNetLayer.sublayers.map(buildJsSublayer);
             }
             break;
@@ -2684,7 +2682,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             if (hasValue(dotNetLayer.portalItem)) {
                 const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
 
-                newLayer = new TileLayer({ portalItem: portalItem });
+                newLayer = new TileLayer({portalItem: portalItem});
             } else {
                 newLayer = new TileLayer({
                     url: dotNetLayer.url
@@ -2692,19 +2690,19 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
             }
             const tileLayer = newLayer as TileLayer;
             copyValuesIfExists(dotNetLayer, newLayer, 'minScale', 'maxScale', 'opacity', 'apiKey',
-                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode', 
+                'blendMode', 'copyright', 'customParameters', 'legendEnabled', 'listMode',
                 'refreshInterval', 'resampling', 'tileInfo', 'tileServers', 'title', 'version');
 
             if (hasValue(dotNetLayer.effect)) {
-                let { buildJsEffect } = await import('./effect');
+                let {buildJsEffect} = await import('./effect');
                 tileLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
-            
+
             break;
         case 'elevation':
             if (hasValue(dotNetLayer.portalItem)) {
                 const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
-                newLayer = new ElevationLayer({ portalItem: portalItem });
+                newLayer = new ElevationLayer({portalItem: portalItem});
             } else {
                 newLayer = new ElevationLayer({
                     url: dotNetLayer.url
@@ -2719,7 +2717,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 });
             } else if (hasValue(dotNetLayer.portalItem)) {
                 const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
-                openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
+                openStreetMapLayer = new OpenStreetMapLayer({portalItem: portalItem});
             } else {
                 openStreetMapLayer = new OpenStreetMapLayer();
             }
@@ -2746,8 +2744,8 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 }
 
                 if (hasValue(dotNetLayer.tileInfo.spatialReference)) {
-                    let { buildJsSpatialReference } = await import('./spatialReference');
-                    openStreetMapLayer.tileInfo.spatialReference = 
+                    let {buildJsSpatialReference} = await import('./spatialReference');
+                    openStreetMapLayer.tileInfo.spatialReference =
                         await buildJsSpatialReference(dotNetLayer.tileInfo.spatialReference);
                 }
             }
@@ -2760,106 +2758,106 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
                 });
             } else {
                 const portalItem = await buildJsPortalItem(dotNetLayer.portalItem, dotNetLayer.id, viewId);
-                newLayer = new ImageryLayer({ portalItem: portalItem });
+                newLayer = new ImageryLayer({portalItem: portalItem});
             }
 
             const imageryLayer = newLayer as ImageryLayer;
 
             if (hasValue(dotNetLayer.renderer)) {
-                let { buildJsImageryRenderer } = await import('./imageryRenderer');
+                let {buildJsImageryRenderer} = await import('./imageryRenderer');
                 imageryLayer.renderer = await buildJsImageryRenderer(dotNetLayer.renderer, dotNetLayer.id, viewId) as any;
             }
-            
+
             if (hasValue(dotNetLayer.effect)) {
-                let { buildJsEffect } = await import('./effect');
+                let {buildJsEffect} = await import('./effect');
                 imageryLayer.effect = buildJsEffect(dotNetLayer.effect);
             }
             if (hasValue(dotNetLayer.fields && dotNetLayer.fields.length > 0)) {
-                let { buildJsField } = await import('./field');
+                let {buildJsField} = await import('./field');
                 imageryLayer.fields = dotNetLayer.fields.map(f => buildJsField(f));
             }
             if (hasValue(dotNetLayer.multidimensionsionalSubset)) {
-                let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-                imageryLayer.multidimensionalSubset = 
+                let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
+                imageryLayer.multidimensionalSubset =
                     await buildJsMultidimensionalSubset(dotNetLayer.multidimensionsionalSubset, dotNetLayer.id, viewId);
             }
             if (hasValue(dotNetLayer.noData)) {
                 imageryLayer.noData = dotNetLayer.noData;
             }
-            
+
             if (hasValue(dotNetLayer.popupTemplate)) {
-                let { buildJsPopupTemplate } = await import('./popupTemplate');
+                let {buildJsPopupTemplate} = await import('./popupTemplate');
                 imageryLayer.popupTemplate = await buildJsPopupTemplate(dotNetLayer.popupTemplate, dotNetLayer.id, viewId ?? null) as PopupTemplate;
             }
 
             copyValuesIfExists('bandIds', 'blendMode', 'compressionQuality', 'compressionTolerance',
                 'copyright', 'definitionExpression', 'format', 'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth',
                 'interpolation', 'legendEnabled', 'maxScale', 'minScale', 'multidimensionalInfo', 'noDataInterpretation',
-                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval', 
+                'objectIdField', 'pixelType', 'popupEnabled', 'refreshInterval',
                 'serviceRasterInfo', 'useViewTime', 'version', 'capabilities', 'customParameters', 'timeExtent',
                 'timeInfo', 'timeOffset');
 
             newLayer = imageryLayer;
             break;
         case 'base-tile':
-            const { buildJsBaseTileLayer } = await import('./baseTileLayer');
+            const {buildJsBaseTileLayer} = await import('./baseTileLayer');
             newLayer = await buildJsBaseTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'feature':
-            const { buildJsFeatureLayer } = await import('./featureLayer');
+            const {buildJsFeatureLayer} = await import('./featureLayer');
             newLayer = await buildJsFeatureLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'imagery-tile':
-            const { buildJsImageryTileLayer } = await import('./imageryTileLayer');
+            const {buildJsImageryTileLayer} = await import('./imageryTileLayer');
             newLayer = await buildJsImageryTileLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'vector-tile':
-            const { buildJsVectorTileLayer } = await import('./vectorTileLayer');
+            const {buildJsVectorTileLayer} = await import('./vectorTileLayer');
             newLayer = await buildJsVectorTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'web-tile':
-            const { buildJsWebTileLayer } = await import('./webTileLayer');
+            const {buildJsWebTileLayer} = await import('./webTileLayer');
             newLayer = await buildJsWebTileLayer(dotNetLayer, dotNetLayer.Id, viewId);
 
             break;
         case 'bing-maps':
-            const { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+            const {buildJsBingMapsLayer} = await import('./bingMapsLayer');
             newLayer = await buildJsBingMapsLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'csv':
-            const { buildJsCSVLayer } = await import('./cSVLayer');
+            const {buildJsCSVLayer} = await import('./cSVLayer');
             newLayer = await buildJsCSVLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'geojson':
-            const { buildJsGeoJSONLayer } = await import('./geoJSONLayer');
+            const {buildJsGeoJSONLayer} = await import('./geoJSONLayer');
             newLayer = await buildJsGeoJSONLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'geo-rss':
-            const { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
+            const {buildJsGeoRSSLayer} = await import('./geoRSSLayer');
             newLayer = await buildJsGeoRSSLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'kml':
-            const { buildJsKMLLayer } = await import('./kMLLayer');
+            const {buildJsKMLLayer} = await import('./kMLLayer');
             newLayer = await buildJsKMLLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         case 'wcs':
-            const { buildJsWCSLayer } = await import('./wCSLayer');
+            const {buildJsWCSLayer} = await import('./wCSLayer');
             newLayer = await buildJsWCSLayer(dotNetLayer, dotNetLayer.id, viewId);
 
             break;
         default:
             return null;
     }
-    
+
     copyValuesIfExists(dotNetLayer, newLayer, 'title', 'opacity', 'listMode', 'visible',
         'persistenceEnabled');
 
@@ -2868,7 +2866,7 @@ export async function createLayer(dotNetLayer: any, wrap: boolean | null, viewId
     }
 
     arcGisObjectRefs[dotNetLayer.id] = newLayer;
-    
+
     if (wrap) {
         return jsObjectRefs[dotNetLayer.id];
     }
@@ -2920,7 +2918,7 @@ function unsetWaitCursor(viewId: string | null): void {
 
 function waitForRender(viewId: string, dotNetRef: any): void {
     const view = arcGisObjectRefs[viewId] as View;
-     
+
     view.when().then(_ => {
         let isRendered = false;
         let rendering = false;
@@ -2933,14 +2931,14 @@ function waitForRender(viewId: string, dotNetRef: any): void {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
                 if (!zoomWidgetListenerAdded) {
-                    const zoomWidgetButtons =  document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
+                    const zoomWidgetButtons = document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
                     for (let i = 0; i < zoomWidgetButtons.length; i++) {
                         zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
                         zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
                     }
                     zoomWidgetListenerAdded = true;
                 }
-                
+
                 console.debug(new Date() + " - View Render Complete");
                 try {
                     rendering = true;
@@ -2976,9 +2974,9 @@ function buildDotNetListItem(item: ListItem): DotNetListItem | null {
             children.push(child);
         }
     });
-    
+
     let layerId: string | null = lookupGeoBlazorId(item.layer);
-    
+
     return {
         title: item.title,
         visible: item.visible,
@@ -3031,7 +3029,7 @@ function checkConnectivity(viewId) {
 
 
 export function addReactiveWatcher(targetId: string, targetName: string, watchExpression: string, once: boolean,
-    initial: boolean, dotNetRef: any): any {
+                                   initial: boolean, dotNetRef: any): any {
     const target = arcGisObjectRefs[targetId];
     console.debug(`Adding watch: "${watchExpression}"`);
     const watcherFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -3054,7 +3052,8 @@ export function addReactiveListener(targetId: string, eventName: string, once: b
 export async function awaitReactiveSingleWatchUpdate(targetId: string, targetName: string, watchExpression: string): Promise<any> {
     const target = arcGisObjectRefs[targetId];
     console.debug(`Adding once watcher: "${watchExpression}"`);
-    const AsyncFunction = async function () {}.constructor;
+    const AsyncFunction = async function () {
+    }.constructor;
     // @ts-ignore
     const onceFunc = new AsyncFunction(targetName, 'reactiveUtils',
         `return reactiveUtils.once(() => ${watchExpression});`);
@@ -3062,7 +3061,7 @@ export async function awaitReactiveSingleWatchUpdate(targetId: string, targetNam
 }
 
 export function addReactiveWaiter(targetId: string, targetName: string, watchExpression: string, once: boolean,
-    initial: boolean, dotNetRef: any): any {
+                                  initial: boolean, dotNetRef: any): any {
     const target = arcGisObjectRefs[targetId];
     console.debug(`Adding when waiter: "${watchExpression}"`);
     const whenFunc = new Function(targetName, 'reactiveUtils', 'dotNetRef',
@@ -3151,7 +3150,7 @@ export async function loadProtobuf() {
             console.debug('Protobuf graphics json loaded');
         } catch (error) {
             logError(error, null);
-        }    
+        }
     });
 }
 
@@ -3190,7 +3189,7 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
     return DotNet.createJSStreamReference(encoded);
 }
 
-function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any{
+function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
     for (let i = 0; i < viewHits.length; i++) {
         const viewHit = viewHits[i];
         if (viewHit.type === "graphic") {
@@ -3267,7 +3266,7 @@ function updateGeometryForProtobuf(geometry) {
         geometry.paths = (geometry as DotNetPolyline).paths.map(p => {
             return {
                 points: p.map(pt => {
-                    return {    
+                    return {
                         coordinates: pt
                     }
                 })
@@ -3294,7 +3293,7 @@ function updateGeometryForProtobuf(geometry) {
 let _authenticationManager: AuthenticationManager | null = null;
 
 export function getAuthenticationManager(dotNetRef: any, apiKey: string | null, appId: string | null,
-    portalUrl: string | null, trustedServers: string[] | null, fontsUrl: string | null): AuthenticationManager {
+                                         portalUrl: string | null, trustedServers: string[] | null, fontsUrl: string | null): AuthenticationManager {
     if (_authenticationManager === null) {
         _authenticationManager = new AuthenticationManager(dotNetRef, apiKey, appId, portalUrl, trustedServers, fontsUrl);
     }
@@ -3317,7 +3316,7 @@ export async function getWebMapBookmarks(viewId: string) {
         const webMap = view.map as WebMap;
         if (webMap != null) {
             const arr = webMap.bookmarks.toArray();
-            const { buildDotNetBookmark } = await import('./bookmark');
+            const {buildDotNetBookmark} = await import('./bookmark');
             return arr.map(buildDotNetBookmark);
         }
     }
@@ -3346,7 +3345,7 @@ export function createAbortControllerAndSignal() {
 
 export async function takeScreenshot(viewId, options): Promise<any> {
     const view = arcGisObjectRefs[viewId] as MapView;
-    let screenshot : __esri.Screenshot;
+    let screenshot: __esri.Screenshot;
     if (hasValue(options)) {
         if (hasValue(options.layerIds) && options.layerIds.length > 0) {
             options.layers = options.layerIds.map(id => arcGisObjectRefs[id]);
@@ -3356,12 +3355,12 @@ export async function takeScreenshot(viewId, options): Promise<any> {
     } else {
         screenshot = await view.takeScreenshot();
     }
-    
+
     const buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
-    
+
     // @ts-ignore
     const jsStreamRef = DotNet.createJSStreamReference(buffer);
-    
+
     return {
         width: screenshot.data.width,
         height: screenshot.data.height,

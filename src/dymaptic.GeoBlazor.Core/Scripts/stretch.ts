@@ -7,15 +7,15 @@ export default class StretchWrapper extends StretchGenerated {
     constructor(component: stretch) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsStretch(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsStretchGenerated } = await import('./stretch.gb');
+    let {buildJsStretchGenerated} = await import('./stretch.gb');
     return await buildJsStretchGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetStretch(jsObject: any): Promise<any> {
-    let { buildDotNetStretchGenerated } = await import('./stretch.gb');
+    let {buildDotNetStretchGenerated} = await import('./stretch.gb');
     return await buildDotNetStretchGenerated(jsObject);
 }

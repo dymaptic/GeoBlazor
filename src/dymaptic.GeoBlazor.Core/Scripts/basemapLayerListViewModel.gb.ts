@@ -12,45 +12,45 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
     constructor(component: BasemapLayerListViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async triggerAction(action: any,
-        item: any): Promise<void> {
-        let { buildJsListItem } = await import('./listItem');
+                        item: any): Promise<void> {
+        let {buildJsListItem} = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.component.triggerAction(action,
             jsItem);
     }
 
     // region properties
-    
+
     async getBaseItems(): Promise<any> {
         if (!hasValue(this.component.baseItems)) {
             return null;
         }
-        
-        let { buildDotNetListItem } = await import('./listItem');
+
+        let {buildDotNetListItem} = await import('./listItem');
         return await Promise.all(this.component.baseItems.map(async i => await buildDotNetListItem(i)));
     }
-    
+
     async getReferenceItems(): Promise<any> {
         if (!hasValue(this.component.referenceItems)) {
             return null;
         }
-        
-        let { buildDotNetListItem } = await import('./listItem');
+
+        let {buildDotNetListItem} = await import('./listItem');
         return await Promise.all(this.component.referenceItems.map(async i => await buildDotNetListItem(i)));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -82,65 +82,66 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
         jsBasemapLayerListViewModel.view = dotNetObject.view;
     }
 
-    let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
+    let {default: BasemapLayerListViewModelWrapper} = await import('./basemapLayerListViewModel');
     let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsBasemapLayerListViewModel);
     basemapLayerListViewModelWrapper.geoBlazorId = dotNetObject.id;
     basemapLayerListViewModelWrapper.viewId = viewId;
     basemapLayerListViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListViewModel;
-    let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
+    let {buildDotNetBasemapLayerListViewModel} = await import('./basemapLayerListViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapLayerListViewModel', e);
     }
-    
+
     return jsBasemapLayerListViewModel;
 }
+
 export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBasemapLayerListViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.baseItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.referenceItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.baseListItemCreatedFunction)) {
-            dotNetBasemapLayerListViewModel.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
-        }
-        if (hasValue(jsObject.basemapTitle)) {
-            dotNetBasemapLayerListViewModel.basemapTitle = jsObject.basemapTitle;
-        }
-        if (hasValue(jsObject.checkPublishStatusEnabled)) {
-            dotNetBasemapLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetBasemapLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.referenceListItemCreatedFunction)) {
-            dotNetBasemapLayerListViewModel.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetBasemapLayerListViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapLayerListViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.baseItems)) {
+        let {buildDotNetListItem} = await import('./listItem');
+        dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.referenceItems)) {
+        let {buildDotNetListItem} = await import('./listItem');
+        dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.baseListItemCreatedFunction)) {
+        dotNetBasemapLayerListViewModel.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
+    }
+    if (hasValue(jsObject.basemapTitle)) {
+        dotNetBasemapLayerListViewModel.basemapTitle = jsObject.basemapTitle;
+    }
+    if (hasValue(jsObject.checkPublishStatusEnabled)) {
+        dotNetBasemapLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetBasemapLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.referenceListItemCreatedFunction)) {
+        dotNetBasemapLayerListViewModel.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetBasemapLayerListViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapLayerListViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

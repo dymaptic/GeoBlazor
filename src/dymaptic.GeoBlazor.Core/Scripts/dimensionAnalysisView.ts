@@ -7,15 +7,15 @@ export default class DimensionAnalysisViewWrapper extends DimensionAnalysisViewG
     constructor(component: DimensionAnalysisView) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsDimensionAnalysisView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsDimensionAnalysisViewGenerated } = await import('./dimensionAnalysisView.gb');
+    let {buildJsDimensionAnalysisViewGenerated} = await import('./dimensionAnalysisView.gb');
     return await buildJsDimensionAnalysisViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetDimensionAnalysisView(jsObject: any): Promise<any> {
-    let { buildDotNetDimensionAnalysisViewGenerated } = await import('./dimensionAnalysisView.gb');
+    let {buildDotNetDimensionAnalysisViewGenerated} = await import('./dimensionAnalysisView.gb');
     return await buildDotNetDimensionAnalysisViewGenerated(jsObject);
 }

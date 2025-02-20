@@ -12,23 +12,23 @@ export default class CollectionEventGenerated implements IPropertyWrapper {
     constructor(component: CollectionEvent) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async preventDefault(): Promise<void> {
         this.component.preventDefault();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,42 +44,43 @@ export async function buildJsCollectionEventGenerated(dotNetObject: any, layerId
         jsCollectionEvent.defaultPrevented = dotNetObject.defaultPrevented;
     }
 
-    let { default: CollectionEventWrapper } = await import('./collectionEvent');
+    let {default: CollectionEventWrapper} = await import('./collectionEvent');
     let collectionEventWrapper = new CollectionEventWrapper(jsCollectionEvent);
     collectionEventWrapper.geoBlazorId = dotNetObject.id;
     collectionEventWrapper.viewId = viewId;
     collectionEventWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(collectionEventWrapper);
     jsObjectRefs[dotNetObject.id] = collectionEventWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCollectionEvent;
-    let { buildDotNetCollectionEvent } = await import('./collectionEvent');
+    let {buildDotNetCollectionEvent} = await import('./collectionEvent');
     let dnInstantiatedObject = await buildDotNetCollectionEvent(jsCollectionEvent);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CollectionEvent', e);
     }
-    
+
     return jsCollectionEvent;
 }
+
 export async function buildDotNetCollectionEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCollectionEvent: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.cancellable)) {
-            dotNetCollectionEvent.cancellable = jsObject.cancellable;
-        }
-        if (hasValue(jsObject.defaultPrevented)) {
-            dotNetCollectionEvent.defaultPrevented = jsObject.defaultPrevented;
-        }
+    if (hasValue(jsObject.cancellable)) {
+        dotNetCollectionEvent.cancellable = jsObject.cancellable;
+    }
+    if (hasValue(jsObject.defaultPrevented)) {
+        dotNetCollectionEvent.defaultPrevented = jsObject.defaultPrevented;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

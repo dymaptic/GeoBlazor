@@ -1,6 +1,6 @@
 import {buildDotNetBarChartMediaInfo, buildJsBarChartMediaInfo} from "./barChartMediaInfo";
 import {buildDotNetColumnChartMediaInfo, buildJsColumnChartMediaInfo} from "./columnChartMediaInfo";
-import { buildDotNetImageMediaInfo, buildJsImageMediaInfo } from "./imageMediaInfo";
+import {buildDotNetImageMediaInfo, buildJsImageMediaInfo} from "./imageMediaInfo";
 import {buildDotNetLineChartMediaInfo, buildJsLineChartMediaInfo} from "./lineChartMediaInfo";
 import {buildDotNetPieChartMediaInfo, buildJsPieChartMediaInfo} from "./pieChartMediaInfo";
 

@@ -12,35 +12,35 @@ export default class VersionManagementUtilsGenerated implements IPropertyWrapper
     constructor(component: versionManagementUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createVersioningStates(input: any,
-        usePersistentReadSessions: any): Promise<any> {
+                                 usePersistentReadSessions: any): Promise<any> {
         let result = await this.component.createVersioningStates(input,
             usePersistentReadSessions);
-        let { buildDotNetVersioningState } = await import('./versioningState');
+        let {buildDotNetVersioningState} = await import('./versioningState');
         return await Promise.all(result.map(async i => await buildDotNetVersioningState(i)));
     }
 
     async getVersioningStates(view: any,
-        usePersistentReadSessions: any): Promise<any> {
+                              usePersistentReadSessions: any): Promise<any> {
         let result = await this.component.getVersioningStates(view,
             usePersistentReadSessions);
-        let { buildDotNetVersioningState } = await import('./versioningState');
+        let {buildDotNetVersioningState} = await import('./versioningState');
         return await Promise.all(result.map(async i => await buildDotNetVersioningState(i)));
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsVersionManagementUtilsGenerated(dotNetObject: any, 
     let jsversionManagementUtils: any = {}
 
 
-    let { default: VersionManagementUtilsWrapper } = await import('./versionManagementUtils');
+    let {default: VersionManagementUtilsWrapper} = await import('./versionManagementUtils');
     let versionManagementUtilsWrapper = new VersionManagementUtilsWrapper(jsversionManagementUtils);
     versionManagementUtilsWrapper.geoBlazorId = dotNetObject.id;
     versionManagementUtilsWrapper.viewId = viewId;
     versionManagementUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(versionManagementUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = versionManagementUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsversionManagementUtils;
-    let { buildDotNetVersionManagementUtils } = await import('./versionManagementUtils');
+    let {buildDotNetVersionManagementUtils} = await import('./versionManagementUtils');
     let dnInstantiatedObject = await buildDotNetVersionManagementUtils(jsversionManagementUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VersionManagementUtils', e);
     }
-    
+
     return jsversionManagementUtils;
 }
+
 export async function buildDotNetVersionManagementUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVersionManagementUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

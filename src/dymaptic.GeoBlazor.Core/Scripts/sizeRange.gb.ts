@@ -12,25 +12,25 @@ export default class SizeRangeGenerated implements IPropertyWrapper {
     constructor(component: sizeRange) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async sizeRange(parameters: any): Promise<any> {
-        let { buildJsSizeRangeSizeRangeParams } = await import('./sizeRangeSizeRangeParams');
+        let {buildJsSizeRangeSizeRangeParams} = await import('./sizeRangeSizeRangeParams');
         let jsparameters = await buildJsSizeRangeSizeRangeParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.sizeRange(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsSizeRangeGenerated(dotNetObject: any, layerId: stri
     let jssizeRange = new sizeRange();
 
 
-    let { default: SizeRangeWrapper } = await import('./sizeRange');
+    let {default: SizeRangeWrapper} = await import('./sizeRange');
     let sizeRangeWrapper = new SizeRangeWrapper(jssizeRange);
     sizeRangeWrapper.geoBlazorId = dotNetObject.id;
     sizeRangeWrapper.viewId = viewId;
     sizeRangeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeRangeWrapper);
     jsObjectRefs[dotNetObject.id] = sizeRangeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssizeRange;
-    let { buildDotNetSizeRange } = await import('./sizeRange');
+    let {buildDotNetSizeRange} = await import('./sizeRange');
     let dnInstantiatedObject = await buildDotNetSizeRange(jssizeRange);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SizeRange', e);
     }
-    
+
     return jssizeRange;
 }
+
 export async function buildDotNetSizeRangeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSizeRange: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

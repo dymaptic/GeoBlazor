@@ -12,13 +12,13 @@ export default class FeatureFormViewModelGenerated implements IPropertyWrapper {
     constructor(component: FeatureFormViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async findField(fieldName: any): Promise<any> {
         return this.component.findField(fieldName);
     }
@@ -28,7 +28,7 @@ export default class FeatureFormViewModelGenerated implements IPropertyWrapper {
     }
 
     async setValue(fieldName: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(fieldName,
             value);
     }
@@ -38,53 +38,59 @@ export default class FeatureFormViewModelGenerated implements IPropertyWrapper {
     }
 
     async validateContingencyConstraints(values: any,
-        options: any): Promise<any> {
+                                         options: any): Promise<any> {
         return this.component.validateContingencyConstraints(values,
             options);
     }
 
     // region properties
-    
+
     async getFeature(): Promise<any> {
         if (!hasValue(this.component.feature)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.feature, this.layerId, this.viewId);
     }
+
     async setFeature(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.component.feature =  buildJsGraphic(value);
+        let {buildJsGraphic} = await import('./graphic');
+        this.component.feature = buildJsGraphic(value);
     }
+
     async getFormTemplate(): Promise<any> {
         if (!hasValue(this.component.formTemplate)) {
             return null;
         }
-        
-        let { buildDotNetFormTemplate } = await import('./formTemplate');
+
+        let {buildDotNetFormTemplate} = await import('./formTemplate');
         return await buildDotNetFormTemplate(this.component.formTemplate);
     }
+
     async setFormTemplate(value: any): Promise<void> {
-        let { buildJsFormTemplate } = await import('./formTemplate');
-        this.component.formTemplate = await  buildJsFormTemplate(value, this.layerId, this.viewId);
+        let {buildJsFormTemplate} = await import('./formTemplate');
+        this.component.formTemplate = await buildJsFormTemplate(value, this.layerId, this.viewId);
     }
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     async setLayer(value: any): Promise<void> {
-        let { buildJsLayer } = await import('./layer');
-        this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
+        let {buildJsLayer} = await import('./layer');
+        this.component.layer = await buildJsLayer(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -93,15 +99,15 @@ export default class FeatureFormViewModelGenerated implements IPropertyWrapper {
 export async function buildJsFeatureFormViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureFormViewModel = new FeatureFormViewModel();
     if (hasValue(dotNetObject.feature)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsFeatureFormViewModel.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
     if (hasValue(dotNetObject.formTemplate)) {
-        let { buildJsFormTemplate } = await import('./formTemplate');
+        let {buildJsFormTemplate} = await import('./formTemplate');
         jsFeatureFormViewModel.formTemplate = await buildJsFormTemplate(dotNetObject.formTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layer)) {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         jsFeatureFormViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
@@ -117,71 +123,72 @@ export async function buildJsFeatureFormViewModelGenerated(dotNetObject: any, la
     jsFeatureFormViewModel.on('submit', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSubmit', evt);
     });
-    
+
     jsFeatureFormViewModel.on('value-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsValueChange', evt);
     });
-    
 
-    let { default: FeatureFormViewModelWrapper } = await import('./featureFormViewModel');
+
+    let {default: FeatureFormViewModelWrapper} = await import('./featureFormViewModel');
     let featureFormViewModelWrapper = new FeatureFormViewModelWrapper(jsFeatureFormViewModel);
     featureFormViewModelWrapper.geoBlazorId = dotNetObject.id;
     featureFormViewModelWrapper.viewId = viewId;
     featureFormViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureFormViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = featureFormViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFormViewModel;
-    let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
+    let {buildDotNetFeatureFormViewModel} = await import('./featureFormViewModel');
     let dnInstantiatedObject = await buildDotNetFeatureFormViewModel(jsFeatureFormViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureFormViewModel', e);
     }
-    
+
     return jsFeatureFormViewModel;
 }
+
 export async function buildDotNetFeatureFormViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFeatureFormViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureFormViewModel.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
-        if (hasValue(jsObject.formTemplate)) {
-            let { buildDotNetFormTemplate } = await import('./formTemplate');
-            dotNetFeatureFormViewModel.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
-        }
-        if (hasValue(jsObject.inputs)) {
-            dotNetFeatureFormViewModel.inputs = jsObject.inputs;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetFeatureFormViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeatureFormViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.submittable)) {
-            dotNetFeatureFormViewModel.submittable = jsObject.submittable;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeatureFormViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetFeatureFormViewModel.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.valid)) {
-            dotNetFeatureFormViewModel.valid = jsObject.valid;
-        }
+    if (hasValue(jsObject.feature)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetFeatureFormViewModel.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
+    if (hasValue(jsObject.formTemplate)) {
+        let {buildDotNetFormTemplate} = await import('./formTemplate');
+        dotNetFeatureFormViewModel.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
+    }
+    if (hasValue(jsObject.inputs)) {
+        dotNetFeatureFormViewModel.inputs = jsObject.inputs;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetFeatureFormViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeatureFormViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.submittable)) {
+        dotNetFeatureFormViewModel.submittable = jsObject.submittable;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeatureFormViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetFeatureFormViewModel.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.valid)) {
+        dotNetFeatureFormViewModel.valid = jsObject.valid;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -25,11 +25,11 @@ export default class AuthenticationManager {
         if (portalUrl !== undefined && portalUrl !== null) {
             esriConfig.portalUrl = portalUrl;
         }
-        
+
         if (trustedServers !== null) {
             esriConfig.request.trustedServers = esriConfig.request.trustedServers !== undefined ? esriConfig.request.trustedServers.concat(trustedServers) : trustedServers;
         }
-        
+
         if (fontsUrl !== null) {
             esriConfig.fontsUrl = fontsUrl;
         }

@@ -12,25 +12,25 @@ export default class LayerUtilsGenerated implements IPropertyWrapper {
     constructor(component: layerUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async originOfLayerProperty(layer: any,
-        property: any): Promise<any> {
-        let { buildJsIOperationalLayer } = await import('./iOperationalLayer');
+                                property: any): Promise<any> {
+        let {buildJsIOperationalLayer} = await import('./iOperationalLayer');
         let jsLayer = await buildJsIOperationalLayer(layer, this.layerId, this.viewId) as any;
         return this.component.originOfLayerProperty(jsLayer,
             property);
     }
 
     async revertLayerProperty(layer: any,
-        property: any,
-        origin: any): Promise<void> {
-        let { buildJsIOperationalLayer } = await import('./iOperationalLayer');
+                              property: any,
+                              origin: any): Promise<void> {
+        let {buildJsIOperationalLayer} = await import('./iOperationalLayer');
         let jsLayer = await buildJsIOperationalLayer(layer, this.layerId, this.viewId) as any;
         this.component.revertLayerProperty(jsLayer,
             property,
@@ -38,11 +38,11 @@ export default class LayerUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -52,32 +52,33 @@ export async function buildJsLayerUtilsGenerated(dotNetObject: any, layerId: str
     let jslayerUtils: any = {}
 
 
-    let { default: LayerUtilsWrapper } = await import('./layerUtils');
+    let {default: LayerUtilsWrapper} = await import('./layerUtils');
     let layerUtilsWrapper = new LayerUtilsWrapper(jslayerUtils);
     layerUtilsWrapper.geoBlazorId = dotNetObject.id;
     layerUtilsWrapper.viewId = viewId;
     layerUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = layerUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslayerUtils;
-    let { buildDotNetLayerUtils } = await import('./layerUtils');
+    let {buildDotNetLayerUtils} = await import('./layerUtils');
     let dnInstantiatedObject = await buildDotNetLayerUtils(jslayerUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerUtils', e);
     }
-    
+
     return jslayerUtils;
 }
+
 export async function buildDotNetLayerUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLayerUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

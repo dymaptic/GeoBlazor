@@ -12,41 +12,41 @@ export default class PlacesServiceGenerated implements IPropertyWrapper {
     constructor(component: places) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async fetchPlace(parameters: any,
-        requestOptions: any): Promise<any> {
+                     requestOptions: any): Promise<any> {
         return await this.component.fetchPlace(parameters,
             requestOptions);
     }
 
     async queryPlacesNearPoint(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsPlacesQueryParameters } = await import('./placesQueryParameters');
+                               requestOptions: any): Promise<any> {
+        let {buildJsPlacesQueryParameters} = await import('./placesQueryParameters');
         let jsparameters = await buildJsPlacesQueryParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.queryPlacesNearPoint(jsparameters,
             requestOptions);
     }
 
     async queryPlacesWithinExtent(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsPlacesQueryParameters } = await import('./placesQueryParameters');
+                                  requestOptions: any): Promise<any> {
+        let {buildJsPlacesQueryParameters} = await import('./placesQueryParameters');
         let jsparameters = await buildJsPlacesQueryParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.queryPlacesWithinExtent(jsparameters,
             requestOptions);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,32 +56,33 @@ export async function buildJsPlacesServiceGenerated(dotNetObject: any, layerId: 
     let jsplaces: any = {}
 
 
-    let { default: PlacesServiceWrapper } = await import('./placesService');
+    let {default: PlacesServiceWrapper} = await import('./placesService');
     let placesServiceWrapper = new PlacesServiceWrapper(jsplaces);
     placesServiceWrapper.geoBlazorId = dotNetObject.id;
     placesServiceWrapper.viewId = viewId;
     placesServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(placesServiceWrapper);
     jsObjectRefs[dotNetObject.id] = placesServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsplaces;
-    let { buildDotNetPlacesService } = await import('./placesService');
+    let {buildDotNetPlacesService} = await import('./placesService');
     let dnInstantiatedObject = await buildDotNetPlacesService(jsplaces);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PlacesService', e);
     }
-    
+
     return jsplaces;
 }
+
 export async function buildDotNetPlacesServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPlacesService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

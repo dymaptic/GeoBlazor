@@ -1,8 +1,8 @@
 // override generated code in this file
 import ChartMediaInfoValue from '@arcgis/core/popup/content/support/ChartMediaInfoValue';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
-import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries } from './chartMediaInfoValueSeries';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
+import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries} from './chartMediaInfoValueSeries';
 
 export function buildJsChartMediaInfoValue(dotNetObject: any): any {
     let jsChartMediaInfoValue = new ChartMediaInfoValue();
@@ -38,6 +38,7 @@ export function buildJsChartMediaInfoValue(dotNetObject: any): any {
 
     return jsChartMediaInfoValue;
 }
+
 export function buildDotNetChartMediaInfoValue(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
@@ -51,7 +52,7 @@ export function buildDotNetChartMediaInfoValue(jsObject: any): any {
         dotNetChartMediaInfoValue.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
     }
     if (hasValue(jsObject.series)) {
-        dotNetChartMediaInfoValue.series = jsObject.series.map(i =>  buildDotNetChartMediaInfoValueSeries(i));
+        dotNetChartMediaInfoValue.series = jsObject.series.map(i => buildDotNetChartMediaInfoValueSeries(i));
     }
     if (hasValue(jsObject.fields)) {
         dotNetChartMediaInfoValue.fields = jsObject.fields;

@@ -1,7 +1,7 @@
 // override generated code in this file
 import AlgorithmicColorRamp from '@arcgis/core/rest/support/AlgorithmicColorRamp';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
     let jsAlgorithmicColorRamp = new AlgorithmicColorRamp();
@@ -31,6 +31,7 @@ export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
 
     return jsAlgorithmicColorRamp;
 }
+
 export function buildDotNetAlgorithmicColorRamp(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

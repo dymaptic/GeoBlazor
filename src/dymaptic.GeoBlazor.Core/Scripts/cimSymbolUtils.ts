@@ -7,15 +7,15 @@ export default class CimSymbolUtilsWrapper extends CimSymbolUtilsGenerated {
     constructor(component: cimSymbolUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsCimSymbolUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsCimSymbolUtilsGenerated } = await import('./cimSymbolUtils.gb');
+    let {buildJsCimSymbolUtilsGenerated} = await import('./cimSymbolUtils.gb');
     return await buildJsCimSymbolUtilsGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetCimSymbolUtils(jsObject: any): Promise<any> {
-    let { buildDotNetCimSymbolUtilsGenerated } = await import('./cimSymbolUtils.gb');
+    let {buildDotNetCimSymbolUtilsGenerated} = await import('./cimSymbolUtils.gb');
     return await buildDotNetCimSymbolUtilsGenerated(jsObject);
 }

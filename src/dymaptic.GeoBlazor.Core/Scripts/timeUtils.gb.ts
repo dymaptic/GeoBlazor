@@ -12,41 +12,41 @@ export default class TimeUtilsGenerated implements IPropertyWrapper {
     constructor(component: timeUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getTimeExtentFromLayers(layers: any,
-        signal: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+                                  signal: any): Promise<any> {
+        let {buildJsLayer} = await import('./layer');
         let jsLayers = await buildJsLayer(layers, this.layerId, this.viewId) as any;
         let result = await this.component.getTimeExtentFromLayers(jsLayers,
             signal);
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
     }
 
     async getTimeSliderSettingsFromWebDocument(document: any,
-        signal: any): Promise<any> {
+                                               signal: any): Promise<any> {
         return await this.component.getTimeSliderSettingsFromWebDocument(document,
             signal);
     }
 
     async getTimeSliderSettingsFromWebMap(webMap: any,
-        signal: any): Promise<any> {
+                                          signal: any): Promise<any> {
         return await this.component.getTimeSliderSettingsFromWebMap(webMap,
             signal);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,32 +56,33 @@ export async function buildJsTimeUtilsGenerated(dotNetObject: any, layerId: stri
     let jstimeUtils: any = {}
 
 
-    let { default: TimeUtilsWrapper } = await import('./timeUtils');
+    let {default: TimeUtilsWrapper} = await import('./timeUtils');
     let timeUtilsWrapper = new TimeUtilsWrapper(jstimeUtils);
     timeUtilsWrapper.geoBlazorId = dotNetObject.id;
     timeUtilsWrapper.viewId = viewId;
     timeUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = timeUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jstimeUtils;
-    let { buildDotNetTimeUtils } = await import('./timeUtils');
+    let {buildDotNetTimeUtils} = await import('./timeUtils');
     let dnInstantiatedObject = await buildDotNetTimeUtils(jstimeUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TimeUtils', e);
     }
-    
+
     return jstimeUtils;
 }
+
 export async function buildDotNetTimeUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTimeUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

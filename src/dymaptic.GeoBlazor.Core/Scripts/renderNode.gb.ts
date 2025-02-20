@@ -12,30 +12,30 @@ export default class RenderNodeGenerated implements IPropertyWrapper {
     constructor(component: RenderNode) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async acquireOutputFramebuffer(): Promise<any> {
         let result = this.component.acquireOutputFramebuffer();
-        let { buildDotNetManagedFBO } = await import('./managedFBO');
+        let {buildDotNetManagedFBO} = await import('./managedFBO');
         return await buildDotNetManagedFBO(result);
     }
 
     async bindRenderTarget(): Promise<any> {
         let result = this.component.bindRenderTarget();
-        let { buildDotNetManagedFBO } = await import('./managedFBO');
+        let {buildDotNetManagedFBO} = await import('./managedFBO');
         return await buildDotNetManagedFBO(result);
     }
 
     async render(inputs: any): Promise<any> {
-        let { buildJsManagedFBO } = await import('./managedFBO');
+        let {buildJsManagedFBO} = await import('./managedFBO');
         let jsInputs = await buildJsManagedFBO(inputs, this.layerId, this.viewId) as any;
         let result = this.component.render(jsInputs);
-        let { buildDotNetManagedFBO } = await import('./managedFBO');
+        let {buildDotNetManagedFBO} = await import('./managedFBO');
         return await buildDotNetManagedFBO(result);
     }
 
@@ -48,11 +48,11 @@ export default class RenderNodeGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -62,11 +62,11 @@ export async function buildJsRenderNodeGenerated(dotNetObject: any, layerId: str
     let jsRenderNode = new RenderNode();
 
     if (hasValue(dotNetObject.camera)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera } = dotNetObject.camera;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera} = dotNetObject.camera;
         jsRenderNode.camera = sanitizedCamera;
     }
     if (hasValue(dotNetObject.consumes)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedConsumes } = dotNetObject.consumes;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedConsumes} = dotNetObject.consumes;
         jsRenderNode.consumes = sanitizedConsumes;
     }
     if (hasValue(dotNetObject.gl)) {
@@ -76,61 +76,62 @@ export async function buildJsRenderNodeGenerated(dotNetObject: any, layerId: str
         jsRenderNode.produces = dotNetObject.produces;
     }
     if (hasValue(dotNetObject.sunLight)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight } = dotNetObject.sunLight;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight} = dotNetObject.sunLight;
         jsRenderNode.sunLight = sanitizedSunLight;
     }
     if (hasValue(dotNetObject.view)) {
         jsRenderNode.view = dotNetObject.view;
     }
 
-    let { default: RenderNodeWrapper } = await import('./renderNode');
+    let {default: RenderNodeWrapper} = await import('./renderNode');
     let renderNodeWrapper = new RenderNodeWrapper(jsRenderNode);
     renderNodeWrapper.geoBlazorId = dotNetObject.id;
     renderNodeWrapper.viewId = viewId;
     renderNodeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(renderNodeWrapper);
     jsObjectRefs[dotNetObject.id] = renderNodeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRenderNode;
-    let { buildDotNetRenderNode } = await import('./renderNode');
+    let {buildDotNetRenderNode} = await import('./renderNode');
     let dnInstantiatedObject = await buildDotNetRenderNode(jsRenderNode);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RenderNode', e);
     }
-    
+
     return jsRenderNode;
 }
+
 export async function buildDotNetRenderNodeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRenderNode: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.camera)) {
-            dotNetRenderNode.camera = jsObject.camera;
-        }
-        if (hasValue(jsObject.consumes)) {
-            dotNetRenderNode.consumes = jsObject.consumes;
-        }
-        if (hasValue(jsObject.gl)) {
-            dotNetRenderNode.gl = jsObject.gl;
-        }
-        if (hasValue(jsObject.produces)) {
-            dotNetRenderNode.produces = jsObject.produces;
-        }
-        if (hasValue(jsObject.sunLight)) {
-            dotNetRenderNode.sunLight = jsObject.sunLight;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetRenderNode.view = jsObject.view;
-        }
+    if (hasValue(jsObject.camera)) {
+        dotNetRenderNode.camera = jsObject.camera;
+    }
+    if (hasValue(jsObject.consumes)) {
+        dotNetRenderNode.consumes = jsObject.consumes;
+    }
+    if (hasValue(jsObject.gl)) {
+        dotNetRenderNode.gl = jsObject.gl;
+    }
+    if (hasValue(jsObject.produces)) {
+        dotNetRenderNode.produces = jsObject.produces;
+    }
+    if (hasValue(jsObject.sunLight)) {
+        dotNetRenderNode.sunLight = jsObject.sunLight;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetRenderNode.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

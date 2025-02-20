@@ -2,7 +2,6 @@
 
 
 import Layer from '@arcgis/core/layers/Layer';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class LayerGenerated implements IPropertyWrapper {
@@ -20,22 +19,22 @@ export default class LayerGenerated implements IPropertyWrapper {
             }
         }
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         let result = await this.layer.createLayerView(view,
             options);
-        let { buildDotNetLayerView } = await import('./layerView');
+        let {buildDotNetLayerView} = await import('./layerView');
         return buildDotNetLayerView(result);
     }
 
@@ -44,19 +43,21 @@ export default class LayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getVisibilityTimeExtent(): Promise<any> {
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return await buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any, layerId: string | null, viewId: string | null): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, layerId, viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }

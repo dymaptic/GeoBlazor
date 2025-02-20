@@ -12,16 +12,16 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     constructor(component: DefaultUI) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async add(component: any,
-        position: any): Promise<void> {
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+              position: any): Promise<void> {
+        let {buildJsUIAddPosition} = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.add(component,
             jsPosition);
@@ -32,14 +32,14 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     }
 
     async getComponents(position: any): Promise<any> {
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+        let {buildJsUIAddPosition} = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         return this.component.getComponents(jsPosition);
     }
 
     async move(component: any,
-        position: any): Promise<void> {
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+               position: any): Promise<void> {
+        let {buildJsUIAddPosition} = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.move(component,
             jsPosition);
@@ -50,11 +50,11 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -76,54 +76,55 @@ export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: stri
         jsDefaultUI.view = dotNetObject.view;
     }
 
-    let { default: DefaultUIWrapper } = await import('./defaultUI');
+    let {default: DefaultUIWrapper} = await import('./defaultUI');
     let defaultUIWrapper = new DefaultUIWrapper(jsDefaultUI);
     defaultUIWrapper.geoBlazorId = dotNetObject.id;
     defaultUIWrapper.viewId = viewId;
     defaultUIWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(defaultUIWrapper);
     jsObjectRefs[dotNetObject.id] = defaultUIWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDefaultUI;
-    let { buildDotNetDefaultUI } = await import('./defaultUI');
+    let {buildDotNetDefaultUI} = await import('./defaultUI');
     let dnInstantiatedObject = await buildDotNetDefaultUI(jsDefaultUI);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DefaultUI', e);
     }
-    
+
     return jsDefaultUI;
 }
+
 export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDefaultUI: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.components)) {
-            dotNetDefaultUI.components = jsObject.components;
-        }
-        if (hasValue(jsObject.container)) {
-            dotNetDefaultUI.container = jsObject.container;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetDefaultUI.height = jsObject.height;
-        }
-        if (hasValue(jsObject.padding)) {
-            dotNetDefaultUI.padding = jsObject.padding;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDefaultUI.view = jsObject.view;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetDefaultUI.width = jsObject.width;
-        }
+    if (hasValue(jsObject.components)) {
+        dotNetDefaultUI.components = jsObject.components;
+    }
+    if (hasValue(jsObject.container)) {
+        dotNetDefaultUI.container = jsObject.container;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetDefaultUI.height = jsObject.height;
+    }
+    if (hasValue(jsObject.padding)) {
+        dotNetDefaultUI.padding = jsObject.padding;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDefaultUI.view = jsObject.view;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetDefaultUI.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

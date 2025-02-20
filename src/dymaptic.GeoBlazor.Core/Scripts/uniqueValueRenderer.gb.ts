@@ -12,23 +12,23 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     constructor(component: UniqueValueRenderer) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addUniqueValueInfo(valueOrInfo: any,
-        symbol: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
+                             symbol: any): Promise<void> {
+        let {buildJsSymbol} = await import('./symbol');
         let jsSymbol = buildJsSymbol(symbol) as any;
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsGraphic = buildJsGraphic(graphic) as any;
         return await this.component.getUniqueValueInfo(jsGraphic);
     }
@@ -38,37 +38,39 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getAuthoringInfo(): Promise<any> {
         if (!hasValue(this.component.authoringInfo)) {
             return null;
         }
-        
-        let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
+
+        let {buildDotNetAuthoringInfo} = await import('./authoringInfo');
         return await buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
+
     async setAuthoringInfo(value: any): Promise<void> {
-        let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        let {buildJsAuthoringInfo} = await import('./authoringInfo');
+        this.component.authoringInfo = await buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
+
     async getVisualVariables(): Promise<any> {
         if (!hasValue(this.component.visualVariables)) {
             return null;
         }
-        
-        let { buildDotNetVisualVariable } = await import('./visualVariable');
+
+        let {buildDotNetVisualVariable} = await import('./visualVariable');
         return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
-    
+
     async setVisualVariables(value: any): Promise<void> {
-        let { buildJsVisualVariable } = await import('./visualVariable');
+        let {buildJsVisualVariable} = await import('./visualVariable');
         this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -77,11 +79,11 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
 export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
-        let { buildJsAuthoringInfo } = await import('./authoringInfo');
+        let {buildJsAuthoringInfo} = await import('./authoringInfo');
         jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
-        let { buildJsVisualVariable } = await import('./visualVariable');
+        let {buildJsVisualVariable} = await import('./visualVariable');
         jsUniqueValueRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
@@ -107,18 +109,30 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         jsUniqueValueRenderer.fieldDelimiter = dotNetObject.fieldDelimiter;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions} = dotNetObject.legendOptions;
         jsUniqueValueRenderer.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.orderByClassesEnabled)) {
         jsUniqueValueRenderer.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedUniqueValueGroups } = dotNetObject.uniqueValueGroups;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedUniqueValueGroups
+        } = dotNetObject.uniqueValueGroups;
         jsUniqueValueRenderer.uniqueValueGroups = sanitizedUniqueValueGroups;
     }
     if (hasValue(dotNetObject.uniqueValueInfos)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedUniqueValueInfos } = dotNetObject.uniqueValueInfos;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedUniqueValueInfos
+        } = dotNetObject.uniqueValueInfos;
         jsUniqueValueRenderer.uniqueValueInfos = sanitizedUniqueValueInfos;
     }
     if (hasValue(dotNetObject.valueExpression)) {
@@ -128,86 +142,87 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         jsUniqueValueRenderer.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
 
-    let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
+    let {default: UniqueValueRendererWrapper} = await import('./uniqueValueRenderer');
     let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsUniqueValueRenderer);
     uniqueValueRendererWrapper.geoBlazorId = dotNetObject.id;
     uniqueValueRendererWrapper.viewId = viewId;
     uniqueValueRendererWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
-    let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
+    let {buildDotNetUniqueValueRenderer} = await import('./uniqueValueRenderer');
     let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValueRenderer', e);
     }
-    
+
     return jsUniqueValueRenderer;
 }
+
 export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUniqueValueRenderer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-            dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
-        }
-        if (hasValue(jsObject.visualVariables)) {
-            let { buildDotNetVisualVariable } = await import('./visualVariable');
-            dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
-        }
-        if (hasValue(jsObject.backgroundFillSymbol)) {
-            dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
-        }
-        if (hasValue(jsObject.defaultLabel)) {
-            dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
-        }
-        if (hasValue(jsObject.defaultSymbol)) {
-            dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetUniqueValueRenderer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.field2)) {
-            dotNetUniqueValueRenderer.field2 = jsObject.field2;
-        }
-        if (hasValue(jsObject.field3)) {
-            dotNetUniqueValueRenderer.field3 = jsObject.field3;
-        }
-        if (hasValue(jsObject.fieldDelimiter)) {
-            dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetUniqueValueRenderer.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.orderByClassesEnabled)) {
-            dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetUniqueValueRenderer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.uniqueValueGroups)) {
-            dotNetUniqueValueRenderer.uniqueValueGroups = jsObject.uniqueValueGroups;
-        }
-        if (hasValue(jsObject.uniqueValueInfos)) {
-            dotNetUniqueValueRenderer.uniqueValueInfos = jsObject.uniqueValueInfos;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.authoringInfo)) {
+        let {buildDotNetAuthoringInfo} = await import('./authoringInfo');
+        dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+    }
+    if (hasValue(jsObject.visualVariables)) {
+        let {buildDotNetVisualVariable} = await import('./visualVariable');
+        dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
+    if (hasValue(jsObject.backgroundFillSymbol)) {
+        dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
+    }
+    if (hasValue(jsObject.defaultLabel)) {
+        dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
+    }
+    if (hasValue(jsObject.defaultSymbol)) {
+        dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetUniqueValueRenderer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.field2)) {
+        dotNetUniqueValueRenderer.field2 = jsObject.field2;
+    }
+    if (hasValue(jsObject.field3)) {
+        dotNetUniqueValueRenderer.field3 = jsObject.field3;
+    }
+    if (hasValue(jsObject.fieldDelimiter)) {
+        dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetUniqueValueRenderer.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.orderByClassesEnabled)) {
+        dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetUniqueValueRenderer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.uniqueValueGroups)) {
+        dotNetUniqueValueRenderer.uniqueValueGroups = jsObject.uniqueValueGroups;
+    }
+    if (hasValue(jsObject.uniqueValueInfos)) {
+        dotNetUniqueValueRenderer.uniqueValueInfos = jsObject.uniqueValueInfos;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

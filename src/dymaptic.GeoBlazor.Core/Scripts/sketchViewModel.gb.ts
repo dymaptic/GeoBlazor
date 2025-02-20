@@ -12,13 +12,13 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
     constructor(component: SketchViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cancel(): Promise<void> {
         this.component.cancel();
     }
@@ -36,7 +36,7 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
     }
 
     async create(tool: any,
-        createOptions: any): Promise<void> {
+                 createOptions: any): Promise<void> {
         this.component.create(tool,
             createOptions);
     }
@@ -50,7 +50,7 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
     }
 
     async place(geometry: any): Promise<void> {
-        let { buildJsMesh } = await import('./mesh');
+        let {buildJsMesh} = await import('./mesh');
         let jsGeometry = buildJsMesh(geometry) as any;
         this.component.place(jsGeometry);
     }
@@ -64,72 +64,79 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
     }
 
     async update(graphics: any,
-        updateOptions: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
+                 updateOptions: any): Promise<void> {
+        let {buildJsGraphic} = await import('./graphic');
         let jsGraphics = buildJsGraphic(graphics) as any;
         await this.component.update(jsGraphics,
             updateOptions);
     }
 
     // region properties
-    
+
     async getActiveFillSymbol(): Promise<any> {
         if (!hasValue(this.component.activeFillSymbol)) {
             return null;
         }
-        
-        let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
+
+        let {buildDotNetSimpleFillSymbol} = await import('./simpleFillSymbol');
         return buildDotNetSimpleFillSymbol(this.component.activeFillSymbol);
     }
+
     async setActiveFillSymbol(value: any): Promise<void> {
-        let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        this.component.activeFillSymbol =  buildJsSimpleFillSymbol(value);
+        let {buildJsSimpleFillSymbol} = await import('./simpleFillSymbol');
+        this.component.activeFillSymbol = buildJsSimpleFillSymbol(value);
     }
+
     async getCreateGraphic(): Promise<any> {
         if (!hasValue(this.component.createGraphic)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.createGraphic, this.layerId, this.viewId);
     }
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
+
+        let {buildDotNetGraphicsLayer} = await import('./graphicsLayer');
         return await buildDotNetGraphicsLayer(this.component.layer);
     }
+
     async setLayer(value: any): Promise<void> {
-        let { buildJsGraphicsLayer } = await import('./graphicsLayer');
-        this.component.layer = await  buildJsGraphicsLayer(value, this.layerId, this.viewId);
+        let {buildJsGraphicsLayer} = await import('./graphicsLayer');
+        this.component.layer = await buildJsGraphicsLayer(value, this.layerId, this.viewId);
     }
+
     async getSnappingOptions(): Promise<any> {
         if (!hasValue(this.component.snappingOptions)) {
             return null;
         }
-        
-        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+
+        let {buildDotNetSnappingOptions} = await import('./snappingOptions');
         return await buildDotNetSnappingOptions(this.component.snappingOptions);
     }
+
     async setSnappingOptions(value: any): Promise<void> {
-        let { buildJsSnappingOptions } = await import('./snappingOptions');
-        this.component.snappingOptions = await  buildJsSnappingOptions(value, this.layerId, this.viewId);
+        let {buildJsSnappingOptions} = await import('./snappingOptions');
+        this.component.snappingOptions = await buildJsSnappingOptions(value, this.layerId, this.viewId);
     }
+
     async getUpdateGraphics(): Promise<any> {
         if (!hasValue(this.component.updateGraphics)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return this.component.updateGraphics!.map(i => buildDotNetGraphic(i));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -138,15 +145,15 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
 export async function buildJsSketchViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSketchViewModel = new SketchViewModel();
     if (hasValue(dotNetObject.activeFillSymbol)) {
-        let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
+        let {buildJsSimpleFillSymbol} = await import('./simpleFillSymbol');
         jsSketchViewModel.activeFillSymbol = buildJsSimpleFillSymbol(dotNetObject.activeFillSymbol) as any;
     }
     if (hasValue(dotNetObject.layer)) {
-        let { buildJsGraphicsLayer } = await import('./graphicsLayer');
+        let {buildJsGraphicsLayer} = await import('./graphicsLayer');
         jsSketchViewModel.layer = await buildJsGraphicsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.snappingOptions)) {
-        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        let {buildJsSnappingOptions} = await import('./snappingOptions');
         jsSketchViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
@@ -183,106 +190,107 @@ export async function buildJsSketchViewModelGenerated(dotNetObject: any, layerId
     jsSketchViewModel.on('create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', evt);
     });
-    
+
     jsSketchViewModel.on('delete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDelete', evt);
     });
-    
+
     jsSketchViewModel.on('redo', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRedo', evt);
     });
-    
+
     jsSketchViewModel.on('undo', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsUndo', evt);
     });
-    
+
     jsSketchViewModel.on('update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsUpdate', evt);
     });
-    
 
-    let { default: SketchViewModelWrapper } = await import('./sketchViewModel');
+
+    let {default: SketchViewModelWrapper} = await import('./sketchViewModel');
     let sketchViewModelWrapper = new SketchViewModelWrapper(jsSketchViewModel);
     sketchViewModelWrapper.geoBlazorId = dotNetObject.id;
     sketchViewModelWrapper.viewId = viewId;
     sketchViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sketchViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sketchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSketchViewModel;
-    let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
+    let {buildDotNetSketchViewModel} = await import('./sketchViewModel');
     let dnInstantiatedObject = await buildDotNetSketchViewModel(jsSketchViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SketchViewModel', e);
     }
-    
+
     return jsSketchViewModel;
 }
+
 export async function buildDotNetSketchViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSketchViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeFillSymbol)) {
-            let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
-            dotNetSketchViewModel.activeFillSymbol = buildDotNetSimpleFillSymbol(jsObject.activeFillSymbol);
-        }
-        if (hasValue(jsObject.createGraphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSketchViewModel.createGraphic = buildDotNetGraphic(jsObject.createGraphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.snappingOptions)) {
-            let { buildDotNetSnappingOptions } = await import('./snappingOptions');
-            dotNetSketchViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
-        }
-        if (hasValue(jsObject.updateGraphics)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSketchViewModel.updateGraphics = jsObject.updateGraphics.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.activeTool)) {
-            dotNetSketchViewModel.activeTool = jsObject.activeTool;
-        }
-        if (hasValue(jsObject.defaultCreateOptions)) {
-            dotNetSketchViewModel.defaultCreateOptions = jsObject.defaultCreateOptions;
-        }
-        if (hasValue(jsObject.defaultUpdateOptions)) {
-            dotNetSketchViewModel.defaultUpdateOptions = jsObject.defaultUpdateOptions;
-        }
-        if (hasValue(jsObject.labelOptions)) {
-            dotNetSketchViewModel.labelOptions = jsObject.labelOptions;
-        }
-        if (hasValue(jsObject.pointSymbol)) {
-            dotNetSketchViewModel.pointSymbol = jsObject.pointSymbol;
-        }
-        if (hasValue(jsObject.polygonSymbol)) {
-            dotNetSketchViewModel.polygonSymbol = jsObject.polygonSymbol;
-        }
-        if (hasValue(jsObject.polylineSymbol)) {
-            dotNetSketchViewModel.polylineSymbol = jsObject.polylineSymbol;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSketchViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tooltipOptions)) {
-            dotNetSketchViewModel.tooltipOptions = jsObject.tooltipOptions;
-        }
-        if (hasValue(jsObject.updateOnGraphicClick)) {
-            dotNetSketchViewModel.updateOnGraphicClick = jsObject.updateOnGraphicClick;
-        }
-        if (hasValue(jsObject.valueOptions)) {
-            dotNetSketchViewModel.valueOptions = jsObject.valueOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSketchViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeFillSymbol)) {
+        let {buildDotNetSimpleFillSymbol} = await import('./simpleFillSymbol');
+        dotNetSketchViewModel.activeFillSymbol = buildDotNetSimpleFillSymbol(jsObject.activeFillSymbol);
+    }
+    if (hasValue(jsObject.createGraphic)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetSketchViewModel.createGraphic = buildDotNetGraphic(jsObject.createGraphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.snappingOptions)) {
+        let {buildDotNetSnappingOptions} = await import('./snappingOptions');
+        dotNetSketchViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
+    }
+    if (hasValue(jsObject.updateGraphics)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetSketchViewModel.updateGraphics = jsObject.updateGraphics.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.activeTool)) {
+        dotNetSketchViewModel.activeTool = jsObject.activeTool;
+    }
+    if (hasValue(jsObject.defaultCreateOptions)) {
+        dotNetSketchViewModel.defaultCreateOptions = jsObject.defaultCreateOptions;
+    }
+    if (hasValue(jsObject.defaultUpdateOptions)) {
+        dotNetSketchViewModel.defaultUpdateOptions = jsObject.defaultUpdateOptions;
+    }
+    if (hasValue(jsObject.labelOptions)) {
+        dotNetSketchViewModel.labelOptions = jsObject.labelOptions;
+    }
+    if (hasValue(jsObject.pointSymbol)) {
+        dotNetSketchViewModel.pointSymbol = jsObject.pointSymbol;
+    }
+    if (hasValue(jsObject.polygonSymbol)) {
+        dotNetSketchViewModel.polygonSymbol = jsObject.polygonSymbol;
+    }
+    if (hasValue(jsObject.polylineSymbol)) {
+        dotNetSketchViewModel.polylineSymbol = jsObject.polylineSymbol;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSketchViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tooltipOptions)) {
+        dotNetSketchViewModel.tooltipOptions = jsObject.tooltipOptions;
+    }
+    if (hasValue(jsObject.updateOnGraphicClick)) {
+        dotNetSketchViewModel.updateOnGraphicClick = jsObject.updateOnGraphicClick;
+    }
+    if (hasValue(jsObject.valueOptions)) {
+        dotNetSketchViewModel.valueOptions = jsObject.valueOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSketchViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

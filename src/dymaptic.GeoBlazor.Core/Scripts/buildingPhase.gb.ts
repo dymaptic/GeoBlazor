@@ -12,13 +12,13 @@ export default class BuildingPhaseGenerated implements IPropertyWrapper {
     constructor(component: BuildingPhase) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -40,11 +40,11 @@ export default class BuildingPhaseGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -57,57 +57,58 @@ export async function buildJsBuildingPhaseGenerated(dotNetObject: any, layerId: 
         jsBuildingPhase.allowedValues = dotNetObject.allowedValues;
     }
 
-    let { default: BuildingPhaseWrapper } = await import('./buildingPhase');
+    let {default: BuildingPhaseWrapper} = await import('./buildingPhase');
     let buildingPhaseWrapper = new BuildingPhaseWrapper(jsBuildingPhase);
     buildingPhaseWrapper.geoBlazorId = dotNetObject.id;
     buildingPhaseWrapper.viewId = viewId;
     buildingPhaseWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(buildingPhaseWrapper);
     jsObjectRefs[dotNetObject.id] = buildingPhaseWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingPhase;
-    let { buildDotNetBuildingPhase } = await import('./buildingPhase');
+    let {buildDotNetBuildingPhase} = await import('./buildingPhase');
     let dnInstantiatedObject = await buildDotNetBuildingPhase(jsBuildingPhase);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BuildingPhase', e);
     }
-    
+
     return jsBuildingPhase;
 }
+
 export async function buildDotNetBuildingPhaseGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBuildingPhase: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allowedValues)) {
-            dotNetBuildingPhase.allowedValues = jsObject.allowedValues;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetBuildingPhase.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.hasNext)) {
-            dotNetBuildingPhase.hasNext = jsObject.hasNext;
-        }
-        if (hasValue(jsObject.hasPrevious)) {
-            dotNetBuildingPhase.hasPrevious = jsObject.hasPrevious;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetBuildingPhase.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetBuildingPhase.min = jsObject.min;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetBuildingPhase.value = jsObject.value;
-        }
+    if (hasValue(jsObject.allowedValues)) {
+        dotNetBuildingPhase.allowedValues = jsObject.allowedValues;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetBuildingPhase.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.hasNext)) {
+        dotNetBuildingPhase.hasNext = jsObject.hasNext;
+    }
+    if (hasValue(jsObject.hasPrevious)) {
+        dotNetBuildingPhase.hasPrevious = jsObject.hasPrevious;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetBuildingPhase.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetBuildingPhase.min = jsObject.min;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetBuildingPhase.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

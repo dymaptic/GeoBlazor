@@ -12,17 +12,17 @@ export default class FindServiceGenerated implements IPropertyWrapper {
     constructor(component: find) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async find(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsFindParameters } = await import('./findParameters');
+               parameters: any,
+               requestOptions: any): Promise<any> {
+        let {buildJsFindParameters} = await import('./findParameters');
         let jsparameters = await buildJsFindParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.find(url,
             jsparameters,
@@ -30,11 +30,11 @@ export default class FindServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsFindServiceGenerated(dotNetObject: any, layerId: st
     let jsfind: any = {}
 
 
-    let { default: FindServiceWrapper } = await import('./findService');
+    let {default: FindServiceWrapper} = await import('./findService');
     let findServiceWrapper = new FindServiceWrapper(jsfind);
     findServiceWrapper.geoBlazorId = dotNetObject.id;
     findServiceWrapper.viewId = viewId;
     findServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(findServiceWrapper);
     jsObjectRefs[dotNetObject.id] = findServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsfind;
-    let { buildDotNetFindService } = await import('./findService');
+    let {buildDotNetFindService} = await import('./findService');
     let dnInstantiatedObject = await buildDotNetFindService(jsfind);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FindService', e);
     }
-    
+
     return jsfind;
 }
+
 export async function buildDotNetFindServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFindService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

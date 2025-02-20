@@ -14,13 +14,13 @@ export default class TableListListItemPanelWidgetGenerated implements IPropertyW
     constructor(widget: TableListListItemPanel) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async classes(): Promise<any> {
         return this.widget.classes();
     }
@@ -58,17 +58,17 @@ export default class TableListListItemPanelWidgetGenerated implements IPropertyW
     }
 
     async when(callback: any,
-        errback: any): Promise<any> {
+               errback: any): Promise<any> {
         return await this.widget.when(callback,
             errback);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -113,25 +113,25 @@ export async function buildJsTableListListItemPanelWidgetGenerated(dotNetObject:
     if (hasValue(dotNetObject.widgetId)) {
         jsTableListListItemPanel.id = dotNetObject.widgetId;
     }
-    let { default: TableListListItemPanelWidgetWrapper } = await import('./tableListListItemPanelWidget');
+    let {default: TableListListItemPanelWidgetWrapper} = await import('./tableListListItemPanelWidget');
     let tableListListItemPanelWidgetWrapper = new TableListListItemPanelWidgetWrapper(jsTableListListItemPanel);
     tableListListItemPanelWidgetWrapper.geoBlazorId = dotNetObject.id;
     tableListListItemPanelWidgetWrapper.viewId = viewId;
     tableListListItemPanelWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tableListListItemPanelWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = tableListListItemPanelWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTableListListItemPanel;
-    
+
     let dnInstantiatedObject = await buildDotNetTableListListItemPanelWidget(jsTableListListItemPanel, layerId, viewId);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TableListListItemPanelWidget', e);
     }
-    
+
     return jsTableListListItemPanel;
 }
 
@@ -139,50 +139,50 @@ export async function buildDotNetTableListListItemPanelWidgetGenerated(jsObject:
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTableListListItemPanelWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.className)) {
-            dotNetTableListListItemPanelWidget.className = jsObject.className;
-        }
-        if (hasValue(jsObject.container)) {
-            dotNetTableListListItemPanelWidget.container = jsObject.container;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetTableListListItemPanelWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableListListItemPanelWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.flowEnabled)) {
-            dotNetTableListListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetTableListListItemPanelWidget.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetTableListListItemPanelWidget.image = jsObject.image;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetTableListListItemPanelWidget.label = jsObject.label;
-        }
-        if (hasValue(jsObject.listItem)) {
-            dotNetTableListListItemPanelWidget.listItem = jsObject.listItem;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetTableListListItemPanelWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTableListListItemPanelWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetTableListListItemPanelWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetTableListListItemPanelWidget.widgetId = jsObject.id;
-        }
+    if (hasValue(jsObject.className)) {
+        dotNetTableListListItemPanelWidget.className = jsObject.className;
+    }
+    if (hasValue(jsObject.container)) {
+        dotNetTableListListItemPanelWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetTableListListItemPanelWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableListListItemPanelWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.flowEnabled)) {
+        dotNetTableListListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetTableListListItemPanelWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetTableListListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetTableListListItemPanelWidget.label = jsObject.label;
+    }
+    if (hasValue(jsObject.listItem)) {
+        dotNetTableListListItemPanelWidget.listItem = jsObject.listItem;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetTableListListItemPanelWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTableListListItemPanelWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetTableListListItemPanelWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetTableListListItemPanelWidget.widgetId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

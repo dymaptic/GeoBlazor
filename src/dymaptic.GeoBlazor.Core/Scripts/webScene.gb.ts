@@ -14,75 +14,79 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     constructor(component: WebScene) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async load(): Promise<any> {
         return await this.component.load();
     }
 
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
-        let { buildDotNetWebScene } = await import('./webScene');
+        let {buildDotNetWebScene} = await import('./webScene');
         return await buildDotNetWebScene(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
         let result = await this.component.save(options);
-        let { buildDotNetPortalItem } = await import('./portalItem');
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                 options: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
             options);
-        let { buildDotNetPortalItem } = await import('./portalItem');
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
     async updateFrom(view: any,
-        options: any): Promise<any> {
+                     options: any): Promise<any> {
         return await this.component.updateFrom(view,
             options);
     }
 
     // region properties
-    
+
     async getClippingArea(): Promise<any> {
         if (!hasValue(this.component.clippingArea)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.component.clippingArea);
     }
+
     async setClippingArea(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.component.clippingArea =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.component.clippingArea = buildJsExtent(value);
     }
+
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.component.portalItem)) {
             return null;
         }
-        
-        let { buildDotNetPortalItem } = await import('./portalItem');
+
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
+
     async setPortalItem(value: any): Promise<void> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let {buildJsPortalItem} = await import('./portalItem');
+        this.component.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -91,11 +95,11 @@ export default class WebSceneGenerated implements IPropertyWrapper {
 export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebScene = new WebScene();
     if (hasValue(dotNetObject.clippingArea)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsWebScene.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
+        let {buildJsPortalItem} = await import('./portalItem');
         jsWebScene.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
 
@@ -129,26 +133,26 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.widgets)) {
         jsWebScene.widgets = dotNetObject.widgets;
     }
-    let { default: WebSceneWrapper } = await import('./webScene');
+    let {default: WebSceneWrapper} = await import('./webScene');
     let webSceneWrapper = new WebSceneWrapper(jsWebScene);
     webSceneWrapper.geoBlazorId = dotNetObject.id;
     webSceneWrapper.viewId = viewId;
     webSceneWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webSceneWrapper);
     jsObjectRefs[dotNetObject.id] = webSceneWrapper;
 
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
-    let { buildDotNetWebScene } = await import('./webScene');
+    let {buildDotNetWebScene} = await import('./webScene');
     let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene, layerId, viewId);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebScene', e);
     }
-    
+
     return jsWebScene;
 }
 
@@ -156,61 +160,61 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWebScene: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.clippingArea)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.applicationProperties)) {
-            dotNetWebScene.applicationProperties = jsObject.applicationProperties;
-        }
-        if (hasValue(jsObject.authoringApp)) {
-            dotNetWebScene.authoringApp = jsObject.authoringApp;
-        }
-        if (hasValue(jsObject.authoringAppVersion)) {
-            dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
-        }
-        if (hasValue(jsObject.clippingEnabled)) {
-            dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetWebScene.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.heightModelInfo)) {
-            dotNetWebScene.heightModelInfo = jsObject.heightModelInfo;
-        }
-        if (hasValue(jsObject.initialViewProperties)) {
-            dotNetWebScene.initialViewProperties = jsObject.initialViewProperties;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWebScene.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetWebScene.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetWebScene.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.presentation)) {
-            dotNetWebScene.presentation = jsObject.presentation;
-        }
-        if (hasValue(jsObject.sourceVersion)) {
-            dotNetWebScene.sourceVersion = jsObject.sourceVersion;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetWebScene.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.widgets)) {
-            dotNetWebScene.widgets = jsObject.widgets;
-        }
+    if (hasValue(jsObject.clippingArea)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let {buildDotNetPortalItem} = await import('./portalItem');
+        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.applicationProperties)) {
+        dotNetWebScene.applicationProperties = jsObject.applicationProperties;
+    }
+    if (hasValue(jsObject.authoringApp)) {
+        dotNetWebScene.authoringApp = jsObject.authoringApp;
+    }
+    if (hasValue(jsObject.authoringAppVersion)) {
+        dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
+    }
+    if (hasValue(jsObject.clippingEnabled)) {
+        dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetWebScene.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.heightModelInfo)) {
+        dotNetWebScene.heightModelInfo = jsObject.heightModelInfo;
+    }
+    if (hasValue(jsObject.initialViewProperties)) {
+        dotNetWebScene.initialViewProperties = jsObject.initialViewProperties;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWebScene.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetWebScene.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetWebScene.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.presentation)) {
+        dotNetWebScene.presentation = jsObject.presentation;
+    }
+    if (hasValue(jsObject.sourceVersion)) {
+        dotNetWebScene.sourceVersion = jsObject.sourceVersion;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetWebScene.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.widgets)) {
+        dotNetWebScene.widgets = jsObject.widgets;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

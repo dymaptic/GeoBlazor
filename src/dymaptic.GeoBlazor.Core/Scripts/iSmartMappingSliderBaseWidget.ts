@@ -7,15 +7,15 @@ export default class ISmartMappingSliderBaseWidgetWrapper extends ISmartMappingS
     constructor(widget: SmartMappingSliderBase) {
         super(widget);
     }
-    
+
 }
 
 export async function buildJsISmartMappingSliderBaseWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsISmartMappingSliderBaseWidgetGenerated } = await import('./iSmartMappingSliderBaseWidget.gb');
+    let {buildJsISmartMappingSliderBaseWidgetGenerated} = await import('./iSmartMappingSliderBaseWidget.gb');
     return await buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetISmartMappingSliderBaseWidget(jsObject: any): Promise<any> {
-    let { buildDotNetISmartMappingSliderBaseWidgetGenerated } = await import('./iSmartMappingSliderBaseWidget.gb');
+    let {buildDotNetISmartMappingSliderBaseWidgetGenerated} = await import('./iSmartMappingSliderBaseWidget.gb');
     return await buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject);
 }

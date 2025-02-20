@@ -7,15 +7,15 @@ export default class IFeatureReductionLayerWrapper extends IFeatureReductionLaye
     constructor(layer: FeatureReductionLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsIFeatureReductionLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsIFeatureReductionLayerGenerated } = await import('./iFeatureReductionLayer.gb');
+    let {buildJsIFeatureReductionLayerGenerated} = await import('./iFeatureReductionLayer.gb');
     return await buildJsIFeatureReductionLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetIFeatureReductionLayer(jsObject: any): Promise<any> {
-    let { buildDotNetIFeatureReductionLayerGenerated } = await import('./iFeatureReductionLayer.gb');
+    let {buildDotNetIFeatureReductionLayerGenerated} = await import('./iFeatureReductionLayer.gb');
     return await buildDotNetIFeatureReductionLayerGenerated(jsObject);
 }

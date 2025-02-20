@@ -12,25 +12,25 @@ export default class UniqueValuesGenerated implements IPropertyWrapper {
     constructor(component: uniqueValues) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async uniqueValues(parameters: any): Promise<any> {
-        let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
+        let {buildJsUniqueValuesUniqueValuesParams} = await import('./uniqueValuesUniqueValuesParams');
         let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.uniqueValues(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsUniqueValuesGenerated(dotNetObject: any, layerId: s
     let jsuniqueValues = new uniqueValues();
 
 
-    let { default: UniqueValuesWrapper } = await import('./uniqueValues');
+    let {default: UniqueValuesWrapper} = await import('./uniqueValues');
     let uniqueValuesWrapper = new UniqueValuesWrapper(jsuniqueValues);
     uniqueValuesWrapper.geoBlazorId = dotNetObject.id;
     uniqueValuesWrapper.viewId = viewId;
     uniqueValuesWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValuesWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValuesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValues;
-    let { buildDotNetUniqueValues } = await import('./uniqueValues');
+    let {buildDotNetUniqueValues} = await import('./uniqueValues');
     let dnInstantiatedObject = await buildDotNetUniqueValues(jsuniqueValues);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UniqueValues', e);
     }
-    
+
     return jsuniqueValues;
 }
+
 export async function buildDotNetUniqueValuesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUniqueValues: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

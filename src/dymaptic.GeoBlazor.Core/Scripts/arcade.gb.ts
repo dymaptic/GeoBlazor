@@ -12,25 +12,25 @@ export default class ArcadeGenerated implements IPropertyWrapper {
     constructor(component: arcade) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createArcadeExecutor(script: any,
-        profile: any): Promise<any> {
+                               profile: any): Promise<any> {
         return await this.component.createArcadeExecutor(script,
             profile);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsArcadeGenerated(dotNetObject: any, layerId: string 
     let jsarcade: any = {}
 
 
-    let { default: ArcadeWrapper } = await import('./arcade');
+    let {default: ArcadeWrapper} = await import('./arcade');
     let arcadeWrapper = new ArcadeWrapper(jsarcade);
     arcadeWrapper.geoBlazorId = dotNetObject.id;
     arcadeWrapper.viewId = viewId;
     arcadeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(arcadeWrapper);
     jsObjectRefs[dotNetObject.id] = arcadeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsarcade;
-    let { buildDotNetArcade } = await import('./arcade');
+    let {buildDotNetArcade} = await import('./arcade');
     let dnInstantiatedObject = await buildDotNetArcade(jsarcade);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Arcade', e);
     }
-    
+
     return jsarcade;
 }
+
 export async function buildDotNetArcadeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetArcade: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

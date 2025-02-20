@@ -14,7 +14,7 @@ export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
     if (hasValue(dotNetObject.title)) {
         jsAttachmentsContent.title = dotNetObject.title;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsPopupContentWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -29,7 +29,7 @@ export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
     }
 
     return jsAttachmentsContent;
-}     
+}
 
 export function buildDotNetAttachmentsPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {
@@ -40,7 +40,7 @@ export function buildDotNetAttachmentsPopupContent(jsObject: any): any {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    
+
     if (hasValue(jsObject.description)) {
         dotNetAttachmentsPopupContent.description = jsObject.description;
     }

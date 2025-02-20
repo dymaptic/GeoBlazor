@@ -7,15 +7,15 @@ export default class StyleUtilsWrapper extends StyleUtilsGenerated {
     constructor(component: styleUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsStyleUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsStyleUtilsGenerated } = await import('./styleUtils.gb');
+    let {buildJsStyleUtilsGenerated} = await import('./styleUtils.gb');
     return await buildJsStyleUtilsGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetStyleUtils(jsObject: any): Promise<any> {
-    let { buildDotNetStyleUtilsGenerated } = await import('./styleUtils.gb');
+    let {buildDotNetStyleUtilsGenerated} = await import('./styleUtils.gb');
     return await buildDotNetStyleUtilsGenerated(jsObject);
 }

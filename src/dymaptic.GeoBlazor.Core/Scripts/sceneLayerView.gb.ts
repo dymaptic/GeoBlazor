@@ -12,83 +12,86 @@ export default class SceneLayerViewGenerated implements IPropertyWrapper {
     constructor(component: SceneLayerView) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createQuery(): Promise<any> {
         return this.component.createQuery();
     }
 
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        let {buildDotNetHighlightHandle} = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }
 
     async queryExtent(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                      options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                            options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                        options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                         options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
 
     // region properties
-    
+
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
         }
-        
-        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }
+
     async setFilter(value: any): Promise<void> {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
+        let {buildJsFeatureFilter} = await import('./featureFilter');
+        this.component.filter = await buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetSceneLayer } = await import('./sceneLayer');
+
+        let {buildDotNetSceneLayer} = await import('./sceneLayer');
         return await buildDotNetSceneLayer(this.component.layer, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -97,7 +100,7 @@ export default class SceneLayerViewGenerated implements IPropertyWrapper {
 export async function buildJsSceneLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneLayerView = new SceneLayerView();
     if (hasValue(dotNetObject.filter)) {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
+        let {buildJsFeatureFilter} = await import('./featureFilter');
         jsSceneLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
@@ -108,67 +111,68 @@ export async function buildJsSceneLayerViewGenerated(dotNetObject: any, layerId:
         jsSceneLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
 
-    let { default: SceneLayerViewWrapper } = await import('./sceneLayerView');
+    let {default: SceneLayerViewWrapper} = await import('./sceneLayerView');
     let sceneLayerViewWrapper = new SceneLayerViewWrapper(jsSceneLayerView);
     sceneLayerViewWrapper.geoBlazorId = dotNetObject.id;
     sceneLayerViewWrapper.viewId = viewId;
     sceneLayerViewWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sceneLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = sceneLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSceneLayerView;
-    let { buildDotNetSceneLayerView } = await import('./sceneLayerView');
+    let {buildDotNetSceneLayerView} = await import('./sceneLayerView');
     let dnInstantiatedObject = await buildDotNetSceneLayerView(jsSceneLayerView);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SceneLayerView', e);
     }
-    
+
     return jsSceneLayerView;
 }
+
 export async function buildDotNetSceneLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSceneLayerView: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetSceneLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.availableFields)) {
-            dotNetSceneLayerView.availableFields = jsObject.availableFields;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeatures)) {
-            dotNetSceneLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
-            dotNetSceneLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetSceneLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetSceneLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSceneLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.filter)) {
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
+        dotNetSceneLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.availableFields)) {
+        dotNetSceneLayerView.availableFields = jsObject.availableFields;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeatures)) {
+        dotNetSceneLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
+        dotNetSceneLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetSceneLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetSceneLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSceneLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

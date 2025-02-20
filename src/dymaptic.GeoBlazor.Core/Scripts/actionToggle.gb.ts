@@ -3,6 +3,7 @@
 
 import ActionToggle from '@arcgis/core/support/actions/ActionToggle';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+import {buildDotNetActionToggle} from "./actionToggle";
 
 
 export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
@@ -29,25 +30,20 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.value)) {
         jsActionToggle.value = dotNetObject.value;
     }
-    let { default: ActionToggleWrapper } = await import('./actionToggle');
-    let actionToggleWrapper = new ActionToggleWrapper(jsActionToggle);
-    actionToggleWrapper.geoBlazorId = dotNetObject.id;
-    actionToggleWrapper.viewId = viewId;
-    actionToggleWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionToggleWrapper);
-    jsObjectRefs[dotNetObject.id] = actionToggleWrapper;
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
-    
+
     let dnInstantiatedObject = await buildDotNetActionToggle(jsActionToggle);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ActionToggle', e);
     }
-    
+
     return jsActionToggle;
 }
 
@@ -55,35 +51,35 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetActionToggle: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetActionToggle.actionId = jsObject.id;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetActionToggle.active = jsObject.active;
-        }
-        if (hasValue(jsObject.className)) {
-            dotNetActionToggle.className = jsObject.className;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetActionToggle.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetActionToggle.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetActionToggle.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetActionToggle.type = jsObject.type;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetActionToggle.value = jsObject.value;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetActionToggle.actionId = jsObject.id;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetActionToggle.active = jsObject.active;
+    }
+    if (hasValue(jsObject.className)) {
+        dotNetActionToggle.className = jsObject.className;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetActionToggle.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetActionToggle.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetActionToggle.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetActionToggle.type = jsObject.type;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetActionToggle.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

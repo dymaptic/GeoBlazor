@@ -12,23 +12,23 @@ export default class IOrderedLayerGenerated implements IPropertyWrapper {
     constructor(layer: OrderedLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,43 +38,44 @@ export async function buildJsIOrderedLayerGenerated(dotNetObject: any, layerId: 
     let jsOrderedLayer = new OrderedLayer();
 
     if (hasValue(dotNetObject.orderBy)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy} = dotNetObject.orderBy;
         jsOrderedLayer.orderBy = sanitizedOrderBy;
     }
 
-    let { default: IOrderedLayerWrapper } = await import('./iOrderedLayer');
+    let {default: IOrderedLayerWrapper} = await import('./iOrderedLayer');
     let iOrderedLayerWrapper = new IOrderedLayerWrapper(jsOrderedLayer);
     iOrderedLayerWrapper.geoBlazorId = dotNetObject.id;
     iOrderedLayerWrapper.viewId = viewId;
     iOrderedLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iOrderedLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iOrderedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayer;
-    let { buildDotNetIOrderedLayer } = await import('./iOrderedLayer');
+    let {buildDotNetIOrderedLayer} = await import('./iOrderedLayer');
     let dnInstantiatedObject = await buildDotNetIOrderedLayer(jsOrderedLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IOrderedLayer', e);
     }
-    
+
     return jsOrderedLayer;
 }
+
 export async function buildDotNetIOrderedLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIOrderedLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderBy)) {
-            dotNetIOrderedLayer.orderBy = jsObject.orderBy;
-        }
+    if (hasValue(jsObject.orderBy)) {
+        dotNetIOrderedLayer.orderBy = jsObject.orderBy;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

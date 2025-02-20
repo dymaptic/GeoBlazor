@@ -12,13 +12,13 @@ export default class ClassedSizeSliderViewModelGenerated implements IPropertyWra
     constructor(component: ClassedSizeSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -40,8 +40,8 @@ export default class ClassedSizeSliderViewModelGenerated implements IPropertyWra
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
@@ -56,7 +56,7 @@ export default class ClassedSizeSliderViewModelGenerated implements IPropertyWra
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -66,11 +66,11 @@ export default class ClassedSizeSliderViewModelGenerated implements IPropertyWra
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -89,7 +89,7 @@ export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: a
     }
 
     if (hasValue(dotNetObject.breaks)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBreaks } = dotNetObject.breaks;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedBreaks} = dotNetObject.breaks;
         jsClassedSizeSliderViewModel.breaks = sanitizedBreaks;
     }
     if (hasValue(dotNetObject.effectiveMax)) {
@@ -120,81 +120,82 @@ export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: a
         jsClassedSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
     }
 
-    let { default: ClassedSizeSliderViewModelWrapper } = await import('./classedSizeSliderViewModel');
+    let {default: ClassedSizeSliderViewModelWrapper} = await import('./classedSizeSliderViewModel');
     let classedSizeSliderViewModelWrapper = new ClassedSizeSliderViewModelWrapper(jsClassedSizeSliderViewModel);
     classedSizeSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     classedSizeSliderViewModelWrapper.viewId = viewId;
     classedSizeSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(classedSizeSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = classedSizeSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsClassedSizeSliderViewModel;
-    let { buildDotNetClassedSizeSliderViewModel } = await import('./classedSizeSliderViewModel');
+    let {buildDotNetClassedSizeSliderViewModel} = await import('./classedSizeSliderViewModel');
     let dnInstantiatedObject = await buildDotNetClassedSizeSliderViewModel(jsClassedSizeSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ClassedSizeSliderViewModel', e);
     }
-    
+
     return jsClassedSizeSliderViewModel;
 }
+
 export async function buildDotNetClassedSizeSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetClassedSizeSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.breaks)) {
-            dotNetClassedSizeSliderViewModel.breaks = jsObject.breaks;
-        }
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetClassedSizeSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetClassedSizeSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetClassedSizeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetClassedSizeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetClassedSizeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetClassedSizeSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetClassedSizeSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetClassedSizeSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetClassedSizeSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetClassedSizeSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetClassedSizeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetClassedSizeSliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetClassedSizeSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetClassedSizeSliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.breaks)) {
+        dotNetClassedSizeSliderViewModel.breaks = jsObject.breaks;
+    }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetClassedSizeSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetClassedSizeSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetClassedSizeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetClassedSizeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetClassedSizeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetClassedSizeSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetClassedSizeSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetClassedSizeSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetClassedSizeSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetClassedSizeSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetClassedSizeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetClassedSizeSliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetClassedSizeSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetClassedSizeSliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

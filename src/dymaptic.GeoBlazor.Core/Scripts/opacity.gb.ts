@@ -12,25 +12,25 @@ export default class OpacityGenerated implements IPropertyWrapper {
     constructor(component: opacity) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createVisualVariable(parameters: any): Promise<any> {
-        let { buildJsOpacityCreateVisualVariableParams } = await import('./opacityCreateVisualVariableParams');
+        let {buildJsOpacityCreateVisualVariableParams} = await import('./opacityCreateVisualVariableParams');
         let jsparameters = await buildJsOpacityCreateVisualVariableParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createVisualVariable(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsOpacityGenerated(dotNetObject: any, layerId: string
     let jsopacity: any = {}
 
 
-    let { default: OpacityWrapper } = await import('./opacity');
+    let {default: OpacityWrapper} = await import('./opacity');
     let opacityWrapper = new OpacityWrapper(jsopacity);
     opacityWrapper.geoBlazorId = dotNetObject.id;
     opacityWrapper.viewId = viewId;
     opacityWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacityWrapper);
     jsObjectRefs[dotNetObject.id] = opacityWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsopacity;
-    let { buildDotNetOpacity } = await import('./opacity');
+    let {buildDotNetOpacity} = await import('./opacity');
     let dnInstantiatedObject = await buildDotNetOpacity(jsopacity);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Opacity', e);
     }
-    
+
     return jsopacity;
 }
+
 export async function buildDotNetOpacityGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetOpacity: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

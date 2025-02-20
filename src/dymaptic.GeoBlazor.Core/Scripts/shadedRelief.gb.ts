@@ -12,25 +12,25 @@ export default class ShadedReliefGenerated implements IPropertyWrapper {
     constructor(component: shadedRelief) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsShadedReliefCreateRendererParams } = await import('./shadedReliefCreateRendererParams');
+        let {buildJsShadedReliefCreateRendererParams} = await import('./shadedReliefCreateRendererParams');
         let jsparameters = await buildJsShadedReliefCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsShadedReliefGenerated(dotNetObject: any, layerId: s
     let jsshadedRelief: any = {}
 
 
-    let { default: ShadedReliefWrapper } = await import('./shadedRelief');
+    let {default: ShadedReliefWrapper} = await import('./shadedRelief');
     let shadedReliefWrapper = new ShadedReliefWrapper(jsshadedRelief);
     shadedReliefWrapper.geoBlazorId = dotNetObject.id;
     shadedReliefWrapper.viewId = viewId;
     shadedReliefWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(shadedReliefWrapper);
     jsObjectRefs[dotNetObject.id] = shadedReliefWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsshadedRelief;
-    let { buildDotNetShadedRelief } = await import('./shadedRelief');
+    let {buildDotNetShadedRelief} = await import('./shadedRelief');
     let dnInstantiatedObject = await buildDotNetShadedRelief(jsshadedRelief);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ShadedRelief', e);
     }
-    
+
     return jsshadedRelief;
 }
+
 export async function buildDotNetShadedReliefGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetShadedRelief: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

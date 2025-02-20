@@ -12,23 +12,23 @@ export default class IFeatureSetLayerGenerated implements IPropertyWrapper {
     constructor(layer: FeatureSetLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsIFeatureSetLayerGenerated(dotNetObject: any, layerI
     let jsFeatureSetLayer: any = {}
 
 
-    let { default: IFeatureSetLayerWrapper } = await import('./iFeatureSetLayer');
+    let {default: IFeatureSetLayerWrapper} = await import('./iFeatureSetLayer');
     let iFeatureSetLayerWrapper = new IFeatureSetLayerWrapper(jsFeatureSetLayer);
     iFeatureSetLayerWrapper.geoBlazorId = dotNetObject.id;
     iFeatureSetLayerWrapper.viewId = viewId;
     iFeatureSetLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iFeatureSetLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iFeatureSetLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureSetLayer;
-    let { buildDotNetIFeatureSetLayer } = await import('./iFeatureSetLayer');
+    let {buildDotNetIFeatureSetLayer} = await import('./iFeatureSetLayer');
     let dnInstantiatedObject = await buildDotNetIFeatureSetLayer(jsFeatureSetLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IFeatureSetLayer', e);
     }
-    
+
     return jsFeatureSetLayer;
 }
+
 export async function buildDotNetIFeatureSetLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIFeatureSetLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,23 +12,23 @@ export default class ICIMSymbolLayerGenerated implements IPropertyWrapper {
     constructor(layer: CIMSymbolLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsICIMSymbolLayerGenerated(dotNetObject: any, layerId
     let jsCIMSymbolLayer: any = {}
 
 
-    let { default: ICIMSymbolLayerWrapper } = await import('./iCIMSymbolLayer');
+    let {default: ICIMSymbolLayerWrapper} = await import('./iCIMSymbolLayer');
     let iCIMSymbolLayerWrapper = new ICIMSymbolLayerWrapper(jsCIMSymbolLayer);
     iCIMSymbolLayerWrapper.geoBlazorId = dotNetObject.id;
     iCIMSymbolLayerWrapper.viewId = viewId;
     iCIMSymbolLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iCIMSymbolLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iCIMSymbolLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCIMSymbolLayer;
-    let { buildDotNetICIMSymbolLayer } = await import('./iCIMSymbolLayer');
+    let {buildDotNetICIMSymbolLayer} = await import('./iCIMSymbolLayer');
     let dnInstantiatedObject = await buildDotNetICIMSymbolLayer(jsCIMSymbolLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ICIMSymbolLayer', e);
     }
-    
+
     return jsCIMSymbolLayer;
 }
+
 export async function buildDotNetICIMSymbolLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetICIMSymbolLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

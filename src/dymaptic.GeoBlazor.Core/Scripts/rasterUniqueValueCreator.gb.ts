@@ -12,25 +12,25 @@ export default class RasterUniqueValueCreatorGenerated implements IPropertyWrapp
     constructor(component: uniqueValue) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsUniqueValueCreateRendererParams } = await import('./uniqueValueCreateRendererParams');
+        let {buildJsUniqueValueCreateRendererParams} = await import('./uniqueValueCreateRendererParams');
         let jsparameters = await buildJsUniqueValueCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsRasterUniqueValueCreatorGenerated(dotNetObject: any
     let jsuniqueValue: any = {}
 
 
-    let { default: RasterUniqueValueCreatorWrapper } = await import('./rasterUniqueValueCreator');
+    let {default: RasterUniqueValueCreatorWrapper} = await import('./rasterUniqueValueCreator');
     let rasterUniqueValueCreatorWrapper = new RasterUniqueValueCreatorWrapper(jsuniqueValue);
     rasterUniqueValueCreatorWrapper.geoBlazorId = dotNetObject.id;
     rasterUniqueValueCreatorWrapper.viewId = viewId;
     rasterUniqueValueCreatorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterUniqueValueCreatorWrapper);
     jsObjectRefs[dotNetObject.id] = rasterUniqueValueCreatorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValue;
-    let { buildDotNetRasterUniqueValueCreator } = await import('./rasterUniqueValueCreator');
+    let {buildDotNetRasterUniqueValueCreator} = await import('./rasterUniqueValueCreator');
     let dnInstantiatedObject = await buildDotNetRasterUniqueValueCreator(jsuniqueValue);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RasterUniqueValueCreator', e);
     }
-    
+
     return jsuniqueValue;
 }
+
 export async function buildDotNetRasterUniqueValueCreatorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRasterUniqueValueCreator: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

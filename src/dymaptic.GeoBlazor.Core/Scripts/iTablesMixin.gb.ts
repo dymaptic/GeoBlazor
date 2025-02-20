@@ -12,37 +12,37 @@ export default class ITablesMixinGenerated implements IPropertyWrapper {
     constructor(component: TablesMixin) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async findTableById(tableId: any): Promise<any> {
         return this.component.findTableById(tableId);
     }
 
     // region properties
-    
+
     async getTables(): Promise<any> {
         if (!hasValue(this.component.tables)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await Promise.all(this.component.tables.map(async i => await buildDotNetLayer(i)));
     }
-    
+
     async setTables(value: any): Promise<void> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         this.component.tables = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -51,37 +51,38 @@ export default class ITablesMixinGenerated implements IPropertyWrapper {
 export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTablesMixin = new TablesMixin();
     if (hasValue(dotNetObject.tables)) {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         jsTablesMixin.tables = await Promise.all(dotNetObject.tables.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
 
-    let { default: ITablesMixinWrapper } = await import('./iTablesMixin');
+    let {default: ITablesMixinWrapper} = await import('./iTablesMixin');
     let iTablesMixinWrapper = new ITablesMixinWrapper(jsTablesMixin);
     iTablesMixinWrapper.geoBlazorId = dotNetObject.id;
     iTablesMixinWrapper.viewId = viewId;
     iTablesMixinWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iTablesMixinWrapper);
     jsObjectRefs[dotNetObject.id] = iTablesMixinWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;
-    let { buildDotNetITablesMixin } = await import('./iTablesMixin');
+    let {buildDotNetITablesMixin} = await import('./iTablesMixin');
     let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ITablesMixin', e);
     }
-    
+
     return jsTablesMixin;
 }
+
 export async function buildDotNetITablesMixinGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetITablesMixin: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

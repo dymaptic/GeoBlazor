@@ -14,25 +14,25 @@ export default class TableListViewModelGenerated implements IPropertyWrapper {
     constructor(component: TableListViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async triggerAction(action: any,
-        item: any): Promise<void> {
+                        item: any): Promise<void> {
         this.component.triggerAction(action,
             item);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,26 +56,26 @@ export async function buildJsTableListViewModelGenerated(dotNetObject: any, laye
     jsTableListViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });
-    
-    let { default: TableListViewModelWrapper } = await import('./tableListViewModel');
+
+    let {default: TableListViewModelWrapper} = await import('./tableListViewModel');
     let tableListViewModelWrapper = new TableListViewModelWrapper(jsTableListViewModel);
     tableListViewModelWrapper.geoBlazorId = dotNetObject.id;
     tableListViewModelWrapper.viewId = viewId;
     tableListViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tableListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = tableListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTableListViewModel;
-    
+
     let dnInstantiatedObject = await buildDotNetTableListViewModel(jsTableListViewModel, layerId, viewId);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TableListViewModel', e);
     }
-    
+
     return jsTableListViewModel;
 }
 
@@ -83,29 +83,29 @@ export async function buildDotNetTableListViewModelGenerated(jsObject: any, laye
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTableListViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.checkPublishStatusEnabled)) {
-            dotNetTableListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
-        }
-        if (hasValue(jsObject.listItemCreatedFunction)) {
-            dotNetTableListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetTableListViewModel.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetTableListViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetTableListViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tableItems)) {
-            dotNetTableListViewModel.tableItems = jsObject.tableItems;
-        }
+    if (hasValue(jsObject.checkPublishStatusEnabled)) {
+        dotNetTableListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
+    }
+    if (hasValue(jsObject.listItemCreatedFunction)) {
+        dotNetTableListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetTableListViewModel.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetTableListViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetTableListViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tableItems)) {
+        dotNetTableListViewModel.tableItems = jsObject.tableItems;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

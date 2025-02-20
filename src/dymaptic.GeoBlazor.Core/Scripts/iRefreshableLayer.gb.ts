@@ -12,13 +12,13 @@ export default class IRefreshableLayerGenerated implements IPropertyWrapper {
     constructor(layer: RefreshableLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
@@ -28,11 +28,11 @@ export default class IRefreshableLayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -45,39 +45,40 @@ export async function buildJsIRefreshableLayerGenerated(dotNetObject: any, layer
         jsRefreshableLayer.refreshInterval = dotNetObject.refreshInterval;
     }
 
-    let { default: IRefreshableLayerWrapper } = await import('./iRefreshableLayer');
+    let {default: IRefreshableLayerWrapper} = await import('./iRefreshableLayer');
     let iRefreshableLayerWrapper = new IRefreshableLayerWrapper(jsRefreshableLayer);
     iRefreshableLayerWrapper.geoBlazorId = dotNetObject.id;
     iRefreshableLayerWrapper.viewId = viewId;
     iRefreshableLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iRefreshableLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iRefreshableLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRefreshableLayer;
-    let { buildDotNetIRefreshableLayer } = await import('./iRefreshableLayer');
+    let {buildDotNetIRefreshableLayer} = await import('./iRefreshableLayer');
     let dnInstantiatedObject = await buildDotNetIRefreshableLayer(jsRefreshableLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IRefreshableLayer', e);
     }
-    
+
     return jsRefreshableLayer;
 }
+
 export async function buildDotNetIRefreshableLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIRefreshableLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetIRefreshableLayer.refreshInterval = jsObject.refreshInterval;
-        }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetIRefreshableLayer.refreshInterval = jsObject.refreshInterval;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

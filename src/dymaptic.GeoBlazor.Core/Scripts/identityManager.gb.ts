@@ -12,22 +12,22 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
     constructor(component: IdentityManager) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async checkAppAccess(resUrl: any,
-        appId: any): Promise<any> {
+                         appId: any): Promise<any> {
         return await this.component.checkAppAccess(resUrl,
             appId);
     }
 
     async checkSignInStatus(resUrl: any): Promise<any> {
         let result = await this.component.checkSignInStatus(resUrl);
-        let { buildDotNetCredential } = await import('./credential');
+        let {buildDotNetCredential} = await import('./credential');
         return await buildDotNetCredential(result);
     }
 
@@ -44,10 +44,10 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
     }
 
     async findCredential(url: any,
-        userId: any): Promise<any> {
+                         userId: any): Promise<any> {
         let result = this.component.findCredential(url,
             userId);
-        let { buildDotNetCredential } = await import('./credential');
+        let {buildDotNetCredential} = await import('./credential');
         return await buildDotNetCredential(result);
     }
 
@@ -60,18 +60,18 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
     }
 
     async generateToken(serverInfo: any,
-        userInfo: any,
-        options: any): Promise<any> {
+                        userInfo: any,
+                        options: any): Promise<any> {
         return await this.component.generateToken(serverInfo,
             userInfo,
             options);
     }
 
     async getCredential(url: any,
-        options: any): Promise<any> {
+                        options: any): Promise<any> {
         let result = await this.component.getCredential(url,
             options);
-        let { buildDotNetCredential } = await import('./credential');
+        let {buildDotNetCredential} = await import('./credential');
         return await buildDotNetCredential(result);
     }
 
@@ -108,11 +108,11 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -130,48 +130,49 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     jsIdentityManager.on('credential-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCredentialCreate', evt);
     });
-    
+
     jsIdentityManager.on('dialog-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDialogCreate', evt);
     });
-    
 
-    let { default: IdentityManagerWrapper } = await import('./identityManager');
+
+    let {default: IdentityManagerWrapper} = await import('./identityManager');
     let identityManagerWrapper = new IdentityManagerWrapper(jsIdentityManager);
     identityManagerWrapper.geoBlazorId = dotNetObject.id;
     identityManagerWrapper.viewId = viewId;
     identityManagerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(identityManagerWrapper);
     jsObjectRefs[dotNetObject.id] = identityManagerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManager;
-    let { buildDotNetIdentityManager } = await import('./identityManager');
+    let {buildDotNetIdentityManager} = await import('./identityManager');
     let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IdentityManager', e);
     }
-    
+
     return jsIdentityManager;
 }
+
 export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIdentityManager: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dialog)) {
-            dotNetIdentityManager.dialog = jsObject.dialog;
-        }
-        if (hasValue(jsObject.tokenValidity)) {
-            dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
-        }
+    if (hasValue(jsObject.dialog)) {
+        dotNetIdentityManager.dialog = jsObject.dialog;
+    }
+    if (hasValue(jsObject.tokenValidity)) {
+        dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

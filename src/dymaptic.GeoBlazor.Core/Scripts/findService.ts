@@ -7,15 +7,15 @@ export default class FindServiceWrapper extends FindServiceGenerated {
     constructor(component: find) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsFindService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsFindServiceGenerated } = await import('./findService.gb');
+    let {buildJsFindServiceGenerated} = await import('./findService.gb');
     return await buildJsFindServiceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetFindService(jsObject: any): Promise<any> {
-    let { buildDotNetFindServiceGenerated } = await import('./findService.gb');
+    let {buildDotNetFindServiceGenerated} = await import('./findService.gb');
     return await buildDotNetFindServiceGenerated(jsObject);
 }

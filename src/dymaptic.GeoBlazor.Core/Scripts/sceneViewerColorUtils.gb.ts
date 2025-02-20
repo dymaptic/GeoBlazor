@@ -12,25 +12,25 @@ export default class SceneViewerColorUtilsGenerated implements IPropertyWrapper 
     constructor(component: SceneViewerColorUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async isBright(color: any): Promise<any> {
-        let { buildJsMapColor } = await import('./mapColor');
+        let {buildJsMapColor} = await import('./mapColor');
         let jsColor = buildJsMapColor(color) as any;
         return this.component.isBright(jsColor);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsSceneViewerColorUtilsGenerated(dotNetObject: any, l
     let jsSceneViewerColorUtils: any = {}
 
 
-    let { default: SceneViewerColorUtilsWrapper } = await import('./sceneViewerColorUtils');
+    let {default: SceneViewerColorUtilsWrapper} = await import('./sceneViewerColorUtils');
     let sceneViewerColorUtilsWrapper = new SceneViewerColorUtilsWrapper(jsSceneViewerColorUtils);
     sceneViewerColorUtilsWrapper.geoBlazorId = dotNetObject.id;
     sceneViewerColorUtilsWrapper.viewId = viewId;
     sceneViewerColorUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sceneViewerColorUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = sceneViewerColorUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewerColorUtils;
-    let { buildDotNetSceneViewerColorUtils } = await import('./sceneViewerColorUtils');
+    let {buildDotNetSceneViewerColorUtils} = await import('./sceneViewerColorUtils');
     let dnInstantiatedObject = await buildDotNetSceneViewerColorUtils(jsSceneViewerColorUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SceneViewerColorUtils', e);
     }
-    
+
     return jsSceneViewerColorUtils;
 }
+
 export async function buildDotNetSceneViewerColorUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSceneViewerColorUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,31 +12,33 @@ export default class FullscreenWidgetGenerated implements IPropertyWrapper {
     constructor(widget: Fullscreen) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetFullscreenViewModel } = await import('./fullscreenViewModel');
+
+        let {buildDotNetFullscreenViewModel} = await import('./fullscreenViewModel');
         return await buildDotNetFullscreenViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsFullscreenViewModel } = await import('./fullscreenViewModel');
-        this.widget.viewModel = await  buildJsFullscreenViewModel(value, this.layerId, this.viewId);
+        let {buildJsFullscreenViewModel} = await import('./fullscreenViewModel');
+        this.widget.viewModel = await buildJsFullscreenViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -45,7 +47,7 @@ export default class FullscreenWidgetGenerated implements IPropertyWrapper {
 export async function buildJsFullscreenWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFullscreen = new Fullscreen();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsFullscreenViewModel } = await import('./fullscreenViewModel');
+        let {buildJsFullscreenViewModel} = await import('./fullscreenViewModel');
         jsFullscreen.viewModel = await buildJsFullscreenViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -56,49 +58,50 @@ export async function buildJsFullscreenWidgetGenerated(dotNetObject: any, layerI
         jsFullscreen.view = dotNetObject.view;
     }
 
-    let { default: FullscreenWidgetWrapper } = await import('./fullscreenWidget');
+    let {default: FullscreenWidgetWrapper} = await import('./fullscreenWidget');
     let fullscreenWidgetWrapper = new FullscreenWidgetWrapper(jsFullscreen);
     fullscreenWidgetWrapper.geoBlazorId = dotNetObject.id;
     fullscreenWidgetWrapper.viewId = viewId;
     fullscreenWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fullscreenWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = fullscreenWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFullscreen;
-    let { buildDotNetFullscreenWidget } = await import('./fullscreenWidget');
+    let {buildDotNetFullscreenWidget} = await import('./fullscreenWidget');
     let dnInstantiatedObject = await buildDotNetFullscreenWidget(jsFullscreen);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FullscreenWidget', e);
     }
-    
+
     return jsFullscreen;
 }
+
 export async function buildDotNetFullscreenWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFullscreenWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetFullscreenViewModel } = await import('./fullscreenViewModel');
-            dotNetFullscreenWidget.viewModel = await buildDotNetFullscreenViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.element)) {
-            dotNetFullscreenWidget.element = jsObject.element;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFullscreenWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFullscreenWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetFullscreenViewModel} = await import('./fullscreenViewModel');
+        dotNetFullscreenWidget.viewModel = await buildDotNetFullscreenViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.element)) {
+        dotNetFullscreenWidget.element = jsObject.element;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFullscreenWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFullscreenWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

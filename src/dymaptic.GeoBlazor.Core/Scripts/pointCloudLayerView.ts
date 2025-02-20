@@ -6,14 +6,15 @@ export default class PointCloudLayerViewWrapper extends PointCloudLayerViewGener
     constructor(component: PointCloudLayerView) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsPointCloudLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsPointCloudLayerViewGenerated } = await import('./pointCloudLayerView.gb');
+    let {buildJsPointCloudLayerViewGenerated} = await import('./pointCloudLayerView.gb');
     return await buildJsPointCloudLayerViewGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetPointCloudLayerView(jsObject: any): Promise<any> {
-    let { buildDotNetPointCloudLayerViewGenerated } = await import('./pointCloudLayerView.gb');
+    let {buildDotNetPointCloudLayerViewGenerated} = await import('./pointCloudLayerView.gb');
     return await buildDotNetPointCloudLayerViewGenerated(jsObject);
 }

@@ -12,25 +12,25 @@ export default class StatisticsClassBreaksGenerated implements IPropertyWrapper 
     constructor(component: statisticsClassBreaks) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async classBreaks(parameters: any): Promise<any> {
-        let { buildJsClassBreaksClassBreaksParams } = await import('./classBreaksClassBreaksParams');
+        let {buildJsClassBreaksClassBreaksParams} = await import('./classBreaksClassBreaksParams');
         let jsparameters = await buildJsClassBreaksClassBreaksParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.classBreaks(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsStatisticsClassBreaksGenerated(dotNetObject: any, l
     let jsstatisticsClassBreaks = new statisticsClassBreaks();
 
 
-    let { default: StatisticsClassBreaksWrapper } = await import('./statisticsClassBreaks');
+    let {default: StatisticsClassBreaksWrapper} = await import('./statisticsClassBreaks');
     let statisticsClassBreaksWrapper = new StatisticsClassBreaksWrapper(jsstatisticsClassBreaks);
     statisticsClassBreaksWrapper.geoBlazorId = dotNetObject.id;
     statisticsClassBreaksWrapper.viewId = viewId;
     statisticsClassBreaksWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(statisticsClassBreaksWrapper);
     jsObjectRefs[dotNetObject.id] = statisticsClassBreaksWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsstatisticsClassBreaks;
-    let { buildDotNetStatisticsClassBreaks } = await import('./statisticsClassBreaks');
+    let {buildDotNetStatisticsClassBreaks} = await import('./statisticsClassBreaks');
     let dnInstantiatedObject = await buildDotNetStatisticsClassBreaks(jsstatisticsClassBreaks);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for StatisticsClassBreaks', e);
     }
-    
+
     return jsstatisticsClassBreaks;
 }
+
 export async function buildDotNetStatisticsClassBreaksGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetStatisticsClassBreaks: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

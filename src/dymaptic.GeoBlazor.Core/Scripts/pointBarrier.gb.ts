@@ -12,47 +12,51 @@ export default class PointBarrierGenerated implements IPropertyWrapper {
     constructor(component: PointBarrier) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async toGraphic(): Promise<any> {
         return this.component.toGraphic();
     }
 
     // region properties
-    
+
     async getGeometry(): Promise<any> {
         if (!hasValue(this.component.geometry)) {
             return null;
         }
-        
-        let { buildDotNetPoint } = await import('./point');
+
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(this.component.geometry);
     }
+
     async setGeometry(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.geometry =  buildJsPoint(value);
+        let {buildJsPoint} = await import('./point');
+        this.component.geometry = buildJsPoint(value);
     }
+
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
         }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
+
     async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
+        this.component.popupTemplate = buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -61,11 +65,11 @@ export default class PointBarrierGenerated implements IPropertyWrapper {
 export async function buildJsPointBarrierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPointBarrier = new PointBarrier();
     if (hasValue(dotNetObject.geometry)) {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         jsPointBarrier.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         jsPointBarrier.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
@@ -79,59 +83,60 @@ export async function buildJsPointBarrierGenerated(dotNetObject: any, layerId: s
         jsPointBarrier.name = dotNetObject.name;
     }
 
-    let { default: PointBarrierWrapper } = await import('./pointBarrier');
+    let {default: PointBarrierWrapper} = await import('./pointBarrier');
     let pointBarrierWrapper = new PointBarrierWrapper(jsPointBarrier);
     pointBarrierWrapper.geoBlazorId = dotNetObject.id;
     pointBarrierWrapper.viewId = viewId;
     pointBarrierWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pointBarrierWrapper);
     jsObjectRefs[dotNetObject.id] = pointBarrierWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPointBarrier;
-    let { buildDotNetPointBarrier } = await import('./pointBarrier');
+    let {buildDotNetPointBarrier} = await import('./pointBarrier');
     let dnInstantiatedObject = await buildDotNetPointBarrier(jsPointBarrier);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PointBarrier', e);
     }
-    
+
     return jsPointBarrier;
 }
+
 export async function buildDotNetPointBarrierGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPointBarrier: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetPointBarrier.geometry = buildDotNetPoint(jsObject.geometry);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetPointBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.barrierType)) {
-            dotNetPointBarrier.barrierType = jsObject.barrierType;
-        }
-        if (hasValue(jsObject.curbApproach)) {
-            dotNetPointBarrier.curbApproach = jsObject.curbApproach;
-        }
-        if (hasValue(jsObject.fullEdge)) {
-            dotNetPointBarrier.fullEdge = jsObject.fullEdge;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPointBarrier.name = jsObject.name;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPointBarrier.type = jsObject.type;
-        }
+    if (hasValue(jsObject.geometry)) {
+        let {buildDotNetPoint} = await import('./point');
+        dotNetPointBarrier.geometry = buildDotNetPoint(jsObject.geometry);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
+        dotNetPointBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.barrierType)) {
+        dotNetPointBarrier.barrierType = jsObject.barrierType;
+    }
+    if (hasValue(jsObject.curbApproach)) {
+        dotNetPointBarrier.curbApproach = jsObject.curbApproach;
+    }
+    if (hasValue(jsObject.fullEdge)) {
+        dotNetPointBarrier.fullEdge = jsObject.fullEdge;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPointBarrier.name = jsObject.name;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPointBarrier.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

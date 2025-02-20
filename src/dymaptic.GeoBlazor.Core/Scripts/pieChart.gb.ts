@@ -12,31 +12,31 @@ export default class PieChartGenerated implements IPropertyWrapper {
     constructor(component: pieChart) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsPieChartCreateRendererParams } = await import('./pieChartCreateRendererParams');
+        let {buildJsPieChartCreateRendererParams} = await import('./pieChartCreateRendererParams');
         let jsparameters = await buildJsPieChartCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     async createRendererForClustering(parameters: any): Promise<any> {
-        let { buildJsPieChartCreateRendererForClusteringParams } = await import('./pieChartCreateRendererForClusteringParams');
+        let {buildJsPieChartCreateRendererForClusteringParams} = await import('./pieChartCreateRendererForClusteringParams');
         let jsparameters = await buildJsPieChartCreateRendererForClusteringParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRendererForClustering(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsPieChartGenerated(dotNetObject: any, layerId: strin
     let jspieChart: any = {}
 
 
-    let { default: PieChartWrapper } = await import('./pieChart');
+    let {default: PieChartWrapper} = await import('./pieChart');
     let pieChartWrapper = new PieChartWrapper(jspieChart);
     pieChartWrapper.geoBlazorId = dotNetObject.id;
     pieChartWrapper.viewId = viewId;
     pieChartWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pieChartWrapper);
     jsObjectRefs[dotNetObject.id] = pieChartWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspieChart;
-    let { buildDotNetPieChart } = await import('./pieChart');
+    let {buildDotNetPieChart} = await import('./pieChart');
     let dnInstantiatedObject = await buildDotNetPieChart(jspieChart);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PieChart', e);
     }
-    
+
     return jspieChart;
 }
+
 export async function buildDotNetPieChartGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPieChart: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

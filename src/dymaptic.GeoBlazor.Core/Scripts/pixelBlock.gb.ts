@@ -12,13 +12,13 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     constructor(component: PixelBlock) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addData(planeData: any): Promise<void> {
         this.component.addData(planeData);
     }
@@ -36,11 +36,11 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -65,7 +65,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
         jsPixelBlock.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.statistics)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStatistics } = dotNetObject.statistics;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedStatistics} = dotNetObject.statistics;
         jsPixelBlock.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.validPixelCount)) {
@@ -75,60 +75,61 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
         jsPixelBlock.width = dotNetObject.width;
     }
 
-    let { default: PixelBlockWrapper } = await import('./pixelBlock');
+    let {default: PixelBlockWrapper} = await import('./pixelBlock');
     let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);
     pixelBlockWrapper.geoBlazorId = dotNetObject.id;
     pixelBlockWrapper.viewId = viewId;
     pixelBlockWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
-    let { buildDotNetPixelBlock } = await import('./pixelBlock');
+    let {buildDotNetPixelBlock} = await import('./pixelBlock');
     let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PixelBlock', e);
     }
-    
+
     return jsPixelBlock;
 }
+
 export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPixelBlock: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.height)) {
-            dotNetPixelBlock.height = jsObject.height;
-        }
-        if (hasValue(jsObject.mask)) {
-            dotNetPixelBlock.mask = jsObject.mask;
-        }
-        if (hasValue(jsObject.maskIsAlpha)) {
-            dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
-        }
-        if (hasValue(jsObject.pixels)) {
-            dotNetPixelBlock.pixels = jsObject.pixels;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetPixelBlock.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetPixelBlock.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.validPixelCount)) {
-            dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetPixelBlock.width = jsObject.width;
-        }
+    if (hasValue(jsObject.height)) {
+        dotNetPixelBlock.height = jsObject.height;
+    }
+    if (hasValue(jsObject.mask)) {
+        dotNetPixelBlock.mask = jsObject.mask;
+    }
+    if (hasValue(jsObject.maskIsAlpha)) {
+        dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
+    }
+    if (hasValue(jsObject.pixels)) {
+        dotNetPixelBlock.pixels = jsObject.pixels;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetPixelBlock.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetPixelBlock.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.validPixelCount)) {
+        dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetPixelBlock.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

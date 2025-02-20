@@ -7,15 +7,15 @@ export default class WhereClauseWrapper extends WhereClauseGenerated {
     constructor(component: WhereClause) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsWhereClause(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsWhereClauseGenerated } = await import('./whereClause.gb');
+    let {buildJsWhereClauseGenerated} = await import('./whereClause.gb');
     return await buildJsWhereClauseGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetWhereClause(jsObject: any): Promise<any> {
-    let { buildDotNetWhereClauseGenerated } = await import('./whereClause.gb');
+    let {buildDotNetWhereClauseGenerated} = await import('./whereClause.gb');
     return await buildDotNetWhereClauseGenerated(jsObject);
 }

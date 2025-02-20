@@ -1,4 +1,4 @@
-import { buildDotNetExtent } from "./extent";
+import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {DotNetPoint} from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
@@ -35,7 +35,7 @@ export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
     if (hasValue(dnPoint.spatialReference)) {
         point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
     } else {
-        point.spatialReference = new SpatialReference({ wkid: 4326 });
+        point.spatialReference = new SpatialReference({wkid: 4326});
     }
 
     return point;

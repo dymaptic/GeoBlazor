@@ -6,14 +6,15 @@ export default class VersionManagementUtilsWrapper extends VersionManagementUtil
     constructor(component: versionManagementUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsVersionManagementUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsVersionManagementUtilsGenerated } = await import('./versionManagementUtils.gb');
+    let {buildJsVersionManagementUtilsGenerated} = await import('./versionManagementUtils.gb');
     return await buildJsVersionManagementUtilsGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetVersionManagementUtils(jsObject: any): Promise<any> {
-    let { buildDotNetVersionManagementUtilsGenerated } = await import('./versionManagementUtils.gb');
+    let {buildDotNetVersionManagementUtilsGenerated} = await import('./versionManagementUtils.gb');
     return await buildDotNetVersionManagementUtilsGenerated(jsObject);
 }

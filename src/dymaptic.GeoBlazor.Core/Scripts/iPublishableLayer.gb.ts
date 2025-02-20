@@ -12,23 +12,23 @@ export default class IPublishableLayerGenerated implements IPropertyWrapper {
     constructor(layer: PublishableLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,39 +38,40 @@ export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layer
     let jsPublishableLayer = new PublishableLayer();
 
 
-    let { default: IPublishableLayerWrapper } = await import('./iPublishableLayer');
+    let {default: IPublishableLayerWrapper} = await import('./iPublishableLayer');
     let iPublishableLayerWrapper = new IPublishableLayerWrapper(jsPublishableLayer);
     iPublishableLayerWrapper.geoBlazorId = dotNetObject.id;
     iPublishableLayerWrapper.viewId = viewId;
     iPublishableLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iPublishableLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iPublishableLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPublishableLayer;
-    let { buildDotNetIPublishableLayer } = await import('./iPublishableLayer');
+    let {buildDotNetIPublishableLayer} = await import('./iPublishableLayer');
     let dnInstantiatedObject = await buildDotNetIPublishableLayer(jsPublishableLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IPublishableLayer', e);
     }
-    
+
     return jsPublishableLayer;
 }
+
 export async function buildDotNetIPublishableLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIPublishableLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.publishingInfo)) {
-            dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
-        }
+    if (hasValue(jsObject.publishingInfo)) {
+        dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

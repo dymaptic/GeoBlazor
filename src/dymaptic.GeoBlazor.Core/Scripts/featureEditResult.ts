@@ -7,5 +7,5 @@ export default class FeatureEditResultWrapper extends FeatureEditResultGenerated
     constructor(component: FeatureEditResult) {
         super(component);
     }
-    
+
 }              

@@ -12,15 +12,15 @@ export default class DevEnvironmentUtilsGenerated implements IPropertyWrapper {
     constructor(component: devEnvironmentUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async adjustStaticAGOUrl(url: any,
-        hostname: any): Promise<any> {
+                             hostname: any): Promise<any> {
         return this.component.adjustStaticAGOUrl(url,
             hostname);
     }
@@ -34,11 +34,11 @@ export default class DevEnvironmentUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -48,32 +48,33 @@ export async function buildJsDevEnvironmentUtilsGenerated(dotNetObject: any, lay
     let jsdevEnvironmentUtils: any = {}
 
 
-    let { default: DevEnvironmentUtilsWrapper } = await import('./devEnvironmentUtils');
+    let {default: DevEnvironmentUtilsWrapper} = await import('./devEnvironmentUtils');
     let devEnvironmentUtilsWrapper = new DevEnvironmentUtilsWrapper(jsdevEnvironmentUtils);
     devEnvironmentUtilsWrapper.geoBlazorId = dotNetObject.id;
     devEnvironmentUtilsWrapper.viewId = viewId;
     devEnvironmentUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(devEnvironmentUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = devEnvironmentUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsdevEnvironmentUtils;
-    let { buildDotNetDevEnvironmentUtils } = await import('./devEnvironmentUtils');
+    let {buildDotNetDevEnvironmentUtils} = await import('./devEnvironmentUtils');
     let dnInstantiatedObject = await buildDotNetDevEnvironmentUtils(jsdevEnvironmentUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DevEnvironmentUtils', e);
     }
-    
+
     return jsdevEnvironmentUtils;
 }
+
 export async function buildDotNetDevEnvironmentUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDevEnvironmentUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

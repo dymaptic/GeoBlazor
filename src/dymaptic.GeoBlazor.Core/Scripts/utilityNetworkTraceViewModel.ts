@@ -7,15 +7,15 @@ export default class UtilityNetworkTraceViewModelWrapper extends UtilityNetworkT
     constructor(component: UtilityNetworkTraceViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsUtilityNetworkTraceViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsUtilityNetworkTraceViewModelGenerated } = await import('./utilityNetworkTraceViewModel.gb');
+    let {buildJsUtilityNetworkTraceViewModelGenerated} = await import('./utilityNetworkTraceViewModel.gb');
     return await buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetUtilityNetworkTraceViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetUtilityNetworkTraceViewModelGenerated } = await import('./utilityNetworkTraceViewModel.gb');
+    let {buildDotNetUtilityNetworkTraceViewModelGenerated} = await import('./utilityNetworkTraceViewModel.gb');
     return await buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject);
 }

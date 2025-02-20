@@ -12,35 +12,35 @@ export default class MediaUtilsGenerated implements IPropertyWrapper {
     constructor(component: mediaUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createDefaultControlPointsGeoreference(mediaElement: any,
-        extent: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+                                                 extent: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         let result = await this.component.createDefaultControlPointsGeoreference(mediaElement,
             jsExtent);
-        let { buildDotNetControlPointsGeoreference } = await import('./controlPointsGeoreference');
+        let {buildDotNetControlPointsGeoreference} = await import('./controlPointsGeoreference');
         return await buildDotNetControlPointsGeoreference(result);
     }
 
     async createLocalModeControlPointsGeoreference(mediaElement: any): Promise<any> {
         let result = this.component.createLocalModeControlPointsGeoreference(mediaElement);
-        let { buildDotNetControlPointsGeoreference } = await import('./controlPointsGeoreference');
+        let {buildDotNetControlPointsGeoreference} = await import('./controlPointsGeoreference');
         return await buildDotNetControlPointsGeoreference(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsMediaUtilsGenerated(dotNetObject: any, layerId: str
     let jsmediaUtils: any = {}
 
 
-    let { default: MediaUtilsWrapper } = await import('./mediaUtils');
+    let {default: MediaUtilsWrapper} = await import('./mediaUtils');
     let mediaUtilsWrapper = new MediaUtilsWrapper(jsmediaUtils);
     mediaUtilsWrapper.geoBlazorId = dotNetObject.id;
     mediaUtilsWrapper.viewId = viewId;
     mediaUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mediaUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = mediaUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsmediaUtils;
-    let { buildDotNetMediaUtils } = await import('./mediaUtils');
+    let {buildDotNetMediaUtils} = await import('./mediaUtils');
     let dnInstantiatedObject = await buildDotNetMediaUtils(jsmediaUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for MediaUtils', e);
     }
-    
+
     return jsmediaUtils;
 }
+
 export async function buildDotNetMediaUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetMediaUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

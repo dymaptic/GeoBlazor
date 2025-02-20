@@ -12,25 +12,25 @@ export default class DotDensityGenerated implements IPropertyWrapper {
     constructor(component: dotDensity) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsDotDensityCreateRendererParams } = await import('./dotDensityCreateRendererParams');
+        let {buildJsDotDensityCreateRendererParams} = await import('./dotDensityCreateRendererParams');
         let jsparameters = await buildJsDotDensityCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsDotDensityGenerated(dotNetObject: any, layerId: str
     let jsdotDensity: any = {}
 
 
-    let { default: DotDensityWrapper } = await import('./dotDensity');
+    let {default: DotDensityWrapper} = await import('./dotDensity');
     let dotDensityWrapper = new DotDensityWrapper(jsdotDensity);
     dotDensityWrapper.geoBlazorId = dotNetObject.id;
     dotDensityWrapper.viewId = viewId;
     dotDensityWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(dotDensityWrapper);
     jsObjectRefs[dotNetObject.id] = dotDensityWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsdotDensity;
-    let { buildDotNetDotDensity } = await import('./dotDensity');
+    let {buildDotNetDotDensity} = await import('./dotDensity');
     let dnInstantiatedObject = await buildDotNetDotDensity(jsdotDensity);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DotDensity', e);
     }
-    
+
     return jsdotDensity;
 }
+
 export async function buildDotNetDotDensityGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDotDensity: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

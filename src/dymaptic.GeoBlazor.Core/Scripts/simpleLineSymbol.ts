@@ -1,7 +1,7 @@
 // override generated code in this file
 import SimpleLineSymbol from '@arcgis/core/symbols/SimpleLineSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetLineSymbolMarker, buildJsLineSymbolMarker} from "./lineSymbolMarker";
 
 export function buildJsSimpleLineSymbol(dotNetObject: any): any {

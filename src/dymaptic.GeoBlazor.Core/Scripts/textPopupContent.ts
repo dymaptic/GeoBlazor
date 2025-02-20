@@ -22,7 +22,7 @@ export function buildJsTextPopupContent(dotNetObject: any): any {
     }
 
     return jsTextContent;
-}     
+}
 
 export function buildDotNetTextPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {

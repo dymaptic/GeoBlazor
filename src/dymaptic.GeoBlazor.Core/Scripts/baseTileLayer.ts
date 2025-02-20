@@ -10,18 +10,20 @@ export default class BaseTileLayerWrapper extends BaseTileLayerGenerated {
     getTileBounds(level: number, row: number, col: number): any {
         return this.layer.getTileBounds(level, row, col);
     }
-    
+
     async setEffect(effect: any) {
-        let { buildJsEffect } = await import('./effect');
+        let {buildJsEffect} = await import('./effect');
         this.layer.effect = buildJsEffect(effect);
     }
-    
+
 }
+
 export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsBaseTileLayerGenerated } = await import('./baseTileLayer.gb');
+    let {buildJsBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
     return await buildJsBaseTileLayerGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetBaseTileLayer(jsObject: any): Promise<any> {
-    let { buildDotNetBaseTileLayerGenerated } = await import('./baseTileLayer.gb');
+    let {buildDotNetBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
     return await buildDotNetBaseTileLayerGenerated(jsObject);
 }

@@ -12,25 +12,25 @@ export default class LocationGenerated implements IPropertyWrapper {
     constructor(component: location) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsLocationCreateRendererParams } = await import('./locationCreateRendererParams');
+        let {buildJsLocationCreateRendererParams} = await import('./locationCreateRendererParams');
         let jsparameters = await buildJsLocationCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsLocationGenerated(dotNetObject: any, layerId: strin
     let jslocation: any = {}
 
 
-    let { default: LocationWrapper } = await import('./location');
+    let {default: LocationWrapper} = await import('./location');
     let locationWrapper = new LocationWrapper(jslocation);
     locationWrapper.geoBlazorId = dotNetObject.id;
     locationWrapper.viewId = viewId;
     locationWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locationWrapper);
     jsObjectRefs[dotNetObject.id] = locationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslocation;
-    let { buildDotNetLocation } = await import('./location');
+    let {buildDotNetLocation} = await import('./location');
     let dnInstantiatedObject = await buildDotNetLocation(jslocation);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Location', e);
     }
-    
+
     return jslocation;
 }
+
 export async function buildDotNetLocationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLocation: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,25 +12,25 @@ export default class HeatmapStatisticsGenerated implements IPropertyWrapper {
     constructor(component: heatmapStatistics) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async heatmapStatistics(parameters: any): Promise<any> {
-        let { buildJsHeatmapStatisticsHeatmapStatisticsParams } = await import('./heatmapStatisticsHeatmapStatisticsParams');
+        let {buildJsHeatmapStatisticsHeatmapStatisticsParams} = await import('./heatmapStatisticsHeatmapStatisticsParams');
         let jsparameters = await buildJsHeatmapStatisticsHeatmapStatisticsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.heatmapStatistics(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsHeatmapStatisticsGenerated(dotNetObject: any, layer
     let jsheatmapStatistics = new heatmapStatistics();
 
 
-    let { default: HeatmapStatisticsWrapper } = await import('./heatmapStatistics');
+    let {default: HeatmapStatisticsWrapper} = await import('./heatmapStatistics');
     let heatmapStatisticsWrapper = new HeatmapStatisticsWrapper(jsheatmapStatistics);
     heatmapStatisticsWrapper.geoBlazorId = dotNetObject.id;
     heatmapStatisticsWrapper.viewId = viewId;
     heatmapStatisticsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(heatmapStatisticsWrapper);
     jsObjectRefs[dotNetObject.id] = heatmapStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsheatmapStatistics;
-    let { buildDotNetHeatmapStatistics } = await import('./heatmapStatistics');
+    let {buildDotNetHeatmapStatistics} = await import('./heatmapStatistics');
     let dnInstantiatedObject = await buildDotNetHeatmapStatistics(jsheatmapStatistics);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HeatmapStatistics', e);
     }
-    
+
     return jsheatmapStatistics;
 }
+
 export async function buildDotNetHeatmapStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetHeatmapStatistics: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

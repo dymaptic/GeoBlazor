@@ -6,14 +6,15 @@ export default class CoordinateConversionViewModelWrapper extends CoordinateConv
     constructor(component: CoordinateConversionViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsCoordinateConversionViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsCoordinateConversionViewModelGenerated } = await import('./coordinateConversionViewModel.gb');
+    let {buildJsCoordinateConversionViewModelGenerated} = await import('./coordinateConversionViewModel.gb');
     return await buildJsCoordinateConversionViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetCoordinateConversionViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetCoordinateConversionViewModelGenerated } = await import('./coordinateConversionViewModel.gb');
+    let {buildDotNetCoordinateConversionViewModelGenerated} = await import('./coordinateConversionViewModel.gb');
     return await buildDotNetCoordinateConversionViewModelGenerated(jsObject);
 }

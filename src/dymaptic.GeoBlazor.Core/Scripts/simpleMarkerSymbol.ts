@@ -1,7 +1,7 @@
 // override generated code in this file
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 
 export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {

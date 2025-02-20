@@ -12,36 +12,36 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     constructor(component: PortalUser) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addItem(item: any,
-        data: any,
-        folder: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                  data: any,
+                  folder: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsItem,
             data,
             folder);
-        let { buildDotNetPortalItem } = await import('./portalItem');
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
     async deleteItem(item: any,
-        permanentDelete: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                     permanentDelete: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         return await this.component.deleteItem(jsItem,
             permanentDelete);
     }
 
     async deleteItems(items: any,
-        permanentDelete: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                      permanentDelete: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsItems = await buildJsPortalItem(items, this.layerId, this.viewId) as any;
         return await this.component.deleteItems(jsItems,
             permanentDelete);
@@ -53,17 +53,17 @@ export default class PortalUserGenerated implements IPropertyWrapper {
 
     async fetchGroups(): Promise<any> {
         let result = await this.component.fetchGroups();
-        let { buildDotNetPortalGroup } = await import('./portalGroup');
+        let {buildDotNetPortalGroup} = await import('./portalGroup');
         return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i)));
     }
 
     async fetchItems(folder: any,
-        inRecycleBin: any,
-        includeSubfolderItems: any,
-        num: any,
-        sortField: any,
-        sortOrder: any,
-        start: any): Promise<any> {
+                     inRecycleBin: any,
+                     includeSubfolderItems: any,
+                     num: any,
+                     sortField: any,
+                     sortOrder: any,
+                     start: any): Promise<any> {
         return await this.component.fetchItems(folder,
             inRecycleBin,
             includeSubfolderItems,
@@ -82,37 +82,39 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async queryFavorites(queryParams: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let {buildJsPortalQueryParams} = await import('./portalQueryParams');
         let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryFavorites(jsQueryParams);
     }
 
     async restoreItem(item: any,
-        folder: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                      folder: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         return await this.component.restoreItem(jsItem,
             folder);
     }
 
     // region properties
-    
+
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
         }
-        
-        let { buildDotNetPortal } = await import('./portal');
+
+        let {buildDotNetPortal} = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }
+
     async setPortal(value: any): Promise<void> {
-        let { buildJsPortal } = await import('./portal');
-        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
+        let {buildJsPortal} = await import('./portal');
+        this.component.portal = await buildJsPortal(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -167,90 +169,91 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
         jsPortalUser.username = dotNetObject.username;
     }
 
-    let { default: PortalUserWrapper } = await import('./portalUser');
+    let {default: PortalUserWrapper} = await import('./portalUser');
     let portalUserWrapper = new PortalUserWrapper(jsPortalUser);
     portalUserWrapper.geoBlazorId = dotNetObject.id;
     portalUserWrapper.viewId = viewId;
     portalUserWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalUserWrapper);
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
-    let { buildDotNetPortalUser } = await import('./portalUser');
+    let {buildDotNetPortalUser} = await import('./portalUser');
     let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalUser', e);
     }
-    
+
     return jsPortalUser;
 }
+
 export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPortalUser: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.access)) {
-            dotNetPortalUser.access = jsObject.access;
-        }
-        if (hasValue(jsObject.created)) {
-            dotNetPortalUser.created = jsObject.created;
-        }
-        if (hasValue(jsObject.culture)) {
-            dotNetPortalUser.culture = jsObject.culture;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetPortalUser.description = jsObject.description;
-        }
-        if (hasValue(jsObject.email)) {
-            dotNetPortalUser.email = jsObject.email;
-        }
-        if (hasValue(jsObject.fullName)) {
-            dotNetPortalUser.fullName = jsObject.fullName;
-        }
-        if (hasValue(jsObject.modified)) {
-            dotNetPortalUser.modified = jsObject.modified;
-        }
-        if (hasValue(jsObject.orgId)) {
-            dotNetPortalUser.orgId = jsObject.orgId;
-        }
-        if (hasValue(jsObject.preferredView)) {
-            dotNetPortalUser.preferredView = jsObject.preferredView;
-        }
-        if (hasValue(jsObject.privileges)) {
-            dotNetPortalUser.privileges = jsObject.privileges;
-        }
-        if (hasValue(jsObject.region)) {
-            dotNetPortalUser.region = jsObject.region;
-        }
-        if (hasValue(jsObject.role)) {
-            dotNetPortalUser.role = jsObject.role;
-        }
-        if (hasValue(jsObject.roleId)) {
-            dotNetPortalUser.roleId = jsObject.roleId;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetPortalUser.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.units)) {
-            dotNetPortalUser.units = jsObject.units;
-        }
-        if (hasValue(jsObject.userContentUrl)) {
-            dotNetPortalUser.userContentUrl = jsObject.userContentUrl;
-        }
-        if (hasValue(jsObject.username)) {
-            dotNetPortalUser.username = jsObject.username;
-        }
+    if (hasValue(jsObject.access)) {
+        dotNetPortalUser.access = jsObject.access;
+    }
+    if (hasValue(jsObject.created)) {
+        dotNetPortalUser.created = jsObject.created;
+    }
+    if (hasValue(jsObject.culture)) {
+        dotNetPortalUser.culture = jsObject.culture;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetPortalUser.description = jsObject.description;
+    }
+    if (hasValue(jsObject.email)) {
+        dotNetPortalUser.email = jsObject.email;
+    }
+    if (hasValue(jsObject.fullName)) {
+        dotNetPortalUser.fullName = jsObject.fullName;
+    }
+    if (hasValue(jsObject.modified)) {
+        dotNetPortalUser.modified = jsObject.modified;
+    }
+    if (hasValue(jsObject.orgId)) {
+        dotNetPortalUser.orgId = jsObject.orgId;
+    }
+    if (hasValue(jsObject.preferredView)) {
+        dotNetPortalUser.preferredView = jsObject.preferredView;
+    }
+    if (hasValue(jsObject.privileges)) {
+        dotNetPortalUser.privileges = jsObject.privileges;
+    }
+    if (hasValue(jsObject.region)) {
+        dotNetPortalUser.region = jsObject.region;
+    }
+    if (hasValue(jsObject.role)) {
+        dotNetPortalUser.role = jsObject.role;
+    }
+    if (hasValue(jsObject.roleId)) {
+        dotNetPortalUser.roleId = jsObject.roleId;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetPortalUser.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.units)) {
+        dotNetPortalUser.units = jsObject.units;
+    }
+    if (hasValue(jsObject.userContentUrl)) {
+        dotNetPortalUser.userContentUrl = jsObject.userContentUrl;
+    }
+    if (hasValue(jsObject.username)) {
+        dotNetPortalUser.username = jsObject.username;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -1,7 +1,7 @@
 // override generated code in this file
 import BarChartMediaInfo from '@arcgis/core/popup/content/BarChartMediaInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue } from './chartMediaInfoValue';
+import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
 
 export function buildJsBarChartMediaInfo(dotNetObject: any): any {
@@ -34,7 +34,7 @@ export function buildJsBarChartMediaInfo(dotNetObject: any): any {
     }
 
     return jsBarChartMediaInfo;
-}     
+}
 
 export function buildDotNetBarChartMediaInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {

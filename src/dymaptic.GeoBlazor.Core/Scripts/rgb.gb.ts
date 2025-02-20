@@ -12,25 +12,25 @@ export default class RgbGenerated implements IPropertyWrapper {
     constructor(component: rgb) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsRgbCreateRendererParams } = await import('./rgbCreateRendererParams');
+        let {buildJsRgbCreateRendererParams} = await import('./rgbCreateRendererParams');
         let jsparameters = await buildJsRgbCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsRgbGenerated(dotNetObject: any, layerId: string | n
     let jsrgb: any = {}
 
 
-    let { default: RgbWrapper } = await import('./rgb');
+    let {default: RgbWrapper} = await import('./rgb');
     let rgbWrapper = new RgbWrapper(jsrgb);
     rgbWrapper.geoBlazorId = dotNetObject.id;
     rgbWrapper.viewId = viewId;
     rgbWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rgbWrapper);
     jsObjectRefs[dotNetObject.id] = rgbWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsrgb;
-    let { buildDotNetRgb } = await import('./rgb');
+    let {buildDotNetRgb} = await import('./rgb');
     let dnInstantiatedObject = await buildDotNetRgb(jsrgb);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Rgb', e);
     }
-    
+
     return jsrgb;
 }
+
 export async function buildDotNetRgbGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRgb: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,13 +12,13 @@ export default class ZoomViewModelGenerated implements IPropertyWrapper {
     constructor(component: ZoomViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async zoomIn(): Promise<void> {
         this.component.zoomIn();
     }
@@ -28,11 +28,11 @@ export default class ZoomViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -51,48 +51,49 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
         jsZoomViewModel.view = dotNetObject.view;
     }
 
-    let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
+    let {default: ZoomViewModelWrapper} = await import('./zoomViewModel');
     let zoomViewModelWrapper = new ZoomViewModelWrapper(jsZoomViewModel);
     zoomViewModelWrapper.geoBlazorId = dotNetObject.id;
     zoomViewModelWrapper.viewId = viewId;
     zoomViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(zoomViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = zoomViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoomViewModel;
-    let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
+    let {buildDotNetZoomViewModel} = await import('./zoomViewModel');
     let dnInstantiatedObject = await buildDotNetZoomViewModel(jsZoomViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ZoomViewModel', e);
     }
-    
+
     return jsZoomViewModel;
 }
+
 export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetZoomViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.canZoomIn)) {
-            dotNetZoomViewModel.canZoomIn = jsObject.canZoomIn;
-        }
-        if (hasValue(jsObject.canZoomOut)) {
-            dotNetZoomViewModel.canZoomOut = jsObject.canZoomOut;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetZoomViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetZoomViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.canZoomIn)) {
+        dotNetZoomViewModel.canZoomIn = jsObject.canZoomIn;
+    }
+    if (hasValue(jsObject.canZoomOut)) {
+        dotNetZoomViewModel.canZoomOut = jsObject.canZoomOut;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetZoomViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetZoomViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -7,15 +7,15 @@ export default class NetworkServiceWrapper extends NetworkServiceGenerated {
     constructor(component: networkService) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsNetworkService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsNetworkServiceGenerated } = await import('./networkService.gb');
+    let {buildJsNetworkServiceGenerated} = await import('./networkService.gb');
     return await buildJsNetworkServiceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetNetworkService(jsObject: any): Promise<any> {
-    let { buildDotNetNetworkServiceGenerated } = await import('./networkService.gb');
+    let {buildDotNetNetworkServiceGenerated} = await import('./networkService.gb');
     return await buildDotNetNetworkServiceGenerated(jsObject);
 }

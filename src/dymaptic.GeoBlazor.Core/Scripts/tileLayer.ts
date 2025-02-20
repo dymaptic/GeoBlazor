@@ -7,13 +7,15 @@ export default class TileLayerWrapper extends TileLayerGenerated {
     constructor(layer: TileLayer) {
         super(layer);
     }
-    
-}              
+
+}
+
 export async function buildJsTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsTileLayerGenerated } = await import('./tileLayer.gb');
+    let {buildJsTileLayerGenerated} = await import('./tileLayer.gb');
     return await buildJsTileLayerGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetTileLayer(jsObject: any): Promise<any> {
-    let { buildDotNetTileLayerGenerated } = await import('./tileLayer.gb');
+    let {buildDotNetTileLayerGenerated} = await import('./tileLayer.gb');
     return await buildDotNetTileLayerGenerated(jsObject);
 }

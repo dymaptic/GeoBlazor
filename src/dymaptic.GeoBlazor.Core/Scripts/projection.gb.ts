@@ -12,13 +12,13 @@ export default class ProjectionGenerated implements IPropertyWrapper {
     constructor(component: projection) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async isLoaded(): Promise<any> {
         return this.component.isLoaded();
     }
@@ -28,11 +28,11 @@ export default class ProjectionGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
     let jsprojection: any = {}
 
 
-    let { default: ProjectionWrapper } = await import('./projection');
+    let {default: ProjectionWrapper} = await import('./projection');
     let projectionWrapper = new ProjectionWrapper(jsprojection);
     projectionWrapper.geoBlazorId = dotNetObject.id;
     projectionWrapper.viewId = viewId;
     projectionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(projectionWrapper);
     jsObjectRefs[dotNetObject.id] = projectionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsprojection;
-    let { buildDotNetProjection } = await import('./projection');
+    let {buildDotNetProjection} = await import('./projection');
     let dnInstantiatedObject = await buildDotNetProjection(jsprojection);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Projection', e);
     }
-    
+
     return jsprojection;
 }
+
 export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetProjection: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

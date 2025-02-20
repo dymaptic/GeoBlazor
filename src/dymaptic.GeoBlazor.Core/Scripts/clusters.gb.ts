@@ -12,25 +12,25 @@ export default class ClustersGenerated implements IPropertyWrapper {
     constructor(component: clusters) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getLabelSchemes(parameters: any): Promise<any> {
-        let { buildJsClustersGetLabelSchemesParams } = await import('./clustersGetLabelSchemesParams');
+        let {buildJsClustersGetLabelSchemesParams} = await import('./clustersGetLabelSchemesParams');
         let jsparameters = await buildJsClustersGetLabelSchemesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.getLabelSchemes(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsClustersGenerated(dotNetObject: any, layerId: strin
     let jsclusters: any = {}
 
 
-    let { default: ClustersWrapper } = await import('./clusters');
+    let {default: ClustersWrapper} = await import('./clusters');
     let clustersWrapper = new ClustersWrapper(jsclusters);
     clustersWrapper.geoBlazorId = dotNetObject.id;
     clustersWrapper.viewId = viewId;
     clustersWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(clustersWrapper);
     jsObjectRefs[dotNetObject.id] = clustersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsclusters;
-    let { buildDotNetClusters } = await import('./clusters');
+    let {buildDotNetClusters} = await import('./clusters');
     let dnInstantiatedObject = await buildDotNetClusters(jsclusters);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Clusters', e);
     }
-    
+
     return jsclusters;
 }
+
 export async function buildDotNetClustersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetClusters: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

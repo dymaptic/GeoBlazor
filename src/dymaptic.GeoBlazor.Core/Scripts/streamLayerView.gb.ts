@@ -12,13 +12,13 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
     constructor(component: StreamLayerView) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async connect(): Promise<void> {
         this.component.connect();
     }
@@ -36,40 +36,40 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
     }
 
     async queryExtent(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                      options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                            options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                        options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryLatestObservations(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                                  options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryLatestObservations(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                         options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
@@ -80,31 +80,34 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
         }
-        
-        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }
+
     async setFilter(value: any): Promise<void> {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
+        let {buildJsFeatureFilter} = await import('./featureFilter');
+        this.component.filter = await buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -113,88 +116,89 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
 export async function buildJsStreamLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsStreamLayerView = new StreamLayerView();
     if (hasValue(dotNetObject.filter)) {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
+        let {buildJsFeatureFilter} = await import('./featureFilter');
         jsStreamLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect} = dotNetObject.featureEffect;
         jsStreamLayerView.featureEffect = sanitizedFeatureEffect;
     }
     jsStreamLayerView.on('data-received', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDataReceived', evt);
     });
-    
+
     jsStreamLayerView.on('message-received', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsMessageReceived', evt);
     });
-    
+
     jsStreamLayerView.on('update-rate', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsUpdateRate', evt);
     });
-    
 
-    let { default: StreamLayerViewWrapper } = await import('./streamLayerView');
+
+    let {default: StreamLayerViewWrapper} = await import('./streamLayerView');
     let streamLayerViewWrapper = new StreamLayerViewWrapper(jsStreamLayerView);
     streamLayerViewWrapper.geoBlazorId = dotNetObject.id;
     streamLayerViewWrapper.viewId = viewId;
     streamLayerViewWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(streamLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = streamLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerView;
-    let { buildDotNetStreamLayerView } = await import('./streamLayerView');
+    let {buildDotNetStreamLayerView} = await import('./streamLayerView');
     let dnInstantiatedObject = await buildDotNetStreamLayerView(jsStreamLayerView);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for StreamLayerView', e);
     }
-    
+
     return jsStreamLayerView;
 }
+
 export async function buildDotNetStreamLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetStreamLayerView: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetStreamLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.connectionError)) {
-            dotNetStreamLayerView.connectionError = jsObject.connectionError;
-        }
-        if (hasValue(jsObject.connectionStatus)) {
-            dotNetStreamLayerView.connectionStatus = jsObject.connectionStatus;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetStreamLayerView.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetStreamLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetStreamLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetStreamLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetStreamLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetStreamLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetStreamLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.filter)) {
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
+        dotNetStreamLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.connectionError)) {
+        dotNetStreamLayerView.connectionError = jsObject.connectionError;
+    }
+    if (hasValue(jsObject.connectionStatus)) {
+        dotNetStreamLayerView.connectionStatus = jsObject.connectionStatus;
+    }
+    if (hasValue(jsObject.featureEffect)) {
+        dotNetStreamLayerView.featureEffect = jsObject.featureEffect;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetStreamLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetStreamLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetStreamLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetStreamLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetStreamLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetStreamLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,25 +12,25 @@ export default class RequestGenerated implements IPropertyWrapper {
     constructor(component: request) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async esriRequest(url: any,
-        options: any): Promise<any> {
+                      options: any): Promise<any> {
         return await this.component.esriRequest(url,
             options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsRequestGenerated(dotNetObject: any, layerId: string
     let jsrequest = new request();
 
 
-    let { default: RequestWrapper } = await import('./request');
+    let {default: RequestWrapper} = await import('./request');
     let requestWrapper = new RequestWrapper(jsrequest);
     requestWrapper.geoBlazorId = dotNetObject.id;
     requestWrapper.viewId = viewId;
     requestWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(requestWrapper);
     jsObjectRefs[dotNetObject.id] = requestWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsrequest;
-    let { buildDotNetRequest } = await import('./request');
+    let {buildDotNetRequest} = await import('./request');
     let dnInstantiatedObject = await buildDotNetRequest(jsrequest);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Request', e);
     }
-    
+
     return jsrequest;
 }
+
 export async function buildDotNetRequestGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRequest: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

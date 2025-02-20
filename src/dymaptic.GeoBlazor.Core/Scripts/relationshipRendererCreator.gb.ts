@@ -12,33 +12,33 @@ export default class RelationshipRendererCreatorGenerated implements IPropertyWr
     constructor(component: relationship) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsRelationshipCreateRendererParams } = await import('./relationshipCreateRendererParams');
+        let {buildJsRelationshipCreateRendererParams} = await import('./relationshipCreateRendererParams');
         let jsparameters = await buildJsRelationshipCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     async updateRenderer(parameters: any): Promise<any> {
-        let { buildJsRelationshipUpdateRendererParams } = await import('./relationshipUpdateRendererParams');
+        let {buildJsRelationshipUpdateRendererParams} = await import('./relationshipUpdateRendererParams');
         let jsparameters = await buildJsRelationshipUpdateRendererParams(parameters, this.layerId, this.viewId) as any;
         let result = await this.component.updateRenderer(jsparameters);
-        let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
+        let {buildDotNetUniqueValueRenderer} = await import('./uniqueValueRenderer');
         return await buildDotNetUniqueValueRenderer(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -48,32 +48,33 @@ export async function buildJsRelationshipRendererCreatorGenerated(dotNetObject: 
     let jsrelationship: any = {}
 
 
-    let { default: RelationshipRendererCreatorWrapper } = await import('./relationshipRendererCreator');
+    let {default: RelationshipRendererCreatorWrapper} = await import('./relationshipRendererCreator');
     let relationshipRendererCreatorWrapper = new RelationshipRendererCreatorWrapper(jsrelationship);
     relationshipRendererCreatorWrapper.geoBlazorId = dotNetObject.id;
     relationshipRendererCreatorWrapper.viewId = viewId;
     relationshipRendererCreatorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(relationshipRendererCreatorWrapper);
     jsObjectRefs[dotNetObject.id] = relationshipRendererCreatorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsrelationship;
-    let { buildDotNetRelationshipRendererCreator } = await import('./relationshipRendererCreator');
+    let {buildDotNetRelationshipRendererCreator} = await import('./relationshipRendererCreator');
     let dnInstantiatedObject = await buildDotNetRelationshipRendererCreator(jsrelationship);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RelationshipRendererCreator', e);
     }
-    
+
     return jsrelationship;
 }
+
 export async function buildDotNetRelationshipRendererCreatorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRelationshipRendererCreator: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

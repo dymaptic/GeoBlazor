@@ -1,7 +1,7 @@
 // override generated code in this file
 import ImageMediaInfo from '@arcgis/core/popup/content/ImageMediaInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetImageMediaInfoValue, buildJsImageMediaInfoValue } from './imageMediaInfoValue';
+import {buildDotNetImageMediaInfoValue, buildJsImageMediaInfoValue} from './imageMediaInfoValue';
 
 export function buildJsImageMediaInfo(dotNetObject: any): any {
     let jsImageMediaInfo = new ImageMediaInfo();
@@ -36,7 +36,7 @@ export function buildJsImageMediaInfo(dotNetObject: any): any {
     }
 
     return jsImageMediaInfo;
-}     
+}
 
 export function buildDotNetImageMediaInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {

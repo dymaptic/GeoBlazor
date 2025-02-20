@@ -12,23 +12,23 @@ export default class SymbolsPathSymbol3DLayerGenerated implements IPropertyWrapp
     constructor(layer: symbolsPathSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsSymbolsPathSymbol3DLayerGenerated(dotNetObject: any
     let jssymbolsPathSymbol3DLayer: any = {}
 
 
-    let { default: SymbolsPathSymbol3DLayerWrapper } = await import('./symbolsPathSymbol3DLayer');
+    let {default: SymbolsPathSymbol3DLayerWrapper} = await import('./symbolsPathSymbol3DLayer');
     let symbolsPathSymbol3DLayerWrapper = new SymbolsPathSymbol3DLayerWrapper(jssymbolsPathSymbol3DLayer);
     symbolsPathSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     symbolsPathSymbol3DLayerWrapper.viewId = viewId;
     symbolsPathSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbolsPathSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = symbolsPathSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsPathSymbol3DLayer;
-    let { buildDotNetSymbolsPathSymbol3DLayer } = await import('./symbolsPathSymbol3DLayer');
+    let {buildDotNetSymbolsPathSymbol3DLayer} = await import('./symbolsPathSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetSymbolsPathSymbol3DLayer(jssymbolsPathSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbolsPathSymbol3DLayer', e);
     }
-    
+
     return jssymbolsPathSymbol3DLayer;
 }
+
 export async function buildDotNetSymbolsPathSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbolsPathSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -7,15 +7,15 @@ export default class UnivariateColorSizeWrapper extends UnivariateColorSizeGener
     constructor(component: univariateColorSize) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsUnivariateColorSize(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsUnivariateColorSizeGenerated } = await import('./univariateColorSize.gb');
+    let {buildJsUnivariateColorSizeGenerated} = await import('./univariateColorSize.gb');
     return await buildJsUnivariateColorSizeGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetUnivariateColorSize(jsObject: any): Promise<any> {
-    let { buildDotNetUnivariateColorSizeGenerated } = await import('./univariateColorSize.gb');
+    let {buildDotNetUnivariateColorSizeGenerated} = await import('./univariateColorSize.gb');
     return await buildDotNetUnivariateColorSizeGenerated(jsObject);
 }

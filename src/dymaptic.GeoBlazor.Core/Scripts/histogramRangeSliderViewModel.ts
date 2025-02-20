@@ -6,14 +6,15 @@ export default class HistogramRangeSliderViewModelWrapper extends HistogramRange
     constructor(component: HistogramRangeSliderViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsHistogramRangeSliderViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsHistogramRangeSliderViewModelGenerated } = await import('./histogramRangeSliderViewModel.gb');
+    let {buildJsHistogramRangeSliderViewModelGenerated} = await import('./histogramRangeSliderViewModel.gb');
     return await buildJsHistogramRangeSliderViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetHistogramRangeSliderViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetHistogramRangeSliderViewModelGenerated } = await import('./histogramRangeSliderViewModel.gb');
+    let {buildDotNetHistogramRangeSliderViewModelGenerated} = await import('./histogramRangeSliderViewModel.gb');
     return await buildDotNetHistogramRangeSliderViewModelGenerated(jsObject);
 }

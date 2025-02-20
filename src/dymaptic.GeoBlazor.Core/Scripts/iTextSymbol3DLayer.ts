@@ -7,15 +7,15 @@ export default class ITextSymbol3DLayerWrapper extends ITextSymbol3DLayerGenerat
     constructor(layer: TextSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsITextSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsITextSymbol3DLayerGenerated } = await import('./iTextSymbol3DLayer.gb');
+    let {buildJsITextSymbol3DLayerGenerated} = await import('./iTextSymbol3DLayer.gb');
     return await buildJsITextSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetITextSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetITextSymbol3DLayerGenerated } = await import('./iTextSymbol3DLayer.gb');
+    let {buildDotNetITextSymbol3DLayerGenerated} = await import('./iTextSymbol3DLayer.gb');
     return await buildDotNetITextSymbol3DLayerGenerated(jsObject);
 }

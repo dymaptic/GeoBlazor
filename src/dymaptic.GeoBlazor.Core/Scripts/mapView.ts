@@ -1,22 +1,13 @@
-import {
-    DotNetHitTestResult,
-    DotNetViewHit,
-} from "./definitions";
-import Geometry from "@arcgis/core/geometry/Geometry";
-import { 
-    arcGisObjectRefs, 
-    hasValue
-} from "./arcGisJsInterop";
-import Graphic from "@arcgis/core/Graphic";
+import {DotNetHitTestResult, DotNetViewHit,} from "./definitions";
+import {arcGisObjectRefs} from "./arcGisJsInterop";
 import View from "@arcgis/core/views/View";
 import MapView from "@arcgis/core/views/MapView";
 import SceneView from "@arcgis/core/views/SceneView";
+import {buildDotNetGraphic} from "./graphic";
+import {buildDotNetExtent} from "./extent";
+import {buildDotNetPoint} from "./point";
 import HitTestResult = __esri.HitTestResult;
 import ViewHit = __esri.ViewHit;
-import { buildDotNetGraphic } from "./graphic";
-import { buildDotNetExtent } from "./extent";
-import { buildDotNetPoint } from "./point";
-import {buildDotNetGeometry} from "./geometry";
 
 export async function buildDotNetHitTestResult(hitTestResult: HitTestResult, viewId: string): Promise<DotNetHitTestResult> {
     let results = await Promise.all(hitTestResult.results.map(async r => await buildDotNetViewHit(r, viewId)))
@@ -39,7 +30,7 @@ async function buildDotNetViewHit(viewHit: ViewHit, viewId: string): Promise<any
                     }
                 }
             }
-            let { buildDotNetPoint } = await import('./point');
+            let {buildDotNetPoint} = await import('./point');
             return {
                 type: "graphic",
                 graphic: buildDotNetGraphic(viewHit.graphic, layerId, viewId),

@@ -6,14 +6,15 @@ export default class SymbolsWaterSymbol3DLayerWrapper extends SymbolsWaterSymbol
     constructor(layer: symbolsWaterSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsSymbolsWaterSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsSymbolsWaterSymbol3DLayerGenerated } = await import('./symbolsWaterSymbol3DLayer.gb');
+    let {buildJsSymbolsWaterSymbol3DLayerGenerated} = await import('./symbolsWaterSymbol3DLayer.gb');
     return await buildJsSymbolsWaterSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetSymbolsWaterSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetSymbolsWaterSymbol3DLayerGenerated } = await import('./symbolsWaterSymbol3DLayer.gb');
+    let {buildDotNetSymbolsWaterSymbol3DLayerGenerated} = await import('./symbolsWaterSymbol3DLayer.gb');
     return await buildDotNetSymbolsWaterSymbol3DLayerGenerated(jsObject);
 }

@@ -12,27 +12,27 @@ export default class IHighlightLayerViewMixinGenerated implements IPropertyWrapp
     constructor(component: HighlightLayerViewMixin) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        let {buildDotNetHighlightHandle} = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,43 +42,50 @@ export async function buildJsIHighlightLayerViewMixinGenerated(dotNetObject: any
     let jsHighlightLayerViewMixin = new HighlightLayerViewMixin();
 
     if (hasValue(dotNetObject.highlightOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHighlightOptions } = dotNetObject.highlightOptions;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedHighlightOptions
+        } = dotNetObject.highlightOptions;
         jsHighlightLayerViewMixin.highlightOptions = sanitizedHighlightOptions;
     }
 
-    let { default: IHighlightLayerViewMixinWrapper } = await import('./iHighlightLayerViewMixin');
+    let {default: IHighlightLayerViewMixinWrapper} = await import('./iHighlightLayerViewMixin');
     let iHighlightLayerViewMixinWrapper = new IHighlightLayerViewMixinWrapper(jsHighlightLayerViewMixin);
     iHighlightLayerViewMixinWrapper.geoBlazorId = dotNetObject.id;
     iHighlightLayerViewMixinWrapper.viewId = viewId;
     iHighlightLayerViewMixinWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iHighlightLayerViewMixinWrapper);
     jsObjectRefs[dotNetObject.id] = iHighlightLayerViewMixinWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightLayerViewMixin;
-    let { buildDotNetIHighlightLayerViewMixin } = await import('./iHighlightLayerViewMixin');
+    let {buildDotNetIHighlightLayerViewMixin} = await import('./iHighlightLayerViewMixin');
     let dnInstantiatedObject = await buildDotNetIHighlightLayerViewMixin(jsHighlightLayerViewMixin);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IHighlightLayerViewMixin', e);
     }
-    
+
     return jsHighlightLayerViewMixin;
 }
+
 export async function buildDotNetIHighlightLayerViewMixinGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIHighlightLayerViewMixin: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.highlightOptions)) {
-            dotNetIHighlightLayerViewMixin.highlightOptions = jsObject.highlightOptions;
-        }
+    if (hasValue(jsObject.highlightOptions)) {
+        dotNetIHighlightLayerViewMixin.highlightOptions = jsObject.highlightOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

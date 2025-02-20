@@ -12,17 +12,17 @@ export default class SynthesizeAssociationGeometriesGenerated implements IProper
     constructor(component: synthesizeAssociationGeometries) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async synthesizeAssociationGeometries(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsSynthesizeAssociationGeometriesParameters } = await import('./synthesizeAssociationGeometriesParameters');
+                                          parameters: any,
+                                          requestOptions: any): Promise<any> {
+        let {buildJsSynthesizeAssociationGeometriesParameters} = await import('./synthesizeAssociationGeometriesParameters');
         let jsparameters = await buildJsSynthesizeAssociationGeometriesParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.synthesizeAssociationGeometries(url,
             jsparameters,
@@ -30,11 +30,11 @@ export default class SynthesizeAssociationGeometriesGenerated implements IProper
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsSynthesizeAssociationGeometriesGenerated(dotNetObje
     let jssynthesizeAssociationGeometries: any = {}
 
 
-    let { default: SynthesizeAssociationGeometriesWrapper } = await import('./synthesizeAssociationGeometries');
+    let {default: SynthesizeAssociationGeometriesWrapper} = await import('./synthesizeAssociationGeometries');
     let synthesizeAssociationGeometriesWrapper = new SynthesizeAssociationGeometriesWrapper(jssynthesizeAssociationGeometries);
     synthesizeAssociationGeometriesWrapper.geoBlazorId = dotNetObject.id;
     synthesizeAssociationGeometriesWrapper.viewId = viewId;
     synthesizeAssociationGeometriesWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(synthesizeAssociationGeometriesWrapper);
     jsObjectRefs[dotNetObject.id] = synthesizeAssociationGeometriesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssynthesizeAssociationGeometries;
-    let { buildDotNetSynthesizeAssociationGeometries } = await import('./synthesizeAssociationGeometries');
+    let {buildDotNetSynthesizeAssociationGeometries} = await import('./synthesizeAssociationGeometries');
     let dnInstantiatedObject = await buildDotNetSynthesizeAssociationGeometries(jssynthesizeAssociationGeometries);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SynthesizeAssociationGeometries', e);
     }
-    
+
     return jssynthesizeAssociationGeometries;
 }
+
 export async function buildDotNetSynthesizeAssociationGeometriesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSynthesizeAssociationGeometries: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

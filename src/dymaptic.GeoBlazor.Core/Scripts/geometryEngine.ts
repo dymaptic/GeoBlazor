@@ -636,18 +636,20 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
 
     async intersectLinesToPoints(line1: any,
                                  line2: any): Promise<any> {
-        let { buildJsPolyline } = await import('./polyline');
+        let {buildJsPolyline} = await import('./polyline');
         let jsLine1 = buildJsPolyline(line1) as any;
         let jsLine2 = buildJsPolyline(line2) as any;
         return this.component.intersectLinesToPoints(jsLine1,
             jsLine2);
     }
 }
+
 export async function buildJsGeometryEngine(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsGeometryEngineGenerated } = await import('./geometryEngine.gb');
+    let {buildJsGeometryEngineGenerated} = await import('./geometryEngine.gb');
     return await buildJsGeometryEngineGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetGeometryEngine(jsObject: any): Promise<any> {
-    let { buildDotNetGeometryEngineGenerated } = await import('./geometryEngine.gb');
+    let {buildDotNetGeometryEngineGenerated} = await import('./geometryEngine.gb');
     return await buildDotNetGeometryEngineGenerated(jsObject);
 }

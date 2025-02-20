@@ -12,13 +12,13 @@ export default class RasterFunctionUtilsGenerated implements IPropertyWrapper {
     constructor(component: rasterFunctionUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async abs(parameters: any): Promise<any> {
         return this.component.abs(parameters);
     }
@@ -220,7 +220,7 @@ export default class RasterFunctionUtilsGenerated implements IPropertyWrapper {
     }
 
     async clip(parameters: any): Promise<any> {
-        let { buildJsRasterFunctionUtilsClipParameters } = await import('./rasterFunctionUtilsClipParameters');
+        let {buildJsRasterFunctionUtilsClipParameters} = await import('./rasterFunctionUtilsClipParameters');
         let jsParameters = await buildJsRasterFunctionUtilsClipParameters(parameters, this.layerId, this.viewId) as any;
         return this.component.clip(jsParameters);
     }
@@ -406,7 +406,7 @@ export default class RasterFunctionUtilsGenerated implements IPropertyWrapper {
     }
 
     async table(parameters: any): Promise<any> {
-        let { buildJsRasterFunctionUtilsTableParameters } = await import('./rasterFunctionUtilsTableParameters');
+        let {buildJsRasterFunctionUtilsTableParameters} = await import('./rasterFunctionUtilsTableParameters');
         let jsParameters = await buildJsRasterFunctionUtilsTableParameters(parameters, this.layerId, this.viewId) as any;
         return this.component.table(jsParameters);
     }
@@ -424,11 +424,11 @@ export default class RasterFunctionUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -438,39 +438,40 @@ export async function buildJsRasterFunctionUtilsGenerated(dotNetObject: any, lay
     let jsrasterFunctionUtils: any = {}
 
 
-    let { default: RasterFunctionUtilsWrapper } = await import('./rasterFunctionUtils');
+    let {default: RasterFunctionUtilsWrapper} = await import('./rasterFunctionUtils');
     let rasterFunctionUtilsWrapper = new RasterFunctionUtilsWrapper(jsrasterFunctionUtils);
     rasterFunctionUtilsWrapper.geoBlazorId = dotNetObject.id;
     rasterFunctionUtilsWrapper.viewId = viewId;
     rasterFunctionUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterFunctionUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = rasterFunctionUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsrasterFunctionUtils;
-    let { buildDotNetRasterFunctionUtils } = await import('./rasterFunctionUtils');
+    let {buildDotNetRasterFunctionUtils} = await import('./rasterFunctionUtils');
     let dnInstantiatedObject = await buildDotNetRasterFunctionUtils(jsrasterFunctionUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RasterFunctionUtils', e);
     }
-    
+
     return jsrasterFunctionUtils;
 }
+
 export async function buildDotNetRasterFunctionUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRasterFunctionUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultRaster)) {
-            dotNetRasterFunctionUtils.defaultRaster = jsObject.defaultRaster;
-        }
+    if (hasValue(jsObject.defaultRaster)) {
+        dotNetRasterFunctionUtils.defaultRaster = jsObject.defaultRaster;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

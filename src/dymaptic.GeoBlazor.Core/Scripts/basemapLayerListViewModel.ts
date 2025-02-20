@@ -7,15 +7,15 @@ export default class BasemapLayerListViewModelWrapper extends BasemapLayerListVi
     constructor(component: BasemapLayerListViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsBasemapLayerListViewModelGenerated } = await import('./basemapLayerListViewModel.gb');
+    let {buildJsBasemapLayerListViewModelGenerated} = await import('./basemapLayerListViewModel.gb');
     return await buildJsBasemapLayerListViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetBasemapLayerListViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetBasemapLayerListViewModelGenerated } = await import('./basemapLayerListViewModel.gb');
+    let {buildDotNetBasemapLayerListViewModelGenerated} = await import('./basemapLayerListViewModel.gb');
     return await buildDotNetBasemapLayerListViewModelGenerated(jsObject);
 }

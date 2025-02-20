@@ -7,15 +7,15 @@ export default class MeshUtilsWrapper extends MeshUtilsGenerated {
     constructor(component: meshUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsMeshUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsMeshUtilsGenerated } = await import('./meshUtils.gb');
+    let {buildJsMeshUtilsGenerated} = await import('./meshUtils.gb');
     return await buildJsMeshUtilsGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetMeshUtils(jsObject: any): Promise<any> {
-    let { buildDotNetMeshUtilsGenerated } = await import('./meshUtils.gb');
+    let {buildDotNetMeshUtilsGenerated} = await import('./meshUtils.gb');
     return await buildDotNetMeshUtilsGenerated(jsObject);
 }

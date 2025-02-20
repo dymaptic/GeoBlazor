@@ -29,26 +29,21 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.title)) {
         jsActionButton.title = dotNetObject.title;
     }
-    let { default: ActionButtonWrapper } = await import('./actionButton');
-    let actionButtonWrapper = new ActionButtonWrapper(jsActionButton);
-    actionButtonWrapper.geoBlazorId = dotNetObject.id;
-    actionButtonWrapper.viewId = viewId;
-    actionButtonWrapper.layerId = layerId;
     
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(actionButtonWrapper);
-    jsObjectRefs[dotNetObject.id] = actionButtonWrapper;
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
-    
-    let { buildDotNetActionButton } = await import('./actionButton');
+
+    let {buildDotNetActionButton} = await import('./actionButton');
     let dnInstantiatedObject = await buildDotNetActionButton(jsActionButton);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ActionButton', e);
     }
-    
+
     return jsActionButton;
 }
 
@@ -56,35 +51,35 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetActionButton: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetActionButton.actionId = jsObject.id;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetActionButton.active = jsObject.active;
-        }
-        if (hasValue(jsObject.className)) {
-            dotNetActionButton.className = jsObject.className;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetActionButton.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetActionButton.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetActionButton.image = jsObject.image;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetActionButton.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetActionButton.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetActionButton.actionId = jsObject.id;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetActionButton.active = jsObject.active;
+    }
+    if (hasValue(jsObject.className)) {
+        dotNetActionButton.className = jsObject.className;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetActionButton.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetActionButton.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetActionButton.image = jsObject.image;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetActionButton.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetActionButton.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

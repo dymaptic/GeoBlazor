@@ -12,13 +12,13 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
     constructor(component: ViewAnimation) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async finish(): Promise<void> {
         this.component.finish();
     }
@@ -28,23 +28,25 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getTarget(): Promise<any> {
         if (!hasValue(this.component.target)) {
             return null;
         }
-        
-        let { buildDotNetViewpoint } = await import('./viewpoint');
+
+        let {buildDotNetViewpoint} = await import('./viewpoint');
         return buildDotNetViewpoint(this.component.target);
     }
+
     async setTarget(value: any): Promise<void> {
-        let { buildJsViewpoint } = await import('./viewpoint');
-        this.component.target =  buildJsViewpoint(value);
+        let {buildJsViewpoint} = await import('./viewpoint');
+        this.component.target = buildJsViewpoint(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -53,48 +55,49 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
 export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsViewAnimation = new ViewAnimation();
     if (hasValue(dotNetObject.target)) {
-        let { buildJsViewpoint } = await import('./viewpoint');
+        let {buildJsViewpoint} = await import('./viewpoint');
         jsViewAnimation.target = buildJsViewpoint(dotNetObject.target) as any;
     }
 
 
-    let { default: ViewAnimationWrapper } = await import('./viewAnimation');
+    let {default: ViewAnimationWrapper} = await import('./viewAnimation');
     let viewAnimationWrapper = new ViewAnimationWrapper(jsViewAnimation);
     viewAnimationWrapper.geoBlazorId = dotNetObject.id;
     viewAnimationWrapper.viewId = viewId;
     viewAnimationWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(viewAnimationWrapper);
     jsObjectRefs[dotNetObject.id] = viewAnimationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewAnimation;
-    let { buildDotNetViewAnimation } = await import('./viewAnimation');
+    let {buildDotNetViewAnimation} = await import('./viewAnimation');
     let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ViewAnimation', e);
     }
-    
+
     return jsViewAnimation;
 }
+
 export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetViewAnimation: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.target)) {
-            let { buildDotNetViewpoint } = await import('./viewpoint');
-            dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetViewAnimation.state = jsObject.state;
-        }
+    if (hasValue(jsObject.target)) {
+        let {buildDotNetViewpoint} = await import('./viewpoint');
+        dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetViewAnimation.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

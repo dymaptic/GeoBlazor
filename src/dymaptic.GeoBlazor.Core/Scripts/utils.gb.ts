@@ -12,25 +12,25 @@ export default class UtilsGenerated implements IPropertyWrapper {
     constructor(component: utils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getColorsForRendererValues(renderer: any): Promise<any> {
-        let { buildJsRenderer } = await import('./renderer');
+        let {buildJsRenderer} = await import('./renderer');
         let jsRenderer = await buildJsRenderer(renderer, this.layerId, this.viewId) as any;
         return await this.component.getColorsForRendererValues(jsRenderer);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsUtilsGenerated(dotNetObject: any, layerId: string |
     let jsutils: any = {}
 
 
-    let { default: UtilsWrapper } = await import('./utils');
+    let {default: UtilsWrapper} = await import('./utils');
     let utilsWrapper = new UtilsWrapper(jsutils);
     utilsWrapper.geoBlazorId = dotNetObject.id;
     utilsWrapper.viewId = viewId;
     utilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(utilsWrapper);
     jsObjectRefs[dotNetObject.id] = utilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsutils;
-    let { buildDotNetUtils } = await import('./utils');
+    let {buildDotNetUtils} = await import('./utils');
     let dnInstantiatedObject = await buildDotNetUtils(jsutils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Utils', e);
     }
-    
+
     return jsutils;
 }
+
 export async function buildDotNetUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

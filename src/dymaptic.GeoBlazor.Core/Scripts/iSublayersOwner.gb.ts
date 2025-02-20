@@ -12,45 +12,45 @@ export default class ISublayersOwnerGenerated implements IPropertyWrapper {
     constructor(component: SublayersOwner) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createServiceSublayers(): Promise<any> {
         let result = this.component.createServiceSublayers();
-        let { buildDotNetSublayer } = await import('./sublayer');
+        let {buildDotNetSublayer} = await import('./sublayer');
         return await Promise.all(result.map(async i => await buildDotNetSublayer(i)));
     }
 
     async findSublayerById(id: any): Promise<any> {
         let result = this.component.findSublayerById(id);
-        let { buildDotNetSublayer } = await import('./sublayer');
+        let {buildDotNetSublayer} = await import('./sublayer');
         return await buildDotNetSublayer(result);
     }
 
     // region properties
-    
+
     async getSubtables(): Promise<any> {
         if (!hasValue(this.component.subtables)) {
             return null;
         }
-        
-        let { buildDotNetSublayer } = await import('./sublayer');
+
+        let {buildDotNetSublayer} = await import('./sublayer');
         return await Promise.all(this.component.subtables.map(async i => await buildDotNetSublayer(i)));
     }
-    
+
     async setSubtables(value: any): Promise<void> {
-        let { buildJsSublayer } = await import('./sublayer');
+        let {buildJsSublayer} = await import('./sublayer');
         this.component.subtables = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -59,45 +59,46 @@ export default class ISublayersOwnerGenerated implements IPropertyWrapper {
 export async function buildJsISublayersOwnerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSublayersOwner = new SublayersOwner();
     if (hasValue(dotNetObject.subtables)) {
-        let { buildJsSublayer } = await import('./sublayer');
+        let {buildJsSublayer} = await import('./sublayer');
         jsSublayersOwner.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
 
 
-    let { default: ISublayersOwnerWrapper } = await import('./iSublayersOwner');
+    let {default: ISublayersOwnerWrapper} = await import('./iSublayersOwner');
     let iSublayersOwnerWrapper = new ISublayersOwnerWrapper(jsSublayersOwner);
     iSublayersOwnerWrapper.geoBlazorId = dotNetObject.id;
     iSublayersOwnerWrapper.viewId = viewId;
     iSublayersOwnerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSublayersOwnerWrapper);
     jsObjectRefs[dotNetObject.id] = iSublayersOwnerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayersOwner;
-    let { buildDotNetISublayersOwner } = await import('./iSublayersOwner');
+    let {buildDotNetISublayersOwner} = await import('./iSublayersOwner');
     let dnInstantiatedObject = await buildDotNetISublayersOwner(jsSublayersOwner);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ISublayersOwner', e);
     }
-    
+
     return jsSublayersOwner;
 }
+
 export async function buildDotNetISublayersOwnerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetISublayersOwner: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.subtables)) {
-            let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetISublayersOwner.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
-        }
+    if (hasValue(jsObject.subtables)) {
+        let {buildDotNetSublayer} = await import('./sublayer');
+        dotNetISublayersOwner.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

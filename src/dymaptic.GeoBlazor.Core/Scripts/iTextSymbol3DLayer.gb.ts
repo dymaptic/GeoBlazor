@@ -12,71 +12,79 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
     constructor(layer: TextSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     async getBackground(): Promise<any> {
         if (!hasValue(this.layer.background)) {
             return null;
         }
-        
-        let { buildDotNetTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
+
+        let {buildDotNetTextSymbol3DLayerBackground} = await import('./textSymbol3DLayerBackground');
         return await buildDotNetTextSymbol3DLayerBackground(this.layer.background);
     }
+
     async setBackground(value: any): Promise<void> {
-        let { buildJsTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
-        this.layer.background = await  buildJsTextSymbol3DLayerBackground(value, this.layerId, this.viewId);
+        let {buildJsTextSymbol3DLayerBackground} = await import('./textSymbol3DLayerBackground');
+        this.layer.background = await buildJsTextSymbol3DLayerBackground(value, this.layerId, this.viewId);
     }
+
     async getFont(): Promise<any> {
         if (!hasValue(this.layer.font)) {
             return null;
         }
-        
-        let { buildDotNetMapFont } = await import('./mapFont');
+
+        let {buildDotNetMapFont} = await import('./mapFont');
         return buildDotNetMapFont(this.layer.font);
     }
+
     async setFont(value: any): Promise<void> {
-        let { buildJsMapFont } = await import('./mapFont');
-        this.layer.font =  buildJsMapFont(value);
+        let {buildJsMapFont} = await import('./mapFont');
+        this.layer.font = buildJsMapFont(value);
     }
+
     async getHalo(): Promise<any> {
         if (!hasValue(this.layer.halo)) {
             return null;
         }
-        
-        let { buildDotNetTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
+
+        let {buildDotNetTextSymbol3DLayerHalo} = await import('./textSymbol3DLayerHalo');
         return await buildDotNetTextSymbol3DLayerHalo(this.layer.halo);
     }
+
     async setHalo(value: any): Promise<void> {
-        let { buildJsTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
-        this.layer.halo = await  buildJsTextSymbol3DLayerHalo(value, this.layerId, this.viewId);
+        let {buildJsTextSymbol3DLayerHalo} = await import('./textSymbol3DLayerHalo');
+        this.layer.halo = await buildJsTextSymbol3DLayerHalo(value, this.layerId, this.viewId);
     }
+
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
         }
-        
-        let { buildDotNetTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
+
+        let {buildDotNetTextSymbol3DLayerMaterial} = await import('./textSymbol3DLayerMaterial');
         return await buildDotNetTextSymbol3DLayerMaterial(this.layer.material);
     }
+
     async setMaterial(value: any): Promise<void> {
-        let { buildJsTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
-        this.layer.material = await  buildJsTextSymbol3DLayerMaterial(value, this.layerId, this.viewId);
+        let {buildJsTextSymbol3DLayerMaterial} = await import('./textSymbol3DLayerMaterial');
+        this.layer.material = await buildJsTextSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -85,19 +93,19 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
 export async function buildJsITextSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTextSymbol3DLayer = new TextSymbol3DLayer();
     if (hasValue(dotNetObject.background)) {
-        let { buildJsTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
+        let {buildJsTextSymbol3DLayerBackground} = await import('./textSymbol3DLayerBackground');
         jsTextSymbol3DLayer.background = await buildJsTextSymbol3DLayerBackground(dotNetObject.background, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.font)) {
-        let { buildJsMapFont } = await import('./mapFont');
+        let {buildJsMapFont} = await import('./mapFont');
         jsTextSymbol3DLayer.font = buildJsMapFont(dotNetObject.font) as any;
     }
     if (hasValue(dotNetObject.halo)) {
-        let { buildJsTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
+        let {buildJsTextSymbol3DLayerHalo} = await import('./textSymbol3DLayerHalo');
         jsTextSymbol3DLayer.halo = await buildJsTextSymbol3DLayerHalo(dotNetObject.halo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.material)) {
-        let { buildJsTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
+        let {buildJsTextSymbol3DLayerMaterial} = await import('./textSymbol3DLayerMaterial');
         jsTextSymbol3DLayer.material = await buildJsTextSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
@@ -117,70 +125,71 @@ export async function buildJsITextSymbol3DLayerGenerated(dotNetObject: any, laye
         jsTextSymbol3DLayer.verticalAlignment = dotNetObject.verticalAlignment;
     }
 
-    let { default: ITextSymbol3DLayerWrapper } = await import('./iTextSymbol3DLayer');
+    let {default: ITextSymbol3DLayerWrapper} = await import('./iTextSymbol3DLayer');
     let iTextSymbol3DLayerWrapper = new ITextSymbol3DLayerWrapper(jsTextSymbol3DLayer);
     iTextSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     iTextSymbol3DLayerWrapper.viewId = viewId;
     iTextSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iTextSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iTextSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol3DLayer;
-    let { buildDotNetITextSymbol3DLayer } = await import('./iTextSymbol3DLayer');
+    let {buildDotNetITextSymbol3DLayer} = await import('./iTextSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetITextSymbol3DLayer(jsTextSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ITextSymbol3DLayer', e);
     }
-    
+
     return jsTextSymbol3DLayer;
 }
+
 export async function buildDotNetITextSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetITextSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.background)) {
-            let { buildDotNetTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
-            dotNetITextSymbol3DLayer.background = await buildDotNetTextSymbol3DLayerBackground(jsObject.background);
-        }
-        if (hasValue(jsObject.font)) {
-            let { buildDotNetMapFont } = await import('./mapFont');
-            dotNetITextSymbol3DLayer.font = buildDotNetMapFont(jsObject.font);
-        }
-        if (hasValue(jsObject.halo)) {
-            let { buildDotNetTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
-            dotNetITextSymbol3DLayer.halo = await buildDotNetTextSymbol3DLayerHalo(jsObject.halo);
-        }
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
-            dotNetITextSymbol3DLayer.material = await buildDotNetTextSymbol3DLayerMaterial(jsObject.material);
-        }
-        if (hasValue(jsObject.horizontalAlignment)) {
-            dotNetITextSymbol3DLayer.horizontalAlignment = jsObject.horizontalAlignment;
-        }
-        if (hasValue(jsObject.lineHeight)) {
-            dotNetITextSymbol3DLayer.lineHeight = jsObject.lineHeight;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetITextSymbol3DLayer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.text)) {
-            dotNetITextSymbol3DLayer.text = jsObject.text;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetITextSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.verticalAlignment)) {
-            dotNetITextSymbol3DLayer.verticalAlignment = jsObject.verticalAlignment;
-        }
+    if (hasValue(jsObject.background)) {
+        let {buildDotNetTextSymbol3DLayerBackground} = await import('./textSymbol3DLayerBackground');
+        dotNetITextSymbol3DLayer.background = await buildDotNetTextSymbol3DLayerBackground(jsObject.background);
+    }
+    if (hasValue(jsObject.font)) {
+        let {buildDotNetMapFont} = await import('./mapFont');
+        dotNetITextSymbol3DLayer.font = buildDotNetMapFont(jsObject.font);
+    }
+    if (hasValue(jsObject.halo)) {
+        let {buildDotNetTextSymbol3DLayerHalo} = await import('./textSymbol3DLayerHalo');
+        dotNetITextSymbol3DLayer.halo = await buildDotNetTextSymbol3DLayerHalo(jsObject.halo);
+    }
+    if (hasValue(jsObject.material)) {
+        let {buildDotNetTextSymbol3DLayerMaterial} = await import('./textSymbol3DLayerMaterial');
+        dotNetITextSymbol3DLayer.material = await buildDotNetTextSymbol3DLayerMaterial(jsObject.material);
+    }
+    if (hasValue(jsObject.horizontalAlignment)) {
+        dotNetITextSymbol3DLayer.horizontalAlignment = jsObject.horizontalAlignment;
+    }
+    if (hasValue(jsObject.lineHeight)) {
+        dotNetITextSymbol3DLayer.lineHeight = jsObject.lineHeight;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetITextSymbol3DLayer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.text)) {
+        dotNetITextSymbol3DLayer.text = jsObject.text;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetITextSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.verticalAlignment)) {
+        dotNetITextSymbol3DLayer.verticalAlignment = jsObject.verticalAlignment;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

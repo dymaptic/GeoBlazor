@@ -7,15 +7,15 @@ export default class AreaMeasurement2DWidgetWrapper extends AreaMeasurement2DWid
     constructor(widget: AreaMeasurement2D) {
         super(widget);
     }
-    
+
 }
 
 export async function buildJsAreaMeasurement2DWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsAreaMeasurement2DWidgetGenerated } = await import('./areaMeasurement2DWidget.gb');
+    let {buildJsAreaMeasurement2DWidgetGenerated} = await import('./areaMeasurement2DWidget.gb');
     return await buildJsAreaMeasurement2DWidgetGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetAreaMeasurement2DWidget(jsObject: any): Promise<any> {
-    let { buildDotNetAreaMeasurement2DWidgetGenerated } = await import('./areaMeasurement2DWidget.gb');
+    let {buildDotNetAreaMeasurement2DWidgetGenerated} = await import('./areaMeasurement2DWidget.gb');
     return await buildDotNetAreaMeasurement2DWidgetGenerated(jsObject);
 }

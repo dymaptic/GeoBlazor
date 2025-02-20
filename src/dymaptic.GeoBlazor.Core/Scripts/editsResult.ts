@@ -1,5 +1,5 @@
-import { hasValue } from "./arcGisJsInterop";
-import { buildDotNetGraphic } from "./graphic";
+import {hasValue} from "./arcGisJsInterop";
+import {buildDotNetGraphic} from "./graphic";
 import {buildDotNetSpatialReference} from "./spatialReference";
 
 export function buildDotNetEditsResult(jsResult: any, layerId: string): any {
@@ -13,7 +13,7 @@ export function buildDotNetEditsResult(jsResult: any, layerId: string): any {
     };
 
     if (hasValue(jsResult.editedFeatureResults)) {
-        dnResult.editedFeatureResults = jsResult.editedFeatureResults!.map(r =>{
+        dnResult.editedFeatureResults = jsResult.editedFeatureResults!.map(r => {
             let dnEditedFeatureResult: any = {
                 layerId: r.layerId
             };

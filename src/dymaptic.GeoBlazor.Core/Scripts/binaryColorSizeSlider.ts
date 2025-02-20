@@ -7,15 +7,15 @@ export default class BinaryColorSizeSliderWrapper extends BinaryColorSizeSliderG
     constructor(component: BinaryColorSizeSlider) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsBinaryColorSizeSlider(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsBinaryColorSizeSliderGenerated } = await import('./binaryColorSizeSlider.gb');
+    let {buildJsBinaryColorSizeSliderGenerated} = await import('./binaryColorSizeSlider.gb');
     return await buildJsBinaryColorSizeSliderGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetBinaryColorSizeSlider(jsObject: any): Promise<any> {
-    let { buildDotNetBinaryColorSizeSliderGenerated } = await import('./binaryColorSizeSlider.gb');
+    let {buildDotNetBinaryColorSizeSliderGenerated} = await import('./binaryColorSizeSlider.gb');
     return await buildDotNetBinaryColorSizeSliderGenerated(jsObject);
 }

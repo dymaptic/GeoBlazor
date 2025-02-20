@@ -12,55 +12,57 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
     constructor(component: BasemapGalleryViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async basemapEquals(basemap1: any,
-        basemap2: any): Promise<any> {
-        let { buildJsBasemap } = await import('./basemap');
+                        basemap2: any): Promise<any> {
+        let {buildJsBasemap} = await import('./basemap');
         let jsBasemap1 = await buildJsBasemap(basemap1, this.layerId, this.viewId) as any;
-        let { buildJsBasemap } = await import('./basemap');
+        let {buildJsBasemap} = await import('./basemap');
         let jsBasemap2 = await buildJsBasemap(basemap2, this.layerId, this.viewId) as any;
         return this.component.basemapEquals(jsBasemap1,
             jsBasemap2);
     }
 
     // region properties
-    
+
     async getActiveBasemap(): Promise<any> {
         if (!hasValue(this.component.activeBasemap)) {
             return null;
         }
-        
-        let { buildDotNetBasemap } = await import('./basemap');
+
+        let {buildDotNetBasemap} = await import('./basemap');
         return await buildDotNetBasemap(this.component.activeBasemap);
     }
+
     async setActiveBasemap(value: any): Promise<void> {
-        let { buildJsBasemap } = await import('./basemap');
-        this.component.activeBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
+        let {buildJsBasemap} = await import('./basemap');
+        this.component.activeBasemap = await buildJsBasemap(value, this.layerId, this.viewId);
     }
+
     async getItems(): Promise<any> {
         if (!hasValue(this.component.items)) {
             return null;
         }
-        
-        let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
+
+        let {buildDotNetBasemapGalleryItem} = await import('./basemapGalleryItem');
         return await Promise.all(this.component.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
-    
+
     async setItems(value: any): Promise<void> {
-        let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
+        let {buildJsBasemapGalleryItem} = await import('./basemapGalleryItem');
         this.component.items = await Promise.all(value.map(async i => await buildJsBasemapGalleryItem(i, this.layerId, this.viewId))) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -69,11 +71,11 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
 export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel();
     if (hasValue(dotNetObject.activeBasemap)) {
-        let { buildJsBasemap } = await import('./basemap');
+        let {buildJsBasemap} = await import('./basemap');
         jsBasemapGalleryViewModel.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.items)) {
-        let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
+        let {buildJsBasemapGalleryItem} = await import('./basemapGalleryItem');
         jsBasemapGalleryViewModel.items = await Promise.all(dotNetObject.items.map(async i => await buildJsBasemapGalleryItem(i, layerId, viewId))) as any;
     }
 
@@ -84,53 +86,54 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
         jsBasemapGalleryViewModel.view = dotNetObject.view;
     }
 
-    let { default: BasemapGalleryViewModelWrapper } = await import('./basemapGalleryViewModel');
+    let {default: BasemapGalleryViewModelWrapper} = await import('./basemapGalleryViewModel');
     let basemapGalleryViewModelWrapper = new BasemapGalleryViewModelWrapper(jsBasemapGalleryViewModel);
     basemapGalleryViewModelWrapper.geoBlazorId = dotNetObject.id;
     basemapGalleryViewModelWrapper.viewId = viewId;
     basemapGalleryViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapGalleryViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryViewModel;
-    let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
+    let {buildDotNetBasemapGalleryViewModel} = await import('./basemapGalleryViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapGalleryViewModel(jsBasemapGalleryViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapGalleryViewModel', e);
     }
-    
+
     return jsBasemapGalleryViewModel;
 }
+
 export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBasemapGalleryViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeBasemap)) {
-            let { buildDotNetBasemap } = await import('./basemap');
-            dotNetBasemapGalleryViewModel.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
-        }
-        if (hasValue(jsObject.items)) {
-            let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-            dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetBasemapGalleryViewModel.source = jsObject.source;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetBasemapGalleryViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapGalleryViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeBasemap)) {
+        let {buildDotNetBasemap} = await import('./basemap');
+        dotNetBasemapGalleryViewModel.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
+    }
+    if (hasValue(jsObject.items)) {
+        let {buildDotNetBasemapGalleryItem} = await import('./basemapGalleryItem');
+        dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetBasemapGalleryViewModel.source = jsObject.source;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetBasemapGalleryViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapGalleryViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

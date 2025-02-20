@@ -2,7 +2,6 @@
 
 
 import Font from '@arcgis/core/symbols/Font';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class MapFontGenerated implements IPropertyWrapper {
@@ -14,29 +13,29 @@ export default class MapFontGenerated implements IPropertyWrapper {
     constructor(component: Font) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
 }
 
 export async function buildJsMapFontGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    
+
 }
 
 export async function buildDotNetMapFontGenerated(jsObject: any): Promise<any> {
-    
+
 }
 

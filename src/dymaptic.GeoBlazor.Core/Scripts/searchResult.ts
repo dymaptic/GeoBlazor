@@ -11,7 +11,8 @@ export function buildDotNetSearchResult(jsSearchResult) {
 
     return dnSearchResult;
 }
+
 export async function buildJsSearchResult(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsSearchResultGenerated } = await import('./searchResult.gb');
+    let {buildJsSearchResultGenerated} = await import('./searchResult.gb');
     return await buildJsSearchResultGenerated(dotNetObject);
 }

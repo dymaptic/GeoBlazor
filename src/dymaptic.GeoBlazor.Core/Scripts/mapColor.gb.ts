@@ -20,16 +20,16 @@ export default class MapColorGenerated implements IPropertyWrapper {
             }
         }
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async setColor(color: any): Promise<any> {
         let result = this.component.setColor(color);
-        let { buildDotNetMapColor } = await import('./mapColor');
+        let {buildDotNetMapColor} = await import('./mapColor');
         return buildDotNetMapColor(result);
     }
 
@@ -50,11 +50,11 @@ export default class MapColorGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -75,18 +75,18 @@ export async function buildJsMapColorGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.r)) {
         jsColor.r = dotNetObject.r;
     }
-    let { default: MapColorWrapper } = await import('./mapColor');
+    let {default: MapColorWrapper} = await import('./mapColor');
     let mapColorWrapper = new MapColorWrapper(jsColor);
     mapColorWrapper.geoBlazorId = dotNetObject.id;
     mapColorWrapper.viewId = viewId;
     mapColorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapColorWrapper);
     await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef);
     jsObjectRefs[dotNetObject.id] = mapColorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColor;
-    
+
     return jsColor;
 }
 
@@ -94,15 +94,15 @@ export function buildDotNetMapColorGenerated(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetMapColor: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        dotNetMapColor.a = jsObject.a;
-        dotNetMapColor.b = jsObject.b;
-        dotNetMapColor.g = jsObject.g;
-        dotNetMapColor.r = jsObject.r;
+    dotNetMapColor.a = jsObject.a;
+    dotNetMapColor.b = jsObject.b;
+    dotNetMapColor.g = jsObject.g;
+    dotNetMapColor.r = jsObject.r;
 
     return dotNetMapColor;
 }

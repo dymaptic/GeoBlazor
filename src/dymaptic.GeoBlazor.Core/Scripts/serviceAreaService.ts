@@ -7,15 +7,15 @@ export default class ServiceAreaServiceWrapper extends ServiceAreaServiceGenerat
     constructor(component: serviceArea) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsServiceAreaService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsServiceAreaServiceGenerated } = await import('./serviceAreaService.gb');
+    let {buildJsServiceAreaServiceGenerated} = await import('./serviceAreaService.gb');
     return await buildJsServiceAreaServiceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetServiceAreaService(jsObject: any): Promise<any> {
-    let { buildDotNetServiceAreaServiceGenerated } = await import('./serviceAreaService.gb');
+    let {buildDotNetServiceAreaServiceGenerated} = await import('./serviceAreaService.gb');
     return await buildDotNetServiceAreaServiceGenerated(jsObject);
 }

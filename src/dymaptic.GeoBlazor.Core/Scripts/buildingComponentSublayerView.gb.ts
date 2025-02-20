@@ -12,83 +12,86 @@ export default class BuildingComponentSublayerViewGenerated implements IProperty
     constructor(component: BuildingComponentSublayerView) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createQuery(): Promise<any> {
         return this.component.createQuery();
     }
 
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        let {buildDotNetHighlightHandle} = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }
 
     async queryExtent(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                      options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                            options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                        options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                         options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
 
     // region properties
-    
+
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
         }
-        
-        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }
+
     async setFilter(value: any): Promise<void> {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
-        this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
+        let {buildJsFeatureFilter} = await import('./featureFilter');
+        this.component.filter = await buildJsFeatureFilter(value, this.layerId, this.viewId);
     }
+
     async getSublayer(): Promise<any> {
         if (!hasValue(this.component.sublayer)) {
             return null;
         }
-        
-        let { buildDotNetBuildingComponentSublayer } = await import('./buildingComponentSublayer');
+
+        let {buildDotNetBuildingComponentSublayer} = await import('./buildingComponentSublayer');
         return await buildDotNetBuildingComponentSublayer(this.component.sublayer);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -97,58 +100,59 @@ export default class BuildingComponentSublayerViewGenerated implements IProperty
 export async function buildJsBuildingComponentSublayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBuildingComponentSublayerView = new BuildingComponentSublayerView();
     if (hasValue(dotNetObject.filter)) {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
+        let {buildJsFeatureFilter} = await import('./featureFilter');
         jsBuildingComponentSublayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
 
-    let { default: BuildingComponentSublayerViewWrapper } = await import('./buildingComponentSublayerView');
+    let {default: BuildingComponentSublayerViewWrapper} = await import('./buildingComponentSublayerView');
     let buildingComponentSublayerViewWrapper = new BuildingComponentSublayerViewWrapper(jsBuildingComponentSublayerView);
     buildingComponentSublayerViewWrapper.geoBlazorId = dotNetObject.id;
     buildingComponentSublayerViewWrapper.viewId = viewId;
     buildingComponentSublayerViewWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(buildingComponentSublayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = buildingComponentSublayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingComponentSublayerView;
-    let { buildDotNetBuildingComponentSublayerView } = await import('./buildingComponentSublayerView');
+    let {buildDotNetBuildingComponentSublayerView} = await import('./buildingComponentSublayerView');
     let dnInstantiatedObject = await buildDotNetBuildingComponentSublayerView(jsBuildingComponentSublayerView);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BuildingComponentSublayerView', e);
     }
-    
+
     return jsBuildingComponentSublayerView;
 }
+
 export async function buildDotNetBuildingComponentSublayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBuildingComponentSublayerView: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetBuildingComponentSublayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.sublayer)) {
-            let { buildDotNetBuildingComponentSublayer } = await import('./buildingComponentSublayer');
-            dotNetBuildingComponentSublayerView.sublayer = await buildDotNetBuildingComponentSublayer(jsObject.sublayer);
-        }
-        if (hasValue(jsObject.availableFields)) {
-            dotNetBuildingComponentSublayerView.availableFields = jsObject.availableFields;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBuildingComponentSublayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBuildingComponentSublayerView.updating = jsObject.updating;
-        }
+    if (hasValue(jsObject.filter)) {
+        let {buildDotNetFeatureFilter} = await import('./featureFilter');
+        dotNetBuildingComponentSublayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.sublayer)) {
+        let {buildDotNetBuildingComponentSublayer} = await import('./buildingComponentSublayer');
+        dotNetBuildingComponentSublayerView.sublayer = await buildDotNetBuildingComponentSublayer(jsObject.sublayer);
+    }
+    if (hasValue(jsObject.availableFields)) {
+        dotNetBuildingComponentSublayerView.availableFields = jsObject.availableFields;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBuildingComponentSublayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBuildingComponentSublayerView.updating = jsObject.updating;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

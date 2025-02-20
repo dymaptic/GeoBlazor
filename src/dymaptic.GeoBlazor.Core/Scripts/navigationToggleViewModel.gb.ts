@@ -12,23 +12,23 @@ export default class NavigationToggleViewModelGenerated implements IPropertyWrap
     constructor(component: NavigationToggleViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async toggle(): Promise<void> {
         this.component.toggle();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,45 +44,46 @@ export async function buildJsNavigationToggleViewModelGenerated(dotNetObject: an
         jsNavigationToggleViewModel.view = dotNetObject.view;
     }
 
-    let { default: NavigationToggleViewModelWrapper } = await import('./navigationToggleViewModel');
+    let {default: NavigationToggleViewModelWrapper} = await import('./navigationToggleViewModel');
     let navigationToggleViewModelWrapper = new NavigationToggleViewModelWrapper(jsNavigationToggleViewModel);
     navigationToggleViewModelWrapper.geoBlazorId = dotNetObject.id;
     navigationToggleViewModelWrapper.viewId = viewId;
     navigationToggleViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(navigationToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = navigationToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsNavigationToggleViewModel;
-    let { buildDotNetNavigationToggleViewModel } = await import('./navigationToggleViewModel');
+    let {buildDotNetNavigationToggleViewModel} = await import('./navigationToggleViewModel');
     let dnInstantiatedObject = await buildDotNetNavigationToggleViewModel(jsNavigationToggleViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for NavigationToggleViewModel', e);
     }
-    
+
     return jsNavigationToggleViewModel;
 }
+
 export async function buildDotNetNavigationToggleViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetNavigationToggleViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.navigationMode)) {
-            dotNetNavigationToggleViewModel.navigationMode = jsObject.navigationMode;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetNavigationToggleViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetNavigationToggleViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.navigationMode)) {
+        dotNetNavigationToggleViewModel.navigationMode = jsObject.navigationMode;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetNavigationToggleViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetNavigationToggleViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

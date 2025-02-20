@@ -1,7 +1,8 @@
 // override generated code in this file
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
+
 export function buildJsSimpleFillSymbol(dotNetObject: any): any {
     let jsSimpleFillSymbol = new SimpleFillSymbol();
     if (hasValue(dotNetObject.color)) {
@@ -14,7 +15,7 @@ export function buildJsSimpleFillSymbol(dotNetObject: any): any {
     if (hasValue(dotNetObject.style)) {
         jsSimpleFillSymbol.style = dotNetObject.style;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(simpleFillSymbolWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -30,6 +31,7 @@ export function buildJsSimpleFillSymbol(dotNetObject: any): any {
 
     return jsSimpleFillSymbol;
 }
+
 export function buildDotNetSimpleFillSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

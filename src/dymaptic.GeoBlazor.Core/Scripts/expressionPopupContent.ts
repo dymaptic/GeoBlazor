@@ -1,10 +1,10 @@
 // override generated code in this file
 
 import ExpressionContent from '@arcgis/core/popup/content/ExpressionContent';
-import {arcGisObjectRefs, hasValue, jsObjectRefs } from './arcGisJsInterop';
-import {buildDotNetElementExpressionInfo, buildJsElementExpressionInfo } from './elementExpressionInfo';
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+import {buildDotNetElementExpressionInfo, buildJsElementExpressionInfo} from './elementExpressionInfo';
 
-export function buildJsExpressionPopupContent(dotNetObject: any) : any {
+export function buildJsExpressionPopupContent(dotNetObject: any): any {
     let jsExpressionContent = new ExpressionContent();
     if (hasValue(dotNetObject.expressionInfo)) {
         jsExpressionContent.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
@@ -24,7 +24,7 @@ export function buildJsExpressionPopupContent(dotNetObject: any) : any {
     }
 
     return jsExpressionContent;
-}     
+}
 
 export function buildDotNetExpressionPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {

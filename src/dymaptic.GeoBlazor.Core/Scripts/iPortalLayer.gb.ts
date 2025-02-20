@@ -12,35 +12,37 @@ export default class IPortalLayerGenerated implements IPropertyWrapper {
     constructor(layer: PortalLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
         }
-        
-        let { buildDotNetPortalItem } = await import('./portalItem');
+
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+
     async setPortalItem(value: any): Promise<void> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let {buildJsPortalItem} = await import('./portalItem');
+        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -49,45 +51,46 @@ export default class IPortalLayerGenerated implements IPropertyWrapper {
 export async function buildJsIPortalLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortalLayer = new PortalLayer();
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
+        let {buildJsPortalItem} = await import('./portalItem');
         jsPortalLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
 
 
-    let { default: IPortalLayerWrapper } = await import('./iPortalLayer');
+    let {default: IPortalLayerWrapper} = await import('./iPortalLayer');
     let iPortalLayerWrapper = new IPortalLayerWrapper(jsPortalLayer);
     iPortalLayerWrapper.geoBlazorId = dotNetObject.id;
     iPortalLayerWrapper.viewId = viewId;
     iPortalLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iPortalLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iPortalLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalLayer;
-    let { buildDotNetIPortalLayer } = await import('./iPortalLayer');
+    let {buildDotNetIPortalLayer} = await import('./iPortalLayer');
     let dnInstantiatedObject = await buildDotNetIPortalLayer(jsPortalLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IPortalLayer', e);
     }
-    
+
     return jsPortalLayer;
 }
+
 export async function buildDotNetIPortalLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIPortalLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetIPortalLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
+    if (hasValue(jsObject.portalItem)) {
+        let {buildDotNetPortalItem} = await import('./portalItem');
+        dotNetIPortalLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

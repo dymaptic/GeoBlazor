@@ -12,16 +12,16 @@ export default class ConnectionGenerated implements IPropertyWrapper {
     constructor(component: Connection) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async broadcast(methodName: any,
-        data: any,
-        options: any): Promise<any> {
+                    data: any,
+                    options: any): Promise<any> {
         return await this.component.broadcast(methodName,
             data,
             options);
@@ -32,19 +32,19 @@ export default class ConnectionGenerated implements IPropertyWrapper {
     }
 
     async invoke(methodName: any,
-        data: any,
-        options: any): Promise<any> {
+                 data: any,
+                 options: any): Promise<any> {
         return await this.component.invoke(methodName,
             data,
             options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -54,32 +54,33 @@ export async function buildJsConnectionGenerated(dotNetObject: any, layerId: str
     let jsConnection = new Connection();
 
 
-    let { default: ConnectionWrapper } = await import('./connection');
+    let {default: ConnectionWrapper} = await import('./connection');
     let connectionWrapper = new ConnectionWrapper(jsConnection);
     connectionWrapper.geoBlazorId = dotNetObject.id;
     connectionWrapper.viewId = viewId;
     connectionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(connectionWrapper);
     jsObjectRefs[dotNetObject.id] = connectionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsConnection;
-    let { buildDotNetConnection } = await import('./connection');
+    let {buildDotNetConnection} = await import('./connection');
     let dnInstantiatedObject = await buildDotNetConnection(jsConnection);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Connection', e);
     }
-    
+
     return jsConnection;
 }
+
 export async function buildDotNetConnectionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetConnection: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

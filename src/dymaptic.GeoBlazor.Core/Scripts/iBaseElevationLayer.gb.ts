@@ -12,13 +12,13 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
     constructor(layer: BaseElevationLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
@@ -28,17 +28,17 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
     }
 
     async createElevationSampler(extent: any,
-        options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+                                 options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         let result = await this.layer.createElevationSampler(jsExtent,
             options);
-        let { buildDotNetElevationSampler } = await import('./elevationSampler');
+        let {buildDotNetElevationSampler} = await import('./elevationSampler');
         return await buildDotNetElevationSampler(result);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -48,9 +48,9 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchTile(level: any,
-        row: any,
-        column: any,
-        options: any): Promise<any> {
+                    row: any,
+                    column: any,
+                    options: any): Promise<any> {
         return await this.layer.fetchTile(level,
             row,
             column,
@@ -58,9 +58,9 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
     }
 
     async getTileBounds(level: any,
-        row: any,
-        column: any,
-        out: any): Promise<any> {
+                        row: any,
+                        column: any,
+                        out: any): Promise<any> {
         return this.layer.getTileBounds(level,
             row,
             column,
@@ -68,67 +68,75 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
     }
 
     async queryElevation(geometry: any,
-        options: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                         options: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.layer.queryElevation(jsGeometry,
             options);
     }
 
     // region properties
-    
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference =  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(value);
     }
+
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
             return null;
         }
-        
-        let { buildDotNetTileInfo } = await import('./tileInfo');
+
+        let {buildDotNetTileInfo} = await import('./tileInfo');
         return await buildDotNetTileInfo(this.layer.tileInfo);
     }
+
     async setTileInfo(value: any): Promise<void> {
-        let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
+        let {buildJsTileInfo} = await import('./tileInfo');
+        this.layer.tileInfo = await buildJsTileInfo(value, this.layerId, this.viewId);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -137,19 +145,19 @@ export default class IBaseElevationLayerGenerated implements IPropertyWrapper {
 export async function buildJsIBaseElevationLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseElevationLayer = new BaseElevationLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsBaseElevationLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         jsBaseElevationLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('./tileInfo');
+        let {buildJsTileInfo} = await import('./tileInfo');
         jsBaseElevationLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsBaseElevationLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -169,73 +177,74 @@ export async function buildJsIBaseElevationLayerGenerated(dotNetObject: any, lay
         jsBaseElevationLayer.title = dotNetObject.title;
     }
 
-    let { default: IBaseElevationLayerWrapper } = await import('./iBaseElevationLayer');
+    let {default: IBaseElevationLayerWrapper} = await import('./iBaseElevationLayer');
     let iBaseElevationLayerWrapper = new IBaseElevationLayerWrapper(jsBaseElevationLayer);
     iBaseElevationLayerWrapper.geoBlazorId = dotNetObject.id;
     iBaseElevationLayerWrapper.viewId = viewId;
     iBaseElevationLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iBaseElevationLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iBaseElevationLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseElevationLayer;
-    let { buildDotNetIBaseElevationLayer } = await import('./iBaseElevationLayer');
+    let {buildDotNetIBaseElevationLayer} = await import('./iBaseElevationLayer');
     let dnInstantiatedObject = await buildDotNetIBaseElevationLayer(jsBaseElevationLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IBaseElevationLayer', e);
     }
-    
+
     return jsBaseElevationLayer;
 }
+
 export async function buildDotNetIBaseElevationLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIBaseElevationLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetIBaseElevationLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetIBaseElevationLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./tileInfo');
-            dotNetIBaseElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetIBaseElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetIBaseElevationLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIBaseElevationLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIBaseElevationLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIBaseElevationLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIBaseElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIBaseElevationLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIBaseElevationLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetIBaseElevationLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetIBaseElevationLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.tileInfo)) {
+        let {buildDotNetTileInfo} = await import('./tileInfo');
+        dotNetIBaseElevationLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetIBaseElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetIBaseElevationLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIBaseElevationLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIBaseElevationLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIBaseElevationLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIBaseElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIBaseElevationLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIBaseElevationLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

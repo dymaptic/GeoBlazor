@@ -12,23 +12,23 @@ export default class SymbolsTextSymbol3DLayerGenerated implements IPropertyWrapp
     constructor(layer: symbolsTextSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsSymbolsTextSymbol3DLayerGenerated(dotNetObject: any
     let jssymbolsTextSymbol3DLayer: any = {}
 
 
-    let { default: SymbolsTextSymbol3DLayerWrapper } = await import('./symbolsTextSymbol3DLayer');
+    let {default: SymbolsTextSymbol3DLayerWrapper} = await import('./symbolsTextSymbol3DLayer');
     let symbolsTextSymbol3DLayerWrapper = new SymbolsTextSymbol3DLayerWrapper(jssymbolsTextSymbol3DLayer);
     symbolsTextSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     symbolsTextSymbol3DLayerWrapper.viewId = viewId;
     symbolsTextSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbolsTextSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = symbolsTextSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsTextSymbol3DLayer;
-    let { buildDotNetSymbolsTextSymbol3DLayer } = await import('./symbolsTextSymbol3DLayer');
+    let {buildDotNetSymbolsTextSymbol3DLayer} = await import('./symbolsTextSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetSymbolsTextSymbol3DLayer(jssymbolsTextSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbolsTextSymbol3DLayer', e);
     }
-    
+
     return jssymbolsTextSymbol3DLayer;
 }
+
 export async function buildDotNetSymbolsTextSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbolsTextSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

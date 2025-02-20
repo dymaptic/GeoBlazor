@@ -12,13 +12,13 @@ export default class DecoratorsGenerated implements IPropertyWrapper {
     constructor(component: decorators) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async aliasOf(propertyName: any): Promise<any> {
         return this.component.aliasOf(propertyName);
     }
@@ -36,11 +36,11 @@ export default class DecoratorsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsDecoratorsGenerated(dotNetObject: any, layerId: str
     let jsdecorators: any = {}
 
 
-    let { default: DecoratorsWrapper } = await import('./decorators');
+    let {default: DecoratorsWrapper} = await import('./decorators');
     let decoratorsWrapper = new DecoratorsWrapper(jsdecorators);
     decoratorsWrapper.geoBlazorId = dotNetObject.id;
     decoratorsWrapper.viewId = viewId;
     decoratorsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(decoratorsWrapper);
     jsObjectRefs[dotNetObject.id] = decoratorsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsdecorators;
-    let { buildDotNetDecorators } = await import('./decorators');
+    let {buildDotNetDecorators} = await import('./decorators');
     let dnInstantiatedObject = await buildDotNetDecorators(jsdecorators);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Decorators', e);
     }
-    
+
     return jsdecorators;
 }
+
 export async function buildDotNetDecoratorsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDecorators: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

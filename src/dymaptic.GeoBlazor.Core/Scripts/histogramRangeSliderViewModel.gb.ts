@@ -12,13 +12,13 @@ export default class HistogramRangeSliderViewModelGenerated implements IProperty
     constructor(component: HistogramRangeSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -44,15 +44,15 @@ export default class HistogramRangeSliderViewModelGenerated implements IProperty
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -62,11 +62,11 @@ export default class HistogramRangeSliderViewModelGenerated implements IProperty
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -88,7 +88,7 @@ export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject
         jsHistogramRangeSliderViewModel.average = dotNetObject.average;
     }
     if (hasValue(dotNetObject.bins)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBins } = dotNetObject.bins;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedBins} = dotNetObject.bins;
         jsHistogramRangeSliderViewModel.bins = sanitizedBins;
     }
     if (hasValue(dotNetObject.effectiveMax)) {
@@ -119,84 +119,85 @@ export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject
         jsHistogramRangeSliderViewModel.values = dotNetObject.values;
     }
 
-    let { default: HistogramRangeSliderViewModelWrapper } = await import('./histogramRangeSliderViewModel');
+    let {default: HistogramRangeSliderViewModelWrapper} = await import('./histogramRangeSliderViewModel');
     let histogramRangeSliderViewModelWrapper = new HistogramRangeSliderViewModelWrapper(jsHistogramRangeSliderViewModel);
     histogramRangeSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     histogramRangeSliderViewModelWrapper.viewId = viewId;
     histogramRangeSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(histogramRangeSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = histogramRangeSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHistogramRangeSliderViewModel;
-    let { buildDotNetHistogramRangeSliderViewModel } = await import('./histogramRangeSliderViewModel');
+    let {buildDotNetHistogramRangeSliderViewModel} = await import('./histogramRangeSliderViewModel');
     let dnInstantiatedObject = await buildDotNetHistogramRangeSliderViewModel(jsHistogramRangeSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HistogramRangeSliderViewModel', e);
     }
-    
+
     return jsHistogramRangeSliderViewModel;
 }
+
 export async function buildDotNetHistogramRangeSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetHistogramRangeSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.average)) {
-            dotNetHistogramRangeSliderViewModel.average = jsObject.average;
-        }
-        if (hasValue(jsObject.bins)) {
-            dotNetHistogramRangeSliderViewModel.bins = jsObject.bins;
-        }
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetHistogramRangeSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetHistogramRangeSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetHistogramRangeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetHistogramRangeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetHistogramRangeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetHistogramRangeSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetHistogramRangeSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetHistogramRangeSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetHistogramRangeSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.rangeType)) {
-            dotNetHistogramRangeSliderViewModel.rangeType = jsObject.rangeType;
-        }
-        if (hasValue(jsObject.standardDeviation)) {
-            dotNetHistogramRangeSliderViewModel.standardDeviation = jsObject.standardDeviation;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetHistogramRangeSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetHistogramRangeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetHistogramRangeSliderViewModel.values = jsObject.values;
-        }
+    if (hasValue(jsObject.average)) {
+        dotNetHistogramRangeSliderViewModel.average = jsObject.average;
+    }
+    if (hasValue(jsObject.bins)) {
+        dotNetHistogramRangeSliderViewModel.bins = jsObject.bins;
+    }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetHistogramRangeSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetHistogramRangeSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetHistogramRangeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetHistogramRangeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetHistogramRangeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetHistogramRangeSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetHistogramRangeSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetHistogramRangeSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetHistogramRangeSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.rangeType)) {
+        dotNetHistogramRangeSliderViewModel.rangeType = jsObject.rangeType;
+    }
+    if (hasValue(jsObject.standardDeviation)) {
+        dotNetHistogramRangeSliderViewModel.standardDeviation = jsObject.standardDeviation;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetHistogramRangeSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetHistogramRangeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetHistogramRangeSliderViewModel.values = jsObject.values;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

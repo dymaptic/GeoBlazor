@@ -12,47 +12,51 @@ export default class PolygonBarrierGenerated implements IPropertyWrapper {
     constructor(component: PolygonBarrier) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async toGraphic(): Promise<any> {
         return this.component.toGraphic();
     }
 
     // region properties
-    
+
     async getGeometry(): Promise<any> {
         if (!hasValue(this.component.geometry)) {
             return null;
         }
-        
-        let { buildDotNetPolygon } = await import('./polygon');
+
+        let {buildDotNetPolygon} = await import('./polygon');
         return buildDotNetPolygon(this.component.geometry);
     }
+
     async setGeometry(value: any): Promise<void> {
-        let { buildJsPolygon } = await import('./polygon');
-        this.component.geometry =  buildJsPolygon(value);
+        let {buildJsPolygon} = await import('./polygon');
+        this.component.geometry = buildJsPolygon(value);
     }
+
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
         }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
+
     async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
+        this.component.popupTemplate = buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -61,11 +65,11 @@ export default class PolygonBarrierGenerated implements IPropertyWrapper {
 export async function buildJsPolygonBarrierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPolygonBarrier = new PolygonBarrier();
     if (hasValue(dotNetObject.geometry)) {
-        let { buildJsPolygon } = await import('./polygon');
+        let {buildJsPolygon} = await import('./polygon');
         jsPolygonBarrier.geometry = buildJsPolygon(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         jsPolygonBarrier.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
@@ -76,53 +80,54 @@ export async function buildJsPolygonBarrierGenerated(dotNetObject: any, layerId:
         jsPolygonBarrier.name = dotNetObject.name;
     }
 
-    let { default: PolygonBarrierWrapper } = await import('./polygonBarrier');
+    let {default: PolygonBarrierWrapper} = await import('./polygonBarrier');
     let polygonBarrierWrapper = new PolygonBarrierWrapper(jsPolygonBarrier);
     polygonBarrierWrapper.geoBlazorId = dotNetObject.id;
     polygonBarrierWrapper.viewId = viewId;
     polygonBarrierWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(polygonBarrierWrapper);
     jsObjectRefs[dotNetObject.id] = polygonBarrierWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPolygonBarrier;
-    let { buildDotNetPolygonBarrier } = await import('./polygonBarrier');
+    let {buildDotNetPolygonBarrier} = await import('./polygonBarrier');
     let dnInstantiatedObject = await buildDotNetPolygonBarrier(jsPolygonBarrier);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PolygonBarrier', e);
     }
-    
+
     return jsPolygonBarrier;
 }
+
 export async function buildDotNetPolygonBarrierGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPolygonBarrier: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetPolygon } = await import('./polygon');
-            dotNetPolygonBarrier.geometry = buildDotNetPolygon(jsObject.geometry);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetPolygonBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.barrierType)) {
-            dotNetPolygonBarrier.barrierType = jsObject.barrierType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPolygonBarrier.name = jsObject.name;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPolygonBarrier.type = jsObject.type;
-        }
+    if (hasValue(jsObject.geometry)) {
+        let {buildDotNetPolygon} = await import('./polygon');
+        dotNetPolygonBarrier.geometry = buildDotNetPolygon(jsObject.geometry);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
+        dotNetPolygonBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.barrierType)) {
+        dotNetPolygonBarrier.barrierType = jsObject.barrierType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPolygonBarrier.name = jsObject.name;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPolygonBarrier.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

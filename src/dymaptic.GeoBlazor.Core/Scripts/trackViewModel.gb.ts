@@ -12,13 +12,13 @@ export default class TrackViewModelGenerated implements IPropertyWrapper {
     constructor(component: TrackViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async start(): Promise<void> {
         this.component.start();
     }
@@ -28,23 +28,25 @@ export default class TrackViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
     }
+
     async setGraphic(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.component.graphic =  buildJsGraphic(value);
+        let {buildJsGraphic} = await import('./graphic');
+        this.component.graphic = buildJsGraphic(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -53,7 +55,7 @@ export default class TrackViewModelGenerated implements IPropertyWrapper {
 export async function buildJsTrackViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTrackViewModel = new TrackViewModel();
     if (hasValue(dotNetObject.graphic)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsTrackViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
@@ -81,73 +83,74 @@ export async function buildJsTrackViewModelGenerated(dotNetObject: any, layerId:
     jsTrackViewModel.on('track', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTrack', evt);
     });
-    
+
     jsTrackViewModel.on('track-error', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTrackError', evt);
     });
-    
 
-    let { default: TrackViewModelWrapper } = await import('./trackViewModel');
+
+    let {default: TrackViewModelWrapper} = await import('./trackViewModel');
     let trackViewModelWrapper = new TrackViewModelWrapper(jsTrackViewModel);
     trackViewModelWrapper.geoBlazorId = dotNetObject.id;
     trackViewModelWrapper.viewId = viewId;
     trackViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(trackViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = trackViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTrackViewModel;
-    let { buildDotNetTrackViewModel } = await import('./trackViewModel');
+    let {buildDotNetTrackViewModel} = await import('./trackViewModel');
     let dnInstantiatedObject = await buildDotNetTrackViewModel(jsTrackViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TrackViewModel', e);
     }
-    
+
     return jsTrackViewModel;
 }
+
 export async function buildDotNetTrackViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTrackViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetTrackViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.error)) {
-            dotNetTrackViewModel.error = jsObject.error;
-        }
-        if (hasValue(jsObject.geolocationOptions)) {
-            dotNetTrackViewModel.geolocationOptions = jsObject.geolocationOptions;
-        }
-        if (hasValue(jsObject.goToLocationEnabled)) {
-            dotNetTrackViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetTrackViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.positionFilterFunction)) {
-            dotNetTrackViewModel.positionFilterFunction = jsObject.positionFilterFunction;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetTrackViewModel.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetTrackViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tracking)) {
-            dotNetTrackViewModel.tracking = jsObject.tracking;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetTrackViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.graphic)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetTrackViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.error)) {
+        dotNetTrackViewModel.error = jsObject.error;
+    }
+    if (hasValue(jsObject.geolocationOptions)) {
+        dotNetTrackViewModel.geolocationOptions = jsObject.geolocationOptions;
+    }
+    if (hasValue(jsObject.goToLocationEnabled)) {
+        dotNetTrackViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetTrackViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.positionFilterFunction)) {
+        dotNetTrackViewModel.positionFilterFunction = jsObject.positionFilterFunction;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetTrackViewModel.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetTrackViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tracking)) {
+        dotNetTrackViewModel.tracking = jsObject.tracking;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetTrackViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

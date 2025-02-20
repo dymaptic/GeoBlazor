@@ -12,19 +12,19 @@ export default class IMeasurementWidgetActiveWidgetGenerated implements IPropert
     constructor(widget: MeasurementWidgetActiveWidget) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -34,32 +34,33 @@ export async function buildJsIMeasurementWidgetActiveWidgetGenerated(dotNetObjec
     let jsMeasurementWidgetActiveWidget: any = {}
 
 
-    let { default: IMeasurementWidgetActiveWidgetWrapper } = await import('./iMeasurementWidgetActiveWidget');
+    let {default: IMeasurementWidgetActiveWidgetWrapper} = await import('./iMeasurementWidgetActiveWidget');
     let iMeasurementWidgetActiveWidgetWrapper = new IMeasurementWidgetActiveWidgetWrapper(jsMeasurementWidgetActiveWidget);
     iMeasurementWidgetActiveWidgetWrapper.geoBlazorId = dotNetObject.id;
     iMeasurementWidgetActiveWidgetWrapper.viewId = viewId;
     iMeasurementWidgetActiveWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iMeasurementWidgetActiveWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = iMeasurementWidgetActiveWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementWidgetActiveWidget;
-    let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
+    let {buildDotNetIMeasurementWidgetActiveWidget} = await import('./iMeasurementWidgetActiveWidget');
     let dnInstantiatedObject = await buildDotNetIMeasurementWidgetActiveWidget(jsMeasurementWidgetActiveWidget);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IMeasurementWidgetActiveWidget', e);
     }
-    
+
     return jsMeasurementWidgetActiveWidget;
 }
+
 export async function buildDotNetIMeasurementWidgetActiveWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIMeasurementWidgetActiveWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

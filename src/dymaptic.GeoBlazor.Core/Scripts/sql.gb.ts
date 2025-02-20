@@ -12,31 +12,31 @@ export default class SqlGenerated implements IPropertyWrapper {
     constructor(component: sql) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async parseWhereClause(clause: any,
-        fieldsIndex: any,
-        timeZone: any): Promise<any> {
-        let { buildJsFieldsIndex } = await import('./fieldsIndex');
+                           fieldsIndex: any,
+                           timeZone: any): Promise<any> {
+        let {buildJsFieldsIndex} = await import('./fieldsIndex');
         let jsFieldsIndex = await buildJsFieldsIndex(fieldsIndex, this.layerId, this.viewId) as any;
         let result = await this.component.parseWhereClause(clause,
             jsFieldsIndex,
             timeZone);
-        let { buildDotNetWhereClause } = await import('./whereClause');
+        let {buildDotNetWhereClause} = await import('./whereClause');
         return await buildDotNetWhereClause(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsSqlGenerated(dotNetObject: any, layerId: string | n
     let jssql: any = {}
 
 
-    let { default: SqlWrapper } = await import('./sql');
+    let {default: SqlWrapper} = await import('./sql');
     let sqlWrapper = new SqlWrapper(jssql);
     sqlWrapper.geoBlazorId = dotNetObject.id;
     sqlWrapper.viewId = viewId;
     sqlWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sqlWrapper);
     jsObjectRefs[dotNetObject.id] = sqlWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssql;
-    let { buildDotNetSql } = await import('./sql');
+    let {buildDotNetSql} = await import('./sql');
     let dnInstantiatedObject = await buildDotNetSql(jssql);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Sql', e);
     }
-    
+
     return jssql;
 }
+
 export async function buildDotNetSqlGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSql: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

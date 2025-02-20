@@ -12,7 +12,7 @@ export function buildJsImageMediaInfoValue(dotNetObject: any): any {
     if (hasValue(dotNetObject.sourceURL)) {
         jsImageMediaInfoValue.sourceURL = dotNetObject.sourceURL;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoValueWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -28,6 +28,7 @@ export function buildJsImageMediaInfoValue(dotNetObject: any): any {
 
     return jsImageMediaInfoValue;
 }
+
 export function buildDotNetImageMediaInfoValue(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

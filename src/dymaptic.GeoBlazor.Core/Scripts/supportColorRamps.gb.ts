@@ -12,13 +12,13 @@ export default class SupportColorRampsGenerated implements IPropertyWrapper {
     constructor(component: supportColorRamps) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async all(): Promise<any> {
         return this.component.all();
     }
@@ -36,11 +36,11 @@ export default class SupportColorRampsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsSupportColorRampsGenerated(dotNetObject: any, layer
     let jssupportColorRamps: any = {}
 
 
-    let { default: SupportColorRampsWrapper } = await import('./supportColorRamps');
+    let {default: SupportColorRampsWrapper} = await import('./supportColorRamps');
     let supportColorRampsWrapper = new SupportColorRampsWrapper(jssupportColorRamps);
     supportColorRampsWrapper.geoBlazorId = dotNetObject.id;
     supportColorRampsWrapper.viewId = viewId;
     supportColorRampsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(supportColorRampsWrapper);
     jsObjectRefs[dotNetObject.id] = supportColorRampsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssupportColorRamps;
-    let { buildDotNetSupportColorRamps } = await import('./supportColorRamps');
+    let {buildDotNetSupportColorRamps} = await import('./supportColorRamps');
     let dnInstantiatedObject = await buildDotNetSupportColorRamps(jssupportColorRamps);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SupportColorRamps', e);
     }
-    
+
     return jssupportColorRamps;
 }
+
 export async function buildDotNetSupportColorRampsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSupportColorRamps: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,16 +12,16 @@ export default class HandlesGenerated implements IPropertyWrapper {
     constructor(component: Handles) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async add(handles: any,
-        groupKey: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
+              groupKey: any): Promise<void> {
+        let {buildJsWatchHandle} = await import('./watchHandle');
         let jsHandles = await buildJsWatchHandle(handles, this.layerId, this.viewId) as any;
         this.component.add(jsHandles,
             groupKey);
@@ -40,11 +40,11 @@ export default class HandlesGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -54,32 +54,33 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
     let jsHandles = new Handles();
 
 
-    let { default: HandlesWrapper } = await import('./handles');
+    let {default: HandlesWrapper} = await import('./handles');
     let handlesWrapper = new HandlesWrapper(jsHandles);
     handlesWrapper.geoBlazorId = dotNetObject.id;
     handlesWrapper.viewId = viewId;
     handlesWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(handlesWrapper);
     jsObjectRefs[dotNetObject.id] = handlesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandles;
-    let { buildDotNetHandles } = await import('./handles');
+    let {buildDotNetHandles} = await import('./handles');
     let dnInstantiatedObject = await buildDotNetHandles(jsHandles);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Handles', e);
     }
-    
+
     return jsHandles;
 }
+
 export async function buildDotNetHandlesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetHandles: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

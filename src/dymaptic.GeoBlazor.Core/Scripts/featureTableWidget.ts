@@ -7,15 +7,15 @@ export default class FeatureTableWidgetWrapper extends FeatureTableWidgetGenerat
     constructor(widget: FeatureTable) {
         super(widget);
     }
-    
+
 }
 
 export async function buildJsFeatureTableWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsFeatureTableWidgetGenerated } = await import('./featureTableWidget.gb');
+    let {buildJsFeatureTableWidgetGenerated} = await import('./featureTableWidget.gb');
     return await buildJsFeatureTableWidgetGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetFeatureTableWidget(jsObject: any): Promise<any> {
-    let { buildDotNetFeatureTableWidgetGenerated } = await import('./featureTableWidget.gb');
+    let {buildDotNetFeatureTableWidgetGenerated} = await import('./featureTableWidget.gb');
     return await buildDotNetFeatureTableWidgetGenerated(jsObject);
 }

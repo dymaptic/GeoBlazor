@@ -12,27 +12,27 @@ export default class WorkersGenerated implements IPropertyWrapper {
     constructor(component: workers) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async open(modulePath: any,
-        options: any): Promise<any> {
+               options: any): Promise<any> {
         let result = await this.component.open(modulePath,
             options);
-        let { buildDotNetConnection } = await import('./connection');
+        let {buildDotNetConnection} = await import('./connection');
         return await buildDotNetConnection(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsWorkersGenerated(dotNetObject: any, layerId: string
     let jsworkers: any = {}
 
 
-    let { default: WorkersWrapper } = await import('./workers');
+    let {default: WorkersWrapper} = await import('./workers');
     let workersWrapper = new WorkersWrapper(jsworkers);
     workersWrapper.geoBlazorId = dotNetObject.id;
     workersWrapper.viewId = viewId;
     workersWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(workersWrapper);
     jsObjectRefs[dotNetObject.id] = workersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsworkers;
-    let { buildDotNetWorkers } = await import('./workers');
+    let {buildDotNetWorkers} = await import('./workers');
     let dnInstantiatedObject = await buildDotNetWorkers(jsworkers);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Workers', e);
     }
-    
+
     return jsworkers;
 }
+
 export async function buildDotNetWorkersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWorkers: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

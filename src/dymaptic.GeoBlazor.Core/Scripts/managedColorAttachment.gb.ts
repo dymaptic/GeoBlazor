@@ -12,13 +12,13 @@ export default class ManagedColorAttachmentGenerated implements IPropertyWrapper
     constructor(component: ManagedColorAttachment) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async release(): Promise<void> {
         this.component.release();
     }
@@ -28,11 +28,11 @@ export default class ManagedColorAttachmentGenerated implements IPropertyWrapper
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsManagedColorAttachmentGenerated(dotNetObject: any, 
     let jsManagedColorAttachment: any = {}
 
 
-    let { default: ManagedColorAttachmentWrapper } = await import('./managedColorAttachment');
+    let {default: ManagedColorAttachmentWrapper} = await import('./managedColorAttachment');
     let managedColorAttachmentWrapper = new ManagedColorAttachmentWrapper(jsManagedColorAttachment);
     managedColorAttachmentWrapper.geoBlazorId = dotNetObject.id;
     managedColorAttachmentWrapper.viewId = viewId;
     managedColorAttachmentWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(managedColorAttachmentWrapper);
     jsObjectRefs[dotNetObject.id] = managedColorAttachmentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsManagedColorAttachment;
-    let { buildDotNetManagedColorAttachment } = await import('./managedColorAttachment');
+    let {buildDotNetManagedColorAttachment} = await import('./managedColorAttachment');
     let dnInstantiatedObject = await buildDotNetManagedColorAttachment(jsManagedColorAttachment);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ManagedColorAttachment', e);
     }
-    
+
     return jsManagedColorAttachment;
 }
+
 export async function buildDotNetManagedColorAttachmentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetManagedColorAttachment: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -7,15 +7,15 @@ export default class HeatmapStatisticsWrapper extends HeatmapStatisticsGenerated
     constructor(component: heatmapStatistics) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsHeatmapStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsHeatmapStatisticsGenerated } = await import('./heatmapStatistics.gb');
+    let {buildJsHeatmapStatisticsGenerated} = await import('./heatmapStatistics.gb');
     return await buildJsHeatmapStatisticsGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetHeatmapStatistics(jsObject: any): Promise<any> {
-    let { buildDotNetHeatmapStatisticsGenerated } = await import('./heatmapStatistics.gb');
+    let {buildDotNetHeatmapStatisticsGenerated} = await import('./heatmapStatistics.gb');
     return await buildDotNetHeatmapStatisticsGenerated(jsObject);
 }

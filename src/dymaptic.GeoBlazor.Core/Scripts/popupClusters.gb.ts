@@ -12,25 +12,25 @@ export default class PopupClustersGenerated implements IPropertyWrapper {
     constructor(component: popupClusters) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getTemplates(parameters: any): Promise<any> {
-        let { buildJsClustersGetTemplatesParams } = await import('./clustersGetTemplatesParams');
+        let {buildJsClustersGetTemplatesParams} = await import('./clustersGetTemplatesParams');
         let jsparameters = await buildJsClustersGetTemplatesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.getTemplates(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsPopupClustersGenerated(dotNetObject: any, layerId: 
     let jspopupClusters: any = {}
 
 
-    let { default: PopupClustersWrapper } = await import('./popupClusters');
+    let {default: PopupClustersWrapper} = await import('./popupClusters');
     let popupClustersWrapper = new PopupClustersWrapper(jspopupClusters);
     popupClustersWrapper.geoBlazorId = dotNetObject.id;
     popupClustersWrapper.viewId = viewId;
     popupClustersWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupClustersWrapper);
     jsObjectRefs[dotNetObject.id] = popupClustersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspopupClusters;
-    let { buildDotNetPopupClusters } = await import('./popupClusters');
+    let {buildDotNetPopupClusters} = await import('./popupClusters');
     let dnInstantiatedObject = await buildDotNetPopupClusters(jspopupClusters);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PopupClusters', e);
     }
-    
+
     return jspopupClusters;
 }
+
 export async function buildDotNetPopupClustersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPopupClusters: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

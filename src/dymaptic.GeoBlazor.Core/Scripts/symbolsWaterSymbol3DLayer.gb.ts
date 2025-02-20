@@ -12,23 +12,23 @@ export default class SymbolsWaterSymbol3DLayerGenerated implements IPropertyWrap
     constructor(layer: symbolsWaterSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsSymbolsWaterSymbol3DLayerGenerated(dotNetObject: an
     let jssymbolsWaterSymbol3DLayer: any = {}
 
 
-    let { default: SymbolsWaterSymbol3DLayerWrapper } = await import('./symbolsWaterSymbol3DLayer');
+    let {default: SymbolsWaterSymbol3DLayerWrapper} = await import('./symbolsWaterSymbol3DLayer');
     let symbolsWaterSymbol3DLayerWrapper = new SymbolsWaterSymbol3DLayerWrapper(jssymbolsWaterSymbol3DLayer);
     symbolsWaterSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     symbolsWaterSymbol3DLayerWrapper.viewId = viewId;
     symbolsWaterSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbolsWaterSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = symbolsWaterSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsWaterSymbol3DLayer;
-    let { buildDotNetSymbolsWaterSymbol3DLayer } = await import('./symbolsWaterSymbol3DLayer');
+    let {buildDotNetSymbolsWaterSymbol3DLayer} = await import('./symbolsWaterSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetSymbolsWaterSymbol3DLayer(jssymbolsWaterSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbolsWaterSymbol3DLayer', e);
     }
-    
+
     return jssymbolsWaterSymbol3DLayer;
 }
+
 export async function buildDotNetSymbolsWaterSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbolsWaterSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

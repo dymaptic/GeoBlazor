@@ -12,23 +12,23 @@ export default class DrawUtilsGenerated implements IPropertyWrapper {
     constructor(component: drawUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async move(geometry: any): Promise<any> {
         return this.component.move(geometry);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsDrawUtilsGenerated(dotNetObject: any, layerId: stri
     let jsdrawUtils: any = {}
 
 
-    let { default: DrawUtilsWrapper } = await import('./drawUtils');
+    let {default: DrawUtilsWrapper} = await import('./drawUtils');
     let drawUtilsWrapper = new DrawUtilsWrapper(jsdrawUtils);
     drawUtilsWrapper.geoBlazorId = dotNetObject.id;
     drawUtilsWrapper.viewId = viewId;
     drawUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(drawUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = drawUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsdrawUtils;
-    let { buildDotNetDrawUtils } = await import('./drawUtils');
+    let {buildDotNetDrawUtils} = await import('./drawUtils');
     let dnInstantiatedObject = await buildDotNetDrawUtils(jsdrawUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DrawUtils', e);
     }
-    
+
     return jsdrawUtils;
 }
+
 export async function buildDotNetDrawUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDrawUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

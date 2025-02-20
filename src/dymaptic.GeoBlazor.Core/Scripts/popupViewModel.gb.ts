@@ -12,38 +12,38 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     constructor(component: PopupViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clear(): Promise<void> {
         this.component.clear();
     }
 
     async fetchFeatures(screenPoint: any,
-        options: any): Promise<any> {
+                        options: any): Promise<any> {
         return await this.component.fetchFeatures(screenPoint,
             options);
     }
 
     async next(): Promise<any> {
         let result = this.component.next();
-        let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
+        let {buildDotNetFeaturesViewModel} = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
-        let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
+        let {buildJsFeaturesViewModelOpenOptions} = await import('./featuresViewModelOpenOptions');
         let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
         this.component.open(jsOptions);
     }
 
     async previous(): Promise<any> {
         let result = this.component.previous();
-        let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
+        let {buildDotNetFeaturesViewModel} = await import('./featuresViewModel');
         return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
@@ -52,74 +52,80 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getFeatures(): Promise<any> {
         if (!hasValue(this.component.features)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return this.component.features!.map(i => buildDotNetGraphic(i));
     }
-    
+
     async setFeatures(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         this.component.features = value.map(i => buildJsGraphic(i)) as any;
     }
-    
+
     async getFeatureViewModels(): Promise<any> {
         if (!hasValue(this.component.featureViewModels)) {
             return null;
         }
-        
-        let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
+
+        let {buildDotNetFeatureViewModel} = await import('./featureViewModel');
         return await Promise.all(this.component.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
     }
-    
+
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
             return null;
         }
-        
-        let { buildDotNetPoint } = await import('./point');
+
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(this.component.location);
     }
+
     async setLocation(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.location =  buildJsPoint(value);
+        let {buildJsPoint} = await import('./point');
+        this.component.location = buildJsPoint(value);
     }
+
     async getSelectedClusterBoundaryFeature(): Promise<any> {
         if (!hasValue(this.component.selectedClusterBoundaryFeature)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.selectedClusterBoundaryFeature, this.layerId, this.viewId);
     }
+
     async getSelectedFeature(): Promise<any> {
         if (!hasValue(this.component.selectedFeature)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = buildJsSpatialReference(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -128,15 +134,15 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
 export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPopupViewModel = new PopupViewModel();
     if (hasValue(dotNetObject.features)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsPopupViewModel.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.location)) {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         jsPopupViewModel.location = buildJsPoint(dotNetObject.location) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         jsPopupViewModel.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
@@ -159,7 +165,13 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         jsPopupViewModel.featuresPerPage = dotNetObject.featuresPerPage;
     }
     if (hasValue(dotNetObject.featureViewModelAbilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedFeatureViewModelAbilities
+        } = dotNetObject.featureViewModelAbilities;
         jsPopupViewModel.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
     if (hasValue(dotNetObject.goToOverride)) {
@@ -192,134 +204,135 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     jsPopupViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });
-    
 
-    let { default: PopupViewModelWrapper } = await import('./popupViewModel');
+
+    let {default: PopupViewModelWrapper} = await import('./popupViewModel');
     let popupViewModelWrapper = new PopupViewModelWrapper(jsPopupViewModel);
     popupViewModelWrapper.geoBlazorId = dotNetObject.id;
     popupViewModelWrapper.viewId = viewId;
     popupViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = popupViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopupViewModel;
-    let { buildDotNetPopupViewModel } = await import('./popupViewModel');
+    let {buildDotNetPopupViewModel} = await import('./popupViewModel');
     let dnInstantiatedObject = await buildDotNetPopupViewModel(jsPopupViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PopupViewModel', e);
     }
-    
+
     return jsPopupViewModel;
 }
+
 export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPopupViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.featureViewModels)) {
-            let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetPopupViewModel.location = buildDotNetPoint(jsObject.location);
-        }
-        if (hasValue(jsObject.selectedClusterBoundaryFeature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.selectedClusterBoundaryFeature = buildDotNetGraphic(jsObject.selectedClusterBoundaryFeature, layerId, viewId);
-        }
-        if (hasValue(jsObject.selectedFeature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetPopupViewModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.actions)) {
-            dotNetPopupViewModel.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetPopupViewModel.active = jsObject.active;
-        }
-        if (hasValue(jsObject.allActions)) {
-            dotNetPopupViewModel.allActions = jsObject.allActions;
-        }
-        if (hasValue(jsObject.autoCloseEnabled)) {
-            dotNetPopupViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
-        }
-        if (hasValue(jsObject.browseClusterEnabled)) {
-            dotNetPopupViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetPopupViewModel.content = jsObject.content;
-        }
-        if (hasValue(jsObject.defaultActions)) {
-            dotNetPopupViewModel.defaultActions = jsObject.defaultActions;
-        }
-        if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
-            dotNetPopupViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
-        }
-        if (hasValue(jsObject.featureCount)) {
-            dotNetPopupViewModel.featureCount = jsObject.featureCount;
-        }
-        if (hasValue(jsObject.featuresPerPage)) {
-            dotNetPopupViewModel.featuresPerPage = jsObject.featuresPerPage;
-        }
-        if (hasValue(jsObject.featureViewModelAbilities)) {
-            dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetPopupViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetPopupViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.includeDefaultActions)) {
-            dotNetPopupViewModel.includeDefaultActions = jsObject.includeDefaultActions;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetPopupViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.pendingPromisesCount)) {
-            dotNetPopupViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
-        }
-        if (hasValue(jsObject.promiseCount)) {
-            dotNetPopupViewModel.promiseCount = jsObject.promiseCount;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetPopupViewModel.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.selectedFeatureIndex)) {
-            dotNetPopupViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetPopupViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetPopupViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupViewModel.title = jsObject.title;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPopupViewModel.view = jsObject.view;
-        }
-        if (hasValue(jsObject.waitingForResult)) {
-            dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
-        }
+    if (hasValue(jsObject.features)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetPopupViewModel.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.featureViewModels)) {
+        let {buildDotNetFeatureViewModel} = await import('./featureViewModel');
+        dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
+    }
+    if (hasValue(jsObject.location)) {
+        let {buildDotNetPoint} = await import('./point');
+        dotNetPopupViewModel.location = buildDotNetPoint(jsObject.location);
+    }
+    if (hasValue(jsObject.selectedClusterBoundaryFeature)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetPopupViewModel.selectedClusterBoundaryFeature = buildDotNetGraphic(jsObject.selectedClusterBoundaryFeature, layerId, viewId);
+    }
+    if (hasValue(jsObject.selectedFeature)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetPopupViewModel.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetPopupViewModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.actions)) {
+        dotNetPopupViewModel.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetPopupViewModel.active = jsObject.active;
+    }
+    if (hasValue(jsObject.allActions)) {
+        dotNetPopupViewModel.allActions = jsObject.allActions;
+    }
+    if (hasValue(jsObject.autoCloseEnabled)) {
+        dotNetPopupViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
+    }
+    if (hasValue(jsObject.browseClusterEnabled)) {
+        dotNetPopupViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetPopupViewModel.content = jsObject.content;
+    }
+    if (hasValue(jsObject.defaultActions)) {
+        dotNetPopupViewModel.defaultActions = jsObject.defaultActions;
+    }
+    if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
+        dotNetPopupViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
+    }
+    if (hasValue(jsObject.featureCount)) {
+        dotNetPopupViewModel.featureCount = jsObject.featureCount;
+    }
+    if (hasValue(jsObject.featuresPerPage)) {
+        dotNetPopupViewModel.featuresPerPage = jsObject.featuresPerPage;
+    }
+    if (hasValue(jsObject.featureViewModelAbilities)) {
+        dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetPopupViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetPopupViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.includeDefaultActions)) {
+        dotNetPopupViewModel.includeDefaultActions = jsObject.includeDefaultActions;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetPopupViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.pendingPromisesCount)) {
+        dotNetPopupViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
+    }
+    if (hasValue(jsObject.promiseCount)) {
+        dotNetPopupViewModel.promiseCount = jsObject.promiseCount;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetPopupViewModel.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.selectedFeatureIndex)) {
+        dotNetPopupViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetPopupViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetPopupViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupViewModel.title = jsObject.title;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPopupViewModel.view = jsObject.view;
+    }
+    if (hasValue(jsObject.waitingForResult)) {
+        dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

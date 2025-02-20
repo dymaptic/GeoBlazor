@@ -12,16 +12,16 @@ export default class SchedulingGenerated implements IPropertyWrapper {
     constructor(component: scheduling) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addFrameTask(phases: any): Promise<any> {
         let result = this.component.addFrameTask(phases);
-        let { buildDotNetFrameTaskHandle } = await import('./frameTaskHandle');
+        let {buildDotNetFrameTaskHandle} = await import('./frameTaskHandle');
         return await buildDotNetFrameTaskHandle(result);
     }
 
@@ -30,11 +30,11 @@ export default class SchedulingGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsSchedulingGenerated(dotNetObject: any, layerId: str
     let jsscheduling: any = {}
 
 
-    let { default: SchedulingWrapper } = await import('./scheduling');
+    let {default: SchedulingWrapper} = await import('./scheduling');
     let schedulingWrapper = new SchedulingWrapper(jsscheduling);
     schedulingWrapper.geoBlazorId = dotNetObject.id;
     schedulingWrapper.viewId = viewId;
     schedulingWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(schedulingWrapper);
     jsObjectRefs[dotNetObject.id] = schedulingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsscheduling;
-    let { buildDotNetScheduling } = await import('./scheduling');
+    let {buildDotNetScheduling} = await import('./scheduling');
     let dnInstantiatedObject = await buildDotNetScheduling(jsscheduling);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Scheduling', e);
     }
-    
+
     return jsscheduling;
 }
+
 export async function buildDotNetSchedulingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetScheduling: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

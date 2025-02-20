@@ -12,13 +12,13 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     constructor(widget: widgetsSearch) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async blur(): Promise<void> {
         this.widget.blur();
     }
@@ -32,61 +32,67 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.widget.popupTemplate)) {
             return null;
         }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.widget.popupTemplate);
     }
+
     async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.widget.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
+        this.widget.popupTemplate = buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+
     async getPortal(): Promise<any> {
         if (!hasValue(this.widget.portal)) {
             return null;
         }
-        
-        let { buildDotNetPortal } = await import('./portal');
+
+        let {buildDotNetPortal} = await import('./portal');
         return await buildDotNetPortal(this.widget.portal);
     }
+
     async setPortal(value: any): Promise<void> {
-        let { buildJsPortal } = await import('./portal');
-        this.widget.portal = await  buildJsPortal(value, this.layerId, this.viewId);
+        let {buildJsPortal} = await import('./portal');
+        this.widget.portal = await buildJsPortal(value, this.layerId, this.viewId);
     }
+
     async getSources(): Promise<any> {
         if (!hasValue(this.widget.sources)) {
             return null;
         }
-        
-        let { buildDotNetSearchSource } = await import('./searchSource');
+
+        let {buildDotNetSearchSource} = await import('./searchSource');
         return await Promise.all(this.widget.sources.map(async i => await buildDotNetSearchSource(i)));
     }
-    
+
     async setSources(value: any): Promise<void> {
-        let { buildJsSearchSource } = await import('./searchSource');
+        let {buildJsSearchSource} = await import('./searchSource');
         this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
     }
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetSearchViewModel } = await import('./searchViewModel');
+
+        let {buildDotNetSearchViewModel} = await import('./searchViewModel');
         return await buildDotNetSearchViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsSearchViewModel } = await import('./searchViewModel');
-        this.widget.viewModel = await  buildJsSearchViewModel(value, this.layerId, this.viewId);
+        let {buildJsSearchViewModel} = await import('./searchViewModel');
+        this.widget.viewModel = await buildJsSearchViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -95,19 +101,19 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
 export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jswidgetsSearch = new widgetsSearch();
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         jswidgetsSearch.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portal)) {
-        let { buildJsPortal } = await import('./portal');
+        let {buildJsPortal} = await import('./portal');
         jswidgetsSearch.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources)) {
-        let { buildJsSearchSource } = await import('./searchSource');
+        let {buildJsSearchSource} = await import('./searchSource');
         jswidgetsSearch.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsSearchViewModel } = await import('./searchViewModel');
+        let {buildJsSearchViewModel} = await import('./searchViewModel');
         jswidgetsSearch.viewModel = await buildJsSearchViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -165,162 +171,163 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     jswidgetsSearch.on('search-blur', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchBlur', evt);
     });
-    
+
     jswidgetsSearch.on('search-clear', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', evt);
     });
-    
+
     jswidgetsSearch.on('search-complete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', evt);
     });
-    
+
     jswidgetsSearch.on('search-focus', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchFocus', evt);
     });
-    
+
     jswidgetsSearch.on('search-start', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', evt);
     });
-    
+
     jswidgetsSearch.on('select-result', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', evt);
     });
-    
+
     jswidgetsSearch.on('suggest-complete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', evt);
     });
-    
+
     jswidgetsSearch.on('suggest-start', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestStart', evt);
     });
-    
 
-    let { default: SearchWidgetWrapper } = await import('./searchWidget');
+
+    let {default: SearchWidgetWrapper} = await import('./searchWidget');
     let searchWidgetWrapper = new SearchWidgetWrapper(jswidgetsSearch);
     searchWidgetWrapper.geoBlazorId = dotNetObject.id;
     searchWidgetWrapper.viewId = viewId;
     searchWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
-    let { buildDotNetSearchWidget } = await import('./searchWidget');
+    let {buildDotNetSearchWidget} = await import('./searchWidget');
     let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SearchWidget', e);
     }
-    
+
     return jswidgetsSearch;
 }
+
 export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSearchWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeSource)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchWidget.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
-        }
-        if (hasValue(jsObject.allSources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchWidget.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
-        }
-        if (hasValue(jsObject.defaultSources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchWidget.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.portal)) {
-            let { buildDotNetPortal } = await import('./portal');
-            dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal);
-        }
-        if (hasValue(jsObject.resultGraphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.selectedResult)) {
-            let { buildDotNetSearchResult } = await import('./searchResult');
-            dotNetSearchWidget.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
-        }
-        if (hasValue(jsObject.sources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-            dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.activeMenu)) {
-            dotNetSearchWidget.activeMenu = jsObject.activeMenu;
-        }
-        if (hasValue(jsObject.activeSourceIndex)) {
-            dotNetSearchWidget.activeSourceIndex = jsObject.activeSourceIndex;
-        }
-        if (hasValue(jsObject.allPlaceholder)) {
-            dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
-        }
-        if (hasValue(jsObject.autoSelect)) {
-            dotNetSearchWidget.autoSelect = jsObject.autoSelect;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetSearchWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetSearchWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.includeDefaultSources)) {
-            dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
-        }
-        if (hasValue(jsObject.locationEnabled)) {
-            dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
-        }
-        if (hasValue(jsObject.maxResults)) {
-            dotNetSearchWidget.maxResults = jsObject.maxResults;
-        }
-        if (hasValue(jsObject.maxSuggestions)) {
-            dotNetSearchWidget.maxSuggestions = jsObject.maxSuggestions;
-        }
-        if (hasValue(jsObject.minSuggestCharacters)) {
-            dotNetSearchWidget.minSuggestCharacters = jsObject.minSuggestCharacters;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.resultGraphicEnabled)) {
-            dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;
-        }
-        if (hasValue(jsObject.results)) {
-            dotNetSearchWidget.results = jsObject.results;
-        }
-        if (hasValue(jsObject.searchAllEnabled)) {
-            dotNetSearchWidget.searchAllEnabled = jsObject.searchAllEnabled;
-        }
-        if (hasValue(jsObject.searchTerm)) {
-            dotNetSearchWidget.searchTerm = jsObject.searchTerm;
-        }
-        if (hasValue(jsObject.suggestions)) {
-            dotNetSearchWidget.suggestions = jsObject.suggestions;
-        }
-        if (hasValue(jsObject.suggestionsEnabled)) {
-            dotNetSearchWidget.suggestionsEnabled = jsObject.suggestionsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSearchWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSearchWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeSource)) {
+        let {buildDotNetSearchSource} = await import('./searchSource');
+        dotNetSearchWidget.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
+    }
+    if (hasValue(jsObject.allSources)) {
+        let {buildDotNetSearchSource} = await import('./searchSource');
+        dotNetSearchWidget.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.defaultSources)) {
+        let {buildDotNetSearchSource} = await import('./searchSource');
+        dotNetSearchWidget.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
+        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.portal)) {
+        let {buildDotNetPortal} = await import('./portal');
+        dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal);
+    }
+    if (hasValue(jsObject.resultGraphic)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.selectedResult)) {
+        let {buildDotNetSearchResult} = await import('./searchResult');
+        dotNetSearchWidget.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
+    }
+    if (hasValue(jsObject.sources)) {
+        let {buildDotNetSearchSource} = await import('./searchSource');
+        dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetSearchViewModel} = await import('./searchViewModel');
+        dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.activeMenu)) {
+        dotNetSearchWidget.activeMenu = jsObject.activeMenu;
+    }
+    if (hasValue(jsObject.activeSourceIndex)) {
+        dotNetSearchWidget.activeSourceIndex = jsObject.activeSourceIndex;
+    }
+    if (hasValue(jsObject.allPlaceholder)) {
+        dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
+    }
+    if (hasValue(jsObject.autoSelect)) {
+        dotNetSearchWidget.autoSelect = jsObject.autoSelect;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetSearchWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetSearchWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.includeDefaultSources)) {
+        dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
+    }
+    if (hasValue(jsObject.locationEnabled)) {
+        dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
+    }
+    if (hasValue(jsObject.maxResults)) {
+        dotNetSearchWidget.maxResults = jsObject.maxResults;
+    }
+    if (hasValue(jsObject.maxSuggestions)) {
+        dotNetSearchWidget.maxSuggestions = jsObject.maxSuggestions;
+    }
+    if (hasValue(jsObject.minSuggestCharacters)) {
+        dotNetSearchWidget.minSuggestCharacters = jsObject.minSuggestCharacters;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.resultGraphicEnabled)) {
+        dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;
+    }
+    if (hasValue(jsObject.results)) {
+        dotNetSearchWidget.results = jsObject.results;
+    }
+    if (hasValue(jsObject.searchAllEnabled)) {
+        dotNetSearchWidget.searchAllEnabled = jsObject.searchAllEnabled;
+    }
+    if (hasValue(jsObject.searchTerm)) {
+        dotNetSearchWidget.searchTerm = jsObject.searchTerm;
+    }
+    if (hasValue(jsObject.suggestions)) {
+        dotNetSearchWidget.suggestions = jsObject.suggestions;
+    }
+    if (hasValue(jsObject.suggestionsEnabled)) {
+        dotNetSearchWidget.suggestionsEnabled = jsObject.suggestionsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSearchWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSearchWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

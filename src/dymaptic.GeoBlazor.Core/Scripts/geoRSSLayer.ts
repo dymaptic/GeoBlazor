@@ -11,32 +11,34 @@ export default class GeoRSSLayerWrapper extends GeoRSSLayerGenerated {
     async getPointSymbol(): Promise<any> {
         switch (this.layer.pointSymbol.type) {
             case 'picture-marker':
-                let { buildDotNetPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
+                let {buildDotNetPictureMarkerSymbol} = await import('./pictureMarkerSymbol');
                 return await buildDotNetPictureMarkerSymbol(this.layer.pointSymbol);
             case 'simple-marker':
-                let { buildDotNetSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
+                let {buildDotNetSimpleMarkerSymbol} = await import('./simpleMarkerSymbol');
                 return await buildDotNetSimpleMarkerSymbol(this.layer.pointSymbol);
         }
     }
-    
+
     async setPointSymbol(value: any): Promise<void> {
         switch (value.type) {
             case 'picture-marker':
-                let { buildJsPictureMarkerSymbol } = await import('./pictureMarkerSymbol');
+                let {buildJsPictureMarkerSymbol} = await import('./pictureMarkerSymbol');
                 this.layer.pointSymbol = await buildJsPictureMarkerSymbol(value);
                 break;
             case 'simple-marker':
-                let { buildJsSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
+                let {buildJsSimpleMarkerSymbol} = await import('./simpleMarkerSymbol');
                 this.layer.pointSymbol = await buildJsSimpleMarkerSymbol(value);
                 break;
         }
     }
-}              
+}
+
 export async function buildJsGeoRSSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsGeoRSSLayerGenerated } = await import('./geoRSSLayer.gb');
+    let {buildJsGeoRSSLayerGenerated} = await import('./geoRSSLayer.gb');
     return await buildJsGeoRSSLayerGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetGeoRSSLayer(jsObject: any): Promise<any> {
-    let { buildDotNetGeoRSSLayerGenerated } = await import('./geoRSSLayer.gb');
+    let {buildDotNetGeoRSSLayerGenerated} = await import('./geoRSSLayer.gb');
     return await buildDotNetGeoRSSLayerGenerated(jsObject);
 }

@@ -12,13 +12,13 @@ export default class SymbologyLocationGenerated implements IPropertyWrapper {
     constructor(component: symbologyLocation) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
         return this.component.cloneScheme(scheme);
     }
@@ -32,11 +32,11 @@ export default class SymbologyLocationGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsSymbologyLocationGenerated(dotNetObject: any, layer
     let jssymbologyLocation: any = {}
 
 
-    let { default: SymbologyLocationWrapper } = await import('./symbologyLocation');
+    let {default: SymbologyLocationWrapper} = await import('./symbologyLocation');
     let symbologyLocationWrapper = new SymbologyLocationWrapper(jssymbologyLocation);
     symbologyLocationWrapper.geoBlazorId = dotNetObject.id;
     symbologyLocationWrapper.viewId = viewId;
     symbologyLocationWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyLocationWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyLocationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyLocation;
-    let { buildDotNetSymbologyLocation } = await import('./symbologyLocation');
+    let {buildDotNetSymbologyLocation} = await import('./symbologyLocation');
     let dnInstantiatedObject = await buildDotNetSymbologyLocation(jssymbologyLocation);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyLocation', e);
     }
-    
+
     return jssymbologyLocation;
 }
+
 export async function buildDotNetSymbologyLocationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyLocation: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

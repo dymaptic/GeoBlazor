@@ -12,25 +12,25 @@ export default class ScaleRangeGenerated implements IPropertyWrapper {
     constructor(component: scaleRange) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async scaleRange(parameters: any): Promise<any> {
-        let { buildJsScaleRangeScaleRangeParams } = await import('./scaleRangeScaleRangeParams');
+        let {buildJsScaleRangeScaleRangeParams} = await import('./scaleRangeScaleRangeParams');
         let jsparameters = await buildJsScaleRangeScaleRangeParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.scaleRange(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsScaleRangeGenerated(dotNetObject: any, layerId: str
     let jsscaleRange = new scaleRange();
 
 
-    let { default: ScaleRangeWrapper } = await import('./scaleRange');
+    let {default: ScaleRangeWrapper} = await import('./scaleRange');
     let scaleRangeWrapper = new ScaleRangeWrapper(jsscaleRange);
     scaleRangeWrapper.geoBlazorId = dotNetObject.id;
     scaleRangeWrapper.viewId = viewId;
     scaleRangeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(scaleRangeWrapper);
     jsObjectRefs[dotNetObject.id] = scaleRangeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsscaleRange;
-    let { buildDotNetScaleRange } = await import('./scaleRange');
+    let {buildDotNetScaleRange} = await import('./scaleRange');
     let dnInstantiatedObject = await buildDotNetScaleRange(jsscaleRange);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleRange', e);
     }
-    
+
     return jsscaleRange;
 }
+
 export async function buildDotNetScaleRangeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetScaleRange: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

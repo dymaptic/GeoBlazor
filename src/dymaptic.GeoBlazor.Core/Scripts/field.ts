@@ -32,12 +32,12 @@ export function buildJsField(dotNetObject: any): any {
     if (hasValue(dotNetObject.valueType)) {
         jsField.valueType = dotNetObject.valueType;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsField;
-    
+
     let dnInstantiatedObject = buildDotNetField(jsField);
 
     try {
@@ -48,6 +48,7 @@ export function buildJsField(dotNetObject: any): any {
 
     return jsField;
 }
+
 export function buildDotNetField(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

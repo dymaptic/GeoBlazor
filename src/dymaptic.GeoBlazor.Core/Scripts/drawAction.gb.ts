@@ -12,13 +12,13 @@ export default class DrawActionGenerated implements IPropertyWrapper {
     constructor(component: DrawAction) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canRedo(): Promise<any> {
         return this.component.canRedo();
     }
@@ -48,11 +48,11 @@ export default class DrawActionGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -68,45 +68,46 @@ export async function buildJsDrawActionGenerated(dotNetObject: any, layerId: str
         jsDrawAction.view = dotNetObject.view;
     }
 
-    let { default: DrawActionWrapper } = await import('./drawAction');
+    let {default: DrawActionWrapper} = await import('./drawAction');
     let drawActionWrapper = new DrawActionWrapper(jsDrawAction);
     drawActionWrapper.geoBlazorId = dotNetObject.id;
     drawActionWrapper.viewId = viewId;
     drawActionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(drawActionWrapper);
     jsObjectRefs[dotNetObject.id] = drawActionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDrawAction;
-    let { buildDotNetDrawAction } = await import('./drawAction');
+    let {buildDotNetDrawAction} = await import('./drawAction');
     let dnInstantiatedObject = await buildDotNetDrawAction(jsDrawAction);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DrawAction', e);
     }
-    
+
     return jsDrawAction;
 }
+
 export async function buildDotNetDrawActionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDrawAction: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

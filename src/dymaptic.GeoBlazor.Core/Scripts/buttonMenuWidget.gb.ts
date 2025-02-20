@@ -12,19 +12,19 @@ export default class ButtonMenuWidgetGenerated implements IPropertyWrapper {
     constructor(widget: ButtonMenu) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -40,65 +40,66 @@ export async function buildJsButtonMenuWidgetGenerated(dotNetObject: any, layerI
         jsButtonMenu.iconClass = dotNetObject.iconClass;
     }
     if (hasValue(dotNetObject.items)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItems } = dotNetObject.items;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedItems} = dotNetObject.items;
         jsButtonMenu.items = sanitizedItems;
     }
     if (hasValue(dotNetObject.open)) {
         jsButtonMenu.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel} = dotNetObject.viewModel;
         jsButtonMenu.viewModel = sanitizedViewModel;
     }
 
-    let { default: ButtonMenuWidgetWrapper } = await import('./buttonMenuWidget');
+    let {default: ButtonMenuWidgetWrapper} = await import('./buttonMenuWidget');
     let buttonMenuWidgetWrapper = new ButtonMenuWidgetWrapper(jsButtonMenu);
     buttonMenuWidgetWrapper.geoBlazorId = dotNetObject.id;
     buttonMenuWidgetWrapper.viewId = viewId;
     buttonMenuWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(buttonMenuWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = buttonMenuWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsButtonMenu;
-    let { buildDotNetButtonMenuWidget } = await import('./buttonMenuWidget');
+    let {buildDotNetButtonMenuWidget} = await import('./buttonMenuWidget');
     let dnInstantiatedObject = await buildDotNetButtonMenuWidget(jsButtonMenu);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ButtonMenuWidget', e);
     }
-    
+
     return jsButtonMenu;
 }
+
 export async function buildDotNetButtonMenuWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetButtonMenuWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.disabled)) {
-            dotNetButtonMenuWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.iconClass)) {
-            dotNetButtonMenuWidget.iconClass = jsObject.iconClass;
-        }
-        if (hasValue(jsObject.items)) {
-            dotNetButtonMenuWidget.items = jsObject.items;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetButtonMenuWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetButtonMenuWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.viewModel)) {
-            dotNetButtonMenuWidget.viewModel = jsObject.viewModel;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetButtonMenuWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.iconClass)) {
+        dotNetButtonMenuWidget.iconClass = jsObject.iconClass;
+    }
+    if (hasValue(jsObject.items)) {
+        dotNetButtonMenuWidget.items = jsObject.items;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetButtonMenuWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetButtonMenuWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.viewModel)) {
+        dotNetButtonMenuWidget.viewModel = jsObject.viewModel;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

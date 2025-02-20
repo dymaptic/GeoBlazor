@@ -28,6 +28,7 @@ export function buildJsLayerOptions(dotNetObject: any): any {
 
     return jsLayerOptions;
 }
+
 export function buildDotNetLayerOptions(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

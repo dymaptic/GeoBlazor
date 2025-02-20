@@ -12,23 +12,23 @@ export default class FeatureReferenceLayerGenerated implements IPropertyWrapper 
     constructor(layer: FeatureReferenceLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -44,42 +44,43 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
         jsFeatureReferenceLayer.objectIdField = dotNetObject.objectIdField;
     }
 
-    let { default: FeatureReferenceLayerWrapper } = await import('./featureReferenceLayer');
+    let {default: FeatureReferenceLayerWrapper} = await import('./featureReferenceLayer');
     let featureReferenceLayerWrapper = new FeatureReferenceLayerWrapper(jsFeatureReferenceLayer);
     featureReferenceLayerWrapper.geoBlazorId = dotNetObject.id;
     featureReferenceLayerWrapper.viewId = viewId;
     featureReferenceLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureReferenceLayerWrapper);
     jsObjectRefs[dotNetObject.id] = featureReferenceLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReferenceLayer;
-    let { buildDotNetFeatureReferenceLayer } = await import('./featureReferenceLayer');
+    let {buildDotNetFeatureReferenceLayer} = await import('./featureReferenceLayer');
     let dnInstantiatedObject = await buildDotNetFeatureReferenceLayer(jsFeatureReferenceLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureReferenceLayer', e);
     }
-    
+
     return jsFeatureReferenceLayer;
 }
+
 export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFeatureReferenceLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

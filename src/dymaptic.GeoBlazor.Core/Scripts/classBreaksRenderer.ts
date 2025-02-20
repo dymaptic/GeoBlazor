@@ -6,14 +6,15 @@ export default class ClassBreaksRendererWrapper extends ClassBreaksRendererGener
     constructor(component: ClassBreaksRenderer) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsClassBreaksRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsClassBreaksRendererGenerated } = await import('./classBreaksRenderer.gb');
+    let {buildJsClassBreaksRendererGenerated} = await import('./classBreaksRenderer.gb');
     return await buildJsClassBreaksRendererGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetClassBreaksRenderer(jsObject: any): Promise<any> {
-    let { buildDotNetClassBreaksRendererGenerated } = await import('./classBreaksRenderer.gb');
+    let {buildDotNetClassBreaksRendererGenerated} = await import('./classBreaksRenderer.gb');
     return await buildDotNetClassBreaksRendererGenerated(jsObject);
 }

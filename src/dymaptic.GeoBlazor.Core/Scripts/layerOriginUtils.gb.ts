@@ -12,27 +12,27 @@ export default class LayerOriginUtilsGenerated implements IPropertyWrapper {
     constructor(component: layerOriginUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clearOverrides(layer: any,
-        origin: any): Promise<void> {
+                         origin: any): Promise<void> {
         this.component.clearOverrides(layer,
             origin);
     }
 
     async disconnectFromSource(layer: any,
-        origin: any): Promise<void> {
+                               origin: any): Promise<void> {
         this.component.disconnectFromSource(layer,
             origin);
     }
 
     async getLayerOriginInfo(layer: any,
-        origin: any): Promise<any> {
+                             origin: any): Promise<any> {
         return this.component.getLayerOriginInfo(layer,
             origin);
     }
@@ -42,11 +42,11 @@ export default class LayerOriginUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,32 +56,33 @@ export async function buildJsLayerOriginUtilsGenerated(dotNetObject: any, layerI
     let jslayerOriginUtils: any = {}
 
 
-    let { default: LayerOriginUtilsWrapper } = await import('./layerOriginUtils');
+    let {default: LayerOriginUtilsWrapper} = await import('./layerOriginUtils');
     let layerOriginUtilsWrapper = new LayerOriginUtilsWrapper(jslayerOriginUtils);
     layerOriginUtilsWrapper.geoBlazorId = dotNetObject.id;
     layerOriginUtilsWrapper.viewId = viewId;
     layerOriginUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerOriginUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = layerOriginUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslayerOriginUtils;
-    let { buildDotNetLayerOriginUtils } = await import('./layerOriginUtils');
+    let {buildDotNetLayerOriginUtils} = await import('./layerOriginUtils');
     let dnInstantiatedObject = await buildDotNetLayerOriginUtils(jslayerOriginUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerOriginUtils', e);
     }
-    
+
     return jslayerOriginUtils;
 }
+
 export async function buildDotNetLayerOriginUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLayerOriginUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

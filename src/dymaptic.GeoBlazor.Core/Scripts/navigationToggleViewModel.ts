@@ -7,15 +7,15 @@ export default class NavigationToggleViewModelWrapper extends NavigationToggleVi
     constructor(component: NavigationToggleViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsNavigationToggleViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsNavigationToggleViewModelGenerated } = await import('./navigationToggleViewModel.gb');
+    let {buildJsNavigationToggleViewModelGenerated} = await import('./navigationToggleViewModel.gb');
     return await buildJsNavigationToggleViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetNavigationToggleViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetNavigationToggleViewModelGenerated } = await import('./navigationToggleViewModel.gb');
+    let {buildDotNetNavigationToggleViewModelGenerated} = await import('./navigationToggleViewModel.gb');
     return await buildDotNetNavigationToggleViewModelGenerated(jsObject);
 }

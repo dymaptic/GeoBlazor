@@ -12,23 +12,23 @@ export default class CredentialGenerated implements IPropertyWrapper {
     constructor(component: Credential) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async refreshToken(): Promise<void> {
         this.component.refreshToken();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -61,63 +61,64 @@ export async function buildJsCredentialGenerated(dotNetObject: any, layerId: str
     jsCredential.on('destroy', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', evt);
     });
-    
+
     jsCredential.on('token-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTokenChange', evt);
     });
-    
 
-    let { default: CredentialWrapper } = await import('./credential');
+
+    let {default: CredentialWrapper} = await import('./credential');
     let credentialWrapper = new CredentialWrapper(jsCredential);
     credentialWrapper.geoBlazorId = dotNetObject.id;
     credentialWrapper.viewId = viewId;
     credentialWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(credentialWrapper);
     jsObjectRefs[dotNetObject.id] = credentialWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCredential;
-    let { buildDotNetCredential } = await import('./credential');
+    let {buildDotNetCredential} = await import('./credential');
     let dnInstantiatedObject = await buildDotNetCredential(jsCredential);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Credential', e);
     }
-    
+
     return jsCredential;
 }
+
 export async function buildDotNetCredentialGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCredential: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.expires)) {
-            dotNetCredential.expires = jsObject.expires;
-        }
-        if (hasValue(jsObject.isAdmin)) {
-            dotNetCredential.isAdmin = jsObject.isAdmin;
-        }
-        if (hasValue(jsObject.oAuthState)) {
-            dotNetCredential.oAuthState = jsObject.oAuthState;
-        }
-        if (hasValue(jsObject.server)) {
-            dotNetCredential.server = jsObject.server;
-        }
-        if (hasValue(jsObject.ssl)) {
-            dotNetCredential.ssl = jsObject.ssl;
-        }
-        if (hasValue(jsObject.token)) {
-            dotNetCredential.token = jsObject.token;
-        }
-        if (hasValue(jsObject.userId)) {
-            dotNetCredential.userId = jsObject.userId;
-        }
+    if (hasValue(jsObject.expires)) {
+        dotNetCredential.expires = jsObject.expires;
+    }
+    if (hasValue(jsObject.isAdmin)) {
+        dotNetCredential.isAdmin = jsObject.isAdmin;
+    }
+    if (hasValue(jsObject.oAuthState)) {
+        dotNetCredential.oAuthState = jsObject.oAuthState;
+    }
+    if (hasValue(jsObject.server)) {
+        dotNetCredential.server = jsObject.server;
+    }
+    if (hasValue(jsObject.ssl)) {
+        dotNetCredential.ssl = jsObject.ssl;
+    }
+    if (hasValue(jsObject.token)) {
+        dotNetCredential.token = jsObject.token;
+    }
+    if (hasValue(jsObject.userId)) {
+        dotNetCredential.userId = jsObject.userId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

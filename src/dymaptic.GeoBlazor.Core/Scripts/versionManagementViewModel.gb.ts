@@ -12,20 +12,20 @@ export default class VersionManagementViewModelGenerated implements IPropertyWra
     constructor(component: VersionManagementViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async alterVersion(parameters: any): Promise<any> {
         return await this.component.alterVersion(parameters);
     }
 
     async changeVersion(featureServerUrl: any,
-        toVersionName: any,
-        toVersionGuid: any): Promise<any> {
+                        toVersionName: any,
+                        toVersionGuid: any): Promise<any> {
         return await this.component.changeVersion(featureServerUrl,
             toVersionName,
             toVersionGuid);
@@ -36,8 +36,8 @@ export default class VersionManagementViewModelGenerated implements IPropertyWra
     }
 
     async deleteVersion(featureServerUrl: any,
-        versionName: any,
-        versionGuid: any): Promise<any> {
+                        versionName: any,
+                        versionGuid: any): Promise<any> {
         return await this.component.deleteVersion(featureServerUrl,
             versionName,
             versionGuid);
@@ -48,61 +48,67 @@ export default class VersionManagementViewModelGenerated implements IPropertyWra
     }
 
     // region properties
-    
+
     async getFeatureServiceLookup(): Promise<any> {
         if (!hasValue(this.component.featureServiceLookup)) {
             return null;
         }
-        
-        let { buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle } = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
+
+        let {buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle} = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
         return await buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle(this.component.featureServiceLookup);
     }
+
     async setFeatureServiceLookup(value: any): Promise<void> {
-        let { buildJsVersionManagementViewModelFeatureServiceResourcesBundle } = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
-        this.component.featureServiceLookup = await  buildJsVersionManagementViewModelFeatureServiceResourcesBundle(value, this.layerId, this.viewId);
+        let {buildJsVersionManagementViewModelFeatureServiceResourcesBundle} = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
+        this.component.featureServiceLookup = await buildJsVersionManagementViewModelFeatureServiceResourcesBundle(value, this.layerId, this.viewId);
     }
+
     async getVersioningStateLookup(): Promise<any> {
         if (!hasValue(this.component.versioningStateLookup)) {
             return null;
         }
-        
-        let { buildDotNetVersioningState } = await import('./versioningState');
+
+        let {buildDotNetVersioningState} = await import('./versioningState');
         return await buildDotNetVersioningState(this.component.versioningStateLookup);
     }
+
     async setVersioningStateLookup(value: any): Promise<void> {
-        let { buildJsVersioningState } = await import('./versioningState');
-        this.component.versioningStateLookup = await  buildJsVersioningState(value, this.layerId, this.viewId);
+        let {buildJsVersioningState} = await import('./versioningState');
+        this.component.versioningStateLookup = await buildJsVersioningState(value, this.layerId, this.viewId);
     }
+
     async getVersioningStates(): Promise<any> {
         if (!hasValue(this.component.versioningStates)) {
             return null;
         }
-        
-        let { buildDotNetVersioningState } = await import('./versioningState');
+
+        let {buildDotNetVersioningState} = await import('./versioningState');
         return await Promise.all(this.component.versioningStates.map(async i => await buildDotNetVersioningState(i)));
     }
-    
+
     async setVersioningStates(value: any): Promise<void> {
-        let { buildJsVersioningState } = await import('./versioningState');
+        let {buildJsVersioningState} = await import('./versioningState');
         this.component.versioningStates = await Promise.all(value.map(async i => await buildJsVersioningState(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getVersionManagementServiceLookup(): Promise<any> {
         if (!hasValue(this.component.versionManagementServiceLookup)) {
             return null;
         }
-        
-        let { buildDotNetVersionManagementService } = await import('./versionManagementService');
+
+        let {buildDotNetVersionManagementService} = await import('./versionManagementService');
         return await buildDotNetVersionManagementService(this.component.versionManagementServiceLookup);
     }
+
     async setVersionManagementServiceLookup(value: any): Promise<void> {
-        let { buildJsVersionManagementService } = await import('./versionManagementService');
-        this.component.versionManagementServiceLookup = await  buildJsVersionManagementService(value, this.layerId, this.viewId);
+        let {buildJsVersionManagementService} = await import('./versionManagementService');
+        this.component.versionManagementServiceLookup = await buildJsVersionManagementService(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -111,19 +117,19 @@ export default class VersionManagementViewModelGenerated implements IPropertyWra
 export async function buildJsVersionManagementViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsVersionManagementViewModel = new VersionManagementViewModel();
     if (hasValue(dotNetObject.featureServiceLookup)) {
-        let { buildJsVersionManagementViewModelFeatureServiceResourcesBundle } = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
+        let {buildJsVersionManagementViewModelFeatureServiceResourcesBundle} = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
         jsVersionManagementViewModel.featureServiceLookup = await buildJsVersionManagementViewModelFeatureServiceResourcesBundle(dotNetObject.featureServiceLookup, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.versioningStateLookup)) {
-        let { buildJsVersioningState } = await import('./versioningState');
+        let {buildJsVersioningState} = await import('./versioningState');
         jsVersionManagementViewModel.versioningStateLookup = await buildJsVersioningState(dotNetObject.versioningStateLookup, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.versioningStates)) {
-        let { buildJsVersioningState } = await import('./versioningState');
+        let {buildJsVersioningState} = await import('./versioningState');
         jsVersionManagementViewModel.versioningStates = await Promise.all(dotNetObject.versioningStates.map(async i => await buildJsVersioningState(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.versionManagementServiceLookup)) {
-        let { buildJsVersionManagementService } = await import('./versionManagementService');
+        let {buildJsVersionManagementService} = await import('./versionManagementService');
         jsVersionManagementViewModel.versionManagementServiceLookup = await buildJsVersionManagementService(dotNetObject.versionManagementServiceLookup, layerId, viewId) as any;
     }
 
@@ -140,7 +146,13 @@ export async function buildJsVersionManagementViewModelGenerated(dotNetObject: a
         jsVersionManagementViewModel.userLookup = dotNetObject.userLookup;
     }
     if (hasValue(dotNetObject.versionIdentifierLookup)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVersionIdentifierLookup } = dotNetObject.versionIdentifierLookup;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVersionIdentifierLookup
+        } = dotNetObject.versionIdentifierLookup;
         jsVersionManagementViewModel.versionIdentifierLookup = sanitizedVersionIdentifierLookup;
     }
     if (hasValue(dotNetObject.versionInfoLookup)) {
@@ -150,82 +162,83 @@ export async function buildJsVersionManagementViewModelGenerated(dotNetObject: a
         jsVersionManagementViewModel.view = dotNetObject.view;
     }
 
-    let { default: VersionManagementViewModelWrapper } = await import('./versionManagementViewModel');
+    let {default: VersionManagementViewModelWrapper} = await import('./versionManagementViewModel');
     let versionManagementViewModelWrapper = new VersionManagementViewModelWrapper(jsVersionManagementViewModel);
     versionManagementViewModelWrapper.geoBlazorId = dotNetObject.id;
     versionManagementViewModelWrapper.viewId = viewId;
     versionManagementViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(versionManagementViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = versionManagementViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementViewModel;
-    let { buildDotNetVersionManagementViewModel } = await import('./versionManagementViewModel');
+    let {buildDotNetVersionManagementViewModel} = await import('./versionManagementViewModel');
     let dnInstantiatedObject = await buildDotNetVersionManagementViewModel(jsVersionManagementViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VersionManagementViewModel', e);
     }
-    
+
     return jsVersionManagementViewModel;
 }
+
 export async function buildDotNetVersionManagementViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVersionManagementViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureServiceLookup)) {
-            let { buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle } = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
-            dotNetVersionManagementViewModel.featureServiceLookup = await buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle(jsObject.featureServiceLookup);
-        }
-        if (hasValue(jsObject.versioningStateLookup)) {
-            let { buildDotNetVersioningState } = await import('./versioningState');
-            dotNetVersionManagementViewModel.versioningStateLookup = await buildDotNetVersioningState(jsObject.versioningStateLookup);
-        }
-        if (hasValue(jsObject.versioningStates)) {
-            let { buildDotNetVersioningState } = await import('./versioningState');
-            dotNetVersionManagementViewModel.versioningStates = await Promise.all(jsObject.versioningStates.map(async i => await buildDotNetVersioningState(i)));
-        }
-        if (hasValue(jsObject.versionManagementServiceLookup)) {
-            let { buildDotNetVersionManagementService } = await import('./versionManagementService');
-            dotNetVersionManagementViewModel.versionManagementServiceLookup = await buildDotNetVersionManagementService(jsObject.versionManagementServiceLookup);
-        }
-        if (hasValue(jsObject.advancedEditingUserTypeExtensionLookup)) {
-            dotNetVersionManagementViewModel.advancedEditingUserTypeExtensionLookup = jsObject.advancedEditingUserTypeExtensionLookup;
-        }
-        if (hasValue(jsObject.executionError)) {
-            dotNetVersionManagementViewModel.executionError = jsObject.executionError;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetVersionManagementViewModel.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.serverVersionLookup)) {
-            dotNetVersionManagementViewModel.serverVersionLookup = jsObject.serverVersionLookup;
-        }
-        if (hasValue(jsObject.serviceNameLookup)) {
-            dotNetVersionManagementViewModel.serviceNameLookup = jsObject.serviceNameLookup;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetVersionManagementViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.userLookup)) {
-            dotNetVersionManagementViewModel.userLookup = jsObject.userLookup;
-        }
-        if (hasValue(jsObject.versionIdentifierLookup)) {
-            dotNetVersionManagementViewModel.versionIdentifierLookup = jsObject.versionIdentifierLookup;
-        }
-        if (hasValue(jsObject.versionInfoLookup)) {
-            dotNetVersionManagementViewModel.versionInfoLookup = jsObject.versionInfoLookup;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetVersionManagementViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.featureServiceLookup)) {
+        let {buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle} = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
+        dotNetVersionManagementViewModel.featureServiceLookup = await buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle(jsObject.featureServiceLookup);
+    }
+    if (hasValue(jsObject.versioningStateLookup)) {
+        let {buildDotNetVersioningState} = await import('./versioningState');
+        dotNetVersionManagementViewModel.versioningStateLookup = await buildDotNetVersioningState(jsObject.versioningStateLookup);
+    }
+    if (hasValue(jsObject.versioningStates)) {
+        let {buildDotNetVersioningState} = await import('./versioningState');
+        dotNetVersionManagementViewModel.versioningStates = await Promise.all(jsObject.versioningStates.map(async i => await buildDotNetVersioningState(i)));
+    }
+    if (hasValue(jsObject.versionManagementServiceLookup)) {
+        let {buildDotNetVersionManagementService} = await import('./versionManagementService');
+        dotNetVersionManagementViewModel.versionManagementServiceLookup = await buildDotNetVersionManagementService(jsObject.versionManagementServiceLookup);
+    }
+    if (hasValue(jsObject.advancedEditingUserTypeExtensionLookup)) {
+        dotNetVersionManagementViewModel.advancedEditingUserTypeExtensionLookup = jsObject.advancedEditingUserTypeExtensionLookup;
+    }
+    if (hasValue(jsObject.executionError)) {
+        dotNetVersionManagementViewModel.executionError = jsObject.executionError;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetVersionManagementViewModel.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.serverVersionLookup)) {
+        dotNetVersionManagementViewModel.serverVersionLookup = jsObject.serverVersionLookup;
+    }
+    if (hasValue(jsObject.serviceNameLookup)) {
+        dotNetVersionManagementViewModel.serviceNameLookup = jsObject.serviceNameLookup;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetVersionManagementViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.userLookup)) {
+        dotNetVersionManagementViewModel.userLookup = jsObject.userLookup;
+    }
+    if (hasValue(jsObject.versionIdentifierLookup)) {
+        dotNetVersionManagementViewModel.versionIdentifierLookup = jsObject.versionIdentifierLookup;
+    }
+    if (hasValue(jsObject.versionInfoLookup)) {
+        dotNetVersionManagementViewModel.versionInfoLookup = jsObject.versionInfoLookup;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetVersionManagementViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,25 +12,25 @@ export default class FeatureServiceUtilsGenerated implements IPropertyWrapper {
     constructor(component: featureServiceUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createFeatureServices(layers: any): Promise<any> {
-        let { buildJsFeatureLayer } = await import('./featureLayer');
+        let {buildJsFeatureLayer} = await import('./featureLayer');
         let jsLayers = await buildJsFeatureLayer(layers, this.layerId, this.viewId) as any;
         return await this.component.createFeatureServices(jsLayers);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsFeatureServiceUtilsGenerated(dotNetObject: any, lay
     let jsfeatureServiceUtils: any = {}
 
 
-    let { default: FeatureServiceUtilsWrapper } = await import('./featureServiceUtils');
+    let {default: FeatureServiceUtilsWrapper} = await import('./featureServiceUtils');
     let featureServiceUtilsWrapper = new FeatureServiceUtilsWrapper(jsfeatureServiceUtils);
     featureServiceUtilsWrapper.geoBlazorId = dotNetObject.id;
     featureServiceUtilsWrapper.viewId = viewId;
     featureServiceUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureServiceUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = featureServiceUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsfeatureServiceUtils;
-    let { buildDotNetFeatureServiceUtils } = await import('./featureServiceUtils');
+    let {buildDotNetFeatureServiceUtils} = await import('./featureServiceUtils');
     let dnInstantiatedObject = await buildDotNetFeatureServiceUtils(jsfeatureServiceUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureServiceUtils', e);
     }
-    
+
     return jsfeatureServiceUtils;
 }
+
 export async function buildDotNetFeatureServiceUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFeatureServiceUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

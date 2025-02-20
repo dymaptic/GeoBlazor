@@ -1,10 +1,8 @@
 import Popup from '@arcgis/core/widgets/Popup';
 import PopupWidgetGenerated from './popupWidget.gb';
-import Popup from "@arcgis/core/widgets/Popup";
 import {dotNetRefs} from "./arcGisJsInterop";
 import Symbol from "@arcgis/core/symbols/Symbol";
-import { buildJsSymbol } from "./symbol";
-import PopupWidgetGenerated from "./popupWidget.gb";
+import {buildJsSymbol} from "./symbol";
 
 export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     private popup: Popup;
@@ -23,7 +21,7 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     }
 
     async fetchFeatures(): Promise<Array<any>> {
-        let { buildDotNetGraphic } = await import('./graphic');
+        let {buildDotNetGraphic} = await import('./graphic');
         return await Promise.all(this.popup.features.map(async (g) => await buildDotNetGraphic(g, null, null)));
     }
 
@@ -33,7 +31,7 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
 
     async getSelectedFeature(viewId: string | null): Promise<any | null> {
         let feature = this.popup.selectedFeature;
-        let { buildDotNetGraphic } = await import('./graphic');
+        let {buildDotNetGraphic} = await import('./graphic');
         let graphic = await buildDotNetGraphic(feature, null, viewId);
         if (viewId !== null && graphic !== null) {
             graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
@@ -56,22 +54,20 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     setContent(content: string) {
         this.popup.content = content;
     }
-    
+
     async setSelectedClusterBoundaryFeatureSymbol(symbol: any) {
         this.popup.viewModel.selectedClusterBoundaryFeature.symbol = await buildJsSymbol(symbol) as Symbol;
     }
 
 
-
-
 }
 
 export async function buildJsPopupWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsPopupWidgetGenerated } = await import('./popupWidget.gb');
+    let {buildJsPopupWidgetGenerated} = await import('./popupWidget.gb');
     return await buildJsPopupWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetPopupWidget(jsObject: any): Promise<any> {
-    let { buildDotNetPopupWidgetGenerated } = await import('./popupWidget.gb');
+    let {buildDotNetPopupWidgetGenerated} = await import('./popupWidget.gb');
     return await buildDotNetPopupWidgetGenerated(jsObject);
 }

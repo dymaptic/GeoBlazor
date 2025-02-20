@@ -12,13 +12,13 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
     constructor(component: BaseLayerViewGL2D) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async attach(): Promise<void> {
         this.component.attach();
     }
@@ -36,15 +36,15 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
     }
 
     async hitTest(mapPoint: any,
-        screenPoint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                  screenPoint: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsMapPoint = buildJsPoint(mapPoint) as any;
         return await this.component.hitTest(jsMapPoint,
             screenPoint);
     }
 
     async render(renderParameters: any): Promise<void> {
-        let { buildJsBaseLayerViewGL2DRenderRenderParameters } = await import('./baseLayerViewGL2DRenderRenderParameters');
+        let {buildJsBaseLayerViewGL2DRenderRenderParameters} = await import('./baseLayerViewGL2DRenderRenderParameters');
         let jsRenderParameters = await buildJsBaseLayerViewGL2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
         this.component.render(jsRenderParameters);
     }
@@ -54,59 +54,60 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
     }
 
     async tessellateExtent(extent: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.component.tessellateExtent(jsExtent);
     }
 
     async tessellateMultipoint(multipoint: any,
-        footprint: any): Promise<any> {
+                               footprint: any): Promise<any> {
         return await this.component.tessellateMultipoint(multipoint,
             footprint);
     }
 
     async tessellatePoint(point: any,
-        footprint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                          footprint: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         return await this.component.tessellatePoint(jsPoint,
             footprint);
     }
 
     async tessellatePolygon(polygon: any): Promise<any> {
-        let { buildJsPolygon } = await import('./polygon');
+        let {buildJsPolygon} = await import('./polygon');
         let jsPolygon = buildJsPolygon(polygon) as any;
         return await this.component.tessellatePolygon(jsPolygon);
     }
 
     async tessellatePolyline(polyline: any,
-        width: any): Promise<any> {
-        let { buildJsPolyline } = await import('./polyline');
+                             width: any): Promise<any> {
+        let {buildJsPolyline} = await import('./polyline');
         let jsPolyline = buildJsPolyline(polyline) as any;
         return await this.component.tessellatePolyline(jsPolyline,
             width);
     }
 
     async tilesChanged(added: any,
-        removed: any): Promise<void> {
+                       removed: any): Promise<void> {
         this.component.tilesChanged(added,
             removed);
     }
 
     // region properties
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -119,67 +120,68 @@ export async function buildJsBaseLayerViewGL2DGenerated(dotNetObject: any, layer
         jsBaseLayerViewGL2D.context = dotNetObject.context;
     }
     if (hasValue(dotNetObject.tiles)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles} = dotNetObject.tiles;
         jsBaseLayerViewGL2D.tiles = sanitizedTiles;
     }
     if (hasValue(dotNetObject.view)) {
         jsBaseLayerViewGL2D.view = dotNetObject.view;
     }
 
-    let { default: BaseLayerViewGL2DWrapper } = await import('./baseLayerViewGL2D');
+    let {default: BaseLayerViewGL2DWrapper} = await import('./baseLayerViewGL2D');
     let baseLayerViewGL2DWrapper = new BaseLayerViewGL2DWrapper(jsBaseLayerViewGL2D);
     baseLayerViewGL2DWrapper.geoBlazorId = dotNetObject.id;
     baseLayerViewGL2DWrapper.viewId = viewId;
     baseLayerViewGL2DWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseLayerViewGL2DWrapper);
     jsObjectRefs[dotNetObject.id] = baseLayerViewGL2DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2D;
-    let { buildDotNetBaseLayerViewGL2D } = await import('./baseLayerViewGL2D');
+    let {buildDotNetBaseLayerViewGL2D} = await import('./baseLayerViewGL2D');
     let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2D(jsBaseLayerViewGL2D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BaseLayerViewGL2D', e);
     }
-    
+
     return jsBaseLayerViewGL2D;
 }
+
 export async function buildDotNetBaseLayerViewGL2DGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBaseLayerViewGL2D: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.context)) {
-            dotNetBaseLayerViewGL2D.context = jsObject.context;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetBaseLayerViewGL2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBaseLayerViewGL2D.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.tiles)) {
-            dotNetBaseLayerViewGL2D.tiles = jsObject.tiles;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBaseLayerViewGL2D.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBaseLayerViewGL2D.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetBaseLayerViewGL2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetBaseLayerViewGL2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.context)) {
+        dotNetBaseLayerViewGL2D.context = jsObject.context;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetBaseLayerViewGL2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBaseLayerViewGL2D.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.tiles)) {
+        dotNetBaseLayerViewGL2D.tiles = jsObject.tiles;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBaseLayerViewGL2D.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBaseLayerViewGL2D.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetBaseLayerViewGL2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetBaseLayerViewGL2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

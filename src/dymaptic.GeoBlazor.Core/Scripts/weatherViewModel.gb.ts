@@ -12,23 +12,23 @@ export default class WeatherViewModelGenerated implements IPropertyWrapper {
     constructor(component: WeatherViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async setWeatherByType(type: any): Promise<void> {
         this.component.setWeatherByType(type);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -41,42 +41,43 @@ export async function buildJsWeatherViewModelGenerated(dotNetObject: any, layerI
         jsWeatherViewModel.view = dotNetObject.view;
     }
 
-    let { default: WeatherViewModelWrapper } = await import('./weatherViewModel');
+    let {default: WeatherViewModelWrapper} = await import('./weatherViewModel');
     let weatherViewModelWrapper = new WeatherViewModelWrapper(jsWeatherViewModel);
     weatherViewModelWrapper.geoBlazorId = dotNetObject.id;
     weatherViewModelWrapper.viewId = viewId;
     weatherViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(weatherViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = weatherViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWeatherViewModel;
-    let { buildDotNetWeatherViewModel } = await import('./weatherViewModel');
+    let {buildDotNetWeatherViewModel} = await import('./weatherViewModel');
     let dnInstantiatedObject = await buildDotNetWeatherViewModel(jsWeatherViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WeatherViewModel', e);
     }
-    
+
     return jsWeatherViewModel;
 }
+
 export async function buildDotNetWeatherViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWeatherViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.state)) {
-            dotNetWeatherViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetWeatherViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetWeatherViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetWeatherViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -7,15 +7,15 @@ export default class MultipointDrawActionWrapper extends MultipointDrawActionGen
     constructor(component: MultipointDrawAction) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsMultipointDrawAction(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsMultipointDrawActionGenerated } = await import('./multipointDrawAction.gb');
+    let {buildJsMultipointDrawActionGenerated} = await import('./multipointDrawAction.gb');
     return await buildJsMultipointDrawActionGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetMultipointDrawAction(jsObject: any): Promise<any> {
-    let { buildDotNetMultipointDrawActionGenerated } = await import('./multipointDrawAction.gb');
+    let {buildDotNetMultipointDrawActionGenerated} = await import('./multipointDrawAction.gb');
     return await buildDotNetMultipointDrawActionGenerated(jsObject);
 }

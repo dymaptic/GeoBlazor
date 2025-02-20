@@ -9,12 +9,12 @@ export async function buildDotNetFeatureType(result: FeatureType) {
     let dotNetDomains = {};
     for (let domain in result.domains) {
         if (Object.prototype.hasOwnProperty.call(result.domains, domain)) {
-            let { buildDotNetDomain } = await import('./domain');
+            let {buildDotNetDomain} = await import('./domain');
             dotNetDomains[domain] = buildDotNetDomain(result.domains[domain]);
         }
     }
 
-    let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
+    let {buildDotNetFeatureTemplate} = await import('./featureTemplate');
     return {
         id: result.id,
         domains: dotNetDomains,
@@ -23,7 +23,8 @@ export async function buildDotNetFeatureType(result: FeatureType) {
         templates: result.templates?.map(buildDotNetFeatureTemplate)
     }
 }
-export async function buildJsFeatureType(dotNetObject: any): Promise<any> {
-    let { buildJsFeatureTypeGenerated } = await import('./featureType.gb');
-    return await buildJsFeatureTypeGenerated(dotNetObject);
+
+export async function buildJsFeatureType(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let {buildJsFeatureTypeGenerated} = await import('./featureType.gb');
+    return await buildJsFeatureTypeGenerated(dotNetObject, layerId, viewId);
 }

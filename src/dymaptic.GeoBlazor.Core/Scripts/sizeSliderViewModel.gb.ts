@@ -12,13 +12,13 @@ export default class SizeSliderViewModelGenerated implements IPropertyWrapper {
     constructor(component: SizeSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -40,8 +40,8 @@ export default class SizeSliderViewModelGenerated implements IPropertyWrapper {
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
@@ -56,7 +56,7 @@ export default class SizeSliderViewModelGenerated implements IPropertyWrapper {
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -66,11 +66,11 @@ export default class SizeSliderViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -113,7 +113,7 @@ export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, lay
         jsSizeSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedStops} = dotNetObject.stops;
         jsSizeSliderViewModel.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
@@ -129,90 +129,91 @@ export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, lay
         jsSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
     }
 
-    let { default: SizeSliderViewModelWrapper } = await import('./sizeSliderViewModel');
+    let {default: SizeSliderViewModelWrapper} = await import('./sizeSliderViewModel');
     let sizeSliderViewModelWrapper = new SizeSliderViewModelWrapper(jsSizeSliderViewModel);
     sizeSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     sizeSliderViewModelWrapper.viewId = viewId;
     sizeSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sizeSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeSliderViewModel;
-    let { buildDotNetSizeSliderViewModel } = await import('./sizeSliderViewModel');
+    let {buildDotNetSizeSliderViewModel} = await import('./sizeSliderViewModel');
     let dnInstantiatedObject = await buildDotNetSizeSliderViewModel(jsSizeSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SizeSliderViewModel', e);
     }
-    
+
     return jsSizeSliderViewModel;
 }
+
 export async function buildDotNetSizeSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSizeSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetSizeSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetSizeSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetSizeSliderViewModel.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetSizeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetSizeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetSizeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetSizeSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetSizeSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetSizeSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.persistSizeRangeEnabled)) {
-            dotNetSizeSliderViewModel.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetSizeSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetSizeSliderViewModel.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSizeSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetSizeSliderViewModel.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetSizeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetSizeSliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetSizeSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetSizeSliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetSizeSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetSizeSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetSizeSliderViewModel.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetSizeSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetSizeSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetSizeSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetSizeSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetSizeSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetSizeSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.persistSizeRangeEnabled)) {
+        dotNetSizeSliderViewModel.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetSizeSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetSizeSliderViewModel.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSizeSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetSizeSliderViewModel.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetSizeSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetSizeSliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetSizeSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetSizeSliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

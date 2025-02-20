@@ -2,7 +2,7 @@
 
 import PictureFillSymbol from '@arcgis/core/symbols/PictureFillSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 
 export function buildJsPictureFillSymbol(dotNetObject: any): any {
@@ -50,7 +50,7 @@ export function buildJsPictureFillSymbol(dotNetObject: any): any {
     }
 
     return jsPictureFillSymbol;
-}     
+}
 
 export function buildDotNetPictureFillSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {

@@ -2,7 +2,6 @@
 
 
 import LayerOptions from '@arcgis/core/popup/LayerOptions';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class LayerOptionsGenerated implements IPropertyWrapper {
@@ -14,29 +13,29 @@ export default class LayerOptionsGenerated implements IPropertyWrapper {
     constructor(component: LayerOptions) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
 }
 
 export async function buildJsLayerOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    
+
 }
 
 export async function buildDotNetLayerOptionsGenerated(jsObject: any): Promise<any> {
-    
+
 }
 

@@ -7,15 +7,15 @@ export default class ITemporalLayerWrapper extends ITemporalLayerGenerated {
     constructor(layer: TemporalLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsITemporalLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsITemporalLayerGenerated } = await import('./iTemporalLayer.gb');
+    let {buildJsITemporalLayerGenerated} = await import('./iTemporalLayer.gb');
     return await buildJsITemporalLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetITemporalLayer(jsObject: any): Promise<any> {
-    let { buildDotNetITemporalLayerGenerated } = await import('./iTemporalLayer.gb');
+    let {buildDotNetITemporalLayerGenerated} = await import('./iTemporalLayer.gb');
     return await buildDotNetITemporalLayerGenerated(jsObject);
 }

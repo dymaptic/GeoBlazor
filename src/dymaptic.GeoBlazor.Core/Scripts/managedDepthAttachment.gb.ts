@@ -12,13 +12,13 @@ export default class ManagedDepthAttachmentGenerated implements IPropertyWrapper
     constructor(component: ManagedDepthAttachment) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async release(): Promise<void> {
         this.component.release();
     }
@@ -28,11 +28,11 @@ export default class ManagedDepthAttachmentGenerated implements IPropertyWrapper
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsManagedDepthAttachmentGenerated(dotNetObject: any, 
     let jsManagedDepthAttachment: any = {}
 
 
-    let { default: ManagedDepthAttachmentWrapper } = await import('./managedDepthAttachment');
+    let {default: ManagedDepthAttachmentWrapper} = await import('./managedDepthAttachment');
     let managedDepthAttachmentWrapper = new ManagedDepthAttachmentWrapper(jsManagedDepthAttachment);
     managedDepthAttachmentWrapper.geoBlazorId = dotNetObject.id;
     managedDepthAttachmentWrapper.viewId = viewId;
     managedDepthAttachmentWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(managedDepthAttachmentWrapper);
     jsObjectRefs[dotNetObject.id] = managedDepthAttachmentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsManagedDepthAttachment;
-    let { buildDotNetManagedDepthAttachment } = await import('./managedDepthAttachment');
+    let {buildDotNetManagedDepthAttachment} = await import('./managedDepthAttachment');
     let dnInstantiatedObject = await buildDotNetManagedDepthAttachment(jsManagedDepthAttachment);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ManagedDepthAttachment', e);
     }
-    
+
     return jsManagedDepthAttachment;
 }
+
 export async function buildDotNetManagedDepthAttachmentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetManagedDepthAttachment: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

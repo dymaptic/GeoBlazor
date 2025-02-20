@@ -7,15 +7,15 @@ export default class ListItemPanelWidgetWrapper extends ListItemPanelWidgetGener
     constructor(widget: ListItemPanel) {
         super(widget);
     }
-    
+
 }
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsListItemPanelWidgetGenerated } = await import('./listItemPanelWidget.gb');
+    let {buildJsListItemPanelWidgetGenerated} = await import('./listItemPanelWidget.gb');
     return await buildJsListItemPanelWidgetGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetListItemPanelWidget(jsObject: any): Promise<any> {
-    let { buildDotNetListItemPanelWidgetGenerated } = await import('./listItemPanelWidget.gb');
+    let {buildDotNetListItemPanelWidgetGenerated} = await import('./listItemPanelWidget.gb');
     return await buildDotNetListItemPanelWidgetGenerated(jsObject);
 }

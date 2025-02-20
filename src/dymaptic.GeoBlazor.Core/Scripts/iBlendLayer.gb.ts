@@ -12,23 +12,23 @@ export default class IBlendLayerGenerated implements IPropertyWrapper {
     constructor(layer: BlendLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -44,42 +44,43 @@ export async function buildJsIBlendLayerGenerated(dotNetObject: any, layerId: st
         jsBlendLayer.effect = dotNetObject.effect;
     }
 
-    let { default: IBlendLayerWrapper } = await import('./iBlendLayer');
+    let {default: IBlendLayerWrapper} = await import('./iBlendLayer');
     let iBlendLayerWrapper = new IBlendLayerWrapper(jsBlendLayer);
     iBlendLayerWrapper.geoBlazorId = dotNetObject.id;
     iBlendLayerWrapper.viewId = viewId;
     iBlendLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iBlendLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iBlendLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBlendLayer;
-    let { buildDotNetIBlendLayer } = await import('./iBlendLayer');
+    let {buildDotNetIBlendLayer} = await import('./iBlendLayer');
     let dnInstantiatedObject = await buildDotNetIBlendLayer(jsBlendLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IBlendLayer', e);
     }
-    
+
     return jsBlendLayer;
 }
+
 export async function buildDotNetIBlendLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIBlendLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.blendMode)) {
-            dotNetIBlendLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetIBlendLayer.effect = jsObject.effect;
-        }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetIBlendLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetIBlendLayer.effect = jsObject.effect;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

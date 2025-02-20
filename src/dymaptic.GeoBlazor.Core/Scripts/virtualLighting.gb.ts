@@ -12,23 +12,23 @@ export default class VirtualLightingGenerated implements IPropertyWrapper {
     constructor(component: VirtualLighting) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneWithWebsceneLighting(): Promise<void> {
         this.component.cloneWithWebsceneLighting();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -41,42 +41,43 @@ export async function buildJsVirtualLightingGenerated(dotNetObject: any, layerId
         jsVirtualLighting.directShadowsEnabled = dotNetObject.directShadowsEnabled;
     }
 
-    let { default: VirtualLightingWrapper } = await import('./virtualLighting');
+    let {default: VirtualLightingWrapper} = await import('./virtualLighting');
     let virtualLightingWrapper = new VirtualLightingWrapper(jsVirtualLighting);
     virtualLightingWrapper.geoBlazorId = dotNetObject.id;
     virtualLightingWrapper.viewId = viewId;
     virtualLightingWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(virtualLightingWrapper);
     jsObjectRefs[dotNetObject.id] = virtualLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVirtualLighting;
-    let { buildDotNetVirtualLighting } = await import('./virtualLighting');
+    let {buildDotNetVirtualLighting} = await import('./virtualLighting');
     let dnInstantiatedObject = await buildDotNetVirtualLighting(jsVirtualLighting);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VirtualLighting', e);
     }
-    
+
     return jsVirtualLighting;
 }
+
 export async function buildDotNetVirtualLightingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVirtualLighting: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.directShadowsEnabled)) {
-            dotNetVirtualLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetVirtualLighting.type = jsObject.type;
-        }
+    if (hasValue(jsObject.directShadowsEnabled)) {
+        dotNetVirtualLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetVirtualLighting.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

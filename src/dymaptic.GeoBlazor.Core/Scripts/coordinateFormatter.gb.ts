@@ -12,33 +12,33 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
     constructor(component: coordinateFormatter) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async fromLatitudeLongitude(coordinates: any,
-        spatialReference: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+                                spatialReference: any): Promise<any> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSpatialReference = buildJsSpatialReference(spatialReference) as any;
         return this.component.fromLatitudeLongitude(coordinates,
             jsSpatialReference);
     }
 
     async fromUsng(coordinates: any,
-        spatialReference: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+                   spatialReference: any): Promise<any> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSpatialReference = buildJsSpatialReference(spatialReference) as any;
         return this.component.fromUsng(coordinates,
             jsSpatialReference);
     }
 
     async fromUtm(coordinates: any,
-        spatialReference: any,
-        conversionMode: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+                  spatialReference: any,
+                  conversionMode: any): Promise<any> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSpatialReference = buildJsSpatialReference(spatialReference) as any;
         return this.component.fromUtm(coordinates,
             jsSpatialReference,
@@ -58,11 +58,11 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
     }
 
     async toLatitudeLongitude(point: any,
-        format: any,
-        decimalPlaces: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                              format: any,
+                              decimalPlaces: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
-        let { buildJsFormat } = await import('./format');
+        let {buildJsFormat} = await import('./format');
         let jsFormat = await buildJsFormat(format, this.layerId, this.viewId) as any;
         return this.component.toLatitudeLongitude(jsPoint,
             jsFormat,
@@ -70,9 +70,9 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
     }
 
     async toUsng(point: any,
-        precision: any,
-        addSpaces: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                 precision: any,
+                 addSpaces: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         return this.component.toUsng(jsPoint,
             precision,
@@ -80,9 +80,9 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
     }
 
     async toUtm(point: any,
-        conversionMode: any,
-        addSpaces: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                conversionMode: any,
+                addSpaces: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         return this.component.toUtm(jsPoint,
             conversionMode,
@@ -90,11 +90,11 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -104,32 +104,33 @@ export async function buildJsCoordinateFormatterGenerated(dotNetObject: any, lay
     let jscoordinateFormatter: any = {}
 
 
-    let { default: CoordinateFormatterWrapper } = await import('./coordinateFormatter');
+    let {default: CoordinateFormatterWrapper} = await import('./coordinateFormatter');
     let coordinateFormatterWrapper = new CoordinateFormatterWrapper(jscoordinateFormatter);
     coordinateFormatterWrapper.geoBlazorId = dotNetObject.id;
     coordinateFormatterWrapper.viewId = viewId;
     coordinateFormatterWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(coordinateFormatterWrapper);
     jsObjectRefs[dotNetObject.id] = coordinateFormatterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscoordinateFormatter;
-    let { buildDotNetCoordinateFormatter } = await import('./coordinateFormatter');
+    let {buildDotNetCoordinateFormatter} = await import('./coordinateFormatter');
     let dnInstantiatedObject = await buildDotNetCoordinateFormatter(jscoordinateFormatter);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CoordinateFormatter', e);
     }
-    
+
     return jscoordinateFormatter;
 }
+
 export async function buildDotNetCoordinateFormatterGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCoordinateFormatter: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

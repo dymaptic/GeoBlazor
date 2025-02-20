@@ -12,31 +12,31 @@ export default class SymbologyTypeGenerated implements IPropertyWrapper {
     constructor(component: symbologyType) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
         return this.component.cloneScheme(scheme);
     }
 
     async getSchemeByName(parameters: any): Promise<any> {
-        let { buildJsTypeGetSchemeByNameParams } = await import('./typeGetSchemeByNameParams');
+        let {buildJsTypeGetSchemeByNameParams} = await import('./typeGetSchemeByNameParams');
         let jsparameters = await buildJsTypeGetSchemeByNameParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemeByName(jsparameters);
     }
 
     async getSchemes(parameters: any): Promise<any> {
-        let { buildJsTypeGetSchemesParams } = await import('./typeGetSchemesParams');
+        let {buildJsTypeGetSchemesParams} = await import('./typeGetSchemesParams');
         let jsparameters = await buildJsTypeGetSchemesParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemes(jsparameters);
     }
 
     async getSchemesByTag(parameters: any): Promise<any> {
-        let { buildJsTypeGetSchemesByTagParams } = await import('./typeGetSchemesByTagParams');
+        let {buildJsTypeGetSchemesByTagParams} = await import('./typeGetSchemesByTagParams');
         let jsparameters = await buildJsTypeGetSchemesByTagParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemesByTag(jsparameters);
     }
@@ -46,11 +46,11 @@ export default class SymbologyTypeGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -60,32 +60,33 @@ export async function buildJsSymbologyTypeGenerated(dotNetObject: any, layerId: 
     let jssymbologyType: any = {}
 
 
-    let { default: SymbologyTypeWrapper } = await import('./symbologyType');
+    let {default: SymbologyTypeWrapper} = await import('./symbologyType');
     let symbologyTypeWrapper = new SymbologyTypeWrapper(jssymbologyType);
     symbologyTypeWrapper.geoBlazorId = dotNetObject.id;
     symbologyTypeWrapper.viewId = viewId;
     symbologyTypeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyTypeWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyTypeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyType;
-    let { buildDotNetSymbologyType } = await import('./symbologyType');
+    let {buildDotNetSymbologyType} = await import('./symbologyType');
     let dnInstantiatedObject = await buildDotNetSymbologyType(jssymbologyType);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyType', e);
     }
-    
+
     return jssymbologyType;
 }
+
 export async function buildDotNetSymbologyTypeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyType: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

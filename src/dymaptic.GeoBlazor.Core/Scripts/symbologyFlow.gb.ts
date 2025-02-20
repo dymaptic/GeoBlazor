@@ -12,33 +12,33 @@ export default class SymbologyFlowGenerated implements IPropertyWrapper {
     constructor(component: symbologyFlow) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
-        let { buildJsFlowScheme } = await import('./flowScheme');
+        let {buildJsFlowScheme} = await import('./flowScheme');
         let jsScheme = await buildJsFlowScheme(scheme, this.layerId, this.viewId) as any;
         return this.component.cloneScheme(jsScheme);
     }
 
     async getSchemeByName(parameters: any): Promise<any> {
-        let { buildJsFlowGetSchemeByNameParams } = await import('./flowGetSchemeByNameParams');
+        let {buildJsFlowGetSchemeByNameParams} = await import('./flowGetSchemeByNameParams');
         let jsparameters = await buildJsFlowGetSchemeByNameParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemeByName(jsparameters);
     }
 
     async getSchemes(parameters: any): Promise<any> {
-        let { buildJsFlowGetSchemesParams } = await import('./flowGetSchemesParams');
+        let {buildJsFlowGetSchemesParams} = await import('./flowGetSchemesParams');
         let jsparameters = await buildJsFlowGetSchemesParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemes(jsparameters);
     }
 
     async getSchemesByTag(parameters: any): Promise<any> {
-        let { buildJsFlowGetSchemesByTagParams } = await import('./flowGetSchemesByTagParams');
+        let {buildJsFlowGetSchemesByTagParams} = await import('./flowGetSchemesByTagParams');
         let jsparameters = await buildJsFlowGetSchemesByTagParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getSchemesByTag(jsparameters);
     }
@@ -48,11 +48,11 @@ export default class SymbologyFlowGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -62,32 +62,33 @@ export async function buildJsSymbologyFlowGenerated(dotNetObject: any, layerId: 
     let jssymbologyFlow: any = {}
 
 
-    let { default: SymbologyFlowWrapper } = await import('./symbologyFlow');
+    let {default: SymbologyFlowWrapper} = await import('./symbologyFlow');
     let symbologyFlowWrapper = new SymbologyFlowWrapper(jssymbologyFlow);
     symbologyFlowWrapper.geoBlazorId = dotNetObject.id;
     symbologyFlowWrapper.viewId = viewId;
     symbologyFlowWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyFlowWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyFlowWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyFlow;
-    let { buildDotNetSymbologyFlow } = await import('./symbologyFlow');
+    let {buildDotNetSymbologyFlow} = await import('./symbologyFlow');
     let dnInstantiatedObject = await buildDotNetSymbologyFlow(jssymbologyFlow);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyFlow', e);
     }
-    
+
     return jssymbologyFlow;
 }
+
 export async function buildDotNetSymbologyFlowGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyFlow: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

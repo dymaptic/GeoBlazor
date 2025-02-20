@@ -3,7 +3,10 @@
 
 import RelationshipContent from "@arcgis/core/popup/content/RelationshipContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetRelatedRecordsInfoFieldOrder, buildJsRelatedRecordsInfoFieldOrder } from "./relatedRecordsInfoFieldOrder";
+import {
+    buildDotNetRelatedRecordsInfoFieldOrder,
+    buildJsRelatedRecordsInfoFieldOrder
+} from "./relatedRecordsInfoFieldOrder";
 
 export function buildJsRelationshipPopupContent(dotNetObject: any): any {
     let jsRelationshipContent = new RelationshipContent();
@@ -41,7 +44,7 @@ export function buildJsRelationshipPopupContent(dotNetObject: any): any {
     }
 
     return jsRelationshipContent;
-}     
+}
 
 export function buildDotNetRelationshipPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {

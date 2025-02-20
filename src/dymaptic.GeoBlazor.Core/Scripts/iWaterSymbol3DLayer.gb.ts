@@ -12,35 +12,37 @@ export default class IWaterSymbol3DLayerGenerated implements IPropertyWrapper {
     constructor(layer: WaterSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     async getColor(): Promise<any> {
         if (!hasValue(this.layer.color)) {
             return null;
         }
-        
-        let { buildDotNetMapColor } = await import('./mapColor');
+
+        let {buildDotNetMapColor} = await import('./mapColor');
         return buildDotNetMapColor(this.layer.color);
     }
+
     async setColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.layer.color =  buildJsMapColor(value);
+        let {buildJsMapColor} = await import('./mapColor');
+        this.layer.color = buildJsMapColor(value);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -49,7 +51,7 @@ export default class IWaterSymbol3DLayerGenerated implements IPropertyWrapper {
 export async function buildJsIWaterSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWaterSymbol3DLayer = new WaterSymbol3DLayer();
     if (hasValue(dotNetObject.color)) {
-        let { buildJsMapColor } = await import('./mapColor');
+        let {buildJsMapColor} = await import('./mapColor');
         jsWaterSymbol3DLayer.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
@@ -63,52 +65,53 @@ export async function buildJsIWaterSymbol3DLayerGenerated(dotNetObject: any, lay
         jsWaterSymbol3DLayer.waveStrength = dotNetObject.waveStrength;
     }
 
-    let { default: IWaterSymbol3DLayerWrapper } = await import('./iWaterSymbol3DLayer');
+    let {default: IWaterSymbol3DLayerWrapper} = await import('./iWaterSymbol3DLayer');
     let iWaterSymbol3DLayerWrapper = new IWaterSymbol3DLayerWrapper(jsWaterSymbol3DLayer);
     iWaterSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     iWaterSymbol3DLayerWrapper.viewId = viewId;
     iWaterSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iWaterSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iWaterSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWaterSymbol3DLayer;
-    let { buildDotNetIWaterSymbol3DLayer } = await import('./iWaterSymbol3DLayer');
+    let {buildDotNetIWaterSymbol3DLayer} = await import('./iWaterSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetIWaterSymbol3DLayer(jsWaterSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IWaterSymbol3DLayer', e);
     }
-    
+
     return jsWaterSymbol3DLayer;
 }
+
 export async function buildDotNetIWaterSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIWaterSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetIWaterSymbol3DLayer.color = buildDotNetMapColor(jsObject.color);
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIWaterSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.waterbodySize)) {
-            dotNetIWaterSymbol3DLayer.waterbodySize = jsObject.waterbodySize;
-        }
-        if (hasValue(jsObject.waveDirection)) {
-            dotNetIWaterSymbol3DLayer.waveDirection = jsObject.waveDirection;
-        }
-        if (hasValue(jsObject.waveStrength)) {
-            dotNetIWaterSymbol3DLayer.waveStrength = jsObject.waveStrength;
-        }
+    if (hasValue(jsObject.color)) {
+        let {buildDotNetMapColor} = await import('./mapColor');
+        dotNetIWaterSymbol3DLayer.color = buildDotNetMapColor(jsObject.color);
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIWaterSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.waterbodySize)) {
+        dotNetIWaterSymbol3DLayer.waterbodySize = jsObject.waterbodySize;
+    }
+    if (hasValue(jsObject.waveDirection)) {
+        dotNetIWaterSymbol3DLayer.waveDirection = jsObject.waveDirection;
+    }
+    if (hasValue(jsObject.waveStrength)) {
+        dotNetIWaterSymbol3DLayer.waveStrength = jsObject.waveStrength;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

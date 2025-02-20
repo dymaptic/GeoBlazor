@@ -1,8 +1,8 @@
 // override generated code in this file
 
-import { buildDotNetGeometry, buildJsGeometry } from "./geometry";
-import { buildDotNetGraphic, buildJsGraphic } from "./graphic";
-import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
+import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
+import {buildDotNetGraphic, buildJsGraphic} from "./graphic";
+import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {dotNetRefs, graphicsRefs} from "./arcGisJsInterop";
 import {buildDotNetField, buildJsField} from "./field";
 

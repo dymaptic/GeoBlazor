@@ -12,24 +12,24 @@ export default class WfsUtilsGenerated implements IPropertyWrapper {
     constructor(component: wfsUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getCapabilities(url: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.component.getCapabilities(url,
             options);
     }
 
     async getWFSLayerInfo(capabilities: any,
-        name: any,
-        namespaceUri: any,
-        options: any): Promise<any> {
-        let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
+                          name: any,
+                          namespaceUri: any,
+                          options: any): Promise<any> {
+        let {buildJsWFSCapabilities} = await import('./wFSCapabilities');
         let jsCapabilities = await buildJsWFSCapabilities(capabilities, this.layerId, this.viewId) as any;
         return await this.component.getWFSLayerInfo(jsCapabilities,
             name,
@@ -38,11 +38,11 @@ export default class WfsUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -52,32 +52,33 @@ export async function buildJsWfsUtilsGenerated(dotNetObject: any, layerId: strin
     let jswfsUtils: any = {}
 
 
-    let { default: WfsUtilsWrapper } = await import('./wfsUtils');
+    let {default: WfsUtilsWrapper} = await import('./wfsUtils');
     let wfsUtilsWrapper = new WfsUtilsWrapper(jswfsUtils);
     wfsUtilsWrapper.geoBlazorId = dotNetObject.id;
     wfsUtilsWrapper.viewId = viewId;
     wfsUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wfsUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = wfsUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswfsUtils;
-    let { buildDotNetWfsUtils } = await import('./wfsUtils');
+    let {buildDotNetWfsUtils} = await import('./wfsUtils');
     let dnInstantiatedObject = await buildDotNetWfsUtils(jswfsUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WfsUtils', e);
     }
-    
+
     return jswfsUtils;
 }
+
 export async function buildDotNetWfsUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWfsUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

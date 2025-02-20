@@ -49,7 +49,7 @@ function buildDotNetCodedValueDomain(domain) {
             return {
                 name: cv.name,
                 code: cv.code
-            } 
+            }
         })
     };
 }

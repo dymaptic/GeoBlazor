@@ -12,13 +12,13 @@ export default class WhereClauseGenerated implements IPropertyWrapper {
     constructor(component: WhereClause) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async calculateValue(feature: any): Promise<any> {
         return this.component.calculateValue(feature);
     }
@@ -28,11 +28,11 @@ export default class WhereClauseGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -48,45 +48,46 @@ export async function buildJsWhereClauseGenerated(dotNetObject: any, layerId: st
         jsWhereClause.parseTree = dotNetObject.parseTree;
     }
 
-    let { default: WhereClauseWrapper } = await import('./whereClause');
+    let {default: WhereClauseWrapper} = await import('./whereClause');
     let whereClauseWrapper = new WhereClauseWrapper(jsWhereClause);
     whereClauseWrapper.geoBlazorId = dotNetObject.id;
     whereClauseWrapper.viewId = viewId;
     whereClauseWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(whereClauseWrapper);
     jsObjectRefs[dotNetObject.id] = whereClauseWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWhereClause;
-    let { buildDotNetWhereClause } = await import('./whereClause');
+    let {buildDotNetWhereClause} = await import('./whereClause');
     let dnInstantiatedObject = await buildDotNetWhereClause(jsWhereClause);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WhereClause', e);
     }
-    
+
     return jsWhereClause;
 }
+
 export async function buildDotNetWhereClauseGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWhereClause: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fieldNames)) {
-            dotNetWhereClause.fieldNames = jsObject.fieldNames;
-        }
-        if (hasValue(jsObject.isStandardized)) {
-            dotNetWhereClause.isStandardized = jsObject.isStandardized;
-        }
-        if (hasValue(jsObject.parseTree)) {
-            dotNetWhereClause.parseTree = jsObject.parseTree;
-        }
+    if (hasValue(jsObject.fieldNames)) {
+        dotNetWhereClause.fieldNames = jsObject.fieldNames;
+    }
+    if (hasValue(jsObject.isStandardized)) {
+        dotNetWhereClause.isStandardized = jsObject.isStandardized;
+    }
+    if (hasValue(jsObject.parseTree)) {
+        dotNetWhereClause.parseTree = jsObject.parseTree;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

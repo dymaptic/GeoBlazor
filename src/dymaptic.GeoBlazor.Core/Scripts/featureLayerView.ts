@@ -1,27 +1,17 @@
+import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
-import { DotNetQuery } from './definitions';
-import {buildJsFeatureFilter, getProtobufGraphicStream, hasValue, lookupGeoBlazorId} from './arcGisJsInterop';
-import FeatureLayerViewGenerated from "./featureLayerView.gb";
+import {DotNetQuery} from './definitions';
+import {buildJsFeatureFilter, getProtobufGraphicStream, hasValue} from './arcGisJsInterop';
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     private geoBlazorLayerId: string | null = null;
 
     constructor(component) {
         super(component);
-        // set all properties from featureLayerView
-        for (let prop in component) {
-            if (component.hasOwnProperty(prop)) {
-                this[prop] = component[prop];
-            }
-        }
-        this.geoBlazorLayerId = lookupGeoBlazorId(this.component.layer);
     }
 
-    unwrap() {
-        return this.component;
-    }
     async setFeatureEffect(dnfeatureEffect): Promise<void> {
-        let { buildJsFeatureEffect } = await import('./jsBuilder');
+        let {buildJsFeatureEffect} = await import('./jsBuilder');
         this.component.featureEffect = buildJsFeatureEffect(dnfeatureEffect);
     }
 
@@ -46,7 +36,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         let result = await this.component.queryExtent(jsQuery, options);
         return {
@@ -56,7 +46,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     }
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
-        let { buildJsQuery } = await import('./query');
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         return await this.component.queryFeatureCount(jsQuery, options);
     }
@@ -65,14 +55,14 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         : Promise<any | null> {
         try {
             let jsQuery: Query | undefined = undefined;
-            let { buildJsQuery } = await import('./query');
+            let {buildJsQuery} = await import('./query');
 
             if (hasValue(query)) {
                 jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
             }
 
             let featureSet = await this.component.queryFeatures(jsQuery, options);
-            let { buildDotNetFeatureSet } = await import('./featureSet');
+            let {buildDotNetFeatureSet} = await import('./featureSet');
 
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorLayerId, viewId);
             if (dotNetFeatureSet.features.length > 0) {
@@ -89,23 +79,20 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     }
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
-        let { buildJsQuery } = await import('./query');
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         return await this.component.queryObjectIds(jsQuery, options);
     }
 
-    setProperty(prop: string, value: any): void {
-        this.component[prop] = value;
-    }
 }
 
 
 export async function buildJsFeatureLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
+    let {buildJsFeatureLayerViewGenerated} = await import('./featureLayerView.gb');
     return await buildJsFeatureLayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetFeatureLayerView(jsObject: any): Promise<any> {
-    let { buildDotNetFeatureLayerViewGenerated } = await import('./featureLayerView.gb');
+    let {buildDotNetFeatureLayerViewGenerated} = await import('./featureLayerView.gb');
     return await buildDotNetFeatureLayerViewGenerated(jsObject);
 }

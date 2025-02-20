@@ -7,9 +7,10 @@ export async function buildJsMarkerSymbol(dotNetObject: any, layerId: string | n
             let {buildJsPictureMarkerSymbol} = await import('./pictureMarkerSymbol');
             return await buildJsPictureMarkerSymbol(dotNetObject, layerId, viewId);
     }
-    
+
     return null;
 }
+
 export async function buildDotNetMarkerSymbol(jsObject: any): Promise<any> {
     switch (jsObject.type) {
         case 'simple-marker':

@@ -12,35 +12,37 @@ export default class AttachmentsViewModelGenerated implements IPropertyWrapper {
     constructor(component: AttachmentsViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getAttachments(): Promise<any> {
         return await this.component.getAttachments();
     }
 
     // region properties
-    
+
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
     }
+
     async setGraphic(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.component.graphic =  buildJsGraphic(value);
+        let {buildJsGraphic} = await import('./graphic');
+        this.component.graphic = buildJsGraphic(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -49,7 +51,7 @@ export default class AttachmentsViewModelGenerated implements IPropertyWrapper {
 export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAttachmentsViewModel = new AttachmentsViewModel();
     if (hasValue(dotNetObject.graphic)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsAttachmentsViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
@@ -57,7 +59,7 @@ export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, la
         jsAttachmentsViewModel.activeAttachmentInfo = dotNetObject.activeAttachmentInfo;
     }
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities} = dotNetObject.capabilities;
         jsAttachmentsViewModel.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.mode)) {
@@ -67,58 +69,59 @@ export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, la
         jsAttachmentsViewModel.supportsResizeAttachments = dotNetObject.supportsResizeAttachments;
     }
 
-    let { default: AttachmentsViewModelWrapper } = await import('./attachmentsViewModel');
+    let {default: AttachmentsViewModelWrapper} = await import('./attachmentsViewModel');
     let attachmentsViewModelWrapper = new AttachmentsViewModelWrapper(jsAttachmentsViewModel);
     attachmentsViewModelWrapper.geoBlazorId = dotNetObject.id;
     attachmentsViewModelWrapper.viewId = viewId;
     attachmentsViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = attachmentsViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsViewModel;
-    let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
+    let {buildDotNetAttachmentsViewModel} = await import('./attachmentsViewModel');
     let dnInstantiatedObject = await buildDotNetAttachmentsViewModel(jsAttachmentsViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AttachmentsViewModel', e);
     }
-    
+
     return jsAttachmentsViewModel;
 }
+
 export async function buildDotNetAttachmentsViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetAttachmentsViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetAttachmentsViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.activeAttachmentInfo)) {
-            dotNetAttachmentsViewModel.activeAttachmentInfo = jsObject.activeAttachmentInfo;
-        }
-        if (hasValue(jsObject.attachmentInfos)) {
-            dotNetAttachmentsViewModel.attachmentInfos = jsObject.attachmentInfos;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetAttachmentsViewModel.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetAttachmentsViewModel.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetAttachmentsViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.supportsResizeAttachments)) {
-            dotNetAttachmentsViewModel.supportsResizeAttachments = jsObject.supportsResizeAttachments;
-        }
+    if (hasValue(jsObject.graphic)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetAttachmentsViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.activeAttachmentInfo)) {
+        dotNetAttachmentsViewModel.activeAttachmentInfo = jsObject.activeAttachmentInfo;
+    }
+    if (hasValue(jsObject.attachmentInfos)) {
+        dotNetAttachmentsViewModel.attachmentInfos = jsObject.attachmentInfos;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetAttachmentsViewModel.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetAttachmentsViewModel.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetAttachmentsViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.supportsResizeAttachments)) {
+        dotNetAttachmentsViewModel.supportsResizeAttachments = jsObject.supportsResizeAttachments;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

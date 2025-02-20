@@ -7,15 +7,15 @@ export default class VideoPlayerViewModelWrapper extends VideoPlayerViewModelGen
     constructor(component: VideoPlayerViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsVideoPlayerViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsVideoPlayerViewModelGenerated } = await import('./videoPlayerViewModel.gb');
+    let {buildJsVideoPlayerViewModelGenerated} = await import('./videoPlayerViewModel.gb');
     return await buildJsVideoPlayerViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetVideoPlayerViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetVideoPlayerViewModelGenerated } = await import('./videoPlayerViewModel.gb');
+    let {buildDotNetVideoPlayerViewModelGenerated} = await import('./videoPlayerViewModel.gb');
     return await buildDotNetVideoPlayerViewModelGenerated(jsObject);
 }

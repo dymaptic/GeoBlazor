@@ -12,15 +12,15 @@ export default class VideoPlayerViewModelGenerated implements IPropertyWrapper {
     constructor(component: VideoPlayerViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async changeGraphicsColor(color: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
+        let {buildJsMapColor} = await import('./mapColor');
         let jsColor = buildJsMapColor(color) as any;
         this.component.changeGraphicsColor(jsColor);
     }
@@ -78,23 +78,25 @@ export default class VideoPlayerViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetVideoLayer } = await import('./videoLayer');
+
+        let {buildDotNetVideoLayer} = await import('./videoLayer');
         return await buildDotNetVideoLayer(this.component.layer);
     }
+
     async setLayer(value: any): Promise<void> {
-        let { buildJsVideoLayer } = await import('./videoLayer');
-        this.component.layer = await  buildJsVideoLayer(value, this.layerId, this.viewId);
+        let {buildJsVideoLayer} = await import('./videoLayer');
+        this.component.layer = await buildJsVideoLayer(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -103,7 +105,7 @@ export default class VideoPlayerViewModelGenerated implements IPropertyWrapper {
 export async function buildJsVideoPlayerViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsVideoPlayerViewModel = new VideoPlayerViewModel();
     if (hasValue(dotNetObject.layer)) {
-        let { buildJsVideoLayer } = await import('./videoLayer');
+        let {buildJsVideoLayer} = await import('./videoLayer');
         jsVideoPlayerViewModel.layer = await buildJsVideoLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
@@ -117,66 +119,67 @@ export async function buildJsVideoPlayerViewModelGenerated(dotNetObject: any, la
         jsVideoPlayerViewModel.view = dotNetObject.view;
     }
 
-    let { default: VideoPlayerViewModelWrapper } = await import('./videoPlayerViewModel');
+    let {default: VideoPlayerViewModelWrapper} = await import('./videoPlayerViewModel');
     let videoPlayerViewModelWrapper = new VideoPlayerViewModelWrapper(jsVideoPlayerViewModel);
     videoPlayerViewModelWrapper.geoBlazorId = dotNetObject.id;
     videoPlayerViewModelWrapper.viewId = viewId;
     videoPlayerViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(videoPlayerViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = videoPlayerViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVideoPlayerViewModel;
-    let { buildDotNetVideoPlayerViewModel } = await import('./videoPlayerViewModel');
+    let {buildDotNetVideoPlayerViewModel} = await import('./videoPlayerViewModel');
     let dnInstantiatedObject = await buildDotNetVideoPlayerViewModel(jsVideoPlayerViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VideoPlayerViewModel', e);
     }
-    
+
     return jsVideoPlayerViewModel;
 }
+
 export async function buildDotNetVideoPlayerViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVideoPlayerViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.buffered)) {
-            dotNetVideoPlayerViewModel.buffered = jsObject.buffered;
-        }
-        if (hasValue(jsObject.currentTime)) {
-            dotNetVideoPlayerViewModel.currentTime = jsObject.currentTime;
-        }
-        if (hasValue(jsObject.duration)) {
-            dotNetVideoPlayerViewModel.duration = jsObject.duration;
-        }
-        if (hasValue(jsObject.ended)) {
-            dotNetVideoPlayerViewModel.ended = jsObject.ended;
-        }
-        if (hasValue(jsObject.followingMode)) {
-            dotNetVideoPlayerViewModel.followingMode = jsObject.followingMode;
-        }
-        if (hasValue(jsObject.metadata)) {
-            dotNetVideoPlayerViewModel.metadata = jsObject.metadata;
-        }
-        if (hasValue(jsObject.playing)) {
-            dotNetVideoPlayerViewModel.playing = jsObject.playing;
-        }
-        if (hasValue(jsObject.seekLength)) {
-            dotNetVideoPlayerViewModel.seekLength = jsObject.seekLength;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetVideoPlayerViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetVideoPlayerViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.buffered)) {
+        dotNetVideoPlayerViewModel.buffered = jsObject.buffered;
+    }
+    if (hasValue(jsObject.currentTime)) {
+        dotNetVideoPlayerViewModel.currentTime = jsObject.currentTime;
+    }
+    if (hasValue(jsObject.duration)) {
+        dotNetVideoPlayerViewModel.duration = jsObject.duration;
+    }
+    if (hasValue(jsObject.ended)) {
+        dotNetVideoPlayerViewModel.ended = jsObject.ended;
+    }
+    if (hasValue(jsObject.followingMode)) {
+        dotNetVideoPlayerViewModel.followingMode = jsObject.followingMode;
+    }
+    if (hasValue(jsObject.metadata)) {
+        dotNetVideoPlayerViewModel.metadata = jsObject.metadata;
+    }
+    if (hasValue(jsObject.playing)) {
+        dotNetVideoPlayerViewModel.playing = jsObject.playing;
+    }
+    if (hasValue(jsObject.seekLength)) {
+        dotNetVideoPlayerViewModel.seekLength = jsObject.seekLength;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetVideoPlayerViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetVideoPlayerViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

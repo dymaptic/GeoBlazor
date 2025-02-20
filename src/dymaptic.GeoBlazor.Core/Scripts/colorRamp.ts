@@ -1,5 +1,5 @@
 // override generated code in this file
-import {buildDotNetAlgorithmicColorRamp, buildJsAlgorithmicColorRamp } from './algorithmicColorRamp';
+import {buildDotNetAlgorithmicColorRamp, buildJsAlgorithmicColorRamp} from './algorithmicColorRamp';
 import {buildDotNetMultipartColorRamp, buildJsMultipartColorRamp} from './multipartColorRamp';
 
 
@@ -12,7 +12,7 @@ export function buildJsColorRamp(dotNetObject: any): any {
         default:
             throw new Error(`Unsupported color ramp type: ${dotNetObject?.type}`);
     }
-}     
+}
 
 export function buildDotNetColorRamp(jsObject: any): any {
     switch (jsObject?.type) {

@@ -12,25 +12,25 @@ export default class HistogramCreatorGenerated implements IPropertyWrapper {
     constructor(component: histogram) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async histogram(parameters: any): Promise<any> {
-        let { buildJsHistogramHistogramParams } = await import('./histogramHistogramParams');
+        let {buildJsHistogramHistogramParams} = await import('./histogramHistogramParams');
         let jsparameters = await buildJsHistogramHistogramParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.histogram(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsHistogramCreatorGenerated(dotNetObject: any, layerI
     let jshistogram = new histogram();
 
 
-    let { default: HistogramCreatorWrapper } = await import('./histogramCreator');
+    let {default: HistogramCreatorWrapper} = await import('./histogramCreator');
     let histogramCreatorWrapper = new HistogramCreatorWrapper(jshistogram);
     histogramCreatorWrapper.geoBlazorId = dotNetObject.id;
     histogramCreatorWrapper.viewId = viewId;
     histogramCreatorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(histogramCreatorWrapper);
     jsObjectRefs[dotNetObject.id] = histogramCreatorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jshistogram;
-    let { buildDotNetHistogramCreator } = await import('./histogramCreator');
+    let {buildDotNetHistogramCreator} = await import('./histogramCreator');
     let dnInstantiatedObject = await buildDotNetHistogramCreator(jshistogram);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HistogramCreator', e);
     }
-    
+
     return jshistogram;
 }
+
 export async function buildDotNetHistogramCreatorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetHistogramCreator: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

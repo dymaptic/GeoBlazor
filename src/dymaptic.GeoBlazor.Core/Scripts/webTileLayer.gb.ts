@@ -12,19 +12,19 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     constructor(layer: WebTileLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -34,9 +34,9 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchTile(level: any,
-        row: any,
-        col: any,
-        options: any): Promise<any> {
+                    row: any,
+                    col: any,
+                    options: any): Promise<any> {
         return await this.layer.fetchTile(level,
             row,
             col,
@@ -44,8 +44,8 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     }
 
     async getTileUrl(level: any,
-        row: any,
-        col: any): Promise<any> {
+                     row: any,
+                     col: any): Promise<any> {
         return this.layer.getTileUrl(level,
             row,
             col);
@@ -56,67 +56,76 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
         }
-        
-        let { buildDotNetPortalItem } = await import('./portalItem');
+
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+
     async setPortalItem(value: any): Promise<void> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let {buildJsPortalItem} = await import('./portalItem');
+        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
             return null;
         }
-        
-        let { buildDotNetTileInfo } = await import('./tileInfo');
+
+        let {buildDotNetTileInfo} = await import('./tileInfo');
         return await buildDotNetTileInfo(this.layer.tileInfo);
     }
+
     async setTileInfo(value: any): Promise<void> {
-        let { buildJsTileInfo } = await import('./tileInfo');
-        this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
+        let {buildJsTileInfo} = await import('./tileInfo');
+        this.layer.tileInfo = await buildJsTileInfo(value, this.layerId, this.viewId);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -125,19 +134,19 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebTileLayer = new WebTileLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsWebTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
+        let {buildJsPortalItem} = await import('./portalItem');
         jsWebTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
-        let { buildJsTileInfo } = await import('./tileInfo');
+        let {buildJsTileInfo} = await import('./tileInfo');
         jsWebTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsWebTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -183,106 +192,107 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     jsWebTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
-    
 
-    let { default: WebTileLayerWrapper } = await import('./webTileLayer');
+
+    let {default: WebTileLayerWrapper} = await import('./webTileLayer');
     let webTileLayerWrapper = new WebTileLayerWrapper(jsWebTileLayer);
     webTileLayerWrapper.geoBlazorId = dotNetObject.id;
     webTileLayerWrapper.viewId = viewId;
     webTileLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
-    let { buildDotNetWebTileLayer } = await import('./webTileLayer');
+    let {buildDotNetWebTileLayer} = await import('./webTileLayer');
     let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebTileLayer', e);
     }
-    
+
     return jsWebTileLayer;
 }
+
 export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWebTileLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWebTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetWebTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.tileInfo)) {
-            let { buildDotNetTileInfo } = await import('./tileInfo');
-            dotNetWebTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWebTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetWebTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetWebTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWebTileLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetWebTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWebTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWebTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetWebTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetWebTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWebTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWebTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetWebTileLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.subDomains)) {
-            dotNetWebTileLayer.subDomains = jsObject.subDomains;
-        }
-        if (hasValue(jsObject.tileServers)) {
-            dotNetWebTileLayer.tileServers = jsObject.tileServers;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWebTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWebTileLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.urlTemplate)) {
-            dotNetWebTileLayer.urlTemplate = jsObject.urlTemplate;
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetWebTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let {buildDotNetPortalItem} = await import('./portalItem');
+        dotNetWebTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetWebTileLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.tileInfo)) {
+        let {buildDotNetTileInfo} = await import('./tileInfo');
+        dotNetWebTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetWebTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetWebTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetWebTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWebTileLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetWebTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWebTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWebTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWebTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWebTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWebTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWebTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetWebTileLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.subDomains)) {
+        dotNetWebTileLayer.subDomains = jsObject.subDomains;
+    }
+    if (hasValue(jsObject.tileServers)) {
+        dotNetWebTileLayer.tileServers = jsObject.tileServers;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWebTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWebTileLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.urlTemplate)) {
+        dotNetWebTileLayer.urlTemplate = jsObject.urlTemplate;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,19 +12,19 @@ export default class IUnknownLayerGenerated implements IPropertyWrapper {
     constructor(layer: UnknownLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -34,35 +34,39 @@ export default class IUnknownLayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -71,11 +75,11 @@ export default class IUnknownLayerGenerated implements IPropertyWrapper {
 export async function buildJsIUnknownLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUnknownLayer = new UnknownLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsUnknownLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsUnknownLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -95,65 +99,66 @@ export async function buildJsIUnknownLayerGenerated(dotNetObject: any, layerId: 
         jsUnknownLayer.title = dotNetObject.title;
     }
 
-    let { default: IUnknownLayerWrapper } = await import('./iUnknownLayer');
+    let {default: IUnknownLayerWrapper} = await import('./iUnknownLayer');
     let iUnknownLayerWrapper = new IUnknownLayerWrapper(jsUnknownLayer);
     iUnknownLayerWrapper.geoBlazorId = dotNetObject.id;
     iUnknownLayerWrapper.viewId = viewId;
     iUnknownLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iUnknownLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iUnknownLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
-    let { buildDotNetIUnknownLayer } = await import('./iUnknownLayer');
+    let {buildDotNetIUnknownLayer} = await import('./iUnknownLayer');
     let dnInstantiatedObject = await buildDotNetIUnknownLayer(jsUnknownLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IUnknownLayer', e);
     }
-    
+
     return jsUnknownLayer;
 }
+
 export async function buildDotNetIUnknownLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIUnknownLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetIUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetIUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetIUnknownLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIUnknownLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIUnknownLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIUnknownLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIUnknownLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIUnknownLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIUnknownLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetIUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetIUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetIUnknownLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIUnknownLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIUnknownLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIUnknownLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIUnknownLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIUnknownLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIUnknownLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

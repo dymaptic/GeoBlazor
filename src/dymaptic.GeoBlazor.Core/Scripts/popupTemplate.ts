@@ -1,16 +1,11 @@
 // override generated code in this file
 import PopupTemplate from '@arcgis/core/PopupTemplate';
-import {
-    arcGisObjectRefs,
-    dotNetRefs,
-    hasValue, jsObjectRefs,
-    popupTemplateRefs
-} from "./arcGisJsInterop";
-import { buildJsPopupContent } from './popupContent';
-import { buildJsExpressionInfo } from './expressionInfo';
-import { buildDotNetGraphic } from './graphic';
-import { buildJsFieldInfo } from './fieldInfo';
-import { buildJsLayerOptions } from './layerOptions';
+import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, popupTemplateRefs} from "./arcGisJsInterop";
+import {buildJsPopupContent} from './popupContent';
+import {buildJsExpressionInfo} from './expressionInfo';
+import {buildDotNetGraphic} from './graphic';
+import {buildJsFieldInfo} from './fieldInfo';
+import {buildJsLayerOptions} from './layerOptions';
 
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     let jsPopupTemplate = new PopupTemplate();
@@ -84,17 +79,18 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PopupTemplate', e);
     }
-    
+
     popupTemplateRefs[dotNetObject.id] = jsPopupTemplate;
 
     return jsPopupTemplate;
 }
+
 export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
-    let { buildDotNetPopupTemplateGenerated } = await import('./popupTemplate.gb');
+    let {buildDotNetPopupTemplateGenerated} = await import('./popupTemplate.gb');
     let result = await buildDotNetPopupTemplateGenerated(jsObject);
     if (typeof jsObject.content === 'string') {
         result.stringContent = jsObject.content;
     }
-    
+
     return result;
 }

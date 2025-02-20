@@ -12,13 +12,13 @@ export default class SmartMappingSliderViewModelGenerated implements IPropertyWr
     constructor(component: SmartMappingSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -40,8 +40,8 @@ export default class SmartMappingSliderViewModelGenerated implements IPropertyWr
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
@@ -56,7 +56,7 @@ export default class SmartMappingSliderViewModelGenerated implements IPropertyWr
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -66,11 +66,11 @@ export default class SmartMappingSliderViewModelGenerated implements IPropertyWr
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -116,78 +116,79 @@ export async function buildJsSmartMappingSliderViewModelGenerated(dotNetObject: 
         jsSmartMappingSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
     }
 
-    let { default: SmartMappingSliderViewModelWrapper } = await import('./smartMappingSliderViewModel');
+    let {default: SmartMappingSliderViewModelWrapper} = await import('./smartMappingSliderViewModel');
     let smartMappingSliderViewModelWrapper = new SmartMappingSliderViewModelWrapper(jsSmartMappingSliderViewModel);
     smartMappingSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     smartMappingSliderViewModelWrapper.viewId = viewId;
     smartMappingSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(smartMappingSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = smartMappingSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderViewModel;
-    let { buildDotNetSmartMappingSliderViewModel } = await import('./smartMappingSliderViewModel');
+    let {buildDotNetSmartMappingSliderViewModel} = await import('./smartMappingSliderViewModel');
     let dnInstantiatedObject = await buildDotNetSmartMappingSliderViewModel(jsSmartMappingSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SmartMappingSliderViewModel', e);
     }
-    
+
     return jsSmartMappingSliderViewModel;
 }
+
 export async function buildDotNetSmartMappingSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSmartMappingSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetSmartMappingSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetSmartMappingSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetSmartMappingSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetSmartMappingSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetSmartMappingSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetSmartMappingSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetSmartMappingSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetSmartMappingSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetSmartMappingSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSmartMappingSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetSmartMappingSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetSmartMappingSliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetSmartMappingSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetSmartMappingSliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetSmartMappingSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetSmartMappingSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetSmartMappingSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetSmartMappingSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetSmartMappingSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetSmartMappingSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetSmartMappingSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetSmartMappingSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetSmartMappingSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSmartMappingSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetSmartMappingSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetSmartMappingSliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetSmartMappingSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetSmartMappingSliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

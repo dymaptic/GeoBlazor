@@ -12,13 +12,13 @@ export default class SegmentDrawActionGenerated implements IPropertyWrapper {
     constructor(component: SegmentDrawAction) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canRedo(): Promise<any> {
         return this.component.canRedo();
     }
@@ -52,11 +52,11 @@ export default class SegmentDrawActionGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -77,58 +77,59 @@ export async function buildJsSegmentDrawActionGenerated(dotNetObject: any, layer
     jsSegmentDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
-    
+
     jsSegmentDrawAction.on('draw-complete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDrawComplete', evt);
     });
-    
+
     jsSegmentDrawAction.on('vertex-add', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsVertexAdd', evt);
     });
-    
 
-    let { default: SegmentDrawActionWrapper } = await import('./segmentDrawAction');
+
+    let {default: SegmentDrawActionWrapper} = await import('./segmentDrawAction');
     let segmentDrawActionWrapper = new SegmentDrawActionWrapper(jsSegmentDrawAction);
     segmentDrawActionWrapper.geoBlazorId = dotNetObject.id;
     segmentDrawActionWrapper.viewId = viewId;
     segmentDrawActionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(segmentDrawActionWrapper);
     jsObjectRefs[dotNetObject.id] = segmentDrawActionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSegmentDrawAction;
-    let { buildDotNetSegmentDrawAction } = await import('./segmentDrawAction');
+    let {buildDotNetSegmentDrawAction} = await import('./segmentDrawAction');
     let dnInstantiatedObject = await buildDotNetSegmentDrawAction(jsSegmentDrawAction);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SegmentDrawAction', e);
     }
-    
+
     return jsSegmentDrawAction;
 }
+
 export async function buildDotNetSegmentDrawActionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSegmentDrawAction: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetSegmentDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetSegmentDrawAction.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetSegmentDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSegmentDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetSegmentDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetSegmentDrawAction.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetSegmentDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSegmentDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

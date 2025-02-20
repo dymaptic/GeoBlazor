@@ -12,13 +12,13 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     constructor(component: TileInfo) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async scaleToZoom(scale: any): Promise<any> {
         return this.component.scaleToZoom(scale);
     }
@@ -28,35 +28,39 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getOrigin(): Promise<any> {
         if (!hasValue(this.component.origin)) {
             return null;
         }
-        
-        let { buildDotNetPoint } = await import('./point');
+
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(this.component.origin);
     }
+
     async setOrigin(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.origin =  buildJsPoint(value);
+        let {buildJsPoint} = await import('./point');
+        this.component.origin = buildJsPoint(value);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = buildJsSpatialReference(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -65,11 +69,11 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTileInfo = new TileInfo();
     if (hasValue(dotNetObject.origin)) {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         jsTileInfo.origin = buildJsPoint(dotNetObject.origin) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         jsTileInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
@@ -83,66 +87,67 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
         jsTileInfo.isWrappable = dotNetObject.isWrappable;
     }
     if (hasValue(dotNetObject.lods)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLods } = dotNetObject.lods;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedLods} = dotNetObject.lods;
         jsTileInfo.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.size)) {
         jsTileInfo.size = dotNetObject.size;
     }
 
-    let { default: TileInfoWrapper } = await import('./tileInfo');
+    let {default: TileInfoWrapper} = await import('./tileInfo');
     let tileInfoWrapper = new TileInfoWrapper(jsTileInfo);
     tileInfoWrapper.geoBlazorId = dotNetObject.id;
     tileInfoWrapper.viewId = viewId;
     tileInfoWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
-    let { buildDotNetTileInfo } = await import('./tileInfo');
+    let {buildDotNetTileInfo} = await import('./tileInfo');
     let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TileInfo', e);
     }
-    
+
     return jsTileInfo;
 }
+
 export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTileInfo: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.origin)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetTileInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.dpi)) {
-            dotNetTileInfo.dpi = jsObject.dpi;
-        }
-        if (hasValue(jsObject.format)) {
-            dotNetTileInfo.format = jsObject.format;
-        }
-        if (hasValue(jsObject.isWrappable)) {
-            dotNetTileInfo.isWrappable = jsObject.isWrappable;
-        }
-        if (hasValue(jsObject.lods)) {
-            dotNetTileInfo.lods = jsObject.lods;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetTileInfo.size = jsObject.size;
-        }
+    if (hasValue(jsObject.origin)) {
+        let {buildDotNetPoint} = await import('./point');
+        dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetTileInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.dpi)) {
+        dotNetTileInfo.dpi = jsObject.dpi;
+    }
+    if (hasValue(jsObject.format)) {
+        dotNetTileInfo.format = jsObject.format;
+    }
+    if (hasValue(jsObject.isWrappable)) {
+        dotNetTileInfo.isWrappable = jsObject.isWrappable;
+    }
+    if (hasValue(jsObject.lods)) {
+        dotNetTileInfo.lods = jsObject.lods;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetTileInfo.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

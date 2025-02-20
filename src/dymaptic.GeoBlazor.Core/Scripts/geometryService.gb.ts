@@ -12,17 +12,17 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     constructor(component: geometryService) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async areasAndLengths(url: any,
-        areasAndLengthsParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsAreasAndLengthsParameters } = await import('./areasAndLengthsParameters');
+                          areasAndLengthsParameters: any,
+                          requestOptions: any): Promise<any> {
+        let {buildJsAreasAndLengthsParameters} = await import('./areasAndLengthsParameters');
         let jsAreasAndLengthsParameters = await buildJsAreasAndLengthsParameters(areasAndLengthsParameters, this.layerId, this.viewId) as any;
         return await this.component.areasAndLengths(url,
             jsAreasAndLengthsParameters,
@@ -30,12 +30,12 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async autoComplete(url: any,
-        polygons: any,
-        polylines: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsPolygon } = await import('./polygon');
+                       polygons: any,
+                       polylines: any,
+                       requestOptions: any): Promise<any> {
+        let {buildJsPolygon} = await import('./polygon');
         let jsPolygons = buildJsPolygon(polygons) as any;
-        let { buildJsPolyline } = await import('./polyline');
+        let {buildJsPolyline} = await import('./polyline');
         let jsPolylines = buildJsPolyline(polylines) as any;
         return await this.component.autoComplete(url,
             jsPolygons,
@@ -44,9 +44,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async buffer(url: any,
-        bufferParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsBufferParameters } = await import('./bufferParameters');
+                 bufferParameters: any,
+                 requestOptions: any): Promise<any> {
+        let {buildJsBufferParameters} = await import('./bufferParameters');
         let jsBufferParameters = await buildJsBufferParameters(bufferParameters, this.layerId, this.viewId) as any;
         return await this.component.buffer(url,
             jsBufferParameters,
@@ -54,9 +54,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async convexHull(url: any,
-        geometries: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                     geometries: any,
+                     requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
         return await this.component.convexHull(url,
             jsGeometries,
@@ -64,12 +64,12 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async cut(url: any,
-        geometries: any,
-        cutter: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+              geometries: any,
+              cutter: any,
+              requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
-        let { buildJsPolyline } = await import('./polyline');
+        let {buildJsPolyline} = await import('./polyline');
         let jsCutter = buildJsPolyline(cutter) as any;
         return await this.component.cut(url,
             jsGeometries,
@@ -78,9 +78,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async densify(url: any,
-        densifyParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsDensifyParameters } = await import('./densifyParameters');
+                  densifyParameters: any,
+                  requestOptions: any): Promise<any> {
+        let {buildJsDensifyParameters} = await import('./densifyParameters');
         let jsDensifyParameters = await buildJsDensifyParameters(densifyParameters, this.layerId, this.viewId) as any;
         return await this.component.densify(url,
             jsDensifyParameters,
@@ -88,12 +88,12 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async difference(url: any,
-        geometries: any,
-        geometry: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                     geometries: any,
+                     geometry: any,
+                     requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
-        let { buildJsGeometry } = await import('./geometry');
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.difference(url,
             jsGeometries,
@@ -102,9 +102,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async distance(url: any,
-        distanceParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsDistanceParameters } = await import('./distanceParameters');
+                   distanceParameters: any,
+                   requestOptions: any): Promise<any> {
+        let {buildJsDistanceParameters} = await import('./distanceParameters');
         let jsDistanceParameters = await buildJsDistanceParameters(distanceParameters, this.layerId, this.viewId) as any;
         return await this.component.distance(url,
             jsDistanceParameters,
@@ -112,9 +112,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async fromGeoCoordinateString(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometryServiceFromGeoCoordinateStringParams } = await import('./geometryServiceFromGeoCoordinateStringParams');
+                                  parameters: any,
+                                  requestOptions: any): Promise<any> {
+        let {buildJsGeometryServiceFromGeoCoordinateStringParams} = await import('./geometryServiceFromGeoCoordinateStringParams');
         let jsparameters = await buildJsGeometryServiceFromGeoCoordinateStringParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.fromGeoCoordinateString(url,
             jsparameters,
@@ -122,9 +122,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async generalize(url: any,
-        generalizeParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeneralizeParameters } = await import('./generalizeParameters');
+                     generalizeParameters: any,
+                     requestOptions: any): Promise<any> {
+        let {buildJsGeneralizeParameters} = await import('./generalizeParameters');
         let jsGeneralizeParameters = await buildJsGeneralizeParameters(generalizeParameters, this.layerId, this.viewId) as any;
         return await this.component.generalize(url,
             jsGeneralizeParameters,
@@ -132,12 +132,12 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async intersect(url: any,
-        geometries: any,
-        intersector: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                    geometries: any,
+                    intersector: any,
+                    requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
-        let { buildJsGeometry } = await import('./geometry');
+        let {buildJsGeometry} = await import('./geometry');
         let jsIntersector = buildJsGeometry(intersector) as any;
         return await this.component.intersect(url,
             jsGeometries,
@@ -146,9 +146,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async labelPoints(url: any,
-        polygons: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsPolygon } = await import('./polygon');
+                      polygons: any,
+                      requestOptions: any): Promise<any> {
+        let {buildJsPolygon} = await import('./polygon');
         let jsPolygons = buildJsPolygon(polygons) as any;
         return await this.component.labelPoints(url,
             jsPolygons,
@@ -156,9 +156,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async lengths(url: any,
-        lengthsParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsLengthsParameters } = await import('./lengthsParameters');
+                  lengthsParameters: any,
+                  requestOptions: any): Promise<any> {
+        let {buildJsLengthsParameters} = await import('./lengthsParameters');
         let jsLengthsParameters = await buildJsLengthsParameters(lengthsParameters, this.layerId, this.viewId) as any;
         return await this.component.lengths(url,
             jsLengthsParameters,
@@ -166,9 +166,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async offset(url: any,
-        offsetParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsOffsetParameters } = await import('./offsetParameters');
+                 offsetParameters: any,
+                 requestOptions: any): Promise<any> {
+        let {buildJsOffsetParameters} = await import('./offsetParameters');
         let jsOffsetParameters = await buildJsOffsetParameters(offsetParameters, this.layerId, this.viewId) as any;
         return await this.component.offset(url,
             jsOffsetParameters,
@@ -176,9 +176,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async project(url: any,
-        projectParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsProjectParameters } = await import('./projectParameters');
+                  projectParameters: any,
+                  requestOptions: any): Promise<any> {
+        let {buildJsProjectParameters} = await import('./projectParameters');
         let jsProjectParameters = await buildJsProjectParameters(projectParameters, this.layerId, this.viewId) as any;
         return await this.component.project(url,
             jsProjectParameters,
@@ -186,9 +186,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async relation(url: any,
-        relationParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsRelationParameters } = await import('./relationParameters');
+                   relationParameters: any,
+                   requestOptions: any): Promise<any> {
+        let {buildJsRelationParameters} = await import('./relationParameters');
         let jsRelationParameters = await buildJsRelationParameters(relationParameters, this.layerId, this.viewId) as any;
         return await this.component.relation(url,
             jsRelationParameters,
@@ -196,12 +196,12 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async reshape(url: any,
-        geometry: any,
-        reshaper: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                  geometry: any,
+                  reshaper: any,
+                  requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
-        let { buildJsPolyline } = await import('./polyline');
+        let {buildJsPolyline} = await import('./polyline');
         let jsReshaper = buildJsPolyline(reshaper) as any;
         return await this.component.reshape(url,
             jsGeometry,
@@ -210,9 +210,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async simplify(url: any,
-        geometries: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                   geometries: any,
+                   requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
         return await this.component.simplify(url,
             jsGeometries,
@@ -220,9 +220,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async toGeoCoordinateString(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometryServiceToGeoCoordinateStringParams } = await import('./geometryServiceToGeoCoordinateStringParams');
+                                parameters: any,
+                                requestOptions: any): Promise<any> {
+        let {buildJsGeometryServiceToGeoCoordinateStringParams} = await import('./geometryServiceToGeoCoordinateStringParams');
         let jsparameters = await buildJsGeometryServiceToGeoCoordinateStringParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.toGeoCoordinateString(url,
             jsparameters,
@@ -230,9 +230,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async trimExtend(url: any,
-        trimExtendParameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsTrimExtendParameters } = await import('./trimExtendParameters');
+                     trimExtendParameters: any,
+                     requestOptions: any): Promise<any> {
+        let {buildJsTrimExtendParameters} = await import('./trimExtendParameters');
         let jsTrimExtendParameters = await buildJsTrimExtendParameters(trimExtendParameters, this.layerId, this.viewId) as any;
         return await this.component.trimExtend(url,
             jsTrimExtendParameters,
@@ -240,9 +240,9 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     async union(url: any,
-        geometries: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                geometries: any,
+                requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
         return await this.component.union(url,
             jsGeometries,
@@ -250,11 +250,11 @@ export default class GeometryServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -264,32 +264,33 @@ export async function buildJsGeometryServiceGenerated(dotNetObject: any, layerId
     let jsgeometryService: any = {}
 
 
-    let { default: GeometryServiceWrapper } = await import('./geometryService');
+    let {default: GeometryServiceWrapper} = await import('./geometryService');
     let geometryServiceWrapper = new GeometryServiceWrapper(jsgeometryService);
     geometryServiceWrapper.geoBlazorId = dotNetObject.id;
     geometryServiceWrapper.viewId = viewId;
     geometryServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geometryServiceWrapper);
     jsObjectRefs[dotNetObject.id] = geometryServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsgeometryService;
-    let { buildDotNetGeometryService } = await import('./geometryService');
+    let {buildDotNetGeometryService} = await import('./geometryService');
     let dnInstantiatedObject = await buildDotNetGeometryService(jsgeometryService);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeometryService', e);
     }
-    
+
     return jsgeometryService;
 }
+
 export async function buildDotNetGeometryServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetGeometryService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

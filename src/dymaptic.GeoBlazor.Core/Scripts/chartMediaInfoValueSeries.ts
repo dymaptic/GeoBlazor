@@ -1,7 +1,7 @@
 // override generated code in this file
 import ChartMediaInfoValueSeries from '@arcgis/core/popup/content/support/ChartMediaInfoValueSeries';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor } from './mapColor';
+import {buildDotNetMapColor} from './mapColor';
 
 export function buildJsChartMediaInfoValueSeries(dotNetObject: any): any {
     let jsChartMediaInfoValueSeries = new ChartMediaInfoValueSeries();

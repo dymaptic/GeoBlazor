@@ -12,87 +12,92 @@ export default class CoordinateConversionWidgetGenerated implements IPropertyWra
     constructor(widget: CoordinateConversion) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async reverseConvert(coordinate: any,
-        format: any): Promise<any> {
-        let { buildJsFormat } = await import('./format');
+                         format: any): Promise<any> {
+        let {buildJsFormat} = await import('./format');
         let jsFormat = await buildJsFormat(format, this.layerId, this.viewId) as any;
         return await this.widget.reverseConvert(coordinate,
             jsFormat);
     }
 
     // region properties
-    
+
     async getConversions(): Promise<any> {
         if (!hasValue(this.widget.conversions)) {
             return null;
         }
-        
-        let { buildDotNetConversion } = await import('./conversion');
+
+        let {buildDotNetConversion} = await import('./conversion');
         return await Promise.all(this.widget.conversions.map(async i => await buildDotNetConversion(i)));
     }
-    
+
     async setConversions(value: any): Promise<void> {
-        let { buildJsConversion } = await import('./conversion');
+        let {buildJsConversion} = await import('./conversion');
         this.widget.conversions = await Promise.all(value.map(async i => await buildJsConversion(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getCurrentLocation(): Promise<any> {
         if (!hasValue(this.widget.currentLocation)) {
             return null;
         }
-        
-        let { buildDotNetPoint } = await import('./point');
+
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(this.widget.currentLocation);
     }
+
     async getFormats(): Promise<any> {
         if (!hasValue(this.widget.formats)) {
             return null;
         }
-        
-        let { buildDotNetFormat } = await import('./format');
+
+        let {buildDotNetFormat} = await import('./format');
         return await Promise.all(this.widget.formats.map(async i => await buildDotNetFormat(i)));
     }
-    
+
     async setFormats(value: any): Promise<void> {
-        let { buildJsFormat } = await import('./format');
+        let {buildJsFormat} = await import('./format');
         this.widget.formats = await Promise.all(value.map(async i => await buildJsFormat(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getLocationSymbol(): Promise<any> {
         if (!hasValue(this.widget.locationSymbol)) {
             return null;
         }
-        
-        let { buildDotNetSymbol } = await import('./symbol');
+
+        let {buildDotNetSymbol} = await import('./symbol');
         return buildDotNetSymbol(this.widget.locationSymbol);
     }
+
     async setLocationSymbol(value: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
-        this.widget.locationSymbol =  buildJsSymbol(value);
+        let {buildJsSymbol} = await import('./symbol');
+        this.widget.locationSymbol = buildJsSymbol(value);
     }
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
+
+        let {buildDotNetCoordinateConversionViewModel} = await import('./coordinateConversionViewModel');
         return await buildDotNetCoordinateConversionViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
-        this.widget.viewModel = await  buildJsCoordinateConversionViewModel(value, this.layerId, this.viewId);
+        let {buildJsCoordinateConversionViewModel} = await import('./coordinateConversionViewModel');
+        this.widget.viewModel = await buildJsCoordinateConversionViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -101,19 +106,19 @@ export default class CoordinateConversionWidgetGenerated implements IPropertyWra
 export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoordinateConversion = new CoordinateConversion();
     if (hasValue(dotNetObject.conversions)) {
-        let { buildJsConversion } = await import('./conversion');
+        let {buildJsConversion} = await import('./conversion');
         jsCoordinateConversion.conversions = await Promise.all(dotNetObject.conversions.map(async i => await buildJsConversion(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.formats)) {
-        let { buildJsFormat } = await import('./format');
+        let {buildJsFormat} = await import('./format');
         jsCoordinateConversion.formats = await Promise.all(dotNetObject.formats.map(async i => await buildJsFormat(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.locationSymbol)) {
-        let { buildJsSymbol } = await import('./symbol');
+        let {buildJsSymbol} = await import('./symbol');
         jsCoordinateConversion.locationSymbol = buildJsSymbol(dotNetObject.locationSymbol) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
+        let {buildJsCoordinateConversionViewModel} = await import('./coordinateConversionViewModel');
         jsCoordinateConversion.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -127,7 +132,7 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
         jsCoordinateConversion.multipleConversions = dotNetObject.multipleConversions;
     }
     if (hasValue(dotNetObject.orientation)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrientation } = dotNetObject.orientation;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedOrientation} = dotNetObject.orientation;
         jsCoordinateConversion.orientation = sanitizedOrientation;
     }
     if (hasValue(dotNetObject.storageEnabled)) {
@@ -140,87 +145,94 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
         jsCoordinateConversion.view = dotNetObject.view;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVisibleElements
+        } = dotNetObject.visibleElements;
         jsCoordinateConversion.visibleElements = sanitizedVisibleElements;
     }
 
-    let { default: CoordinateConversionWidgetWrapper } = await import('./coordinateConversionWidget');
+    let {default: CoordinateConversionWidgetWrapper} = await import('./coordinateConversionWidget');
     let coordinateConversionWidgetWrapper = new CoordinateConversionWidgetWrapper(jsCoordinateConversion);
     coordinateConversionWidgetWrapper.geoBlazorId = dotNetObject.id;
     coordinateConversionWidgetWrapper.viewId = viewId;
     coordinateConversionWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(coordinateConversionWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = coordinateConversionWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateConversion;
-    let { buildDotNetCoordinateConversionWidget } = await import('./coordinateConversionWidget');
+    let {buildDotNetCoordinateConversionWidget} = await import('./coordinateConversionWidget');
     let dnInstantiatedObject = await buildDotNetCoordinateConversionWidget(jsCoordinateConversion);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CoordinateConversionWidget', e);
     }
-    
+
     return jsCoordinateConversion;
 }
+
 export async function buildDotNetCoordinateConversionWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCoordinateConversionWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.conversions)) {
-            let { buildDotNetConversion } = await import('./conversion');
-            dotNetCoordinateConversionWidget.conversions = await Promise.all(jsObject.conversions.map(async i => await buildDotNetConversion(i)));
-        }
-        if (hasValue(jsObject.currentLocation)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetCoordinateConversionWidget.currentLocation = buildDotNetPoint(jsObject.currentLocation);
-        }
-        if (hasValue(jsObject.formats)) {
-            let { buildDotNetFormat } = await import('./format');
-            dotNetCoordinateConversionWidget.formats = await Promise.all(jsObject.formats.map(async i => await buildDotNetFormat(i)));
-        }
-        if (hasValue(jsObject.locationSymbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetCoordinateConversionWidget.locationSymbol = buildDotNetSymbol(jsObject.locationSymbol);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
-            dotNetCoordinateConversionWidget.viewModel = await buildDotNetCoordinateConversionViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetCoordinateConversionWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetCoordinateConversionWidget.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.multipleConversions)) {
-            dotNetCoordinateConversionWidget.multipleConversions = jsObject.multipleConversions;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetCoordinateConversionWidget.orientation = jsObject.orientation;
-        }
-        if (hasValue(jsObject.storageEnabled)) {
-            dotNetCoordinateConversionWidget.storageEnabled = jsObject.storageEnabled;
-        }
-        if (hasValue(jsObject.storageType)) {
-            dotNetCoordinateConversionWidget.storageType = jsObject.storageType;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCoordinateConversionWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCoordinateConversionWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetCoordinateConversionWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.conversions)) {
+        let {buildDotNetConversion} = await import('./conversion');
+        dotNetCoordinateConversionWidget.conversions = await Promise.all(jsObject.conversions.map(async i => await buildDotNetConversion(i)));
+    }
+    if (hasValue(jsObject.currentLocation)) {
+        let {buildDotNetPoint} = await import('./point');
+        dotNetCoordinateConversionWidget.currentLocation = buildDotNetPoint(jsObject.currentLocation);
+    }
+    if (hasValue(jsObject.formats)) {
+        let {buildDotNetFormat} = await import('./format');
+        dotNetCoordinateConversionWidget.formats = await Promise.all(jsObject.formats.map(async i => await buildDotNetFormat(i)));
+    }
+    if (hasValue(jsObject.locationSymbol)) {
+        let {buildDotNetSymbol} = await import('./symbol');
+        dotNetCoordinateConversionWidget.locationSymbol = buildDotNetSymbol(jsObject.locationSymbol);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetCoordinateConversionViewModel} = await import('./coordinateConversionViewModel');
+        dotNetCoordinateConversionWidget.viewModel = await buildDotNetCoordinateConversionViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetCoordinateConversionWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetCoordinateConversionWidget.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.multipleConversions)) {
+        dotNetCoordinateConversionWidget.multipleConversions = jsObject.multipleConversions;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetCoordinateConversionWidget.orientation = jsObject.orientation;
+    }
+    if (hasValue(jsObject.storageEnabled)) {
+        dotNetCoordinateConversionWidget.storageEnabled = jsObject.storageEnabled;
+    }
+    if (hasValue(jsObject.storageType)) {
+        dotNetCoordinateConversionWidget.storageType = jsObject.storageType;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCoordinateConversionWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCoordinateConversionWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetCoordinateConversionWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,23 +12,23 @@ export default class CIMMaterialSymbolLayerGenerated implements IPropertyWrapper
     constructor(layer: CIMMaterialSymbolLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -62,63 +62,64 @@ export async function buildJsCIMMaterialSymbolLayerGenerated(dotNetObject: any, 
         jsCIMMaterialSymbolLayer.primitiveName = dotNetObject.primitiveName;
     }
 
-    let { default: CIMMaterialSymbolLayerWrapper } = await import('./cIMMaterialSymbolLayer');
+    let {default: CIMMaterialSymbolLayerWrapper} = await import('./cIMMaterialSymbolLayer');
     let cIMMaterialSymbolLayerWrapper = new CIMMaterialSymbolLayerWrapper(jsCIMMaterialSymbolLayer);
     cIMMaterialSymbolLayerWrapper.geoBlazorId = dotNetObject.id;
     cIMMaterialSymbolLayerWrapper.viewId = viewId;
     cIMMaterialSymbolLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cIMMaterialSymbolLayerWrapper);
     jsObjectRefs[dotNetObject.id] = cIMMaterialSymbolLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCIMMaterialSymbolLayer;
-    let { buildDotNetCIMMaterialSymbolLayer } = await import('./cIMMaterialSymbolLayer');
+    let {buildDotNetCIMMaterialSymbolLayer} = await import('./cIMMaterialSymbolLayer');
     let dnInstantiatedObject = await buildDotNetCIMMaterialSymbolLayer(jsCIMMaterialSymbolLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CIMMaterialSymbolLayer', e);
     }
-    
+
     return jsCIMMaterialSymbolLayer;
 }
+
 export async function buildDotNetCIMMaterialSymbolLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCIMMaterialSymbolLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            dotNetCIMMaterialSymbolLayer.color = jsObject.color;
-        }
-        if (hasValue(jsObject.colorLocked)) {
-            dotNetCIMMaterialSymbolLayer.colorLocked = jsObject.colorLocked;
-        }
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMMaterialSymbolLayer.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.enable)) {
-            dotNetCIMMaterialSymbolLayer.enable = jsObject.enable;
-        }
-        if (hasValue(jsObject.materialMode)) {
-            dotNetCIMMaterialSymbolLayer.materialMode = jsObject.materialMode;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetCIMMaterialSymbolLayer.name = jsObject.name;
-        }
-        if (hasValue(jsObject.overprint)) {
-            dotNetCIMMaterialSymbolLayer.overprint = jsObject.overprint;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMMaterialSymbolLayer.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMMaterialSymbolLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.color)) {
+        dotNetCIMMaterialSymbolLayer.color = jsObject.color;
+    }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetCIMMaterialSymbolLayer.colorLocked = jsObject.colorLocked;
+    }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMMaterialSymbolLayer.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.enable)) {
+        dotNetCIMMaterialSymbolLayer.enable = jsObject.enable;
+    }
+    if (hasValue(jsObject.materialMode)) {
+        dotNetCIMMaterialSymbolLayer.materialMode = jsObject.materialMode;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetCIMMaterialSymbolLayer.name = jsObject.name;
+    }
+    if (hasValue(jsObject.overprint)) {
+        dotNetCIMMaterialSymbolLayer.overprint = jsObject.overprint;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMMaterialSymbolLayer.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMMaterialSymbolLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

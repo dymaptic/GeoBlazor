@@ -12,23 +12,23 @@ export default class SymbolsExtrudeSymbol3DLayerGenerated implements IPropertyWr
     constructor(layer: symbolsExtrudeSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsSymbolsExtrudeSymbol3DLayerGenerated(dotNetObject: 
     let jssymbolsExtrudeSymbol3DLayer: any = {}
 
 
-    let { default: SymbolsExtrudeSymbol3DLayerWrapper } = await import('./symbolsExtrudeSymbol3DLayer');
+    let {default: SymbolsExtrudeSymbol3DLayerWrapper} = await import('./symbolsExtrudeSymbol3DLayer');
     let symbolsExtrudeSymbol3DLayerWrapper = new SymbolsExtrudeSymbol3DLayerWrapper(jssymbolsExtrudeSymbol3DLayer);
     symbolsExtrudeSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     symbolsExtrudeSymbol3DLayerWrapper.viewId = viewId;
     symbolsExtrudeSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbolsExtrudeSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = symbolsExtrudeSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsExtrudeSymbol3DLayer;
-    let { buildDotNetSymbolsExtrudeSymbol3DLayer } = await import('./symbolsExtrudeSymbol3DLayer');
+    let {buildDotNetSymbolsExtrudeSymbol3DLayer} = await import('./symbolsExtrudeSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetSymbolsExtrudeSymbol3DLayer(jssymbolsExtrudeSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbolsExtrudeSymbol3DLayer', e);
     }
-    
+
     return jssymbolsExtrudeSymbol3DLayer;
 }
+
 export async function buildDotNetSymbolsExtrudeSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbolsExtrudeSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

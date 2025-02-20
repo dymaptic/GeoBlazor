@@ -7,15 +7,15 @@ export default class VersionManagementServiceWrapper extends VersionManagementSe
     constructor(component: VersionManagementService) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsVersionManagementService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsVersionManagementServiceGenerated } = await import('./versionManagementService.gb');
+    let {buildJsVersionManagementServiceGenerated} = await import('./versionManagementService.gb');
     return await buildJsVersionManagementServiceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetVersionManagementService(jsObject: any): Promise<any> {
-    let { buildDotNetVersionManagementServiceGenerated } = await import('./versionManagementService.gb');
+    let {buildDotNetVersionManagementServiceGenerated} = await import('./versionManagementService.gb');
     return await buildDotNetVersionManagementServiceGenerated(jsObject);
 }

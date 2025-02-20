@@ -1,7 +1,7 @@
 // override generated code in this file
 import LineSymbolMarker from '@arcgis/core/symbols/LineSymbolMarker';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from './mapColor';
+import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 export function buildJsLineSymbolMarker(dotNetObject: any): any {
     let jsLineSymbolMarker = new LineSymbolMarker();
@@ -31,6 +31,7 @@ export function buildJsLineSymbolMarker(dotNetObject: any): any {
 
     return jsLineSymbolMarker;
 }
+
 export function buildDotNetLineSymbolMarker(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

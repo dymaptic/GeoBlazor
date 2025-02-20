@@ -12,27 +12,27 @@ export default class StyleUtilsGenerated implements IPropertyWrapper {
     constructor(component: styleUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async symbolUrlFromStyleItem(item: any,
-        type: any,
-        typePriorities: any): Promise<any> {
+                                 type: any,
+                                 typePriorities: any): Promise<any> {
         return this.component.symbolUrlFromStyleItem(item,
             type,
             typePriorities);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsStyleUtilsGenerated(dotNetObject: any, layerId: str
     let jsstyleUtils: any = {}
 
 
-    let { default: StyleUtilsWrapper } = await import('./styleUtils');
+    let {default: StyleUtilsWrapper} = await import('./styleUtils');
     let styleUtilsWrapper = new StyleUtilsWrapper(jsstyleUtils);
     styleUtilsWrapper.geoBlazorId = dotNetObject.id;
     styleUtilsWrapper.viewId = viewId;
     styleUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(styleUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = styleUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsstyleUtils;
-    let { buildDotNetStyleUtils } = await import('./styleUtils');
+    let {buildDotNetStyleUtils} = await import('./styleUtils');
     let dnInstantiatedObject = await buildDotNetStyleUtils(jsstyleUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for StyleUtils', e);
     }
-    
+
     return jsstyleUtils;
 }
+
 export async function buildDotNetStyleUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetStyleUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

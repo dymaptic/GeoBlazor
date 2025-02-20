@@ -12,15 +12,15 @@ export default class SymbologyPieChartGenerated implements IPropertyWrapper {
     constructor(component: symbologyPieChart) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
-        let { buildJsPieChartScheme } = await import('./pieChartScheme');
+        let {buildJsPieChartScheme} = await import('./pieChartScheme');
         let jsScheme = await buildJsPieChartScheme(scheme, this.layerId, this.viewId) as any;
         return this.component.cloneScheme(jsScheme);
     }
@@ -42,11 +42,11 @@ export default class SymbologyPieChartGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,32 +56,33 @@ export async function buildJsSymbologyPieChartGenerated(dotNetObject: any, layer
     let jssymbologyPieChart: any = {}
 
 
-    let { default: SymbologyPieChartWrapper } = await import('./symbologyPieChart');
+    let {default: SymbologyPieChartWrapper} = await import('./symbologyPieChart');
     let symbologyPieChartWrapper = new SymbologyPieChartWrapper(jssymbologyPieChart);
     symbologyPieChartWrapper.geoBlazorId = dotNetObject.id;
     symbologyPieChartWrapper.viewId = viewId;
     symbologyPieChartWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyPieChartWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyPieChartWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyPieChart;
-    let { buildDotNetSymbologyPieChart } = await import('./symbologyPieChart');
+    let {buildDotNetSymbologyPieChart} = await import('./symbologyPieChart');
     let dnInstantiatedObject = await buildDotNetSymbologyPieChart(jssymbologyPieChart);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyPieChart', e);
     }
-    
+
     return jssymbologyPieChart;
 }
+
 export async function buildDotNetSymbologyPieChartGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyPieChart: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

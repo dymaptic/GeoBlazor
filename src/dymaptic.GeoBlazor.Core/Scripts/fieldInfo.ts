@@ -1,7 +1,7 @@
 // override generated code in this file
 import FieldInfo from '@arcgis/core/popup/FieldInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetFieldInfoFormat, buildJsFieldInfoFormat } from './fieldInfoFormat';
+import {buildDotNetFieldInfoFormat, buildJsFieldInfoFormat} from './fieldInfoFormat';
 
 export function buildJsFieldInfo(dotNetObject: any): any {
     let jsFieldInfo = new FieldInfo();
@@ -27,7 +27,7 @@ export function buildJsFieldInfo(dotNetObject: any): any {
     if (hasValue(dotNetObject.tooltip)) {
         jsFieldInfo.tooltip = dotNetObject.tooltip;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldInfoWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -43,6 +43,7 @@ export function buildJsFieldInfo(dotNetObject: any): any {
 
     return jsFieldInfo;
 }
+
 export function buildDotNetFieldInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

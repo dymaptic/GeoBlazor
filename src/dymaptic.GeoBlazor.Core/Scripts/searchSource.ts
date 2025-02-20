@@ -11,19 +11,19 @@ export async function buildDotNetSearchSource(jsSource: LayerSearchSource | Loca
         let {buildDotNetLocatorSearchSource} = await import('./locatorSearchSource');
         return await buildDotNetLocatorSearchSource(jsSource);
     }
-    
-    let { buildDotNetLayerSearchSource } = await import('./layerSearchSource');
+
+    let {buildDotNetLayerSearchSource} = await import('./layerSearchSource');
     return await buildDotNetLayerSearchSource(jsSource);
 }
 
 export async function buildJsSearchSource(dotNetSource: any, viewId: string): Promise<any> {
     let jsSource: any;
-    
+
     if (hasValue(dotNetSource.url)) {
-        let { buildJsLocatorSearchSource } = await import('./locatorSearchSource');
+        let {buildJsLocatorSearchSource} = await import('./locatorSearchSource');
         jsSource = await buildJsLocatorSearchSource(dotNetSource, null, viewId);
     } else {
-        let { buildJsLayerSearchSource } = await import('./layerSearchSource');
+        let {buildJsLayerSearchSource} = await import('./layerSearchSource');
         let layerId = dotNetSource.layerId ?? dotNetSource.layer?.id;
         jsSource = await buildJsLayerSearchSource(dotNetSource, layerId, viewId);
     }

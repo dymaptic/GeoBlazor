@@ -12,19 +12,19 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
     constructor(widget: SmartMappingSliderBase) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -43,7 +43,13 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     }
 
     if (hasValue(dotNetObject.histogramConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedHistogramConfig
+        } = dotNetObject.histogramConfig;
         jsSmartMappingSliderBase.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
@@ -59,7 +65,13 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         jsSmartMappingSliderBase.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVisibleElements
+        } = dotNetObject.visibleElements;
         jsSmartMappingSliderBase.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
@@ -68,90 +80,91 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     jsSmartMappingSliderBase.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });
-    
+
     jsSmartMappingSliderBase.on('segment-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsegmentDrag', evt);
     });
-    
+
     jsSmartMappingSliderBase.on('thumb-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbChange', evt);
     });
-    
+
     jsSmartMappingSliderBase.on('thumb-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbDrag', evt);
     });
-    
+
     jsSmartMappingSliderBase.on('min-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsinChange', evt);
     });
-    
 
-    let { default: ISmartMappingSliderBaseWidgetWrapper } = await import('./iSmartMappingSliderBaseWidget');
+
+    let {default: ISmartMappingSliderBaseWidgetWrapper} = await import('./iSmartMappingSliderBaseWidget');
     let iSmartMappingSliderBaseWidgetWrapper = new ISmartMappingSliderBaseWidgetWrapper(jsSmartMappingSliderBase);
     iSmartMappingSliderBaseWidgetWrapper.geoBlazorId = dotNetObject.id;
     iSmartMappingSliderBaseWidgetWrapper.viewId = viewId;
     iSmartMappingSliderBaseWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSmartMappingSliderBaseWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = iSmartMappingSliderBaseWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderBase;
-    let { buildDotNetISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
+    let {buildDotNetISmartMappingSliderBaseWidget} = await import('./iSmartMappingSliderBaseWidget');
     let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ISmartMappingSliderBaseWidget', e);
     }
-    
+
     return jsSmartMappingSliderBase;
 }
+
 export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetISmartMappingSliderBaseWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetISmartMappingSliderBaseWidget.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetISmartMappingSliderBaseWidget.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetISmartMappingSliderBaseWidget.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetISmartMappingSliderBaseWidget.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetISmartMappingSliderBaseWidget.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetISmartMappingSliderBaseWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetISmartMappingSliderBaseWidget.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetISmartMappingSliderBaseWidget.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetISmartMappingSliderBaseWidget.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetISmartMappingSliderBaseWidget.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetISmartMappingSliderBaseWidget.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetISmartMappingSliderBaseWidget.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetISmartMappingSliderBaseWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetISmartMappingSliderBaseWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

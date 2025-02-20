@@ -12,15 +12,15 @@ export default class SymbologyDotDensityGenerated implements IPropertyWrapper {
     constructor(component: symbologyDotDensity) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
-        let { buildJsDotDensityScheme } = await import('./dotDensityScheme');
+        let {buildJsDotDensityScheme} = await import('./dotDensityScheme');
         let jsScheme = await buildJsDotDensityScheme(scheme, this.layerId, this.viewId) as any;
         return this.component.cloneScheme(jsScheme);
     }
@@ -38,11 +38,11 @@ export default class SymbologyDotDensityGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -52,32 +52,33 @@ export async function buildJsSymbologyDotDensityGenerated(dotNetObject: any, lay
     let jssymbologyDotDensity: any = {}
 
 
-    let { default: SymbologyDotDensityWrapper } = await import('./symbologyDotDensity');
+    let {default: SymbologyDotDensityWrapper} = await import('./symbologyDotDensity');
     let symbologyDotDensityWrapper = new SymbologyDotDensityWrapper(jssymbologyDotDensity);
     symbologyDotDensityWrapper.geoBlazorId = dotNetObject.id;
     symbologyDotDensityWrapper.viewId = viewId;
     symbologyDotDensityWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyDotDensityWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyDotDensityWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyDotDensity;
-    let { buildDotNetSymbologyDotDensity } = await import('./symbologyDotDensity');
+    let {buildDotNetSymbologyDotDensity} = await import('./symbologyDotDensity');
     let dnInstantiatedObject = await buildDotNetSymbologyDotDensity(jssymbologyDotDensity);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyDotDensity', e);
     }
-    
+
     return jssymbologyDotDensity;
 }
+
 export async function buildDotNetSymbologyDotDensityGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyDotDensity: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

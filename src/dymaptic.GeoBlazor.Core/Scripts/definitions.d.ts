@@ -592,6 +592,7 @@ export interface DotNetRangeDomain extends DotNetDomain {
 export interface DotNetInheritedDomain extends DotNetDomain {
     name: string;
 }
+
 export interface DotNetDimensionalDefinition {
     dimensionName: string;
     isSlice: boolean;
@@ -768,6 +769,7 @@ export interface DotNetUniqueValueClass {
     symbol: DotNetSymbol;
     values: object[];
 }
+
 export interface DotNetUniqueValueInfo {
     label: string;
     symbol: DotNetSymbol;
@@ -807,6 +809,8 @@ export interface DotNetAddressCandidate {
 
 export interface IPropertyWrapper {
     setProperty(prop: string, value: any): void;
+
     getProperty(prop: string): any;
+
     unwrap(): any;
 }

@@ -12,25 +12,25 @@ export default class SceneViewerSymbolUtilsGenerated implements IPropertyWrapper
     constructor(component: SceneViewerSymbolUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async computeObjectLayerSize(symbolLayer: any): Promise<any> {
-        let { buildJsIObjectSymbol3DLayer } = await import('./iObjectSymbol3DLayer');
+        let {buildJsIObjectSymbol3DLayer} = await import('./iObjectSymbol3DLayer');
         let jsSymbolLayer = await buildJsIObjectSymbol3DLayer(symbolLayer, this.layerId, this.viewId) as any;
         return await this.component.computeObjectLayerSize(jsSymbolLayer);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsSceneViewerSymbolUtilsGenerated(dotNetObject: any, 
     let jsSceneViewerSymbolUtils: any = {}
 
 
-    let { default: SceneViewerSymbolUtilsWrapper } = await import('./sceneViewerSymbolUtils');
+    let {default: SceneViewerSymbolUtilsWrapper} = await import('./sceneViewerSymbolUtils');
     let sceneViewerSymbolUtilsWrapper = new SceneViewerSymbolUtilsWrapper(jsSceneViewerSymbolUtils);
     sceneViewerSymbolUtilsWrapper.geoBlazorId = dotNetObject.id;
     sceneViewerSymbolUtilsWrapper.viewId = viewId;
     sceneViewerSymbolUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sceneViewerSymbolUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = sceneViewerSymbolUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewerSymbolUtils;
-    let { buildDotNetSceneViewerSymbolUtils } = await import('./sceneViewerSymbolUtils');
+    let {buildDotNetSceneViewerSymbolUtils} = await import('./sceneViewerSymbolUtils');
     let dnInstantiatedObject = await buildDotNetSceneViewerSymbolUtils(jsSceneViewerSymbolUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SceneViewerSymbolUtils', e);
     }
-    
+
     return jsSceneViewerSymbolUtils;
 }
+
 export async function buildDotNetSceneViewerSymbolUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSceneViewerSymbolUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

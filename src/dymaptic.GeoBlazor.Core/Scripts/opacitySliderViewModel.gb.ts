@@ -12,13 +12,13 @@ export default class OpacitySliderViewModelGenerated implements IPropertyWrapper
     constructor(component: OpacitySliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -40,8 +40,8 @@ export default class OpacitySliderViewModelGenerated implements IPropertyWrapper
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
@@ -60,7 +60,7 @@ export default class OpacitySliderViewModelGenerated implements IPropertyWrapper
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -70,11 +70,11 @@ export default class OpacitySliderViewModelGenerated implements IPropertyWrapper
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -108,7 +108,7 @@ export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, 
         jsOpacitySliderViewModel.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedStops} = dotNetObject.stops;
         jsOpacitySliderViewModel.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
@@ -124,81 +124,82 @@ export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, 
         jsOpacitySliderViewModel.zoomOptions = dotNetObject.zoomOptions;
     }
 
-    let { default: OpacitySliderViewModelWrapper } = await import('./opacitySliderViewModel');
+    let {default: OpacitySliderViewModelWrapper} = await import('./opacitySliderViewModel');
     let opacitySliderViewModelWrapper = new OpacitySliderViewModelWrapper(jsOpacitySliderViewModel);
     opacitySliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     opacitySliderViewModelWrapper.viewId = viewId;
     opacitySliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(opacitySliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = opacitySliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpacitySliderViewModel;
-    let { buildDotNetOpacitySliderViewModel } = await import('./opacitySliderViewModel');
+    let {buildDotNetOpacitySliderViewModel} = await import('./opacitySliderViewModel');
     let dnInstantiatedObject = await buildDotNetOpacitySliderViewModel(jsOpacitySliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OpacitySliderViewModel', e);
     }
-    
+
     return jsOpacitySliderViewModel;
 }
+
 export async function buildDotNetOpacitySliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetOpacitySliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetOpacitySliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetOpacitySliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetOpacitySliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetOpacitySliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetOpacitySliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetOpacitySliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetOpacitySliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetOpacitySliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetOpacitySliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetOpacitySliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetOpacitySliderViewModel.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetOpacitySliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetOpacitySliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetOpacitySliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetOpacitySliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetOpacitySliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetOpacitySliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetOpacitySliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetOpacitySliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetOpacitySliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetOpacitySliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetOpacitySliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetOpacitySliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetOpacitySliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetOpacitySliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetOpacitySliderViewModel.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetOpacitySliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetOpacitySliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetOpacitySliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetOpacitySliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

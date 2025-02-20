@@ -12,13 +12,13 @@ export default class TableMenuItemConfigGenerated implements IPropertyWrapper {
     constructor(component: TableMenuItemConfig) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clickFunction(): Promise<void> {
         this.component.clickFunction();
     }
@@ -28,11 +28,11 @@ export default class TableMenuItemConfigGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -57,51 +57,52 @@ export async function buildJsTableMenuItemConfigGenerated(dotNetObject: any, lay
         jsTableMenuItemConfig.selected = dotNetObject.selected;
     }
 
-    let { default: TableMenuItemConfigWrapper } = await import('./tableMenuItemConfig');
+    let {default: TableMenuItemConfigWrapper} = await import('./tableMenuItemConfig');
     let tableMenuItemConfigWrapper = new TableMenuItemConfigWrapper(jsTableMenuItemConfig);
     tableMenuItemConfigWrapper.geoBlazorId = dotNetObject.id;
     tableMenuItemConfigWrapper.viewId = viewId;
     tableMenuItemConfigWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tableMenuItemConfigWrapper);
     jsObjectRefs[dotNetObject.id] = tableMenuItemConfigWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTableMenuItemConfig;
-    let { buildDotNetTableMenuItemConfig } = await import('./tableMenuItemConfig');
+    let {buildDotNetTableMenuItemConfig} = await import('./tableMenuItemConfig');
     let dnInstantiatedObject = await buildDotNetTableMenuItemConfig(jsTableMenuItemConfig);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TableMenuItemConfig', e);
     }
-    
+
     return jsTableMenuItemConfig;
 }
+
 export async function buildDotNetTableMenuItemConfigGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetTableMenuItemConfig: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableMenuItemConfig.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetTableMenuItemConfig.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.iconClass)) {
-            dotNetTableMenuItemConfig.iconClass = jsObject.iconClass;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetTableMenuItemConfig.label = jsObject.label;
-        }
-        if (hasValue(jsObject.selected)) {
-            dotNetTableMenuItemConfig.selected = jsObject.selected;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableMenuItemConfig.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetTableMenuItemConfig.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.iconClass)) {
+        dotNetTableMenuItemConfig.iconClass = jsObject.iconClass;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetTableMenuItemConfig.label = jsObject.label;
+    }
+    if (hasValue(jsObject.selected)) {
+        dotNetTableMenuItemConfig.selected = jsObject.selected;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

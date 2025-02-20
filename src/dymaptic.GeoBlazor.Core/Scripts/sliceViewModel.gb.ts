@@ -12,13 +12,13 @@ export default class SliceViewModelGenerated implements IPropertyWrapper {
     constructor(component: SliceViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -28,31 +28,34 @@ export default class SliceViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getAnalysis(): Promise<any> {
         if (!hasValue(this.component.analysis)) {
             return null;
         }
-        
-        let { buildDotNetSliceAnalysis } = await import('./sliceAnalysis');
+
+        let {buildDotNetSliceAnalysis} = await import('./sliceAnalysis');
         return await buildDotNetSliceAnalysis(this.component.analysis);
     }
+
     async getShape(): Promise<any> {
         if (!hasValue(this.component.shape)) {
             return null;
         }
-        
-        let { buildDotNetSlicePlane } = await import('./slicePlane');
+
+        let {buildDotNetSlicePlane} = await import('./slicePlane');
         return await buildDotNetSlicePlane(this.component.shape);
     }
+
     async setShape(value: any): Promise<void> {
-        let { buildJsSlicePlane } = await import('./slicePlane');
-        this.component.shape = await  buildJsSlicePlane(value, this.layerId, this.viewId);
+        let {buildJsSlicePlane} = await import('./slicePlane');
+        this.component.shape = await buildJsSlicePlane(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -61,7 +64,7 @@ export default class SliceViewModelGenerated implements IPropertyWrapper {
 export async function buildJsSliceViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSliceViewModel = new SliceViewModel();
     if (hasValue(dotNetObject.shape)) {
-        let { buildJsSlicePlane } = await import('./slicePlane');
+        let {buildJsSlicePlane} = await import('./slicePlane');
         jsSliceViewModel.shape = await buildJsSlicePlane(dotNetObject.shape, layerId, viewId) as any;
     }
 
@@ -78,59 +81,60 @@ export async function buildJsSliceViewModelGenerated(dotNetObject: any, layerId:
         jsSliceViewModel.view = dotNetObject.view;
     }
 
-    let { default: SliceViewModelWrapper } = await import('./sliceViewModel');
+    let {default: SliceViewModelWrapper} = await import('./sliceViewModel');
     let sliceViewModelWrapper = new SliceViewModelWrapper(jsSliceViewModel);
     sliceViewModelWrapper.geoBlazorId = dotNetObject.id;
     sliceViewModelWrapper.viewId = viewId;
     sliceViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sliceViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sliceViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSliceViewModel;
-    let { buildDotNetSliceViewModel } = await import('./sliceViewModel');
+    let {buildDotNetSliceViewModel} = await import('./sliceViewModel');
     let dnInstantiatedObject = await buildDotNetSliceViewModel(jsSliceViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SliceViewModel', e);
     }
-    
+
     return jsSliceViewModel;
 }
+
 export async function buildDotNetSliceViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSliceViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.analysis)) {
-            let { buildDotNetSliceAnalysis } = await import('./sliceAnalysis');
-            dotNetSliceViewModel.analysis = await buildDotNetSliceAnalysis(jsObject.analysis);
-        }
-        if (hasValue(jsObject.shape)) {
-            let { buildDotNetSlicePlane } = await import('./slicePlane');
-            dotNetSliceViewModel.shape = await buildDotNetSlicePlane(jsObject.shape);
-        }
-        if (hasValue(jsObject.excludedLayers)) {
-            dotNetSliceViewModel.excludedLayers = jsObject.excludedLayers;
-        }
-        if (hasValue(jsObject.excludeGroundSurface)) {
-            dotNetSliceViewModel.excludeGroundSurface = jsObject.excludeGroundSurface;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSliceViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tiltEnabled)) {
-            dotNetSliceViewModel.tiltEnabled = jsObject.tiltEnabled;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSliceViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.analysis)) {
+        let {buildDotNetSliceAnalysis} = await import('./sliceAnalysis');
+        dotNetSliceViewModel.analysis = await buildDotNetSliceAnalysis(jsObject.analysis);
+    }
+    if (hasValue(jsObject.shape)) {
+        let {buildDotNetSlicePlane} = await import('./slicePlane');
+        dotNetSliceViewModel.shape = await buildDotNetSlicePlane(jsObject.shape);
+    }
+    if (hasValue(jsObject.excludedLayers)) {
+        dotNetSliceViewModel.excludedLayers = jsObject.excludedLayers;
+    }
+    if (hasValue(jsObject.excludeGroundSurface)) {
+        dotNetSliceViewModel.excludeGroundSurface = jsObject.excludeGroundSurface;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSliceViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tiltEnabled)) {
+        dotNetSliceViewModel.tiltEnabled = jsObject.tiltEnabled;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSliceViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

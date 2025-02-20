@@ -2,7 +2,7 @@
 
 
 import Polygon from '@arcgis/core/geometry/Polygon';
-import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
+import {hasValue} from './arcGisJsInterop';
 import {IPropertyWrapper} from './definitions';
 
 export default class PolygonGenerated implements IPropertyWrapper {
@@ -14,117 +14,122 @@ export default class PolygonGenerated implements IPropertyWrapper {
     constructor(component: Polygon) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addRing(points: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         let jsPoints = buildJsPoint(points) as any;
         let result = this.component.addRing(jsPoints);
-        let { buildDotNetPolygon } = await import('./polygon');
+        let {buildDotNetPolygon} = await import('./polygon');
         return buildDotNetPolygon(result);
     }
 
     async contains(point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         return this.component.contains(jsPoint);
     }
 
     async getPoint(ringIndex: any,
-        pointIndex: any): Promise<any> {
+                   pointIndex: any): Promise<any> {
         let result = this.component.getPoint(ringIndex,
             pointIndex);
-        let { buildDotNetPoint } = await import('./point');
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(result);
     }
 
     async insertPoint(ringIndex: any,
-        pointIndex: any,
-        point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                      pointIndex: any,
+                      point: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.insertPoint(ringIndex,
             pointIndex,
             jsPoint);
-        let { buildDotNetPolygon } = await import('./polygon');
+        let {buildDotNetPolygon} = await import('./polygon');
         return buildDotNetPolygon(result);
     }
 
     async isClockwise(ring: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+        let {buildJsPoint} = await import('./point');
         let jsRing = buildJsPoint(ring) as any;
         return this.component.isClockwise(jsRing);
     }
 
     async removePoint(ringIndex: any,
-        pointIndex: any): Promise<any> {
+                      pointIndex: any): Promise<any> {
         let result = this.component.removePoint(ringIndex,
             pointIndex);
-        let { buildDotNetPoint } = await import('./point');
+        let {buildDotNetPoint} = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
 
     async removeRing(index: any): Promise<any> {
         let result = this.component.removeRing(index);
-        let { buildDotNetPoint } = await import('./point');
+        let {buildDotNetPoint} = await import('./point');
         return result.map(i => buildDotNetPoint(i));
     }
 
     async setPoint(ringIndex: any,
-        pointIndex: any,
-        point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                   pointIndex: any,
+                   point: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsPoint = buildJsPoint(point) as any;
         let result = this.component.setPoint(ringIndex,
             pointIndex,
             jsPoint);
-        let { buildDotNetPolygon } = await import('./polygon');
+        let {buildDotNetPolygon} = await import('./polygon');
         return buildDotNetPolygon(result);
     }
 
     // region properties
-    
+
     async getCentroid(): Promise<any> {
         if (!hasValue(this.component.centroid)) {
             return null;
         }
-        
-        let { buildDotNetPoint } = await import('./point');
+
+        let {buildDotNetPoint} = await import('./point');
         return buildDotNetPoint(this.component.centroid);
     }
+
     async setCentroid(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.centroid =  buildJsPoint(value);
+        let {buildJsPoint} = await import('./point');
+        this.component.centroid = buildJsPoint(value);
     }
+
     async getExtent(): Promise<any> {
         if (!hasValue(this.component.extent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference = await  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = await buildJsSpatialReference(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }

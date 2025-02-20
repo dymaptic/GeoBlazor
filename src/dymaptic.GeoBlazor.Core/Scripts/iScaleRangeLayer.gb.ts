@@ -12,23 +12,23 @@ export default class IScaleRangeLayerGenerated implements IPropertyWrapper {
     constructor(layer: ScaleRangeLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -44,42 +44,43 @@ export async function buildJsIScaleRangeLayerGenerated(dotNetObject: any, layerI
         jsScaleRangeLayer.minScale = dotNetObject.minScale;
     }
 
-    let { default: IScaleRangeLayerWrapper } = await import('./iScaleRangeLayer');
+    let {default: IScaleRangeLayerWrapper} = await import('./iScaleRangeLayer');
     let iScaleRangeLayerWrapper = new IScaleRangeLayerWrapper(jsScaleRangeLayer);
     iScaleRangeLayerWrapper.geoBlazorId = dotNetObject.id;
     iScaleRangeLayerWrapper.viewId = viewId;
     iScaleRangeLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iScaleRangeLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iScaleRangeLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleRangeLayer;
-    let { buildDotNetIScaleRangeLayer } = await import('./iScaleRangeLayer');
+    let {buildDotNetIScaleRangeLayer} = await import('./iScaleRangeLayer');
     let dnInstantiatedObject = await buildDotNetIScaleRangeLayer(jsScaleRangeLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IScaleRangeLayer', e);
     }
-    
+
     return jsScaleRangeLayer;
 }
+
 export async function buildDotNetIScaleRangeLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIScaleRangeLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.maxScale)) {
-            dotNetIScaleRangeLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetIScaleRangeLayer.minScale = jsObject.minScale;
-        }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetIScaleRangeLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetIScaleRangeLayer.minScale = jsObject.minScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

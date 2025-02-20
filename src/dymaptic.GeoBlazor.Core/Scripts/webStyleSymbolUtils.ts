@@ -7,15 +7,15 @@ export default class WebStyleSymbolUtilsWrapper extends WebStyleSymbolUtilsGener
     constructor(component: webStyleSymbolUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsWebStyleSymbolUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsWebStyleSymbolUtilsGenerated } = await import('./webStyleSymbolUtils.gb');
+    let {buildJsWebStyleSymbolUtilsGenerated} = await import('./webStyleSymbolUtils.gb');
     return await buildJsWebStyleSymbolUtilsGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetWebStyleSymbolUtils(jsObject: any): Promise<any> {
-    let { buildDotNetWebStyleSymbolUtilsGenerated } = await import('./webStyleSymbolUtils.gb');
+    let {buildDotNetWebStyleSymbolUtilsGenerated} = await import('./webStyleSymbolUtils.gb');
     return await buildDotNetWebStyleSymbolUtilsGenerated(jsObject);
 }

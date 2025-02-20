@@ -12,25 +12,25 @@ export default class SummaryStatisticsForAgeGenerated implements IPropertyWrappe
     constructor(component: summaryStatisticsForAge) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async summaryStatisticsForAge(parameters: any): Promise<any> {
-        let { buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParams } = await import('./summaryStatisticsForAgeSummaryStatisticsForAgeParams');
+        let {buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParams} = await import('./summaryStatisticsForAgeSummaryStatisticsForAgeParams');
         let jsparameters = await buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.summaryStatisticsForAge(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsSummaryStatisticsForAgeGenerated(dotNetObject: any,
     let jssummaryStatisticsForAge = new summaryStatisticsForAge();
 
 
-    let { default: SummaryStatisticsForAgeWrapper } = await import('./summaryStatisticsForAge');
+    let {default: SummaryStatisticsForAgeWrapper} = await import('./summaryStatisticsForAge');
     let summaryStatisticsForAgeWrapper = new SummaryStatisticsForAgeWrapper(jssummaryStatisticsForAge);
     summaryStatisticsForAgeWrapper.geoBlazorId = dotNetObject.id;
     summaryStatisticsForAgeWrapper.viewId = viewId;
     summaryStatisticsForAgeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(summaryStatisticsForAgeWrapper);
     jsObjectRefs[dotNetObject.id] = summaryStatisticsForAgeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatisticsForAge;
-    let { buildDotNetSummaryStatisticsForAge } = await import('./summaryStatisticsForAge');
+    let {buildDotNetSummaryStatisticsForAge} = await import('./summaryStatisticsForAge');
     let dnInstantiatedObject = await buildDotNetSummaryStatisticsForAge(jssummaryStatisticsForAge);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SummaryStatisticsForAge', e);
     }
-    
+
     return jssummaryStatisticsForAge;
 }
+
 export async function buildDotNetSummaryStatisticsForAgeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSummaryStatisticsForAge: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

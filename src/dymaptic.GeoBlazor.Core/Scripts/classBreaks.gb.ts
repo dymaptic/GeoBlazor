@@ -12,25 +12,25 @@ export default class ClassBreaksGenerated implements IPropertyWrapper {
     constructor(component: classBreaks) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsClassBreaksCreateRendererParams } = await import('./classBreaksCreateRendererParams');
+        let {buildJsClassBreaksCreateRendererParams} = await import('./classBreaksCreateRendererParams');
         let jsparameters = await buildJsClassBreaksCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsClassBreaksGenerated(dotNetObject: any, layerId: st
     let jsclassBreaks: any = {}
 
 
-    let { default: ClassBreaksWrapper } = await import('./classBreaks');
+    let {default: ClassBreaksWrapper} = await import('./classBreaks');
     let classBreaksWrapper = new ClassBreaksWrapper(jsclassBreaks);
     classBreaksWrapper.geoBlazorId = dotNetObject.id;
     classBreaksWrapper.viewId = viewId;
     classBreaksWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(classBreaksWrapper);
     jsObjectRefs[dotNetObject.id] = classBreaksWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsclassBreaks;
-    let { buildDotNetClassBreaks } = await import('./classBreaks');
+    let {buildDotNetClassBreaks} = await import('./classBreaks');
     let dnInstantiatedObject = await buildDotNetClassBreaks(jsclassBreaks);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ClassBreaks', e);
     }
-    
+
     return jsclassBreaks;
 }
+
 export async function buildDotNetClassBreaksGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetClassBreaks: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

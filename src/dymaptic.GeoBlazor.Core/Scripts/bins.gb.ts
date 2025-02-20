@@ -12,25 +12,25 @@ export default class BinsGenerated implements IPropertyWrapper {
     constructor(component: bins) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getLabelSchemes(parameters: any): Promise<any> {
-        let { buildJsBinsGetLabelSchemesParams } = await import('./binsGetLabelSchemesParams');
+        let {buildJsBinsGetLabelSchemesParams} = await import('./binsGetLabelSchemesParams');
         let jsparameters = await buildJsBinsGetLabelSchemesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.getLabelSchemes(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsBinsGenerated(dotNetObject: any, layerId: string | 
     let jsbins: any = {}
 
 
-    let { default: BinsWrapper } = await import('./bins');
+    let {default: BinsWrapper} = await import('./bins');
     let binsWrapper = new BinsWrapper(jsbins);
     binsWrapper.geoBlazorId = dotNetObject.id;
     binsWrapper.viewId = viewId;
     binsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(binsWrapper);
     jsObjectRefs[dotNetObject.id] = binsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsbins;
-    let { buildDotNetBins } = await import('./bins');
+    let {buildDotNetBins} = await import('./bins');
     let dnInstantiatedObject = await buildDotNetBins(jsbins);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Bins', e);
     }
-    
+
     return jsbins;
 }
+
 export async function buildDotNetBinsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBins: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

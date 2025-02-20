@@ -24,7 +24,7 @@ export function buildJsMultipartColorRamp(dotNetObject: any): any {
     }
 
     return jsMultipartColorRamp;
-}     
+}
 
 export function buildDotNetMultipartColorRamp(jsObject: any): any {
     if (!hasValue(jsObject)) {

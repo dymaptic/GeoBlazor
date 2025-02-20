@@ -12,13 +12,13 @@ export default class SmartMappingSupportUtilsGenerated implements IPropertyWrapp
     constructor(component: smartMappingSupportUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async formatDateLabel(value: any): Promise<any> {
         return this.component.formatDateLabel(value);
     }
@@ -28,19 +28,19 @@ export default class SmartMappingSupportUtilsGenerated implements IPropertyWrapp
     }
 
     async getDeviationValues(standardDeviation: any,
-        average: any,
-        count: any): Promise<any> {
+                             average: any,
+                             count: any): Promise<any> {
         return this.component.getDeviationValues(standardDeviation,
             average,
             count);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsSmartMappingSupportUtilsGenerated(dotNetObject: any
     let jssmartMappingSupportUtils: any = {}
 
 
-    let { default: SmartMappingSupportUtilsWrapper } = await import('./smartMappingSupportUtils');
+    let {default: SmartMappingSupportUtilsWrapper} = await import('./smartMappingSupportUtils');
     let smartMappingSupportUtilsWrapper = new SmartMappingSupportUtilsWrapper(jssmartMappingSupportUtils);
     smartMappingSupportUtilsWrapper.geoBlazorId = dotNetObject.id;
     smartMappingSupportUtilsWrapper.viewId = viewId;
     smartMappingSupportUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(smartMappingSupportUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = smartMappingSupportUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssmartMappingSupportUtils;
-    let { buildDotNetSmartMappingSupportUtils } = await import('./smartMappingSupportUtils');
+    let {buildDotNetSmartMappingSupportUtils} = await import('./smartMappingSupportUtils');
     let dnInstantiatedObject = await buildDotNetSmartMappingSupportUtils(jssmartMappingSupportUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SmartMappingSupportUtils', e);
     }
-    
+
     return jssmartMappingSupportUtils;
 }
+
 export async function buildDotNetSmartMappingSupportUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSmartMappingSupportUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

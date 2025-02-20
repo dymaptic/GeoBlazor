@@ -12,23 +12,23 @@ export default class IOperationalLayerGenerated implements IPropertyWrapper {
     constructor(layer: OperationalLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -41,39 +41,40 @@ export async function buildJsIOperationalLayerGenerated(dotNetObject: any, layer
         jsOperationalLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
 
-    let { default: IOperationalLayerWrapper } = await import('./iOperationalLayer');
+    let {default: IOperationalLayerWrapper} = await import('./iOperationalLayer');
     let iOperationalLayerWrapper = new IOperationalLayerWrapper(jsOperationalLayer);
     iOperationalLayerWrapper.geoBlazorId = dotNetObject.id;
     iOperationalLayerWrapper.viewId = viewId;
     iOperationalLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iOperationalLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iOperationalLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOperationalLayer;
-    let { buildDotNetIOperationalLayer } = await import('./iOperationalLayer');
+    let {buildDotNetIOperationalLayer} = await import('./iOperationalLayer');
     let dnInstantiatedObject = await buildDotNetIOperationalLayer(jsOperationalLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IOperationalLayer', e);
     }
-    
+
     return jsOperationalLayer;
 }
+
 export async function buildDotNetIOperationalLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIOperationalLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIOperationalLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIOperationalLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

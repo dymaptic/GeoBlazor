@@ -12,16 +12,16 @@ export default class FeatureServiceGenerated implements IPropertyWrapper {
     constructor(component: FeatureService) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async applyEdits(edits: any,
-        options: any): Promise<any> {
-        let { buildJsFeatureServiceApplyEditsEdits } = await import('./featureServiceApplyEditsEdits');
+                     options: any): Promise<any> {
+        let {buildJsFeatureServiceApplyEditsEdits} = await import('./featureServiceApplyEditsEdits');
         let jsEdits = await buildJsFeatureServiceApplyEditsEdits(edits, this.layerId, this.viewId) as any;
         return await this.component.applyEdits(jsEdits,
             options);
@@ -36,11 +36,11 @@ export default class FeatureServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,15 +50,15 @@ export async function buildJsFeatureServiceGenerated(dotNetObject: any, layerId:
     let jsFeatureService = new FeatureService();
 
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities} = dotNetObject.capabilities;
         jsFeatureService.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.layerInfos)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLayerInfos } = dotNetObject.layerInfos;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedLayerInfos} = dotNetObject.layerInfos;
         jsFeatureService.layerInfos = sanitizedLayerInfos;
     }
     if (hasValue(dotNetObject.tableInfos)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTableInfos } = dotNetObject.tableInfos;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTableInfos} = dotNetObject.tableInfos;
         jsFeatureService.tableInfos = sanitizedTableInfos;
     }
     if (hasValue(dotNetObject.url)) {
@@ -68,69 +68,70 @@ export async function buildJsFeatureServiceGenerated(dotNetObject: any, layerId:
         jsFeatureService.userTypeExtensions = dotNetObject.userTypeExtensions;
     }
 
-    let { default: FeatureServiceWrapper } = await import('./featureService');
+    let {default: FeatureServiceWrapper} = await import('./featureService');
     let featureServiceWrapper = new FeatureServiceWrapper(jsFeatureService);
     featureServiceWrapper.geoBlazorId = dotNetObject.id;
     featureServiceWrapper.viewId = viewId;
     featureServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureServiceWrapper);
     jsObjectRefs[dotNetObject.id] = featureServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureService;
-    let { buildDotNetFeatureService } = await import('./featureService');
+    let {buildDotNetFeatureService} = await import('./featureService');
     let dnInstantiatedObject = await buildDotNetFeatureService(jsFeatureService);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureService', e);
     }
-    
+
     return jsFeatureService;
 }
+
 export async function buildDotNetFeatureServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFeatureService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.capabilities)) {
-            dotNetFeatureService.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.effectiveCapabilities)) {
-            dotNetFeatureService.effectiveCapabilities = jsObject.effectiveCapabilities;
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            dotNetFeatureService.layerInfos = jsObject.layerInfos;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetFeatureService.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetFeatureService.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetFeatureService.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.tableInfos)) {
-            dotNetFeatureService.tableInfos = jsObject.tableInfos;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetFeatureService.url = jsObject.url;
-        }
-        if (hasValue(jsObject.userTypeExtensions)) {
-            dotNetFeatureService.userTypeExtensions = jsObject.userTypeExtensions;
-        }
-        if (hasValue(jsObject.utilityNetworkUrl)) {
-            dotNetFeatureService.utilityNetworkUrl = jsObject.utilityNetworkUrl;
-        }
-        if (hasValue(jsObject.versionManagementServiceUrl)) {
-            dotNetFeatureService.versionManagementServiceUrl = jsObject.versionManagementServiceUrl;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetFeatureService.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.effectiveCapabilities)) {
+        dotNetFeatureService.effectiveCapabilities = jsObject.effectiveCapabilities;
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        dotNetFeatureService.layerInfos = jsObject.layerInfos;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetFeatureService.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetFeatureService.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetFeatureService.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.tableInfos)) {
+        dotNetFeatureService.tableInfos = jsObject.tableInfos;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetFeatureService.url = jsObject.url;
+    }
+    if (hasValue(jsObject.userTypeExtensions)) {
+        dotNetFeatureService.userTypeExtensions = jsObject.userTypeExtensions;
+    }
+    if (hasValue(jsObject.utilityNetworkUrl)) {
+        dotNetFeatureService.utilityNetworkUrl = jsObject.utilityNetworkUrl;
+    }
+    if (hasValue(jsObject.versionManagementServiceUrl)) {
+        dotNetFeatureService.versionManagementServiceUrl = jsObject.versionManagementServiceUrl;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -30,6 +30,7 @@ export function buildJsElementExpressionInfo(dotNetObject: any): any {
 
     return jsElementExpressionInfo;
 }
+
 export function buildDotNetElementExpressionInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

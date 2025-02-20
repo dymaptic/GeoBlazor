@@ -12,25 +12,25 @@ export default class PredominantCategoriesGenerated implements IPropertyWrapper 
     constructor(component: predominantCategories) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async predominantCategories(parameters: any): Promise<any> {
-        let { buildJsPredominantCategoriesPredominantCategoriesParams } = await import('./predominantCategoriesPredominantCategoriesParams');
+        let {buildJsPredominantCategoriesPredominantCategoriesParams} = await import('./predominantCategoriesPredominantCategoriesParams');
         let jsparameters = await buildJsPredominantCategoriesPredominantCategoriesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.predominantCategories(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsPredominantCategoriesGenerated(dotNetObject: any, l
     let jspredominantCategories = new predominantCategories();
 
 
-    let { default: PredominantCategoriesWrapper } = await import('./predominantCategories');
+    let {default: PredominantCategoriesWrapper} = await import('./predominantCategories');
     let predominantCategoriesWrapper = new PredominantCategoriesWrapper(jspredominantCategories);
     predominantCategoriesWrapper.geoBlazorId = dotNetObject.id;
     predominantCategoriesWrapper.viewId = viewId;
     predominantCategoriesWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(predominantCategoriesWrapper);
     jsObjectRefs[dotNetObject.id] = predominantCategoriesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspredominantCategories;
-    let { buildDotNetPredominantCategories } = await import('./predominantCategories');
+    let {buildDotNetPredominantCategories} = await import('./predominantCategories');
     let dnInstantiatedObject = await buildDotNetPredominantCategories(jspredominantCategories);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PredominantCategories', e);
     }
-    
+
     return jspredominantCategories;
 }
+
 export async function buildDotNetPredominantCategoriesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPredominantCategories: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

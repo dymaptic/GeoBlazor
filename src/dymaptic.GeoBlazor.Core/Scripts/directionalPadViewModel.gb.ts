@@ -12,15 +12,15 @@ export default class DirectionalPadViewModelGenerated implements IPropertyWrappe
     constructor(component: DirectionalPadViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async beginFollowingPointer(pointerLocation: any,
-        widgetCenter: any): Promise<void> {
+                                widgetCenter: any): Promise<void> {
         this.component.beginFollowingPointer(pointerLocation,
             widgetCenter);
     }
@@ -30,11 +30,11 @@ export default class DirectionalPadViewModelGenerated implements IPropertyWrappe
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,48 +50,49 @@ export async function buildJsDirectionalPadViewModelGenerated(dotNetObject: any,
         jsDirectionalPadViewModel.rotation = dotNetObject.rotation;
     }
 
-    let { default: DirectionalPadViewModelWrapper } = await import('./directionalPadViewModel');
+    let {default: DirectionalPadViewModelWrapper} = await import('./directionalPadViewModel');
     let directionalPadViewModelWrapper = new DirectionalPadViewModelWrapper(jsDirectionalPadViewModel);
     directionalPadViewModelWrapper.geoBlazorId = dotNetObject.id;
     directionalPadViewModelWrapper.viewId = viewId;
     directionalPadViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(directionalPadViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = directionalPadViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionalPadViewModel;
-    let { buildDotNetDirectionalPadViewModel } = await import('./directionalPadViewModel');
+    let {buildDotNetDirectionalPadViewModel} = await import('./directionalPadViewModel');
     let dnInstantiatedObject = await buildDotNetDirectionalPadViewModel(jsDirectionalPadViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DirectionalPadViewModel', e);
     }
-    
+
     return jsDirectionalPadViewModel;
 }
+
 export async function buildDotNetDirectionalPadViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDirectionalPadViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.angle)) {
-            dotNetDirectionalPadViewModel.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetDirectionalPadViewModel.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetDirectionalPadViewModel.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetDirectionalPadViewModel.state = jsObject.state;
-        }
+    if (hasValue(jsObject.angle)) {
+        dotNetDirectionalPadViewModel.angle = jsObject.angle;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetDirectionalPadViewModel.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetDirectionalPadViewModel.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetDirectionalPadViewModel.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

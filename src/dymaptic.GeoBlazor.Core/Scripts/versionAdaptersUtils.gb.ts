@@ -12,29 +12,29 @@ export default class VersionAdaptersUtilsGenerated implements IPropertyWrapper {
     constructor(component: versionAdaptersUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createVersionAdapter(input: any): Promise<any> {
         return this.component.createVersionAdapter(input);
     }
 
     async createVersionAdapters(input: any): Promise<any> {
-        let { buildJsNetwork } = await import('./network');
+        let {buildJsNetwork} = await import('./network');
         let jsInput = await buildJsNetwork(input, this.layerId, this.viewId) as any;
         return this.component.createVersionAdapters(jsInput);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsVersionAdaptersUtilsGenerated(dotNetObject: any, la
     let jsversionAdaptersUtils: any = {}
 
 
-    let { default: VersionAdaptersUtilsWrapper } = await import('./versionAdaptersUtils');
+    let {default: VersionAdaptersUtilsWrapper} = await import('./versionAdaptersUtils');
     let versionAdaptersUtilsWrapper = new VersionAdaptersUtilsWrapper(jsversionAdaptersUtils);
     versionAdaptersUtilsWrapper.geoBlazorId = dotNetObject.id;
     versionAdaptersUtilsWrapper.viewId = viewId;
     versionAdaptersUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(versionAdaptersUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = versionAdaptersUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsversionAdaptersUtils;
-    let { buildDotNetVersionAdaptersUtils } = await import('./versionAdaptersUtils');
+    let {buildDotNetVersionAdaptersUtils} = await import('./versionAdaptersUtils');
     let dnInstantiatedObject = await buildDotNetVersionAdaptersUtils(jsversionAdaptersUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VersionAdaptersUtils', e);
     }
-    
+
     return jsversionAdaptersUtils;
 }
+
 export async function buildDotNetVersionAdaptersUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVersionAdaptersUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,19 +12,19 @@ export default class CimSymbolUtilsGenerated implements IPropertyWrapper {
     constructor(component: cimSymbolUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async applyCIMSymbolColor(symbol: any,
-        color: any,
-        options: any): Promise<void> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+                              color: any,
+                              options: any): Promise<void> {
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
-        let { buildJsMapColor } = await import('./mapColor');
+        let {buildJsMapColor} = await import('./mapColor');
         let jsColor = buildJsMapColor(color) as any;
         this.component.applyCIMSymbolColor(jsSymbol,
             jsColor,
@@ -32,9 +32,9 @@ export default class CimSymbolUtilsGenerated implements IPropertyWrapper {
     }
 
     async applyCIMSymbolRotation(symbol: any,
-        rotation: any,
-        clockwise: any): Promise<void> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+                                 rotation: any,
+                                 clockwise: any): Promise<void> {
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
         this.component.applyCIMSymbolRotation(jsSymbol,
             rotation,
@@ -42,29 +42,29 @@ export default class CimSymbolUtilsGenerated implements IPropertyWrapper {
     }
 
     async getCIMSymbolColor(symbol: any): Promise<any> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
         return this.component.getCIMSymbolColor(jsSymbol);
     }
 
     async getCIMSymbolRotation(symbol: any,
-        clockwise: any): Promise<any> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+                               clockwise: any): Promise<any> {
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
         return this.component.getCIMSymbolRotation(jsSymbol,
             clockwise);
     }
 
     async getCIMSymbolSize(symbol: any): Promise<any> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
         return this.component.getCIMSymbolSize(jsSymbol);
     }
 
     async scaleCIMSymbolTo(symbol: any,
-        size: any,
-        options: any): Promise<void> {
-        let { buildJsCIMSymbol } = await import('./cIMSymbol');
+                           size: any,
+                           options: any): Promise<void> {
+        let {buildJsCIMSymbol} = await import('./cIMSymbol');
         let jsSymbol = await buildJsCIMSymbol(symbol, this.layerId, this.viewId) as any;
         this.component.scaleCIMSymbolTo(jsSymbol,
             size,
@@ -72,11 +72,11 @@ export default class CimSymbolUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -86,32 +86,33 @@ export async function buildJsCimSymbolUtilsGenerated(dotNetObject: any, layerId:
     let jscimSymbolUtils: any = {}
 
 
-    let { default: CimSymbolUtilsWrapper } = await import('./cimSymbolUtils');
+    let {default: CimSymbolUtilsWrapper} = await import('./cimSymbolUtils');
     let cimSymbolUtilsWrapper = new CimSymbolUtilsWrapper(jscimSymbolUtils);
     cimSymbolUtilsWrapper.geoBlazorId = dotNetObject.id;
     cimSymbolUtilsWrapper.viewId = viewId;
     cimSymbolUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cimSymbolUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = cimSymbolUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscimSymbolUtils;
-    let { buildDotNetCimSymbolUtils } = await import('./cimSymbolUtils');
+    let {buildDotNetCimSymbolUtils} = await import('./cimSymbolUtils');
     let dnInstantiatedObject = await buildDotNetCimSymbolUtils(jscimSymbolUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CimSymbolUtils', e);
     }
-    
+
     return jscimSymbolUtils;
 }
+
 export async function buildDotNetCimSymbolUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCimSymbolUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

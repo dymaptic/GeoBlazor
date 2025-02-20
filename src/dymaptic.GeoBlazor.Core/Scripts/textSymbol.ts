@@ -1,7 +1,7 @@
 // override generated code in this file
 import TextSymbol from "@arcgis/core/symbols/TextSymbol";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from "./mapColor";
+import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetMapFont, buildJsMapFont} from "./mapFont";
 
 export function buildJsTextSymbol(dotNetObject: any): any {
@@ -73,7 +73,7 @@ export function buildJsTextSymbol(dotNetObject: any): any {
     }
 
     return jsTextSymbol;
-}     
+}
 
 export function buildDotNetTextSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {

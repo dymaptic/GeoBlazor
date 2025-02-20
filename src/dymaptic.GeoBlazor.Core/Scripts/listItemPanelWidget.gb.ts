@@ -12,31 +12,33 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
     constructor(widget: ListItemPanel) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     async getListItem(): Promise<any> {
         if (!hasValue(this.widget.listItem)) {
             return null;
         }
-        
-        let { buildDotNetListItem } = await import('./listItem');
+
+        let {buildDotNetListItem} = await import('./listItem');
         return await buildDotNetListItem(this.widget.listItem);
     }
+
     async setListItem(value: any): Promise<void> {
-        let { buildJsListItem } = await import('./listItem');
-        this.widget.listItem = await  buildJsListItem(value, this.layerId, this.viewId);
+        let {buildJsListItem} = await import('./listItem');
+        this.widget.listItem = await buildJsListItem(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -45,7 +47,7 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
 export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsListItemPanel = new ListItemPanel();
     if (hasValue(dotNetObject.listItem)) {
-        let { buildJsListItem } = await import('./listItem');
+        let {buildJsListItem} = await import('./listItem');
         jsListItemPanel.listItem = await buildJsListItem(dotNetObject.listItem, layerId, viewId) as any;
     }
 
@@ -71,64 +73,65 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
         jsListItemPanel.title = dotNetObject.title;
     }
 
-    let { default: ListItemPanelWidgetWrapper } = await import('./listItemPanelWidget');
+    let {default: ListItemPanelWidgetWrapper} = await import('./listItemPanelWidget');
     let listItemPanelWidgetWrapper = new ListItemPanelWidgetWrapper(jsListItemPanel);
     listItemPanelWidgetWrapper.geoBlazorId = dotNetObject.id;
     listItemPanelWidgetWrapper.viewId = viewId;
     listItemPanelWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(listItemPanelWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = listItemPanelWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
-    let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
+    let {buildDotNetListItemPanelWidget} = await import('./listItemPanelWidget');
     let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ListItemPanelWidget', e);
     }
-    
+
     return jsListItemPanel;
 }
+
 export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetListItemPanelWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.listItem)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
-        }
-        if (hasValue(jsObject.className)) {
-            dotNetListItemPanelWidget.className = jsObject.className;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetListItemPanelWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetListItemPanelWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.flowEnabled)) {
-            dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetListItemPanelWidget.image = jsObject.image;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetListItemPanelWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetListItemPanelWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetListItemPanelWidget.type = jsObject.type;
-        }
+    if (hasValue(jsObject.listItem)) {
+        let {buildDotNetListItem} = await import('./listItem');
+        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
+    }
+    if (hasValue(jsObject.className)) {
+        dotNetListItemPanelWidget.className = jsObject.className;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetListItemPanelWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetListItemPanelWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.flowEnabled)) {
+        dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetListItemPanelWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetListItemPanelWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetListItemPanelWidget.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

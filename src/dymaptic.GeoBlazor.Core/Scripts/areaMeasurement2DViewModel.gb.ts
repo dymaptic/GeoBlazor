@@ -12,13 +12,13 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
     constructor(component: AreaMeasurement2DViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -28,11 +28,11 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -54,57 +54,58 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
         jsAreaMeasurement2DViewModel.view = dotNetObject.view;
     }
 
-    let { default: AreaMeasurement2DViewModelWrapper } = await import('./areaMeasurement2DViewModel');
+    let {default: AreaMeasurement2DViewModelWrapper} = await import('./areaMeasurement2DViewModel');
     let areaMeasurement2DViewModelWrapper = new AreaMeasurement2DViewModelWrapper(jsAreaMeasurement2DViewModel);
     areaMeasurement2DViewModelWrapper.geoBlazorId = dotNetObject.id;
     areaMeasurement2DViewModelWrapper.viewId = viewId;
     areaMeasurement2DViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModel;
-    let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
+    let {buildDotNetAreaMeasurement2DViewModel} = await import('./areaMeasurement2DViewModel');
     let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModel(jsAreaMeasurement2DViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DViewModel', e);
     }
-    
+
     return jsAreaMeasurement2DViewModel;
 }
+
 export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetAreaMeasurement2DViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geodesicDistanceThreshold)) {
-            dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-        }
-        if (hasValue(jsObject.measurement)) {
-            dotNetAreaMeasurement2DViewModel.measurement = jsObject.measurement;
-        }
-        if (hasValue(jsObject.measurementLabel)) {
-            dotNetAreaMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetAreaMeasurement2DViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAreaMeasurement2DViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetAreaMeasurement2DViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
+    }
+    if (hasValue(jsObject.measurement)) {
+        dotNetAreaMeasurement2DViewModel.measurement = jsObject.measurement;
+    }
+    if (hasValue(jsObject.measurementLabel)) {
+        dotNetAreaMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetAreaMeasurement2DViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAreaMeasurement2DViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetAreaMeasurement2DViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

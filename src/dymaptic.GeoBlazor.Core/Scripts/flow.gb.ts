@@ -12,25 +12,25 @@ export default class FlowGenerated implements IPropertyWrapper {
     constructor(component: flow) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsFlowCreateRendererParams } = await import('./flowCreateRendererParams');
+        let {buildJsFlowCreateRendererParams} = await import('./flowCreateRendererParams');
         let jsparameters = await buildJsFlowCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsFlowGenerated(dotNetObject: any, layerId: string | 
     let jsflow: any = {}
 
 
-    let { default: FlowWrapper } = await import('./flow');
+    let {default: FlowWrapper} = await import('./flow');
     let flowWrapper = new FlowWrapper(jsflow);
     flowWrapper.geoBlazorId = dotNetObject.id;
     flowWrapper.viewId = viewId;
     flowWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(flowWrapper);
     jsObjectRefs[dotNetObject.id] = flowWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsflow;
-    let { buildDotNetFlow } = await import('./flow');
+    let {buildDotNetFlow} = await import('./flow');
     let dnInstantiatedObject = await buildDotNetFlow(jsflow);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Flow', e);
     }
-    
+
     return jsflow;
 }
+
 export async function buildDotNetFlowGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFlow: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

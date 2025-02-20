@@ -12,17 +12,17 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
     constructor(component: locator) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async addressesToLocations(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsLocatorAddressesToLocationsParams } = await import('./locatorAddressesToLocationsParams');
+                               parameters: any,
+                               requestOptions: any): Promise<any> {
+        let {buildJsLocatorAddressesToLocationsParams} = await import('./locatorAddressesToLocationsParams');
         let jsparameters = await buildJsLocatorAddressesToLocationsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.addressesToLocations(url,
             jsparameters,
@@ -30,9 +30,9 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
     }
 
     async addressToLocations(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsLocatorAddressToLocationsParams } = await import('./locatorAddressToLocationsParams');
+                             parameters: any,
+                             requestOptions: any): Promise<any> {
+        let {buildJsLocatorAddressToLocationsParams} = await import('./locatorAddressToLocationsParams');
         let jsparameters = await buildJsLocatorAddressToLocationsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.addressToLocations(url,
             jsparameters,
@@ -40,9 +40,9 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
     }
 
     async locationToAddress(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsLocatorLocationToAddressParams } = await import('./locatorLocationToAddressParams');
+                            parameters: any,
+                            requestOptions: any): Promise<any> {
+        let {buildJsLocatorLocationToAddressParams} = await import('./locatorLocationToAddressParams');
         let jsparameters = await buildJsLocatorLocationToAddressParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.locationToAddress(url,
             jsparameters,
@@ -50,9 +50,9 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
     }
 
     async suggestLocations(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsLocatorSuggestLocationsParams } = await import('./locatorSuggestLocationsParams');
+                           parameters: any,
+                           requestOptions: any): Promise<any> {
+        let {buildJsLocatorSuggestLocationsParams} = await import('./locatorSuggestLocationsParams');
         let jsparameters = await buildJsLocatorSuggestLocationsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.suggestLocations(url,
             jsparameters,
@@ -60,11 +60,11 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -74,32 +74,33 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
     let jslocator: any = {}
 
 
-    let { default: LocationServiceWrapper } = await import('./locationService');
+    let {default: LocationServiceWrapper} = await import('./locationService');
     let locationServiceWrapper = new LocationServiceWrapper(jslocator);
     locationServiceWrapper.geoBlazorId = dotNetObject.id;
     locationServiceWrapper.viewId = viewId;
     locationServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locationServiceWrapper);
     jsObjectRefs[dotNetObject.id] = locationServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslocator;
-    let { buildDotNetLocationService } = await import('./locationService');
+    let {buildDotNetLocationService} = await import('./locationService');
     let dnInstantiatedObject = await buildDotNetLocationService(jslocator);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LocationService', e);
     }
-    
+
     return jslocator;
 }
+
 export async function buildDotNetLocationServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLocationService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -7,15 +7,15 @@ export default class IIconSymbol3DLayerWrapper extends IIconSymbol3DLayerGenerat
     constructor(layer: IconSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsIIconSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsIIconSymbol3DLayerGenerated } = await import('./iIconSymbol3DLayer.gb');
+    let {buildJsIIconSymbol3DLayerGenerated} = await import('./iIconSymbol3DLayer.gb');
     return await buildJsIIconSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetIIconSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetIIconSymbol3DLayerGenerated } = await import('./iIconSymbol3DLayer.gb');
+    let {buildDotNetIIconSymbol3DLayerGenerated} = await import('./iIconSymbol3DLayer.gb');
     return await buildDotNetIIconSymbol3DLayerGenerated(jsObject);
 }

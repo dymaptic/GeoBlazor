@@ -1,10 +1,10 @@
-import { buildDotNetPoint, buildJsPoint } from "./point";
-import { buildDotNetPolygon, buildJsPolygon } from "./polygon";
-import { buildDotNetPolyline, buildJsPolyline } from "./polyline";
+import {buildDotNetPoint, buildJsPoint} from "./point";
+import {buildDotNetPolygon, buildJsPolygon} from "./polygon";
+import {buildDotNetPolyline, buildJsPolyline} from "./polyline";
 import {buildDotNetExtent, buildJsExtent} from "./extent";
 
 export function buildDotNetGeometry(geometry): any {
-   
+
     switch (geometry?.type) {
         case "point":
             return buildDotNetPoint(geometry);

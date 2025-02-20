@@ -12,17 +12,17 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
     constructor(component: meshUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async convertVertexSpace(mesh: any,
-        targetVertexSpace: any,
-        options: any): Promise<any> {
-        let { buildJsMesh } = await import('./mesh');
+                             targetVertexSpace: any,
+                             options: any): Promise<any> {
+        let {buildJsMesh} = await import('./mesh');
         let jsMesh = buildJsMesh(mesh) as any;
         return await this.component.convertVertexSpace(jsMesh,
             targetVertexSpace,
@@ -30,19 +30,19 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
     }
 
     async createElevationSampler(mesh: any,
-        options: any): Promise<any> {
-        let { buildJsMesh } = await import('./mesh');
+                                 options: any): Promise<any> {
+        let {buildJsMesh} = await import('./mesh');
         let jsMesh = buildJsMesh(mesh) as any;
         let result = await this.component.createElevationSampler(jsMesh,
             options);
-        let { buildDotNetElevationSampler } = await import('./elevationSampler');
+        let {buildDotNetElevationSampler} = await import('./elevationSampler');
         return await buildDotNetElevationSampler(result);
     }
 
     async createFromElevation(source: any,
-        extent: any,
-        options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+                              extent: any,
+                              options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.component.createFromElevation(source,
             jsExtent,
@@ -50,9 +50,9 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
     }
 
     async georeference(vertexAttributes: any,
-        location: any,
-        options: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                       location: any,
+                       options: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsLocation = buildJsPoint(location) as any;
         return this.component.georeference(vertexAttributes,
             jsLocation,
@@ -60,15 +60,15 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
     }
 
     async merge(geometries: any): Promise<any> {
-        let { buildJsMesh } = await import('./mesh');
+        let {buildJsMesh} = await import('./mesh');
         let jsGeometries = buildJsMesh(geometries) as any;
         return this.component.merge(jsGeometries);
     }
 
     async ungeoreference(vertexAttributes: any,
-        location: any,
-        options: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
+                         location: any,
+                         options: any): Promise<any> {
+        let {buildJsPoint} = await import('./point');
         let jsLocation = buildJsPoint(location) as any;
         return this.component.ungeoreference(vertexAttributes,
             jsLocation,
@@ -76,11 +76,11 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -90,32 +90,33 @@ export async function buildJsMeshUtilsGenerated(dotNetObject: any, layerId: stri
     let jsmeshUtils: any = {}
 
 
-    let { default: MeshUtilsWrapper } = await import('./meshUtils');
+    let {default: MeshUtilsWrapper} = await import('./meshUtils');
     let meshUtilsWrapper = new MeshUtilsWrapper(jsmeshUtils);
     meshUtilsWrapper.geoBlazorId = dotNetObject.id;
     meshUtilsWrapper.viewId = viewId;
     meshUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(meshUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = meshUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsmeshUtils;
-    let { buildDotNetMeshUtils } = await import('./meshUtils');
+    let {buildDotNetMeshUtils} = await import('./meshUtils');
     let dnInstantiatedObject = await buildDotNetMeshUtils(jsmeshUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for MeshUtils', e);
     }
-    
+
     return jsmeshUtils;
 }
+
 export async function buildDotNetMeshUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetMeshUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

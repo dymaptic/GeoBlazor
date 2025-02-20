@@ -12,73 +12,73 @@ export default class FieldUtilsGenerated implements IPropertyWrapper {
     constructor(component: fieldUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getDisplayFieldName(layer: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         return this.component.getDisplayFieldName(jsLayer);
     }
 
     async getElevationFields(layer: any): Promise<any> {
-        let { buildJsFeatureLayer } = await import('./featureLayer');
+        let {buildJsFeatureLayer} = await import('./featureLayer');
         let jsLayer = await buildJsFeatureLayer(layer, this.layerId, this.viewId) as any;
         return await this.component.getElevationFields(jsLayer);
     }
 
     async getExpressionFields(layer: any,
-        expressions: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+                              expressions: any): Promise<any> {
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         return await this.component.getExpressionFields(jsLayer,
             expressions);
     }
 
     async getFeatureEditFields(layer: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         return this.component.getFeatureEditFields(jsLayer);
     }
 
     async getFeatureGeometryFields(layer: any): Promise<any> {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         let jsLayer = await buildJsLayer(layer, this.layerId, this.viewId) as any;
         return this.component.getFeatureGeometryFields(jsLayer);
     }
 
     async getLabelingFields(layer: any): Promise<any> {
-        let { buildJsFeatureLayer } = await import('./featureLayer');
+        let {buildJsFeatureLayer} = await import('./featureLayer');
         let jsLayer = await buildJsFeatureLayer(layer, this.layerId, this.viewId) as any;
         return await this.component.getLabelingFields(jsLayer);
     }
 
     async getRendererFields(renderer: any,
-        fieldsIndex: any): Promise<any> {
-        let { buildJsRenderer } = await import('./renderer');
+                            fieldsIndex: any): Promise<any> {
+        let {buildJsRenderer} = await import('./renderer');
         let jsRenderer = await buildJsRenderer(renderer, this.layerId, this.viewId) as any;
-        let { buildJsFieldsIndex } = await import('./fieldsIndex');
+        let {buildJsFieldsIndex} = await import('./fieldsIndex');
         let jsFieldsIndex = await buildJsFieldsIndex(fieldsIndex, this.layerId, this.viewId) as any;
         return await this.component.getRendererFields(jsRenderer,
             jsFieldsIndex);
     }
 
     async getTimeFields(layer: any): Promise<any> {
-        let { buildJsFeatureLayer } = await import('./featureLayer');
+        let {buildJsFeatureLayer} = await import('./featureLayer');
         let jsLayer = await buildJsFeatureLayer(layer, this.layerId, this.viewId) as any;
         return await this.component.getTimeFields(jsLayer);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -88,32 +88,33 @@ export async function buildJsFieldUtilsGenerated(dotNetObject: any, layerId: str
     let jsfieldUtils: any = {}
 
 
-    let { default: FieldUtilsWrapper } = await import('./fieldUtils');
+    let {default: FieldUtilsWrapper} = await import('./fieldUtils');
     let fieldUtilsWrapper = new FieldUtilsWrapper(jsfieldUtils);
     fieldUtilsWrapper.geoBlazorId = dotNetObject.id;
     fieldUtilsWrapper.viewId = viewId;
     fieldUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = fieldUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsfieldUtils;
-    let { buildDotNetFieldUtils } = await import('./fieldUtils');
+    let {buildDotNetFieldUtils} = await import('./fieldUtils');
     let dnInstantiatedObject = await buildDotNetFieldUtils(jsfieldUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FieldUtils', e);
     }
-    
+
     return jsfieldUtils;
 }
+
 export async function buildDotNetFieldUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFieldUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -7,15 +7,15 @@ export default class TimeSliderViewModelWrapper extends TimeSliderViewModelGener
     constructor(component: TimeSliderViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsTimeSliderViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsTimeSliderViewModelGenerated } = await import('./timeSliderViewModel.gb');
+    let {buildJsTimeSliderViewModelGenerated} = await import('./timeSliderViewModel.gb');
     return await buildJsTimeSliderViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetTimeSliderViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetTimeSliderViewModelGenerated } = await import('./timeSliderViewModel.gb');
+    let {buildDotNetTimeSliderViewModelGenerated} = await import('./timeSliderViewModel.gb');
     return await buildDotNetTimeSliderViewModelGenerated(jsObject);
 }

@@ -1,6 +1,6 @@
 // override generated code in this file
 
-    
+
 import Font from "@arcgis/core/symbols/Font";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
@@ -38,6 +38,7 @@ export function buildJsMapFont(dotNetObject: any): any {
 
     return jsFont;
 }
+
 export function buildDotNetMapFont(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

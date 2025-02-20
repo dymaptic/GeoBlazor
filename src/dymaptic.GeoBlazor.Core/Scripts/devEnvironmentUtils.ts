@@ -6,14 +6,15 @@ export default class DevEnvironmentUtilsWrapper extends DevEnvironmentUtilsGener
     constructor(component: devEnvironmentUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsDevEnvironmentUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsDevEnvironmentUtilsGenerated } = await import('./devEnvironmentUtils.gb');
+    let {buildJsDevEnvironmentUtilsGenerated} = await import('./devEnvironmentUtils.gb');
     return await buildJsDevEnvironmentUtilsGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetDevEnvironmentUtils(jsObject: any): Promise<any> {
-    let { buildDotNetDevEnvironmentUtilsGenerated } = await import('./devEnvironmentUtils.gb');
+    let {buildDotNetDevEnvironmentUtilsGenerated} = await import('./devEnvironmentUtils.gb');
     return await buildDotNetDevEnvironmentUtilsGenerated(jsObject);
 }

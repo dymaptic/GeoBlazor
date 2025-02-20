@@ -1,7 +1,7 @@
 // override generated code in this file
 import MediaContent from "@arcgis/core/popup/content/MediaContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMediaInfo, buildJsMediaInfo } from './mediaInfo';
+import {buildDotNetMediaInfo, buildJsMediaInfo} from './mediaInfo';
 
 
 export function buildJsMediaPopupContent(dotNetObject: any): any {
@@ -34,7 +34,7 @@ export function buildJsMediaPopupContent(dotNetObject: any): any {
     }
 
     return jsMediaContent;
-}     
+}
 
 export function buildDotNetMediaPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {

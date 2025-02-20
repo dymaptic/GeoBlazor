@@ -12,23 +12,23 @@ export default class ISearchLayerGenerated implements IPropertyWrapper {
     constructor(layer: SearchLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,7 +38,7 @@ export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: s
     let jsSearchLayer = new SearchLayer();
 
     if (hasValue(dotNetObject.field)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedField } = dotNetObject.field;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedField} = dotNetObject.field;
         jsSearchLayer.field = sanitizedField;
     }
     if (hasValue(dotNetObject.iSearchLayerId)) {
@@ -48,45 +48,46 @@ export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: s
         jsSearchLayer.subLayer = dotNetObject.subLayer;
     }
 
-    let { default: ISearchLayerWrapper } = await import('./iSearchLayer');
+    let {default: ISearchLayerWrapper} = await import('./iSearchLayer');
     let iSearchLayerWrapper = new ISearchLayerWrapper(jsSearchLayer);
     iSearchLayerWrapper.geoBlazorId = dotNetObject.id;
     iSearchLayerWrapper.viewId = viewId;
     iSearchLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSearchLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iSearchLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchLayer;
-    let { buildDotNetISearchLayer } = await import('./iSearchLayer');
+    let {buildDotNetISearchLayer} = await import('./iSearchLayer');
     let dnInstantiatedObject = await buildDotNetISearchLayer(jsSearchLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ISearchLayer', e);
     }
-    
+
     return jsSearchLayer;
 }
+
 export async function buildDotNetISearchLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetISearchLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetISearchLayer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetISearchLayer.iSearchLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.subLayer)) {
-            dotNetISearchLayer.subLayer = jsObject.subLayer;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetISearchLayer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetISearchLayer.iSearchLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.subLayer)) {
+        dotNetISearchLayer.subLayer = jsObject.subLayer;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

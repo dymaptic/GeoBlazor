@@ -26,9 +26,9 @@ export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
     if (hasValue(dnPolygon.spatialReference)) {
         polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
     } else {
-        polygon.spatialReference = new SpatialReference({ wkid: 4326 });
+        polygon.spatialReference = new SpatialReference({wkid: 4326});
     }
-    
+
     copyValuesIfExists(dnPolygon, polygon, 'hasZ', 'hasM');
     return polygon;
 }

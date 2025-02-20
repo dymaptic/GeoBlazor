@@ -12,13 +12,13 @@ export default class RenderContextGenerated implements IPropertyWrapper {
     constructor(component: RenderContext) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async bindRenderTarget(): Promise<void> {
         this.component.bindRenderTarget();
     }
@@ -28,11 +28,11 @@ export default class RenderContextGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,56 +42,57 @@ export async function buildJsRenderContextGenerated(dotNetObject: any, layerId: 
     let jsRenderContext: any = {}
 
     if (hasValue(dotNetObject.camera)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera } = dotNetObject.camera;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera} = dotNetObject.camera;
         jsRenderContext.camera = sanitizedCamera;
     }
     if (hasValue(dotNetObject.gl)) {
         jsRenderContext.gl = dotNetObject.gl;
     }
     if (hasValue(dotNetObject.sunLight)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight } = dotNetObject.sunLight;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight} = dotNetObject.sunLight;
         jsRenderContext.sunLight = sanitizedSunLight;
     }
 
-    let { default: RenderContextWrapper } = await import('./renderContext');
+    let {default: RenderContextWrapper} = await import('./renderContext');
     let renderContextWrapper = new RenderContextWrapper(jsRenderContext);
     renderContextWrapper.geoBlazorId = dotNetObject.id;
     renderContextWrapper.viewId = viewId;
     renderContextWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(renderContextWrapper);
     jsObjectRefs[dotNetObject.id] = renderContextWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsRenderContext;
-    let { buildDotNetRenderContext } = await import('./renderContext');
+    let {buildDotNetRenderContext} = await import('./renderContext');
     let dnInstantiatedObject = await buildDotNetRenderContext(jsRenderContext);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RenderContext', e);
     }
-    
+
     return jsRenderContext;
 }
+
 export async function buildDotNetRenderContextGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRenderContext: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.camera)) {
-            dotNetRenderContext.camera = jsObject.camera;
-        }
-        if (hasValue(jsObject.gl)) {
-            dotNetRenderContext.gl = jsObject.gl;
-        }
-        if (hasValue(jsObject.sunLight)) {
-            dotNetRenderContext.sunLight = jsObject.sunLight;
-        }
+    if (hasValue(jsObject.camera)) {
+        dotNetRenderContext.camera = jsObject.camera;
+    }
+    if (hasValue(jsObject.gl)) {
+        dotNetRenderContext.gl = jsObject.gl;
+    }
+    if (hasValue(jsObject.sunLight)) {
+        dotNetRenderContext.sunLight = jsObject.sunLight;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

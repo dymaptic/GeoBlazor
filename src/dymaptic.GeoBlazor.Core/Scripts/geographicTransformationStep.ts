@@ -6,14 +6,15 @@ export default class GeographicTransformationStepWrapper extends GeographicTrans
     constructor(component: GeographicTransformationStep) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsGeographicTransformationStep(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsGeographicTransformationStepGenerated } = await import('./geographicTransformationStep.gb');
+    let {buildJsGeographicTransformationStepGenerated} = await import('./geographicTransformationStep.gb');
     return await buildJsGeographicTransformationStepGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetGeographicTransformationStep(jsObject: any): Promise<any> {
-    let { buildDotNetGeographicTransformationStepGenerated } = await import('./geographicTransformationStep.gb');
+    let {buildDotNetGeographicTransformationStepGenerated} = await import('./geographicTransformationStep.gb');
     return await buildDotNetGeographicTransformationStepGenerated(jsObject);
 }

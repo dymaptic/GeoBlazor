@@ -1,22 +1,22 @@
 import * as locator from "@arcgis/core/rest/locator";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
 import {hasValue} from "./arcGisJsInterop";
+import AddressCandidate from "@arcgis/core/rest/support/AddressCandidate";
+import Point from "@arcgis/core/geometry/Point";
+import {buildJsExtent} from "./extent";
+import {buildJsSpatialReference} from "./spatialReference";
+import {buildJsPoint} from "./point";
 import locatorSuggestLocationsParams = __esri.locatorSuggestLocationsParams;
 import locatorLocationToAddressParams = __esri.locatorLocationToAddressParams;
 import locatorAddressToLocationsParams = __esri.locatorAddressToLocationsParams;
 import locatorAddressesToLocationsParams = __esri.locatorAddressesToLocationsParams;
 import SuggestionResult = __esri.SuggestionResult;
-import AddressCandidate from "@arcgis/core/rest/support/AddressCandidate";
-import Point from "@arcgis/core/geometry/Point";
-import { buildJsExtent } from "./extent";
-import { buildJsSpatialReference } from "./spatialReference";
-import { buildJsPoint } from "./point";
 
 export default class LocatorWrapper {
-    
-    async addressesToLocations(url: string, addresses: object[], countryCode: string | null, 
-                               categories: string[] | null, locationType: string | null, 
-                               outSpatialReference: DotNetSpatialReference | null, 
+
+    async addressesToLocations(url: string, addresses: object[], countryCode: string | null,
+                               categories: string[] | null, locationType: string | null,
+                               outSpatialReference: DotNetSpatialReference | null,
                                requestOptions: any | null)
         : Promise<any | null> {
         const params = {addresses: addresses} as locatorAddressesToLocationsParams;
@@ -41,7 +41,7 @@ export default class LocatorWrapper {
             result = await locator.addressesToLocations(url, params);
         }
 
-        let { buildDotNetAddressCandidate } = await import('./addressCandidate');
+        let {buildDotNetAddressCandidate} = await import('./addressCandidate');
         let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
         let json = JSON.stringify(dotNetResult);
@@ -49,10 +49,10 @@ export default class LocatorWrapper {
         return encoded;
     }
 
-    async addressToLocations(url: string, address: any, categories: string[] | null, countryCode: string | null, 
-                             forStorage: boolean | null, location: DotNetPoint | null, locationType: string | null, 
-                             magicKey: string | null, maxLocations: number | null, outFields: string[] | null, 
-                             outSpatialReference: DotNetSpatialReference | null, searchExtent: DotNetExtent | null, 
+    async addressToLocations(url: string, address: any, categories: string[] | null, countryCode: string | null,
+                             forStorage: boolean | null, location: DotNetPoint | null, locationType: string | null,
+                             magicKey: string | null, maxLocations: number | null, outFields: string[] | null,
+                             outSpatialReference: DotNetSpatialReference | null, searchExtent: DotNetExtent | null,
                              requestOptions: any | null)
         : Promise<any | null> {
         let params = {address: address} as locatorAddressToLocationsParams;
@@ -95,7 +95,7 @@ export default class LocatorWrapper {
             result = await locator.addressToLocations(url, params);
         }
 
-        let { buildDotNetAddressCandidate } = await import('./addressCandidate');
+        let {buildDotNetAddressCandidate} = await import('./addressCandidate');
         let dotNetResult = result.map(r => buildDotNetAddressCandidate(r));
 
         let json = JSON.stringify(dotNetResult);
@@ -103,7 +103,7 @@ export default class LocatorWrapper {
         return encoded;
     }
 
-    async locationToAddress(url: string, location: DotNetPoint, locationType: string | null, 
+    async locationToAddress(url: string, location: DotNetPoint, locationType: string | null,
                             outSpatialReference: DotNetSpatialReference | null, requestOptions: any | null)
         : Promise<DotNetAddressCandidate | null> {
         let params = {
@@ -125,11 +125,11 @@ export default class LocatorWrapper {
             result = await locator.locationToAddress(url, params);
         }
 
-        let { buildDotNetAddressCandidate } = await import('./addressCandidate');
+        let {buildDotNetAddressCandidate} = await import('./addressCandidate');
         return buildDotNetAddressCandidate(result);
     }
 
-    async suggestLocations(url: string, location: DotNetPoint, text: string, categories: string[] | null, 
+    async suggestLocations(url: string, location: DotNetPoint, text: string, categories: string[] | null,
                            requestOptions: any | null)
         : Promise<SuggestionResult[] | null> {
         let params = {

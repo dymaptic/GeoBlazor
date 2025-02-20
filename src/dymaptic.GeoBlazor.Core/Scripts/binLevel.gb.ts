@@ -12,23 +12,23 @@ export default class BinLevelGenerated implements IPropertyWrapper {
     constructor(component: binLevel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async binLevel(parameters: any): Promise<any> {
         return await this.component.binLevel(parameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsBinLevelGenerated(dotNetObject: any, layerId: strin
     let jsbinLevel = new binLevel();
 
 
-    let { default: BinLevelWrapper } = await import('./binLevel');
+    let {default: BinLevelWrapper} = await import('./binLevel');
     let binLevelWrapper = new BinLevelWrapper(jsbinLevel);
     binLevelWrapper.geoBlazorId = dotNetObject.id;
     binLevelWrapper.viewId = viewId;
     binLevelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(binLevelWrapper);
     jsObjectRefs[dotNetObject.id] = binLevelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsbinLevel;
-    let { buildDotNetBinLevel } = await import('./binLevel');
+    let {buildDotNetBinLevel} = await import('./binLevel');
     let dnInstantiatedObject = await buildDotNetBinLevel(jsbinLevel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BinLevel', e);
     }
-    
+
     return jsbinLevel;
 }
+
 export async function buildDotNetBinLevelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBinLevel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

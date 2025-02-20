@@ -7,15 +7,15 @@ export default class ISymbolsSymbol3DLayerWrapper extends ISymbolsSymbol3DLayerG
     constructor(layer: symbolsSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsISymbolsSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsISymbolsSymbol3DLayerGenerated } = await import('./iSymbolsSymbol3DLayer.gb');
+    let {buildJsISymbolsSymbol3DLayerGenerated} = await import('./iSymbolsSymbol3DLayer.gb');
     return await buildJsISymbolsSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetISymbolsSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetISymbolsSymbol3DLayerGenerated } = await import('./iSymbolsSymbol3DLayer.gb');
+    let {buildDotNetISymbolsSymbol3DLayerGenerated} = await import('./iSymbolsSymbol3DLayer.gb');
     return await buildDotNetISymbolsSymbol3DLayerGenerated(jsObject);
 }

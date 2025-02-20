@@ -1,5 +1,4 @@
 import {hasValue} from "./arcGisJsInterop";
-import {Un} from "../wwwroot/js/chunk-XF3XD3L6";
 
 export function buildDotNetEffect(jsEffect: any): any {
     if (!hasValue(jsEffect)) {
@@ -29,6 +28,6 @@ export function buildJsEffect(dotNetEffect: any): any {
             scale: dotNetEffect.scale
         }
     }
-    
+
     return dotNetEffect.value;
 }

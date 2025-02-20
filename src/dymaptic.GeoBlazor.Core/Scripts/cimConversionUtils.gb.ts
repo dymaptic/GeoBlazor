@@ -12,25 +12,25 @@ export default class CimConversionUtilsGenerated implements IPropertyWrapper {
     constructor(component: cimConversionUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async convertToCIMSymbol(symbol: any): Promise<any> {
-        let { buildJsSymbol } = await import('./symbol');
+        let {buildJsSymbol} = await import('./symbol');
         let jsSymbol = buildJsSymbol(symbol) as any;
         return this.component.convertToCIMSymbol(jsSymbol);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsCimConversionUtilsGenerated(dotNetObject: any, laye
     let jscimConversionUtils: any = {}
 
 
-    let { default: CimConversionUtilsWrapper } = await import('./cimConversionUtils');
+    let {default: CimConversionUtilsWrapper} = await import('./cimConversionUtils');
     let cimConversionUtilsWrapper = new CimConversionUtilsWrapper(jscimConversionUtils);
     cimConversionUtilsWrapper.geoBlazorId = dotNetObject.id;
     cimConversionUtilsWrapper.viewId = viewId;
     cimConversionUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(cimConversionUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = cimConversionUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscimConversionUtils;
-    let { buildDotNetCimConversionUtils } = await import('./cimConversionUtils');
+    let {buildDotNetCimConversionUtils} = await import('./cimConversionUtils');
     let dnInstantiatedObject = await buildDotNetCimConversionUtils(jscimConversionUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CimConversionUtils', e);
     }
-    
+
     return jscimConversionUtils;
 }
+
 export async function buildDotNetCimConversionUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCimConversionUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -3,7 +3,7 @@
 
 import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetMapColor, buildJsMapColor } from "./mapColor";
+import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 
 export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
     let jsPictureMarkerSymbol = new PictureMarkerSymbol();
@@ -29,7 +29,7 @@ export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
     if (hasValue(dotNetObject.yoffset)) {
         jsPictureMarkerSymbol.yoffset = dotNetObject.yoffset;
     }
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pictureMarkerSymbolWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -44,7 +44,7 @@ export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
     }
 
     return jsPictureMarkerSymbol;
-}     
+}
 
 export function buildDotNetPictureMarkerSymbol(jsObject: any): any {
     if (!hasValue(jsObject)) {

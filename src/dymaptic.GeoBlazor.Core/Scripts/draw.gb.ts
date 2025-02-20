@@ -12,24 +12,24 @@ export default class DrawGenerated implements IPropertyWrapper {
     constructor(component: Draw) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async complete(): Promise<void> {
         this.component.complete();
     }
 
     async create(drawAction: any,
-        drawOptions: any): Promise<any> {
-        let { buildJsDrawAction } = await import('./drawAction');
+                 drawOptions: any): Promise<any> {
+        let {buildJsDrawAction} = await import('./drawAction');
         let jsDrawAction = await buildJsDrawAction(drawAction, this.layerId, this.viewId) as any;
         let result = this.component.create(jsDrawAction,
             drawOptions);
-        let { buildDotNetDrawAction } = await import('./drawAction');
+        let {buildDotNetDrawAction} = await import('./drawAction');
         return await buildDotNetDrawAction(result);
     }
 
@@ -38,23 +38,25 @@ export default class DrawGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getActiveAction(): Promise<any> {
         if (!hasValue(this.component.activeAction)) {
             return null;
         }
-        
-        let { buildDotNetDrawAction } = await import('./drawAction');
+
+        let {buildDotNetDrawAction} = await import('./drawAction');
         return await buildDotNetDrawAction(this.component.activeAction);
     }
+
     async setActiveAction(value: any): Promise<void> {
-        let { buildJsDrawAction } = await import('./drawAction');
-        this.component.activeAction = await  buildJsDrawAction(value, this.layerId, this.viewId);
+        let {buildJsDrawAction} = await import('./drawAction');
+        this.component.activeAction = await buildJsDrawAction(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -63,7 +65,7 @@ export default class DrawGenerated implements IPropertyWrapper {
 export async function buildJsDrawGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDraw = new Draw();
     if (hasValue(dotNetObject.activeAction)) {
-        let { buildJsDrawAction } = await import('./drawAction');
+        let {buildJsDrawAction} = await import('./drawAction');
         jsDraw.activeAction = await buildJsDrawAction(dotNetObject.activeAction, layerId, viewId) as any;
     }
 
@@ -71,43 +73,44 @@ export async function buildJsDrawGenerated(dotNetObject: any, layerId: string | 
         jsDraw.view = dotNetObject.view;
     }
 
-    let { default: DrawWrapper } = await import('./draw');
+    let {default: DrawWrapper} = await import('./draw');
     let drawWrapper = new DrawWrapper(jsDraw);
     drawWrapper.geoBlazorId = dotNetObject.id;
     drawWrapper.viewId = viewId;
     drawWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(drawWrapper);
     jsObjectRefs[dotNetObject.id] = drawWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDraw;
-    let { buildDotNetDraw } = await import('./draw');
+    let {buildDotNetDraw} = await import('./draw');
     let dnInstantiatedObject = await buildDotNetDraw(jsDraw);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Draw', e);
     }
-    
+
     return jsDraw;
 }
+
 export async function buildDotNetDrawGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDraw: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeAction)) {
-            let { buildDotNetDrawAction } = await import('./drawAction');
-            dotNetDraw.activeAction = await buildDotNetDrawAction(jsObject.activeAction);
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDraw.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeAction)) {
+        let {buildDotNetDrawAction} = await import('./drawAction');
+        dotNetDraw.activeAction = await buildDotNetDrawAction(jsObject.activeAction);
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDraw.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,35 +12,37 @@ export default class IPathSymbol3DLayerGenerated implements IPropertyWrapper {
     constructor(layer: PathSymbol3DLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
         }
-        
-        let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
+
+        let {buildDotNetPathSymbol3DLayerMaterial} = await import('./pathSymbol3DLayerMaterial');
         return await buildDotNetPathSymbol3DLayerMaterial(this.layer.material);
     }
+
     async setMaterial(value: any): Promise<void> {
-        let { buildJsPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
-        this.layer.material = await  buildJsPathSymbol3DLayerMaterial(value, this.layerId, this.viewId);
+        let {buildJsPathSymbol3DLayerMaterial} = await import('./pathSymbol3DLayerMaterial');
+        this.layer.material = await buildJsPathSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -49,7 +51,7 @@ export default class IPathSymbol3DLayerGenerated implements IPropertyWrapper {
 export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPathSymbol3DLayer = new PathSymbol3DLayer();
     if (hasValue(dotNetObject.material)) {
-        let { buildJsPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
+        let {buildJsPathSymbol3DLayerMaterial} = await import('./pathSymbol3DLayerMaterial');
         jsPathSymbol3DLayer.material = await buildJsPathSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
@@ -69,7 +71,7 @@ export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, laye
         jsPathSymbol3DLayer.join = dotNetObject.join;
     }
     if (hasValue(dotNetObject.profile)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedProfile } = dotNetObject.profile;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedProfile} = dotNetObject.profile;
         jsPathSymbol3DLayer.profile = sanitizedProfile;
     }
     if (hasValue(dotNetObject.profileRotation)) {
@@ -79,67 +81,68 @@ export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, laye
         jsPathSymbol3DLayer.width = dotNetObject.width;
     }
 
-    let { default: IPathSymbol3DLayerWrapper } = await import('./iPathSymbol3DLayer');
+    let {default: IPathSymbol3DLayerWrapper} = await import('./iPathSymbol3DLayer');
     let iPathSymbol3DLayerWrapper = new IPathSymbol3DLayerWrapper(jsPathSymbol3DLayer);
     iPathSymbol3DLayerWrapper.geoBlazorId = dotNetObject.id;
     iPathSymbol3DLayerWrapper.viewId = viewId;
     iPathSymbol3DLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iPathSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iPathSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPathSymbol3DLayer;
-    let { buildDotNetIPathSymbol3DLayer } = await import('./iPathSymbol3DLayer');
+    let {buildDotNetIPathSymbol3DLayer} = await import('./iPathSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetIPathSymbol3DLayer(jsPathSymbol3DLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IPathSymbol3DLayer', e);
     }
-    
+
     return jsPathSymbol3DLayer;
 }
+
 export async function buildDotNetIPathSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIPathSymbol3DLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
-            dotNetIPathSymbol3DLayer.material = await buildDotNetPathSymbol3DLayerMaterial(jsObject.material);
-        }
-        if (hasValue(jsObject.anchor)) {
-            dotNetIPathSymbol3DLayer.anchor = jsObject.anchor;
-        }
-        if (hasValue(jsObject.cap)) {
-            dotNetIPathSymbol3DLayer.cap = jsObject.cap;
-        }
-        if (hasValue(jsObject.castShadows)) {
-            dotNetIPathSymbol3DLayer.castShadows = jsObject.castShadows;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetIPathSymbol3DLayer.height = jsObject.height;
-        }
-        if (hasValue(jsObject.join)) {
-            dotNetIPathSymbol3DLayer.join = jsObject.join;
-        }
-        if (hasValue(jsObject.profile)) {
-            dotNetIPathSymbol3DLayer.profile = jsObject.profile;
-        }
-        if (hasValue(jsObject.profileRotation)) {
-            dotNetIPathSymbol3DLayer.profileRotation = jsObject.profileRotation;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIPathSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetIPathSymbol3DLayer.width = jsObject.width;
-        }
+    if (hasValue(jsObject.material)) {
+        let {buildDotNetPathSymbol3DLayerMaterial} = await import('./pathSymbol3DLayerMaterial');
+        dotNetIPathSymbol3DLayer.material = await buildDotNetPathSymbol3DLayerMaterial(jsObject.material);
+    }
+    if (hasValue(jsObject.anchor)) {
+        dotNetIPathSymbol3DLayer.anchor = jsObject.anchor;
+    }
+    if (hasValue(jsObject.cap)) {
+        dotNetIPathSymbol3DLayer.cap = jsObject.cap;
+    }
+    if (hasValue(jsObject.castShadows)) {
+        dotNetIPathSymbol3DLayer.castShadows = jsObject.castShadows;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetIPathSymbol3DLayer.height = jsObject.height;
+    }
+    if (hasValue(jsObject.join)) {
+        dotNetIPathSymbol3DLayer.join = jsObject.join;
+    }
+    if (hasValue(jsObject.profile)) {
+        dotNetIPathSymbol3DLayer.profile = jsObject.profile;
+    }
+    if (hasValue(jsObject.profileRotation)) {
+        dotNetIPathSymbol3DLayer.profileRotation = jsObject.profileRotation;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIPathSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetIPathSymbol3DLayer.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

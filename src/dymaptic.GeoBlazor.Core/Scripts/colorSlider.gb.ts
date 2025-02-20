@@ -12,39 +12,41 @@ export default class ColorSliderGenerated implements IPropertyWrapper {
     constructor(component: ColorSlider) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async updateFromRendererResult(rendererResult: any,
-        histogramResult: any): Promise<void> {
-        let { buildJsContinuousRendererResult } = await import('./continuousRendererResult');
+                                   histogramResult: any): Promise<void> {
+        let {buildJsContinuousRendererResult} = await import('./continuousRendererResult');
         let jsRendererResult = await buildJsContinuousRendererResult(rendererResult, this.layerId, this.viewId) as any;
         this.component.updateFromRendererResult(jsRendererResult,
             histogramResult);
     }
 
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.component.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetColorSliderViewModel } = await import('./colorSliderViewModel');
+
+        let {buildDotNetColorSliderViewModel} = await import('./colorSliderViewModel');
         return await buildDotNetColorSliderViewModel(this.component.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsColorSliderViewModel } = await import('./colorSliderViewModel');
-        this.component.viewModel = await  buildJsColorSliderViewModel(value, this.layerId, this.viewId);
+        let {buildJsColorSliderViewModel} = await import('./colorSliderViewModel');
+        this.component.viewModel = await buildJsColorSliderViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -62,7 +64,7 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
         jsColorSlider.labelFormatFunction = dotNetObject.smartMappingSliderBaseLabelFormatter;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsColorSliderViewModel } = await import('./colorSliderViewModel');
+        let {buildJsColorSliderViewModel} = await import('./colorSliderViewModel');
         jsColorSlider.viewModel = await buildJsColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -70,7 +72,13 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
         jsColorSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedHistogramConfig
+        } = dotNetObject.histogramConfig;
         jsColorSlider.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
@@ -86,14 +94,20 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
         jsColorSlider.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedStops} = dotNetObject.stops;
         jsColorSlider.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
         jsColorSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVisibleElements
+        } = dotNetObject.visibleElements;
         jsColorSlider.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
@@ -102,103 +116,104 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
     jsColorSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });
-    
+
     jsColorSlider.on('segment-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsegmentDrag', evt);
     });
-    
+
     jsColorSlider.on('thumb-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbChange', evt);
     });
-    
+
     jsColorSlider.on('thumb-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbDrag', evt);
     });
-    
+
     jsColorSlider.on('min-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsinChange', evt);
     });
-    
 
-    let { default: ColorSliderWrapper } = await import('./colorSlider');
+
+    let {default: ColorSliderWrapper} = await import('./colorSlider');
     let colorSliderWrapper = new ColorSliderWrapper(jsColorSlider);
     colorSliderWrapper.geoBlazorId = dotNetObject.id;
     colorSliderWrapper.viewId = viewId;
     colorSliderWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorSliderWrapper);
     jsObjectRefs[dotNetObject.id] = colorSliderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorSlider;
-    let { buildDotNetColorSlider } = await import('./colorSlider');
+    let {buildDotNetColorSlider} = await import('./colorSlider');
     let dnInstantiatedObject = await buildDotNetColorSlider(jsColorSlider);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorSlider', e);
     }
-    
+
     return jsColorSlider;
 }
+
 export async function buildDotNetColorSliderGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetColorSlider: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetColorSliderViewModel } = await import('./colorSliderViewModel');
-            dotNetColorSlider.viewModel = await buildDotNetColorSliderViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetColorSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetColorSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetColorSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetColorSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetColorSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetColorSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetColorSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetColorSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetColorSlider.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColorSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetColorSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetColorSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetColorSliderViewModel} = await import('./colorSliderViewModel');
+        dotNetColorSlider.viewModel = await buildDotNetColorSliderViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetColorSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetColorSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetColorSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetColorSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetColorSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetColorSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetColorSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetColorSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetColorSlider.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColorSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetColorSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetColorSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

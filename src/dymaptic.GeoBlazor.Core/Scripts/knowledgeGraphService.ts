@@ -7,15 +7,15 @@ export default class KnowledgeGraphServiceWrapper extends KnowledgeGraphServiceG
     constructor(component: knowledgeGraphService) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsKnowledgeGraphService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsKnowledgeGraphServiceGenerated } = await import('./knowledgeGraphService.gb');
+    let {buildJsKnowledgeGraphServiceGenerated} = await import('./knowledgeGraphService.gb');
     return await buildJsKnowledgeGraphServiceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetKnowledgeGraphService(jsObject: any): Promise<any> {
-    let { buildDotNetKnowledgeGraphServiceGenerated } = await import('./knowledgeGraphService.gb');
+    let {buildDotNetKnowledgeGraphServiceGenerated} = await import('./knowledgeGraphService.gb');
     return await buildDotNetKnowledgeGraphServiceGenerated(jsObject);
 }

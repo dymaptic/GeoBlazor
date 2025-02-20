@@ -12,19 +12,19 @@ export default class IUnsupportedLayerGenerated implements IPropertyWrapper {
     constructor(layer: UnsupportedLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -34,35 +34,39 @@ export default class IUnsupportedLayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -71,11 +75,11 @@ export default class IUnsupportedLayerGenerated implements IPropertyWrapper {
 export async function buildJsIUnsupportedLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUnsupportedLayer = new UnsupportedLayer();
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsUnsupportedLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsUnsupportedLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -95,65 +99,66 @@ export async function buildJsIUnsupportedLayerGenerated(dotNetObject: any, layer
         jsUnsupportedLayer.title = dotNetObject.title;
     }
 
-    let { default: IUnsupportedLayerWrapper } = await import('./iUnsupportedLayer');
+    let {default: IUnsupportedLayerWrapper} = await import('./iUnsupportedLayer');
     let iUnsupportedLayerWrapper = new IUnsupportedLayerWrapper(jsUnsupportedLayer);
     iUnsupportedLayerWrapper.geoBlazorId = dotNetObject.id;
     iUnsupportedLayerWrapper.viewId = viewId;
     iUnsupportedLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iUnsupportedLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iUnsupportedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
-    let { buildDotNetIUnsupportedLayer } = await import('./iUnsupportedLayer');
+    let {buildDotNetIUnsupportedLayer} = await import('./iUnsupportedLayer');
     let dnInstantiatedObject = await buildDotNetIUnsupportedLayer(jsUnsupportedLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IUnsupportedLayer', e);
     }
-    
+
     return jsUnsupportedLayer;
 }
+
 export async function buildDotNetIUnsupportedLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIUnsupportedLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetIUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetIUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetIUnsupportedLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIUnsupportedLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIUnsupportedLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIUnsupportedLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIUnsupportedLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIUnsupportedLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIUnsupportedLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetIUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetIUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetIUnsupportedLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIUnsupportedLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIUnsupportedLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIUnsupportedLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIUnsupportedLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIUnsupportedLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIUnsupportedLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

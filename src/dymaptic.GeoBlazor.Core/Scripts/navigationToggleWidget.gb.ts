@@ -12,35 +12,37 @@ export default class NavigationToggleWidgetGenerated implements IPropertyWrapper
     constructor(widget: NavigationToggle) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async toggle(): Promise<void> {
         this.widget.toggle();
     }
 
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetNavigationToggleViewModel } = await import('./navigationToggleViewModel');
+
+        let {buildDotNetNavigationToggleViewModel} = await import('./navigationToggleViewModel');
         return await buildDotNetNavigationToggleViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsNavigationToggleViewModel } = await import('./navigationToggleViewModel');
-        this.widget.viewModel = await  buildJsNavigationToggleViewModel(value, this.layerId, this.viewId);
+        let {buildJsNavigationToggleViewModel} = await import('./navigationToggleViewModel');
+        this.widget.viewModel = await buildJsNavigationToggleViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -49,7 +51,7 @@ export default class NavigationToggleWidgetGenerated implements IPropertyWrapper
 export async function buildJsNavigationToggleWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsNavigationToggle = new NavigationToggle();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsNavigationToggleViewModel } = await import('./navigationToggleViewModel');
+        let {buildJsNavigationToggleViewModel} = await import('./navigationToggleViewModel');
         jsNavigationToggle.viewModel = await buildJsNavigationToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -60,49 +62,50 @@ export async function buildJsNavigationToggleWidgetGenerated(dotNetObject: any, 
         jsNavigationToggle.view = dotNetObject.view;
     }
 
-    let { default: NavigationToggleWidgetWrapper } = await import('./navigationToggleWidget');
+    let {default: NavigationToggleWidgetWrapper} = await import('./navigationToggleWidget');
     let navigationToggleWidgetWrapper = new NavigationToggleWidgetWrapper(jsNavigationToggle);
     navigationToggleWidgetWrapper.geoBlazorId = dotNetObject.id;
     navigationToggleWidgetWrapper.viewId = viewId;
     navigationToggleWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(navigationToggleWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = navigationToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsNavigationToggle;
-    let { buildDotNetNavigationToggleWidget } = await import('./navigationToggleWidget');
+    let {buildDotNetNavigationToggleWidget} = await import('./navigationToggleWidget');
     let dnInstantiatedObject = await buildDotNetNavigationToggleWidget(jsNavigationToggle);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for NavigationToggleWidget', e);
     }
-    
+
     return jsNavigationToggle;
 }
+
 export async function buildDotNetNavigationToggleWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetNavigationToggleWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetNavigationToggleViewModel } = await import('./navigationToggleViewModel');
-            dotNetNavigationToggleWidget.viewModel = await buildDotNetNavigationToggleViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetNavigationToggleWidget.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetNavigationToggleWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetNavigationToggleWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetNavigationToggleViewModel} = await import('./navigationToggleViewModel');
+        dotNetNavigationToggleWidget.viewModel = await buildDotNetNavigationToggleViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetNavigationToggleWidget.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetNavigationToggleWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetNavigationToggleWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

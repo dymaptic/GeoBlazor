@@ -6,14 +6,15 @@ export default class ViewshedAnalysisView3DWrapper extends ViewshedAnalysisView3
     constructor(component: ViewshedAnalysisView3D) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsViewshedAnalysisView3D(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsViewshedAnalysisView3DGenerated } = await import('./viewshedAnalysisView3D.gb');
+    let {buildJsViewshedAnalysisView3DGenerated} = await import('./viewshedAnalysisView3D.gb');
     return await buildJsViewshedAnalysisView3DGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetViewshedAnalysisView3D(jsObject: any): Promise<any> {
-    let { buildDotNetViewshedAnalysisView3DGenerated } = await import('./viewshedAnalysisView3D.gb');
+    let {buildDotNetViewshedAnalysisView3DGenerated} = await import('./viewshedAnalysisView3D.gb');
     return await buildDotNetViewshedAnalysisView3DGenerated(jsObject);
 }

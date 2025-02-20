@@ -11,7 +11,7 @@ export async function buildJsActionBase(dotNetObject: any, layerId: string | nul
         default:
             throw new Error(`Unsupported action type: ${dotNetObject?.type}`);
     }
-}     
+}
 
 export async function buildDotNetActionBase(jsObject: any): Promise<any> {
     switch (jsObject?.type) {

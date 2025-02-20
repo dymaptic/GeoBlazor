@@ -12,23 +12,23 @@ export default class SunLightingGenerated implements IPropertyWrapper {
     constructor(component: SunLighting) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneWithWebsceneLighting(): Promise<void> {
         this.component.cloneWithWebsceneLighting();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,51 +50,52 @@ export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: st
         jsSunLighting.displayUTCOffset = dotNetObject.displayUTCOffset;
     }
 
-    let { default: SunLightingWrapper } = await import('./sunLighting');
+    let {default: SunLightingWrapper} = await import('./sunLighting');
     let sunLightingWrapper = new SunLightingWrapper(jsSunLighting);
     sunLightingWrapper.geoBlazorId = dotNetObject.id;
     sunLightingWrapper.viewId = viewId;
     sunLightingWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sunLightingWrapper);
     jsObjectRefs[dotNetObject.id] = sunLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSunLighting;
-    let { buildDotNetSunLighting } = await import('./sunLighting');
+    let {buildDotNetSunLighting} = await import('./sunLighting');
     let dnInstantiatedObject = await buildDotNetSunLighting(jsSunLighting);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SunLighting', e);
     }
-    
+
     return jsSunLighting;
 }
+
 export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSunLighting: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.cameraTrackingEnabled)) {
-            dotNetSunLighting.cameraTrackingEnabled = jsObject.cameraTrackingEnabled;
-        }
-        if (hasValue(jsObject.date)) {
-            dotNetSunLighting.date = jsObject.date;
-        }
-        if (hasValue(jsObject.directShadowsEnabled)) {
-            dotNetSunLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
-        }
-        if (hasValue(jsObject.displayUTCOffset)) {
-            dotNetSunLighting.displayUTCOffset = jsObject.displayUTCOffset;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSunLighting.type = jsObject.type;
-        }
+    if (hasValue(jsObject.cameraTrackingEnabled)) {
+        dotNetSunLighting.cameraTrackingEnabled = jsObject.cameraTrackingEnabled;
+    }
+    if (hasValue(jsObject.date)) {
+        dotNetSunLighting.date = jsObject.date;
+    }
+    if (hasValue(jsObject.directShadowsEnabled)) {
+        dotNetSunLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
+    }
+    if (hasValue(jsObject.displayUTCOffset)) {
+        dotNetSunLighting.displayUTCOffset = jsObject.displayUTCOffset;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSunLighting.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

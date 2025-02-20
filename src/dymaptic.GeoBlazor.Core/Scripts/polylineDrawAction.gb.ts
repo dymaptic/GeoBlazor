@@ -12,13 +12,13 @@ export default class PolylineDrawActionGenerated implements IPropertyWrapper {
     constructor(component: PolylineDrawAction) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canRedo(): Promise<any> {
         return this.component.canRedo();
     }
@@ -52,11 +52,11 @@ export default class PolylineDrawActionGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -77,70 +77,71 @@ export async function buildJsPolylineDrawActionGenerated(dotNetObject: any, laye
     jsPolylineDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
-    
+
     jsPolylineDrawAction.on('draw-complete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDrawComplete', evt);
     });
-    
+
     jsPolylineDrawAction.on('redo', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRedo', evt);
     });
-    
+
     jsPolylineDrawAction.on('undo', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsUndo', evt);
     });
-    
+
     jsPolylineDrawAction.on('vertex-add', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsVertexAdd', evt);
     });
-    
+
     jsPolylineDrawAction.on('vertex-remove', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsVertexRemove', evt);
     });
-    
 
-    let { default: PolylineDrawActionWrapper } = await import('./polylineDrawAction');
+
+    let {default: PolylineDrawActionWrapper} = await import('./polylineDrawAction');
     let polylineDrawActionWrapper = new PolylineDrawActionWrapper(jsPolylineDrawAction);
     polylineDrawActionWrapper.geoBlazorId = dotNetObject.id;
     polylineDrawActionWrapper.viewId = viewId;
     polylineDrawActionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(polylineDrawActionWrapper);
     jsObjectRefs[dotNetObject.id] = polylineDrawActionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPolylineDrawAction;
-    let { buildDotNetPolylineDrawAction } = await import('./polylineDrawAction');
+    let {buildDotNetPolylineDrawAction} = await import('./polylineDrawAction');
     let dnInstantiatedObject = await buildDotNetPolylineDrawAction(jsPolylineDrawAction);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PolylineDrawAction', e);
     }
-    
+
     return jsPolylineDrawAction;
 }
+
 export async function buildDotNetPolylineDrawActionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPolylineDrawAction: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetPolylineDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetPolylineDrawAction.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetPolylineDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPolylineDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetPolylineDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetPolylineDrawAction.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetPolylineDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPolylineDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,13 +12,13 @@ export default class IntlGenerated implements IPropertyWrapper {
     constructor(component: intl) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async convertNumberFormatToIntlOptions(format: any): Promise<any> {
         return this.component.convertNumberFormatToIntlOptions(format);
     }
@@ -32,31 +32,31 @@ export default class IntlGenerated implements IPropertyWrapper {
     }
 
     async formatDate(value: any,
-        formatOptions: any): Promise<any> {
+                     formatOptions: any): Promise<any> {
         return this.component.formatDate(value,
             formatOptions);
     }
 
     async formatDateOnly(value: any,
-        options: any): Promise<any> {
+                         options: any): Promise<any> {
         return this.component.formatDateOnly(value,
             options);
     }
 
     async formatNumber(value: any,
-        formatOptions: any): Promise<any> {
+                       formatOptions: any): Promise<any> {
         return this.component.formatNumber(value,
             formatOptions);
     }
 
     async formatTimeOnly(value: any,
-        options: any): Promise<any> {
+                         options: any): Promise<any> {
         return this.component.formatTimeOnly(value,
             options);
     }
 
     async formatTimestamp(value: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return this.component.formatTimestamp(value,
             options);
     }
@@ -71,7 +71,7 @@ export default class IntlGenerated implements IPropertyWrapper {
 
     async onLocaleChange(callback: any): Promise<any> {
         let result = this.component.onLocaleChange(callback);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        let {buildDotNetHighlightHandle} = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }
 
@@ -88,19 +88,19 @@ export default class IntlGenerated implements IPropertyWrapper {
     }
 
     async substitute(template: any,
-        data: any,
-        options: any): Promise<any> {
+                     data: any,
+                     options: any): Promise<any> {
         return this.component.substitute(template,
             data,
             options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -110,32 +110,33 @@ export async function buildJsIntlGenerated(dotNetObject: any, layerId: string | 
     let jsintl: any = {}
 
 
-    let { default: IntlWrapper } = await import('./intl');
+    let {default: IntlWrapper} = await import('./intl');
     let intlWrapper = new IntlWrapper(jsintl);
     intlWrapper.geoBlazorId = dotNetObject.id;
     intlWrapper.viewId = viewId;
     intlWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(intlWrapper);
     jsObjectRefs[dotNetObject.id] = intlWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsintl;
-    let { buildDotNetIntl } = await import('./intl');
+    let {buildDotNetIntl} = await import('./intl');
     let dnInstantiatedObject = await buildDotNetIntl(jsintl);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Intl', e);
     }
-    
+
     return jsintl;
 }
+
 export async function buildDotNetIntlGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIntl: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

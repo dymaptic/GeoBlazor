@@ -12,13 +12,13 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
     constructor(component: EditorViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cancelWorkflow(): Promise<void> {
         await this.component.cancelWorkflow();
     }
@@ -28,13 +28,13 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
     }
 
     async startCreateFeaturesWorkflowAtFeatureCreation(creationInfo: any): Promise<void> {
-        let { buildJsCreationInfo } = await import('./creationInfo');
+        let {buildJsCreationInfo} = await import('./creationInfo');
         let jsCreationInfo = await buildJsCreationInfo(creationInfo, this.layerId, this.viewId) as any;
         await this.component.startCreateFeaturesWorkflowAtFeatureCreation(jsCreationInfo);
     }
 
     async startCreateFeaturesWorkflowAtFeatureEdit(parameters: any): Promise<void> {
-        let { buildJsEditorViewModelStartCreateFeaturesWorkflowAtFeatureEditParams } = await import('./editorViewModelStartCreateFeaturesWorkflowAtFeatureEditParams');
+        let {buildJsEditorViewModelStartCreateFeaturesWorkflowAtFeatureEditParams} = await import('./editorViewModelStartCreateFeaturesWorkflowAtFeatureEditParams');
         let jsparameters = await buildJsEditorViewModelStartCreateFeaturesWorkflowAtFeatureEditParams(parameters, this.layerId, this.viewId) as any;
         await this.component.startCreateFeaturesWorkflowAtFeatureEdit(jsparameters);
     }
@@ -44,7 +44,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
     }
 
     async startUpdateWorkflowAtFeatureEdit(feature: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsFeature = buildJsGraphic(feature) as any;
         await this.component.startUpdateWorkflowAtFeatureEdit(jsFeature);
     }
@@ -62,103 +62,113 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getAttachmentsViewModel(): Promise<any> {
         if (!hasValue(this.component.attachmentsViewModel)) {
             return null;
         }
-        
-        let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
+
+        let {buildDotNetAttachmentsViewModel} = await import('./attachmentsViewModel');
         return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel, this.layerId, this.viewId);
     }
+
     async setAttachmentsViewModel(value: any): Promise<void> {
-        let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
-        this.component.attachmentsViewModel = await  buildJsAttachmentsViewModel(value, this.layerId, this.viewId);
+        let {buildJsAttachmentsViewModel} = await import('./attachmentsViewModel');
+        this.component.attachmentsViewModel = await buildJsAttachmentsViewModel(value, this.layerId, this.viewId);
     }
+
     async getEditableItems(): Promise<any> {
         if (!hasValue(this.component.editableItems)) {
             return null;
         }
-        
-        let { buildDotNetEditableItem } = await import('./editableItem');
+
+        let {buildDotNetEditableItem} = await import('./editableItem');
         return await Promise.all(this.component.editableItems.map(async i => await buildDotNetEditableItem(i)));
     }
-    
+
     async getEditorItems(): Promise<any> {
         if (!hasValue(this.component.editorItems)) {
             return null;
         }
-        
-        let { buildDotNetEditorItem } = await import('./editorItem');
+
+        let {buildDotNetEditorItem} = await import('./editorItem');
         return await Promise.all(this.component.editorItems.map(async i => await buildDotNetEditorItem(i)));
     }
-    
+
     async getFeatureFormViewModel(): Promise<any> {
         if (!hasValue(this.component.featureFormViewModel)) {
             return null;
         }
-        
-        let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
+
+        let {buildDotNetFeatureFormViewModel} = await import('./featureFormViewModel');
         return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel, this.layerId, this.viewId);
     }
+
     async setFeatureFormViewModel(value: any): Promise<void> {
-        let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
-        this.component.featureFormViewModel = await  buildJsFeatureFormViewModel(value, this.layerId, this.viewId);
+        let {buildJsFeatureFormViewModel} = await import('./featureFormViewModel');
+        this.component.featureFormViewModel = await buildJsFeatureFormViewModel(value, this.layerId, this.viewId);
     }
+
     async getFeatureTemplatesViewModel(): Promise<any> {
         if (!hasValue(this.component.featureTemplatesViewModel)) {
             return null;
         }
-        
-        let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
+
+        let {buildDotNetFeatureTemplatesViewModel} = await import('./featureTemplatesViewModel');
         return await buildDotNetFeatureTemplatesViewModel(this.component.featureTemplatesViewModel);
     }
+
     async setFeatureTemplatesViewModel(value: any): Promise<void> {
-        let { buildJsFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
-        this.component.featureTemplatesViewModel = await  buildJsFeatureTemplatesViewModel(value, this.layerId, this.viewId);
+        let {buildJsFeatureTemplatesViewModel} = await import('./featureTemplatesViewModel');
+        this.component.featureTemplatesViewModel = await buildJsFeatureTemplatesViewModel(value, this.layerId, this.viewId);
     }
+
     async getLayerInfos(): Promise<any> {
         if (!hasValue(this.component.layerInfos)) {
             return null;
         }
-        
-        let { buildDotNetEditorLayerInfo } = await import('./editorLayerInfo');
+
+        let {buildDotNetEditorLayerInfo} = await import('./editorLayerInfo');
         return await Promise.all(this.component.layerInfos.map(async i => await buildDotNetEditorLayerInfo(i)));
     }
-    
+
     async setLayerInfos(value: any): Promise<void> {
-        let { buildJsEditorLayerInfo } = await import('./editorLayerInfo');
+        let {buildJsEditorLayerInfo} = await import('./editorLayerInfo');
         this.component.layerInfos = await Promise.all(value.map(async i => await buildJsEditorLayerInfo(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getSketchViewModel(): Promise<any> {
         if (!hasValue(this.component.sketchViewModel)) {
             return null;
         }
-        
-        let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
+
+        let {buildDotNetSketchViewModel} = await import('./sketchViewModel');
         return await buildDotNetSketchViewModel(this.component.sketchViewModel, this.layerId, this.viewId);
     }
+
     async setSketchViewModel(value: any): Promise<void> {
-        let { buildJsSketchViewModel } = await import('./sketchViewModel');
-        this.component.sketchViewModel = await  buildJsSketchViewModel(value, this.layerId, this.viewId);
+        let {buildJsSketchViewModel} = await import('./sketchViewModel');
+        this.component.sketchViewModel = await buildJsSketchViewModel(value, this.layerId, this.viewId);
     }
+
     async getSnappingOptions(): Promise<any> {
         if (!hasValue(this.component.snappingOptions)) {
             return null;
         }
-        
-        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+
+        let {buildDotNetSnappingOptions} = await import('./snappingOptions');
         return await buildDotNetSnappingOptions(this.component.snappingOptions);
     }
+
     async setSnappingOptions(value: any): Promise<void> {
-        let { buildJsSnappingOptions } = await import('./snappingOptions');
-        this.component.snappingOptions = await  buildJsSnappingOptions(value, this.layerId, this.viewId);
+        let {buildJsSnappingOptions} = await import('./snappingOptions');
+        this.component.snappingOptions = await buildJsSnappingOptions(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -167,27 +177,27 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
 export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditorViewModel = new EditorViewModel();
     if (hasValue(dotNetObject.attachmentsViewModel)) {
-        let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
+        let {buildJsAttachmentsViewModel} = await import('./attachmentsViewModel');
         jsEditorViewModel.attachmentsViewModel = await buildJsAttachmentsViewModel(dotNetObject.attachmentsViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureFormViewModel)) {
-        let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
+        let {buildJsFeatureFormViewModel} = await import('./featureFormViewModel');
         jsEditorViewModel.featureFormViewModel = await buildJsFeatureFormViewModel(dotNetObject.featureFormViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureTemplatesViewModel)) {
-        let { buildJsFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
+        let {buildJsFeatureTemplatesViewModel} = await import('./featureTemplatesViewModel');
         jsEditorViewModel.featureTemplatesViewModel = await buildJsFeatureTemplatesViewModel(dotNetObject.featureTemplatesViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layerInfos)) {
-        let { buildJsEditorLayerInfo } = await import('./editorLayerInfo');
+        let {buildJsEditorLayerInfo} = await import('./editorLayerInfo');
         jsEditorViewModel.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsEditorLayerInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.sketchViewModel)) {
-        let { buildJsSketchViewModel } = await import('./sketchViewModel');
+        let {buildJsSketchViewModel} = await import('./sketchViewModel');
         jsEditorViewModel.sketchViewModel = await buildJsSketchViewModel(dotNetObject.sketchViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.snappingOptions)) {
-        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        let {buildJsSnappingOptions} = await import('./snappingOptions');
         jsEditorViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
@@ -209,107 +219,108 @@ export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId
     jsEditorViewModel.on('sketch-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSketchCreate', evt);
     });
-    
+
     jsEditorViewModel.on('sketch-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSketchUpdate', evt);
     });
-    
 
-    let { default: EditorViewModelWrapper } = await import('./editorViewModel');
+
+    let {default: EditorViewModelWrapper} = await import('./editorViewModel');
     let editorViewModelWrapper = new EditorViewModelWrapper(jsEditorViewModel);
     editorViewModelWrapper.geoBlazorId = dotNetObject.id;
     editorViewModelWrapper.viewId = viewId;
     editorViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(editorViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = editorViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsEditorViewModel;
-    let { buildDotNetEditorViewModel } = await import('./editorViewModel');
+    let {buildDotNetEditorViewModel} = await import('./editorViewModel');
     let dnInstantiatedObject = await buildDotNetEditorViewModel(jsEditorViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for EditorViewModel', e);
     }
-    
+
     return jsEditorViewModel;
 }
+
 export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetEditorViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.attachmentsViewModel)) {
-            let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel, layerId, viewId);
-        }
-        if (hasValue(jsObject.editableItems)) {
-            let { buildDotNetEditableItem } = await import('./editableItem');
-            dotNetEditorViewModel.editableItems = await Promise.all(jsObject.editableItems.map(async i => await buildDotNetEditableItem(i)));
-        }
-        if (hasValue(jsObject.editorItems)) {
-            let { buildDotNetEditorItem } = await import('./editorItem');
-            dotNetEditorViewModel.editorItems = await Promise.all(jsObject.editorItems.map(async i => await buildDotNetEditorItem(i)));
-        }
-        if (hasValue(jsObject.featureFormViewModel)) {
-            let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
-        }
-        if (hasValue(jsObject.featureTemplatesViewModel)) {
-            let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
-            dotNetEditorViewModel.featureTemplatesViewModel = await buildDotNetFeatureTemplatesViewModel(jsObject.featureTemplatesViewModel);
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            let { buildDotNetEditorLayerInfo } = await import('./editorLayerInfo');
-            dotNetEditorViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetEditorLayerInfo(i)));
-        }
-        if (hasValue(jsObject.sketchViewModel)) {
-            let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
-            dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel, layerId, viewId);
-        }
-        if (hasValue(jsObject.snappingOptions)) {
-            let { buildDotNetSnappingOptions } = await import('./snappingOptions');
-            dotNetEditorViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
-        }
-        if (hasValue(jsObject.activeWorkflow)) {
-            dotNetEditorViewModel.activeWorkflow = jsObject.activeWorkflow;
-        }
-        if (hasValue(jsObject.allowedWorkflows)) {
-            dotNetEditorViewModel.allowedWorkflows = jsObject.allowedWorkflows;
-        }
-        if (hasValue(jsObject.canCreate)) {
-            dotNetEditorViewModel.canCreate = jsObject.canCreate;
-        }
-        if (hasValue(jsObject.canUpdate)) {
-            dotNetEditorViewModel.canUpdate = jsObject.canUpdate;
-        }
-        if (hasValue(jsObject.failures)) {
-            dotNetEditorViewModel.failures = jsObject.failures;
-        }
-        if (hasValue(jsObject.labelOptions)) {
-            dotNetEditorViewModel.labelOptions = jsObject.labelOptions;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetEditorViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncing)) {
-            dotNetEditorViewModel.syncing = jsObject.syncing;
-        }
-        if (hasValue(jsObject.tooltipOptions)) {
-            dotNetEditorViewModel.tooltipOptions = jsObject.tooltipOptions;
-        }
-        if (hasValue(jsObject.valueOptions)) {
-            dotNetEditorViewModel.valueOptions = jsObject.valueOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetEditorViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.attachmentsViewModel)) {
+        let {buildDotNetAttachmentsViewModel} = await import('./attachmentsViewModel');
+        dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel, layerId, viewId);
+    }
+    if (hasValue(jsObject.editableItems)) {
+        let {buildDotNetEditableItem} = await import('./editableItem');
+        dotNetEditorViewModel.editableItems = await Promise.all(jsObject.editableItems.map(async i => await buildDotNetEditableItem(i)));
+    }
+    if (hasValue(jsObject.editorItems)) {
+        let {buildDotNetEditorItem} = await import('./editorItem');
+        dotNetEditorViewModel.editorItems = await Promise.all(jsObject.editorItems.map(async i => await buildDotNetEditorItem(i)));
+    }
+    if (hasValue(jsObject.featureFormViewModel)) {
+        let {buildDotNetFeatureFormViewModel} = await import('./featureFormViewModel');
+        dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
+    }
+    if (hasValue(jsObject.featureTemplatesViewModel)) {
+        let {buildDotNetFeatureTemplatesViewModel} = await import('./featureTemplatesViewModel');
+        dotNetEditorViewModel.featureTemplatesViewModel = await buildDotNetFeatureTemplatesViewModel(jsObject.featureTemplatesViewModel);
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        let {buildDotNetEditorLayerInfo} = await import('./editorLayerInfo');
+        dotNetEditorViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetEditorLayerInfo(i)));
+    }
+    if (hasValue(jsObject.sketchViewModel)) {
+        let {buildDotNetSketchViewModel} = await import('./sketchViewModel');
+        dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel, layerId, viewId);
+    }
+    if (hasValue(jsObject.snappingOptions)) {
+        let {buildDotNetSnappingOptions} = await import('./snappingOptions');
+        dotNetEditorViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
+    }
+    if (hasValue(jsObject.activeWorkflow)) {
+        dotNetEditorViewModel.activeWorkflow = jsObject.activeWorkflow;
+    }
+    if (hasValue(jsObject.allowedWorkflows)) {
+        dotNetEditorViewModel.allowedWorkflows = jsObject.allowedWorkflows;
+    }
+    if (hasValue(jsObject.canCreate)) {
+        dotNetEditorViewModel.canCreate = jsObject.canCreate;
+    }
+    if (hasValue(jsObject.canUpdate)) {
+        dotNetEditorViewModel.canUpdate = jsObject.canUpdate;
+    }
+    if (hasValue(jsObject.failures)) {
+        dotNetEditorViewModel.failures = jsObject.failures;
+    }
+    if (hasValue(jsObject.labelOptions)) {
+        dotNetEditorViewModel.labelOptions = jsObject.labelOptions;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetEditorViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncing)) {
+        dotNetEditorViewModel.syncing = jsObject.syncing;
+    }
+    if (hasValue(jsObject.tooltipOptions)) {
+        dotNetEditorViewModel.tooltipOptions = jsObject.tooltipOptions;
+    }
+    if (hasValue(jsObject.valueOptions)) {
+        dotNetEditorViewModel.valueOptions = jsObject.valueOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetEditorViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

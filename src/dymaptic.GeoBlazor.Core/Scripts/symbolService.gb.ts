@@ -12,27 +12,27 @@ export default class SymbolServiceGenerated implements IPropertyWrapper {
     constructor(component: symbolService) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async generateSymbol(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
+                         parameters: any,
+                         requestOptions: any): Promise<any> {
         return await this.component.generateSymbol(url,
             parameters,
             requestOptions);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsSymbolServiceGenerated(dotNetObject: any, layerId: 
     let jssymbolService: any = {}
 
 
-    let { default: SymbolServiceWrapper } = await import('./symbolService');
+    let {default: SymbolServiceWrapper} = await import('./symbolService');
     let symbolServiceWrapper = new SymbolServiceWrapper(jssymbolService);
     symbolServiceWrapper.geoBlazorId = dotNetObject.id;
     symbolServiceWrapper.viewId = viewId;
     symbolServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbolServiceWrapper);
     jsObjectRefs[dotNetObject.id] = symbolServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolService;
-    let { buildDotNetSymbolService } = await import('./symbolService');
+    let {buildDotNetSymbolService} = await import('./symbolService');
     let dnInstantiatedObject = await buildDotNetSymbolService(jssymbolService);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbolService', e);
     }
-    
+
     return jssymbolService;
 }
+
 export async function buildDotNetSymbolServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbolService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,49 +12,51 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
     constructor(component: PortalBasemapsSource) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async refresh(): Promise<any> {
         return await this.component.refresh();
     }
 
     // region properties
-    
+
     async getBasemaps(): Promise<any> {
         if (!hasValue(this.component.basemaps)) {
             return null;
         }
-        
-        let { buildDotNetBasemap } = await import('./basemap');
+
+        let {buildDotNetBasemap} = await import('./basemap');
         return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i)));
     }
-    
+
     async setBasemaps(value: any): Promise<void> {
-        let { buildJsBasemap } = await import('./basemap');
+        let {buildJsBasemap} = await import('./basemap');
         this.component.basemaps = await Promise.all(value.map(async i => await buildJsBasemap(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
         }
-        
-        let { buildDotNetPortal } = await import('./portal');
+
+        let {buildDotNetPortal} = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }
+
     async setPortal(value: any): Promise<void> {
-        let { buildJsPortal } = await import('./portal');
-        this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
+        let {buildJsPortal} = await import('./portal');
+        this.component.portal = await buildJsPortal(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -63,20 +65,20 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
 export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortalBasemapsSource = new PortalBasemapsSource();
     if (hasValue(dotNetObject.basemaps)) {
-        let { buildJsBasemap } = await import('./basemap');
+        let {buildJsBasemap} = await import('./basemap');
         jsPortalBasemapsSource.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.hasFilterFunction) && dotNetObject.hasFilterFunction) {
         jsPortalBasemapsSource.filterFunction = async (item,
-        index,
-        array) => {
+                                                       index,
+                                                       array) => {
             return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', item,
-            index,
-            array);
+                index,
+                array);
         };
     }
     if (hasValue(dotNetObject.portal)) {
-        let { buildJsPortal } = await import('./portal');
+        let {buildJsPortal} = await import('./portal');
         jsPortalBasemapsSource.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasUpdateBasemapsCallback) && dotNetObject.hasUpdateBasemapsCallback) {
@@ -89,56 +91,57 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         jsPortalBasemapsSource.query = dotNetObject.query;
     }
 
-    let { default: PortalBasemapsSourceWrapper } = await import('./portalBasemapsSource');
+    let {default: PortalBasemapsSourceWrapper} = await import('./portalBasemapsSource');
     let portalBasemapsSourceWrapper = new PortalBasemapsSourceWrapper(jsPortalBasemapsSource);
     portalBasemapsSourceWrapper.geoBlazorId = dotNetObject.id;
     portalBasemapsSourceWrapper.viewId = viewId;
     portalBasemapsSourceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalBasemapsSourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalBasemapsSourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
-    let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
+    let {buildDotNetPortalBasemapsSource} = await import('./portalBasemapsSource');
     let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalBasemapsSource', e);
     }
-    
+
     return jsPortalBasemapsSource;
 }
+
 export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPortalBasemapsSource: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemaps)) {
-            let { buildDotNetBasemap } = await import('./basemap');
-            dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
-        }
-        if (hasValue(jsObject.portal)) {
-            let { buildDotNetPortal } = await import('./portal');
-            dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal);
-        }
-        if (hasValue(jsObject.filterFunction)) {
-            dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
-        }
-        if (hasValue(jsObject.query)) {
-            dotNetPortalBasemapsSource.query = jsObject.query;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetPortalBasemapsSource.state = jsObject.state;
-        }
-        if (hasValue(jsObject.updateBasemapsCallback)) {
-            dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
-        }
+    if (hasValue(jsObject.basemaps)) {
+        let {buildDotNetBasemap} = await import('./basemap');
+        dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
+    }
+    if (hasValue(jsObject.portal)) {
+        let {buildDotNetPortal} = await import('./portal');
+        dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal);
+    }
+    if (hasValue(jsObject.filterFunction)) {
+        dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
+    }
+    if (hasValue(jsObject.query)) {
+        dotNetPortalBasemapsSource.query = jsObject.query;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetPortalBasemapsSource.state = jsObject.state;
+    }
+    if (hasValue(jsObject.updateBasemapsCallback)) {
+        dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,13 +12,13 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     constructor(widget: Locate) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async cancelLocate(): Promise<void> {
         this.widget.cancelLocate();
     }
@@ -28,35 +28,39 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getGraphic(): Promise<any> {
         if (!hasValue(this.widget.graphic)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
     }
+
     async setGraphic(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value);
+        let {buildJsGraphic} = await import('./graphic');
+        this.widget.graphic = buildJsGraphic(value);
     }
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetLocateViewModel } = await import('./locateViewModel');
+
+        let {buildDotNetLocateViewModel} = await import('./locateViewModel');
         return await buildDotNetLocateViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsLocateViewModel } = await import('./locateViewModel');
-        this.widget.viewModel = await  buildJsLocateViewModel(value, this.layerId, this.viewId);
+        let {buildJsLocateViewModel} = await import('./locateViewModel');
+        this.widget.viewModel = await buildJsLocateViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -65,11 +69,11 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
 export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLocate = new Locate();
     if (hasValue(dotNetObject.graphic)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsLocate.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsLocateViewModel } = await import('./locateViewModel');
+        let {buildJsLocateViewModel} = await import('./locateViewModel');
         jsLocate.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -97,74 +101,75 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     jsLocate.on('locate', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', evt);
     });
-    
+
     jsLocate.on('locate-error', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', evt);
     });
-    
 
-    let { default: LocateWidgetWrapper } = await import('./locateWidget');
+
+    let {default: LocateWidgetWrapper} = await import('./locateWidget');
     let locateWidgetWrapper = new LocateWidgetWrapper(jsLocate);
     locateWidgetWrapper.geoBlazorId = dotNetObject.id;
     locateWidgetWrapper.viewId = viewId;
     locateWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
-    let { buildDotNetLocateWidget } = await import('./locateWidget');
+    let {buildDotNetLocateWidget} = await import('./locateWidget');
     let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LocateWidget', e);
     }
-    
+
     return jsLocate;
 }
+
 export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLocateWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetLocateWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-            dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
-        }
-        if (hasValue(jsObject.geolocationOptions)) {
-            dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
-        }
-        if (hasValue(jsObject.goToLocationEnabled)) {
-            dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetLocateWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.rotationEnabled)) {
-            dotNetLocateWidget.rotationEnabled = jsObject.rotationEnabled;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetLocateWidget.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLocateWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLocateWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.graphic)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetLocateWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetLocateViewModel} = await import('./locateViewModel');
+        dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
+    }
+    if (hasValue(jsObject.geolocationOptions)) {
+        dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
+    }
+    if (hasValue(jsObject.goToLocationEnabled)) {
+        dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetLocateWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.rotationEnabled)) {
+        dotNetLocateWidget.rotationEnabled = jsObject.rotationEnabled;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetLocateWidget.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLocateWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLocateWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

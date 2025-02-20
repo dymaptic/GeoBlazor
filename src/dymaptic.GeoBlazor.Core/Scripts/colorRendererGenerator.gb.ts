@@ -12,55 +12,55 @@ export default class ColorRendererGeneratorGenerated implements IPropertyWrapper
     constructor(component: color) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createAgeRenderer(parameters: any): Promise<any> {
-        let { buildJsColorCreateAgeRendererParams } = await import('./colorCreateAgeRendererParams');
+        let {buildJsColorCreateAgeRendererParams} = await import('./colorCreateAgeRendererParams');
         let jsparameters = await buildJsColorCreateAgeRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createAgeRenderer(jsparameters);
     }
 
     async createClassBreaksRenderer(parameters: any): Promise<any> {
-        let { buildJsColorCreateClassBreaksRendererParams } = await import('./colorCreateClassBreaksRendererParams');
+        let {buildJsColorCreateClassBreaksRendererParams} = await import('./colorCreateClassBreaksRendererParams');
         let jsparameters = await buildJsColorCreateClassBreaksRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createClassBreaksRenderer(jsparameters);
     }
 
     async createContinuousRenderer(parameters: any): Promise<any> {
-        let { buildJsColorCreateContinuousRendererParams } = await import('./colorCreateContinuousRendererParams');
+        let {buildJsColorCreateContinuousRendererParams} = await import('./colorCreateContinuousRendererParams');
         let jsparameters = await buildJsColorCreateContinuousRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createContinuousRenderer(jsparameters);
     }
 
     async createPCContinuousRenderer(parameters: any): Promise<any> {
-        let { buildJsColorCreatePCContinuousRendererParams } = await import('./colorCreatePCContinuousRendererParams');
+        let {buildJsColorCreatePCContinuousRendererParams} = await import('./colorCreatePCContinuousRendererParams');
         let jsparameters = await buildJsColorCreatePCContinuousRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createPCContinuousRenderer(jsparameters);
     }
 
     async createPCTrueColorRenderer(parameters: any): Promise<any> {
-        let { buildJsColorCreatePCTrueColorRendererParams } = await import('./colorCreatePCTrueColorRendererParams');
+        let {buildJsColorCreatePCTrueColorRendererParams} = await import('./colorCreatePCTrueColorRendererParams');
         let jsparameters = await buildJsColorCreatePCTrueColorRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createPCTrueColorRenderer(jsparameters);
     }
 
     async createVisualVariable(parameters: any): Promise<any> {
-        let { buildJsColorCreateVisualVariableParams } = await import('./colorCreateVisualVariableParams');
+        let {buildJsColorCreateVisualVariableParams} = await import('./colorCreateVisualVariableParams');
         let jsparameters = await buildJsColorCreateVisualVariableParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createVisualVariable(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -70,32 +70,33 @@ export async function buildJsColorRendererGeneratorGenerated(dotNetObject: any, 
     let jscolor: any = {}
 
 
-    let { default: ColorRendererGeneratorWrapper } = await import('./colorRendererGenerator');
+    let {default: ColorRendererGeneratorWrapper} = await import('./colorRendererGenerator');
     let colorRendererGeneratorWrapper = new ColorRendererGeneratorWrapper(jscolor);
     colorRendererGeneratorWrapper.geoBlazorId = dotNetObject.id;
     colorRendererGeneratorWrapper.viewId = viewId;
     colorRendererGeneratorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorRendererGeneratorWrapper);
     jsObjectRefs[dotNetObject.id] = colorRendererGeneratorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscolor;
-    let { buildDotNetColorRendererGenerator } = await import('./colorRendererGenerator');
+    let {buildDotNetColorRendererGenerator} = await import('./colorRendererGenerator');
     let dnInstantiatedObject = await buildDotNetColorRendererGenerator(jscolor);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorRendererGenerator', e);
     }
-    
+
     return jscolor;
 }
+
 export async function buildDotNetColorRendererGeneratorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetColorRendererGenerator: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

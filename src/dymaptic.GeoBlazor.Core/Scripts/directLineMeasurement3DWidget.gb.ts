@@ -12,39 +12,42 @@ export default class DirectLineMeasurement3DWidgetGenerated implements IProperty
     constructor(widget: DirectLineMeasurement3D) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     async getAnalysis(): Promise<any> {
         if (!hasValue(this.widget.analysis)) {
             return null;
         }
-        
-        let { buildDotNetDirectLineMeasurementAnalysis } = await import('./directLineMeasurementAnalysis');
+
+        let {buildDotNetDirectLineMeasurementAnalysis} = await import('./directLineMeasurementAnalysis');
         return await buildDotNetDirectLineMeasurementAnalysis(this.widget.analysis);
     }
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
+
+        let {buildDotNetDirectLineMeasurement3DViewModel} = await import('./directLineMeasurement3DViewModel');
         return await buildDotNetDirectLineMeasurement3DViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
-        this.widget.viewModel = await  buildJsDirectLineMeasurement3DViewModel(value, this.layerId, this.viewId);
+        let {buildJsDirectLineMeasurement3DViewModel} = await import('./directLineMeasurement3DViewModel');
+        this.widget.viewModel = await buildJsDirectLineMeasurement3DViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -53,7 +56,7 @@ export default class DirectLineMeasurement3DWidgetGenerated implements IProperty
 export async function buildJsDirectLineMeasurement3DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDirectLineMeasurement3D = new DirectLineMeasurement3D();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
+        let {buildJsDirectLineMeasurement3DViewModel} = await import('./directLineMeasurement3DViewModel');
         jsDirectLineMeasurement3D.viewModel = await buildJsDirectLineMeasurement3DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -67,56 +70,57 @@ export async function buildJsDirectLineMeasurement3DWidgetGenerated(dotNetObject
         jsDirectLineMeasurement3D.view = dotNetObject.view;
     }
 
-    let { default: DirectLineMeasurement3DWidgetWrapper } = await import('./directLineMeasurement3DWidget');
+    let {default: DirectLineMeasurement3DWidgetWrapper} = await import('./directLineMeasurement3DWidget');
     let directLineMeasurement3DWidgetWrapper = new DirectLineMeasurement3DWidgetWrapper(jsDirectLineMeasurement3D);
     directLineMeasurement3DWidgetWrapper.geoBlazorId = dotNetObject.id;
     directLineMeasurement3DWidgetWrapper.viewId = viewId;
     directLineMeasurement3DWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(directLineMeasurement3DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = directLineMeasurement3DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDirectLineMeasurement3D;
-    let { buildDotNetDirectLineMeasurement3DWidget } = await import('./directLineMeasurement3DWidget');
+    let {buildDotNetDirectLineMeasurement3DWidget} = await import('./directLineMeasurement3DWidget');
     let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DWidget(jsDirectLineMeasurement3D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DirectLineMeasurement3DWidget', e);
     }
-    
+
     return jsDirectLineMeasurement3D;
 }
+
 export async function buildDotNetDirectLineMeasurement3DWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDirectLineMeasurement3DWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.analysis)) {
-            let { buildDotNetDirectLineMeasurementAnalysis } = await import('./directLineMeasurementAnalysis');
-            dotNetDirectLineMeasurement3DWidget.analysis = await buildDotNetDirectLineMeasurementAnalysis(jsObject.analysis);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
-            dotNetDirectLineMeasurement3DWidget.viewModel = await buildDotNetDirectLineMeasurement3DViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDirectLineMeasurement3DWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetDirectLineMeasurement3DWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetDirectLineMeasurement3DWidget.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDirectLineMeasurement3DWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.analysis)) {
+        let {buildDotNetDirectLineMeasurementAnalysis} = await import('./directLineMeasurementAnalysis');
+        dotNetDirectLineMeasurement3DWidget.analysis = await buildDotNetDirectLineMeasurementAnalysis(jsObject.analysis);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetDirectLineMeasurement3DViewModel} = await import('./directLineMeasurement3DViewModel');
+        dotNetDirectLineMeasurement3DWidget.viewModel = await buildDotNetDirectLineMeasurement3DViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDirectLineMeasurement3DWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetDirectLineMeasurement3DWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetDirectLineMeasurement3DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDirectLineMeasurement3DWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,25 +12,25 @@ export default class PreviewSymbol2DGenerated implements IPropertyWrapper {
     constructor(component: previewSymbol2D) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getContrastingBackgroundTheme(symbol: any,
-        threshold: any): Promise<any> {
+                                        threshold: any): Promise<any> {
         return this.component.getContrastingBackgroundTheme(symbol,
             threshold);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsPreviewSymbol2DGenerated(dotNetObject: any, layerId
     let jspreviewSymbol2D: any = {}
 
 
-    let { default: PreviewSymbol2DWrapper } = await import('./previewSymbol2D');
+    let {default: PreviewSymbol2DWrapper} = await import('./previewSymbol2D');
     let previewSymbol2DWrapper = new PreviewSymbol2DWrapper(jspreviewSymbol2D);
     previewSymbol2DWrapper.geoBlazorId = dotNetObject.id;
     previewSymbol2DWrapper.viewId = viewId;
     previewSymbol2DWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(previewSymbol2DWrapper);
     jsObjectRefs[dotNetObject.id] = previewSymbol2DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspreviewSymbol2D;
-    let { buildDotNetPreviewSymbol2D } = await import('./previewSymbol2D');
+    let {buildDotNetPreviewSymbol2D} = await import('./previewSymbol2D');
     let dnInstantiatedObject = await buildDotNetPreviewSymbol2D(jspreviewSymbol2D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PreviewSymbol2D', e);
     }
-    
+
     return jspreviewSymbol2D;
 }
+
 export async function buildDotNetPreviewSymbol2DGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPreviewSymbol2D: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

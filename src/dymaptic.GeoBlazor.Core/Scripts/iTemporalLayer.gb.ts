@@ -12,35 +12,37 @@ export default class ITemporalLayerGenerated implements IPropertyWrapper {
     constructor(layer: TemporalLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+
     async setTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.timeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -49,65 +51,66 @@ export default class ITemporalLayerGenerated implements IPropertyWrapper {
 export async function buildJsITemporalLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTemporalLayer = new TemporalLayer();
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsTemporalLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo} = dotNetObject.timeInfo;
         jsTemporalLayer.timeInfo = sanitizedTimeInfo;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset} = dotNetObject.timeOffset;
         jsTemporalLayer.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.useViewTime)) {
         jsTemporalLayer.useViewTime = dotNetObject.useViewTime;
     }
 
-    let { default: ITemporalLayerWrapper } = await import('./iTemporalLayer');
+    let {default: ITemporalLayerWrapper} = await import('./iTemporalLayer');
     let iTemporalLayerWrapper = new ITemporalLayerWrapper(jsTemporalLayer);
     iTemporalLayerWrapper.geoBlazorId = dotNetObject.id;
     iTemporalLayerWrapper.viewId = viewId;
     iTemporalLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iTemporalLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iTemporalLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTemporalLayer;
-    let { buildDotNetITemporalLayer } = await import('./iTemporalLayer');
+    let {buildDotNetITemporalLayer} = await import('./iTemporalLayer');
     let dnInstantiatedObject = await buildDotNetITemporalLayer(jsTemporalLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ITemporalLayer', e);
     }
-    
+
     return jsTemporalLayer;
 }
+
 export async function buildDotNetITemporalLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetITemporalLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetITemporalLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetITemporalLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetITemporalLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetITemporalLayer.useViewTime = jsObject.useViewTime;
-        }
+    if (hasValue(jsObject.timeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetITemporalLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        dotNetITemporalLayer.timeInfo = jsObject.timeInfo;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetITemporalLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetITemporalLayer.useViewTime = jsObject.useViewTime;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

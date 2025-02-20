@@ -12,25 +12,25 @@ export default class JsonUtilsGenerated implements IPropertyWrapper {
     constructor(component: jsonUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getJsonType(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.getJsonType(jsGeometry);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsJsonUtilsGenerated(dotNetObject: any, layerId: stri
     let jsjsonUtils: any = {}
 
 
-    let { default: JsonUtilsWrapper } = await import('./jsonUtils');
+    let {default: JsonUtilsWrapper} = await import('./jsonUtils');
     let jsonUtilsWrapper = new JsonUtilsWrapper(jsjsonUtils);
     jsonUtilsWrapper.geoBlazorId = dotNetObject.id;
     jsonUtilsWrapper.viewId = viewId;
     jsonUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsonUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = jsonUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsjsonUtils;
-    let { buildDotNetJsonUtils } = await import('./jsonUtils');
+    let {buildDotNetJsonUtils} = await import('./jsonUtils');
     let dnInstantiatedObject = await buildDotNetJsonUtils(jsjsonUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for JsonUtils', e);
     }
-    
+
     return jsjsonUtils;
 }
+
 export async function buildDotNetJsonUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetJsonUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

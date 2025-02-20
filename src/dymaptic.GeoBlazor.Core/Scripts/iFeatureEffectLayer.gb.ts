@@ -12,23 +12,23 @@ export default class IFeatureEffectLayerGenerated implements IPropertyWrapper {
     constructor(layer: FeatureEffectLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -38,43 +38,44 @@ export async function buildJsIFeatureEffectLayerGenerated(dotNetObject: any, lay
     let jsFeatureEffectLayer = new FeatureEffectLayer();
 
     if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect} = dotNetObject.featureEffect;
         jsFeatureEffectLayer.featureEffect = sanitizedFeatureEffect;
     }
 
-    let { default: IFeatureEffectLayerWrapper } = await import('./iFeatureEffectLayer');
+    let {default: IFeatureEffectLayerWrapper} = await import('./iFeatureEffectLayer');
     let iFeatureEffectLayerWrapper = new IFeatureEffectLayerWrapper(jsFeatureEffectLayer);
     iFeatureEffectLayerWrapper.geoBlazorId = dotNetObject.id;
     iFeatureEffectLayerWrapper.viewId = viewId;
     iFeatureEffectLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iFeatureEffectLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iFeatureEffectLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffectLayer;
-    let { buildDotNetIFeatureEffectLayer } = await import('./iFeatureEffectLayer');
+    let {buildDotNetIFeatureEffectLayer} = await import('./iFeatureEffectLayer');
     let dnInstantiatedObject = await buildDotNetIFeatureEffectLayer(jsFeatureEffectLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IFeatureEffectLayer', e);
     }
-    
+
     return jsFeatureEffectLayer;
 }
+
 export async function buildDotNetIFeatureEffectLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIFeatureEffectLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetIFeatureEffectLayer.featureEffect = jsObject.featureEffect;
-        }
+    if (hasValue(jsObject.featureEffect)) {
+        dotNetIFeatureEffectLayer.featureEffect = jsObject.featureEffect;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -27,6 +27,7 @@ export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
 
     return jsRelatedRecordsInfoFieldOrder;
 }
+
 export function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): any {
     if (!hasValue(jsObject)) {
         return null;

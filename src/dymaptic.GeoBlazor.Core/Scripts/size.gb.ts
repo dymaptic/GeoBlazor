@@ -12,49 +12,49 @@ export default class SizeGenerated implements IPropertyWrapper {
     constructor(component: size) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createAgeRenderer(parameters: any): Promise<any> {
-        let { buildJsSizeCreateAgeRendererParams } = await import('./sizeCreateAgeRendererParams');
+        let {buildJsSizeCreateAgeRendererParams} = await import('./sizeCreateAgeRendererParams');
         let jsparameters = await buildJsSizeCreateAgeRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createAgeRenderer(jsparameters);
     }
 
     async createClassBreaksRenderer(parameters: any): Promise<any> {
-        let { buildJsSizeCreateClassBreaksRendererParams } = await import('./sizeCreateClassBreaksRendererParams');
+        let {buildJsSizeCreateClassBreaksRendererParams} = await import('./sizeCreateClassBreaksRendererParams');
         let jsparameters = await buildJsSizeCreateClassBreaksRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createClassBreaksRenderer(jsparameters);
     }
 
     async createContinuousRenderer(parameters: any): Promise<any> {
-        let { buildJsSizeCreateContinuousRendererParams } = await import('./sizeCreateContinuousRendererParams');
+        let {buildJsSizeCreateContinuousRendererParams} = await import('./sizeCreateContinuousRendererParams');
         let jsparameters = await buildJsSizeCreateContinuousRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createContinuousRenderer(jsparameters);
     }
 
     async createVisualVariables(parameters: any): Promise<any> {
-        let { buildJsSizeCreateVisualVariablesParams } = await import('./sizeCreateVisualVariablesParams');
+        let {buildJsSizeCreateVisualVariablesParams} = await import('./sizeCreateVisualVariablesParams');
         let jsparameters = await buildJsSizeCreateVisualVariablesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createVisualVariables(jsparameters);
     }
 
     async updateRendererWithReferenceSize(parameters: any): Promise<any> {
-        let { buildJsSizeUpdateRendererWithReferenceSizeParams } = await import('./sizeUpdateRendererWithReferenceSizeParams');
+        let {buildJsSizeUpdateRendererWithReferenceSizeParams} = await import('./sizeUpdateRendererWithReferenceSizeParams');
         let jsparameters = await buildJsSizeUpdateRendererWithReferenceSizeParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.updateRendererWithReferenceSize(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -64,32 +64,33 @@ export async function buildJsSizeGenerated(dotNetObject: any, layerId: string | 
     let jssize: any = {}
 
 
-    let { default: SizeWrapper } = await import('./size');
+    let {default: SizeWrapper} = await import('./size');
     let sizeWrapper = new SizeWrapper(jssize);
     sizeWrapper.geoBlazorId = dotNetObject.id;
     sizeWrapper.viewId = viewId;
     sizeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeWrapper);
     jsObjectRefs[dotNetObject.id] = sizeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssize;
-    let { buildDotNetSize } = await import('./size');
+    let {buildDotNetSize} = await import('./size');
     let dnInstantiatedObject = await buildDotNetSize(jssize);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Size', e);
     }
-    
+
     return jssize;
 }
+
 export async function buildDotNetSizeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSize: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,13 +12,13 @@ export default class SymbologyPredominanceGenerated implements IPropertyWrapper 
     constructor(component: symbologyPredominance) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
         return this.component.cloneScheme(scheme);
     }
@@ -40,11 +40,11 @@ export default class SymbologyPredominanceGenerated implements IPropertyWrapper 
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -54,32 +54,33 @@ export async function buildJsSymbologyPredominanceGenerated(dotNetObject: any, l
     let jssymbologyPredominance: any = {}
 
 
-    let { default: SymbologyPredominanceWrapper } = await import('./symbologyPredominance');
+    let {default: SymbologyPredominanceWrapper} = await import('./symbologyPredominance');
     let symbologyPredominanceWrapper = new SymbologyPredominanceWrapper(jssymbologyPredominance);
     symbologyPredominanceWrapper.geoBlazorId = dotNetObject.id;
     symbologyPredominanceWrapper.viewId = viewId;
     symbologyPredominanceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyPredominanceWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyPredominanceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyPredominance;
-    let { buildDotNetSymbologyPredominance } = await import('./symbologyPredominance');
+    let {buildDotNetSymbologyPredominance} = await import('./symbologyPredominance');
     let dnInstantiatedObject = await buildDotNetSymbologyPredominance(jssymbologyPredominance);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyPredominance', e);
     }
-    
+
     return jssymbologyPredominance;
 }
+
 export async function buildDotNetSymbologyPredominanceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyPredominance: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

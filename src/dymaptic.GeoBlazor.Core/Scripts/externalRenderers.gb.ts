@@ -12,15 +12,15 @@ export default class ExternalRenderersGenerated implements IPropertyWrapper {
     constructor(component: externalRenderers) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async add(view: any,
-        renderer: any): Promise<void> {
+              renderer: any): Promise<void> {
         this.component.add(view,
             renderer);
     }
@@ -34,7 +34,7 @@ export default class ExternalRenderersGenerated implements IPropertyWrapper {
     }
 
     async remove(view: any,
-        renderer: any): Promise<void> {
+                 renderer: any): Promise<void> {
         this.component.remove(view,
             renderer);
     }
@@ -52,11 +52,11 @@ export default class ExternalRenderersGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -66,32 +66,33 @@ export async function buildJsExternalRenderersGenerated(dotNetObject: any, layer
     let jsexternalRenderers: any = {}
 
 
-    let { default: ExternalRenderersWrapper } = await import('./externalRenderers');
+    let {default: ExternalRenderersWrapper} = await import('./externalRenderers');
     let externalRenderersWrapper = new ExternalRenderersWrapper(jsexternalRenderers);
     externalRenderersWrapper.geoBlazorId = dotNetObject.id;
     externalRenderersWrapper.viewId = viewId;
     externalRenderersWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(externalRenderersWrapper);
     jsObjectRefs[dotNetObject.id] = externalRenderersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsexternalRenderers;
-    let { buildDotNetExternalRenderers } = await import('./externalRenderers');
+    let {buildDotNetExternalRenderers} = await import('./externalRenderers');
     let dnInstantiatedObject = await buildDotNetExternalRenderers(jsexternalRenderers);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ExternalRenderers', e);
     }
-    
+
     return jsexternalRenderers;
 }
+
 export async function buildDotNetExternalRenderersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetExternalRenderers: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

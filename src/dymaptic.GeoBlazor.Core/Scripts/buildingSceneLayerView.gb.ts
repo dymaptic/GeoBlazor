@@ -12,44 +12,45 @@ export default class BuildingSceneLayerViewGenerated implements IPropertyWrapper
     constructor(component: BuildingSceneLayerView) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
-        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        let {buildDotNetHighlightHandle} = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }
 
     // region properties
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetBuildingSceneLayer } = await import('./buildingSceneLayer');
+
+        let {buildDotNetBuildingSceneLayer} = await import('./buildingSceneLayer');
         return await buildDotNetBuildingSceneLayer(this.component.layer);
     }
+
     async getSublayerViews(): Promise<any> {
         if (!hasValue(this.component.sublayerViews)) {
             return null;
         }
-        
-        let { buildDotNetBuildingComponentSublayerView } = await import('./buildingComponentSublayerView');
+
+        let {buildDotNetBuildingComponentSublayerView} = await import('./buildingComponentSublayerView');
         return await Promise.all(this.component.sublayerViews.map(async i => await buildDotNetBuildingComponentSublayerView(i)));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -59,58 +60,59 @@ export async function buildJsBuildingSceneLayerViewGenerated(dotNetObject: any, 
     let jsBuildingSceneLayerView = new BuildingSceneLayerView();
 
 
-    let { default: BuildingSceneLayerViewWrapper } = await import('./buildingSceneLayerView');
+    let {default: BuildingSceneLayerViewWrapper} = await import('./buildingSceneLayerView');
     let buildingSceneLayerViewWrapper = new BuildingSceneLayerViewWrapper(jsBuildingSceneLayerView);
     buildingSceneLayerViewWrapper.geoBlazorId = dotNetObject.id;
     buildingSceneLayerViewWrapper.viewId = viewId;
     buildingSceneLayerViewWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(buildingSceneLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = buildingSceneLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingSceneLayerView;
-    let { buildDotNetBuildingSceneLayerView } = await import('./buildingSceneLayerView');
+    let {buildDotNetBuildingSceneLayerView} = await import('./buildingSceneLayerView');
     let dnInstantiatedObject = await buildDotNetBuildingSceneLayerView(jsBuildingSceneLayerView);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BuildingSceneLayerView', e);
     }
-    
+
     return jsBuildingSceneLayerView;
 }
+
 export async function buildDotNetBuildingSceneLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBuildingSceneLayerView: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.sublayerViews)) {
-            let { buildDotNetBuildingComponentSublayerView } = await import('./buildingComponentSublayerView');
-            dotNetBuildingSceneLayerView.sublayerViews = await Promise.all(jsObject.sublayerViews.map(async i => await buildDotNetBuildingComponentSublayerView(i)));
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetBuildingSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBuildingSceneLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBuildingSceneLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBuildingSceneLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetBuildingSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetBuildingSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.sublayerViews)) {
+        let {buildDotNetBuildingComponentSublayerView} = await import('./buildingComponentSublayerView');
+        dotNetBuildingSceneLayerView.sublayerViews = await Promise.all(jsObject.sublayerViews.map(async i => await buildDotNetBuildingComponentSublayerView(i)));
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetBuildingSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBuildingSceneLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBuildingSceneLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBuildingSceneLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetBuildingSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetBuildingSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

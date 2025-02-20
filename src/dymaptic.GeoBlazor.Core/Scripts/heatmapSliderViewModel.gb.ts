@@ -12,13 +12,13 @@ export default class HeatmapSliderViewModelGenerated implements IPropertyWrapper
     constructor(component: HeatmapSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -40,8 +40,8 @@ export default class HeatmapSliderViewModelGenerated implements IPropertyWrapper
     }
 
     async getLabelForValue(value: any,
-        type: any,
-        index: any): Promise<any> {
+                           type: any,
+                           index: any): Promise<any> {
         return this.component.getLabelForValue(value,
             type,
             index);
@@ -60,7 +60,7 @@ export default class HeatmapSliderViewModelGenerated implements IPropertyWrapper
     }
 
     async setValue(index: any,
-        value: any): Promise<void> {
+                   value: any): Promise<void> {
         this.component.setValue(index,
             value);
     }
@@ -70,25 +70,25 @@ export default class HeatmapSliderViewModelGenerated implements IPropertyWrapper
     }
 
     // region properties
-    
+
     async getStops(): Promise<any> {
         if (!hasValue(this.component.stops)) {
             return null;
         }
-        
-        let { buildDotNetHeatmapColorStop } = await import('./heatmapColorStop');
+
+        let {buildDotNetHeatmapColorStop} = await import('./heatmapColorStop');
         return await Promise.all(this.component.stops.map(async i => await buildDotNetHeatmapColorStop(i)));
     }
-    
+
     async setStops(value: any): Promise<void> {
-        let { buildJsHeatmapColorStop } = await import('./heatmapColorStop');
+        let {buildJsHeatmapColorStop} = await import('./heatmapColorStop');
         this.component.stops = await Promise.all(value.map(async i => await buildJsHeatmapColorStop(i, this.layerId, this.viewId))) as any;
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -106,7 +106,7 @@ export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, 
         jsHeatmapSliderViewModel.labelFormatFunction = dotNetObject.sliderLabelFormatter;
     }
     if (hasValue(dotNetObject.stops)) {
-        let { buildJsHeatmapColorStop } = await import('./heatmapColorStop');
+        let {buildJsHeatmapColorStop} = await import('./heatmapColorStop');
         jsHeatmapSliderViewModel.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsHeatmapColorStop(i, layerId, viewId))) as any;
     }
 
@@ -138,82 +138,83 @@ export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, 
         jsHeatmapSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
     }
 
-    let { default: HeatmapSliderViewModelWrapper } = await import('./heatmapSliderViewModel');
+    let {default: HeatmapSliderViewModelWrapper} = await import('./heatmapSliderViewModel');
     let heatmapSliderViewModelWrapper = new HeatmapSliderViewModelWrapper(jsHeatmapSliderViewModel);
     heatmapSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     heatmapSliderViewModelWrapper.viewId = viewId;
     heatmapSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(heatmapSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = heatmapSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapSliderViewModel;
-    let { buildDotNetHeatmapSliderViewModel } = await import('./heatmapSliderViewModel');
+    let {buildDotNetHeatmapSliderViewModel} = await import('./heatmapSliderViewModel');
     let dnInstantiatedObject = await buildDotNetHeatmapSliderViewModel(jsHeatmapSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HeatmapSliderViewModel', e);
     }
-    
+
     return jsHeatmapSliderViewModel;
 }
+
 export async function buildDotNetHeatmapSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetHeatmapSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.stops)) {
-            let { buildDotNetHeatmapColorStop } = await import('./heatmapColorStop');
-            dotNetHeatmapSliderViewModel.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetHeatmapColorStop(i)));
-        }
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetHeatmapSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetHeatmapSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetHeatmapSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetHeatmapSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetHeatmapSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetHeatmapSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetHeatmapSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetHeatmapSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetHeatmapSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetHeatmapSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetHeatmapSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetHeatmapSliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetHeatmapSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetHeatmapSliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.stops)) {
+        let {buildDotNetHeatmapColorStop} = await import('./heatmapColorStop');
+        dotNetHeatmapSliderViewModel.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetHeatmapColorStop(i)));
+    }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetHeatmapSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetHeatmapSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetHeatmapSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetHeatmapSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetHeatmapSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetHeatmapSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetHeatmapSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetHeatmapSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetHeatmapSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetHeatmapSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetHeatmapSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetHeatmapSliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetHeatmapSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetHeatmapSliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

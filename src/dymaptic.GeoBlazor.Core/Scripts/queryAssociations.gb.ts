@@ -12,27 +12,27 @@ export default class QueryAssociationsGenerated implements IPropertyWrapper {
     constructor(component: queryAssociations) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async queryAssociations(url: any,
-        props: any,
-        requestOptions: any): Promise<any> {
+                            props: any,
+                            requestOptions: any): Promise<any> {
         return await this.component.queryAssociations(url,
             props,
             requestOptions);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsQueryAssociationsGenerated(dotNetObject: any, layer
     let jsqueryAssociations: any = {}
 
 
-    let { default: QueryAssociationsWrapper } = await import('./queryAssociations');
+    let {default: QueryAssociationsWrapper} = await import('./queryAssociations');
     let queryAssociationsWrapper = new QueryAssociationsWrapper(jsqueryAssociations);
     queryAssociationsWrapper.geoBlazorId = dotNetObject.id;
     queryAssociationsWrapper.viewId = viewId;
     queryAssociationsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(queryAssociationsWrapper);
     jsObjectRefs[dotNetObject.id] = queryAssociationsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsqueryAssociations;
-    let { buildDotNetQueryAssociations } = await import('./queryAssociations');
+    let {buildDotNetQueryAssociations} = await import('./queryAssociations');
     let dnInstantiatedObject = await buildDotNetQueryAssociations(jsqueryAssociations);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for QueryAssociations', e);
     }
-    
+
     return jsqueryAssociations;
 }
+
 export async function buildDotNetQueryAssociationsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetQueryAssociations: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

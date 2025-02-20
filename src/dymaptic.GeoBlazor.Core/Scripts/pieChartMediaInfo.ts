@@ -34,7 +34,7 @@ export function buildJsPieChartMediaInfo(dotNetObject: any): any {
     }
 
     return jsPieChartMediaInfo;
-}     
+}
 
 export function buildDotNetPieChartMediaInfo(jsObject: any): any {
     if (!hasValue(jsObject)) {

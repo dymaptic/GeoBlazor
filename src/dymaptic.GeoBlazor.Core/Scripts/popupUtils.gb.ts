@@ -12,49 +12,49 @@ export default class PopupUtilsGenerated implements IPropertyWrapper {
     constructor(component: popupUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createFieldInfos(config: any,
-        options: any): Promise<any> {
-        let { buildJsFieldInfosConfig } = await import('./fieldInfosConfig');
+                           options: any): Promise<any> {
+        let {buildJsFieldInfosConfig} = await import('./fieldInfosConfig');
         let jsConfig = await buildJsFieldInfosConfig(config, this.layerId, this.viewId) as any;
         return this.component.createFieldInfos(jsConfig,
             options);
     }
 
     async createFieldsContent(config: any,
-        options: any): Promise<any> {
-        let { buildJsFieldInfosConfig } = await import('./fieldInfosConfig');
+                              options: any): Promise<any> {
+        let {buildJsFieldInfosConfig} = await import('./fieldInfosConfig');
         let jsConfig = await buildJsFieldInfosConfig(config, this.layerId, this.viewId) as any;
         return this.component.createFieldsContent(jsConfig,
             options);
     }
 
     async createPopupTemplate(config: any,
-        options: any): Promise<any> {
-        let { buildJsConfig } = await import('./config');
+                              options: any): Promise<any> {
+        let {buildJsConfig} = await import('./config');
         let jsConfig = await buildJsConfig(config, this.layerId, this.viewId) as any;
         return this.component.createPopupTemplate(jsConfig,
             options);
     }
 
     async createPopupTemplateForFeatureReduction(parameters: any): Promise<any> {
-        let { buildJsPopupUtilsCreatePopupTemplateForFeatureReductionParams } = await import('./popupUtilsCreatePopupTemplateForFeatureReductionParams');
+        let {buildJsPopupUtilsCreatePopupTemplateForFeatureReductionParams} = await import('./popupUtilsCreatePopupTemplateForFeatureReductionParams');
         let jsparameters = await buildJsPopupUtilsCreatePopupTemplateForFeatureReductionParams(parameters, this.layerId, this.viewId) as any;
         return this.component.createPopupTemplateForFeatureReduction(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -64,32 +64,33 @@ export async function buildJsPopupUtilsGenerated(dotNetObject: any, layerId: str
     let jspopupUtils: any = {}
 
 
-    let { default: PopupUtilsWrapper } = await import('./popupUtils');
+    let {default: PopupUtilsWrapper} = await import('./popupUtils');
     let popupUtilsWrapper = new PopupUtilsWrapper(jspopupUtils);
     popupUtilsWrapper.geoBlazorId = dotNetObject.id;
     popupUtilsWrapper.viewId = viewId;
     popupUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = popupUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jspopupUtils;
-    let { buildDotNetPopupUtils } = await import('./popupUtils');
+    let {buildDotNetPopupUtils} = await import('./popupUtils');
     let dnInstantiatedObject = await buildDotNetPopupUtils(jspopupUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PopupUtils', e);
     }
-    
+
     return jspopupUtils;
 }
+
 export async function buildDotNetPopupUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPopupUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

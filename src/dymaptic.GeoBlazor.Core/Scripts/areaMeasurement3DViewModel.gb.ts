@@ -12,13 +12,13 @@ export default class AreaMeasurement3DViewModelGenerated implements IPropertyWra
     constructor(component: AreaMeasurement3DViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -28,19 +28,20 @@ export default class AreaMeasurement3DViewModelGenerated implements IPropertyWra
     }
 
     // region properties
-    
+
     async getAnalysis(): Promise<any> {
         if (!hasValue(this.component.analysis)) {
             return null;
         }
-        
-        let { buildDotNetAreaMeasurementAnalysis } = await import('./areaMeasurementAnalysis');
+
+        let {buildDotNetAreaMeasurementAnalysis} = await import('./areaMeasurementAnalysis');
         return await buildDotNetAreaMeasurementAnalysis(this.component.analysis);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -59,55 +60,56 @@ export async function buildJsAreaMeasurement3DViewModelGenerated(dotNetObject: a
         jsAreaMeasurement3DViewModel.view = dotNetObject.view;
     }
 
-    let { default: AreaMeasurement3DViewModelWrapper } = await import('./areaMeasurement3DViewModel');
+    let {default: AreaMeasurement3DViewModelWrapper} = await import('./areaMeasurement3DViewModel');
     let areaMeasurement3DViewModelWrapper = new AreaMeasurement3DViewModelWrapper(jsAreaMeasurement3DViewModel);
     areaMeasurement3DViewModelWrapper.geoBlazorId = dotNetObject.id;
     areaMeasurement3DViewModelWrapper.viewId = viewId;
     areaMeasurement3DViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement3DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement3DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement3DViewModel;
-    let { buildDotNetAreaMeasurement3DViewModel } = await import('./areaMeasurement3DViewModel');
+    let {buildDotNetAreaMeasurement3DViewModel} = await import('./areaMeasurement3DViewModel');
     let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModel(jsAreaMeasurement3DViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AreaMeasurement3DViewModel', e);
     }
-    
+
     return jsAreaMeasurement3DViewModel;
 }
+
 export async function buildDotNetAreaMeasurement3DViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetAreaMeasurement3DViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.analysis)) {
-            let { buildDotNetAreaMeasurementAnalysis } = await import('./areaMeasurementAnalysis');
-            dotNetAreaMeasurement3DViewModel.analysis = await buildDotNetAreaMeasurementAnalysis(jsObject.analysis);
-        }
-        if (hasValue(jsObject.measurement)) {
-            dotNetAreaMeasurement3DViewModel.measurement = jsObject.measurement;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetAreaMeasurement3DViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAreaMeasurement3DViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetAreaMeasurement3DViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetAreaMeasurement3DViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.analysis)) {
+        let {buildDotNetAreaMeasurementAnalysis} = await import('./areaMeasurementAnalysis');
+        dotNetAreaMeasurement3DViewModel.analysis = await buildDotNetAreaMeasurementAnalysis(jsObject.analysis);
+    }
+    if (hasValue(jsObject.measurement)) {
+        dotNetAreaMeasurement3DViewModel.measurement = jsObject.measurement;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetAreaMeasurement3DViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAreaMeasurement3DViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetAreaMeasurement3DViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetAreaMeasurement3DViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -7,15 +7,15 @@ export default class CoordinateFormatterWrapper extends CoordinateFormatterGener
     constructor(component: coordinateFormatter) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsCoordinateFormatter(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsCoordinateFormatterGenerated } = await import('./coordinateFormatter.gb');
+    let {buildJsCoordinateFormatterGenerated} = await import('./coordinateFormatter.gb');
     return await buildJsCoordinateFormatterGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetCoordinateFormatter(jsObject: any): Promise<any> {
-    let { buildDotNetCoordinateFormatterGenerated } = await import('./coordinateFormatter.gb');
+    let {buildDotNetCoordinateFormatterGenerated} = await import('./coordinateFormatter.gb');
     return await buildDotNetCoordinateFormatterGenerated(jsObject);
 }

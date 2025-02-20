@@ -12,35 +12,37 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
     constructor(widget: Compass) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async reset(): Promise<void> {
         this.widget.reset();
     }
 
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetCompassViewModel } = await import('./compassViewModel');
+
+        let {buildDotNetCompassViewModel} = await import('./compassViewModel');
         return await buildDotNetCompassViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsCompassViewModel } = await import('./compassViewModel');
-        this.widget.viewModel = await  buildJsCompassViewModel(value, this.layerId, this.viewId);
+        let {buildJsCompassViewModel} = await import('./compassViewModel');
+        this.widget.viewModel = await buildJsCompassViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -49,7 +51,7 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
 export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCompass = new Compass();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsCompassViewModel } = await import('./compassViewModel');
+        let {buildJsCompassViewModel} = await import('./compassViewModel');
         jsCompass.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -60,49 +62,50 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         jsCompass.view = dotNetObject.view;
     }
 
-    let { default: CompassWidgetWrapper } = await import('./compassWidget');
+    let {default: CompassWidgetWrapper} = await import('./compassWidget');
     let compassWidgetWrapper = new CompassWidgetWrapper(jsCompass);
     compassWidgetWrapper.geoBlazorId = dotNetObject.id;
     compassWidgetWrapper.viewId = viewId;
     compassWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
-    let { buildDotNetCompassWidget } = await import('./compassWidget');
+    let {buildDotNetCompassWidget} = await import('./compassWidget');
     let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CompassWidget', e);
     }
-    
+
     return jsCompass;
 }
+
 export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetCompassWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-            dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetCompassWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCompassWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCompassWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetCompassViewModel} = await import('./compassViewModel');
+        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCompassWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCompassWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCompassWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

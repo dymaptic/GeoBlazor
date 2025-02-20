@@ -12,16 +12,16 @@ export default class SublayerGenerated implements IPropertyWrapper {
     constructor(component: Sublayer) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
-        let { buildDotNetFeatureLayer } = await import('./featureLayer');
+        let {buildDotNetFeatureLayer} = await import('./featureLayer');
         return await buildDotNetFeatureLayer(result);
     }
 
@@ -34,173 +34,181 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
 
     async getFeatureType(feature: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         let jsFeature = buildJsGraphic(feature) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
     async getFieldDomain(fieldName: any,
-        options: any): Promise<any> {
-        let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
+                         options: any): Promise<any> {
+        let {buildJsSublayerGetFieldDomainOptions} = await import('./sublayerGetFieldDomainOptions');
         let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.component.getFieldDomain(fieldName,
             jsOptions);
     }
 
     async queryAttachments(attachmentQuery: any,
-        options: any): Promise<any> {
+                           options: any): Promise<any> {
         return this.component.queryAttachments(attachmentQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                            options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                        options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
-        options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                         options: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
 
     async queryRelatedFeatures(relationshipQuery: any,
-        options: any): Promise<any> {
-        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+                               options: any): Promise<any> {
+        let {buildJsRelationshipQuery} = await import('./relationshipQuery');
         let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery, this.layerId, this.viewId) as any;
         return await this.component.queryRelatedFeatures(jsRelationshipQuery,
             options);
     }
 
     async queryRelatedFeaturesCount(relationshipQuery: any,
-        options: any): Promise<any> {
-        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+                                    options: any): Promise<any> {
+        let {buildJsRelationshipQuery} = await import('./relationshipQuery');
         let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery, this.layerId, this.viewId) as any;
         return await this.component.queryRelatedFeaturesCount(jsRelationshipQuery,
             options);
     }
 
     // region properties
-    
+
     async getFields(): Promise<any> {
         if (!hasValue(this.component.fields)) {
             return null;
         }
-        
-        let { buildDotNetField } = await import('./field');
+
+        let {buildDotNetField} = await import('./field');
         return this.component.fields!.map(i => buildDotNetField(i));
     }
-    
+
     async getFieldsIndex(): Promise<any> {
         if (!hasValue(this.component.fieldsIndex)) {
             return null;
         }
-        
-        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+
+        let {buildDotNetFieldsIndex} = await import('./fieldsIndex');
         return await buildDotNetFieldsIndex(this.component.fieldsIndex);
     }
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.component.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.component.fullExtent);
     }
+
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.component.labelingInfo)) {
             return null;
         }
-        
-        let { buildDotNetLabel } = await import('./label');
+
+        let {buildDotNetLabel} = await import('./label');
         return await Promise.all(this.component.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
-    
+
     async setLabelingInfo(value: any): Promise<void> {
-        let { buildJsLabel } = await import('./label');
+        let {buildJsLabel} = await import('./label');
         this.component.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i))) as any;
     }
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
         }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
+
     async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
+        this.component.popupTemplate = buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+
     async getRenderer(): Promise<any> {
         if (!hasValue(this.component.renderer)) {
             return null;
         }
-        
-        let { buildDotNetRenderer } = await import('./renderer');
+
+        let {buildDotNetRenderer} = await import('./renderer');
         return await buildDotNetRenderer(this.component.renderer);
     }
+
     async setRenderer(value: any): Promise<void> {
-        let { buildJsRenderer } = await import('./renderer');
-        this.component.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
+        let {buildJsRenderer} = await import('./renderer');
+        this.component.renderer = await buildJsRenderer(value, this.layerId, this.viewId);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+
     async getSublayers(): Promise<any> {
         if (!hasValue(this.component.sublayers)) {
             return null;
         }
-        
-        let { buildDotNetSublayer } = await import('./sublayer');
+
+        let {buildDotNetSublayer} = await import('./sublayer');
         return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i)));
     }
-    
+
     async setSublayers(value: any): Promise<void> {
-        let { buildJsSublayer } = await import('./sublayer');
+        let {buildJsSublayer} = await import('./sublayer');
         this.component.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getTypes(): Promise<any> {
         if (!hasValue(this.component.types)) {
             return null;
         }
-        
-        let { buildDotNetFeatureType } = await import('./featureType');
+
+        let {buildDotNetFeatureType} = await import('./featureType');
         return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i)));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -209,15 +217,15 @@ export default class SublayerGenerated implements IPropertyWrapper {
 export async function buildJsSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSublayer = new Sublayer();
     if (hasValue(dotNetObject.labelingInfo)) {
-        let { buildJsLabel } = await import('./label');
+        let {buildJsLabel} = await import('./label');
         jsSublayer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('./renderer');
+        let {buildJsRenderer} = await import('./renderer');
         jsSublayer.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
@@ -225,7 +233,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         jsSublayer.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.floorInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo} = dotNetObject.floorInfo;
         jsSublayer.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
@@ -262,125 +270,126 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         jsSublayer.url = dotNetObject.url;
     }
 
-    let { default: SublayerWrapper } = await import('./sublayer');
+    let {default: SublayerWrapper} = await import('./sublayer');
     let sublayerWrapper = new SublayerWrapper(jsSublayer);
     sublayerWrapper.geoBlazorId = dotNetObject.id;
     sublayerWrapper.viewId = viewId;
     sublayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
-    let { buildDotNetSublayer } = await import('./sublayer');
+    let {buildDotNetSublayer} = await import('./sublayer');
     let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Sublayer', e);
     }
-    
+
     return jsSublayer;
 }
+
 export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSublayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.labelingInfo)) {
-            let { buildDotNetLabel } = await import('./label');
-            dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.renderer)) {
-            let { buildDotNetRenderer } = await import('./renderer');
-            dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetSublayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.types)) {
-            let { buildDotNetFeatureType } = await import('./featureType');
-            dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetSublayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetSublayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetSublayer.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetSublayer.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetSublayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetSublayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetSublayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetSublayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetSublayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetSublayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetSublayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetSublayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.relationships)) {
-            dotNetSublayer.relationships = jsObject.relationships;
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetSublayer.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetSublayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetSublayer.sublayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.typeIdField)) {
-            dotNetSublayer.typeIdField = jsObject.typeIdField;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetSublayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.fields)) {
+        let {buildDotNetField} = await import('./field');
+        dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let {buildDotNetFieldsIndex} = await import('./fieldsIndex');
+        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.labelingInfo)) {
+        let {buildDotNetLabel} = await import('./label');
+        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
+        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.renderer)) {
+        let {buildDotNetRenderer} = await import('./renderer');
+        dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetSublayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.types)) {
+        let {buildDotNetFeatureType} = await import('./featureType');
+        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetSublayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetSublayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetSublayer.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetSublayer.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetSublayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetSublayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetSublayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetSublayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetSublayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetSublayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetSublayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetSublayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.relationships)) {
+        dotNetSublayer.relationships = jsObject.relationships;
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetSublayer.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetSublayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetSublayer.sublayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.typeIdField)) {
+        dotNetSublayer.typeIdField = jsObject.typeIdField;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetSublayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

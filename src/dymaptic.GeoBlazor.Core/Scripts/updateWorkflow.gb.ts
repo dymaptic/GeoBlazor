@@ -12,13 +12,13 @@ export default class UpdateWorkflowGenerated implements IPropertyWrapper {
     constructor(component: UpdateWorkflow) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cancel(options: any): Promise<void> {
         await this.component.cancel(options);
     }
@@ -44,19 +44,20 @@ export default class UpdateWorkflowGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getData(): Promise<any> {
         if (!hasValue(this.component.data)) {
             return null;
         }
-        
-        let { buildDotNetUpdateWorkflowData } = await import('./updateWorkflowData');
-        return await buildDotNetUpdateWorkflowData(this.component.data, this.layerId, this.viewId);
+
+        let {buildDotNetUpdateWorkflowData} = await import('./updateWorkflowData');
+        return await buildDotNetUpdateWorkflowData(this.component.data);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -66,55 +67,56 @@ export async function buildJsUpdateWorkflowGenerated(dotNetObject: any, layerId:
     let jsUpdateWorkflow = new UpdateWorkflow();
 
 
-    let { default: UpdateWorkflowWrapper } = await import('./updateWorkflow');
+    let {default: UpdateWorkflowWrapper} = await import('./updateWorkflow');
     let updateWorkflowWrapper = new UpdateWorkflowWrapper(jsUpdateWorkflow);
     updateWorkflowWrapper.geoBlazorId = dotNetObject.id;
     updateWorkflowWrapper.viewId = viewId;
     updateWorkflowWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(updateWorkflowWrapper);
     jsObjectRefs[dotNetObject.id] = updateWorkflowWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUpdateWorkflow;
-    let { buildDotNetUpdateWorkflow } = await import('./updateWorkflow');
+    let {buildDotNetUpdateWorkflow} = await import('./updateWorkflow');
     let dnInstantiatedObject = await buildDotNetUpdateWorkflow(jsUpdateWorkflow);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UpdateWorkflow', e);
     }
-    
+
     return jsUpdateWorkflow;
 }
-export async function buildDotNetUpdateWorkflowGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+
+export async function buildDotNetUpdateWorkflowGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUpdateWorkflow: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.data)) {
-            let { buildDotNetUpdateWorkflowData } = await import('./updateWorkflowData');
-            dotNetUpdateWorkflow.data = await buildDotNetUpdateWorkflowData(jsObject.data, layerId, viewId);
-        }
-        if (hasValue(jsObject.hasNextStep)) {
-            dotNetUpdateWorkflow.hasNextStep = jsObject.hasNextStep;
-        }
-        if (hasValue(jsObject.hasPreviousStep)) {
-            dotNetUpdateWorkflow.hasPreviousStep = jsObject.hasPreviousStep;
-        }
-        if (hasValue(jsObject.started)) {
-            dotNetUpdateWorkflow.started = jsObject.started;
-        }
-        if (hasValue(jsObject.stepId)) {
-            dotNetUpdateWorkflow.stepId = jsObject.stepId;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetUpdateWorkflow.type = jsObject.type;
-        }
+    if (hasValue(jsObject.data)) {
+        let {buildDotNetUpdateWorkflowData} = await import('./updateWorkflowData');
+        dotNetUpdateWorkflow.data = await buildDotNetUpdateWorkflowData(jsObject.data);
+    }
+    if (hasValue(jsObject.hasNextStep)) {
+        dotNetUpdateWorkflow.hasNextStep = jsObject.hasNextStep;
+    }
+    if (hasValue(jsObject.hasPreviousStep)) {
+        dotNetUpdateWorkflow.hasPreviousStep = jsObject.hasPreviousStep;
+    }
+    if (hasValue(jsObject.started)) {
+        dotNetUpdateWorkflow.started = jsObject.started;
+    }
+    if (hasValue(jsObject.stepId)) {
+        dotNetUpdateWorkflow.stepId = jsObject.stepId;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetUpdateWorkflow.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

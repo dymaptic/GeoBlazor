@@ -12,51 +12,51 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     constructor(layer: ImageryLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async computeAngles(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageAngleParameters } = await import('./imageAngleParameters');
+                        requestOptions: any): Promise<any> {
+        let {buildJsImageAngleParameters} = await import('./imageAngleParameters');
         let jsParameters = await buildJsImageAngleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeAngles(jsParameters,
             requestOptions);
     }
 
     async computeHistograms(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+                            requestOptions: any): Promise<any> {
+        let {buildJsImageHistogramParameters} = await import('./imageHistogramParameters');
         let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeHistograms(jsParameters,
             requestOptions);
     }
 
     async computePixelSpaceLocations(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImagePixelLocationParameters } = await import('./imagePixelLocationParameters');
+                                     requestOptions: any): Promise<any> {
+        let {buildJsImagePixelLocationParameters} = await import('./imagePixelLocationParameters');
         let jsParameters = await buildJsImagePixelLocationParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computePixelSpaceLocations(jsParameters,
             requestOptions);
     }
 
     async computeStatisticsHistograms(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+                                      requestOptions: any): Promise<any> {
+        let {buildJsImageHistogramParameters} = await import('./imageHistogramParameters');
         let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeStatisticsHistograms(jsParameters,
             requestOptions);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -70,10 +70,10 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchImage(extent: any,
-        width: any,
-        height: any,
-        options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+                     width: any,
+                     height: any,
+                     options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
@@ -82,160 +82,160 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     }
 
     async findImages(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsFindImagesParameters } = await import('./findImagesParameters');
+                     requestOptions: any): Promise<any> {
+        let {buildJsFindImagesParameters} = await import('./findImagesParameters');
         let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.findImages(jsParameters,
             requestOptions);
     }
 
     async generateRasterInfo(rasterFunction: any,
-        options: any): Promise<any> {
+                             options: any): Promise<any> {
         return await this.layer.generateRasterInfo(rasterFunction,
             options);
     }
 
     async getCatalogItemICSInfo(rasterId: any,
-        options: any): Promise<any> {
+                                options: any): Promise<any> {
         return await this.layer.getCatalogItemICSInfo(rasterId,
             options);
     }
 
     async getCatalogItemRasterInfo(rasterId: any,
-        options: any): Promise<any> {
+                                   options: any): Promise<any> {
         return await this.layer.getCatalogItemRasterInfo(rasterId,
             options);
     }
 
     async getImageUrl(parameters: any,
-        requestOptions: any): Promise<any> {
+                      requestOptions: any): Promise<any> {
         return await this.layer.getImageUrl(parameters,
             requestOptions);
     }
 
     async getSamples(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageSampleParameters } = await import('./imageSampleParameters');
+                     requestOptions: any): Promise<any> {
+        let {buildJsImageSampleParameters} = await import('./imageSampleParameters');
         let jsParameters = await buildJsImageSampleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.getSamples(jsParameters,
             requestOptions);
     }
 
     async identify(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageIdentifyParameters } = await import('./imageIdentifyParameters');
+                   requestOptions: any): Promise<any> {
+        let {buildJsImageIdentifyParameters} = await import('./imageIdentifyParameters');
         let jsParameters = await buildJsImageIdentifyParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsParameters,
             requestOptions);
     }
 
     async imageToMap(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageToMapParameters } = await import('./imageToMapParameters');
+                     requestOptions: any): Promise<any> {
+        let {buildJsImageToMapParameters} = await import('./imageToMapParameters');
         let jsParameters = await buildJsImageToMapParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMap(jsParameters,
             requestOptions);
     }
 
     async imageToMapMultiray(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
+                             requestOptions: any): Promise<any> {
+        let {buildJsImageToMapMultirayParameters} = await import('./imageToMapMultirayParameters');
         let jsParameters = await buildJsImageToMapMultirayParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMapMultiray(jsParameters,
             requestOptions);
     }
 
     async mapToImage(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsMapToImageParameters } = await import('./mapToImageParameters');
+                     requestOptions: any): Promise<any> {
+        let {buildJsMapToImageParameters} = await import('./mapToImageParameters');
         let jsParameters = await buildJsMapToImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.mapToImage(jsParameters,
             requestOptions);
     }
 
     async measureAreaAndPerimeter(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
+                                  requestOptions: any): Promise<any> {
+        let {buildJsImageAreaParameters} = await import('./imageAreaParameters');
         let jsParameters = await buildJsImageAreaParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaAndPerimeter(jsParameters,
             requestOptions);
     }
 
     async measureAreaFromImage(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+                               requestOptions: any): Promise<any> {
+        let {buildJsMeasureFromImageParameters} = await import('./measureFromImageParameters');
         let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaFromImage(jsParameters,
             requestOptions);
     }
 
     async measureDistanceAndAngle(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
+                                  requestOptions: any): Promise<any> {
+        let {buildJsImageDistanceParameters} = await import('./imageDistanceParameters');
         let jsParameters = await buildJsImageDistanceParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureDistanceAndAngle(jsParameters,
             requestOptions);
     }
 
     async measureHeight(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
+                        requestOptions: any): Promise<any> {
+        let {buildJsImageHeightParameters} = await import('./imageHeightParameters');
         let jsParameters = await buildJsImageHeightParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureHeight(jsParameters,
             requestOptions);
     }
 
     async measureLengthFromImage(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+                                 requestOptions: any): Promise<any> {
+        let {buildJsMeasureFromImageParameters} = await import('./measureFromImageParameters');
         let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureLengthFromImage(jsParameters,
             requestOptions);
     }
 
     async measurePointOrCentroid(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImagePointParameters } = await import('./imagePointParameters');
+                                 requestOptions: any): Promise<any> {
+        let {buildJsImagePointParameters} = await import('./imagePointParameters');
         let jsParameters = await buildJsImagePointParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measurePointOrCentroid(jsParameters,
             requestOptions);
     }
 
     async queryBoundary(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageBoundaryParameters } = await import('./imageBoundaryParameters');
+                        requestOptions: any): Promise<any> {
+        let {buildJsImageBoundaryParameters} = await import('./imageBoundaryParameters');
         let jsParameters = await buildJsImageBoundaryParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryBoundary(jsParameters,
             requestOptions);
     }
 
     async queryGPSInfo(parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsImageGPSInfoParameters } = await import('./imageGPSInfoParameters');
+                       requestOptions: any): Promise<any> {
+        let {buildJsImageGPSInfoParameters} = await import('./imageGPSInfoParameters');
         let jsParameters = await buildJsImageGPSInfoParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryGPSInfo(jsParameters,
             requestOptions);
     }
 
     async queryObjectIds(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                         requestOptions: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             requestOptions);
     }
 
     async queryRasterCount(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                           requestOptions: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasterCount(jsQuery,
             requestOptions);
     }
 
     async queryRasters(query: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
+                       requestOptions: any): Promise<any> {
+        let {buildJsQuery} = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasters(jsQuery,
             requestOptions);
@@ -251,167 +251,185 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
-        let { buildDotNetPortalItem } = await import('./portalItem');
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
     async saveAs(portalItem: any,
-        options: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
+                 options: any): Promise<any> {
+        let {buildJsPortalItem} = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
+        let {buildJsImageryLayerSaveAsOptions} = await import('./imageryLayerSaveAsOptions');
         let jsOptions = await buildJsImageryLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
-        let { buildDotNetPortalItem } = await import('./portalItem');
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
 
     // region properties
-    
+
     async getDefaultMosaicRule(): Promise<any> {
         if (!hasValue(this.layer.defaultMosaicRule)) {
             return null;
         }
-        
-        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+
+        let {buildDotNetMosaicRule} = await import('./mosaicRule');
         return await buildDotNetMosaicRule(this.layer.defaultMosaicRule);
     }
+
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
         }
-        
-        let { buildDotNetField } = await import('./field');
+
+        let {buildDotNetField} = await import('./field');
         return this.layer.fields!.map(i => buildDotNetField(i));
     }
-    
+
     async setFields(value: any): Promise<void> {
-        let { buildJsField } = await import('./field');
+        let {buildJsField} = await import('./field');
         this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
-    
+
     async getFieldsIndex(): Promise<any> {
         if (!hasValue(this.layer.fieldsIndex)) {
             return null;
         }
-        
-        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+
+        let {buildDotNetFieldsIndex} = await import('./fieldsIndex');
         return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
     }
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getMosaicRule(): Promise<any> {
         if (!hasValue(this.layer.mosaicRule)) {
             return null;
         }
-        
-        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+
+        let {buildDotNetMosaicRule} = await import('./mosaicRule');
         return await buildDotNetMosaicRule(this.layer.mosaicRule);
     }
+
     async setMosaicRule(value: any): Promise<void> {
-        let { buildJsMosaicRule } = await import('./mosaicRule');
-        this.layer.mosaicRule = await  buildJsMosaicRule(value, this.layerId, this.viewId);
+        let {buildJsMosaicRule} = await import('./mosaicRule');
+        this.layer.mosaicRule = await buildJsMosaicRule(value, this.layerId, this.viewId);
     }
+
     async getMultidimensionalSubset(): Promise<any> {
         if (!hasValue(this.layer.multidimensionalSubset)) {
             return null;
         }
-        
-        let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
+
+        let {buildDotNetMultidimensionalSubset} = await import('./multidimensionalSubset');
         return await buildDotNetMultidimensionalSubset(this.layer.multidimensionalSubset);
     }
+
     async setMultidimensionalSubset(value: any): Promise<void> {
-        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.layerId, this.viewId);
+        let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
+        this.layer.multidimensionalSubset = await buildJsMultidimensionalSubset(value, this.layerId, this.viewId);
     }
+
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.layer.popupTemplate)) {
             return null;
         }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
+
     async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
+        this.layer.popupTemplate = buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
         }
-        
-        let { buildDotNetPortalItem } = await import('./portalItem');
+
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+
     async setPortalItem(value: any): Promise<void> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let {buildJsPortalItem} = await import('./portalItem');
+        this.layer.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
+
     async getRasterFields(): Promise<any> {
         if (!hasValue(this.layer.rasterFields)) {
             return null;
         }
-        
-        let { buildDotNetField } = await import('./field');
+
+        let {buildDotNetField} = await import('./field');
         return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
-    
+
     async getServiceRasterInfo(): Promise<any> {
         if (!hasValue(this.layer.serviceRasterInfo)) {
             return null;
         }
-        
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+
+        let {buildDotNetRasterInfo} = await import('./rasterInfo');
         return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
     }
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+
     async setTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.timeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -420,19 +438,19 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsImageryLayer = new ImageryLayer();
     if (hasValue(dotNetObject.fields)) {
-        let { buildJsField } = await import('./field');
+        let {buildJsField} = await import('./field');
         jsImageryLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsImageryLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
-        let { buildJsMosaicRule } = await import('./mosaicRule');
+        let {buildJsMosaicRule} = await import('./mosaicRule');
         jsImageryLayer.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
-        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+        let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
         jsImageryLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
@@ -441,19 +459,19 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        let {buildJsPopupTemplate} = await import('./popupTemplate');
         jsImageryLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
+        let {buildJsPortalItem} = await import('./portalItem');
         jsImageryLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsImageryLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsImageryLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -467,7 +485,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         jsImageryLayer.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities} = dotNetObject.capabilities;
         jsImageryLayer.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.compressionQuality)) {
@@ -537,7 +555,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         jsImageryLayer.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction} = dotNetObject.rasterFunction;
         jsImageryLayer.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
@@ -547,18 +565,18 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         jsImageryLayer.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule} = dotNetObject.renderingRule;
         jsImageryLayer.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
         jsImageryLayer.sourceJSON = dotNetObject.sourceJSON;
     }
     if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo} = dotNetObject.timeInfo;
         jsImageryLayer.timeInfo = sanitizedTimeInfo;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset} = dotNetObject.timeOffset;
         jsImageryLayer.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
@@ -573,219 +591,220 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsImageryLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
-    
 
-    let { default: ImageryLayerWrapper } = await import('./imageryLayer');
+
+    let {default: ImageryLayerWrapper} = await import('./imageryLayer');
     let imageryLayerWrapper = new ImageryLayerWrapper(jsImageryLayer);
     imageryLayerWrapper.geoBlazorId = dotNetObject.id;
     imageryLayerWrapper.viewId = viewId;
     imageryLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
-    let { buildDotNetImageryLayer } = await import('./imageryLayer');
+    let {buildDotNetImageryLayer} = await import('./imageryLayer');
     let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageryLayer', e);
     }
-    
+
     return jsImageryLayer;
 }
+
 export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetImageryLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultMosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
-        }
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.multidimensionalSubset)) {
-            let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-            dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.rasterFields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.serviceRasterInfo)) {
-            let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageryLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetImageryLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetImageryLayer.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetImageryLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetImageryLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.compressionQuality)) {
-            dotNetImageryLayer.compressionQuality = jsObject.compressionQuality;
-        }
-        if (hasValue(jsObject.compressionTolerance)) {
-            dotNetImageryLayer.compressionTolerance = jsObject.compressionTolerance;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetImageryLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetImageryLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetImageryLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.format)) {
-            dotNetImageryLayer.format = jsObject.format;
-        }
-        if (hasValue(jsObject.hasMultidimensions)) {
-            dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
-        }
-        if (hasValue(jsObject.imageMaxHeight)) {
-            dotNetImageryLayer.imageMaxHeight = jsObject.imageMaxHeight;
-        }
-        if (hasValue(jsObject.imageMaxWidth)) {
-            dotNetImageryLayer.imageMaxWidth = jsObject.imageMaxWidth;
-        }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetImageryLayer.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetImageryLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetImageryLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetImageryLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetImageryLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetImageryLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.multidimensionalInfo)) {
-            dotNetImageryLayer.multidimensionalInfo = jsObject.multidimensionalInfo;
-        }
-        if (hasValue(jsObject.noData)) {
-            dotNetImageryLayer.noData = jsObject.noData;
-        }
-        if (hasValue(jsObject.noDataInterpretation)) {
-            dotNetImageryLayer.noDataInterpretation = jsObject.noDataInterpretation;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetImageryLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetImageryLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetImageryLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.pixelFilter)) {
-            dotNetImageryLayer.pixelFilter = jsObject.pixelFilter;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetImageryLayer.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetImageryLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetImageryLayer.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.rasterFunctionInfos)) {
-            dotNetImageryLayer.rasterFunctionInfos = jsObject.rasterFunctionInfos;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetImageryLayer.renderer = jsObject.renderer;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetImageryLayer.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetImageryLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.sourceType)) {
-            dotNetImageryLayer.sourceType = jsObject.sourceType;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetImageryLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetImageryLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetImageryLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageryLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetImageryLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetImageryLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetImageryLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.defaultMosaicRule)) {
+        let {buildDotNetMosaicRule} = await import('./mosaicRule');
+        dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
+    }
+    if (hasValue(jsObject.fields)) {
+        let {buildDotNetField} = await import('./field');
+        dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let {buildDotNetFieldsIndex} = await import('./fieldsIndex');
+        dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let {buildDotNetMosaicRule} = await import('./mosaicRule');
+        dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.multidimensionalSubset)) {
+        let {buildDotNetMultidimensionalSubset} = await import('./multidimensionalSubset');
+        dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let {buildDotNetPopupTemplate} = await import('./popupTemplate');
+        dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let {buildDotNetPortalItem} = await import('./portalItem');
+        dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.rasterFields)) {
+        let {buildDotNetField} = await import('./field');
+        dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.serviceRasterInfo)) {
+        let {buildDotNetRasterInfo} = await import('./rasterInfo');
+        dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetImageryLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetImageryLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetImageryLayer.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetImageryLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetImageryLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.compressionQuality)) {
+        dotNetImageryLayer.compressionQuality = jsObject.compressionQuality;
+    }
+    if (hasValue(jsObject.compressionTolerance)) {
+        dotNetImageryLayer.compressionTolerance = jsObject.compressionTolerance;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetImageryLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetImageryLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetImageryLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.format)) {
+        dotNetImageryLayer.format = jsObject.format;
+    }
+    if (hasValue(jsObject.hasMultidimensions)) {
+        dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
+    }
+    if (hasValue(jsObject.imageMaxHeight)) {
+        dotNetImageryLayer.imageMaxHeight = jsObject.imageMaxHeight;
+    }
+    if (hasValue(jsObject.imageMaxWidth)) {
+        dotNetImageryLayer.imageMaxWidth = jsObject.imageMaxWidth;
+    }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetImageryLayer.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetImageryLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetImageryLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetImageryLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetImageryLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetImageryLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        dotNetImageryLayer.multidimensionalInfo = jsObject.multidimensionalInfo;
+    }
+    if (hasValue(jsObject.noData)) {
+        dotNetImageryLayer.noData = jsObject.noData;
+    }
+    if (hasValue(jsObject.noDataInterpretation)) {
+        dotNetImageryLayer.noDataInterpretation = jsObject.noDataInterpretation;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetImageryLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetImageryLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetImageryLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.pixelFilter)) {
+        dotNetImageryLayer.pixelFilter = jsObject.pixelFilter;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetImageryLayer.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetImageryLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetImageryLayer.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.rasterFunctionInfos)) {
+        dotNetImageryLayer.rasterFunctionInfos = jsObject.rasterFunctionInfos;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetImageryLayer.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetImageryLayer.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetImageryLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.sourceType)) {
+        dotNetImageryLayer.sourceType = jsObject.sourceType;
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        dotNetImageryLayer.timeInfo = jsObject.timeInfo;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetImageryLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetImageryLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageryLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetImageryLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetImageryLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetImageryLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

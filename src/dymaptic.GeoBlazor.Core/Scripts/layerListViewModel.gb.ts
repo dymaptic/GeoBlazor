@@ -12,22 +12,22 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
     constructor(component: LayerListViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async moveListItem(targetItem: any,
-        fromParentItem: any,
-        toParentItem: any,
-        newIndex: any): Promise<void> {
-        let { buildJsListItem } = await import('./listItem');
+                       fromParentItem: any,
+                       toParentItem: any,
+                       newIndex: any): Promise<void> {
+        let {buildJsListItem} = await import('./listItem');
         let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
+        let {buildJsListItem} = await import('./listItem');
         let jsFromParentItem = await buildJsListItem(fromParentItem, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
+        let {buildJsListItem} = await import('./listItem');
         let jsToParentItem = await buildJsListItem(toParentItem, this.layerId, this.viewId) as any;
         this.component.moveListItem(jsTargetItem,
             jsFromParentItem,
@@ -36,28 +36,28 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
     }
 
     async triggerAction(action: any,
-        item: any): Promise<void> {
-        let { buildJsListItem } = await import('./listItem');
+                        item: any): Promise<void> {
+        let {buildJsListItem} = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.component.triggerAction(action,
             jsItem);
     }
 
     // region properties
-    
+
     async getOperationalItems(): Promise<any> {
         if (!hasValue(this.component.operationalItems)) {
             return null;
         }
-        
-        let { buildDotNetListItem } = await import('./listItem');
+
+        let {buildDotNetListItem} = await import('./listItem');
         return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i)));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -83,57 +83,58 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     jsLayerListViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });
-    
 
-    let { default: LayerListViewModelWrapper } = await import('./layerListViewModel');
+
+    let {default: LayerListViewModelWrapper} = await import('./layerListViewModel');
     let layerListViewModelWrapper = new LayerListViewModelWrapper(jsLayerListViewModel);
     layerListViewModelWrapper.geoBlazorId = dotNetObject.id;
     layerListViewModelWrapper.viewId = viewId;
     layerListViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = layerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
-    let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
+    let {buildDotNetLayerListViewModel} = await import('./layerListViewModel');
     let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LayerListViewModel', e);
     }
-    
+
     return jsLayerListViewModel;
 }
+
 export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetLayerListViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.operationalItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.checkPublishStatusEnabled)) {
-            dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
-        }
-        if (hasValue(jsObject.listItemCreatedFunction)) {
-            dotNetLayerListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetLayerListViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLayerListViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.operationalItems)) {
+        let {buildDotNetListItem} = await import('./listItem');
+        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.checkPublishStatusEnabled)) {
+        dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
+    }
+    if (hasValue(jsObject.listItemCreatedFunction)) {
+        dotNetLayerListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetLayerListViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLayerListViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

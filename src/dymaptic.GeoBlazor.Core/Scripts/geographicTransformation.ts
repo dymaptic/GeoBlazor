@@ -1,5 +1,6 @@
 import GeographicTransformation from '@arcgis/core/geometry/support/GeographicTransformation';
 import GeographicTransformationGenerated from './geographicTransformation.gb';
+
 export function buildDotNetGeographicTransformation(geographicTransformation: any): any {
     if (geographicTransformation === undefined || geographicTransformation === null) return null;
     let steps: any[] = [];
@@ -20,10 +21,10 @@ export default class GeographicTransformationWrapper extends GeographicTransform
     constructor(component: GeographicTransformation) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsGeographicTransformation(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsGeographicTransformationGenerated } = await import('./geographicTransformation.gb');
+    let {buildJsGeographicTransformationGenerated} = await import('./geographicTransformation.gb');
     return await buildJsGeographicTransformationGenerated(dotNetObject, layerId, viewId);
 }

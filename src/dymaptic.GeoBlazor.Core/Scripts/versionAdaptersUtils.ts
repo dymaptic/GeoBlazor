@@ -6,14 +6,15 @@ export default class VersionAdaptersUtilsWrapper extends VersionAdaptersUtilsGen
     constructor(component: versionAdaptersUtils) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsVersionAdaptersUtils(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsVersionAdaptersUtilsGenerated } = await import('./versionAdaptersUtils.gb');
+    let {buildJsVersionAdaptersUtilsGenerated} = await import('./versionAdaptersUtils.gb');
     return await buildJsVersionAdaptersUtilsGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetVersionAdaptersUtils(jsObject: any): Promise<any> {
-    let { buildDotNetVersionAdaptersUtilsGenerated } = await import('./versionAdaptersUtils.gb');
+    let {buildDotNetVersionAdaptersUtilsGenerated} = await import('./versionAdaptersUtils.gb');
     return await buildDotNetVersionAdaptersUtilsGenerated(jsObject);
 }

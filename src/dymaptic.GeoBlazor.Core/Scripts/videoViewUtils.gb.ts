@@ -12,25 +12,25 @@ export default class VideoViewUtilsGenerated implements IPropertyWrapper {
     constructor(component: videoViewUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createVideoView(properties: any): Promise<any> {
-        let { buildJsVideoViewParams } = await import('./videoViewParams');
+        let {buildJsVideoViewParams} = await import('./videoViewParams');
         let jsProperties = await buildJsVideoViewParams(properties, this.layerId, this.viewId) as any;
         return this.component.createVideoView(jsProperties);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsVideoViewUtilsGenerated(dotNetObject: any, layerId:
     let jsvideoViewUtils: any = {}
 
 
-    let { default: VideoViewUtilsWrapper } = await import('./videoViewUtils');
+    let {default: VideoViewUtilsWrapper} = await import('./videoViewUtils');
     let videoViewUtilsWrapper = new VideoViewUtilsWrapper(jsvideoViewUtils);
     videoViewUtilsWrapper.geoBlazorId = dotNetObject.id;
     videoViewUtilsWrapper.viewId = viewId;
     videoViewUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(videoViewUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = videoViewUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsvideoViewUtils;
-    let { buildDotNetVideoViewUtils } = await import('./videoViewUtils');
+    let {buildDotNetVideoViewUtils} = await import('./videoViewUtils');
     let dnInstantiatedObject = await buildDotNetVideoViewUtils(jsvideoViewUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VideoViewUtils', e);
     }
-    
+
     return jsvideoViewUtils;
 }
+
 export async function buildDotNetVideoViewUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVideoViewUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

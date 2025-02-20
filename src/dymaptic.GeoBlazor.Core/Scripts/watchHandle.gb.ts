@@ -12,23 +12,23 @@ export default class WatchHandleGenerated implements IPropertyWrapper {
     constructor(component: WatchHandle) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async remove(): Promise<void> {
         this.component.remove();
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -38,32 +38,33 @@ export async function buildJsWatchHandleGenerated(dotNetObject: any, layerId: st
     let jsWatchHandle: any = {}
 
 
-    let { default: WatchHandleWrapper } = await import('./watchHandle');
+    let {default: WatchHandleWrapper} = await import('./watchHandle');
     let watchHandleWrapper = new WatchHandleWrapper(jsWatchHandle);
     watchHandleWrapper.geoBlazorId = dotNetObject.id;
     watchHandleWrapper.viewId = viewId;
     watchHandleWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(watchHandleWrapper);
     jsObjectRefs[dotNetObject.id] = watchHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWatchHandle;
-    let { buildDotNetWatchHandle } = await import('./watchHandle');
+    let {buildDotNetWatchHandle} = await import('./watchHandle');
     let dnInstantiatedObject = await buildDotNetWatchHandle(jsWatchHandle);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WatchHandle', e);
     }
-    
+
     return jsWatchHandle;
 }
+
 export async function buildDotNetWatchHandleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWatchHandle: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

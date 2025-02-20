@@ -12,65 +12,65 @@ export default class WebMercatorUtilsGenerated implements IPropertyWrapper {
     constructor(component: webMercatorUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canProject(source: any,
-        target: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+                     target: any): Promise<any> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSource = buildJsSpatialReference(source) as any;
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsTarget = buildJsSpatialReference(target) as any;
         return this.component.canProject(jsSource,
             jsTarget);
     }
 
     async geographicToWebMercator(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.geographicToWebMercator(jsGeometry);
     }
 
     async lngLatToXY(long: any,
-        lat: any): Promise<any> {
+                     lat: any): Promise<any> {
         return this.component.lngLatToXY(long,
             lat);
     }
 
     async project(geometry: any,
-        spatialReference: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                  spatialReference: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSpatialReference = buildJsSpatialReference(spatialReference) as any;
         return this.component.project(jsGeometry,
             jsSpatialReference);
     }
 
     async webMercatorToGeographic(geometry: any,
-        isLinear: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                                  isLinear: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.webMercatorToGeographic(jsGeometry,
             isLinear);
     }
 
     async xyToLngLat(x: any,
-        y: any): Promise<any> {
+                     y: any): Promise<any> {
         return this.component.xyToLngLat(x,
             y);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -80,32 +80,33 @@ export async function buildJsWebMercatorUtilsGenerated(dotNetObject: any, layerI
     let jswebMercatorUtils: any = {}
 
 
-    let { default: WebMercatorUtilsWrapper } = await import('./webMercatorUtils');
+    let {default: WebMercatorUtilsWrapper} = await import('./webMercatorUtils');
     let webMercatorUtilsWrapper = new WebMercatorUtilsWrapper(jswebMercatorUtils);
     webMercatorUtilsWrapper.geoBlazorId = dotNetObject.id;
     webMercatorUtilsWrapper.viewId = viewId;
     webMercatorUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webMercatorUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = webMercatorUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswebMercatorUtils;
-    let { buildDotNetWebMercatorUtils } = await import('./webMercatorUtils');
+    let {buildDotNetWebMercatorUtils} = await import('./webMercatorUtils');
     let dnInstantiatedObject = await buildDotNetWebMercatorUtils(jswebMercatorUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebMercatorUtils', e);
     }
-    
+
     return jswebMercatorUtils;
 }
+
 export async function buildDotNetWebMercatorUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWebMercatorUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

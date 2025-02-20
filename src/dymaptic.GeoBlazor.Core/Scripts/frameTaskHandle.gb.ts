@@ -12,13 +12,13 @@ export default class FrameTaskHandleGenerated implements IPropertyWrapper {
     constructor(component: FrameTaskHandle) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async pause(): Promise<void> {
         this.component.pause();
     }
@@ -32,11 +32,11 @@ export default class FrameTaskHandleGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsFrameTaskHandleGenerated(dotNetObject: any, layerId
     let jsFrameTaskHandle: any = {}
 
 
-    let { default: FrameTaskHandleWrapper } = await import('./frameTaskHandle');
+    let {default: FrameTaskHandleWrapper} = await import('./frameTaskHandle');
     let frameTaskHandleWrapper = new FrameTaskHandleWrapper(jsFrameTaskHandle);
     frameTaskHandleWrapper.geoBlazorId = dotNetObject.id;
     frameTaskHandleWrapper.viewId = viewId;
     frameTaskHandleWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(frameTaskHandleWrapper);
     jsObjectRefs[dotNetObject.id] = frameTaskHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFrameTaskHandle;
-    let { buildDotNetFrameTaskHandle } = await import('./frameTaskHandle');
+    let {buildDotNetFrameTaskHandle} = await import('./frameTaskHandle');
     let dnInstantiatedObject = await buildDotNetFrameTaskHandle(jsFrameTaskHandle);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FrameTaskHandle', e);
     }
-    
+
     return jsFrameTaskHandle;
 }
+
 export async function buildDotNetFrameTaskHandleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFrameTaskHandle: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

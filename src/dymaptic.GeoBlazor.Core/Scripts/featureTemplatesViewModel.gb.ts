@@ -12,38 +12,38 @@ export default class FeatureTemplatesViewModelGenerated implements IPropertyWrap
     constructor(component: FeatureTemplatesViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async refresh(): Promise<void> {
         this.component.refresh();
     }
 
     async select(item: any): Promise<void> {
-        let { buildJsTemplateItem } = await import('./templateItem');
+        let {buildJsTemplateItem} = await import('./templateItem');
         let jsItem = await buildJsTemplateItem(item, this.layerId, this.viewId) as any;
         this.component.select(jsItem);
     }
 
     // region properties
-    
+
     async getItems(): Promise<any> {
         if (!hasValue(this.component.items)) {
             return null;
         }
-        
-        let { buildDotNetTemplateItem } = await import('./templateItem');
+
+        let {buildDotNetTemplateItem} = await import('./templateItem');
         return await Promise.all(this.component.items.map(async i => await buildDotNetTemplateItem(i)));
     }
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -70,57 +70,58 @@ export async function buildJsFeatureTemplatesViewModelGenerated(dotNetObject: an
     jsFeatureTemplatesViewModel.on('select', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelect', evt);
     });
-    
 
-    let { default: FeatureTemplatesViewModelWrapper } = await import('./featureTemplatesViewModel');
+
+    let {default: FeatureTemplatesViewModelWrapper} = await import('./featureTemplatesViewModel');
     let featureTemplatesViewModelWrapper = new FeatureTemplatesViewModelWrapper(jsFeatureTemplatesViewModel);
     featureTemplatesViewModelWrapper.geoBlazorId = dotNetObject.id;
     featureTemplatesViewModelWrapper.viewId = viewId;
     featureTemplatesViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureTemplatesViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = featureTemplatesViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplatesViewModel;
-    let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
+    let {buildDotNetFeatureTemplatesViewModel} = await import('./featureTemplatesViewModel');
     let dnInstantiatedObject = await buildDotNetFeatureTemplatesViewModel(jsFeatureTemplatesViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureTemplatesViewModel', e);
     }
-    
+
     return jsFeatureTemplatesViewModel;
 }
+
 export async function buildDotNetFeatureTemplatesViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetFeatureTemplatesViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.items)) {
-            let { buildDotNetTemplateItem } = await import('./templateItem');
-            dotNetFeatureTemplatesViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTemplateItem(i)));
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetFeatureTemplatesViewModel.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.filterFunction)) {
-            dotNetFeatureTemplatesViewModel.filterFunction = jsObject.filterFunction;
-        }
-        if (hasValue(jsObject.groupBy)) {
-            dotNetFeatureTemplatesViewModel.groupBy = jsObject.groupBy;
-        }
-        if (hasValue(jsObject.layers)) {
-            dotNetFeatureTemplatesViewModel.layers = jsObject.layers;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeatureTemplatesViewModel.state = jsObject.state;
-        }
+    if (hasValue(jsObject.items)) {
+        let {buildDotNetTemplateItem} = await import('./templateItem');
+        dotNetFeatureTemplatesViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTemplateItem(i)));
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetFeatureTemplatesViewModel.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.filterFunction)) {
+        dotNetFeatureTemplatesViewModel.filterFunction = jsObject.filterFunction;
+    }
+    if (hasValue(jsObject.groupBy)) {
+        dotNetFeatureTemplatesViewModel.groupBy = jsObject.groupBy;
+    }
+    if (hasValue(jsObject.layers)) {
+        dotNetFeatureTemplatesViewModel.layers = jsObject.layers;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeatureTemplatesViewModel.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -7,15 +7,15 @@ export default class BuildingComponentSublayerViewWrapper extends BuildingCompon
     constructor(component: BuildingComponentSublayerView) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsBuildingComponentSublayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsBuildingComponentSublayerViewGenerated } = await import('./buildingComponentSublayerView.gb');
+    let {buildJsBuildingComponentSublayerViewGenerated} = await import('./buildingComponentSublayerView.gb');
     return await buildJsBuildingComponentSublayerViewGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetBuildingComponentSublayerView(jsObject: any): Promise<any> {
-    let { buildDotNetBuildingComponentSublayerViewGenerated } = await import('./buildingComponentSublayerView.gb');
+    let {buildDotNetBuildingComponentSublayerViewGenerated} = await import('./buildingComponentSublayerView.gb');
     return await buildDotNetBuildingComponentSublayerViewGenerated(jsObject);
 }

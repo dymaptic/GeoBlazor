@@ -12,25 +12,25 @@ export default class SummaryStatisticsGenerated implements IPropertyWrapper {
     constructor(component: summaryStatistics) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async summaryStatistics(parameters: any): Promise<any> {
-        let { buildJsSummaryStatisticsSummaryStatisticsParams } = await import('./summaryStatisticsSummaryStatisticsParams');
+        let {buildJsSummaryStatisticsSummaryStatisticsParams} = await import('./summaryStatisticsSummaryStatisticsParams');
         let jsparameters = await buildJsSummaryStatisticsSummaryStatisticsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.summaryStatistics(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsSummaryStatisticsGenerated(dotNetObject: any, layer
     let jssummaryStatistics = new summaryStatistics();
 
 
-    let { default: SummaryStatisticsWrapper } = await import('./summaryStatistics');
+    let {default: SummaryStatisticsWrapper} = await import('./summaryStatistics');
     let summaryStatisticsWrapper = new SummaryStatisticsWrapper(jssummaryStatistics);
     summaryStatisticsWrapper.geoBlazorId = dotNetObject.id;
     summaryStatisticsWrapper.viewId = viewId;
     summaryStatisticsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(summaryStatisticsWrapper);
     jsObjectRefs[dotNetObject.id] = summaryStatisticsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatistics;
-    let { buildDotNetSummaryStatistics } = await import('./summaryStatistics');
+    let {buildDotNetSummaryStatistics} = await import('./summaryStatistics');
     let dnInstantiatedObject = await buildDotNetSummaryStatistics(jssummaryStatistics);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SummaryStatistics', e);
     }
-    
+
     return jssummaryStatistics;
 }
+
 export async function buildDotNetSummaryStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSummaryStatistics: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

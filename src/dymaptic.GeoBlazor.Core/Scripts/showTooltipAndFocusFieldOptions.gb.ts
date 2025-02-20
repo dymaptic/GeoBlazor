@@ -12,13 +12,13 @@ export default class ShowTooltipAndFocusFieldOptionsGenerated implements IProper
     constructor(component: ShowTooltipAndFocusFieldOptions) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async onClose(): Promise<void> {
         this.component.onClose();
     }
@@ -28,11 +28,11 @@ export default class ShowTooltipAndFocusFieldOptionsGenerated implements IProper
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -51,45 +51,46 @@ export async function buildJsShowTooltipAndFocusFieldOptionsGenerated(dotNetObje
         jsShowTooltipAndFocusFieldOptions.signal = dotNetObject.signal;
     }
 
-    let { default: ShowTooltipAndFocusFieldOptionsWrapper } = await import('./showTooltipAndFocusFieldOptions');
+    let {default: ShowTooltipAndFocusFieldOptionsWrapper} = await import('./showTooltipAndFocusFieldOptions');
     let showTooltipAndFocusFieldOptionsWrapper = new ShowTooltipAndFocusFieldOptionsWrapper(jsShowTooltipAndFocusFieldOptions);
     showTooltipAndFocusFieldOptionsWrapper.geoBlazorId = dotNetObject.id;
     showTooltipAndFocusFieldOptionsWrapper.viewId = viewId;
     showTooltipAndFocusFieldOptionsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(showTooltipAndFocusFieldOptionsWrapper);
     jsObjectRefs[dotNetObject.id] = showTooltipAndFocusFieldOptionsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsShowTooltipAndFocusFieldOptions;
-    let { buildDotNetShowTooltipAndFocusFieldOptions } = await import('./showTooltipAndFocusFieldOptions');
+    let {buildDotNetShowTooltipAndFocusFieldOptions} = await import('./showTooltipAndFocusFieldOptions');
     let dnInstantiatedObject = await buildDotNetShowTooltipAndFocusFieldOptions(jsShowTooltipAndFocusFieldOptions);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ShowTooltipAndFocusFieldOptions', e);
     }
-    
+
     return jsShowTooltipAndFocusFieldOptions;
 }
+
 export async function buildDotNetShowTooltipAndFocusFieldOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetShowTooltipAndFocusFieldOptions: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hideOnBlur)) {
-            dotNetShowTooltipAndFocusFieldOptions.hideOnBlur = jsObject.hideOnBlur;
-        }
-        if (hasValue(jsObject.position)) {
-            dotNetShowTooltipAndFocusFieldOptions.position = jsObject.position;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetShowTooltipAndFocusFieldOptions.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.hideOnBlur)) {
+        dotNetShowTooltipAndFocusFieldOptions.hideOnBlur = jsObject.hideOnBlur;
+    }
+    if (hasValue(jsObject.position)) {
+        dotNetShowTooltipAndFocusFieldOptions.position = jsObject.position;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetShowTooltipAndFocusFieldOptions.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

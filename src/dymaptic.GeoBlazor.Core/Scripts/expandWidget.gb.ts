@@ -12,13 +12,13 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
     constructor(widget: Expand) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     async collapse(): Promise<void> {
         this.widget.collapse();
     }
@@ -32,11 +32,11 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -85,85 +85,86 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
         jsExpand.view = dotNetObject.view;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel} = dotNetObject.viewModel;
         jsExpand.viewModel = sanitizedViewModel;
     }
 
-    let { default: ExpandWidgetWrapper } = await import('./expandWidget');
+    let {default: ExpandWidgetWrapper} = await import('./expandWidget');
     let expandWidgetWrapper = new ExpandWidgetWrapper(jsExpand);
     expandWidgetWrapper.geoBlazorId = dotNetObject.id;
     expandWidgetWrapper.viewId = viewId;
     expandWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
-    let { buildDotNetExpandWidget } = await import('./expandWidget');
+    let {buildDotNetExpandWidget} = await import('./expandWidget');
     let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ExpandWidget', e);
     }
-    
+
     return jsExpand;
 }
+
 export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetExpandWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.autoCollapse)) {
-            dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
-        }
-        if (hasValue(jsObject.closeOnEsc)) {
-            dotNetExpandWidget.closeOnEsc = jsObject.closeOnEsc;
-        }
-        if (hasValue(jsObject.collapseIcon)) {
-            dotNetExpandWidget.collapseIcon = jsObject.collapseIcon;
-        }
-        if (hasValue(jsObject.collapseTooltip)) {
-            dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetExpandWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.expanded)) {
-            dotNetExpandWidget.expanded = jsObject.expanded;
-        }
-        if (hasValue(jsObject.expandIcon)) {
-            dotNetExpandWidget.expandIcon = jsObject.expandIcon;
-        }
-        if (hasValue(jsObject.expandTooltip)) {
-            dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
-        }
-        if (hasValue(jsObject.group)) {
-            dotNetExpandWidget.group = jsObject.group;
-        }
-        if (hasValue(jsObject.iconNumber)) {
-            dotNetExpandWidget.iconNumber = jsObject.iconNumber;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetExpandWidget.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.placement)) {
-            dotNetExpandWidget.placement = jsObject.placement;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetExpandWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetExpandWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.viewModel)) {
-            dotNetExpandWidget.viewModel = jsObject.viewModel;
-        }
+    if (hasValue(jsObject.autoCollapse)) {
+        dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
+    }
+    if (hasValue(jsObject.closeOnEsc)) {
+        dotNetExpandWidget.closeOnEsc = jsObject.closeOnEsc;
+    }
+    if (hasValue(jsObject.collapseIcon)) {
+        dotNetExpandWidget.collapseIcon = jsObject.collapseIcon;
+    }
+    if (hasValue(jsObject.collapseTooltip)) {
+        dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetExpandWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.expanded)) {
+        dotNetExpandWidget.expanded = jsObject.expanded;
+    }
+    if (hasValue(jsObject.expandIcon)) {
+        dotNetExpandWidget.expandIcon = jsObject.expandIcon;
+    }
+    if (hasValue(jsObject.expandTooltip)) {
+        dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
+    }
+    if (hasValue(jsObject.group)) {
+        dotNetExpandWidget.group = jsObject.group;
+    }
+    if (hasValue(jsObject.iconNumber)) {
+        dotNetExpandWidget.iconNumber = jsObject.iconNumber;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetExpandWidget.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.placement)) {
+        dotNetExpandWidget.placement = jsObject.placement;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetExpandWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetExpandWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.viewModel)) {
+        dotNetExpandWidget.viewModel = jsObject.viewModel;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

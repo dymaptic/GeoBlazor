@@ -12,13 +12,13 @@ export default class PointDrawActionGenerated implements IPropertyWrapper {
     constructor(component: PointDrawAction) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canRedo(): Promise<any> {
         return this.component.canRedo();
     }
@@ -52,11 +52,11 @@ export default class PointDrawActionGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -74,51 +74,52 @@ export async function buildJsPointDrawActionGenerated(dotNetObject: any, layerId
     jsPointDrawAction.on('cursor-update', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCursorUpdate', evt);
     });
-    
+
     jsPointDrawAction.on('draw-complete', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDrawComplete', evt);
     });
-    
 
-    let { default: PointDrawActionWrapper } = await import('./pointDrawAction');
+
+    let {default: PointDrawActionWrapper} = await import('./pointDrawAction');
     let pointDrawActionWrapper = new PointDrawActionWrapper(jsPointDrawAction);
     pointDrawActionWrapper.geoBlazorId = dotNetObject.id;
     pointDrawActionWrapper.viewId = viewId;
     pointDrawActionWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pointDrawActionWrapper);
     jsObjectRefs[dotNetObject.id] = pointDrawActionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPointDrawAction;
-    let { buildDotNetPointDrawAction } = await import('./pointDrawAction');
+    let {buildDotNetPointDrawAction} = await import('./pointDrawAction');
     let dnInstantiatedObject = await buildDotNetPointDrawAction(jsPointDrawAction);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PointDrawAction', e);
     }
-    
+
     return jsPointDrawAction;
 }
+
 export async function buildDotNetPointDrawActionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPointDrawAction: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetPointDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetPointDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPointDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetPointDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetPointDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPointDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

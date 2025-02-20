@@ -12,19 +12,19 @@ export default class WebStyleSymbolUtilsGenerated implements IPropertyWrapper {
     constructor(component: webStyleSymbolUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async fetchSymbolFromStyle(styleResponse: any,
-        symbolName: any,
-        context: any,
-        type: any,
-        styleItemRead: any,
-        options: any): Promise<any> {
+                               symbolName: any,
+                               context: any,
+                               type: any,
+                               styleItemRead: any,
+                               options: any): Promise<any> {
         return await this.component.fetchSymbolFromStyle(styleResponse,
             symbolName,
             context,
@@ -34,11 +34,11 @@ export default class WebStyleSymbolUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -48,32 +48,33 @@ export async function buildJsWebStyleSymbolUtilsGenerated(dotNetObject: any, lay
     let jswebStyleSymbolUtils: any = {}
 
 
-    let { default: WebStyleSymbolUtilsWrapper } = await import('./webStyleSymbolUtils');
+    let {default: WebStyleSymbolUtilsWrapper} = await import('./webStyleSymbolUtils');
     let webStyleSymbolUtilsWrapper = new WebStyleSymbolUtilsWrapper(jswebStyleSymbolUtils);
     webStyleSymbolUtilsWrapper.geoBlazorId = dotNetObject.id;
     webStyleSymbolUtilsWrapper.viewId = viewId;
     webStyleSymbolUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webStyleSymbolUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = webStyleSymbolUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswebStyleSymbolUtils;
-    let { buildDotNetWebStyleSymbolUtils } = await import('./webStyleSymbolUtils');
+    let {buildDotNetWebStyleSymbolUtils} = await import('./webStyleSymbolUtils');
     let dnInstantiatedObject = await buildDotNetWebStyleSymbolUtils(jswebStyleSymbolUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebStyleSymbolUtils', e);
     }
-    
+
     return jswebStyleSymbolUtils;
 }
+
 export async function buildDotNetWebStyleSymbolUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWebStyleSymbolUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

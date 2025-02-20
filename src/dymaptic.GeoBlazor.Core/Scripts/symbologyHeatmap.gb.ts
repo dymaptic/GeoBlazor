@@ -12,15 +12,15 @@ export default class SymbologyHeatmapGenerated implements IPropertyWrapper {
     constructor(component: symbologyHeatmap) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
-        let { buildJsHeatmapScheme } = await import('./heatmapScheme');
+        let {buildJsHeatmapScheme} = await import('./heatmapScheme');
         let jsScheme = await buildJsHeatmapScheme(scheme, this.layerId, this.viewId) as any;
         return this.component.cloneScheme(jsScheme);
     }
@@ -42,11 +42,11 @@ export default class SymbologyHeatmapGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -56,32 +56,33 @@ export async function buildJsSymbologyHeatmapGenerated(dotNetObject: any, layerI
     let jssymbologyHeatmap: any = {}
 
 
-    let { default: SymbologyHeatmapWrapper } = await import('./symbologyHeatmap');
+    let {default: SymbologyHeatmapWrapper} = await import('./symbologyHeatmap');
     let symbologyHeatmapWrapper = new SymbologyHeatmapWrapper(jssymbologyHeatmap);
     symbologyHeatmapWrapper.geoBlazorId = dotNetObject.id;
     symbologyHeatmapWrapper.viewId = viewId;
     symbologyHeatmapWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyHeatmapWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyHeatmapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyHeatmap;
-    let { buildDotNetSymbologyHeatmap } = await import('./symbologyHeatmap');
+    let {buildDotNetSymbologyHeatmap} = await import('./symbologyHeatmap');
     let dnInstantiatedObject = await buildDotNetSymbologyHeatmap(jssymbologyHeatmap);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyHeatmap', e);
     }
-    
+
     return jssymbologyHeatmap;
 }
+
 export async function buildDotNetSymbologyHeatmapGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyHeatmap: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

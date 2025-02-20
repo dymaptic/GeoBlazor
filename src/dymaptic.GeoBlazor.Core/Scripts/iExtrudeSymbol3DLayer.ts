@@ -6,14 +6,15 @@ export default class IExtrudeSymbol3DLayerWrapper extends IExtrudeSymbol3DLayerG
     constructor(layer: ExtrudeSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsIExtrudeSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsIExtrudeSymbol3DLayerGenerated } = await import('./iExtrudeSymbol3DLayer.gb');
+    let {buildJsIExtrudeSymbol3DLayerGenerated} = await import('./iExtrudeSymbol3DLayer.gb');
     return await buildJsIExtrudeSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetIExtrudeSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetIExtrudeSymbol3DLayerGenerated } = await import('./iExtrudeSymbol3DLayer.gb');
+    let {buildDotNetIExtrudeSymbol3DLayerGenerated} = await import('./iExtrudeSymbol3DLayer.gb');
     return await buildDotNetIExtrudeSymbol3DLayerGenerated(jsObject);
 }

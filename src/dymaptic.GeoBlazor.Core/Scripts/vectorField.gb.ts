@@ -12,25 +12,25 @@ export default class VectorFieldGenerated implements IPropertyWrapper {
     constructor(component: vectorField) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsVectorFieldCreateRendererParams } = await import('./vectorFieldCreateRendererParams');
+        let {buildJsVectorFieldCreateRendererParams} = await import('./vectorFieldCreateRendererParams');
         let jsparameters = await buildJsVectorFieldCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsVectorFieldGenerated(dotNetObject: any, layerId: st
     let jsvectorField: any = {}
 
 
-    let { default: VectorFieldWrapper } = await import('./vectorField');
+    let {default: VectorFieldWrapper} = await import('./vectorField');
     let vectorFieldWrapper = new VectorFieldWrapper(jsvectorField);
     vectorFieldWrapper.geoBlazorId = dotNetObject.id;
     vectorFieldWrapper.viewId = viewId;
     vectorFieldWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(vectorFieldWrapper);
     jsObjectRefs[dotNetObject.id] = vectorFieldWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsvectorField;
-    let { buildDotNetVectorField } = await import('./vectorField');
+    let {buildDotNetVectorField} = await import('./vectorField');
     let dnInstantiatedObject = await buildDotNetVectorField(jsvectorField);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VectorField', e);
     }
-    
+
     return jsvectorField;
 }
+
 export async function buildDotNetVectorFieldGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetVectorField: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

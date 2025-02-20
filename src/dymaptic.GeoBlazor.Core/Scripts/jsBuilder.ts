@@ -112,9 +112,6 @@ export function buildJsTopFeaturesQuery(dnQuery: DotNetTopFeaturesQuery): TopFea
 }
 
 
-
-
-
 export function buildJsElementExpressionInfo(dotNetExpressionInfo: DotNetElementExpressionInfo): ElementExpressionInfo {
     let info = new ElementExpressionInfo({
         expression: dotNetExpressionInfo.expression ?? undefined,

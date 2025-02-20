@@ -12,23 +12,23 @@ export default class NormalizeUtilsGenerated implements IPropertyWrapper {
     constructor(component: normalizeUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getDenormalizedExtent(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.getDenormalizedExtent(jsGeometry);
     }
 
     async normalizeCentralMeridian(geometries: any,
-        url: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
+                                   url: any,
+                                   requestOptions: any): Promise<any> {
+        let {buildJsGeometry} = await import('./geometry');
         let jsGeometries = buildJsGeometry(geometries) as any;
         return await this.component.normalizeCentralMeridian(jsGeometries,
             url,
@@ -36,11 +36,11 @@ export default class NormalizeUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -50,32 +50,33 @@ export async function buildJsNormalizeUtilsGenerated(dotNetObject: any, layerId:
     let jsnormalizeUtils: any = {}
 
 
-    let { default: NormalizeUtilsWrapper } = await import('./normalizeUtils');
+    let {default: NormalizeUtilsWrapper} = await import('./normalizeUtils');
     let normalizeUtilsWrapper = new NormalizeUtilsWrapper(jsnormalizeUtils);
     normalizeUtilsWrapper.geoBlazorId = dotNetObject.id;
     normalizeUtilsWrapper.viewId = viewId;
     normalizeUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(normalizeUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = normalizeUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsnormalizeUtils;
-    let { buildDotNetNormalizeUtils } = await import('./normalizeUtils');
+    let {buildDotNetNormalizeUtils} = await import('./normalizeUtils');
     let dnInstantiatedObject = await buildDotNetNormalizeUtils(jsnormalizeUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for NormalizeUtils', e);
     }
-    
+
     return jsnormalizeUtils;
 }
+
 export async function buildDotNetNormalizeUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetNormalizeUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

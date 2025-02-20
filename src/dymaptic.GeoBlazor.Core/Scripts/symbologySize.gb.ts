@@ -12,13 +12,13 @@ export default class SymbologySizeGenerated implements IPropertyWrapper {
     constructor(component: symbologySize) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
         return this.component.cloneScheme(scheme);
     }
@@ -32,11 +32,11 @@ export default class SymbologySizeGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsSymbologySizeGenerated(dotNetObject: any, layerId: 
     let jssymbologySize: any = {}
 
 
-    let { default: SymbologySizeWrapper } = await import('./symbologySize');
+    let {default: SymbologySizeWrapper} = await import('./symbologySize');
     let symbologySizeWrapper = new SymbologySizeWrapper(jssymbologySize);
     symbologySizeWrapper.geoBlazorId = dotNetObject.id;
     symbologySizeWrapper.viewId = viewId;
     symbologySizeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologySizeWrapper);
     jsObjectRefs[dotNetObject.id] = symbologySizeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologySize;
-    let { buildDotNetSymbologySize } = await import('./symbologySize');
+    let {buildDotNetSymbologySize} = await import('./symbologySize');
     let dnInstantiatedObject = await buildDotNetSymbologySize(jssymbologySize);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologySize', e);
     }
-    
+
     return jssymbologySize;
 }
+
 export async function buildDotNetSymbologySizeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologySize: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,13 +12,13 @@ export default class SvgUtilsGenerated implements IPropertyWrapper {
     constructor(component: svgUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async computeBBox(bboxes: any): Promise<any> {
         return this.component.computeBBox(bboxes);
     }
@@ -28,14 +28,14 @@ export default class SvgUtilsGenerated implements IPropertyWrapper {
     }
 
     async getTransformMatrix(bbox: any,
-        width: any,
-        height: any,
-        overallStrokeWidth: any,
-        scale: any,
-        rotation: any,
-        useRotationSize: any,
-        offset: any,
-        bloomSize: any): Promise<any> {
+                             width: any,
+                             height: any,
+                             overallStrokeWidth: any,
+                             scale: any,
+                             rotation: any,
+                             useRotationSize: any,
+                             offset: any,
+                             bloomSize: any): Promise<any> {
         return this.component.getTransformMatrix(bbox,
             width,
             height,
@@ -48,11 +48,11 @@ export default class SvgUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -62,32 +62,33 @@ export async function buildJsSvgUtilsGenerated(dotNetObject: any, layerId: strin
     let jssvgUtils: any = {}
 
 
-    let { default: SvgUtilsWrapper } = await import('./svgUtils');
+    let {default: SvgUtilsWrapper} = await import('./svgUtils');
     let svgUtilsWrapper = new SvgUtilsWrapper(jssvgUtils);
     svgUtilsWrapper.geoBlazorId = dotNetObject.id;
     svgUtilsWrapper.viewId = viewId;
     svgUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(svgUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = svgUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssvgUtils;
-    let { buildDotNetSvgUtils } = await import('./svgUtils');
+    let {buildDotNetSvgUtils} = await import('./svgUtils');
     let dnInstantiatedObject = await buildDotNetSvgUtils(jssvgUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SvgUtils', e);
     }
-    
+
     return jssvgUtils;
 }
+
 export async function buildDotNetSvgUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSvgUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

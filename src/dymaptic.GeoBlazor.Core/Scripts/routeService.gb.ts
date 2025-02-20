@@ -12,17 +12,17 @@ export default class RouteServiceGenerated implements IPropertyWrapper {
     constructor(component: route) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async solve(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsRouteParameters } = await import('./routeParameters');
+                parameters: any,
+                requestOptions: any): Promise<any> {
+        let {buildJsRouteParameters} = await import('./routeParameters');
         let jsparameters = await buildJsRouteParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.solve(url,
             jsparameters,
@@ -30,11 +30,11 @@ export default class RouteServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsRouteServiceGenerated(dotNetObject: any, layerId: s
     let jsroute: any = {}
 
 
-    let { default: RouteServiceWrapper } = await import('./routeService');
+    let {default: RouteServiceWrapper} = await import('./routeService');
     let routeServiceWrapper = new RouteServiceWrapper(jsroute);
     routeServiceWrapper.geoBlazorId = dotNetObject.id;
     routeServiceWrapper.viewId = viewId;
     routeServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(routeServiceWrapper);
     jsObjectRefs[dotNetObject.id] = routeServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsroute;
-    let { buildDotNetRouteService } = await import('./routeService');
+    let {buildDotNetRouteService} = await import('./routeService');
     let dnInstantiatedObject = await buildDotNetRouteService(jsroute);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RouteService', e);
     }
-    
+
     return jsroute;
 }
+
 export async function buildDotNetRouteServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetRouteService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

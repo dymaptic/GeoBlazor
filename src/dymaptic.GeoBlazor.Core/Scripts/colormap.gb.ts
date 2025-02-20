@@ -12,25 +12,25 @@ export default class ColormapGenerated implements IPropertyWrapper {
     constructor(component: colormap) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsColormapCreateRendererParams } = await import('./colormapCreateRendererParams');
+        let {buildJsColormapCreateRendererParams} = await import('./colormapCreateRendererParams');
         let jsparameters = await buildJsColormapCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsColormapGenerated(dotNetObject: any, layerId: strin
     let jscolormap: any = {}
 
 
-    let { default: ColormapWrapper } = await import('./colormap');
+    let {default: ColormapWrapper} = await import('./colormap');
     let colormapWrapper = new ColormapWrapper(jscolormap);
     colormapWrapper.geoBlazorId = dotNetObject.id;
     colormapWrapper.viewId = viewId;
     colormapWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colormapWrapper);
     jsObjectRefs[dotNetObject.id] = colormapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscolormap;
-    let { buildDotNetColormap } = await import('./colormap');
+    let {buildDotNetColormap} = await import('./colormap');
     let dnInstantiatedObject = await buildDotNetColormap(jscolormap);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Colormap', e);
     }
-    
+
     return jscolormap;
 }
+
 export async function buildDotNetColormapGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetColormap: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

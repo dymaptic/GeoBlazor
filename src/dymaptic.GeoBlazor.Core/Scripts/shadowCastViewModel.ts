@@ -6,14 +6,15 @@ export default class ShadowCastViewModelWrapper extends ShadowCastViewModelGener
     constructor(component: ShadowCastViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsShadowCastViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsShadowCastViewModelGenerated } = await import('./shadowCastViewModel.gb');
+    let {buildJsShadowCastViewModelGenerated} = await import('./shadowCastViewModel.gb');
     return await buildJsShadowCastViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetShadowCastViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetShadowCastViewModelGenerated } = await import('./shadowCastViewModel.gb');
+    let {buildDotNetShadowCastViewModelGenerated} = await import('./shadowCastViewModel.gb');
     return await buildDotNetShadowCastViewModelGenerated(jsObject);
 }

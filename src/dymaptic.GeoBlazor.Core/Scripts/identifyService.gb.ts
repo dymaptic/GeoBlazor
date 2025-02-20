@@ -12,17 +12,17 @@ export default class IdentifyServiceGenerated implements IPropertyWrapper {
     constructor(component: identify) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async identify(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsIdentifyParameters } = await import('./identifyParameters');
+                   parameters: any,
+                   requestOptions: any): Promise<any> {
+        let {buildJsIdentifyParameters} = await import('./identifyParameters');
         let jsparameters = await buildJsIdentifyParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.identify(url,
             jsparameters,
@@ -30,11 +30,11 @@ export default class IdentifyServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsIdentifyServiceGenerated(dotNetObject: any, layerId
     let jsidentify: any = {}
 
 
-    let { default: IdentifyServiceWrapper } = await import('./identifyService');
+    let {default: IdentifyServiceWrapper} = await import('./identifyService');
     let identifyServiceWrapper = new IdentifyServiceWrapper(jsidentify);
     identifyServiceWrapper.geoBlazorId = dotNetObject.id;
     identifyServiceWrapper.viewId = viewId;
     identifyServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(identifyServiceWrapper);
     jsObjectRefs[dotNetObject.id] = identifyServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsidentify;
-    let { buildDotNetIdentifyService } = await import('./identifyService');
+    let {buildDotNetIdentifyService} = await import('./identifyService');
     let dnInstantiatedObject = await buildDotNetIdentifyService(jsidentify);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IdentifyService', e);
     }
-    
+
     return jsidentify;
 }
+
 export async function buildDotNetIdentifyServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIdentifyService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

@@ -12,13 +12,13 @@ export default class ScaleRangeSliderViewModelGenerated implements IPropertyWrap
     constructor(component: ScaleRangeSliderViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async mapScaleToSlider(scale: any): Promise<any> {
         return this.component.mapScaleToSlider(scale);
     }
@@ -28,43 +28,48 @@ export default class ScaleRangeSliderViewModelGenerated implements IPropertyWrap
     }
 
     // region properties
-    
+
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
         }
-        
-        let { buildDotNetLayer } = await import('./layer');
+
+        let {buildDotNetLayer} = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+
     async setLayer(value: any): Promise<void> {
-        let { buildJsLayer } = await import('./layer');
-        this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
+        let {buildJsLayer} = await import('./layer');
+        this.component.layer = await buildJsLayer(value, this.layerId, this.viewId);
     }
+
     async getScaleRanges(): Promise<any> {
         if (!hasValue(this.component.scaleRanges)) {
             return null;
         }
-        
-        let { buildDotNetScaleRanges } = await import('./scaleRanges');
+
+        let {buildDotNetScaleRanges} = await import('./scaleRanges');
         return await buildDotNetScaleRanges(this.component.scaleRanges);
     }
+
     async getSliderViewModel(): Promise<any> {
         if (!hasValue(this.component.sliderViewModel)) {
             return null;
         }
-        
-        let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
+
+        let {buildDotNetSliderViewModel} = await import('./sliderViewModel');
         return await buildDotNetSliderViewModel(this.component.sliderViewModel);
     }
+
     async setSliderViewModel(value: any): Promise<void> {
-        let { buildJsSliderViewModel } = await import('./sliderViewModel');
-        this.component.sliderViewModel = await  buildJsSliderViewModel(value, this.layerId, this.viewId);
+        let {buildJsSliderViewModel} = await import('./sliderViewModel');
+        this.component.sliderViewModel = await buildJsSliderViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -73,11 +78,11 @@ export default class ScaleRangeSliderViewModelGenerated implements IPropertyWrap
 export async function buildJsScaleRangeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsScaleRangeSliderViewModel = new ScaleRangeSliderViewModel();
     if (hasValue(dotNetObject.layer)) {
-        let { buildJsLayer } = await import('./layer');
+        let {buildJsLayer} = await import('./layer');
         jsScaleRangeSliderViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sliderViewModel)) {
-        let { buildJsSliderViewModel } = await import('./sliderViewModel');
+        let {buildJsSliderViewModel} = await import('./sliderViewModel');
         jsScaleRangeSliderViewModel.sliderViewModel = await buildJsSliderViewModel(dotNetObject.sliderViewModel, layerId, viewId) as any;
     }
 
@@ -97,62 +102,63 @@ export async function buildJsScaleRangeSliderViewModelGenerated(dotNetObject: an
         jsScaleRangeSliderViewModel.view = dotNetObject.view;
     }
 
-    let { default: ScaleRangeSliderViewModelWrapper } = await import('./scaleRangeSliderViewModel');
+    let {default: ScaleRangeSliderViewModelWrapper} = await import('./scaleRangeSliderViewModel');
     let scaleRangeSliderViewModelWrapper = new ScaleRangeSliderViewModelWrapper(jsScaleRangeSliderViewModel);
     scaleRangeSliderViewModelWrapper.geoBlazorId = dotNetObject.id;
     scaleRangeSliderViewModelWrapper.viewId = viewId;
     scaleRangeSliderViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(scaleRangeSliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = scaleRangeSliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleRangeSliderViewModel;
-    let { buildDotNetScaleRangeSliderViewModel } = await import('./scaleRangeSliderViewModel');
+    let {buildDotNetScaleRangeSliderViewModel} = await import('./scaleRangeSliderViewModel');
     let dnInstantiatedObject = await buildDotNetScaleRangeSliderViewModel(jsScaleRangeSliderViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleRangeSliderViewModel', e);
     }
-    
+
     return jsScaleRangeSliderViewModel;
 }
+
 export async function buildDotNetScaleRangeSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetScaleRangeSliderViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.scaleRanges)) {
-            let { buildDotNetScaleRanges } = await import('./scaleRanges');
-            dotNetScaleRangeSliderViewModel.scaleRanges = await buildDotNetScaleRanges(jsObject.scaleRanges);
-        }
-        if (hasValue(jsObject.sliderViewModel)) {
-            let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-            dotNetScaleRangeSliderViewModel.sliderViewModel = await buildDotNetSliderViewModel(jsObject.sliderViewModel);
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetScaleRangeSliderViewModel.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.maxScaleLimit)) {
-            dotNetScaleRangeSliderViewModel.maxScaleLimit = jsObject.maxScaleLimit;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetScaleRangeSliderViewModel.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.minScaleLimit)) {
-            dotNetScaleRangeSliderViewModel.minScaleLimit = jsObject.minScaleLimit;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetScaleRangeSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetScaleRangeSliderViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.scaleRanges)) {
+        let {buildDotNetScaleRanges} = await import('./scaleRanges');
+        dotNetScaleRangeSliderViewModel.scaleRanges = await buildDotNetScaleRanges(jsObject.scaleRanges);
+    }
+    if (hasValue(jsObject.sliderViewModel)) {
+        let {buildDotNetSliderViewModel} = await import('./sliderViewModel');
+        dotNetScaleRangeSliderViewModel.sliderViewModel = await buildDotNetSliderViewModel(jsObject.sliderViewModel);
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetScaleRangeSliderViewModel.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.maxScaleLimit)) {
+        dotNetScaleRangeSliderViewModel.maxScaleLimit = jsObject.maxScaleLimit;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetScaleRangeSliderViewModel.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.minScaleLimit)) {
+        dotNetScaleRangeSliderViewModel.minScaleLimit = jsObject.minScaleLimit;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetScaleRangeSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetScaleRangeSliderViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

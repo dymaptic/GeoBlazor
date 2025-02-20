@@ -12,25 +12,25 @@ export default class AgeUtilsGenerated implements IPropertyWrapper {
     constructor(component: ageUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getAgeExpressions(parameters: any): Promise<any> {
-        let { buildJsAgeUtilsGetAgeExpressionsParams } = await import('./ageUtilsGetAgeExpressionsParams');
+        let {buildJsAgeUtilsGetAgeExpressionsParams} = await import('./ageUtilsGetAgeExpressionsParams');
         let jsparameters = await buildJsAgeUtilsGetAgeExpressionsParams(parameters, this.layerId, this.viewId) as any;
         return this.component.getAgeExpressions(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsAgeUtilsGenerated(dotNetObject: any, layerId: strin
     let jsageUtils: any = {}
 
 
-    let { default: AgeUtilsWrapper } = await import('./ageUtils');
+    let {default: AgeUtilsWrapper} = await import('./ageUtils');
     let ageUtilsWrapper = new AgeUtilsWrapper(jsageUtils);
     ageUtilsWrapper.geoBlazorId = dotNetObject.id;
     ageUtilsWrapper.viewId = viewId;
     ageUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(ageUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = ageUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsageUtils;
-    let { buildDotNetAgeUtils } = await import('./ageUtils');
+    let {buildDotNetAgeUtils} = await import('./ageUtils');
     let dnInstantiatedObject = await buildDotNetAgeUtils(jsageUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for AgeUtils', e);
     }
-    
+
     return jsageUtils;
 }
+
 export async function buildDotNetAgeUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetAgeUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

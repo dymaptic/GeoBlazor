@@ -12,59 +12,60 @@ export default class ViewStateGenerated implements IPropertyWrapper {
     constructor(component: ViewState) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async copy(state: any): Promise<any> {
-        let { buildJsViewState } = await import('./viewState');
+        let {buildJsViewState} = await import('./viewState');
         let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
         let result = this.component.copy(jsState);
-        let { buildDotNetViewState } = await import('./viewState');
+        let {buildDotNetViewState} = await import('./viewState');
         return await buildDotNetViewState(result);
     }
 
     async toMap(out: any,
-        x: any,
-        y: any): Promise<any> {
+                x: any,
+                y: any): Promise<any> {
         return this.component.toMap(out,
             x,
             y);
     }
 
     async toScreen(out: any,
-        x: any,
-        y: any): Promise<any> {
+                   x: any,
+                   y: any): Promise<any> {
         return this.component.toScreen(out,
             x,
             y);
     }
 
     async toScreenNoRotation(out: any,
-        x: any,
-        y: any): Promise<any> {
+                             x: any,
+                             y: any): Promise<any> {
         return this.component.toScreenNoRotation(out,
             x,
             y);
     }
 
     // region properties
-    
+
     async getExtent(): Promise<any> {
         if (!hasValue(this.component.extent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -74,55 +75,56 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
     let jsViewState = new ViewState();
 
 
-    let { default: ViewStateWrapper } = await import('./viewState');
+    let {default: ViewStateWrapper} = await import('./viewState');
     let viewStateWrapper = new ViewStateWrapper(jsViewState);
     viewStateWrapper.geoBlazorId = dotNetObject.id;
     viewStateWrapper.viewId = viewId;
     viewStateWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(viewStateWrapper);
     jsObjectRefs[dotNetObject.id] = viewStateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewState;
-    let { buildDotNetViewState } = await import('./viewState');
+    let {buildDotNetViewState} = await import('./viewState');
     let dnInstantiatedObject = await buildDotNetViewState(jsViewState);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ViewState', e);
     }
-    
+
     return jsViewState;
 }
+
 export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetViewState: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.center)) {
-            dotNetViewState.center = jsObject.center;
-        }
-        if (hasValue(jsObject.resolution)) {
-            dotNetViewState.resolution = jsObject.resolution;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetViewState.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetViewState.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetViewState.size = jsObject.size;
-        }
+    if (hasValue(jsObject.extent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.center)) {
+        dotNetViewState.center = jsObject.center;
+    }
+    if (hasValue(jsObject.resolution)) {
+        dotNetViewState.resolution = jsObject.resolution;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetViewState.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetViewState.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetViewState.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

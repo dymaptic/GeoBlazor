@@ -12,13 +12,13 @@ export default class ScaleRangesGenerated implements IPropertyWrapper {
     constructor(component: ScaleRanges) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async clampScale(scale: any): Promise<any> {
         return this.component.clampScale(scale);
     }
@@ -32,10 +32,10 @@ export default class ScaleRangesGenerated implements IPropertyWrapper {
     }
 
     async fromScaleRange(minScale: any,
-        maxScale: any): Promise<any> {
+                         maxScale: any): Promise<any> {
         let result = this.component.fromScaleRange(minScale,
             maxScale);
-        let { buildDotNetScaleRanges } = await import('./scaleRanges');
+        let {buildDotNetScaleRanges} = await import('./scaleRanges');
         return await buildDotNetScaleRanges(result);
     }
 
@@ -48,11 +48,11 @@ export default class ScaleRangesGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -62,32 +62,33 @@ export async function buildJsScaleRangesGenerated(dotNetObject: any, layerId: st
     let jsScaleRanges = new ScaleRanges();
 
 
-    let { default: ScaleRangesWrapper } = await import('./scaleRanges');
+    let {default: ScaleRangesWrapper} = await import('./scaleRanges');
     let scaleRangesWrapper = new ScaleRangesWrapper(jsScaleRanges);
     scaleRangesWrapper.geoBlazorId = dotNetObject.id;
     scaleRangesWrapper.viewId = viewId;
     scaleRangesWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(scaleRangesWrapper);
     jsObjectRefs[dotNetObject.id] = scaleRangesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleRanges;
-    let { buildDotNetScaleRanges } = await import('./scaleRanges');
+    let {buildDotNetScaleRanges} = await import('./scaleRanges');
     let dnInstantiatedObject = await buildDotNetScaleRanges(jsScaleRanges);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleRanges', e);
     }
-    
+
     return jsScaleRanges;
 }
+
 export async function buildDotNetScaleRangesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetScaleRanges: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

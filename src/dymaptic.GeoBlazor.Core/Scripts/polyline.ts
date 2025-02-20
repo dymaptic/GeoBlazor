@@ -1,5 +1,5 @@
-import { buildDotNetExtent } from "./extent";
-import { buildDotNetSpatialReference, buildJsSpatialReference } from "./spatialReference";
+import {buildDotNetExtent} from "./extent";
+import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {DotNetPolyline} from "./definitions";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
@@ -24,9 +24,9 @@ export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
     if (hasValue(dnPolyline.spatialReference)) {
         polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
     } else {
-        polyline.spatialReference = new SpatialReference({ wkid: 4326 });
+        polyline.spatialReference = new SpatialReference({wkid: 4326});
     }
-    
+
     copyValuesIfExists(dnPolyline, polyline, 'hasZ', 'hasM');
     return polyline;
 }

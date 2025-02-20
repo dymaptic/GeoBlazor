@@ -12,23 +12,23 @@ export default class IFeatureReductionLayerGenerated implements IPropertyWrapper
     constructor(layer: FeatureReductionLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -41,39 +41,40 @@ export async function buildJsIFeatureReductionLayerGenerated(dotNetObject: any, 
         jsFeatureReductionLayer.featureReduction = dotNetObject.featureReduction;
     }
 
-    let { default: IFeatureReductionLayerWrapper } = await import('./iFeatureReductionLayer');
+    let {default: IFeatureReductionLayerWrapper} = await import('./iFeatureReductionLayer');
     let iFeatureReductionLayerWrapper = new IFeatureReductionLayerWrapper(jsFeatureReductionLayer);
     iFeatureReductionLayerWrapper.geoBlazorId = dotNetObject.id;
     iFeatureReductionLayerWrapper.viewId = viewId;
     iFeatureReductionLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iFeatureReductionLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iFeatureReductionLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReductionLayer;
-    let { buildDotNetIFeatureReductionLayer } = await import('./iFeatureReductionLayer');
+    let {buildDotNetIFeatureReductionLayer} = await import('./iFeatureReductionLayer');
     let dnInstantiatedObject = await buildDotNetIFeatureReductionLayer(jsFeatureReductionLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IFeatureReductionLayer', e);
     }
-    
+
     return jsFeatureReductionLayer;
 }
+
 export async function buildDotNetIFeatureReductionLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetIFeatureReductionLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetIFeatureReductionLayer.featureReduction = jsObject.featureReduction;
-        }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetIFeatureReductionLayer.featureReduction = jsObject.featureReduction;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

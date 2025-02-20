@@ -12,44 +12,44 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
     constructor(component: sceneViewerUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async canSaveAs(webscene: any): Promise<any> {
         return this.component.canSaveAs(webscene);
     }
 
     async closeCatalogLayer(layerList: any): Promise<void> {
-        let { buildJsLayerListWidget } = await import('./layerListWidget');
+        let {buildJsLayerListWidget} = await import('./layerListWidget');
         let jsLayerList = await buildJsLayerListWidget(layerList, this.layerId, this.viewId) as any;
         this.component.closeCatalogLayer(jsLayerList);
     }
 
     async createTilingScheme(tileInfo: any): Promise<any> {
-        let { buildJsTileInfo } = await import('./tileInfo');
+        let {buildJsTileInfo} = await import('./tileInfo');
         let jsTileInfo = await buildJsTileInfo(tileInfo, this.layerId, this.viewId) as any;
         return this.component.createTilingScheme(jsTileInfo);
     }
 
     async editorHasPendingEdits(viewModel: any): Promise<any> {
-        let { buildJsEditorViewModel } = await import('./editorViewModel');
+        let {buildJsEditorViewModel} = await import('./editorViewModel');
         let jsViewModel = await buildJsEditorViewModel(viewModel, this.layerId, this.viewId) as any;
         return this.component.editorHasPendingEdits(jsViewModel);
     }
 
     async editorNavigateBack(viewModel: any): Promise<void> {
-        let { buildJsEditorViewModel } = await import('./editorViewModel');
+        let {buildJsEditorViewModel} = await import('./editorViewModel');
         let jsViewModel = await buildJsEditorViewModel(viewModel, this.layerId, this.viewId) as any;
         await this.component.editorNavigateBack(jsViewModel);
     }
 
     async getCompatibleTileInfoForVTL(tileInfo: any,
-        expectedTileSize: any): Promise<any> {
-        let { buildJsTileInfo } = await import('./tileInfo');
+                                      expectedTileSize: any): Promise<any> {
+        let {buildJsTileInfo} = await import('./tileInfo');
         let jsTileInfo = await buildJsTileInfo(tileInfo, this.layerId, this.viewId) as any;
         return this.component.getCompatibleTileInfoForVTL(jsTileInfo,
             expectedTileSize);
@@ -68,23 +68,23 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
     }
 
     async isSpatialReferenceSupported(spatialReference: any,
-        viewingMode: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+                                      viewingMode: any): Promise<any> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
         let jsSpatialReference = buildJsSpatialReference(spatialReference) as any;
         return this.component.isSpatialReferenceSupported(jsSpatialReference,
             viewingMode);
     }
 
     async isSupportedTileInfo(tileInfo: any): Promise<any> {
-        let { buildJsTileInfo } = await import('./tileInfo');
+        let {buildJsTileInfo} = await import('./tileInfo');
         let jsTileInfo = await buildJsTileInfo(tileInfo, this.layerId, this.viewId) as any;
         return this.component.isSupportedTileInfo(jsTileInfo);
     }
 
     async renderSVG(swatch: any,
-        width: any,
-        height: any,
-        options: any): Promise<any> {
+                    width: any,
+                    height: any,
+                    options: any): Promise<any> {
         return this.component.renderSVG(swatch,
             width,
             height,
@@ -92,7 +92,7 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
     }
 
     async saveStateWarning(warningMessage: any,
-        error: any): Promise<void> {
+                           error: any): Promise<void> {
         this.component.saveStateWarning(warningMessage,
             error);
     }
@@ -102,11 +102,11 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -116,32 +116,33 @@ export async function buildJsSceneViewerUtilsGenerated(dotNetObject: any, layerI
     let jssceneViewerUtils: any = {}
 
 
-    let { default: SceneViewerUtilsWrapper } = await import('./sceneViewerUtils');
+    let {default: SceneViewerUtilsWrapper} = await import('./sceneViewerUtils');
     let sceneViewerUtilsWrapper = new SceneViewerUtilsWrapper(jssceneViewerUtils);
     sceneViewerUtilsWrapper.geoBlazorId = dotNetObject.id;
     sceneViewerUtilsWrapper.viewId = viewId;
     sceneViewerUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sceneViewerUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = sceneViewerUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssceneViewerUtils;
-    let { buildDotNetSceneViewerUtils } = await import('./sceneViewerUtils');
+    let {buildDotNetSceneViewerUtils} = await import('./sceneViewerUtils');
     let dnInstantiatedObject = await buildDotNetSceneViewerUtils(jssceneViewerUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SceneViewerUtils', e);
     }
-    
+
     return jssceneViewerUtils;
 }
+
 export async function buildDotNetSceneViewerUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSceneViewerUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

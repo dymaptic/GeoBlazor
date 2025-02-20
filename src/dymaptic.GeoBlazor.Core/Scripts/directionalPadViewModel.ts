@@ -6,14 +6,15 @@ export default class DirectionalPadViewModelWrapper extends DirectionalPadViewMo
     constructor(component: DirectionalPadViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsDirectionalPadViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsDirectionalPadViewModelGenerated } = await import('./directionalPadViewModel.gb');
+    let {buildJsDirectionalPadViewModelGenerated} = await import('./directionalPadViewModel.gb');
     return await buildJsDirectionalPadViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetDirectionalPadViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetDirectionalPadViewModelGenerated } = await import('./directionalPadViewModel.gb');
+    let {buildDotNetDirectionalPadViewModelGenerated} = await import('./directionalPadViewModel.gb');
     return await buildDotNetDirectionalPadViewModelGenerated(jsObject);
 }

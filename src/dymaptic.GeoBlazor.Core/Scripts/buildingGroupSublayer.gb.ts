@@ -12,25 +12,25 @@ export default class BuildingGroupSublayerGenerated implements IPropertyWrapper 
     constructor(component: BuildingGroupSublayer) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
-        let { buildDotNetBuildingSceneLayer } = await import('./buildingSceneLayer');
+        let {buildDotNetBuildingSceneLayer} = await import('./buildingSceneLayer');
         return await buildDotNetBuildingSceneLayer(result);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -49,57 +49,58 @@ export async function buildJsBuildingGroupSublayerGenerated(dotNetObject: any, l
         jsBuildingGroupSublayer.title = dotNetObject.title;
     }
 
-    let { default: BuildingGroupSublayerWrapper } = await import('./buildingGroupSublayer');
+    let {default: BuildingGroupSublayerWrapper} = await import('./buildingGroupSublayer');
     let buildingGroupSublayerWrapper = new BuildingGroupSublayerWrapper(jsBuildingGroupSublayer);
     buildingGroupSublayerWrapper.geoBlazorId = dotNetObject.id;
     buildingGroupSublayerWrapper.viewId = viewId;
     buildingGroupSublayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(buildingGroupSublayerWrapper);
     jsObjectRefs[dotNetObject.id] = buildingGroupSublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingGroupSublayer;
-    let { buildDotNetBuildingGroupSublayer } = await import('./buildingGroupSublayer');
+    let {buildDotNetBuildingGroupSublayer} = await import('./buildingGroupSublayer');
     let dnInstantiatedObject = await buildDotNetBuildingGroupSublayer(jsBuildingGroupSublayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BuildingGroupSublayer', e);
     }
-    
+
     return jsBuildingGroupSublayer;
 }
+
 export async function buildDotNetBuildingGroupSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetBuildingGroupSublayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetBuildingGroupSublayer.buildingSublayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.isEmpty)) {
-            dotNetBuildingGroupSublayer.isEmpty = jsObject.isEmpty;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetBuildingGroupSublayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.modelName)) {
-            dotNetBuildingGroupSublayer.modelName = jsObject.modelName;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetBuildingGroupSublayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBuildingGroupSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBuildingGroupSublayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBuildingGroupSublayer.buildingSublayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.isEmpty)) {
+        dotNetBuildingGroupSublayer.isEmpty = jsObject.isEmpty;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetBuildingGroupSublayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.modelName)) {
+        dotNetBuildingGroupSublayer.modelName = jsObject.modelName;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetBuildingGroupSublayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBuildingGroupSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBuildingGroupSublayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

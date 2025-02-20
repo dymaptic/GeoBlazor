@@ -2,7 +2,7 @@
 
 import FieldsContent from "@arcgis/core/popup/content/FieldsContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
-import {buildDotNetFieldInfo, buildJsFieldInfo } from "./fieldInfo";
+import {buildDotNetFieldInfo, buildJsFieldInfo} from "./fieldInfo";
 
 export function buildJsFieldsPopupContent(dotNetObject: any): any {
     let jsFieldsContent = new FieldsContent();
@@ -31,7 +31,7 @@ export function buildJsFieldsPopupContent(dotNetObject: any): any {
     }
 
     return jsFieldsContent;
-}     
+}
 
 export function buildDotNetFieldsPopupContent(jsObject: any): any {
     if (!hasValue(jsObject)) {

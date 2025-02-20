@@ -12,31 +12,33 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
     constructor(widget: DistanceMeasurement2D) {
         this.widget = widget;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.widget;
     }
-    
+
     // region properties
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
+
+        let {buildDotNetDistanceMeasurement2DViewModel} = await import('./distanceMeasurement2DViewModel');
         return await buildDotNetDistanceMeasurement2DViewModel(this.widget.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        this.widget.viewModel = await  buildJsDistanceMeasurement2DViewModel(value, this.layerId, this.viewId);
+        let {buildJsDistanceMeasurement2DViewModel} = await import('./distanceMeasurement2DViewModel');
+        this.widget.viewModel = await buildJsDistanceMeasurement2DViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.widget[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.widget[prop] = value;
     }
@@ -45,7 +47,7 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
 export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDistanceMeasurement2D = new DistanceMeasurement2D();
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
+        let {buildJsDistanceMeasurement2DViewModel} = await import('./distanceMeasurement2DViewModel');
         jsDistanceMeasurement2D.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -59,52 +61,53 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
         jsDistanceMeasurement2D.view = dotNetObject.view;
     }
 
-    let { default: DistanceMeasurement2DWidgetWrapper } = await import('./distanceMeasurement2DWidget');
+    let {default: DistanceMeasurement2DWidgetWrapper} = await import('./distanceMeasurement2DWidget');
     let distanceMeasurement2DWidgetWrapper = new DistanceMeasurement2DWidgetWrapper(jsDistanceMeasurement2D);
     distanceMeasurement2DWidgetWrapper.geoBlazorId = dotNetObject.id;
     distanceMeasurement2DWidgetWrapper.viewId = viewId;
     distanceMeasurement2DWidgetWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
-    let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
+    let {buildDotNetDistanceMeasurement2DWidget} = await import('./distanceMeasurement2DWidget');
     let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
     }
-    
+
     return jsDistanceMeasurement2D;
 }
+
 export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetDistanceMeasurement2DWidget: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-            dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDistanceMeasurement2DWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetDistanceMeasurement2DWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetDistanceMeasurement2DWidget.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDistanceMeasurement2DWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetDistanceMeasurement2DViewModel} = await import('./distanceMeasurement2DViewModel');
+        dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDistanceMeasurement2DWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetDistanceMeasurement2DWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetDistanceMeasurement2DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDistanceMeasurement2DWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

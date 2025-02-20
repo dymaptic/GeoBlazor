@@ -12,31 +12,31 @@ export default class UnivariateColorSizeGenerated implements IPropertyWrapper {
     constructor(component: univariateColorSize) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createContinuousRenderer(parameters: any): Promise<any> {
-        let { buildJsUnivariateColorSizeCreateContinuousRendererParams } = await import('./univariateColorSizeCreateContinuousRendererParams');
+        let {buildJsUnivariateColorSizeCreateContinuousRendererParams} = await import('./univariateColorSizeCreateContinuousRendererParams');
         let jsparameters = await buildJsUnivariateColorSizeCreateContinuousRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createContinuousRenderer(jsparameters);
     }
 
     async createVisualVariables(parameters: any): Promise<any> {
-        let { buildJsUnivariateColorSizeCreateVisualVariablesParams } = await import('./univariateColorSizeCreateVisualVariablesParams');
+        let {buildJsUnivariateColorSizeCreateVisualVariablesParams} = await import('./univariateColorSizeCreateVisualVariablesParams');
         let jsparameters = await buildJsUnivariateColorSizeCreateVisualVariablesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createVisualVariables(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -46,32 +46,33 @@ export async function buildJsUnivariateColorSizeGenerated(dotNetObject: any, lay
     let jsunivariateColorSize: any = {}
 
 
-    let { default: UnivariateColorSizeWrapper } = await import('./univariateColorSize');
+    let {default: UnivariateColorSizeWrapper} = await import('./univariateColorSize');
     let univariateColorSizeWrapper = new UnivariateColorSizeWrapper(jsunivariateColorSize);
     univariateColorSizeWrapper.geoBlazorId = dotNetObject.id;
     univariateColorSizeWrapper.viewId = viewId;
     univariateColorSizeWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(univariateColorSizeWrapper);
     jsObjectRefs[dotNetObject.id] = univariateColorSizeWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsunivariateColorSize;
-    let { buildDotNetUnivariateColorSize } = await import('./univariateColorSize');
+    let {buildDotNetUnivariateColorSize} = await import('./univariateColorSize');
     let dnInstantiatedObject = await buildDotNetUnivariateColorSize(jsunivariateColorSize);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UnivariateColorSize', e);
     }
-    
+
     return jsunivariateColorSize;
 }
+
 export async function buildDotNetUnivariateColorSizeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetUnivariateColorSize: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

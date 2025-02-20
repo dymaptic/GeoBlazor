@@ -7,15 +7,15 @@ export default class IFillSymbol3DLayerWrapper extends IFillSymbol3DLayerGenerat
     constructor(layer: FillSymbol3DLayer) {
         super(layer);
     }
-    
+
 }
 
 export async function buildJsIFillSymbol3DLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsIFillSymbol3DLayerGenerated } = await import('./iFillSymbol3DLayer.gb');
+    let {buildJsIFillSymbol3DLayerGenerated} = await import('./iFillSymbol3DLayer.gb');
     return await buildJsIFillSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetIFillSymbol3DLayer(jsObject: any): Promise<any> {
-    let { buildDotNetIFillSymbol3DLayerGenerated } = await import('./iFillSymbol3DLayer.gb');
+    let {buildDotNetIFillSymbol3DLayerGenerated} = await import('./iFillSymbol3DLayer.gb');
     return await buildDotNetIFillSymbol3DLayerGenerated(jsObject);
 }

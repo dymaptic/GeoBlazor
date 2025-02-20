@@ -12,59 +12,61 @@ export default class ClassedColorSliderGenerated implements IPropertyWrapper {
     constructor(component: ClassedColorSlider) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async updateClassBreakInfos(breakInfos: any): Promise<any> {
-        let { buildJsClassBreakInfo } = await import('./classBreakInfo');
+        let {buildJsClassBreakInfo} = await import('./classBreakInfo');
         let jsBreakInfos = await buildJsClassBreakInfo(breakInfos, this.layerId, this.viewId) as any;
         return this.component.updateClassBreakInfos(jsBreakInfos);
     }
 
     async updateFromRendererResult(rendererResult: any,
-        histogramResult: any): Promise<void> {
-        let { buildJsClassBreaksRendererResult } = await import('./classBreaksRendererResult');
+                                   histogramResult: any): Promise<void> {
+        let {buildJsClassBreaksRendererResult} = await import('./classBreaksRendererResult');
         let jsRendererResult = await buildJsClassBreaksRendererResult(rendererResult, this.layerId, this.viewId) as any;
         this.component.updateFromRendererResult(jsRendererResult,
             histogramResult);
     }
 
     // region properties
-    
+
     async getBreaks(): Promise<any> {
         if (!hasValue(this.component.breaks)) {
             return null;
         }
-        
-        let { buildDotNetClassedColorSliderBreaks } = await import('./classedColorSliderBreaks');
+
+        let {buildDotNetClassedColorSliderBreaks} = await import('./classedColorSliderBreaks');
         return await Promise.all(this.component.breaks.map(async i => await buildDotNetClassedColorSliderBreaks(i)));
     }
-    
+
     async setBreaks(value: any): Promise<void> {
-        let { buildJsClassedColorSliderBreaks } = await import('./classedColorSliderBreaks');
+        let {buildJsClassedColorSliderBreaks} = await import('./classedColorSliderBreaks');
         this.component.breaks = await Promise.all(value.map(async i => await buildJsClassedColorSliderBreaks(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.component.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
+
+        let {buildDotNetClassedColorSliderViewModel} = await import('./classedColorSliderViewModel');
         return await buildDotNetClassedColorSliderViewModel(this.component.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
-        this.component.viewModel = await  buildJsClassedColorSliderViewModel(value, this.layerId, this.viewId);
+        let {buildJsClassedColorSliderViewModel} = await import('./classedColorSliderViewModel');
+        this.component.viewModel = await buildJsClassedColorSliderViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -73,7 +75,7 @@ export default class ClassedColorSliderGenerated implements IPropertyWrapper {
 export async function buildJsClassedColorSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsClassedColorSlider = new ClassedColorSlider();
     if (hasValue(dotNetObject.breaks)) {
-        let { buildJsClassedColorSliderBreaks } = await import('./classedColorSliderBreaks');
+        let {buildJsClassedColorSliderBreaks} = await import('./classedColorSliderBreaks');
         jsClassedColorSlider.breaks = await Promise.all(dotNetObject.breaks.map(async i => await buildJsClassedColorSliderBreaks(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.inputFormatFunction)) {
@@ -86,12 +88,18 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
         jsClassedColorSlider.labelFormatFunction = dotNetObject.smartMappingSliderBaseLabelFormatter;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
+        let {buildJsClassedColorSliderViewModel} = await import('./classedColorSliderViewModel');
         jsClassedColorSlider.viewModel = await buildJsClassedColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.histogramConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedHistogramConfig
+        } = dotNetObject.histogramConfig;
         jsClassedColorSlider.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
@@ -107,7 +115,13 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
         jsClassedColorSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVisibleElements
+        } = dotNetObject.visibleElements;
         jsClassedColorSlider.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
@@ -116,98 +130,99 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
     jsClassedColorSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });
-    
+
     jsClassedColorSlider.on('segment-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsegmentDrag', evt);
     });
-    
+
     jsClassedColorSlider.on('thumb-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbChange', evt);
     });
-    
+
     jsClassedColorSlider.on('thumb-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbDrag', evt);
     });
-    
+
     jsClassedColorSlider.on('min-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsinChange', evt);
     });
-    
 
-    let { default: ClassedColorSliderWrapper } = await import('./classedColorSlider');
+
+    let {default: ClassedColorSliderWrapper} = await import('./classedColorSlider');
     let classedColorSliderWrapper = new ClassedColorSliderWrapper(jsClassedColorSlider);
     classedColorSliderWrapper.geoBlazorId = dotNetObject.id;
     classedColorSliderWrapper.viewId = viewId;
     classedColorSliderWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(classedColorSliderWrapper);
     jsObjectRefs[dotNetObject.id] = classedColorSliderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsClassedColorSlider;
-    let { buildDotNetClassedColorSlider } = await import('./classedColorSlider');
+    let {buildDotNetClassedColorSlider} = await import('./classedColorSlider');
     let dnInstantiatedObject = await buildDotNetClassedColorSlider(jsClassedColorSlider);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ClassedColorSlider', e);
     }
-    
+
     return jsClassedColorSlider;
 }
+
 export async function buildDotNetClassedColorSliderGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetClassedColorSlider: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.breaks)) {
-            let { buildDotNetClassedColorSliderBreaks } = await import('./classedColorSliderBreaks');
-            dotNetClassedColorSlider.breaks = await Promise.all(jsObject.breaks.map(async i => await buildDotNetClassedColorSliderBreaks(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
-            dotNetClassedColorSlider.viewModel = await buildDotNetClassedColorSliderViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetClassedColorSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetClassedColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetClassedColorSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetClassedColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetClassedColorSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetClassedColorSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetClassedColorSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetClassedColorSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetClassedColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetClassedColorSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetClassedColorSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetClassedColorSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.breaks)) {
+        let {buildDotNetClassedColorSliderBreaks} = await import('./classedColorSliderBreaks');
+        dotNetClassedColorSlider.breaks = await Promise.all(jsObject.breaks.map(async i => await buildDotNetClassedColorSliderBreaks(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetClassedColorSliderViewModel} = await import('./classedColorSliderViewModel');
+        dotNetClassedColorSlider.viewModel = await buildDotNetClassedColorSliderViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetClassedColorSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetClassedColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetClassedColorSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetClassedColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetClassedColorSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetClassedColorSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetClassedColorSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetClassedColorSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetClassedColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetClassedColorSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetClassedColorSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetClassedColorSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

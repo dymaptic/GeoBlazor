@@ -7,15 +7,15 @@ export default class ControlPointsGeoreferenceWrapper extends ControlPointsGeore
     constructor(component: ControlPointsGeoreference) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsControlPointsGeoreference(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsControlPointsGeoreferenceGenerated } = await import('./controlPointsGeoreference.gb');
+    let {buildJsControlPointsGeoreferenceGenerated} = await import('./controlPointsGeoreference.gb');
     return await buildJsControlPointsGeoreferenceGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetControlPointsGeoreference(jsObject: any): Promise<any> {
-    let { buildDotNetControlPointsGeoreferenceGenerated } = await import('./controlPointsGeoreference.gb');
+    let {buildDotNetControlPointsGeoreferenceGenerated} = await import('./controlPointsGeoreference.gb');
     return await buildDotNetControlPointsGeoreferenceGenerated(jsObject);
 }

@@ -12,19 +12,19 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     constructor(layer: WMSLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     async createLayerView(view: any,
-        options: any): Promise<any> {
+                          options: any): Promise<any> {
         return await this.layer.createLayerView(view,
             options);
     }
@@ -34,10 +34,10 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchImage(extent: any,
-        width: any,
-        height: any,
-        options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
+                     width: any,
+                     height: any,
+                     options: any): Promise<any> {
+        let {buildJsExtent} = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
@@ -54,101 +54,109 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getAllSublayers(): Promise<any> {
         if (!hasValue(this.layer.allSublayers)) {
             return null;
         }
-        
-        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+
+        let {buildDotNetWMSSublayer} = await import('./wMSSublayer');
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
     }
-    
+
     async setAllSublayers(value: any): Promise<void> {
-        let { buildJsWMSSublayer } = await import('./wMSSublayer');
+        let {buildJsWMSSublayer} = await import('./wMSSublayer');
         this.layer.allSublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+
     async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
+        let {buildJsExtent} = await import('./extent');
+        this.layer.fullExtent = buildJsExtent(value);
     }
+
     async getFullExtents(): Promise<any> {
         if (!hasValue(this.layer.fullExtents)) {
             return null;
         }
-        
-        let { buildDotNetExtent } = await import('./extent');
+
+        let {buildDotNetExtent} = await import('./extent');
         return this.layer.fullExtents!.map(i => buildDotNetExtent(i));
     }
-    
+
     async setFullExtents(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         this.layer.fullExtents = value.map(i => buildJsExtent(i)) as any;
     }
-    
+
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
         }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
+
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+
     async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference =  buildJsSpatialReference(value);
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(value);
     }
+
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
             return null;
         }
-        
-        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+
+        let {buildDotNetWMSSublayer} = await import('./wMSSublayer');
         return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
     }
-    
+
     async setSublayers(value: any): Promise<void> {
-        let { buildJsWMSSublayer } = await import('./wMSSublayer');
+        let {buildJsWMSSublayer} = await import('./wMSSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+
     async setTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.timeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
         }
-        
-        let { buildDotNetTimeExtent } = await import('./timeExtent');
+
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+
     async setVisibilityTimeExtent(value: any): Promise<void> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        let {buildJsTimeExtent} = await import('./timeExtent');
+        this.layer.visibilityTimeExtent = await buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -157,34 +165,34 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWMSLayer = new WMSLayer();
     if (hasValue(dotNetObject.allSublayers)) {
-        let { buildJsWMSSublayer } = await import('./wMSSublayer');
+        let {buildJsWMSSublayer} = await import('./wMSSublayer');
         jsWMSLayer.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.fetchFeatureInfoFunction)) {
         jsWMSLayer.fetchFeatureInfoFunction = dotNetObject.fetchFeatureInfoFunction;
     }
     if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsWMSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.fullExtents)) {
-        let { buildJsExtent } = await import('./extent');
+        let {buildJsExtent} = await import('./extent');
         jsWMSLayer.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
+        let {buildJsSpatialReference} = await import('./spatialReference');
         jsWMSLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
-        let { buildJsWMSSublayer } = await import('./wMSSublayer');
+        let {buildJsWMSSublayer} = await import('./wMSSublayer');
         jsWMSLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsWMSLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
-        let { buildJsTimeExtent } = await import('./timeExtent');
+        let {buildJsTimeExtent} = await import('./timeExtent');
         jsWMSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
@@ -237,11 +245,11 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         jsWMSLayer.spatialReferences = dotNetObject.spatialReferences;
     }
     if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo} = dotNetObject.timeInfo;
         jsWMSLayer.timeInfo = sanitizedTimeInfo;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const {id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset} = dotNetObject.timeOffset;
         jsWMSLayer.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
@@ -259,147 +267,148 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     jsWMSLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
-    
 
-    let { default: WMSLayerWrapper } = await import('./wMSLayer');
+
+    let {default: WMSLayerWrapper} = await import('./wMSLayer');
     let wMSLayerWrapper = new WMSLayerWrapper(jsWMSLayer);
     wMSLayerWrapper.geoBlazorId = dotNetObject.id;
     wMSLayerWrapper.viewId = viewId;
     wMSLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wMSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
-    let { buildDotNetWMSLayer } = await import('./wMSLayer');
+    let {buildDotNetWMSLayer} = await import('./wMSLayer');
     let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WMSLayer', e);
     }
-    
+
     return jsWMSLayer;
 }
+
 export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetWMSLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allSublayers)) {
-            let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-            dotNetWMSLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.fullExtents)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetWMSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.sublayers)) {
-            let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-            dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetWMSLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWMSLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customLayerParameters)) {
-            dotNetWMSLayer.customLayerParameters = jsObject.customLayerParameters;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetWMSLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetWMSLayer.description = jsObject.description;
-        }
-        if (hasValue(jsObject.dimensions)) {
-            dotNetWMSLayer.dimensions = jsObject.dimensions;
-        }
-        if (hasValue(jsObject.featureInfoFormat)) {
-            dotNetWMSLayer.featureInfoFormat = jsObject.featureInfoFormat;
-        }
-        if (hasValue(jsObject.featureInfoFormats)) {
-            dotNetWMSLayer.featureInfoFormats = jsObject.featureInfoFormats;
-        }
-        if (hasValue(jsObject.featureInfoUrl)) {
-            dotNetWMSLayer.featureInfoUrl = jsObject.featureInfoUrl;
-        }
-        if (hasValue(jsObject.fetchFeatureInfoFunction)) {
-            dotNetWMSLayer.fetchFeatureInfoFunction = jsObject.fetchFeatureInfoFunction;
-        }
-        if (hasValue(jsObject.imageFormat)) {
-            dotNetWMSLayer.imageFormat = jsObject.imageFormat;
-        }
-        if (hasValue(jsObject.imageMaxHeight)) {
-            dotNetWMSLayer.imageMaxHeight = jsObject.imageMaxHeight;
-        }
-        if (hasValue(jsObject.imageMaxWidth)) {
-            dotNetWMSLayer.imageMaxWidth = jsObject.imageMaxWidth;
-        }
-        if (hasValue(jsObject.imageTransparency)) {
-            dotNetWMSLayer.imageTransparency = jsObject.imageTransparency;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetWMSLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWMSLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWMSLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWMSLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWMSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.spatialReferences)) {
-            dotNetWMSLayer.spatialReferences = jsObject.spatialReferences;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetWMSLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetWMSLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWMSLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWMSLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetWMSLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetWMSLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetWMSLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.allSublayers)) {
+        let {buildDotNetWMSSublayer} = await import('./wMSSublayer');
+        dotNetWMSLayer.allSublayers = await Promise.all(jsObject.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.fullExtents)) {
+        let {buildDotNetExtent} = await import('./extent');
+        dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        let {buildDotNetSpatialReference} = await import('./spatialReference');
+        dotNetWMSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
+    }
+    if (hasValue(jsObject.sublayers)) {
+        let {buildDotNetWMSSublayer} = await import('./wMSSublayer');
+        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let {buildDotNetTimeExtent} = await import('./timeExtent');
+        dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetWMSLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWMSLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customLayerParameters)) {
+        dotNetWMSLayer.customLayerParameters = jsObject.customLayerParameters;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetWMSLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetWMSLayer.description = jsObject.description;
+    }
+    if (hasValue(jsObject.dimensions)) {
+        dotNetWMSLayer.dimensions = jsObject.dimensions;
+    }
+    if (hasValue(jsObject.featureInfoFormat)) {
+        dotNetWMSLayer.featureInfoFormat = jsObject.featureInfoFormat;
+    }
+    if (hasValue(jsObject.featureInfoFormats)) {
+        dotNetWMSLayer.featureInfoFormats = jsObject.featureInfoFormats;
+    }
+    if (hasValue(jsObject.featureInfoUrl)) {
+        dotNetWMSLayer.featureInfoUrl = jsObject.featureInfoUrl;
+    }
+    if (hasValue(jsObject.fetchFeatureInfoFunction)) {
+        dotNetWMSLayer.fetchFeatureInfoFunction = jsObject.fetchFeatureInfoFunction;
+    }
+    if (hasValue(jsObject.imageFormat)) {
+        dotNetWMSLayer.imageFormat = jsObject.imageFormat;
+    }
+    if (hasValue(jsObject.imageMaxHeight)) {
+        dotNetWMSLayer.imageMaxHeight = jsObject.imageMaxHeight;
+    }
+    if (hasValue(jsObject.imageMaxWidth)) {
+        dotNetWMSLayer.imageMaxWidth = jsObject.imageMaxWidth;
+    }
+    if (hasValue(jsObject.imageTransparency)) {
+        dotNetWMSLayer.imageTransparency = jsObject.imageTransparency;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetWMSLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWMSLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWMSLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWMSLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWMSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.spatialReferences)) {
+        dotNetWMSLayer.spatialReferences = jsObject.spatialReferences;
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        dotNetWMSLayer.timeInfo = jsObject.timeInfo;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetWMSLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWMSLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWMSLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetWMSLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetWMSLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetWMSLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

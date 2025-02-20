@@ -12,17 +12,17 @@ export default class ServiceAreaServiceGenerated implements IPropertyWrapper {
     constructor(component: serviceArea) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async solve(url: any,
-        parameters: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsServiceAreaParameters } = await import('./serviceAreaParameters');
+                parameters: any,
+                requestOptions: any): Promise<any> {
+        let {buildJsServiceAreaParameters} = await import('./serviceAreaParameters');
         let jsparameters = await buildJsServiceAreaParameters(parameters, this.layerId, this.viewId) as any;
         return await this.component.solve(url,
             jsparameters,
@@ -30,11 +30,11 @@ export default class ServiceAreaServiceGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -44,32 +44,33 @@ export async function buildJsServiceAreaServiceGenerated(dotNetObject: any, laye
     let jsserviceArea: any = {}
 
 
-    let { default: ServiceAreaServiceWrapper } = await import('./serviceAreaService');
+    let {default: ServiceAreaServiceWrapper} = await import('./serviceAreaService');
     let serviceAreaServiceWrapper = new ServiceAreaServiceWrapper(jsserviceArea);
     serviceAreaServiceWrapper.geoBlazorId = dotNetObject.id;
     serviceAreaServiceWrapper.viewId = viewId;
     serviceAreaServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(serviceAreaServiceWrapper);
     jsObjectRefs[dotNetObject.id] = serviceAreaServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsserviceArea;
-    let { buildDotNetServiceAreaService } = await import('./serviceAreaService');
+    let {buildDotNetServiceAreaService} = await import('./serviceAreaService');
     let dnInstantiatedObject = await buildDotNetServiceAreaService(jsserviceArea);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ServiceAreaService', e);
     }
-    
+
     return jsserviceArea;
 }
+
 export async function buildDotNetServiceAreaServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetServiceAreaService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

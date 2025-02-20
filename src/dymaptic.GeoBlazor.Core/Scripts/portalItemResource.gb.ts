@@ -12,43 +12,45 @@ export default class PortalItemResourceGenerated implements IPropertyWrapper {
     constructor(component: PortalItemResource) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async fetch(responseType: any,
-        options: any): Promise<any> {
+                options: any): Promise<any> {
         return await this.component.fetch(responseType,
             options);
     }
 
     async update(content: any,
-        options: any): Promise<any> {
+                 options: any): Promise<any> {
         return await this.component.update(content,
             options);
     }
 
     // region properties
-    
+
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.component.portalItem)) {
             return null;
         }
-        
-        let { buildDotNetPortalItem } = await import('./portalItem');
+
+        let {buildDotNetPortalItem} = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
+
     async setPortalItem(value: any): Promise<void> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+        let {buildJsPortalItem} = await import('./portalItem');
+        this.component.portalItem = await buildJsPortalItem(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -57,7 +59,7 @@ export default class PortalItemResourceGenerated implements IPropertyWrapper {
 export async function buildJsPortalItemResourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPortalItemResource = new PortalItemResource();
     if (hasValue(dotNetObject.portalItem)) {
-        let { buildJsPortalItem } = await import('./portalItem');
+        let {buildJsPortalItem} = await import('./portalItem');
         jsPortalItemResource.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
 
@@ -65,46 +67,47 @@ export async function buildJsPortalItemResourceGenerated(dotNetObject: any, laye
         jsPortalItemResource.path = dotNetObject.path;
     }
 
-    let { default: PortalItemResourceWrapper } = await import('./portalItemResource');
+    let {default: PortalItemResourceWrapper} = await import('./portalItemResource');
     let portalItemResourceWrapper = new PortalItemResourceWrapper(jsPortalItemResource);
     portalItemResourceWrapper.geoBlazorId = dotNetObject.id;
     portalItemResourceWrapper.viewId = viewId;
     portalItemResourceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalItemResourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemResourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItemResource;
-    let { buildDotNetPortalItemResource } = await import('./portalItemResource');
+    let {buildDotNetPortalItemResource} = await import('./portalItemResource');
     let dnInstantiatedObject = await buildDotNetPortalItemResource(jsPortalItemResource);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalItemResource', e);
     }
-    
+
     return jsPortalItemResource;
 }
+
 export async function buildDotNetPortalItemResourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPortalItemResource: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.path)) {
-            dotNetPortalItemResource.path = jsObject.path;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetPortalItemResource.url = jsObject.url;
-        }
+    if (hasValue(jsObject.portalItem)) {
+        let {buildDotNetPortalItem} = await import('./portalItem');
+        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.path)) {
+        dotNetPortalItemResource.path = jsObject.path;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetPortalItemResource.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

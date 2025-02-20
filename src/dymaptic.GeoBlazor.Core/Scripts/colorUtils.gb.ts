@@ -12,13 +12,13 @@ export default class ColorUtilsGenerated implements IPropertyWrapper {
     constructor(component: colorUtils) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getBackgroundColor(view: any): Promise<any> {
         return await this.component.getBackgroundColor(view);
     }
@@ -28,11 +28,11 @@ export default class ColorUtilsGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -42,32 +42,33 @@ export async function buildJsColorUtilsGenerated(dotNetObject: any, layerId: str
     let jscolorUtils: any = {}
 
 
-    let { default: ColorUtilsWrapper } = await import('./colorUtils');
+    let {default: ColorUtilsWrapper} = await import('./colorUtils');
     let colorUtilsWrapper = new ColorUtilsWrapper(jscolorUtils);
     colorUtilsWrapper.geoBlazorId = dotNetObject.id;
     colorUtilsWrapper.viewId = viewId;
     colorUtilsWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = colorUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscolorUtils;
-    let { buildDotNetColorUtils } = await import('./colorUtils');
+    let {buildDotNetColorUtils} = await import('./colorUtils');
     let dnInstantiatedObject = await buildDotNetColorUtils(jscolorUtils);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorUtils', e);
     }
-    
+
     return jscolorUtils;
 }
+
 export async function buildDotNetColorUtilsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetColorUtils: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

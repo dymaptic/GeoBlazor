@@ -12,23 +12,23 @@ export default class ILegendLayerGenerated implements IPropertyWrapper {
     constructor(layer: LegendLayer) {
         this.layer = layer;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.layer;
     }
-    
+
     async load(options: AbortSignal): Promise<void> {
         await this.layer.load(options);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.layer[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.layer[prop] = value;
     }
@@ -47,45 +47,46 @@ export async function buildJsILegendLayerGenerated(dotNetObject: any, layerId: s
         jsLegendLayer.title = dotNetObject.title;
     }
 
-    let { default: ILegendLayerWrapper } = await import('./iLegendLayer');
+    let {default: ILegendLayerWrapper} = await import('./iLegendLayer');
     let iLegendLayerWrapper = new ILegendLayerWrapper(jsLegendLayer);
     iLegendLayerWrapper.geoBlazorId = dotNetObject.id;
     iLegendLayerWrapper.viewId = viewId;
     iLegendLayerWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iLegendLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iLegendLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegendLayer;
-    let { buildDotNetILegendLayer } = await import('./iLegendLayer');
+    let {buildDotNetILegendLayer} = await import('./iLegendLayer');
     let dnInstantiatedObject = await buildDotNetILegendLayer(jsLegendLayer);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ILegendLayer', e);
     }
-    
+
     return jsLegendLayer;
 }
+
 export async function buildDotNetILegendLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetILegendLayer: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.layerId)) {
-            dotNetILegendLayer.layerId = jsObject.layerId;
-        }
-        if (hasValue(jsObject.subLayerIds)) {
-            dotNetILegendLayer.subLayerIds = jsObject.subLayerIds;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetILegendLayer.title = jsObject.title;
-        }
+    if (hasValue(jsObject.layerId)) {
+        dotNetILegendLayer.layerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.subLayerIds)) {
+        dotNetILegendLayer.subLayerIds = jsObject.subLayerIds;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetILegendLayer.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,25 +12,25 @@ export default class PopupTemplateCreatorGenerated implements IPropertyWrapper {
     constructor(component: templates) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async getTemplates(parameters: any): Promise<any> {
-        let { buildJsTemplatesGetTemplatesParams } = await import('./templatesGetTemplatesParams');
+        let {buildJsTemplatesGetTemplatesParams} = await import('./templatesGetTemplatesParams');
         let jsparameters = await buildJsTemplatesGetTemplatesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.getTemplates(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsPopupTemplateCreatorGenerated(dotNetObject: any, la
     let jstemplates: any = {}
 
 
-    let { default: PopupTemplateCreatorWrapper } = await import('./popupTemplateCreator');
+    let {default: PopupTemplateCreatorWrapper} = await import('./popupTemplateCreator');
     let popupTemplateCreatorWrapper = new PopupTemplateCreatorWrapper(jstemplates);
     popupTemplateCreatorWrapper.geoBlazorId = dotNetObject.id;
     popupTemplateCreatorWrapper.viewId = viewId;
     popupTemplateCreatorWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupTemplateCreatorWrapper);
     jsObjectRefs[dotNetObject.id] = popupTemplateCreatorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jstemplates;
-    let { buildDotNetPopupTemplateCreator } = await import('./popupTemplateCreator');
+    let {buildDotNetPopupTemplateCreator} = await import('./popupTemplateCreator');
     let dnInstantiatedObject = await buildDotNetPopupTemplateCreator(jstemplates);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PopupTemplateCreator', e);
     }
-    
+
     return jstemplates;
 }
+
 export async function buildDotNetPopupTemplateCreatorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetPopupTemplateCreator: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

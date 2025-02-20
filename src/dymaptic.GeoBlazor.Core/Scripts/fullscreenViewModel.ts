@@ -6,14 +6,15 @@ export default class FullscreenViewModelWrapper extends FullscreenViewModelGener
     constructor(component: FullscreenViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsFullscreenViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsFullscreenViewModelGenerated } = await import('./fullscreenViewModel.gb');
+    let {buildJsFullscreenViewModelGenerated} = await import('./fullscreenViewModel.gb');
     return await buildJsFullscreenViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetFullscreenViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetFullscreenViewModelGenerated } = await import('./fullscreenViewModel.gb');
+    let {buildDotNetFullscreenViewModelGenerated} = await import('./fullscreenViewModel.gb');
     return await buildDotNetFullscreenViewModelGenerated(jsObject);
 }

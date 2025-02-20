@@ -12,26 +12,26 @@ export default class ColorSizeSliderGenerated implements IPropertyWrapper {
     constructor(component: ColorSizeSlider) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async updateFromRendererResult(rendererResult: any,
-        histogramResult: any): Promise<void> {
-        let { buildJsUnivariateColorSizeContinuousRendererResult } = await import('./univariateColorSizeContinuousRendererResult');
+                                   histogramResult: any): Promise<void> {
+        let {buildJsUnivariateColorSizeContinuousRendererResult} = await import('./univariateColorSizeContinuousRendererResult');
         let jsRendererResult = await buildJsUnivariateColorSizeContinuousRendererResult(rendererResult, this.layerId, this.viewId) as any;
         this.component.updateFromRendererResult(jsRendererResult,
             histogramResult);
     }
 
     async updateRenderer(renderer: any): Promise<any> {
-        let { buildJsClassBreaksRenderer } = await import('./classBreaksRenderer');
+        let {buildJsClassBreaksRenderer} = await import('./classBreaksRenderer');
         let jsRenderer = await buildJsClassBreaksRenderer(renderer, this.layerId, this.viewId) as any;
         let result = this.component.updateRenderer(jsRenderer);
-        let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
+        let {buildDotNetClassBreaksRenderer} = await import('./classBreaksRenderer');
         return await buildDotNetClassBreaksRenderer(result);
     }
 
@@ -40,37 +40,39 @@ export default class ColorSizeSliderGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
+
     async getStops(): Promise<any> {
         if (!hasValue(this.component.stops)) {
             return null;
         }
-        
-        let { buildDotNetColorSizeStop } = await import('./colorSizeStop');
+
+        let {buildDotNetColorSizeStop} = await import('./colorSizeStop');
         return await Promise.all(this.component.stops.map(async i => await buildDotNetColorSizeStop(i)));
     }
-    
+
     async setStops(value: any): Promise<void> {
-        let { buildJsColorSizeStop } = await import('./colorSizeStop');
+        let {buildJsColorSizeStop} = await import('./colorSizeStop');
         this.component.stops = await Promise.all(value.map(async i => await buildJsColorSizeStop(i, this.layerId, this.viewId))) as any;
     }
-    
+
     async getViewModel(): Promise<any> {
         if (!hasValue(this.component.viewModel)) {
             return null;
         }
-        
-        let { buildDotNetColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
+
+        let {buildDotNetColorSizeSliderViewModel} = await import('./colorSizeSliderViewModel');
         return await buildDotNetColorSizeSliderViewModel(this.component.viewModel);
     }
+
     async setViewModel(value: any): Promise<void> {
-        let { buildJsColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
-        this.component.viewModel = await  buildJsColorSizeSliderViewModel(value, this.layerId, this.viewId);
+        let {buildJsColorSizeSliderViewModel} = await import('./colorSizeSliderViewModel');
+        this.component.viewModel = await buildJsColorSizeSliderViewModel(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -88,11 +90,11 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
         jsColorSizeSlider.labelFormatFunction = dotNetObject.smartMappingSliderBaseLabelFormatter;
     }
     if (hasValue(dotNetObject.stops)) {
-        let { buildJsColorSizeStop } = await import('./colorSizeStop');
+        let {buildJsColorSizeStop} = await import('./colorSizeStop');
         jsColorSizeSlider.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorSizeStop(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
-        let { buildJsColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
+        let {buildJsColorSizeSliderViewModel} = await import('./colorSizeSliderViewModel');
         jsColorSizeSlider.viewModel = await buildJsColorSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
@@ -100,7 +102,13 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
         jsColorSizeSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedHistogramConfig
+        } = dotNetObject.histogramConfig;
         jsColorSizeSlider.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
@@ -122,7 +130,13 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
         jsColorSizeSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const {
+            id,
+            dotNetComponentReference,
+            layerId,
+            viewId,
+            ...sanitizedVisibleElements
+        } = dotNetObject.visibleElements;
         jsColorSizeSlider.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
@@ -131,107 +145,108 @@ export async function buildJsColorSizeSliderGenerated(dotNetObject: any, layerId
     jsColorSizeSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });
-    
+
     jsColorSizeSlider.on('segment-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsegmentDrag', evt);
     });
-    
+
     jsColorSizeSlider.on('thumb-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbChange', evt);
     });
-    
+
     jsColorSizeSlider.on('thumb-drag', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJshumbDrag', evt);
     });
-    
+
     jsColorSizeSlider.on('min-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsinChange', evt);
     });
-    
 
-    let { default: ColorSizeSliderWrapper } = await import('./colorSizeSlider');
+
+    let {default: ColorSizeSliderWrapper} = await import('./colorSizeSlider');
     let colorSizeSliderWrapper = new ColorSizeSliderWrapper(jsColorSizeSlider);
     colorSizeSliderWrapper.geoBlazorId = dotNetObject.id;
     colorSizeSliderWrapper.viewId = viewId;
     colorSizeSliderWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorSizeSliderWrapper);
     jsObjectRefs[dotNetObject.id] = colorSizeSliderWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsColorSizeSlider;
-    let { buildDotNetColorSizeSlider } = await import('./colorSizeSlider');
+    let {buildDotNetColorSizeSlider} = await import('./colorSizeSlider');
     let dnInstantiatedObject = await buildDotNetColorSizeSlider(jsColorSizeSlider);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorSizeSlider', e);
     }
-    
+
     return jsColorSizeSlider;
 }
+
 export async function buildDotNetColorSizeSliderGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetColorSizeSlider: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.stops)) {
-            let { buildDotNetColorSizeStop } = await import('./colorSizeStop');
-            dotNetColorSizeSlider.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorSizeStop(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
-            dotNetColorSizeSlider.viewModel = await buildDotNetColorSizeSliderViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetColorSizeSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetColorSizeSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetColorSizeSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.persistSizeRangeEnabled)) {
-            dotNetColorSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetColorSizeSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetColorSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetColorSizeSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetColorSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColorSizeSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetColorSizeSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetColorSizeSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.stops)) {
+        let {buildDotNetColorSizeStop} = await import('./colorSizeStop');
+        dotNetColorSizeSlider.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorSizeStop(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let {buildDotNetColorSizeSliderViewModel} = await import('./colorSizeSliderViewModel');
+        dotNetColorSizeSlider.viewModel = await buildDotNetColorSizeSliderViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetColorSizeSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetColorSizeSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetColorSizeSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.persistSizeRangeEnabled)) {
+        dotNetColorSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetColorSizeSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetColorSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetColorSizeSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetColorSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColorSizeSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetColorSizeSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetColorSizeSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

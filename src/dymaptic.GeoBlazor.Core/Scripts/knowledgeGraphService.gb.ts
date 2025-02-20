@@ -12,17 +12,17 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     constructor(component: knowledgeGraphService) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async executeApplyEdits(graph: any,
-        edits: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+                            edits: any,
+                            requestOptions: any): Promise<any> {
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         return await this.component.executeApplyEdits(jsGraph,
             edits,
@@ -30,9 +30,9 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     }
 
     async executeQuery(graph: any,
-        queryArguments: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+                       queryArguments: any,
+                       requestOptions: any): Promise<any> {
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         return await this.component.executeQuery(jsGraph,
             queryArguments,
@@ -40,9 +40,9 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     }
 
     async executeQueryStreaming(graph: any,
-        queryArguments: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+                                queryArguments: any,
+                                requestOptions: any): Promise<any> {
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         return await this.component.executeQueryStreaming(jsGraph,
             queryArguments,
@@ -50,9 +50,9 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     }
 
     async executeSearch(graph: any,
-        searchArguments: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+                        searchArguments: any,
+                        requestOptions: any): Promise<any> {
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         return await this.component.executeSearch(jsGraph,
             searchArguments,
@@ -60,9 +60,9 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     }
 
     async executeSearchStreaming(graph: any,
-        searchArguments: any,
-        requestOptions: any): Promise<any> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+                                 searchArguments: any,
+                                 requestOptions: any): Promise<any> {
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         return await this.component.executeSearchStreaming(jsGraph,
             searchArguments,
@@ -74,17 +74,17 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
     }
 
     async refreshDataModel(graph: any): Promise<void> {
-        let { buildJsKnowledgeGraph } = await import('./knowledgeGraph');
+        let {buildJsKnowledgeGraph} = await import('./knowledgeGraph');
         let jsGraph = await buildJsKnowledgeGraph(graph, this.layerId, this.viewId) as any;
         this.component.refreshDataModel(jsGraph);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -94,32 +94,33 @@ export async function buildJsKnowledgeGraphServiceGenerated(dotNetObject: any, l
     let jsknowledgeGraphService: any = {}
 
 
-    let { default: KnowledgeGraphServiceWrapper } = await import('./knowledgeGraphService');
+    let {default: KnowledgeGraphServiceWrapper} = await import('./knowledgeGraphService');
     let knowledgeGraphServiceWrapper = new KnowledgeGraphServiceWrapper(jsknowledgeGraphService);
     knowledgeGraphServiceWrapper.geoBlazorId = dotNetObject.id;
     knowledgeGraphServiceWrapper.viewId = viewId;
     knowledgeGraphServiceWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(knowledgeGraphServiceWrapper);
     jsObjectRefs[dotNetObject.id] = knowledgeGraphServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsknowledgeGraphService;
-    let { buildDotNetKnowledgeGraphService } = await import('./knowledgeGraphService');
+    let {buildDotNetKnowledgeGraphService} = await import('./knowledgeGraphService');
     let dnInstantiatedObject = await buildDotNetKnowledgeGraphService(jsknowledgeGraphService);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for KnowledgeGraphService', e);
     }
-    
+
     return jsknowledgeGraphService;
 }
+
 export async function buildDotNetKnowledgeGraphServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetKnowledgeGraphService: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

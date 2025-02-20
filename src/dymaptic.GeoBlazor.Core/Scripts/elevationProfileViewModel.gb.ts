@@ -12,13 +12,13 @@ export default class ElevationProfileViewModelGenerated implements IPropertyWrap
     constructor(component: ElevationProfileViewModel) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cancel(): Promise<void> {
         this.component.cancel();
     }
@@ -36,23 +36,25 @@ export default class ElevationProfileViewModelGenerated implements IPropertyWrap
     }
 
     // region properties
-    
+
     async getInput(): Promise<any> {
         if (!hasValue(this.component.input)) {
             return null;
         }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
+
+        let {buildDotNetGraphic} = await import('./graphic');
         return buildDotNetGraphic(this.component.input, this.layerId, this.viewId);
     }
+
     async setInput(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.component.input =  buildJsGraphic(value);
+        let {buildJsGraphic} = await import('./graphic');
+        this.component.input = buildJsGraphic(value);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -61,7 +63,7 @@ export default class ElevationProfileViewModelGenerated implements IPropertyWrap
 export async function buildJsElevationProfileViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsElevationProfileViewModel = new ElevationProfileViewModel();
     if (hasValue(dotNetObject.input)) {
-        let { buildJsGraphic } = await import('./graphic');
+        let {buildJsGraphic} = await import('./graphic');
         jsElevationProfileViewModel.input = buildJsGraphic(dotNetObject.input) as any;
     }
 
@@ -90,73 +92,74 @@ export async function buildJsElevationProfileViewModelGenerated(dotNetObject: an
         jsElevationProfileViewModel.view = dotNetObject.view;
     }
 
-    let { default: ElevationProfileViewModelWrapper } = await import('./elevationProfileViewModel');
+    let {default: ElevationProfileViewModelWrapper} = await import('./elevationProfileViewModel');
     let elevationProfileViewModelWrapper = new ElevationProfileViewModelWrapper(jsElevationProfileViewModel);
     elevationProfileViewModelWrapper.geoBlazorId = dotNetObject.id;
     elevationProfileViewModelWrapper.viewId = viewId;
     elevationProfileViewModelWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elevationProfileViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = elevationProfileViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileViewModel;
-    let { buildDotNetElevationProfileViewModel } = await import('./elevationProfileViewModel');
+    let {buildDotNetElevationProfileViewModel} = await import('./elevationProfileViewModel');
     let dnInstantiatedObject = await buildDotNetElevationProfileViewModel(jsElevationProfileViewModel);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ElevationProfileViewModel', e);
     }
-    
+
     return jsElevationProfileViewModel;
 }
+
 export async function buildDotNetElevationProfileViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetElevationProfileViewModel: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.input)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetElevationProfileViewModel.input = buildDotNetGraphic(jsObject.input, layerId, viewId);
-        }
-        if (hasValue(jsObject.effectiveUnits)) {
-            dotNetElevationProfileViewModel.effectiveUnits = jsObject.effectiveUnits;
-        }
-        if (hasValue(jsObject.geodesicDistanceThreshold)) {
-            dotNetElevationProfileViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetElevationProfileViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.hoveredChartPosition)) {
-            dotNetElevationProfileViewModel.hoveredChartPosition = jsObject.hoveredChartPosition;
-        }
-        if (hasValue(jsObject.profiles)) {
-            dotNetElevationProfileViewModel.profiles = jsObject.profiles;
-        }
-        if (hasValue(jsObject.progress)) {
-            dotNetElevationProfileViewModel.progress = jsObject.progress;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetElevationProfileViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.uniformChartScaling)) {
-            dotNetElevationProfileViewModel.uniformChartScaling = jsObject.uniformChartScaling;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetElevationProfileViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetElevationProfileViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetElevationProfileViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.input)) {
+        let {buildDotNetGraphic} = await import('./graphic');
+        dotNetElevationProfileViewModel.input = buildDotNetGraphic(jsObject.input, layerId, viewId);
+    }
+    if (hasValue(jsObject.effectiveUnits)) {
+        dotNetElevationProfileViewModel.effectiveUnits = jsObject.effectiveUnits;
+    }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetElevationProfileViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetElevationProfileViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.hoveredChartPosition)) {
+        dotNetElevationProfileViewModel.hoveredChartPosition = jsObject.hoveredChartPosition;
+    }
+    if (hasValue(jsObject.profiles)) {
+        dotNetElevationProfileViewModel.profiles = jsObject.profiles;
+    }
+    if (hasValue(jsObject.progress)) {
+        dotNetElevationProfileViewModel.progress = jsObject.progress;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetElevationProfileViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.uniformChartScaling)) {
+        dotNetElevationProfileViewModel.uniformChartScaling = jsObject.uniformChartScaling;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetElevationProfileViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetElevationProfileViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetElevationProfileViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -6,14 +6,15 @@ export default class DistanceMeasurement2DViewModelWrapper extends DistanceMeasu
     constructor(component: DistanceMeasurement2DViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsDistanceMeasurement2DViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsDistanceMeasurement2DViewModelGenerated } = await import('./distanceMeasurement2DViewModel.gb');
+    let {buildJsDistanceMeasurement2DViewModelGenerated} = await import('./distanceMeasurement2DViewModel.gb');
     return await buildJsDistanceMeasurement2DViewModelGenerated(dotNetObject, layerId, viewId);
 }
+
 export async function buildDotNetDistanceMeasurement2DViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetDistanceMeasurement2DViewModelGenerated } = await import('./distanceMeasurement2DViewModel.gb');
+    let {buildDotNetDistanceMeasurement2DViewModelGenerated} = await import('./distanceMeasurement2DViewModel.gb');
     return await buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject);
 }

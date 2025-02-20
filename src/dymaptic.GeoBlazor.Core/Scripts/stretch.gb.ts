@@ -12,25 +12,25 @@ export default class StretchGenerated implements IPropertyWrapper {
     constructor(component: stretch) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsStretchCreateRendererParams } = await import('./stretchCreateRendererParams');
+        let {buildJsStretchCreateRendererParams} = await import('./stretchCreateRendererParams');
         let jsparameters = await buildJsStretchCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -40,32 +40,33 @@ export async function buildJsStretchGenerated(dotNetObject: any, layerId: string
     let jsstretch: any = {}
 
 
-    let { default: StretchWrapper } = await import('./stretch');
+    let {default: StretchWrapper} = await import('./stretch');
     let stretchWrapper = new StretchWrapper(jsstretch);
     stretchWrapper.geoBlazorId = dotNetObject.id;
     stretchWrapper.viewId = viewId;
     stretchWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(stretchWrapper);
     jsObjectRefs[dotNetObject.id] = stretchWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsstretch;
-    let { buildDotNetStretch } = await import('./stretch');
+    let {buildDotNetStretch} = await import('./stretch');
     let dnInstantiatedObject = await buildDotNetStretch(jsstretch);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Stretch', e);
     }
-    
+
     return jsstretch;
 }
+
 export async function buildDotNetStretchGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetStretch: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

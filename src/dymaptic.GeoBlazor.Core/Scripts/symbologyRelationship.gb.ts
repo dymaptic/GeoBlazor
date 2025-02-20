@@ -12,13 +12,13 @@ export default class SymbologyRelationshipGenerated implements IPropertyWrapper 
     constructor(component: symbologyRelationship) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async cloneScheme(scheme: any): Promise<any> {
         return this.component.cloneScheme(scheme);
     }
@@ -40,11 +40,11 @@ export default class SymbologyRelationshipGenerated implements IPropertyWrapper 
     }
 
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -54,32 +54,33 @@ export async function buildJsSymbologyRelationshipGenerated(dotNetObject: any, l
     let jssymbologyRelationship: any = {}
 
 
-    let { default: SymbologyRelationshipWrapper } = await import('./symbologyRelationship');
+    let {default: SymbologyRelationshipWrapper} = await import('./symbologyRelationship');
     let symbologyRelationshipWrapper = new SymbologyRelationshipWrapper(jssymbologyRelationship);
     symbologyRelationshipWrapper.geoBlazorId = dotNetObject.id;
     symbologyRelationshipWrapper.viewId = viewId;
     symbologyRelationshipWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyRelationshipWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyRelationshipWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyRelationship;
-    let { buildDotNetSymbologyRelationship } = await import('./symbologyRelationship');
+    let {buildDotNetSymbologyRelationship} = await import('./symbologyRelationship');
     let dnInstantiatedObject = await buildDotNetSymbologyRelationship(jssymbologyRelationship);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SymbologyRelationship', e);
     }
-    
+
     return jssymbologyRelationship;
 }
+
 export async function buildDotNetSymbologyRelationshipGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetSymbologyRelationship: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)

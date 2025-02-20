@@ -10,10 +10,10 @@ import {
 import Geometry from "@arcgis/core/geometry/Geometry";
 import Symbol from "@arcgis/core/symbols/Symbol";
 import PopupTemplate from "@arcgis/core/PopupTemplate";
-import { buildDotNetGeometry, buildJsGeometry } from './geometry';
-import { buildJsPopupTemplate } from './popupTemplate';
-import { buildDotNetSymbol, buildJsSymbol } from './symbol';
-import { buildJsAttributes } from './attributes';
+import {buildDotNetGeometry, buildJsGeometry} from './geometry';
+import {buildJsPopupTemplate} from './popupTemplate';
+import {buildDotNetSymbol, buildJsSymbol} from './symbol';
+import {buildJsAttributes} from './attributes';
 
 export function buildJsGraphic(graphicObject: any)
     : Graphic | null {
@@ -35,7 +35,7 @@ export function buildJsGraphic(graphicObject: any)
     }
 
     if (hasValue(graphicObject.origin)) {
-        let layer : any | undefined = undefined;
+        let layer: any | undefined = undefined;
         if (arcGisObjectRefs.hasOwnProperty(graphicObject.origin.layerId)) {
             layer = arcGisObjectRefs[graphicObject.origin.layerId] as any;
         }
@@ -77,8 +77,7 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
                 break;
             }
         }
-    }
-    else {
+    } else {
         for (const k of Object.keys(graphicsRefs)) {
             let group = graphicsRefs[k];
             for (const j of Object.keys(group)) {
@@ -89,7 +88,7 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
             }
         }
     }
-    
+
     copyValuesIfExists(graphic, dotNetGraphic, 'visible', 'aggregateGeometries', 'uid');
 
     dotNetGraphic.attributes = graphic.attributes ?? {};

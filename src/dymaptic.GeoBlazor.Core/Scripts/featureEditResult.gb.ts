@@ -17,23 +17,23 @@ export default class FeatureEditResultGenerated implements IPropertyWrapper {
             }
         }
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     // region properties
-    
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
-    
+
     addToProperty(prop: string, value: any): void {
         if (Array.isArray(value)) {
             this.component[prop].addMany(value);
@@ -41,7 +41,7 @@ export default class FeatureEditResultGenerated implements IPropertyWrapper {
             this.component[prop].add(value);
         }
     }
-    
+
     removeFromProperty(prop: string, value: any): any {
         if (Array.isArray(value)) {
             this.component[prop].removeMany(value);

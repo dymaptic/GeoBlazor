@@ -12,43 +12,46 @@ export default class ViewshedAnalysisView3DGenerated implements IPropertyWrapper
     constructor(component: ViewshedAnalysisView3D) {
         this.component = component;
     }
-    
+
     // region methods
-   
+
     unwrap() {
         return this.component;
     }
-    
+
     async createViewsheds(options: any): Promise<any> {
         return await this.component.createViewsheds(options);
     }
 
     // region properties
-    
+
     async getAnalysis(): Promise<any> {
         if (!hasValue(this.component.analysis)) {
             return null;
         }
-        
-        let { buildDotNetViewshedAnalysis } = await import('./viewshedAnalysis');
+
+        let {buildDotNetViewshedAnalysis} = await import('./viewshedAnalysis');
         return await buildDotNetViewshedAnalysis(this.component.analysis);
     }
+
     async getSelectedViewshed(): Promise<any> {
         if (!hasValue(this.component.selectedViewshed)) {
             return null;
         }
-        
-        let { buildDotNetViewshed } = await import('./viewshed');
+
+        let {buildDotNetViewshed} = await import('./viewshed');
         return await buildDotNetViewshed(this.component.selectedViewshed);
     }
+
     async setSelectedViewshed(value: any): Promise<void> {
-        let { buildJsViewshed } = await import('./viewshed');
-        this.component.selectedViewshed = await  buildJsViewshed(value, this.layerId, this.viewId);
+        let {buildJsViewshed} = await import('./viewshed');
+        this.component.selectedViewshed = await buildJsViewshed(value, this.layerId, this.viewId);
     }
+
     getProperty(prop: string): any {
         return this.component[prop];
     }
-    
+
     setProperty(prop: string, value: any): void {
         this.component[prop] = value;
     }
@@ -57,7 +60,7 @@ export default class ViewshedAnalysisView3DGenerated implements IPropertyWrapper
 export async function buildJsViewshedAnalysisView3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsViewshedAnalysisView3D = new ViewshedAnalysisView3D();
     if (hasValue(dotNetObject.selectedViewshed)) {
-        let { buildJsViewshed } = await import('./viewshed');
+        let {buildJsViewshed} = await import('./viewshed');
         jsViewshedAnalysisView3D.selectedViewshed = await buildJsViewshed(dotNetObject.selectedViewshed, layerId, viewId) as any;
     }
 
@@ -65,50 +68,51 @@ export async function buildJsViewshedAnalysisView3DGenerated(dotNetObject: any, 
         jsViewshedAnalysisView3D.interactive = dotNetObject.interactive;
     }
 
-    let { default: ViewshedAnalysisView3DWrapper } = await import('./viewshedAnalysisView3D');
+    let {default: ViewshedAnalysisView3DWrapper} = await import('./viewshedAnalysisView3D');
     let viewshedAnalysisView3DWrapper = new ViewshedAnalysisView3DWrapper(jsViewshedAnalysisView3D);
     viewshedAnalysisView3DWrapper.geoBlazorId = dotNetObject.id;
     viewshedAnalysisView3DWrapper.viewId = viewId;
     viewshedAnalysisView3DWrapper.layerId = layerId;
-    
+
     // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(viewshedAnalysisView3DWrapper);
     jsObjectRefs[dotNetObject.id] = viewshedAnalysisView3DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewshedAnalysisView3D;
-    let { buildDotNetViewshedAnalysisView3D } = await import('./viewshedAnalysisView3D');
+    let {buildDotNetViewshedAnalysisView3D} = await import('./viewshedAnalysisView3D');
     let dnInstantiatedObject = await buildDotNetViewshedAnalysisView3D(jsViewshedAnalysisView3D);
-    
+
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ViewshedAnalysisView3D', e);
     }
-    
+
     return jsViewshedAnalysisView3D;
 }
+
 export async function buildDotNetViewshedAnalysisView3DGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
-    
+
     let dotNetViewshedAnalysisView3D: any = {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.analysis)) {
-            let { buildDotNetViewshedAnalysis } = await import('./viewshedAnalysis');
-            dotNetViewshedAnalysisView3D.analysis = await buildDotNetViewshedAnalysis(jsObject.analysis);
-        }
-        if (hasValue(jsObject.selectedViewshed)) {
-            let { buildDotNetViewshed } = await import('./viewshed');
-            dotNetViewshedAnalysisView3D.selectedViewshed = await buildDotNetViewshed(jsObject.selectedViewshed);
-        }
-        if (hasValue(jsObject.interactive)) {
-            dotNetViewshedAnalysisView3D.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewshedAnalysisView3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.analysis)) {
+        let {buildDotNetViewshedAnalysis} = await import('./viewshedAnalysis');
+        dotNetViewshedAnalysisView3D.analysis = await buildDotNetViewshedAnalysis(jsObject.analysis);
+    }
+    if (hasValue(jsObject.selectedViewshed)) {
+        let {buildDotNetViewshed} = await import('./viewshed');
+        dotNetViewshedAnalysisView3D.selectedViewshed = await buildDotNetViewshed(jsObject.selectedViewshed);
+    }
+    if (hasValue(jsObject.interactive)) {
+        dotNetViewshedAnalysisView3D.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewshedAnalysisView3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

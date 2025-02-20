@@ -7,15 +7,15 @@ export default class OpacitySliderViewModelWrapper extends OpacitySliderViewMode
     constructor(component: OpacitySliderViewModel) {
         super(component);
     }
-    
+
 }
 
 export async function buildJsOpacitySliderViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsOpacitySliderViewModelGenerated } = await import('./opacitySliderViewModel.gb');
+    let {buildJsOpacitySliderViewModelGenerated} = await import('./opacitySliderViewModel.gb');
     return await buildJsOpacitySliderViewModelGenerated(dotNetObject, layerId, viewId);
-}     
+}
 
 export async function buildDotNetOpacitySliderViewModel(jsObject: any): Promise<any> {
-    let { buildDotNetOpacitySliderViewModelGenerated } = await import('./opacitySliderViewModel.gb');
+    let {buildDotNetOpacitySliderViewModelGenerated} = await import('./opacitySliderViewModel.gb');
     return await buildDotNetOpacitySliderViewModelGenerated(jsObject);
 }
