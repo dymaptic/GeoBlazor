@@ -48,24 +48,24 @@ export async function buildDotNetGroupElementGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.description)) {
-            dotNetGroupElement.description = jsObject.description;
-        }
-        if (hasValue(jsObject.elements)) {
-            dotNetGroupElement.elements = jsObject.elements;
-        }
-        if (hasValue(jsObject.initialState)) {
-            dotNetGroupElement.initialState = jsObject.initialState;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetGroupElement.label = jsObject.label;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetGroupElement.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibilityExpression)) {
-            dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetGroupElement.description = jsObject.description;
+    }
+    if (hasValue(jsObject.elements)) {
+        dotNetGroupElement.elements = jsObject.elements;
+    }
+    if (hasValue(jsObject.initialState)) {
+        dotNetGroupElement.initialState = jsObject.initialState;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetGroupElement.label = jsObject.label;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetGroupElement.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibilityExpression)) {
+        dotNetGroupElement.visibilityExpression = jsObject.visibilityExpression;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

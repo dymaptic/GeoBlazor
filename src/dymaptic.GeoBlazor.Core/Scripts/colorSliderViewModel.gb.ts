@@ -71,6 +71,20 @@ export default class ColorSliderViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getStops(): Promise<any> {
+        if (!hasValue(this.component.stops)) {
+            return null;
+        }
+        
+        let { buildDotNetColorStop } = await import('./colorStop');
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetColorStop(i)));
+    }
+    
+    async setStops(value: any): Promise<void> {
+        let { buildJsColorStop } = await import('./colorStop');
+        this.component.stops = await Promise.all(value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId))) as any;
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -119,6 +133,10 @@ export async function buildJsColorSliderViewModelGenerated(dotNetObject: any, la
             index);
         };
     }
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsColorStop } = await import('./colorStop');
+        jsColorSliderViewModel.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.effectiveMax)) {
         jsColorSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
@@ -140,10 +158,6 @@ export async function buildJsColorSliderViewModelGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
         jsColorSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
-    }
-    if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsColorSliderViewModel.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
         jsColorSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
@@ -189,57 +203,58 @@ export async function buildDotNetColorSliderViewModelGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetColorSliderViewModel.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetColorSliderViewModel.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetColorSliderViewModel.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetColorSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetColorSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetColorSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetColorSliderViewModel.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetColorSliderViewModel.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetColorSliderViewModel.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetColorSliderViewModel.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetColorSliderViewModel.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetColorSliderViewModel.state = jsObject.state;
-        }
         if (hasValue(jsObject.stops)) {
-            dotNetColorSliderViewModel.stops = jsObject.stops;
+            let { buildDotNetColorStop } = await import('./colorStop');
+            dotNetColorSliderViewModel.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
         }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetColorSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetColorSliderViewModel.values = jsObject.values;
-        }
-        if (hasValue(jsObject.zoomingEnabled)) {
-            dotNetColorSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetColorSliderViewModel.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetColorSliderViewModel.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetColorSliderViewModel.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetColorSliderViewModel.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetColorSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetColorSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetColorSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetColorSliderViewModel.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetColorSliderViewModel.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetColorSliderViewModel.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetColorSliderViewModel.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetColorSliderViewModel.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetColorSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetColorSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetColorSliderViewModel.values = jsObject.values;
+    }
+    if (hasValue(jsObject.zoomingEnabled)) {
+        dotNetColorSliderViewModel.zoomingEnabled = jsObject.zoomingEnabled;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetColorSliderViewModel.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

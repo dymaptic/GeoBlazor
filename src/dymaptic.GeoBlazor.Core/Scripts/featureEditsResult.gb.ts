@@ -60,27 +60,27 @@ export async function buildDotNetFeatureEditsResultGenerated(jsObject: any): Pro
             let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
             dotNetFeatureEditsResult.editedFeatureResults = await Promise.all(jsObject.editedFeatureResults.map(async i => await buildDotNetEditedFeatureResult(i)));
         }
-        if (hasValue(jsObject.addAttachmentResults)) {
-            dotNetFeatureEditsResult.addAttachmentResults = jsObject.addAttachmentResults;
-        }
-        if (hasValue(jsObject.addFeatureResults)) {
-            dotNetFeatureEditsResult.addFeatureResults = jsObject.addFeatureResults;
-        }
-        if (hasValue(jsObject.deleteAttachmentResults)) {
-            dotNetFeatureEditsResult.deleteAttachmentResults = jsObject.deleteAttachmentResults;
-        }
-        if (hasValue(jsObject.deleteFeatureResults)) {
-            dotNetFeatureEditsResult.deleteFeatureResults = jsObject.deleteFeatureResults;
-        }
-        if (hasValue(jsObject.editMoment)) {
-            dotNetFeatureEditsResult.editMoment = jsObject.editMoment;
-        }
-        if (hasValue(jsObject.updateAttachmentResults)) {
-            dotNetFeatureEditsResult.updateAttachmentResults = jsObject.updateAttachmentResults;
-        }
-        if (hasValue(jsObject.updateFeatureResults)) {
-            dotNetFeatureEditsResult.updateFeatureResults = jsObject.updateFeatureResults;
-        }
+    if (hasValue(jsObject.addAttachmentResults)) {
+        dotNetFeatureEditsResult.addAttachmentResults = jsObject.addAttachmentResults;
+    }
+    if (hasValue(jsObject.addFeatureResults)) {
+        dotNetFeatureEditsResult.addFeatureResults = jsObject.addFeatureResults;
+    }
+    if (hasValue(jsObject.deleteAttachmentResults)) {
+        dotNetFeatureEditsResult.deleteAttachmentResults = jsObject.deleteAttachmentResults;
+    }
+    if (hasValue(jsObject.deleteFeatureResults)) {
+        dotNetFeatureEditsResult.deleteFeatureResults = jsObject.deleteFeatureResults;
+    }
+    if (hasValue(jsObject.editMoment)) {
+        dotNetFeatureEditsResult.editMoment = jsObject.editMoment;
+    }
+    if (hasValue(jsObject.updateAttachmentResults)) {
+        dotNetFeatureEditsResult.updateAttachmentResults = jsObject.updateAttachmentResults;
+    }
+    if (hasValue(jsObject.updateFeatureResults)) {
+        dotNetFeatureEditsResult.updateFeatureResults = jsObject.updateFeatureResults;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

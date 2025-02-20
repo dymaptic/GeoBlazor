@@ -220,42 +220,42 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetBaseTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetBaseTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetBaseTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetBaseTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetBaseTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetBaseTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetBaseTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetBaseTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetBaseTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetBaseTileLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBaseTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBaseTileLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBaseTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetBaseTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetBaseTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetBaseTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetBaseTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetBaseTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetBaseTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetBaseTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetBaseTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetBaseTileLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBaseTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBaseTileLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

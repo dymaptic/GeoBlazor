@@ -53,24 +53,24 @@ export async function buildDotNetPrintTemplateLayoutOptionsGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.authorText)) {
-            dotNetPrintTemplateLayoutOptions.authorText = jsObject.authorText;
-        }
-        if (hasValue(jsObject.copyrightText)) {
-            dotNetPrintTemplateLayoutOptions.copyrightText = jsObject.copyrightText;
-        }
-        if (hasValue(jsObject.customTextElements)) {
-            dotNetPrintTemplateLayoutOptions.customTextElements = jsObject.customTextElements;
-        }
-        if (hasValue(jsObject.elementOverrides)) {
-            dotNetPrintTemplateLayoutOptions.elementOverrides = jsObject.elementOverrides;
-        }
-        if (hasValue(jsObject.scalebarUnit)) {
-            dotNetPrintTemplateLayoutOptions.scalebarUnit = jsObject.scalebarUnit;
-        }
-        if (hasValue(jsObject.titleText)) {
-            dotNetPrintTemplateLayoutOptions.titleText = jsObject.titleText;
-        }
+    if (hasValue(jsObject.authorText)) {
+        dotNetPrintTemplateLayoutOptions.authorText = jsObject.authorText;
+    }
+    if (hasValue(jsObject.copyrightText)) {
+        dotNetPrintTemplateLayoutOptions.copyrightText = jsObject.copyrightText;
+    }
+    if (hasValue(jsObject.customTextElements)) {
+        dotNetPrintTemplateLayoutOptions.customTextElements = jsObject.customTextElements;
+    }
+    if (hasValue(jsObject.elementOverrides)) {
+        dotNetPrintTemplateLayoutOptions.elementOverrides = jsObject.elementOverrides;
+    }
+    if (hasValue(jsObject.scalebarUnit)) {
+        dotNetPrintTemplateLayoutOptions.scalebarUnit = jsObject.scalebarUnit;
+    }
+    if (hasValue(jsObject.titleText)) {
+        dotNetPrintTemplateLayoutOptions.titleText = jsObject.titleText;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

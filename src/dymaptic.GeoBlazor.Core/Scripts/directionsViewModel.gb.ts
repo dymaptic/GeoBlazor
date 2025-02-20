@@ -181,36 +181,36 @@ export async function buildDotNetDirectionsViewModelGenerated(jsObject: any): Pr
             let { buildDotNetRouteParameters } = await import('./routeParameters');
             dotNetDirectionsViewModel.routeParameters = await buildDotNetRouteParameters(jsObject.routeParameters);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetDirectionsViewModel.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetDirectionsViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.impedanceAttribute)) {
-            dotNetDirectionsViewModel.impedanceAttribute = jsObject.impedanceAttribute;
-        }
-        if (hasValue(jsObject.maxStops)) {
-            dotNetDirectionsViewModel.maxStops = jsObject.maxStops;
-        }
-        if (hasValue(jsObject.selectedTravelMode)) {
-            dotNetDirectionsViewModel.selectedTravelMode = jsObject.selectedTravelMode;
-        }
-        if (hasValue(jsObject.serviceDescription)) {
-            dotNetDirectionsViewModel.serviceDescription = jsObject.serviceDescription;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetDirectionsViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.timeAttribute)) {
-            dotNetDirectionsViewModel.timeAttribute = jsObject.timeAttribute;
-        }
-        if (hasValue(jsObject.travelModes)) {
-            dotNetDirectionsViewModel.travelModes = jsObject.travelModes;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDirectionsViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetDirectionsViewModel.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetDirectionsViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.impedanceAttribute)) {
+        dotNetDirectionsViewModel.impedanceAttribute = jsObject.impedanceAttribute;
+    }
+    if (hasValue(jsObject.maxStops)) {
+        dotNetDirectionsViewModel.maxStops = jsObject.maxStops;
+    }
+    if (hasValue(jsObject.selectedTravelMode)) {
+        dotNetDirectionsViewModel.selectedTravelMode = jsObject.selectedTravelMode;
+    }
+    if (hasValue(jsObject.serviceDescription)) {
+        dotNetDirectionsViewModel.serviceDescription = jsObject.serviceDescription;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetDirectionsViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.timeAttribute)) {
+        dotNetDirectionsViewModel.timeAttribute = jsObject.timeAttribute;
+    }
+    if (hasValue(jsObject.travelModes)) {
+        dotNetDirectionsViewModel.travelModes = jsObject.travelModes;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDirectionsViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

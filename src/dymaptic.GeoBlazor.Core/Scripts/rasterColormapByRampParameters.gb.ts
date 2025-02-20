@@ -40,15 +40,15 @@ export async function buildDotNetRasterColormapByRampParametersGenerated(jsObjec
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorRamp)) {
-            dotNetRasterColormapByRampParameters.colorRamp = jsObject.colorRamp;
-        }
-        if (hasValue(jsObject.outputPixelType)) {
-            dotNetRasterColormapByRampParameters.outputPixelType = jsObject.outputPixelType;
-        }
-        if (hasValue(jsObject.raster)) {
-            dotNetRasterColormapByRampParameters.raster = jsObject.raster;
-        }
+    if (hasValue(jsObject.colorRamp)) {
+        dotNetRasterColormapByRampParameters.colorRamp = jsObject.colorRamp;
+    }
+    if (hasValue(jsObject.outputPixelType)) {
+        dotNetRasterColormapByRampParameters.outputPixelType = jsObject.outputPixelType;
+    }
+    if (hasValue(jsObject.raster)) {
+        dotNetRasterColormapByRampParameters.raster = jsObject.raster;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

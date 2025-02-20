@@ -78,21 +78,21 @@ export async function buildDotNetFeatureServiceApplyEditsEditsGenerated(jsObject
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureServiceApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-        if (hasValue(jsObject.addAttachments)) {
-            dotNetFeatureServiceApplyEditsEdits.addAttachments = jsObject.addAttachments;
-        }
-        if (hasValue(jsObject.deleteAttachments)) {
-            dotNetFeatureServiceApplyEditsEdits.deleteAttachments = jsObject.deleteAttachments;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetFeatureServiceApplyEditsEdits.featureServiceApplyEditsEditsId = jsObject.id;
-        }
-        if (hasValue(jsObject.identifierFields)) {
-            dotNetFeatureServiceApplyEditsEdits.identifierFields = jsObject.identifierFields;
-        }
-        if (hasValue(jsObject.updateAttachments)) {
-            dotNetFeatureServiceApplyEditsEdits.updateAttachments = jsObject.updateAttachments;
-        }
+    if (hasValue(jsObject.addAttachments)) {
+        dotNetFeatureServiceApplyEditsEdits.addAttachments = jsObject.addAttachments;
+    }
+    if (hasValue(jsObject.deleteAttachments)) {
+        dotNetFeatureServiceApplyEditsEdits.deleteAttachments = jsObject.deleteAttachments;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureServiceApplyEditsEdits.featureServiceApplyEditsEditsId = jsObject.id;
+    }
+    if (hasValue(jsObject.identifierFields)) {
+        dotNetFeatureServiceApplyEditsEdits.identifierFields = jsObject.identifierFields;
+    }
+    if (hasValue(jsObject.updateAttachments)) {
+        dotNetFeatureServiceApplyEditsEdits.updateAttachments = jsObject.updateAttachments;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

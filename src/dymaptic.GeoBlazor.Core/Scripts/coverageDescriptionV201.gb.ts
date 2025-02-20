@@ -71,30 +71,30 @@ export async function buildDotNetCoverageDescriptionV201Generated(jsObject: any)
             let { buildDotNetCoverageDescriptionV201EoMetadata } = await import('./coverageDescriptionV201EoMetadata');
             dotNetCoverageDescriptionV201.eoMetadata = await buildDotNetCoverageDescriptionV201EoMetadata(jsObject.eoMetadata);
         }
-        if (hasValue(jsObject.coverageFunction)) {
-            dotNetCoverageDescriptionV201.coverageFunction = jsObject.coverageFunction;
-        }
-        if (hasValue(jsObject.coverageId)) {
-            dotNetCoverageDescriptionV201.coverageId = jsObject.coverageId;
-        }
-        if (hasValue(jsObject.domainSet)) {
-            dotNetCoverageDescriptionV201.domainSet = jsObject.domainSet;
-        }
-        if (hasValue(jsObject.extension)) {
-            dotNetCoverageDescriptionV201.extension = jsObject.extension;
-        }
-        if (hasValue(jsObject.rangeType)) {
-            dotNetCoverageDescriptionV201.rangeType = jsObject.rangeType;
-        }
-        if (hasValue(jsObject.resolution)) {
-            dotNetCoverageDescriptionV201.resolution = jsObject.resolution;
-        }
-        if (hasValue(jsObject.serviceParameters)) {
-            dotNetCoverageDescriptionV201.serviceParameters = jsObject.serviceParameters;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetCoverageDescriptionV201.version = jsObject.version;
-        }
+    if (hasValue(jsObject.coverageFunction)) {
+        dotNetCoverageDescriptionV201.coverageFunction = jsObject.coverageFunction;
+    }
+    if (hasValue(jsObject.coverageId)) {
+        dotNetCoverageDescriptionV201.coverageId = jsObject.coverageId;
+    }
+    if (hasValue(jsObject.domainSet)) {
+        dotNetCoverageDescriptionV201.domainSet = jsObject.domainSet;
+    }
+    if (hasValue(jsObject.extension)) {
+        dotNetCoverageDescriptionV201.extension = jsObject.extension;
+    }
+    if (hasValue(jsObject.rangeType)) {
+        dotNetCoverageDescriptionV201.rangeType = jsObject.rangeType;
+    }
+    if (hasValue(jsObject.resolution)) {
+        dotNetCoverageDescriptionV201.resolution = jsObject.resolution;
+    }
+    if (hasValue(jsObject.serviceParameters)) {
+        dotNetCoverageDescriptionV201.serviceParameters = jsObject.serviceParameters;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetCoverageDescriptionV201.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

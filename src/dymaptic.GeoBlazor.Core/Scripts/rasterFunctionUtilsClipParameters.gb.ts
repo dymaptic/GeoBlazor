@@ -45,12 +45,12 @@ export async function buildDotNetRasterFunctionUtilsClipParametersGenerated(jsOb
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetRasterFunctionUtilsClipParameters.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.keepOutside)) {
-            dotNetRasterFunctionUtilsClipParameters.keepOutside = jsObject.keepOutside;
-        }
-        if (hasValue(jsObject.outputPixelType)) {
-            dotNetRasterFunctionUtilsClipParameters.outputPixelType = jsObject.outputPixelType;
-        }
+    if (hasValue(jsObject.keepOutside)) {
+        dotNetRasterFunctionUtilsClipParameters.keepOutside = jsObject.keepOutside;
+    }
+    if (hasValue(jsObject.outputPixelType)) {
+        dotNetRasterFunctionUtilsClipParameters.outputPixelType = jsObject.outputPixelType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

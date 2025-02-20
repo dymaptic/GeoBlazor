@@ -53,12 +53,12 @@ export async function buildDotNetDotDensitySchemesGenerated(jsObject: any): Prom
             let { buildDotNetDotDensityScheme } = await import('./dotDensityScheme');
             dotNetDotDensitySchemes.secondarySchemes = await Promise.all(jsObject.secondarySchemes.map(async i => await buildDotNetDotDensityScheme(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetDotDensitySchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetDotDensitySchemes.basemapTheme = jsObject.basemapTheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetDotDensitySchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetDotDensitySchemes.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -83,15 +83,15 @@ export async function buildDotNetShowTooltipAndFocusFieldOptionsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hideOnBlur)) {
-            dotNetShowTooltipAndFocusFieldOptions.hideOnBlur = jsObject.hideOnBlur;
-        }
-        if (hasValue(jsObject.position)) {
-            dotNetShowTooltipAndFocusFieldOptions.position = jsObject.position;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetShowTooltipAndFocusFieldOptions.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.hideOnBlur)) {
+        dotNetShowTooltipAndFocusFieldOptions.hideOnBlur = jsObject.hideOnBlur;
+    }
+    if (hasValue(jsObject.position)) {
+        dotNetShowTooltipAndFocusFieldOptions.position = jsObject.position;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetShowTooltipAndFocusFieldOptions.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -48,15 +48,15 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): P
             let { buildDotNetExtent } = await import('./extent');
             dotNetKMLLayerViewMapImage.extent = buildDotNetExtent(jsObject.Extent);
         }
-        if (hasValue(jsObject.href)) {
-            dotNetKMLLayerViewMapImage.href = jsObject.href;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetKMLLayerViewMapImage.kMLLayerViewMapImageId = jsObject.id;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetKMLLayerViewMapImage.rotation = jsObject.rotation;
-        }
+    if (hasValue(jsObject.href)) {
+        dotNetKMLLayerViewMapImage.href = jsObject.href;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetKMLLayerViewMapImage.kMLLayerViewMapImageId = jsObject.id;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetKMLLayerViewMapImage.rotation = jsObject.rotation;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

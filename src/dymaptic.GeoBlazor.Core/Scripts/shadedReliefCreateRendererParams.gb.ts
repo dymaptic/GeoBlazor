@@ -55,24 +55,24 @@ export async function buildDotNetShadedReliefCreateRendererParamsGenerated(jsObj
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorRamp)) {
-            dotNetShadedReliefCreateRendererParams.colorRamp = jsObject.colorRamp;
-        }
-        if (hasValue(jsObject.hillshadeType)) {
-            dotNetShadedReliefCreateRendererParams.hillshadeType = jsObject.hillshadeType;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetShadedReliefCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetShadedReliefCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.scalingType)) {
-            dotNetShadedReliefCreateRendererParams.scalingType = jsObject.scalingType;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetShadedReliefCreateRendererParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.colorRamp)) {
+        dotNetShadedReliefCreateRendererParams.colorRamp = jsObject.colorRamp;
+    }
+    if (hasValue(jsObject.hillshadeType)) {
+        dotNetShadedReliefCreateRendererParams.hillshadeType = jsObject.hillshadeType;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetShadedReliefCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetShadedReliefCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.scalingType)) {
+        dotNetShadedReliefCreateRendererParams.scalingType = jsObject.scalingType;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetShadedReliefCreateRendererParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

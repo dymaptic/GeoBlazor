@@ -67,54 +67,54 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.actionsOpen)) {
-            dotNetListItem.actionsOpen = jsObject.actionsOpen;
-        }
-        if (hasValue(jsObject.actionsSections)) {
-            dotNetListItem.actionsSections = jsObject.actionsSections;
-        }
-        if (hasValue(jsObject.childrenSortable)) {
-            dotNetListItem.childrenSortable = jsObject.childrenSortable;
-        }
-        if (hasValue(jsObject.connectionStatus)) {
-            dotNetListItem.connectionStatus = jsObject.connectionStatus;
-        }
-        if (hasValue(jsObject.error)) {
-            dotNetListItem.error = jsObject.error;
-        }
-        if (hasValue(jsObject.hidden)) {
-            dotNetListItem.hidden = jsObject.hidden;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetListItem.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetListItem.open = jsObject.open;
-        }
-        if (hasValue(jsObject.publishing)) {
-            dotNetListItem.publishing = jsObject.publishing;
-        }
-        if (hasValue(jsObject.sortable)) {
-            dotNetListItem.sortable = jsObject.sortable;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetListItem.title = jsObject.title;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetListItem.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetListItem.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibilityMode)) {
-            dotNetListItem.visibilityMode = jsObject.visibilityMode;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetListItem.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetListItem.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.actionsOpen)) {
+        dotNetListItem.actionsOpen = jsObject.actionsOpen;
+    }
+    if (hasValue(jsObject.actionsSections)) {
+        dotNetListItem.actionsSections = jsObject.actionsSections;
+    }
+    if (hasValue(jsObject.childrenSortable)) {
+        dotNetListItem.childrenSortable = jsObject.childrenSortable;
+    }
+    if (hasValue(jsObject.connectionStatus)) {
+        dotNetListItem.connectionStatus = jsObject.connectionStatus;
+    }
+    if (hasValue(jsObject.error)) {
+        dotNetListItem.error = jsObject.error;
+    }
+    if (hasValue(jsObject.hidden)) {
+        dotNetListItem.hidden = jsObject.hidden;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetListItem.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetListItem.open = jsObject.open;
+    }
+    if (hasValue(jsObject.publishing)) {
+        dotNetListItem.publishing = jsObject.publishing;
+    }
+    if (hasValue(jsObject.sortable)) {
+        dotNetListItem.sortable = jsObject.sortable;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetListItem.title = jsObject.title;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetListItem.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetListItem.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibilityMode)) {
+        dotNetListItem.visibilityMode = jsObject.visibilityMode;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetListItem.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetListItem.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

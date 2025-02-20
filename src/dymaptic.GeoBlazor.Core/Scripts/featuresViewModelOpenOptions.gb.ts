@@ -62,21 +62,21 @@ export async function buildDotNetFeaturesViewModelOpenOptionsGenerated(jsObject:
             let { buildDotNetPoint } = await import('./point');
             dotNetFeaturesViewModelOpenOptions.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.content)) {
-            dotNetFeaturesViewModelOpenOptions.content = jsObject.content;
-        }
-        if (hasValue(jsObject.fetchFeatures)) {
-            dotNetFeaturesViewModelOpenOptions.fetchFeatures = jsObject.fetchFeatures;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetFeaturesViewModelOpenOptions.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeaturesViewModelOpenOptions.title = jsObject.title;
-        }
-        if (hasValue(jsObject.updateLocationEnabled)) {
-            dotNetFeaturesViewModelOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
-        }
+    if (hasValue(jsObject.content)) {
+        dotNetFeaturesViewModelOpenOptions.content = jsObject.content;
+    }
+    if (hasValue(jsObject.fetchFeatures)) {
+        dotNetFeaturesViewModelOpenOptions.fetchFeatures = jsObject.fetchFeatures;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetFeaturesViewModelOpenOptions.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeaturesViewModelOpenOptions.title = jsObject.title;
+    }
+    if (hasValue(jsObject.updateLocationEnabled)) {
+        dotNetFeaturesViewModelOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

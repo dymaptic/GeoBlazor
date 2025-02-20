@@ -38,12 +38,12 @@ export async function buildDotNetFeatureLayerBaseSaveAsOptionsGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            dotNetFeatureLayerBaseSaveAsOptions.folder = jsObject.folder;
-        }
-        if (hasValue(jsObject.validationOptions)) {
-            dotNetFeatureLayerBaseSaveAsOptions.validationOptions = jsObject.validationOptions;
-        }
+    if (hasValue(jsObject.folder)) {
+        dotNetFeatureLayerBaseSaveAsOptions.folder = jsObject.folder;
+    }
+    if (hasValue(jsObject.validationOptions)) {
+        dotNetFeatureLayerBaseSaveAsOptions.validationOptions = jsObject.validationOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

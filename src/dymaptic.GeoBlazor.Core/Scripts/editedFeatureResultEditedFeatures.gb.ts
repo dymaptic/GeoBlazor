@@ -61,7 +61,7 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesGenerated(jsOb
         }
         if (hasValue(jsObject.updates)) {
             let { buildDotNetEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
-            dotNetEditedFeatureResultEditedFeatures.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetEditedFeatureResultEditedFeaturesUpdates(i)));
+            dotNetEditedFeatureResultEditedFeatures.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId)));
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -67,18 +67,18 @@ export async function buildDotNetRelationshipSchemeForPolygonGenerated(jsObject:
             let { buildDotNetRelationshipSchemeForPolygonOutline } = await import('./relationshipSchemeForPolygonOutline');
             dotNetRelationshipSchemeForPolygon.outline = await buildDotNetRelationshipSchemeForPolygonOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetRelationshipSchemeForPolygon.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetRelationshipSchemeForPolygon.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetRelationshipSchemeForPolygon.relationshipSchemeForPolygonId = jsObject.id;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetRelationshipSchemeForPolygon.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetRelationshipSchemeForPolygon.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetRelationshipSchemeForPolygon.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetRelationshipSchemeForPolygon.relationshipSchemeForPolygonId = jsObject.id;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetRelationshipSchemeForPolygon.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

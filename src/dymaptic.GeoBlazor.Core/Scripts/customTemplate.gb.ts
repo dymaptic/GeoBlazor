@@ -40,18 +40,18 @@ export async function buildDotNetCustomTemplateGenerated(jsObject: any): Promise
             let { buildDotNetFormat } = await import('./format');
             dotNetCustomTemplate.format = await buildDotNetFormat(jsObject.format);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetCustomTemplate.description = jsObject.description;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetCustomTemplate.label = jsObject.label;
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetCustomTemplate.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.layoutOptions)) {
-            dotNetCustomTemplate.layoutOptions = jsObject.layoutOptions;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetCustomTemplate.description = jsObject.description;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetCustomTemplate.label = jsObject.label;
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetCustomTemplate.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.layoutOptions)) {
+        dotNetCustomTemplate.layoutOptions = jsObject.layoutOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

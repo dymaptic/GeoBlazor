@@ -135,27 +135,27 @@ export async function buildDotNetIUnsupportedLayerGenerated(jsObject: any): Prom
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetIUnsupportedLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIUnsupportedLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIUnsupportedLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIUnsupportedLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIUnsupportedLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIUnsupportedLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIUnsupportedLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetIUnsupportedLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIUnsupportedLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIUnsupportedLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIUnsupportedLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIUnsupportedLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIUnsupportedLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIUnsupportedLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

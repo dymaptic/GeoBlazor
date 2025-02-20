@@ -81,17 +81,17 @@ public partial class UniqueValueGroup : MapComponent
             return Classes;
         }
 
-        // get the property value
-        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValueClass>?>("getProperty",
-            CancellationTokenSource.Token, "classes");
+        IReadOnlyList<UniqueValueClass>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueClass>?>(
+            "getClasses", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Classes = result;
+            Classes = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Classes)] = Classes;
+            ModifiedParameters[nameof(Classes)] = Classes;
         }
-         
+        
         return Classes;
     }
     

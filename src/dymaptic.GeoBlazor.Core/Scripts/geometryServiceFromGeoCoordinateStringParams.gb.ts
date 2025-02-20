@@ -51,15 +51,15 @@ export async function buildDotNetGeometryServiceFromGeoCoordinateStringParamsGen
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetGeometryServiceFromGeoCoordinateStringParams.sr = buildDotNetSpatialReference(jsObject.sr);
         }
-        if (hasValue(jsObject.conversionMode)) {
-            dotNetGeometryServiceFromGeoCoordinateStringParams.conversionMode = jsObject.conversionMode;
-        }
-        if (hasValue(jsObject.conversionType)) {
-            dotNetGeometryServiceFromGeoCoordinateStringParams.conversionType = jsObject.conversionType;
-        }
-        if (hasValue(jsObject.strings)) {
-            dotNetGeometryServiceFromGeoCoordinateStringParams.strings = jsObject.strings;
-        }
+    if (hasValue(jsObject.conversionMode)) {
+        dotNetGeometryServiceFromGeoCoordinateStringParams.conversionMode = jsObject.conversionMode;
+    }
+    if (hasValue(jsObject.conversionType)) {
+        dotNetGeometryServiceFromGeoCoordinateStringParams.conversionType = jsObject.conversionType;
+    }
+    if (hasValue(jsObject.strings)) {
+        dotNetGeometryServiceFromGeoCoordinateStringParams.strings = jsObject.strings;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

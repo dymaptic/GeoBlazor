@@ -55,21 +55,21 @@ export async function buildDotNetImageSampleGenerated(jsObject: any): Promise<an
             let { buildDotNetPoint } = await import('./point');
             dotNetImageSample.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.attributes)) {
-            dotNetImageSample.attributes = jsObject.attributes;
-        }
-        if (hasValue(jsObject.locationId)) {
-            dotNetImageSample.locationId = jsObject.locationId;
-        }
-        if (hasValue(jsObject.pixelValue)) {
-            dotNetImageSample.pixelValue = jsObject.pixelValue;
-        }
-        if (hasValue(jsObject.rasterId)) {
-            dotNetImageSample.rasterId = jsObject.rasterId;
-        }
-        if (hasValue(jsObject.resolution)) {
-            dotNetImageSample.resolution = jsObject.resolution;
-        }
+    if (hasValue(jsObject.attributes)) {
+        dotNetImageSample.attributes = jsObject.attributes;
+    }
+    if (hasValue(jsObject.locationId)) {
+        dotNetImageSample.locationId = jsObject.locationId;
+    }
+    if (hasValue(jsObject.pixelValue)) {
+        dotNetImageSample.pixelValue = jsObject.pixelValue;
+    }
+    if (hasValue(jsObject.rasterId)) {
+        dotNetImageSample.rasterId = jsObject.rasterId;
+    }
+    if (hasValue(jsObject.resolution)) {
+        dotNetImageSample.resolution = jsObject.resolution;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

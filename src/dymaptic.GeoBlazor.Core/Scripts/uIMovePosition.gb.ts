@@ -42,9 +42,9 @@ export async function buildDotNetUIMovePositionGenerated(jsObject: any): Promise
             let { buildDotNetPosition } = await import('./position');
             dotNetUIMovePosition.position = await buildDotNetPosition(jsObject.position);
         }
-        if (hasValue(jsObject.index)) {
-            dotNetUIMovePosition.index = jsObject.index;
-        }
+    if (hasValue(jsObject.index)) {
+        dotNetUIMovePosition.index = jsObject.index;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

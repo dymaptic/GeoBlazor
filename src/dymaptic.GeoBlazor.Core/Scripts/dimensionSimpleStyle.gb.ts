@@ -62,15 +62,15 @@ export async function buildDotNetDimensionSimpleStyleGenerated(jsObject: any): P
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetDimensionSimpleStyle.textColor = buildDotNetMapColor(jsObject.textColor);
         }
-        if (hasValue(jsObject.fontSize)) {
-            dotNetDimensionSimpleStyle.fontSize = jsObject.fontSize;
-        }
-        if (hasValue(jsObject.lineSize)) {
-            dotNetDimensionSimpleStyle.lineSize = jsObject.lineSize;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDimensionSimpleStyle.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fontSize)) {
+        dotNetDimensionSimpleStyle.fontSize = jsObject.fontSize;
+    }
+    if (hasValue(jsObject.lineSize)) {
+        dotNetDimensionSimpleStyle.lineSize = jsObject.lineSize;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDimensionSimpleStyle.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

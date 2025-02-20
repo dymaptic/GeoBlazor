@@ -62,24 +62,24 @@ export async function buildDotNetScaleDependentIconsGenerated(jsObject: any): Pr
             let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
             dotNetScaleDependentIcons.minSize = await buildDotNetScaleDependentStops(jsObject.minSize);
         }
-        if (hasValue(jsObject.field)) {
-            dotNetScaleDependentIcons.field = jsObject.field;
-        }
-        if (hasValue(jsObject.maxDataValue)) {
-            dotNetScaleDependentIcons.maxDataValue = jsObject.maxDataValue;
-        }
-        if (hasValue(jsObject.minDataValue)) {
-            dotNetScaleDependentIcons.minDataValue = jsObject.minDataValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetScaleDependentIcons.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetScaleDependentIcons.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetScaleDependentIcons.valueExpression = jsObject.valueExpression;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetScaleDependentIcons.field = jsObject.field;
+    }
+    if (hasValue(jsObject.maxDataValue)) {
+        dotNetScaleDependentIcons.maxDataValue = jsObject.maxDataValue;
+    }
+    if (hasValue(jsObject.minDataValue)) {
+        dotNetScaleDependentIcons.minDataValue = jsObject.minDataValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetScaleDependentIcons.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetScaleDependentIcons.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetScaleDependentIcons.valueExpression = jsObject.valueExpression;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

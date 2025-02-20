@@ -68,21 +68,21 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any)
             let { buildDotNetPoint } = await import('./point');
             dotNetImageDistanceParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
         }
-        if (hasValue(jsObject.angularUnit)) {
-            dotNetImageDistanceParameters.angularUnit = jsObject.angularUnit;
-        }
-        if (hasValue(jsObject.is3D)) {
-            dotNetImageDistanceParameters.is3D = jsObject.is3D;
-        }
-        if (hasValue(jsObject.linearUnit)) {
-            dotNetImageDistanceParameters.linearUnit = jsObject.linearUnit;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageDistanceParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageDistanceParameters.type = jsObject.type;
-        }
+    if (hasValue(jsObject.angularUnit)) {
+        dotNetImageDistanceParameters.angularUnit = jsObject.angularUnit;
+    }
+    if (hasValue(jsObject.is3D)) {
+        dotNetImageDistanceParameters.is3D = jsObject.is3D;
+    }
+    if (hasValue(jsObject.linearUnit)) {
+        dotNetImageDistanceParameters.linearUnit = jsObject.linearUnit;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageDistanceParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageDistanceParameters.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

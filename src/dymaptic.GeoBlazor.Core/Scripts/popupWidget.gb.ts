@@ -30,13 +30,13 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async reposition(): Promise<void> {
@@ -81,7 +81,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget);
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
     }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
@@ -89,7 +89,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
@@ -219,78 +219,78 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetPopupWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget);
+            dotNetPopupWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.actions)) {
-            dotNetPopupWidget.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetPopupWidget.active = jsObject.active;
-        }
-        if (hasValue(jsObject.alignment)) {
-            dotNetPopupWidget.alignment = jsObject.alignment;
-        }
-        if (hasValue(jsObject.autoCloseEnabled)) {
-            dotNetPopupWidget.autoCloseEnabled = jsObject.autoCloseEnabled;
-        }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetPopupWidget.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.collapseEnabled)) {
-            dotNetPopupWidget.collapseEnabled = jsObject.collapseEnabled;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetPopupWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.currentDockPosition)) {
-            dotNetPopupWidget.currentDockPosition = jsObject.currentDockPosition;
-        }
-        if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
-            dotNetPopupWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
-        }
-        if (hasValue(jsObject.dockEnabled)) {
-            dotNetPopupWidget.dockEnabled = jsObject.dockEnabled;
-        }
-        if (hasValue(jsObject.dockOptions)) {
-            dotNetPopupWidget.dockOptions = jsObject.dockOptions;
-        }
-        if (hasValue(jsObject.featureCount)) {
-            dotNetPopupWidget.featureCount = jsObject.featureCount;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetPopupWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetPopupWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetPopupWidget.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetPopupWidget.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.selectedFeatureIndex)) {
-            dotNetPopupWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
-        }
-        if (hasValue(jsObject.spinnerEnabled)) {
-            dotNetPopupWidget.spinnerEnabled = jsObject.spinnerEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPopupWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPopupWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetPopupWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.actions)) {
+        dotNetPopupWidget.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetPopupWidget.active = jsObject.active;
+    }
+    if (hasValue(jsObject.alignment)) {
+        dotNetPopupWidget.alignment = jsObject.alignment;
+    }
+    if (hasValue(jsObject.autoCloseEnabled)) {
+        dotNetPopupWidget.autoCloseEnabled = jsObject.autoCloseEnabled;
+    }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetPopupWidget.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.collapseEnabled)) {
+        dotNetPopupWidget.collapseEnabled = jsObject.collapseEnabled;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetPopupWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.currentDockPosition)) {
+        dotNetPopupWidget.currentDockPosition = jsObject.currentDockPosition;
+    }
+    if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
+        dotNetPopupWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
+    }
+    if (hasValue(jsObject.dockEnabled)) {
+        dotNetPopupWidget.dockEnabled = jsObject.dockEnabled;
+    }
+    if (hasValue(jsObject.dockOptions)) {
+        dotNetPopupWidget.dockOptions = jsObject.dockOptions;
+    }
+    if (hasValue(jsObject.featureCount)) {
+        dotNetPopupWidget.featureCount = jsObject.featureCount;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetPopupWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetPopupWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetPopupWidget.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetPopupWidget.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.selectedFeatureIndex)) {
+        dotNetPopupWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.spinnerEnabled)) {
+        dotNetPopupWidget.spinnerEnabled = jsObject.spinnerEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPopupWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPopupWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetPopupWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

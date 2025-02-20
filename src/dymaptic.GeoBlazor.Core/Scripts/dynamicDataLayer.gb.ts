@@ -38,15 +38,15 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dataSource)) {
-            dotNetDynamicDataLayer.dataSource = jsObject.dataSource;
-        }
-        if (hasValue(jsObject.fields)) {
-            dotNetDynamicDataLayer.fields = jsObject.fields;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDynamicDataLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.dataSource)) {
+        dotNetDynamicDataLayer.dataSource = jsObject.dataSource;
+    }
+    if (hasValue(jsObject.fields)) {
+        dotNetDynamicDataLayer.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDynamicDataLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

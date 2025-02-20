@@ -95,18 +95,18 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
             let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
             dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetDistanceMeasurement2DWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetDistanceMeasurement2DWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetDistanceMeasurement2DWidget.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDistanceMeasurement2DWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetDistanceMeasurement2DWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetDistanceMeasurement2DWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetDistanceMeasurement2DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDistanceMeasurement2DWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

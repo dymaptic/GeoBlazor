@@ -51,9 +51,9 @@ export async function buildDotNetImageToMapMultirayParametersGenerated(jsObject:
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetImageToMapMultirayParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.rasterIds)) {
-            dotNetImageToMapMultirayParameters.rasterIds = jsObject.rasterIds;
-        }
+    if (hasValue(jsObject.rasterIds)) {
+        dotNetImageToMapMultirayParameters.rasterIds = jsObject.rasterIds;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

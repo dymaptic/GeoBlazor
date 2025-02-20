@@ -45,12 +45,12 @@ export async function buildDotNetLocatorSuggestLocationsParamsGenerated(jsObject
             let { buildDotNetPoint } = await import('./point');
             dotNetLocatorSuggestLocationsParams.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.categories)) {
-            dotNetLocatorSuggestLocationsParams.categories = jsObject.categories;
-        }
-        if (hasValue(jsObject.text)) {
-            dotNetLocatorSuggestLocationsParams.text = jsObject.text;
-        }
+    if (hasValue(jsObject.categories)) {
+        dotNetLocatorSuggestLocationsParams.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.text)) {
+        dotNetLocatorSuggestLocationsParams.text = jsObject.text;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

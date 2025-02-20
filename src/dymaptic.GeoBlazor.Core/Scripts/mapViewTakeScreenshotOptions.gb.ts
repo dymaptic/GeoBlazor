@@ -62,24 +62,24 @@ export async function buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject:
             let { buildDotNetFormat } = await import('./format');
             dotNetMapViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
         }
-        if (hasValue(jsObject.area)) {
-            dotNetMapViewTakeScreenshotOptions.area = jsObject.area;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetMapViewTakeScreenshotOptions.height = jsObject.height;
-        }
-        if (hasValue(jsObject.ignoreBackground)) {
-            dotNetMapViewTakeScreenshotOptions.ignoreBackground = jsObject.ignoreBackground;
-        }
-        if (hasValue(jsObject.ignorePadding)) {
-            dotNetMapViewTakeScreenshotOptions.ignorePadding = jsObject.ignorePadding;
-        }
-        if (hasValue(jsObject.quality)) {
-            dotNetMapViewTakeScreenshotOptions.quality = jsObject.quality;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetMapViewTakeScreenshotOptions.width = jsObject.width;
-        }
+    if (hasValue(jsObject.area)) {
+        dotNetMapViewTakeScreenshotOptions.area = jsObject.area;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetMapViewTakeScreenshotOptions.height = jsObject.height;
+    }
+    if (hasValue(jsObject.ignoreBackground)) {
+        dotNetMapViewTakeScreenshotOptions.ignoreBackground = jsObject.ignoreBackground;
+    }
+    if (hasValue(jsObject.ignorePadding)) {
+        dotNetMapViewTakeScreenshotOptions.ignorePadding = jsObject.ignorePadding;
+    }
+    if (hasValue(jsObject.quality)) {
+        dotNetMapViewTakeScreenshotOptions.quality = jsObject.quality;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetMapViewTakeScreenshotOptions.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

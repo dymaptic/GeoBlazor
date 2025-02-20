@@ -51,18 +51,18 @@ export async function buildDotNetHeatmapSchemeGenerated(jsObject: any): Promise<
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetHeatmapScheme.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.id)) {
-            dotNetHeatmapScheme.heatmapSchemeId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetHeatmapScheme.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetHeatmapScheme.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetHeatmapScheme.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetHeatmapScheme.heatmapSchemeId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetHeatmapScheme.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetHeatmapScheme.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetHeatmapScheme.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

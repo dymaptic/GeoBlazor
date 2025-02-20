@@ -70,21 +70,21 @@ export async function buildDotNetColorSchemeForMeshGenerated(jsObject: any): Pro
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSchemeForMesh.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetColorSchemeForMesh.colorSchemeForMeshId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetColorSchemeForMesh.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetColorSchemeForMesh.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetColorSchemeForMesh.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.theme)) {
-            dotNetColorSchemeForMesh.theme = jsObject.theme;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSchemeForMesh.colorSchemeForMeshId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetColorSchemeForMesh.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetColorSchemeForMesh.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetColorSchemeForMesh.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.theme)) {
+        dotNetColorSchemeForMesh.theme = jsObject.theme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

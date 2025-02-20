@@ -42,12 +42,12 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any): Promis
             let { buildDotNetSizeRampStop } = await import('./sizeRampStop');
             dotNetSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetSizeRampStop(i)));
         }
-        if (hasValue(jsObject.title)) {
-            dotNetSizeRampElement.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSizeRampElement.type = jsObject.type;
-        }
+    if (hasValue(jsObject.title)) {
+        dotNetSizeRampElement.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSizeRampElement.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

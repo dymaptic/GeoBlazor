@@ -81,15 +81,15 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.isInverse)) {
-            dotNetGeographicTransformationStep.isInverse = jsObject.isInverse;
-        }
-        if (hasValue(jsObject.wkid)) {
-            dotNetGeographicTransformationStep.wkid = jsObject.wkid;
-        }
-        if (hasValue(jsObject.wkt)) {
-            dotNetGeographicTransformationStep.wkt = jsObject.wkt;
-        }
+    if (hasValue(jsObject.isInverse)) {
+        dotNetGeographicTransformationStep.isInverse = jsObject.isInverse;
+    }
+    if (hasValue(jsObject.wkid)) {
+        dotNetGeographicTransformationStep.wkid = jsObject.wkid;
+    }
+    if (hasValue(jsObject.wkt)) {
+        dotNetGeographicTransformationStep.wkt = jsObject.wkt;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

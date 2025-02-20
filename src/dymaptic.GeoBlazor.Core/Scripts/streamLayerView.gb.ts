@@ -31,6 +31,14 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
         this.component.disconnect();
     }
 
+    async highlight(target: any): Promise<any> {
+        let { buildJsGraphic } = await import('./graphic');
+        let jsTarget = buildJsGraphic(target) as any;
+        let result = this.component.highlight(jsTarget);
+        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        return await buildDotNetHighlightHandle(result);
+    }
+
     async pause(): Promise<void> {
         this.component.pause();
     }
@@ -81,6 +89,18 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.component.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.component.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.component.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
@@ -92,6 +112,18 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
     async setFilter(value: any): Promise<void> {
         let { buildJsFeatureFilter } = await import('./featureFilter');
         this.component.filter = await  buildJsFeatureFilter(value, this.layerId, this.viewId);
+    }
+    async getHighlightOptions(): Promise<any> {
+        if (!hasValue(this.component.highlightOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+    }
+    async setHighlightOptions(value: any): Promise<void> {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
     }
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
@@ -113,15 +145,19 @@ export default class StreamLayerViewGenerated implements IPropertyWrapper {
 
 export async function buildJsStreamLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsStreamLayerView = new StreamLayerView();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsStreamLayerView.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
         jsStreamLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
-
-    if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsStreamLayerView.featureEffect = sanitizedFeatureEffect;
+    if (hasValue(dotNetObject.highlightOptions)) {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        jsStreamLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
+
     jsStreamLayerView.on('data-received', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDataReceived', evt);
     });
@@ -166,37 +202,42 @@ export async function buildDotNetStreamLayerViewGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetStreamLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.filter)) {
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetStreamLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.connectionError)) {
-            dotNetStreamLayerView.connectionError = jsObject.connectionError;
+        if (hasValue(jsObject.highlightOptions)) {
+            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+            dotNetStreamLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
         }
-        if (hasValue(jsObject.connectionStatus)) {
-            dotNetStreamLayerView.connectionStatus = jsObject.connectionStatus;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetStreamLayerView.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetStreamLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetStreamLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetStreamLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetStreamLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetStreamLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetStreamLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.connectionError)) {
+        dotNetStreamLayerView.connectionError = jsObject.connectionError;
+    }
+    if (hasValue(jsObject.connectionStatus)) {
+        dotNetStreamLayerView.connectionStatus = jsObject.connectionStatus;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetStreamLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetStreamLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetStreamLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetStreamLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetStreamLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetStreamLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

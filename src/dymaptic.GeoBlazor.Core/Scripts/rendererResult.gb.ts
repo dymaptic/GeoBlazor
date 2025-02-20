@@ -53,12 +53,12 @@ export async function buildDotNetRendererResultGenerated(jsObject: any): Promise
             let { buildDotNetDotDensityRenderer } = await import('./dotDensityRenderer');
             dotNetRendererResult.renderer = await buildDotNetDotDensityRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

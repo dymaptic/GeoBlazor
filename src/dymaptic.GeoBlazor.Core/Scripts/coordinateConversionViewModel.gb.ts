@@ -193,24 +193,24 @@ export async function buildDotNetCoordinateConversionViewModelGenerated(jsObject
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetCoordinateConversionViewModel.locationSymbol = buildDotNetSymbol(jsObject.locationSymbol);
         }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetCoordinateConversionViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetCoordinateConversionViewModel.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetCoordinateConversionViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.storageEnabled)) {
-            dotNetCoordinateConversionViewModel.storageEnabled = jsObject.storageEnabled;
-        }
-        if (hasValue(jsObject.storageType)) {
-            dotNetCoordinateConversionViewModel.storageType = jsObject.storageType;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCoordinateConversionViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCoordinateConversionViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetCoordinateConversionViewModel.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetCoordinateConversionViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.storageEnabled)) {
+        dotNetCoordinateConversionViewModel.storageEnabled = jsObject.storageEnabled;
+    }
+    if (hasValue(jsObject.storageType)) {
+        dotNetCoordinateConversionViewModel.storageType = jsObject.storageType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCoordinateConversionViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

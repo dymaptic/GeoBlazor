@@ -73,9 +73,9 @@ export async function buildDotNetIFeatureReductionLayerGenerated(jsObject: any):
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetIFeatureReductionLayer.featureReduction = jsObject.featureReduction;
-        }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetIFeatureReductionLayer.featureReduction = jsObject.featureReduction;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

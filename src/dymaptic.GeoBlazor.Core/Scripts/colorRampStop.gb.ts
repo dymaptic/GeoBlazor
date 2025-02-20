@@ -48,15 +48,15 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any): Promise<
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorRampStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetColorRampStop.label = jsObject.label;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetColorRampStop.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetColorRampStop.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetColorRampStop.label = jsObject.label;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetColorRampStop.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetColorRampStop.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

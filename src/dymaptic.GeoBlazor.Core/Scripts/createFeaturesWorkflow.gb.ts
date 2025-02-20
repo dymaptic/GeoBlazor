@@ -121,27 +121,27 @@ export async function buildDotNetCreateFeaturesWorkflowGenerated(jsObject: any, 
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetCreateFeaturesWorkflow.pendingFeatures = jsObject.pendingFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-        if (hasValue(jsObject.createFeatureState)) {
-            dotNetCreateFeaturesWorkflow.createFeatureState = jsObject.createFeatureState;
-        }
-        if (hasValue(jsObject.hasNextStep)) {
-            dotNetCreateFeaturesWorkflow.hasNextStep = jsObject.hasNextStep;
-        }
-        if (hasValue(jsObject.hasPreviousStep)) {
-            dotNetCreateFeaturesWorkflow.hasPreviousStep = jsObject.hasPreviousStep;
-        }
-        if (hasValue(jsObject.numPendingFeatures)) {
-            dotNetCreateFeaturesWorkflow.numPendingFeatures = jsObject.numPendingFeatures;
-        }
-        if (hasValue(jsObject.started)) {
-            dotNetCreateFeaturesWorkflow.started = jsObject.started;
-        }
-        if (hasValue(jsObject.stepId)) {
-            dotNetCreateFeaturesWorkflow.stepId = jsObject.stepId;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCreateFeaturesWorkflow.type = jsObject.type;
-        }
+    if (hasValue(jsObject.createFeatureState)) {
+        dotNetCreateFeaturesWorkflow.createFeatureState = jsObject.createFeatureState;
+    }
+    if (hasValue(jsObject.hasNextStep)) {
+        dotNetCreateFeaturesWorkflow.hasNextStep = jsObject.hasNextStep;
+    }
+    if (hasValue(jsObject.hasPreviousStep)) {
+        dotNetCreateFeaturesWorkflow.hasPreviousStep = jsObject.hasPreviousStep;
+    }
+    if (hasValue(jsObject.numPendingFeatures)) {
+        dotNetCreateFeaturesWorkflow.numPendingFeatures = jsObject.numPendingFeatures;
+    }
+    if (hasValue(jsObject.started)) {
+        dotNetCreateFeaturesWorkflow.started = jsObject.started;
+    }
+    if (hasValue(jsObject.stepId)) {
+        dotNetCreateFeaturesWorkflow.stepId = jsObject.stepId;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCreateFeaturesWorkflow.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

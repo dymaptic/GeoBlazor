@@ -56,15 +56,15 @@ export async function buildDotNetDotDensitySchemeGenerated(jsObject: any): Promi
             let { buildDotNetDotDensitySchemeOutline } = await import('./dotDensitySchemeOutline');
             dotNetDotDensityScheme.outline = await buildDotNetDotDensitySchemeOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetDotDensityScheme.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetDotDensityScheme.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetDotDensityScheme.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetDotDensityScheme.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetDotDensityScheme.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetDotDensityScheme.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

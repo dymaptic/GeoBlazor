@@ -45,12 +45,12 @@ export async function buildDotNetShadowCastViewModelDiscreteOptionsGenerated(jsO
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetShadowCastViewModelDiscreteOptions.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.interval)) {
-            dotNetShadowCastViewModelDiscreteOptions.interval = jsObject.interval;
-        }
-        if (hasValue(jsObject.intervalOptions)) {
-            dotNetShadowCastViewModelDiscreteOptions.intervalOptions = jsObject.intervalOptions;
-        }
+    if (hasValue(jsObject.interval)) {
+        dotNetShadowCastViewModelDiscreteOptions.interval = jsObject.interval;
+    }
+    if (hasValue(jsObject.intervalOptions)) {
+        dotNetShadowCastViewModelDiscreteOptions.intervalOptions = jsObject.intervalOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

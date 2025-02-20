@@ -41,18 +41,18 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.stops)) {
-            dotNetScaleDependentStops.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.target)) {
-            dotNetScaleDependentStops.target = jsObject.target;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetScaleDependentStops.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetScaleDependentStops.valueExpression = jsObject.valueExpression;
-        }
+    if (hasValue(jsObject.stops)) {
+        dotNetScaleDependentStops.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.target)) {
+        dotNetScaleDependentStops.target = jsObject.target;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetScaleDependentStops.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetScaleDependentStops.valueExpression = jsObject.valueExpression;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

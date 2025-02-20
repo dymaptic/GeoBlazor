@@ -69,6 +69,18 @@ export default class IFeatureLayerViewMixinGenerated implements IPropertyWrapper
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.component.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.component.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.component.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
@@ -93,15 +105,15 @@ export default class IFeatureLayerViewMixinGenerated implements IPropertyWrapper
 
 export async function buildJsIFeatureLayerViewMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerViewMixin = new FeatureLayerViewMixin();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsFeatureLayerViewMixin.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
         jsFeatureLayerViewMixin.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsFeatureLayerViewMixin.featureEffect = sanitizedFeatureEffect;
-    }
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
         jsFeatureLayerViewMixin.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
     }
@@ -140,34 +152,35 @@ export async function buildDotNetIFeatureLayerViewMixinGenerated(jsObject: any):
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetIFeatureLayerViewMixin.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.filter)) {
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetIFeatureLayerViewMixin.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.availableFields)) {
-            dotNetIFeatureLayerViewMixin.availableFields = jsObject.availableFields;
-        }
-        if (hasValue(jsObject.dataUpdating)) {
-            dotNetIFeatureLayerViewMixin.dataUpdating = jsObject.dataUpdating;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetIFeatureLayerViewMixin.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.hasAllFeatures)) {
-            dotNetIFeatureLayerViewMixin.hasAllFeatures = jsObject.hasAllFeatures;
-        }
-        if (hasValue(jsObject.hasAllFeaturesInView)) {
-            dotNetIFeatureLayerViewMixin.hasAllFeaturesInView = jsObject.hasAllFeaturesInView;
-        }
-        if (hasValue(jsObject.hasFullGeometries)) {
-            dotNetIFeatureLayerViewMixin.hasFullGeometries = jsObject.hasFullGeometries;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeatures)) {
-            dotNetIFeatureLayerViewMixin.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
-            dotNetIFeatureLayerViewMixin.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
-        }
+    if (hasValue(jsObject.availableFields)) {
+        dotNetIFeatureLayerViewMixin.availableFields = jsObject.availableFields;
+    }
+    if (hasValue(jsObject.dataUpdating)) {
+        dotNetIFeatureLayerViewMixin.dataUpdating = jsObject.dataUpdating;
+    }
+    if (hasValue(jsObject.hasAllFeatures)) {
+        dotNetIFeatureLayerViewMixin.hasAllFeatures = jsObject.hasAllFeatures;
+    }
+    if (hasValue(jsObject.hasAllFeaturesInView)) {
+        dotNetIFeatureLayerViewMixin.hasAllFeaturesInView = jsObject.hasAllFeaturesInView;
+    }
+    if (hasValue(jsObject.hasFullGeometries)) {
+        dotNetIFeatureLayerViewMixin.hasFullGeometries = jsObject.hasFullGeometries;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeatures)) {
+        dotNetIFeatureLayerViewMixin.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
+        dotNetIFeatureLayerViewMixin.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

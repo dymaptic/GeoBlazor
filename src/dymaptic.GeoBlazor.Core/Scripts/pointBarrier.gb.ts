@@ -119,21 +119,21 @@ export async function buildDotNetPointBarrierGenerated(jsObject: any): Promise<a
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetPointBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.barrierType)) {
-            dotNetPointBarrier.barrierType = jsObject.barrierType;
-        }
-        if (hasValue(jsObject.curbApproach)) {
-            dotNetPointBarrier.curbApproach = jsObject.curbApproach;
-        }
-        if (hasValue(jsObject.fullEdge)) {
-            dotNetPointBarrier.fullEdge = jsObject.fullEdge;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPointBarrier.name = jsObject.name;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPointBarrier.type = jsObject.type;
-        }
+    if (hasValue(jsObject.barrierType)) {
+        dotNetPointBarrier.barrierType = jsObject.barrierType;
+    }
+    if (hasValue(jsObject.curbApproach)) {
+        dotNetPointBarrier.curbApproach = jsObject.curbApproach;
+    }
+    if (hasValue(jsObject.fullEdge)) {
+        dotNetPointBarrier.fullEdge = jsObject.fullEdge;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPointBarrier.name = jsObject.name;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPointBarrier.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

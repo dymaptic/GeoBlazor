@@ -199,153 +199,153 @@ export async function buildDotNetCIMTextSymbolGenerated(jsObject: any): Promise<
             let { buildDotNetCIMPolygonSymbol } = await import('./cIMPolygonSymbol');
             dotNetCIMTextSymbol.symbol = await buildDotNetCIMPolygonSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.angle)) {
-            dotNetCIMTextSymbol.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.angleX)) {
-            dotNetCIMTextSymbol.angleX = jsObject.angleX;
-        }
-        if (hasValue(jsObject.angleY)) {
-            dotNetCIMTextSymbol.angleY = jsObject.angleY;
-        }
-        if (hasValue(jsObject.billboardMode3D)) {
-            dotNetCIMTextSymbol.billboardMode3D = jsObject.billboardMode3D;
-        }
-        if (hasValue(jsObject.blockProgression)) {
-            dotNetCIMTextSymbol.blockProgression = jsObject.blockProgression;
-        }
-        if (hasValue(jsObject.compatibilityMode)) {
-            dotNetCIMTextSymbol.compatibilityMode = jsObject.compatibilityMode;
-        }
-        if (hasValue(jsObject.countryISO)) {
-            dotNetCIMTextSymbol.countryISO = jsObject.countryISO;
-        }
-        if (hasValue(jsObject.depth3D)) {
-            dotNetCIMTextSymbol.depth3D = jsObject.depth3D;
-        }
-        if (hasValue(jsObject.drawGlyphsAsGeometry)) {
-            dotNetCIMTextSymbol.drawGlyphsAsGeometry = jsObject.drawGlyphsAsGeometry;
-        }
-        if (hasValue(jsObject.drawSoftHyphen)) {
-            dotNetCIMTextSymbol.drawSoftHyphen = jsObject.drawSoftHyphen;
-        }
-        if (hasValue(jsObject.extrapolateBaselines)) {
-            dotNetCIMTextSymbol.extrapolateBaselines = jsObject.extrapolateBaselines;
-        }
-        if (hasValue(jsObject.flipAngle)) {
-            dotNetCIMTextSymbol.flipAngle = jsObject.flipAngle;
-        }
-        if (hasValue(jsObject.fontEffects)) {
-            dotNetCIMTextSymbol.fontEffects = jsObject.fontEffects;
-        }
-        if (hasValue(jsObject.fontEncoding)) {
-            dotNetCIMTextSymbol.fontEncoding = jsObject.fontEncoding;
-        }
-        if (hasValue(jsObject.fontFamilyName)) {
-            dotNetCIMTextSymbol.fontFamilyName = jsObject.fontFamilyName;
-        }
-        if (hasValue(jsObject.fontStyleName)) {
-            dotNetCIMTextSymbol.fontStyleName = jsObject.fontStyleName;
-        }
-        if (hasValue(jsObject.fontType)) {
-            dotNetCIMTextSymbol.fontType = jsObject.fontType;
-        }
-        if (hasValue(jsObject.glyphRotation)) {
-            dotNetCIMTextSymbol.glyphRotation = jsObject.glyphRotation;
-        }
-        if (hasValue(jsObject.haloSize)) {
-            dotNetCIMTextSymbol.haloSize = jsObject.haloSize;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetCIMTextSymbol.height = jsObject.height;
-        }
-        if (hasValue(jsObject.hinting)) {
-            dotNetCIMTextSymbol.hinting = jsObject.hinting;
-        }
-        if (hasValue(jsObject.horizontalAlignment)) {
-            dotNetCIMTextSymbol.horizontalAlignment = jsObject.horizontalAlignment;
-        }
-        if (hasValue(jsObject.indentAfter)) {
-            dotNetCIMTextSymbol.indentAfter = jsObject.indentAfter;
-        }
-        if (hasValue(jsObject.indentBefore)) {
-            dotNetCIMTextSymbol.indentBefore = jsObject.indentBefore;
-        }
-        if (hasValue(jsObject.indentFirstLine)) {
-            dotNetCIMTextSymbol.indentFirstLine = jsObject.indentFirstLine;
-        }
-        if (hasValue(jsObject.kerning)) {
-            dotNetCIMTextSymbol.kerning = jsObject.kerning;
-        }
-        if (hasValue(jsObject.languageISO)) {
-            dotNetCIMTextSymbol.languageISO = jsObject.languageISO;
-        }
-        if (hasValue(jsObject.letterSpacing)) {
-            dotNetCIMTextSymbol.letterSpacing = jsObject.letterSpacing;
-        }
-        if (hasValue(jsObject.letterWidth)) {
-            dotNetCIMTextSymbol.letterWidth = jsObject.letterWidth;
-        }
-        if (hasValue(jsObject.ligatures)) {
-            dotNetCIMTextSymbol.ligatures = jsObject.ligatures;
-        }
-        if (hasValue(jsObject.lineGap)) {
-            dotNetCIMTextSymbol.lineGap = jsObject.lineGap;
-        }
-        if (hasValue(jsObject.lineGapType)) {
-            dotNetCIMTextSymbol.lineGapType = jsObject.lineGapType;
-        }
-        if (hasValue(jsObject.offsetX)) {
-            dotNetCIMTextSymbol.offsetX = jsObject.offsetX;
-        }
-        if (hasValue(jsObject.offsetY)) {
-            dotNetCIMTextSymbol.offsetY = jsObject.offsetY;
-        }
-        if (hasValue(jsObject.offsetZ)) {
-            dotNetCIMTextSymbol.offsetZ = jsObject.offsetZ;
-        }
-        if (hasValue(jsObject.overprint)) {
-            dotNetCIMTextSymbol.overprint = jsObject.overprint;
-        }
-        if (hasValue(jsObject.shadowColor)) {
-            dotNetCIMTextSymbol.shadowColor = jsObject.shadowColor;
-        }
-        if (hasValue(jsObject.shadowOffsetX)) {
-            dotNetCIMTextSymbol.shadowOffsetX = jsObject.shadowOffsetX;
-        }
-        if (hasValue(jsObject.shadowOffsetY)) {
-            dotNetCIMTextSymbol.shadowOffsetY = jsObject.shadowOffsetY;
-        }
-        if (hasValue(jsObject.smallCaps)) {
-            dotNetCIMTextSymbol.smallCaps = jsObject.smallCaps;
-        }
-        if (hasValue(jsObject.strikethrough)) {
-            dotNetCIMTextSymbol.strikethrough = jsObject.strikethrough;
-        }
-        if (hasValue(jsObject.symbol3DProperties)) {
-            dotNetCIMTextSymbol.symbol3DProperties = jsObject.symbol3DProperties;
-        }
-        if (hasValue(jsObject.textCase)) {
-            dotNetCIMTextSymbol.textCase = jsObject.textCase;
-        }
-        if (hasValue(jsObject.textDirection)) {
-            dotNetCIMTextSymbol.textDirection = jsObject.textDirection;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMTextSymbol.type = jsObject.type;
-        }
-        if (hasValue(jsObject.underline)) {
-            dotNetCIMTextSymbol.underline = jsObject.underline;
-        }
-        if (hasValue(jsObject.verticalAlignment)) {
-            dotNetCIMTextSymbol.verticalAlignment = jsObject.verticalAlignment;
-        }
-        if (hasValue(jsObject.verticalGlyphOrientation)) {
-            dotNetCIMTextSymbol.verticalGlyphOrientation = jsObject.verticalGlyphOrientation;
-        }
-        if (hasValue(jsObject.wordSpacing)) {
-            dotNetCIMTextSymbol.wordSpacing = jsObject.wordSpacing;
-        }
+    if (hasValue(jsObject.angle)) {
+        dotNetCIMTextSymbol.angle = jsObject.angle;
+    }
+    if (hasValue(jsObject.angleX)) {
+        dotNetCIMTextSymbol.angleX = jsObject.angleX;
+    }
+    if (hasValue(jsObject.angleY)) {
+        dotNetCIMTextSymbol.angleY = jsObject.angleY;
+    }
+    if (hasValue(jsObject.billboardMode3D)) {
+        dotNetCIMTextSymbol.billboardMode3D = jsObject.billboardMode3D;
+    }
+    if (hasValue(jsObject.blockProgression)) {
+        dotNetCIMTextSymbol.blockProgression = jsObject.blockProgression;
+    }
+    if (hasValue(jsObject.compatibilityMode)) {
+        dotNetCIMTextSymbol.compatibilityMode = jsObject.compatibilityMode;
+    }
+    if (hasValue(jsObject.countryISO)) {
+        dotNetCIMTextSymbol.countryISO = jsObject.countryISO;
+    }
+    if (hasValue(jsObject.depth3D)) {
+        dotNetCIMTextSymbol.depth3D = jsObject.depth3D;
+    }
+    if (hasValue(jsObject.drawGlyphsAsGeometry)) {
+        dotNetCIMTextSymbol.drawGlyphsAsGeometry = jsObject.drawGlyphsAsGeometry;
+    }
+    if (hasValue(jsObject.drawSoftHyphen)) {
+        dotNetCIMTextSymbol.drawSoftHyphen = jsObject.drawSoftHyphen;
+    }
+    if (hasValue(jsObject.extrapolateBaselines)) {
+        dotNetCIMTextSymbol.extrapolateBaselines = jsObject.extrapolateBaselines;
+    }
+    if (hasValue(jsObject.flipAngle)) {
+        dotNetCIMTextSymbol.flipAngle = jsObject.flipAngle;
+    }
+    if (hasValue(jsObject.fontEffects)) {
+        dotNetCIMTextSymbol.fontEffects = jsObject.fontEffects;
+    }
+    if (hasValue(jsObject.fontEncoding)) {
+        dotNetCIMTextSymbol.fontEncoding = jsObject.fontEncoding;
+    }
+    if (hasValue(jsObject.fontFamilyName)) {
+        dotNetCIMTextSymbol.fontFamilyName = jsObject.fontFamilyName;
+    }
+    if (hasValue(jsObject.fontStyleName)) {
+        dotNetCIMTextSymbol.fontStyleName = jsObject.fontStyleName;
+    }
+    if (hasValue(jsObject.fontType)) {
+        dotNetCIMTextSymbol.fontType = jsObject.fontType;
+    }
+    if (hasValue(jsObject.glyphRotation)) {
+        dotNetCIMTextSymbol.glyphRotation = jsObject.glyphRotation;
+    }
+    if (hasValue(jsObject.haloSize)) {
+        dotNetCIMTextSymbol.haloSize = jsObject.haloSize;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetCIMTextSymbol.height = jsObject.height;
+    }
+    if (hasValue(jsObject.hinting)) {
+        dotNetCIMTextSymbol.hinting = jsObject.hinting;
+    }
+    if (hasValue(jsObject.horizontalAlignment)) {
+        dotNetCIMTextSymbol.horizontalAlignment = jsObject.horizontalAlignment;
+    }
+    if (hasValue(jsObject.indentAfter)) {
+        dotNetCIMTextSymbol.indentAfter = jsObject.indentAfter;
+    }
+    if (hasValue(jsObject.indentBefore)) {
+        dotNetCIMTextSymbol.indentBefore = jsObject.indentBefore;
+    }
+    if (hasValue(jsObject.indentFirstLine)) {
+        dotNetCIMTextSymbol.indentFirstLine = jsObject.indentFirstLine;
+    }
+    if (hasValue(jsObject.kerning)) {
+        dotNetCIMTextSymbol.kerning = jsObject.kerning;
+    }
+    if (hasValue(jsObject.languageISO)) {
+        dotNetCIMTextSymbol.languageISO = jsObject.languageISO;
+    }
+    if (hasValue(jsObject.letterSpacing)) {
+        dotNetCIMTextSymbol.letterSpacing = jsObject.letterSpacing;
+    }
+    if (hasValue(jsObject.letterWidth)) {
+        dotNetCIMTextSymbol.letterWidth = jsObject.letterWidth;
+    }
+    if (hasValue(jsObject.ligatures)) {
+        dotNetCIMTextSymbol.ligatures = jsObject.ligatures;
+    }
+    if (hasValue(jsObject.lineGap)) {
+        dotNetCIMTextSymbol.lineGap = jsObject.lineGap;
+    }
+    if (hasValue(jsObject.lineGapType)) {
+        dotNetCIMTextSymbol.lineGapType = jsObject.lineGapType;
+    }
+    if (hasValue(jsObject.offsetX)) {
+        dotNetCIMTextSymbol.offsetX = jsObject.offsetX;
+    }
+    if (hasValue(jsObject.offsetY)) {
+        dotNetCIMTextSymbol.offsetY = jsObject.offsetY;
+    }
+    if (hasValue(jsObject.offsetZ)) {
+        dotNetCIMTextSymbol.offsetZ = jsObject.offsetZ;
+    }
+    if (hasValue(jsObject.overprint)) {
+        dotNetCIMTextSymbol.overprint = jsObject.overprint;
+    }
+    if (hasValue(jsObject.shadowColor)) {
+        dotNetCIMTextSymbol.shadowColor = jsObject.shadowColor;
+    }
+    if (hasValue(jsObject.shadowOffsetX)) {
+        dotNetCIMTextSymbol.shadowOffsetX = jsObject.shadowOffsetX;
+    }
+    if (hasValue(jsObject.shadowOffsetY)) {
+        dotNetCIMTextSymbol.shadowOffsetY = jsObject.shadowOffsetY;
+    }
+    if (hasValue(jsObject.smallCaps)) {
+        dotNetCIMTextSymbol.smallCaps = jsObject.smallCaps;
+    }
+    if (hasValue(jsObject.strikethrough)) {
+        dotNetCIMTextSymbol.strikethrough = jsObject.strikethrough;
+    }
+    if (hasValue(jsObject.symbol3DProperties)) {
+        dotNetCIMTextSymbol.symbol3DProperties = jsObject.symbol3DProperties;
+    }
+    if (hasValue(jsObject.textCase)) {
+        dotNetCIMTextSymbol.textCase = jsObject.textCase;
+    }
+    if (hasValue(jsObject.textDirection)) {
+        dotNetCIMTextSymbol.textDirection = jsObject.textDirection;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMTextSymbol.type = jsObject.type;
+    }
+    if (hasValue(jsObject.underline)) {
+        dotNetCIMTextSymbol.underline = jsObject.underline;
+    }
+    if (hasValue(jsObject.verticalAlignment)) {
+        dotNetCIMTextSymbol.verticalAlignment = jsObject.verticalAlignment;
+    }
+    if (hasValue(jsObject.verticalGlyphOrientation)) {
+        dotNetCIMTextSymbol.verticalGlyphOrientation = jsObject.verticalGlyphOrientation;
+    }
+    if (hasValue(jsObject.wordSpacing)) {
+        dotNetCIMTextSymbol.wordSpacing = jsObject.wordSpacing;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

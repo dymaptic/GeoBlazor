@@ -119,18 +119,18 @@ export async function buildDotNetDirectionLineGenerated(jsObject: any): Promise<
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetDirectionLine.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.directionLineType)) {
-            dotNetDirectionLine.directionLineType = jsObject.directionLineType;
-        }
-        if (hasValue(jsObject.distance)) {
-            dotNetDirectionLine.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.duration)) {
-            dotNetDirectionLine.duration = jsObject.duration;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDirectionLine.type = jsObject.type;
-        }
+    if (hasValue(jsObject.directionLineType)) {
+        dotNetDirectionLine.directionLineType = jsObject.directionLineType;
+    }
+    if (hasValue(jsObject.distance)) {
+        dotNetDirectionLine.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.duration)) {
+        dotNetDirectionLine.duration = jsObject.duration;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDirectionLine.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

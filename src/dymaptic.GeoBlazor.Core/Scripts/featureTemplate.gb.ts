@@ -52,18 +52,18 @@ export async function buildDotNetFeatureTemplateGenerated(jsObject: any, layerId
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureTemplate.prototype = buildDotNetGraphic(jsObject.prototype, layerId, viewId);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetFeatureTemplate.description = jsObject.description;
-        }
-        if (hasValue(jsObject.drawingTool)) {
-            dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFeatureTemplate.name = jsObject.name;
-        }
-        if (hasValue(jsObject.thumbnail)) {
-            dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetFeatureTemplate.description = jsObject.description;
+    }
+    if (hasValue(jsObject.drawingTool)) {
+        dotNetFeatureTemplate.drawingTool = jsObject.drawingTool;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFeatureTemplate.name = jsObject.name;
+    }
+    if (hasValue(jsObject.thumbnail)) {
+        dotNetFeatureTemplate.thumbnail = jsObject.thumbnail;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

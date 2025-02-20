@@ -48,15 +48,15 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any): Promis
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetHeatmapRampStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetHeatmapRampStop.label = jsObject.label;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetHeatmapRampStop.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.ratio)) {
-            dotNetHeatmapRampStop.ratio = jsObject.ratio;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetHeatmapRampStop.label = jsObject.label;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetHeatmapRampStop.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.ratio)) {
+        dotNetHeatmapRampStop.ratio = jsObject.ratio;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

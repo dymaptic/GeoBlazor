@@ -72,15 +72,15 @@ export async function buildDotNetPredominanceSchemeForPolygonGenerated(jsObject:
             let { buildDotNetSizeSchemeForPolygon } = await import('./sizeSchemeForPolygon');
             dotNetPredominanceSchemeForPolygon.sizeScheme = await buildDotNetSizeSchemeForPolygon(jsObject.sizeScheme);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetPredominanceSchemeForPolygon.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetPredominanceSchemeForPolygon.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPredominanceSchemeForPolygon.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetPredominanceSchemeForPolygon.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetPredominanceSchemeForPolygon.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPredominanceSchemeForPolygon.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -64,9 +64,9 @@ export async function buildDotNetCornersGeoreferenceGenerated(jsObject: any): Pr
             let { buildDotNetPoint } = await import('./point');
             dotNetCornersGeoreference.topRight = buildDotNetPoint(jsObject.topRight);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetCornersGeoreference.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetCornersGeoreference.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

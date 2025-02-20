@@ -41,15 +41,15 @@ export async function buildDotNetRasterIdentifyOptionsGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetRasterIdentifyOptions.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetRasterIdentifyOptions.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.transposedVariableName)) {
-            dotNetRasterIdentifyOptions.transposedVariableName = jsObject.transposedVariableName;
-        }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetRasterIdentifyOptions.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetRasterIdentifyOptions.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.transposedVariableName)) {
+        dotNetRasterIdentifyOptions.transposedVariableName = jsObject.transposedVariableName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

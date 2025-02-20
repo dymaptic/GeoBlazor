@@ -71,33 +71,33 @@ export async function buildDotNetPieChartCreateRendererParamsGenerated(jsObject:
             let { buildDotNetPieChartScheme } = await import('./pieChartScheme');
             dotNetPieChartCreateRendererParams.pieChartScheme = await buildDotNetPieChartScheme(jsObject.pieChartScheme);
         }
-        if (hasValue(jsObject.attributes)) {
-            dotNetPieChartCreateRendererParams.attributes = jsObject.attributes;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetPieChartCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.includeSizeVariable)) {
-            dotNetPieChartCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetPieChartCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetPieChartCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.shape)) {
-            dotNetPieChartCreateRendererParams.shape = jsObject.shape;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetPieChartCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetPieChartCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPieChartCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.attributes)) {
+        dotNetPieChartCreateRendererParams.attributes = jsObject.attributes;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetPieChartCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.includeSizeVariable)) {
+        dotNetPieChartCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetPieChartCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetPieChartCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.shape)) {
+        dotNetPieChartCreateRendererParams.shape = jsObject.shape;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetPieChartCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetPieChartCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPieChartCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

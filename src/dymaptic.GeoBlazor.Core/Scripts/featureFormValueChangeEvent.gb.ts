@@ -52,15 +52,15 @@ export async function buildDotNetFeatureFormValueChangeEventGenerated(jsObject: 
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureFormValueChangeEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetFeatureFormValueChangeEvent.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.valid)) {
-            dotNetFeatureFormValueChangeEvent.valid = jsObject.valid;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetFeatureFormValueChangeEvent.value = jsObject.value;
-        }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetFeatureFormValueChangeEvent.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.valid)) {
+        dotNetFeatureFormValueChangeEvent.valid = jsObject.valid;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetFeatureFormValueChangeEvent.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -89,27 +89,27 @@ export async function buildDotNetBuildingPhaseGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allowedValues)) {
-            dotNetBuildingPhase.allowedValues = jsObject.allowedValues;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetBuildingPhase.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.hasNext)) {
-            dotNetBuildingPhase.hasNext = jsObject.hasNext;
-        }
-        if (hasValue(jsObject.hasPrevious)) {
-            dotNetBuildingPhase.hasPrevious = jsObject.hasPrevious;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetBuildingPhase.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetBuildingPhase.min = jsObject.min;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetBuildingPhase.value = jsObject.value;
-        }
+    if (hasValue(jsObject.allowedValues)) {
+        dotNetBuildingPhase.allowedValues = jsObject.allowedValues;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetBuildingPhase.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.hasNext)) {
+        dotNetBuildingPhase.hasNext = jsObject.hasNext;
+    }
+    if (hasValue(jsObject.hasPrevious)) {
+        dotNetBuildingPhase.hasPrevious = jsObject.hasPrevious;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetBuildingPhase.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetBuildingPhase.min = jsObject.min;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetBuildingPhase.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

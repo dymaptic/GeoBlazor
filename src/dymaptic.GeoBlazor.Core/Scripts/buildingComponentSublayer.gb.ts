@@ -180,36 +180,36 @@ export async function buildDotNetBuildingComponentSublayerGenerated(jsObject: an
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetBuildingComponentSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetBuildingComponentSublayer.buildingSublayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetBuildingComponentSublayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.isEmpty)) {
-            dotNetBuildingComponentSublayer.isEmpty = jsObject.isEmpty;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetBuildingComponentSublayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.modelName)) {
-            dotNetBuildingComponentSublayer.modelName = jsObject.modelName;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetBuildingComponentSublayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetBuildingComponentSublayer.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetBuildingComponentSublayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBuildingComponentSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBuildingComponentSublayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBuildingComponentSublayer.buildingSublayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetBuildingComponentSublayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.isEmpty)) {
+        dotNetBuildingComponentSublayer.isEmpty = jsObject.isEmpty;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetBuildingComponentSublayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.modelName)) {
+        dotNetBuildingComponentSublayer.modelName = jsObject.modelName;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetBuildingComponentSublayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetBuildingComponentSublayer.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetBuildingComponentSublayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBuildingComponentSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBuildingComponentSublayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

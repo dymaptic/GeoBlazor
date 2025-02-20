@@ -29,6 +29,18 @@ export default class IHighlightLayerViewMixinGenerated implements IPropertyWrapp
 
     // region properties
     
+    async getHighlightOptions(): Promise<any> {
+        if (!hasValue(this.component.highlightOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+    }
+    async setHighlightOptions(value: any): Promise<void> {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -41,11 +53,11 @@ export default class IHighlightLayerViewMixinGenerated implements IPropertyWrapp
 
 export async function buildJsIHighlightLayerViewMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHighlightLayerViewMixin = new HighlightLayerViewMixin();
-
     if (hasValue(dotNetObject.highlightOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHighlightOptions } = dotNetObject.highlightOptions;
-        jsHighlightLayerViewMixin.highlightOptions = sanitizedHighlightOptions;
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        jsHighlightLayerViewMixin.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
+
 
     let { default: IHighlightLayerViewMixinWrapper } = await import('./iHighlightLayerViewMixin');
     let iHighlightLayerViewMixinWrapper = new IHighlightLayerViewMixinWrapper(jsHighlightLayerViewMixin);
@@ -79,7 +91,8 @@ export async function buildDotNetIHighlightLayerViewMixinGenerated(jsObject: any
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.highlightOptions)) {
-            dotNetIHighlightLayerViewMixin.highlightOptions = jsObject.highlightOptions;
+            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+            dotNetIHighlightLayerViewMixin.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

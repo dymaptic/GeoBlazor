@@ -206,114 +206,114 @@ export async function buildDotNetServiceAreaParametersGenerated(jsObject: any): 
             let { buildDotNetPolylineBarrier } = await import('./polylineBarrier');
             dotNetServiceAreaParameters.polylineBarriers = await Promise.all(jsObject.polylineBarriers.map(async i => await buildDotNetPolylineBarrier(i)));
         }
-        if (hasValue(jsObject.accumulateAttributes)) {
-            dotNetServiceAreaParameters.accumulateAttributes = jsObject.accumulateAttributes;
-        }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetServiceAreaParameters.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.attributeParameterValues)) {
-            dotNetServiceAreaParameters.attributeParameterValues = jsObject.attributeParameterValues;
-        }
-        if (hasValue(jsObject.defaultBreaks)) {
-            dotNetServiceAreaParameters.defaultBreaks = jsObject.defaultBreaks;
-        }
-        if (hasValue(jsObject.excludeSourcesFromPolygons)) {
-            dotNetServiceAreaParameters.excludeSourcesFromPolygons = jsObject.excludeSourcesFromPolygons;
-        }
-        if (hasValue(jsObject.facilities)) {
-            dotNetServiceAreaParameters.facilities = jsObject.facilities;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetServiceAreaParameters.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.geometryPrecisionM)) {
-            dotNetServiceAreaParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
-        }
-        if (hasValue(jsObject.geometryPrecisionZ)) {
-            dotNetServiceAreaParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
-        }
-        if (hasValue(jsObject.ignoreInvalidLocations)) {
-            dotNetServiceAreaParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
-        }
-        if (hasValue(jsObject.impedanceAttribute)) {
-            dotNetServiceAreaParameters.impedanceAttribute = jsObject.impedanceAttribute;
-        }
-        if (hasValue(jsObject.mergeSimilarPolygonRanges)) {
-            dotNetServiceAreaParameters.mergeSimilarPolygonRanges = jsObject.mergeSimilarPolygonRanges;
-        }
-        if (hasValue(jsObject.outputGeometryPrecision)) {
-            dotNetServiceAreaParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
-        }
-        if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
-            dotNetServiceAreaParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
-        }
-        if (hasValue(jsObject.outputLines)) {
-            dotNetServiceAreaParameters.outputLines = jsObject.outputLines;
-        }
-        if (hasValue(jsObject.outputPolygons)) {
-            dotNetServiceAreaParameters.outputPolygons = jsObject.outputPolygons;
-        }
-        if (hasValue(jsObject.overlapLines)) {
-            dotNetServiceAreaParameters.overlapLines = jsObject.overlapLines;
-        }
-        if (hasValue(jsObject.overlapPolygons)) {
-            dotNetServiceAreaParameters.overlapPolygons = jsObject.overlapPolygons;
-        }
-        if (hasValue(jsObject.overrides)) {
-            dotNetServiceAreaParameters.overrides = jsObject.overrides;
-        }
-        if (hasValue(jsObject.preserveObjectID)) {
-            dotNetServiceAreaParameters.preserveObjectID = jsObject.preserveObjectID;
-        }
-        if (hasValue(jsObject.restrictionAttributes)) {
-            dotNetServiceAreaParameters.restrictionAttributes = jsObject.restrictionAttributes;
-        }
-        if (hasValue(jsObject.restrictUTurns)) {
-            dotNetServiceAreaParameters.restrictUTurns = jsObject.restrictUTurns;
-        }
-        if (hasValue(jsObject.returnFacilities)) {
-            dotNetServiceAreaParameters.returnFacilities = jsObject.returnFacilities;
-        }
-        if (hasValue(jsObject.returnPointBarriers)) {
-            dotNetServiceAreaParameters.returnPointBarriers = jsObject.returnPointBarriers;
-        }
-        if (hasValue(jsObject.returnPolygonBarriers)) {
-            dotNetServiceAreaParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
-        }
-        if (hasValue(jsObject.returnPolylineBarriers)) {
-            dotNetServiceAreaParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
-        }
-        if (hasValue(jsObject.splitLinesAtBreaks)) {
-            dotNetServiceAreaParameters.splitLinesAtBreaks = jsObject.splitLinesAtBreaks;
-        }
-        if (hasValue(jsObject.splitPolygonsAtBreaks)) {
-            dotNetServiceAreaParameters.splitPolygonsAtBreaks = jsObject.splitPolygonsAtBreaks;
-        }
-        if (hasValue(jsObject.timeOfDay)) {
-            dotNetServiceAreaParameters.timeOfDay = jsObject.timeOfDay;
-        }
-        if (hasValue(jsObject.timeOfDayIsUTC)) {
-            dotNetServiceAreaParameters.timeOfDayIsUTC = jsObject.timeOfDayIsUTC;
-        }
-        if (hasValue(jsObject.travelDirection)) {
-            dotNetServiceAreaParameters.travelDirection = jsObject.travelDirection;
-        }
-        if (hasValue(jsObject.travelMode)) {
-            dotNetServiceAreaParameters.travelMode = jsObject.travelMode;
-        }
-        if (hasValue(jsObject.trimOuterPolygon)) {
-            dotNetServiceAreaParameters.trimOuterPolygon = jsObject.trimOuterPolygon;
-        }
-        if (hasValue(jsObject.trimPolygonDistance)) {
-            dotNetServiceAreaParameters.trimPolygonDistance = jsObject.trimPolygonDistance;
-        }
-        if (hasValue(jsObject.trimPolygonDistanceUnits)) {
-            dotNetServiceAreaParameters.trimPolygonDistanceUnits = jsObject.trimPolygonDistanceUnits;
-        }
-        if (hasValue(jsObject.useHierarchy)) {
-            dotNetServiceAreaParameters.useHierarchy = jsObject.useHierarchy;
-        }
+    if (hasValue(jsObject.accumulateAttributes)) {
+        dotNetServiceAreaParameters.accumulateAttributes = jsObject.accumulateAttributes;
+    }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetServiceAreaParameters.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.attributeParameterValues)) {
+        dotNetServiceAreaParameters.attributeParameterValues = jsObject.attributeParameterValues;
+    }
+    if (hasValue(jsObject.defaultBreaks)) {
+        dotNetServiceAreaParameters.defaultBreaks = jsObject.defaultBreaks;
+    }
+    if (hasValue(jsObject.excludeSourcesFromPolygons)) {
+        dotNetServiceAreaParameters.excludeSourcesFromPolygons = jsObject.excludeSourcesFromPolygons;
+    }
+    if (hasValue(jsObject.facilities)) {
+        dotNetServiceAreaParameters.facilities = jsObject.facilities;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetServiceAreaParameters.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.geometryPrecisionM)) {
+        dotNetServiceAreaParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
+    }
+    if (hasValue(jsObject.geometryPrecisionZ)) {
+        dotNetServiceAreaParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
+    }
+    if (hasValue(jsObject.ignoreInvalidLocations)) {
+        dotNetServiceAreaParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
+    }
+    if (hasValue(jsObject.impedanceAttribute)) {
+        dotNetServiceAreaParameters.impedanceAttribute = jsObject.impedanceAttribute;
+    }
+    if (hasValue(jsObject.mergeSimilarPolygonRanges)) {
+        dotNetServiceAreaParameters.mergeSimilarPolygonRanges = jsObject.mergeSimilarPolygonRanges;
+    }
+    if (hasValue(jsObject.outputGeometryPrecision)) {
+        dotNetServiceAreaParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
+    }
+    if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
+        dotNetServiceAreaParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
+    }
+    if (hasValue(jsObject.outputLines)) {
+        dotNetServiceAreaParameters.outputLines = jsObject.outputLines;
+    }
+    if (hasValue(jsObject.outputPolygons)) {
+        dotNetServiceAreaParameters.outputPolygons = jsObject.outputPolygons;
+    }
+    if (hasValue(jsObject.overlapLines)) {
+        dotNetServiceAreaParameters.overlapLines = jsObject.overlapLines;
+    }
+    if (hasValue(jsObject.overlapPolygons)) {
+        dotNetServiceAreaParameters.overlapPolygons = jsObject.overlapPolygons;
+    }
+    if (hasValue(jsObject.overrides)) {
+        dotNetServiceAreaParameters.overrides = jsObject.overrides;
+    }
+    if (hasValue(jsObject.preserveObjectID)) {
+        dotNetServiceAreaParameters.preserveObjectID = jsObject.preserveObjectID;
+    }
+    if (hasValue(jsObject.restrictionAttributes)) {
+        dotNetServiceAreaParameters.restrictionAttributes = jsObject.restrictionAttributes;
+    }
+    if (hasValue(jsObject.restrictUTurns)) {
+        dotNetServiceAreaParameters.restrictUTurns = jsObject.restrictUTurns;
+    }
+    if (hasValue(jsObject.returnFacilities)) {
+        dotNetServiceAreaParameters.returnFacilities = jsObject.returnFacilities;
+    }
+    if (hasValue(jsObject.returnPointBarriers)) {
+        dotNetServiceAreaParameters.returnPointBarriers = jsObject.returnPointBarriers;
+    }
+    if (hasValue(jsObject.returnPolygonBarriers)) {
+        dotNetServiceAreaParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
+    }
+    if (hasValue(jsObject.returnPolylineBarriers)) {
+        dotNetServiceAreaParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
+    }
+    if (hasValue(jsObject.splitLinesAtBreaks)) {
+        dotNetServiceAreaParameters.splitLinesAtBreaks = jsObject.splitLinesAtBreaks;
+    }
+    if (hasValue(jsObject.splitPolygonsAtBreaks)) {
+        dotNetServiceAreaParameters.splitPolygonsAtBreaks = jsObject.splitPolygonsAtBreaks;
+    }
+    if (hasValue(jsObject.timeOfDay)) {
+        dotNetServiceAreaParameters.timeOfDay = jsObject.timeOfDay;
+    }
+    if (hasValue(jsObject.timeOfDayIsUTC)) {
+        dotNetServiceAreaParameters.timeOfDayIsUTC = jsObject.timeOfDayIsUTC;
+    }
+    if (hasValue(jsObject.travelDirection)) {
+        dotNetServiceAreaParameters.travelDirection = jsObject.travelDirection;
+    }
+    if (hasValue(jsObject.travelMode)) {
+        dotNetServiceAreaParameters.travelMode = jsObject.travelMode;
+    }
+    if (hasValue(jsObject.trimOuterPolygon)) {
+        dotNetServiceAreaParameters.trimOuterPolygon = jsObject.trimOuterPolygon;
+    }
+    if (hasValue(jsObject.trimPolygonDistance)) {
+        dotNetServiceAreaParameters.trimPolygonDistance = jsObject.trimPolygonDistance;
+    }
+    if (hasValue(jsObject.trimPolygonDistanceUnits)) {
+        dotNetServiceAreaParameters.trimPolygonDistanceUnits = jsObject.trimPolygonDistanceUnits;
+    }
+    if (hasValue(jsObject.useHierarchy)) {
+        dotNetServiceAreaParameters.useHierarchy = jsObject.useHierarchy;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

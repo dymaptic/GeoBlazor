@@ -6,7 +6,7 @@ export async function buildJsVisualVariableResultGenerated(dotNetObject: any, la
     let jsVisualVariableResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariable)) {
         let { buildJsColorVariable } = await import('./colorVariable');
@@ -62,21 +62,21 @@ export async function buildDotNetVisualVariableResultGenerated(jsObject: any): P
             let { buildDotNetColorVariable } = await import('./colorVariable');
             dotNetVisualVariableResult.visualVariable = await buildDotNetColorVariable(jsObject.visualVariable);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetVisualVariableResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetVisualVariableResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetVisualVariableResult.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetVisualVariableResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetVisualVariableResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetVisualVariableResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetVisualVariableResult.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetVisualVariableResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

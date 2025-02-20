@@ -48,18 +48,18 @@ export async function buildDotNetCIMMarkerGraphicGenerated(jsObject: any): Promi
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetCIMMarkerGraphic.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.geometry)) {
-            dotNetCIMMarkerGraphic.geometry = jsObject.geometry;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMMarkerGraphic.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.textString)) {
-            dotNetCIMMarkerGraphic.textString = jsObject.textString;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMMarkerGraphic.type = jsObject.type;
-        }
+    if (hasValue(jsObject.geometry)) {
+        dotNetCIMMarkerGraphic.geometry = jsObject.geometry;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMMarkerGraphic.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.textString)) {
+        dotNetCIMMarkerGraphic.textString = jsObject.textString;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMMarkerGraphic.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

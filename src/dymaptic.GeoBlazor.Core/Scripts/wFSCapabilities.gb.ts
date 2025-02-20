@@ -43,9 +43,9 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promis
             let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
             dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
         }
-        if (hasValue(jsObject.operations)) {
-            dotNetWFSCapabilities.operations = jsObject.operations;
-        }
+    if (hasValue(jsObject.operations)) {
+        dotNetWFSCapabilities.operations = jsObject.operations;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

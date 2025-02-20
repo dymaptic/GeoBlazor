@@ -51,21 +51,21 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): P
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetQueryTableDataSource.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetQueryTableDataSource.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.oidFields)) {
-            dotNetQueryTableDataSource.oidFields = jsObject.oidFields;
-        }
-        if (hasValue(jsObject.query)) {
-            dotNetQueryTableDataSource.query = jsObject.query;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetQueryTableDataSource.type = jsObject.type;
-        }
-        if (hasValue(jsObject.workspaceId)) {
-            dotNetQueryTableDataSource.workspaceId = jsObject.workspaceId;
-        }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetQueryTableDataSource.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.oidFields)) {
+        dotNetQueryTableDataSource.oidFields = jsObject.oidFields;
+    }
+    if (hasValue(jsObject.query)) {
+        dotNetQueryTableDataSource.query = jsObject.query;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetQueryTableDataSource.type = jsObject.type;
+    }
+    if (hasValue(jsObject.workspaceId)) {
+        dotNetQueryTableDataSource.workspaceId = jsObject.workspaceId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

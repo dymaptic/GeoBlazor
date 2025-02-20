@@ -59,18 +59,18 @@ export async function buildDotNetRelationshipSchemeForMeshGenerated(jsObject: an
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetRelationshipSchemeForMesh.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetRelationshipSchemeForMesh.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetRelationshipSchemeForMesh.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetRelationshipSchemeForMesh.relationshipSchemeForMeshId = jsObject.id;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetRelationshipSchemeForMesh.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetRelationshipSchemeForMesh.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetRelationshipSchemeForMesh.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetRelationshipSchemeForMesh.relationshipSchemeForMeshId = jsObject.id;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetRelationshipSchemeForMesh.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

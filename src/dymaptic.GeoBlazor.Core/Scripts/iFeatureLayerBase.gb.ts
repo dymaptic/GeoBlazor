@@ -139,6 +139,15 @@ export default class IFeatureLayerBaseGenerated implements IPropertyWrapper {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.component.spatialReference =  buildJsSpatialReference(value);
     }
+    async getSubtypes(): Promise<any> {
+        if (!hasValue(this.component.subtypes)) {
+            return null;
+        }
+        
+        let { buildDotNetSubtype } = await import('./subtype');
+        return await Promise.all(this.component.subtypes.map(async i => await buildDotNetSubtype(i)));
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -257,105 +266,106 @@ export async function buildDotNetIFeatureLayerBaseGenerated(jsObject: any): Prom
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetIFeatureLayerBase.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetIFeatureLayerBase.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIFeatureLayerBase.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.dateFieldsTimeZone)) {
-            dotNetIFeatureLayerBase.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        }
-        if (hasValue(jsObject.datesInUnknownTimezone)) {
-            dotNetIFeatureLayerBase.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetIFeatureLayerBase.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetIFeatureLayerBase.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.editFieldsInfo)) {
-            dotNetIFeatureLayerBase.editFieldsInfo = jsObject.editFieldsInfo;
-        }
-        if (hasValue(jsObject.editingInfo)) {
-            dotNetIFeatureLayerBase.editingInfo = jsObject.editingInfo;
-        }
-        if (hasValue(jsObject.effectiveCapabilities)) {
-            dotNetIFeatureLayerBase.effectiveCapabilities = jsObject.effectiveCapabilities;
-        }
-        if (hasValue(jsObject.effectiveEditingEnabled)) {
-            dotNetIFeatureLayerBase.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetIFeatureLayerBase.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetIFeatureLayerBase.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetIFeatureLayerBase.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryFieldsInfo)) {
-            dotNetIFeatureLayerBase.geometryFieldsInfo = jsObject.geometryFieldsInfo;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetIFeatureLayerBase.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.hasM)) {
-            dotNetIFeatureLayerBase.hasM = jsObject.hasM;
-        }
-        if (hasValue(jsObject.hasZ)) {
-            dotNetIFeatureLayerBase.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetIFeatureLayerBase.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetIFeatureLayerBase.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.layerId)) {
-            dotNetIFeatureLayerBase.layerIndex = jsObject.layerId;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetIFeatureLayerBase.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.preferredTimeZone)) {
-            dotNetIFeatureLayerBase.preferredTimeZone = jsObject.preferredTimeZone;
-        }
-        if (hasValue(jsObject.relationships)) {
-            dotNetIFeatureLayerBase.relationships = jsObject.relationships;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetIFeatureLayerBase.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetIFeatureLayerBase.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.serviceDefinitionExpression)) {
-            dotNetIFeatureLayerBase.serviceDefinitionExpression = jsObject.serviceDefinitionExpression;
-        }
-        if (hasValue(jsObject.serviceItemId)) {
-            dotNetIFeatureLayerBase.serviceItemId = jsObject.serviceItemId;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetIFeatureLayerBase.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.subtypeField)) {
-            dotNetIFeatureLayerBase.subtypeField = jsObject.subtypeField;
-        }
         if (hasValue(jsObject.subtypes)) {
-            dotNetIFeatureLayerBase.subtypes = jsObject.subtypes;
+            let { buildDotNetSubtype } = await import('./subtype');
+            dotNetIFeatureLayerBase.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i)));
         }
-        if (hasValue(jsObject.title)) {
-            dotNetIFeatureLayerBase.title = jsObject.title;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetIFeatureLayerBase.url = jsObject.url;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetIFeatureLayerBase.version = jsObject.version;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetIFeatureLayerBase.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIFeatureLayerBase.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.dateFieldsTimeZone)) {
+        dotNetIFeatureLayerBase.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+    }
+    if (hasValue(jsObject.datesInUnknownTimezone)) {
+        dotNetIFeatureLayerBase.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetIFeatureLayerBase.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetIFeatureLayerBase.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.editFieldsInfo)) {
+        dotNetIFeatureLayerBase.editFieldsInfo = jsObject.editFieldsInfo;
+    }
+    if (hasValue(jsObject.editingInfo)) {
+        dotNetIFeatureLayerBase.editingInfo = jsObject.editingInfo;
+    }
+    if (hasValue(jsObject.effectiveCapabilities)) {
+        dotNetIFeatureLayerBase.effectiveCapabilities = jsObject.effectiveCapabilities;
+    }
+    if (hasValue(jsObject.effectiveEditingEnabled)) {
+        dotNetIFeatureLayerBase.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetIFeatureLayerBase.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetIFeatureLayerBase.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetIFeatureLayerBase.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryFieldsInfo)) {
+        dotNetIFeatureLayerBase.geometryFieldsInfo = jsObject.geometryFieldsInfo;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetIFeatureLayerBase.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.hasM)) {
+        dotNetIFeatureLayerBase.hasM = jsObject.hasM;
+    }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetIFeatureLayerBase.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetIFeatureLayerBase.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetIFeatureLayerBase.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.layerId)) {
+        dotNetIFeatureLayerBase.layerIndex = jsObject.layerId;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetIFeatureLayerBase.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.preferredTimeZone)) {
+        dotNetIFeatureLayerBase.preferredTimeZone = jsObject.preferredTimeZone;
+    }
+    if (hasValue(jsObject.relationships)) {
+        dotNetIFeatureLayerBase.relationships = jsObject.relationships;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetIFeatureLayerBase.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetIFeatureLayerBase.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.serviceDefinitionExpression)) {
+        dotNetIFeatureLayerBase.serviceDefinitionExpression = jsObject.serviceDefinitionExpression;
+    }
+    if (hasValue(jsObject.serviceItemId)) {
+        dotNetIFeatureLayerBase.serviceItemId = jsObject.serviceItemId;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetIFeatureLayerBase.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.subtypeField)) {
+        dotNetIFeatureLayerBase.subtypeField = jsObject.subtypeField;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIFeatureLayerBase.title = jsObject.title;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetIFeatureLayerBase.url = jsObject.url;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetIFeatureLayerBase.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

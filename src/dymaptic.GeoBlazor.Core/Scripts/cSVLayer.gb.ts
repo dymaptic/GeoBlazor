@@ -91,6 +91,18 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -199,6 +211,18 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+    }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -223,6 +247,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayer = new CSVLayer();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsCSVLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsCSVLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -254,6 +282,10 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsCSVLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsCSVLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -287,10 +319,6 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         jsCSVLayer.elevationInfo = sanitizedElevationInfo;
-    }
-    if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsCSVLayer.featureEffect = sanitizedFeatureEffect;
     }
     if (hasValue(dotNetObject.featureReduction)) {
         jsCSVLayer.featureReduction = dotNetObject.featureReduction;
@@ -344,10 +372,6 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         jsCSVLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsCSVLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsCSVLayer.timeOffset = sanitizedTimeOffset;
@@ -397,6 +421,10 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetCSVLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
             dotNetCSVLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -433,121 +461,119 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetCSVLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetCSVLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetCSVLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetCSVLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetCSVLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetCSVLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetCSVLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetCSVLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.dateFieldsTimeZone)) {
-            dotNetCSVLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetCSVLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.delimiter)) {
-            dotNetCSVLayer.delimiter = jsObject.delimiter;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetCSVLayer.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetCSVLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetCSVLayer.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetCSVLayer.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetCSVLayer.featureReduction = jsObject.featureReduction;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetCSVLayer.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetCSVLayer.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetCSVLayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.latitudeField)) {
-            dotNetCSVLayer.latitudeField = jsObject.latitudeField;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetCSVLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetCSVLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetCSVLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.longitudeField)) {
-            dotNetCSVLayer.longitudeField = jsObject.longitudeField;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetCSVLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetCSVLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetCSVLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetCSVLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.orderBy)) {
-            dotNetCSVLayer.orderBy = jsObject.orderBy;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetCSVLayer.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetCSVLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetCSVLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetCSVLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-            dotNetCSVLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetCSVLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetCSVLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetCSVLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCSVLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetCSVLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetCSVLayer.useViewTime = jsObject.useViewTime;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetCSVLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetCSVLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetCSVLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetCSVLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetCSVLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.dateFieldsTimeZone)) {
+        dotNetCSVLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetCSVLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.delimiter)) {
+        dotNetCSVLayer.delimiter = jsObject.delimiter;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetCSVLayer.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetCSVLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetCSVLayer.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetCSVLayer.featureReduction = jsObject.featureReduction;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetCSVLayer.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetCSVLayer.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetCSVLayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.latitudeField)) {
+        dotNetCSVLayer.latitudeField = jsObject.latitudeField;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetCSVLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetCSVLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetCSVLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.longitudeField)) {
+        dotNetCSVLayer.longitudeField = jsObject.longitudeField;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetCSVLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetCSVLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetCSVLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetCSVLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.orderBy)) {
+        dotNetCSVLayer.orderBy = jsObject.orderBy;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetCSVLayer.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetCSVLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetCSVLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetCSVLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+        dotNetCSVLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetCSVLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetCSVLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCSVLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetCSVLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetCSVLayer.useViewTime = jsObject.useViewTime;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

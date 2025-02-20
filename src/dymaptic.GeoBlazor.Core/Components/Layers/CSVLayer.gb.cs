@@ -934,17 +934,17 @@ public partial class CSVLayer : IBlendLayer,
             return FeatureEffect;
         }
 
-        // get the property value
-        FeatureEffect? result = await JsComponentReference!.InvokeAsync<FeatureEffect?>("getProperty",
-            CancellationTokenSource.Token, "featureEffect");
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureEffect = result;
+            FeatureEffect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+            ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
         }
-         
+        
         return FeatureEffect;
     }
     
@@ -1634,17 +1634,17 @@ public partial class CSVLayer : IBlendLayer,
             return TimeInfo;
         }
 
-        // get the property value
-        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, "timeInfo");
+        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
+            "getTimeInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeInfo = result;
+            TimeInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+            ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-         
+        
         return TimeInfo;
     }
     

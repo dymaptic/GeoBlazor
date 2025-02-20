@@ -42,9 +42,9 @@ export async function buildDotNetVoxelColorStopGenerated(jsObject: any): Promise
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetVoxelColorStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.position)) {
-            dotNetVoxelColorStop.position = jsObject.position;
-        }
+    if (hasValue(jsObject.position)) {
+        dotNetVoxelColorStop.position = jsObject.position;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

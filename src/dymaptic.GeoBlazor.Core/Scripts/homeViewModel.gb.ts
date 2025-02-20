@@ -104,15 +104,15 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<
             let { buildDotNetViewpoint } = await import('./viewpoint');
             dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
         }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetHomeViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetHomeViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetHomeViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetHomeViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetHomeViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetHomeViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

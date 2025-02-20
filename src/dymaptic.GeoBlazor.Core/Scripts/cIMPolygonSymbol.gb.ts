@@ -44,18 +44,18 @@ export async function buildDotNetCIMPolygonSymbolGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMPolygonSymbol.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.thumbnailURI)) {
-            dotNetCIMPolygonSymbol.thumbnailURI = jsObject.thumbnailURI;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMPolygonSymbol.type = jsObject.type;
-        }
-        if (hasValue(jsObject.useRealWorldSymbolSizes)) {
-            dotNetCIMPolygonSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
-        }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMPolygonSymbol.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.thumbnailURI)) {
+        dotNetCIMPolygonSymbol.thumbnailURI = jsObject.thumbnailURI;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMPolygonSymbol.type = jsObject.type;
+    }
+    if (hasValue(jsObject.useRealWorldSymbolSizes)) {
+        dotNetCIMPolygonSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

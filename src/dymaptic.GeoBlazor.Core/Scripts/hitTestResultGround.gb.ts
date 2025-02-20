@@ -42,9 +42,9 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Pr
             let { buildDotNetPoint } = await import('./point');
             dotNetHitTestResultGround.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.distance)) {
-            dotNetHitTestResultGround.distance = jsObject.distance;
-        }
+    if (hasValue(jsObject.distance)) {
+        dotNetHitTestResultGround.distance = jsObject.distance;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

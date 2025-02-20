@@ -20,6 +20,10 @@ export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsGe
         let { buildJsUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions } = await import('./univariateColorSizeCreateContinuousRendererParamsSymbolOptions');
         jsunivariateColorSizeCreateContinuousRendererParams.symbolOptions = await buildJsUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions(dotNetObject.symbolOptions, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsunivariateColorSizeCreateContinuousRendererParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.defaultSymbolEnabled)) {
         jsunivariateColorSizeCreateContinuousRendererParams.defaultSymbolEnabled = dotNetObject.defaultSymbolEnabled;
@@ -56,10 +60,6 @@ export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsGe
     }
     if (hasValue(dotNetObject.symbolType)) {
         jsunivariateColorSizeCreateContinuousRendererParams.symbolType = dotNetObject.symbolType;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsunivariateColorSizeCreateContinuousRendererParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.valueExpression)) {
         jsunivariateColorSizeCreateContinuousRendererParams.valueExpression = dotNetObject.valueExpression;
@@ -108,54 +108,55 @@ export async function buildDotNetUnivariateColorSizeCreateContinuousRendererPara
             let { buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions } = await import('./univariateColorSizeCreateContinuousRendererParamsSymbolOptions');
             dotNetUnivariateColorSizeCreateContinuousRendererParams.symbolOptions = await buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions(jsObject.symbolOptions);
         }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.symbolType = jsObject.symbolType;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetUnivariateColorSizeCreateContinuousRendererParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

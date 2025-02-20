@@ -50,15 +50,15 @@ export async function buildDotNetVoxelTransferFunctionStyleGenerated(jsObject: a
             let { buildDotNetVoxelColorStop } = await import('./voxelColorStop');
             dotNetVoxelTransferFunctionStyle.colorStops = await Promise.all(jsObject.colorStops.map(async i => await buildDotNetVoxelColorStop(i)));
         }
-        if (hasValue(jsObject.opacityStops)) {
-            dotNetVoxelTransferFunctionStyle.opacityStops = jsObject.opacityStops;
-        }
-        if (hasValue(jsObject.rangeFilter)) {
-            dotNetVoxelTransferFunctionStyle.rangeFilter = jsObject.rangeFilter;
-        }
-        if (hasValue(jsObject.stretchRange)) {
-            dotNetVoxelTransferFunctionStyle.stretchRange = jsObject.stretchRange;
-        }
+    if (hasValue(jsObject.opacityStops)) {
+        dotNetVoxelTransferFunctionStyle.opacityStops = jsObject.opacityStops;
+    }
+    if (hasValue(jsObject.rangeFilter)) {
+        dotNetVoxelTransferFunctionStyle.rangeFilter = jsObject.rangeFilter;
+    }
+    if (hasValue(jsObject.stretchRange)) {
+        dotNetVoxelTransferFunctionStyle.stretchRange = jsObject.stretchRange;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

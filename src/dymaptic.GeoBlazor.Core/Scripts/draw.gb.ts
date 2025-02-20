@@ -107,9 +107,9 @@ export async function buildDotNetDrawGenerated(jsObject: any): Promise<any> {
             let { buildDotNetDrawAction } = await import('./drawAction');
             dotNetDraw.activeAction = await buildDotNetDrawAction(jsObject.activeAction);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetDraw.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetDraw.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

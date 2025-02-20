@@ -48,15 +48,15 @@ export async function buildDotNetShadowCastViewModelThresholdOptionsGenerated(js
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetShadowCastViewModelThresholdOptions.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetShadowCastViewModelThresholdOptions.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetShadowCastViewModelThresholdOptions.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetShadowCastViewModelThresholdOptions.value = jsObject.value;
-        }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetShadowCastViewModelThresholdOptions.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetShadowCastViewModelThresholdOptions.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetShadowCastViewModelThresholdOptions.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

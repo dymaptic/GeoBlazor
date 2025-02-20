@@ -130,72 +130,72 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
         }
-        if (hasValue(jsObject.autoNavigate)) {
-            dotNetLayerSearchSource.autoNavigate = jsObject.autoNavigate;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetLayerSearchSource.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.exactMatch)) {
-            dotNetLayerSearchSource.exactMatch = jsObject.exactMatch;
-        }
-        if (hasValue(jsObject.getResults)) {
-            dotNetLayerSearchSource.getResultsHandler = jsObject.getResults;
-        }
-        if (hasValue(jsObject.getSuggestions)) {
-            dotNetLayerSearchSource.getSuggestionsHandler = jsObject.getSuggestions;
-        }
-        if (hasValue(jsObject.maxResults)) {
-            dotNetLayerSearchSource.maxResults = jsObject.maxResults;
-        }
-        if (hasValue(jsObject.maxSuggestions)) {
-            dotNetLayerSearchSource.maxSuggestions = jsObject.maxSuggestions;
-        }
-        if (hasValue(jsObject.minSuggestCharacters)) {
-            dotNetLayerSearchSource.minSuggestCharacters = jsObject.minSuggestCharacters;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetLayerSearchSource.name = jsObject.name;
-        }
-        if (hasValue(jsObject.orderByFields)) {
-            dotNetLayerSearchSource.orderByFields = jsObject.orderByFields;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetLayerSearchSource.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.placeholder)) {
-            dotNetLayerSearchSource.placeholder = jsObject.placeholder;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetLayerSearchSource.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.prefix)) {
-            dotNetLayerSearchSource.prefix = jsObject.prefix;
-        }
-        if (hasValue(jsObject.resultGraphicEnabled)) {
-            dotNetLayerSearchSource.resultGraphicEnabled = jsObject.resultGraphicEnabled;
-        }
-        if (hasValue(jsObject.searchFields)) {
-            dotNetLayerSearchSource.searchFields = jsObject.searchFields;
-        }
-        if (hasValue(jsObject.searchTemplate)) {
-            dotNetLayerSearchSource.searchTemplate = jsObject.searchTemplate;
-        }
-        if (hasValue(jsObject.suffix)) {
-            dotNetLayerSearchSource.suffix = jsObject.suffix;
-        }
-        if (hasValue(jsObject.suggestionsEnabled)) {
-            dotNetLayerSearchSource.suggestionsEnabled = jsObject.suggestionsEnabled;
-        }
-        if (hasValue(jsObject.suggestionTemplate)) {
-            dotNetLayerSearchSource.suggestionTemplate = jsObject.suggestionTemplate;
-        }
-        if (hasValue(jsObject.withinViewEnabled)) {
-            dotNetLayerSearchSource.withinViewEnabled = jsObject.withinViewEnabled;
-        }
-        if (hasValue(jsObject.zoomScale)) {
-            dotNetLayerSearchSource.zoomScale = jsObject.zoomScale;
-        }
+    if (hasValue(jsObject.autoNavigate)) {
+        dotNetLayerSearchSource.autoNavigate = jsObject.autoNavigate;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetLayerSearchSource.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.exactMatch)) {
+        dotNetLayerSearchSource.exactMatch = jsObject.exactMatch;
+    }
+    if (hasValue(jsObject.getResults)) {
+        dotNetLayerSearchSource.getResultsHandler = jsObject.getResults;
+    }
+    if (hasValue(jsObject.getSuggestions)) {
+        dotNetLayerSearchSource.getSuggestionsHandler = jsObject.getSuggestions;
+    }
+    if (hasValue(jsObject.maxResults)) {
+        dotNetLayerSearchSource.maxResults = jsObject.maxResults;
+    }
+    if (hasValue(jsObject.maxSuggestions)) {
+        dotNetLayerSearchSource.maxSuggestions = jsObject.maxSuggestions;
+    }
+    if (hasValue(jsObject.minSuggestCharacters)) {
+        dotNetLayerSearchSource.minSuggestCharacters = jsObject.minSuggestCharacters;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetLayerSearchSource.name = jsObject.name;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetLayerSearchSource.orderByFields = jsObject.orderByFields;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetLayerSearchSource.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.placeholder)) {
+        dotNetLayerSearchSource.placeholder = jsObject.placeholder;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetLayerSearchSource.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.prefix)) {
+        dotNetLayerSearchSource.prefix = jsObject.prefix;
+    }
+    if (hasValue(jsObject.resultGraphicEnabled)) {
+        dotNetLayerSearchSource.resultGraphicEnabled = jsObject.resultGraphicEnabled;
+    }
+    if (hasValue(jsObject.searchFields)) {
+        dotNetLayerSearchSource.searchFields = jsObject.searchFields;
+    }
+    if (hasValue(jsObject.searchTemplate)) {
+        dotNetLayerSearchSource.searchTemplate = jsObject.searchTemplate;
+    }
+    if (hasValue(jsObject.suffix)) {
+        dotNetLayerSearchSource.suffix = jsObject.suffix;
+    }
+    if (hasValue(jsObject.suggestionsEnabled)) {
+        dotNetLayerSearchSource.suggestionsEnabled = jsObject.suggestionsEnabled;
+    }
+    if (hasValue(jsObject.suggestionTemplate)) {
+        dotNetLayerSearchSource.suggestionTemplate = jsObject.suggestionTemplate;
+    }
+    if (hasValue(jsObject.withinViewEnabled)) {
+        dotNetLayerSearchSource.withinViewEnabled = jsObject.withinViewEnabled;
+    }
+    if (hasValue(jsObject.zoomScale)) {
+        dotNetLayerSearchSource.zoomScale = jsObject.zoomScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

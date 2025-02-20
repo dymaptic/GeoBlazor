@@ -49,15 +49,15 @@ export async function buildDotNetDensifyParametersGenerated(jsObject: any): Prom
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetDensifyParameters.geometries = jsObject.geometries.map(i => buildDotNetGeometry(i));
         }
-        if (hasValue(jsObject.geodesic)) {
-            dotNetDensifyParameters.geodesic = jsObject.geodesic;
-        }
-        if (hasValue(jsObject.lengthUnit)) {
-            dotNetDensifyParameters.lengthUnit = jsObject.lengthUnit;
-        }
-        if (hasValue(jsObject.maxSegmentLength)) {
-            dotNetDensifyParameters.maxSegmentLength = jsObject.maxSegmentLength;
-        }
+    if (hasValue(jsObject.geodesic)) {
+        dotNetDensifyParameters.geodesic = jsObject.geodesic;
+    }
+    if (hasValue(jsObject.lengthUnit)) {
+        dotNetDensifyParameters.lengthUnit = jsObject.lengthUnit;
+    }
+    if (hasValue(jsObject.maxSegmentLength)) {
+        dotNetDensifyParameters.maxSegmentLength = jsObject.maxSegmentLength;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

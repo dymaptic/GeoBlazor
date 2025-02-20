@@ -8,6 +8,10 @@ export async function buildJsColorCreateVisualVariableParamsGenerated(dotNetObje
         let { buildJsLayer } = await import('./layer');
         jscolorCreateVisualVariableParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jscolorCreateVisualVariableParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.colorScheme)) {
         jscolorCreateVisualVariableParams.colorScheme = dotNetObject.colorScheme;
@@ -41,10 +45,6 @@ export async function buildJsColorCreateVisualVariableParamsGenerated(dotNetObje
     }
     if (hasValue(dotNetObject.statistics)) {
         jscolorCreateVisualVariableParams.statistics = dotNetObject.statistics;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jscolorCreateVisualVariableParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.valueExpression)) {
         jscolorCreateVisualVariableParams.valueExpression = dotNetObject.valueExpression;
@@ -84,54 +84,55 @@ export async function buildDotNetColorCreateVisualVariableParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetColorCreateVisualVariableParams.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetColorCreateVisualVariableParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetColorCreateVisualVariableParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetColorCreateVisualVariableParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetColorCreateVisualVariableParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetColorCreateVisualVariableParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetColorCreateVisualVariableParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColorCreateVisualVariableParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetColorCreateVisualVariableParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetColorCreateVisualVariableParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetColorCreateVisualVariableParams.statistics = jsObject.statistics;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetColorCreateVisualVariableParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetColorCreateVisualVariableParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetColorCreateVisualVariableParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetColorCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetColorCreateVisualVariableParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetColorCreateVisualVariableParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetColorCreateVisualVariableParams.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetColorCreateVisualVariableParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetColorCreateVisualVariableParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetColorCreateVisualVariableParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetColorCreateVisualVariableParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetColorCreateVisualVariableParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetColorCreateVisualVariableParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColorCreateVisualVariableParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetColorCreateVisualVariableParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetColorCreateVisualVariableParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetColorCreateVisualVariableParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetColorCreateVisualVariableParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetColorCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorCreateVisualVariableParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetColorCreateVisualVariableParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

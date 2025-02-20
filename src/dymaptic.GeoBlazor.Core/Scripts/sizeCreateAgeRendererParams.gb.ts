@@ -8,6 +8,10 @@ export async function buildJsSizeCreateAgeRendererParamsGenerated(dotNetObject: 
         let { buildJsLayer } = await import('./layer');
         jssizeCreateAgeRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jssizeCreateAgeRendererParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.defaultSymbolEnabled)) {
         jssizeCreateAgeRendererParams.defaultSymbolEnabled = dotNetObject.defaultSymbolEnabled;
@@ -45,10 +49,6 @@ export async function buildJsSizeCreateAgeRendererParamsGenerated(dotNetObject: 
     if (hasValue(dotNetObject.symbolType)) {
         jssizeCreateAgeRendererParams.symbolType = dotNetObject.symbolType;
     }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jssizeCreateAgeRendererParams.theme = sanitizedTheme;
-    }
     if (hasValue(dotNetObject.unit)) {
         jssizeCreateAgeRendererParams.unit = dotNetObject.unit;
     }
@@ -81,51 +81,52 @@ export async function buildDotNetSizeCreateAgeRendererParamsGenerated(jsObject: 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetSizeCreateAgeRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.endTime)) {
-            dotNetSizeCreateAgeRendererParams.endTime = jsObject.endTime;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetSizeCreateAgeRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetSizeCreateAgeRendererParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetSizeCreateAgeRendererParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetSizeCreateAgeRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSizeCreateAgeRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetSizeCreateAgeRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeCreateAgeRendererParams.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetSizeCreateAgeRendererParams.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetSizeCreateAgeRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetSizeCreateAgeRendererParams.symbolType = jsObject.symbolType;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetSizeCreateAgeRendererParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetSizeCreateAgeRendererParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.unit)) {
-            dotNetSizeCreateAgeRendererParams.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSizeCreateAgeRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetSizeCreateAgeRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.endTime)) {
+        dotNetSizeCreateAgeRendererParams.endTime = jsObject.endTime;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetSizeCreateAgeRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetSizeCreateAgeRendererParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetSizeCreateAgeRendererParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetSizeCreateAgeRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSizeCreateAgeRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetSizeCreateAgeRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeCreateAgeRendererParams.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetSizeCreateAgeRendererParams.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetSizeCreateAgeRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetSizeCreateAgeRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetSizeCreateAgeRendererParams.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSizeCreateAgeRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

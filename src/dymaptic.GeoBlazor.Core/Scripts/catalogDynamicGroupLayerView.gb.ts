@@ -36,24 +36,24 @@ export async function buildDotNetCatalogDynamicGroupLayerViewGenerated(jsObject:
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetCatalogDynamicGroupLayerView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
         }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetCatalogDynamicGroupLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetCatalogDynamicGroupLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetCatalogDynamicGroupLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCatalogDynamicGroupLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetCatalogDynamicGroupLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetCatalogDynamicGroupLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetCatalogDynamicGroupLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetCatalogDynamicGroupLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetCatalogDynamicGroupLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCatalogDynamicGroupLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetCatalogDynamicGroupLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetCatalogDynamicGroupLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

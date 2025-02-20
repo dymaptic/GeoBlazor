@@ -40,66 +40,66 @@ export async function buildDotNetFieldInputGenerated(jsObject: any): Promise<any
             let { buildDotNetGroupInput } = await import('./groupInput');
             dotNetFieldInput.group = await buildDotNetGroupInput(jsObject.group);
         }
-        if (hasValue(jsObject.dataType)) {
-            dotNetFieldInput.dataType = jsObject.dataType;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetFieldInput.description = jsObject.description;
-        }
-        if (hasValue(jsObject.domain)) {
-            dotNetFieldInput.domain = jsObject.domain;
-        }
-        if (hasValue(jsObject.editable)) {
-            dotNetFieldInput.editable = jsObject.editable;
-        }
-        if (hasValue(jsObject.error)) {
-            dotNetFieldInput.error = jsObject.error;
-        }
-        if (hasValue(jsObject.hint)) {
-            dotNetFieldInput.hint = jsObject.hint;
-        }
-        if (hasValue(jsObject.includeDate)) {
-            dotNetFieldInput.includeDate = jsObject.includeDate;
-        }
-        if (hasValue(jsObject.includeTime)) {
-            dotNetFieldInput.includeTime = jsObject.includeTime;
-        }
-        if (hasValue(jsObject.includeTimeOffset)) {
-            dotNetFieldInput.includeTimeOffset = jsObject.includeTimeOffset;
-        }
-        if (hasValue(jsObject.inputType)) {
-            dotNetFieldInput.inputType = jsObject.inputType;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetFieldInput.label = jsObject.label;
-        }
-        if (hasValue(jsObject.maxLength)) {
-            dotNetFieldInput.maxLength = jsObject.maxLength;
-        }
-        if (hasValue(jsObject.minLength)) {
-            dotNetFieldInput.minLength = jsObject.minLength;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFieldInput.name = jsObject.name;
-        }
-        if (hasValue(jsObject.required)) {
-            dotNetFieldInput.required = jsObject.required;
-        }
-        if (hasValue(jsObject.submittable)) {
-            dotNetFieldInput.submittable = jsObject.submittable;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFieldInput.type = jsObject.type;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetFieldInput.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.valid)) {
-            dotNetFieldInput.valid = jsObject.valid;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetFieldInput.value = jsObject.value;
-        }
+    if (hasValue(jsObject.dataType)) {
+        dotNetFieldInput.dataType = jsObject.dataType;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetFieldInput.description = jsObject.description;
+    }
+    if (hasValue(jsObject.domain)) {
+        dotNetFieldInput.domain = jsObject.domain;
+    }
+    if (hasValue(jsObject.editable)) {
+        dotNetFieldInput.editable = jsObject.editable;
+    }
+    if (hasValue(jsObject.error)) {
+        dotNetFieldInput.error = jsObject.error;
+    }
+    if (hasValue(jsObject.hint)) {
+        dotNetFieldInput.hint = jsObject.hint;
+    }
+    if (hasValue(jsObject.includeDate)) {
+        dotNetFieldInput.includeDate = jsObject.includeDate;
+    }
+    if (hasValue(jsObject.includeTime)) {
+        dotNetFieldInput.includeTime = jsObject.includeTime;
+    }
+    if (hasValue(jsObject.includeTimeOffset)) {
+        dotNetFieldInput.includeTimeOffset = jsObject.includeTimeOffset;
+    }
+    if (hasValue(jsObject.inputType)) {
+        dotNetFieldInput.inputType = jsObject.inputType;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetFieldInput.label = jsObject.label;
+    }
+    if (hasValue(jsObject.maxLength)) {
+        dotNetFieldInput.maxLength = jsObject.maxLength;
+    }
+    if (hasValue(jsObject.minLength)) {
+        dotNetFieldInput.minLength = jsObject.minLength;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFieldInput.name = jsObject.name;
+    }
+    if (hasValue(jsObject.required)) {
+        dotNetFieldInput.required = jsObject.required;
+    }
+    if (hasValue(jsObject.submittable)) {
+        dotNetFieldInput.submittable = jsObject.submittable;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFieldInput.type = jsObject.type;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetFieldInput.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.valid)) {
+        dotNetFieldInput.valid = jsObject.valid;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetFieldInput.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

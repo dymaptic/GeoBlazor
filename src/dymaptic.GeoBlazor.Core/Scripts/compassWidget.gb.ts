@@ -96,15 +96,15 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
             let { buildDotNetCompassViewModel } = await import('./compassViewModel');
             dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetCompassWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCompassWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCompassWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCompassWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCompassWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCompassWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

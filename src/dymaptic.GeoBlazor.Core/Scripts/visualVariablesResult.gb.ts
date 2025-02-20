@@ -6,7 +6,7 @@ export async function buildJsVisualVariablesResultGenerated(dotNetObject: any, l
     let jsVisualVariablesResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.color)) {
         let { buildJsVisualVariablesResultColor } = await import('./visualVariablesResultColor');
@@ -67,18 +67,18 @@ export async function buildDotNetVisualVariablesResultGenerated(jsObject: any): 
             let { buildDotNetVisualVariablesResultSize } = await import('./visualVariablesResultSize');
             dotNetVisualVariablesResult.size = await buildDotNetVisualVariablesResultSize(jsObject.size);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetVisualVariablesResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetVisualVariablesResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetVisualVariablesResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetVisualVariablesResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetVisualVariablesResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetVisualVariablesResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetVisualVariablesResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetVisualVariablesResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

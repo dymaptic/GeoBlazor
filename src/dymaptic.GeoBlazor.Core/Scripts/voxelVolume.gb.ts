@@ -82,15 +82,15 @@ export async function buildDotNetVoxelVolumeGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.sizeInVoxels)) {
-            dotNetVoxelVolume.sizeInVoxels = jsObject.sizeInVoxels;
-        }
-        if (hasValue(jsObject.volumeType)) {
-            dotNetVoxelVolume.volumeType = jsObject.volumeType;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetVoxelVolume.voxelVolumeId = jsObject.id;
-        }
+    if (hasValue(jsObject.sizeInVoxels)) {
+        dotNetVoxelVolume.sizeInVoxels = jsObject.sizeInVoxels;
+    }
+    if (hasValue(jsObject.volumeType)) {
+        dotNetVoxelVolume.volumeType = jsObject.volumeType;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetVoxelVolume.voxelVolumeId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

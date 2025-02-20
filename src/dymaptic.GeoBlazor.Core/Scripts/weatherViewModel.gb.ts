@@ -73,12 +73,12 @@ export async function buildDotNetWeatherViewModelGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.state)) {
-            dotNetWeatherViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetWeatherViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetWeatherViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetWeatherViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

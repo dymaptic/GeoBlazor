@@ -216,51 +216,51 @@ export async function buildDotNetColorSizeSliderGenerated(jsObject: any): Promis
             let { buildDotNetColorSizeSliderViewModel } = await import('./colorSizeSliderViewModel');
             dotNetColorSizeSlider.viewModel = await buildDotNetColorSizeSliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetColorSizeSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetColorSizeSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetColorSizeSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.persistSizeRangeEnabled)) {
-            dotNetColorSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetColorSizeSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetColorSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetColorSizeSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetColorSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColorSizeSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetColorSizeSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetColorSizeSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetColorSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetColorSizeSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetColorSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetColorSizeSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetColorSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetColorSizeSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetColorSizeSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.persistSizeRangeEnabled)) {
+        dotNetColorSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetColorSizeSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetColorSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetColorSizeSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetColorSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColorSizeSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetColorSizeSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetColorSizeSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

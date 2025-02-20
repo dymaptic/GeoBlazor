@@ -51,18 +51,18 @@ export async function buildDotNetVoxelIsosurfaceGenerated(jsObject: any): Promis
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetVoxelIsosurface.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.colorLocked)) {
-            dotNetVoxelIsosurface.colorLocked = jsObject.colorLocked;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetVoxelIsosurface.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetVoxelIsosurface.label = jsObject.label;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetVoxelIsosurface.value = jsObject.value;
-        }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetVoxelIsosurface.colorLocked = jsObject.colorLocked;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetVoxelIsosurface.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetVoxelIsosurface.label = jsObject.label;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetVoxelIsosurface.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

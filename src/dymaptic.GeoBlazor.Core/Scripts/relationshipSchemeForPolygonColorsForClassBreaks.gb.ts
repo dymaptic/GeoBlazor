@@ -42,9 +42,9 @@ export async function buildDotNetRelationshipSchemeForPolygonColorsForClassBreak
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetRelationshipSchemeForPolygonColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetRelationshipSchemeForPolygonColorsForClassBreaks.numClasses = jsObject.numClasses;
-        }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetRelationshipSchemeForPolygonColorsForClassBreaks.numClasses = jsObject.numClasses;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

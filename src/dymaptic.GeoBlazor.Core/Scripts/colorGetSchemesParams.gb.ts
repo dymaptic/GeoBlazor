@@ -4,6 +4,10 @@ import { buildDotNetColorGetSchemesParams } from './colorGetSchemesParams';
 
 export async function buildJsColorGetSchemesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jscolorGetSchemesParams: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jscolorGetSchemesParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemap)) {
         jscolorGetSchemesParams.basemap = dotNetObject.basemap;
@@ -13,10 +17,6 @@ export async function buildJsColorGetSchemesParamsGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.geometryType)) {
         jscolorGetSchemesParams.geometryType = dotNetObject.geometryType;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jscolorGetSchemesParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.view)) {
         jscolorGetSchemesParams.view = dotNetObject.view;
@@ -50,24 +50,25 @@ export async function buildDotNetColorGetSchemesParamsGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetColorGetSchemesParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetColorGetSchemesParams.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetColorGetSchemesParams.geometryType = jsObject.geometryType;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetColorGetSchemesParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetColorGetSchemesParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetColorGetSchemesParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetColorGetSchemesParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.basemap)) {
+        dotNetColorGetSchemesParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetColorGetSchemesParams.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetColorGetSchemesParams.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorGetSchemesParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetColorGetSchemesParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

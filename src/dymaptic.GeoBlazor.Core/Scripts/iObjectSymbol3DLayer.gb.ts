@@ -122,39 +122,39 @@ export async function buildDotNetIObjectSymbol3DLayerGenerated(jsObject: any): P
             let { buildDotNetObjectSymbol3DLayerMaterial } = await import('./objectSymbol3DLayerMaterial');
             dotNetIObjectSymbol3DLayer.material = await buildDotNetObjectSymbol3DLayerMaterial(jsObject.material);
         }
-        if (hasValue(jsObject.anchor)) {
-            dotNetIObjectSymbol3DLayer.anchor = jsObject.anchor;
-        }
-        if (hasValue(jsObject.anchorPosition)) {
-            dotNetIObjectSymbol3DLayer.anchorPosition = jsObject.anchorPosition;
-        }
-        if (hasValue(jsObject.castShadows)) {
-            dotNetIObjectSymbol3DLayer.castShadows = jsObject.castShadows;
-        }
-        if (hasValue(jsObject.depth)) {
-            dotNetIObjectSymbol3DLayer.depth = jsObject.depth;
-        }
-        if (hasValue(jsObject.heading)) {
-            dotNetIObjectSymbol3DLayer.heading = jsObject.heading;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetIObjectSymbol3DLayer.height = jsObject.height;
-        }
-        if (hasValue(jsObject.resource)) {
-            dotNetIObjectSymbol3DLayer.resource = jsObject.resource;
-        }
-        if (hasValue(jsObject.roll)) {
-            dotNetIObjectSymbol3DLayer.roll = jsObject.roll;
-        }
-        if (hasValue(jsObject.tilt)) {
-            dotNetIObjectSymbol3DLayer.tilt = jsObject.tilt;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIObjectSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetIObjectSymbol3DLayer.width = jsObject.width;
-        }
+    if (hasValue(jsObject.anchor)) {
+        dotNetIObjectSymbol3DLayer.anchor = jsObject.anchor;
+    }
+    if (hasValue(jsObject.anchorPosition)) {
+        dotNetIObjectSymbol3DLayer.anchorPosition = jsObject.anchorPosition;
+    }
+    if (hasValue(jsObject.castShadows)) {
+        dotNetIObjectSymbol3DLayer.castShadows = jsObject.castShadows;
+    }
+    if (hasValue(jsObject.depth)) {
+        dotNetIObjectSymbol3DLayer.depth = jsObject.depth;
+    }
+    if (hasValue(jsObject.heading)) {
+        dotNetIObjectSymbol3DLayer.heading = jsObject.heading;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetIObjectSymbol3DLayer.height = jsObject.height;
+    }
+    if (hasValue(jsObject.resource)) {
+        dotNetIObjectSymbol3DLayer.resource = jsObject.resource;
+    }
+    if (hasValue(jsObject.roll)) {
+        dotNetIObjectSymbol3DLayer.roll = jsObject.roll;
+    }
+    if (hasValue(jsObject.tilt)) {
+        dotNetIObjectSymbol3DLayer.tilt = jsObject.tilt;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIObjectSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetIObjectSymbol3DLayer.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

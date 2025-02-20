@@ -61,18 +61,18 @@ export async function buildDotNetRelationshipUpdateRendererParamsGenerated(jsObj
             let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
             dotNetRelationshipUpdateRendererParams.renderer = await buildDotNetUniqueValueRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.field1)) {
-            dotNetRelationshipUpdateRendererParams.field1 = jsObject.field1;
-        }
-        if (hasValue(jsObject.field2)) {
-            dotNetRelationshipUpdateRendererParams.field2 = jsObject.field2;
-        }
-        if (hasValue(jsObject.focus)) {
-            dotNetRelationshipUpdateRendererParams.focus = jsObject.focus;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetRelationshipUpdateRendererParams.numClasses = jsObject.numClasses;
-        }
+    if (hasValue(jsObject.field1)) {
+        dotNetRelationshipUpdateRendererParams.field1 = jsObject.field1;
+    }
+    if (hasValue(jsObject.field2)) {
+        dotNetRelationshipUpdateRendererParams.field2 = jsObject.field2;
+    }
+    if (hasValue(jsObject.focus)) {
+        dotNetRelationshipUpdateRendererParams.focus = jsObject.focus;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetRelationshipUpdateRendererParams.numClasses = jsObject.numClasses;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

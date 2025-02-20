@@ -130,21 +130,21 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetTileInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.dpi)) {
-            dotNetTileInfo.dpi = jsObject.dpi;
-        }
-        if (hasValue(jsObject.format)) {
-            dotNetTileInfo.format = jsObject.format;
-        }
-        if (hasValue(jsObject.isWrappable)) {
-            dotNetTileInfo.isWrappable = jsObject.isWrappable;
-        }
-        if (hasValue(jsObject.lods)) {
-            dotNetTileInfo.lods = jsObject.lods;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetTileInfo.size = jsObject.size;
-        }
+    if (hasValue(jsObject.dpi)) {
+        dotNetTileInfo.dpi = jsObject.dpi;
+    }
+    if (hasValue(jsObject.format)) {
+        dotNetTileInfo.format = jsObject.format;
+    }
+    if (hasValue(jsObject.isWrappable)) {
+        dotNetTileInfo.isWrappable = jsObject.isWrappable;
+    }
+    if (hasValue(jsObject.lods)) {
+        dotNetTileInfo.lods = jsObject.lods;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetTileInfo.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

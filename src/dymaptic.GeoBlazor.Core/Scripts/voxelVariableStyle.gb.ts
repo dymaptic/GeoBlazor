@@ -62,12 +62,12 @@ export async function buildDotNetVoxelVariableStyleGenerated(jsObject: any): Pro
             let { buildDotNetVoxelUniqueValue } = await import('./voxelUniqueValue');
             dotNetVoxelVariableStyle.uniqueValues = await Promise.all(jsObject.uniqueValues.map(async i => await buildDotNetVoxelUniqueValue(i)));
         }
-        if (hasValue(jsObject.label)) {
-            dotNetVoxelVariableStyle.label = jsObject.label;
-        }
-        if (hasValue(jsObject.variableId)) {
-            dotNetVoxelVariableStyle.variableId = jsObject.variableId;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetVoxelVariableStyle.label = jsObject.label;
+    }
+    if (hasValue(jsObject.variableId)) {
+        dotNetVoxelVariableStyle.variableId = jsObject.variableId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

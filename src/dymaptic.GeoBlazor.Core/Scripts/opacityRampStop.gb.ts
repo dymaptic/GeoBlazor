@@ -48,15 +48,15 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any): Promis
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetOpacityRampStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetOpacityRampStop.label = jsObject.label;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetOpacityRampStop.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetOpacityRampStop.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetOpacityRampStop.label = jsObject.label;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetOpacityRampStop.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetOpacityRampStop.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

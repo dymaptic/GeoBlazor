@@ -53,12 +53,12 @@ export async function buildDotNetLocationSchemeForPointGenerated(jsObject: any):
             let { buildDotNetLocationSchemeForPointOutline } = await import('./locationSchemeForPointOutline');
             dotNetLocationSchemeForPoint.outline = await buildDotNetLocationSchemeForPointOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.opacity)) {
-            dotNetLocationSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetLocationSchemeForPoint.size = jsObject.size;
-        }
+    if (hasValue(jsObject.opacity)) {
+        dotNetLocationSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetLocationSchemeForPoint.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

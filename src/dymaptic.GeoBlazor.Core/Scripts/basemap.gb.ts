@@ -161,21 +161,21 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetBasemap.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetBasemap.basemapId = jsObject.id;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetBasemap.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.style)) {
-            dotNetBasemap.style = jsObject.style;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBasemap.title = jsObject.title;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBasemap.basemapId = jsObject.id;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetBasemap.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.style)) {
+        dotNetBasemap.style = jsObject.style;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBasemap.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

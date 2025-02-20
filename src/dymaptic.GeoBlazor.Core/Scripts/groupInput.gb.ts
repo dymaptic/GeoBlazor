@@ -42,24 +42,24 @@ export async function buildDotNetGroupInputGenerated(jsObject: any): Promise<any
             let { buildDotNetFieldInput } = await import('./fieldInput');
             dotNetGroupInput.inputs = await Promise.all(jsObject.inputs.map(async i => await buildDotNetFieldInput(i)));
         }
-        if (hasValue(jsObject.description)) {
-            dotNetGroupInput.description = jsObject.description;
-        }
-        if (hasValue(jsObject.initialState)) {
-            dotNetGroupInput.initialState = jsObject.initialState;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetGroupInput.label = jsObject.label;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetGroupInput.open = jsObject.open;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetGroupInput.state = jsObject.state;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetGroupInput.type = jsObject.type;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetGroupInput.description = jsObject.description;
+    }
+    if (hasValue(jsObject.initialState)) {
+        dotNetGroupInput.initialState = jsObject.initialState;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetGroupInput.label = jsObject.label;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetGroupInput.open = jsObject.open;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetGroupInput.state = jsObject.state;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetGroupInput.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

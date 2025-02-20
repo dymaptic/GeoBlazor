@@ -63,30 +63,30 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise
             let { buildDotNetExtent } = await import('./extent');
             dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.defaultSpatialReference)) {
-            dotNetWFSFeatureType.defaultSpatialReference = jsObject.defaultSpatialReference;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetWFSFeatureType.description = jsObject.description;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetWFSFeatureType.name = jsObject.name;
-        }
-        if (hasValue(jsObject.namespacePrefix)) {
-            dotNetWFSFeatureType.namespacePrefix = jsObject.namespacePrefix;
-        }
-        if (hasValue(jsObject.namespaceUri)) {
-            dotNetWFSFeatureType.namespaceUri = jsObject.namespaceUri;
-        }
-        if (hasValue(jsObject.supportedSpatialReferences)) {
-            dotNetWFSFeatureType.supportedSpatialReferences = jsObject.supportedSpatialReferences;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWFSFeatureType.title = jsObject.title;
-        }
-        if (hasValue(jsObject.typeName)) {
-            dotNetWFSFeatureType.typeName = jsObject.typeName;
-        }
+    if (hasValue(jsObject.defaultSpatialReference)) {
+        dotNetWFSFeatureType.defaultSpatialReference = jsObject.defaultSpatialReference;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetWFSFeatureType.description = jsObject.description;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetWFSFeatureType.name = jsObject.name;
+    }
+    if (hasValue(jsObject.namespacePrefix)) {
+        dotNetWFSFeatureType.namespacePrefix = jsObject.namespacePrefix;
+    }
+    if (hasValue(jsObject.namespaceUri)) {
+        dotNetWFSFeatureType.namespaceUri = jsObject.namespaceUri;
+    }
+    if (hasValue(jsObject.supportedSpatialReferences)) {
+        dotNetWFSFeatureType.supportedSpatialReferences = jsObject.supportedSpatialReferences;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWFSFeatureType.title = jsObject.title;
+    }
+    if (hasValue(jsObject.typeName)) {
+        dotNetWFSFeatureType.typeName = jsObject.typeName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -126,39 +126,39 @@ export async function buildDotNetElevationProfileViewModelGenerated(jsObject: an
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetElevationProfileViewModel.input = buildDotNetGraphic(jsObject.input, layerId, viewId);
         }
-        if (hasValue(jsObject.effectiveUnits)) {
-            dotNetElevationProfileViewModel.effectiveUnits = jsObject.effectiveUnits;
-        }
-        if (hasValue(jsObject.geodesicDistanceThreshold)) {
-            dotNetElevationProfileViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetElevationProfileViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.hoveredChartPosition)) {
-            dotNetElevationProfileViewModel.hoveredChartPosition = jsObject.hoveredChartPosition;
-        }
-        if (hasValue(jsObject.profiles)) {
-            dotNetElevationProfileViewModel.profiles = jsObject.profiles;
-        }
-        if (hasValue(jsObject.progress)) {
-            dotNetElevationProfileViewModel.progress = jsObject.progress;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetElevationProfileViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.uniformChartScaling)) {
-            dotNetElevationProfileViewModel.uniformChartScaling = jsObject.uniformChartScaling;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetElevationProfileViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetElevationProfileViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetElevationProfileViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.effectiveUnits)) {
+        dotNetElevationProfileViewModel.effectiveUnits = jsObject.effectiveUnits;
+    }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetElevationProfileViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetElevationProfileViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.hoveredChartPosition)) {
+        dotNetElevationProfileViewModel.hoveredChartPosition = jsObject.hoveredChartPosition;
+    }
+    if (hasValue(jsObject.profiles)) {
+        dotNetElevationProfileViewModel.profiles = jsObject.profiles;
+    }
+    if (hasValue(jsObject.progress)) {
+        dotNetElevationProfileViewModel.progress = jsObject.progress;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetElevationProfileViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.uniformChartScaling)) {
+        dotNetElevationProfileViewModel.uniformChartScaling = jsObject.uniformChartScaling;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetElevationProfileViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetElevationProfileViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetElevationProfileViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

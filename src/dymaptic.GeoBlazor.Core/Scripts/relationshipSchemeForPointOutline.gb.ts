@@ -42,9 +42,9 @@ export async function buildDotNetRelationshipSchemeForPointOutlineGenerated(jsOb
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetRelationshipSchemeForPointOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.width)) {
-            dotNetRelationshipSchemeForPointOutline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.width)) {
+        dotNetRelationshipSchemeForPointOutline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

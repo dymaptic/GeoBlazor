@@ -54,15 +54,15 @@ export async function buildDotNetImagePointParametersGenerated(jsObject: any): P
             let { buildDotNetMosaicRule } = await import('./mosaicRule');
             dotNetImagePointParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
         }
-        if (hasValue(jsObject.is3D)) {
-            dotNetImagePointParameters.is3D = jsObject.is3D;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImagePointParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImagePointParameters.type = jsObject.type;
-        }
+    if (hasValue(jsObject.is3D)) {
+        dotNetImagePointParameters.is3D = jsObject.is3D;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImagePointParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImagePointParameters.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

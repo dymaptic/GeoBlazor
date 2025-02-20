@@ -89,36 +89,36 @@ export async function buildDotNetImageIdentifyParametersGenerated(jsObject: any)
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageIdentifyParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.maxItemCount)) {
-            dotNetImageIdentifyParameters.maxItemCount = jsObject.maxItemCount;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageIdentifyParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.processAsMultidimensional)) {
-            dotNetImageIdentifyParameters.processAsMultidimensional = jsObject.processAsMultidimensional;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetImageIdentifyParameters.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.rasterFunctions)) {
-            dotNetImageIdentifyParameters.rasterFunctions = jsObject.rasterFunctions;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetImageIdentifyParameters.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.renderingRules)) {
-            dotNetImageIdentifyParameters.renderingRules = jsObject.renderingRules;
-        }
-        if (hasValue(jsObject.returnCatalogItems)) {
-            dotNetImageIdentifyParameters.returnCatalogItems = jsObject.returnCatalogItems;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetImageIdentifyParameters.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.returnPixelValues)) {
-            dotNetImageIdentifyParameters.returnPixelValues = jsObject.returnPixelValues;
-        }
+    if (hasValue(jsObject.maxItemCount)) {
+        dotNetImageIdentifyParameters.maxItemCount = jsObject.maxItemCount;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageIdentifyParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.processAsMultidimensional)) {
+        dotNetImageIdentifyParameters.processAsMultidimensional = jsObject.processAsMultidimensional;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetImageIdentifyParameters.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.rasterFunctions)) {
+        dotNetImageIdentifyParameters.rasterFunctions = jsObject.rasterFunctions;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetImageIdentifyParameters.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.renderingRules)) {
+        dotNetImageIdentifyParameters.renderingRules = jsObject.renderingRules;
+    }
+    if (hasValue(jsObject.returnCatalogItems)) {
+        dotNetImageIdentifyParameters.returnCatalogItems = jsObject.returnCatalogItems;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetImageIdentifyParameters.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.returnPixelValues)) {
+        dotNetImageIdentifyParameters.returnPixelValues = jsObject.returnPixelValues;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

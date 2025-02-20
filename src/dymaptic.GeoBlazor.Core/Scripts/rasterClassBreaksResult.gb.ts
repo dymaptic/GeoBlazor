@@ -42,9 +42,9 @@ export async function buildDotNetRasterClassBreaksResultGenerated(jsObject: any)
             let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
             dotNetRasterClassBreaksResult.renderer = await buildDotNetClassBreaksRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.classBreaksResult)) {
-            dotNetRasterClassBreaksResult.classBreaksResult = jsObject.classBreaksResult;
-        }
+    if (hasValue(jsObject.classBreaksResult)) {
+        dotNetRasterClassBreaksResult.classBreaksResult = jsObject.classBreaksResult;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

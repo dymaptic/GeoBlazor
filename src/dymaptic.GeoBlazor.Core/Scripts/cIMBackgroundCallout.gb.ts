@@ -39,9 +39,9 @@ export async function buildDotNetCIMBackgroundCalloutGenerated(jsObject: any): P
             let { buildDotNetCIMPolygonSymbol } = await import('./cIMPolygonSymbol');
             dotNetCIMBackgroundCallout.backgroundSymbol = await buildDotNetCIMPolygonSymbol(jsObject.backgroundSymbol);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMBackgroundCallout.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMBackgroundCallout.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -198,36 +198,36 @@ export async function buildDotNetVersionManagementViewModelGenerated(jsObject: a
             let { buildDotNetVersionManagementService } = await import('./versionManagementService');
             dotNetVersionManagementViewModel.versionManagementServiceLookup = await buildDotNetVersionManagementService(jsObject.versionManagementServiceLookup);
         }
-        if (hasValue(jsObject.advancedEditingUserTypeExtensionLookup)) {
-            dotNetVersionManagementViewModel.advancedEditingUserTypeExtensionLookup = jsObject.advancedEditingUserTypeExtensionLookup;
-        }
-        if (hasValue(jsObject.executionError)) {
-            dotNetVersionManagementViewModel.executionError = jsObject.executionError;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetVersionManagementViewModel.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.serverVersionLookup)) {
-            dotNetVersionManagementViewModel.serverVersionLookup = jsObject.serverVersionLookup;
-        }
-        if (hasValue(jsObject.serviceNameLookup)) {
-            dotNetVersionManagementViewModel.serviceNameLookup = jsObject.serviceNameLookup;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetVersionManagementViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.userLookup)) {
-            dotNetVersionManagementViewModel.userLookup = jsObject.userLookup;
-        }
-        if (hasValue(jsObject.versionIdentifierLookup)) {
-            dotNetVersionManagementViewModel.versionIdentifierLookup = jsObject.versionIdentifierLookup;
-        }
-        if (hasValue(jsObject.versionInfoLookup)) {
-            dotNetVersionManagementViewModel.versionInfoLookup = jsObject.versionInfoLookup;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetVersionManagementViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.advancedEditingUserTypeExtensionLookup)) {
+        dotNetVersionManagementViewModel.advancedEditingUserTypeExtensionLookup = jsObject.advancedEditingUserTypeExtensionLookup;
+    }
+    if (hasValue(jsObject.executionError)) {
+        dotNetVersionManagementViewModel.executionError = jsObject.executionError;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetVersionManagementViewModel.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.serverVersionLookup)) {
+        dotNetVersionManagementViewModel.serverVersionLookup = jsObject.serverVersionLookup;
+    }
+    if (hasValue(jsObject.serviceNameLookup)) {
+        dotNetVersionManagementViewModel.serviceNameLookup = jsObject.serviceNameLookup;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetVersionManagementViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.userLookup)) {
+        dotNetVersionManagementViewModel.userLookup = jsObject.userLookup;
+    }
+    if (hasValue(jsObject.versionIdentifierLookup)) {
+        dotNetVersionManagementViewModel.versionIdentifierLookup = jsObject.versionIdentifierLookup;
+    }
+    if (hasValue(jsObject.versionInfoLookup)) {
+        dotNetVersionManagementViewModel.versionInfoLookup = jsObject.versionInfoLookup;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetVersionManagementViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

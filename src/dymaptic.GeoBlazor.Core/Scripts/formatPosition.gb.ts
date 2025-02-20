@@ -42,9 +42,9 @@ export async function buildDotNetFormatPositionGenerated(jsObject: any): Promise
             let { buildDotNetPoint } = await import('./point');
             dotNetFormatPosition.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.coordinate)) {
-            dotNetFormatPosition.coordinate = jsObject.coordinate;
-        }
+    if (hasValue(jsObject.coordinate)) {
+        dotNetFormatPosition.coordinate = jsObject.coordinate;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

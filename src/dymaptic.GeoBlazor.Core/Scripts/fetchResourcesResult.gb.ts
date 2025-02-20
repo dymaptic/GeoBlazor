@@ -45,12 +45,12 @@ export async function buildDotNetFetchResourcesResultGenerated(jsObject: any): P
             let { buildDotNetFetchResource } = await import('./fetchResource');
             dotNetFetchResourcesResult.resources = await Promise.all(jsObject.resources.map(async i => await buildDotNetFetchResource(i)));
         }
-        if (hasValue(jsObject.nextStart)) {
-            dotNetFetchResourcesResult.nextStart = jsObject.nextStart;
-        }
-        if (hasValue(jsObject.total)) {
-            dotNetFetchResourcesResult.total = jsObject.total;
-        }
+    if (hasValue(jsObject.nextStart)) {
+        dotNetFetchResourcesResult.nextStart = jsObject.nextStart;
+    }
+    if (hasValue(jsObject.total)) {
+        dotNetFetchResourcesResult.total = jsObject.total;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

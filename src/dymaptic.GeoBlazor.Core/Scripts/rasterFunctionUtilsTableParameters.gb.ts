@@ -45,12 +45,12 @@ export async function buildDotNetRasterFunctionUtilsTableParametersGenerated(jsO
             let { buildDotNetFeatureSet } = await import('./featureSet');
             dotNetRasterFunctionUtilsTableParameters.attributeTable = await buildDotNetFeatureSet(jsObject.attributeTable, layerId, viewId);
         }
-        if (hasValue(jsObject.outputPixelType)) {
-            dotNetRasterFunctionUtilsTableParameters.outputPixelType = jsObject.outputPixelType;
-        }
-        if (hasValue(jsObject.raster)) {
-            dotNetRasterFunctionUtilsTableParameters.raster = jsObject.raster;
-        }
+    if (hasValue(jsObject.outputPixelType)) {
+        dotNetRasterFunctionUtilsTableParameters.outputPixelType = jsObject.outputPixelType;
+    }
+    if (hasValue(jsObject.raster)) {
+        dotNetRasterFunctionUtilsTableParameters.raster = jsObject.raster;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

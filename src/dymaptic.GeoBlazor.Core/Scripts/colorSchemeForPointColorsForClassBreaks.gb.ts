@@ -42,9 +42,9 @@ export async function buildDotNetColorSchemeForPointColorsForClassBreaksGenerate
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSchemeForPointColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetColorSchemeForPointColorsForClassBreaks.numClasses = jsObject.numClasses;
-        }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetColorSchemeForPointColorsForClassBreaks.numClasses = jsObject.numClasses;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

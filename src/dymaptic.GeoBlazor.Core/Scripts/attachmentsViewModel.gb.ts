@@ -103,24 +103,24 @@ export async function buildDotNetAttachmentsViewModelGenerated(jsObject: any, la
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetAttachmentsViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
-        if (hasValue(jsObject.activeAttachmentInfo)) {
-            dotNetAttachmentsViewModel.activeAttachmentInfo = jsObject.activeAttachmentInfo;
-        }
-        if (hasValue(jsObject.attachmentInfos)) {
-            dotNetAttachmentsViewModel.attachmentInfos = jsObject.attachmentInfos;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetAttachmentsViewModel.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetAttachmentsViewModel.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetAttachmentsViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.supportsResizeAttachments)) {
-            dotNetAttachmentsViewModel.supportsResizeAttachments = jsObject.supportsResizeAttachments;
-        }
+    if (hasValue(jsObject.activeAttachmentInfo)) {
+        dotNetAttachmentsViewModel.activeAttachmentInfo = jsObject.activeAttachmentInfo;
+    }
+    if (hasValue(jsObject.attachmentInfos)) {
+        dotNetAttachmentsViewModel.attachmentInfos = jsObject.attachmentInfos;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetAttachmentsViewModel.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetAttachmentsViewModel.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetAttachmentsViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.supportsResizeAttachments)) {
+        dotNetAttachmentsViewModel.supportsResizeAttachments = jsObject.supportsResizeAttachments;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

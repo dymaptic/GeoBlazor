@@ -94,33 +94,33 @@ export async function buildDotNetCIMMaterialSymbolLayerGenerated(jsObject: any):
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            dotNetCIMMaterialSymbolLayer.color = jsObject.color;
-        }
-        if (hasValue(jsObject.colorLocked)) {
-            dotNetCIMMaterialSymbolLayer.colorLocked = jsObject.colorLocked;
-        }
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMMaterialSymbolLayer.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.enable)) {
-            dotNetCIMMaterialSymbolLayer.enable = jsObject.enable;
-        }
-        if (hasValue(jsObject.materialMode)) {
-            dotNetCIMMaterialSymbolLayer.materialMode = jsObject.materialMode;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetCIMMaterialSymbolLayer.name = jsObject.name;
-        }
-        if (hasValue(jsObject.overprint)) {
-            dotNetCIMMaterialSymbolLayer.overprint = jsObject.overprint;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMMaterialSymbolLayer.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMMaterialSymbolLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.color)) {
+        dotNetCIMMaterialSymbolLayer.color = jsObject.color;
+    }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetCIMMaterialSymbolLayer.colorLocked = jsObject.colorLocked;
+    }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMMaterialSymbolLayer.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.enable)) {
+        dotNetCIMMaterialSymbolLayer.enable = jsObject.enable;
+    }
+    if (hasValue(jsObject.materialMode)) {
+        dotNetCIMMaterialSymbolLayer.materialMode = jsObject.materialMode;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetCIMMaterialSymbolLayer.name = jsObject.name;
+    }
+    if (hasValue(jsObject.overprint)) {
+        dotNetCIMMaterialSymbolLayer.overprint = jsObject.overprint;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMMaterialSymbolLayer.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMMaterialSymbolLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

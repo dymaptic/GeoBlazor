@@ -118,6 +118,9 @@ export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: a
         jsCoordinateConversion.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsCoordinateConversion.goToOverride = dotNetObject.goToOverride;
+    }
     if (hasValue(dotNetObject.headingLevel)) {
         jsCoordinateConversion.headingLevel = dotNetObject.headingLevel;
     }
@@ -196,33 +199,36 @@ export async function buildDotNetCoordinateConversionWidgetGenerated(jsObject: a
             let { buildDotNetCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
             dotNetCoordinateConversionWidget.viewModel = await buildDotNetCoordinateConversionViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetCoordinateConversionWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetCoordinateConversionWidget.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.multipleConversions)) {
-            dotNetCoordinateConversionWidget.multipleConversions = jsObject.multipleConversions;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetCoordinateConversionWidget.orientation = jsObject.orientation;
-        }
-        if (hasValue(jsObject.storageEnabled)) {
-            dotNetCoordinateConversionWidget.storageEnabled = jsObject.storageEnabled;
-        }
-        if (hasValue(jsObject.storageType)) {
-            dotNetCoordinateConversionWidget.storageType = jsObject.storageType;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCoordinateConversionWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCoordinateConversionWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetCoordinateConversionWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCoordinateConversionWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetCoordinateConversionWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetCoordinateConversionWidget.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.multipleConversions)) {
+        dotNetCoordinateConversionWidget.multipleConversions = jsObject.multipleConversions;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetCoordinateConversionWidget.orientation = jsObject.orientation;
+    }
+    if (hasValue(jsObject.storageEnabled)) {
+        dotNetCoordinateConversionWidget.storageEnabled = jsObject.storageEnabled;
+    }
+    if (hasValue(jsObject.storageType)) {
+        dotNetCoordinateConversionWidget.storageType = jsObject.storageType;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCoordinateConversionWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCoordinateConversionWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetCoordinateConversionWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

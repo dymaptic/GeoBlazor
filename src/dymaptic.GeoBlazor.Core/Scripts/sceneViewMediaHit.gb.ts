@@ -53,18 +53,18 @@ export async function buildDotNetSceneViewMediaHitGenerated(jsObject: any): Prom
             let { buildDotNetPoint } = await import('./point');
             dotNetSceneViewMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.distance)) {
-            dotNetSceneViewMediaHit.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.element)) {
-            dotNetSceneViewMediaHit.element = jsObject.element;
-        }
-        if (hasValue(jsObject.sourcePoint)) {
-            dotNetSceneViewMediaHit.sourcePoint = jsObject.sourcePoint;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSceneViewMediaHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.distance)) {
+        dotNetSceneViewMediaHit.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.element)) {
+        dotNetSceneViewMediaHit.element = jsObject.element;
+    }
+    if (hasValue(jsObject.sourcePoint)) {
+        dotNetSceneViewMediaHit.sourcePoint = jsObject.sourcePoint;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSceneViewMediaHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -101,72 +101,72 @@ export async function buildDotNetColorCreateClassBreaksRendererParamsGenerated(j
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetColorCreateClassBreaksRendererParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetColorCreateClassBreaksRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetColorCreateClassBreaksRendererParams.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetColorCreateClassBreaksRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetColorCreateClassBreaksRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetColorCreateClassBreaksRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetColorCreateClassBreaksRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetColorCreateClassBreaksRendererParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetColorCreateClassBreaksRendererParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetColorCreateClassBreaksRendererParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.normalizationTotal)) {
-            dotNetColorCreateClassBreaksRendererParams.normalizationTotal = jsObject.normalizationTotal;
-        }
-        if (hasValue(jsObject.normalizationType)) {
-            dotNetColorCreateClassBreaksRendererParams.normalizationType = jsObject.normalizationType;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetColorCreateClassBreaksRendererParams.numClasses = jsObject.numClasses;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetColorCreateClassBreaksRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColorCreateClassBreaksRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetColorCreateClassBreaksRendererParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetColorCreateClassBreaksRendererParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.standardDeviationInterval)) {
-            dotNetColorCreateClassBreaksRendererParams.standardDeviationInterval = jsObject.standardDeviationInterval;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetColorCreateClassBreaksRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetColorCreateClassBreaksRendererParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetColorCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetColorCreateClassBreaksRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetColorCreateClassBreaksRendererParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetColorCreateClassBreaksRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetColorCreateClassBreaksRendererParams.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetColorCreateClassBreaksRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetColorCreateClassBreaksRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetColorCreateClassBreaksRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetColorCreateClassBreaksRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetColorCreateClassBreaksRendererParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetColorCreateClassBreaksRendererParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetColorCreateClassBreaksRendererParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.normalizationTotal)) {
+        dotNetColorCreateClassBreaksRendererParams.normalizationTotal = jsObject.normalizationTotal;
+    }
+    if (hasValue(jsObject.normalizationType)) {
+        dotNetColorCreateClassBreaksRendererParams.normalizationType = jsObject.normalizationType;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetColorCreateClassBreaksRendererParams.numClasses = jsObject.numClasses;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetColorCreateClassBreaksRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColorCreateClassBreaksRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetColorCreateClassBreaksRendererParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetColorCreateClassBreaksRendererParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.standardDeviationInterval)) {
+        dotNetColorCreateClassBreaksRendererParams.standardDeviationInterval = jsObject.standardDeviationInterval;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetColorCreateClassBreaksRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetColorCreateClassBreaksRendererParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetColorCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorCreateClassBreaksRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

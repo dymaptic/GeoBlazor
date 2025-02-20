@@ -12,6 +12,10 @@ export async function buildJsFlowSchemeGenerated(dotNetObject: any, layerId: str
         let { buildJsMapColor } = await import('./mapColor');
         jsFlowScheme.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsFlowScheme.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.density)) {
         jsFlowScheme.density = dotNetObject.density;
@@ -42,10 +46,6 @@ export async function buildJsFlowSchemeGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.tags)) {
         jsFlowScheme.tags = dotNetObject.tags;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsFlowScheme.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.trailCap)) {
         jsFlowScheme.trailCap = dotNetObject.trailCap;
@@ -90,48 +90,49 @@ export async function buildDotNetFlowSchemeGenerated(jsObject: any): Promise<any
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetFlowScheme.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.density)) {
-            dotNetFlowScheme.density = jsObject.density;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetFlowScheme.flowSchemeId = jsObject.id;
-        }
-        if (hasValue(jsObject.flowSpeed)) {
-            dotNetFlowScheme.flowSpeed = jsObject.flowSpeed;
-        }
-        if (hasValue(jsObject.layerEffect)) {
-            dotNetFlowScheme.layerEffect = jsObject.layerEffect;
-        }
-        if (hasValue(jsObject.maxOpacity)) {
-            dotNetFlowScheme.maxOpacity = jsObject.maxOpacity;
-        }
-        if (hasValue(jsObject.maxWidth)) {
-            dotNetFlowScheme.maxWidth = jsObject.maxWidth;
-        }
-        if (hasValue(jsObject.minOpacity)) {
-            dotNetFlowScheme.minOpacity = jsObject.minOpacity;
-        }
-        if (hasValue(jsObject.minWidth)) {
-            dotNetFlowScheme.minWidth = jsObject.minWidth;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFlowScheme.name = jsObject.name;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetFlowScheme.tags = jsObject.tags;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetFlowScheme.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetFlowScheme.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.trailCap)) {
-            dotNetFlowScheme.trailCap = jsObject.trailCap;
-        }
-        if (hasValue(jsObject.trailLength)) {
-            dotNetFlowScheme.trailLength = jsObject.trailLength;
-        }
-        if (hasValue(jsObject.trailWidth)) {
-            dotNetFlowScheme.trailWidth = jsObject.trailWidth;
-        }
+    if (hasValue(jsObject.density)) {
+        dotNetFlowScheme.density = jsObject.density;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetFlowScheme.flowSchemeId = jsObject.id;
+    }
+    if (hasValue(jsObject.flowSpeed)) {
+        dotNetFlowScheme.flowSpeed = jsObject.flowSpeed;
+    }
+    if (hasValue(jsObject.layerEffect)) {
+        dotNetFlowScheme.layerEffect = jsObject.layerEffect;
+    }
+    if (hasValue(jsObject.maxOpacity)) {
+        dotNetFlowScheme.maxOpacity = jsObject.maxOpacity;
+    }
+    if (hasValue(jsObject.maxWidth)) {
+        dotNetFlowScheme.maxWidth = jsObject.maxWidth;
+    }
+    if (hasValue(jsObject.minOpacity)) {
+        dotNetFlowScheme.minOpacity = jsObject.minOpacity;
+    }
+    if (hasValue(jsObject.minWidth)) {
+        dotNetFlowScheme.minWidth = jsObject.minWidth;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFlowScheme.name = jsObject.name;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetFlowScheme.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.trailCap)) {
+        dotNetFlowScheme.trailCap = jsObject.trailCap;
+    }
+    if (hasValue(jsObject.trailLength)) {
+        dotNetFlowScheme.trailLength = jsObject.trailLength;
+    }
+    if (hasValue(jsObject.trailWidth)) {
+        dotNetFlowScheme.trailWidth = jsObject.trailWidth;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

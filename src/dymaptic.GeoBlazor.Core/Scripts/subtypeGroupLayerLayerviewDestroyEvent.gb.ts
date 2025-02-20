@@ -42,9 +42,9 @@ export async function buildDotNetSubtypeGroupLayerLayerviewDestroyEventGenerated
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetSubtypeGroupLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetSubtypeGroupLayerLayerviewDestroyEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetSubtypeGroupLayerLayerviewDestroyEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

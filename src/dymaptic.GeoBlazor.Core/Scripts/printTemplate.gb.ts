@@ -97,39 +97,39 @@ export async function buildDotNetPrintTemplateGenerated(jsObject: any): Promise<
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetPrintTemplate.reportItem = await buildDotNetPortalItem(jsObject.reportItem);
         }
-        if (hasValue(jsObject.attributionVisible)) {
-            dotNetPrintTemplate.attributionVisible = jsObject.attributionVisible;
-        }
-        if (hasValue(jsObject.exportOptions)) {
-            dotNetPrintTemplate.exportOptions = jsObject.exportOptions;
-        }
-        if (hasValue(jsObject.forceFeatureAttributes)) {
-            dotNetPrintTemplate.forceFeatureAttributes = jsObject.forceFeatureAttributes;
-        }
-        if (hasValue(jsObject.includeCharts)) {
-            dotNetPrintTemplate.includeCharts = jsObject.includeCharts;
-        }
-        if (hasValue(jsObject.includeTables)) {
-            dotNetPrintTemplate.includeTables = jsObject.includeTables;
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetPrintTemplate.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.outScale)) {
-            dotNetPrintTemplate.outScale = jsObject.outScale;
-        }
-        if (hasValue(jsObject.report)) {
-            dotNetPrintTemplate.report = jsObject.report;
-        }
-        if (hasValue(jsObject.reportOptions)) {
-            dotNetPrintTemplate.reportOptions = jsObject.reportOptions;
-        }
-        if (hasValue(jsObject.scalePreserved)) {
-            dotNetPrintTemplate.scalePreserved = jsObject.scalePreserved;
-        }
-        if (hasValue(jsObject.showLabels)) {
-            dotNetPrintTemplate.showLabels = jsObject.showLabels;
-        }
+    if (hasValue(jsObject.attributionVisible)) {
+        dotNetPrintTemplate.attributionVisible = jsObject.attributionVisible;
+    }
+    if (hasValue(jsObject.exportOptions)) {
+        dotNetPrintTemplate.exportOptions = jsObject.exportOptions;
+    }
+    if (hasValue(jsObject.forceFeatureAttributes)) {
+        dotNetPrintTemplate.forceFeatureAttributes = jsObject.forceFeatureAttributes;
+    }
+    if (hasValue(jsObject.includeCharts)) {
+        dotNetPrintTemplate.includeCharts = jsObject.includeCharts;
+    }
+    if (hasValue(jsObject.includeTables)) {
+        dotNetPrintTemplate.includeTables = jsObject.includeTables;
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetPrintTemplate.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.outScale)) {
+        dotNetPrintTemplate.outScale = jsObject.outScale;
+    }
+    if (hasValue(jsObject.report)) {
+        dotNetPrintTemplate.report = jsObject.report;
+    }
+    if (hasValue(jsObject.reportOptions)) {
+        dotNetPrintTemplate.reportOptions = jsObject.reportOptions;
+    }
+    if (hasValue(jsObject.scalePreserved)) {
+        dotNetPrintTemplate.scalePreserved = jsObject.scalePreserved;
+    }
+    if (hasValue(jsObject.showLabels)) {
+        dotNetPrintTemplate.showLabels = jsObject.showLabels;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

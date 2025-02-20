@@ -67,18 +67,18 @@ export async function buildDotNetFlowRendererResultGenerated(jsObject: any): Pro
             let { buildDotNetVisualVariable } = await import('./visualVariable');
             dotNetFlowRendererResult.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetFlowRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetFlowRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.layerEffect)) {
-            dotNetFlowRendererResult.layerEffect = jsObject.layerEffect;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetFlowRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetFlowRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetFlowRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.layerEffect)) {
+        dotNetFlowRendererResult.layerEffect = jsObject.layerEffect;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetFlowRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

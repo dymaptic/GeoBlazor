@@ -143,30 +143,30 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
             let { buildDotNetLocateViewModel } = await import('./locateViewModel');
             dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
         }
-        if (hasValue(jsObject.geolocationOptions)) {
-            dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
-        }
-        if (hasValue(jsObject.goToLocationEnabled)) {
-            dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetLocateWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.rotationEnabled)) {
-            dotNetLocateWidget.rotationEnabled = jsObject.rotationEnabled;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetLocateWidget.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLocateWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLocateWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.geolocationOptions)) {
+        dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
+    }
+    if (hasValue(jsObject.goToLocationEnabled)) {
+        dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetLocateWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.rotationEnabled)) {
+        dotNetLocateWidget.rotationEnabled = jsObject.rotationEnabled;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetLocateWidget.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLocateWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLocateWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

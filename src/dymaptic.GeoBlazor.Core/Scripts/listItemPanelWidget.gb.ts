@@ -107,30 +107,30 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
             let { buildDotNetListItem } = await import('./listItem');
             dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
         }
-        if (hasValue(jsObject.className)) {
-            dotNetListItemPanelWidget.className = jsObject.className;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetListItemPanelWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetListItemPanelWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.flowEnabled)) {
-            dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetListItemPanelWidget.image = jsObject.image;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetListItemPanelWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetListItemPanelWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetListItemPanelWidget.type = jsObject.type;
-        }
+    if (hasValue(jsObject.className)) {
+        dotNetListItemPanelWidget.className = jsObject.className;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetListItemPanelWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetListItemPanelWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.flowEnabled)) {
+        dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetListItemPanelWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetListItemPanelWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetListItemPanelWidget.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

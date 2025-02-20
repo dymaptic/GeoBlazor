@@ -396,6 +396,18 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+    }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -452,6 +464,10 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsImageryLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsImageryLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -554,10 +570,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.sourceJSON)) {
         jsImageryLayer.sourceJSON = dotNetObject.sourceJSON;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsImageryLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsImageryLayer.timeOffset = sanitizedTimeOffset;
@@ -655,139 +667,140 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetImageryLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetImageryLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetImageryLayer.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetImageryLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetImageryLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.compressionQuality)) {
-            dotNetImageryLayer.compressionQuality = jsObject.compressionQuality;
-        }
-        if (hasValue(jsObject.compressionTolerance)) {
-            dotNetImageryLayer.compressionTolerance = jsObject.compressionTolerance;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetImageryLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetImageryLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetImageryLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.format)) {
-            dotNetImageryLayer.format = jsObject.format;
-        }
-        if (hasValue(jsObject.hasMultidimensions)) {
-            dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
-        }
-        if (hasValue(jsObject.imageMaxHeight)) {
-            dotNetImageryLayer.imageMaxHeight = jsObject.imageMaxHeight;
-        }
-        if (hasValue(jsObject.imageMaxWidth)) {
-            dotNetImageryLayer.imageMaxWidth = jsObject.imageMaxWidth;
-        }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetImageryLayer.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetImageryLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetImageryLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetImageryLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetImageryLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetImageryLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.multidimensionalInfo)) {
-            dotNetImageryLayer.multidimensionalInfo = jsObject.multidimensionalInfo;
-        }
-        if (hasValue(jsObject.noData)) {
-            dotNetImageryLayer.noData = jsObject.noData;
-        }
-        if (hasValue(jsObject.noDataInterpretation)) {
-            dotNetImageryLayer.noDataInterpretation = jsObject.noDataInterpretation;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetImageryLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetImageryLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetImageryLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.pixelFilter)) {
-            dotNetImageryLayer.pixelFilter = jsObject.pixelFilter;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetImageryLayer.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetImageryLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetImageryLayer.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.rasterFunctionInfos)) {
-            dotNetImageryLayer.rasterFunctionInfos = jsObject.rasterFunctionInfos;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetImageryLayer.renderer = jsObject.renderer;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetImageryLayer.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetImageryLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.sourceType)) {
-            dotNetImageryLayer.sourceType = jsObject.sourceType;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetImageryLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetImageryLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetImageryLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageryLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetImageryLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetImageryLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetImageryLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetImageryLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetImageryLayer.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetImageryLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetImageryLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.compressionQuality)) {
+        dotNetImageryLayer.compressionQuality = jsObject.compressionQuality;
+    }
+    if (hasValue(jsObject.compressionTolerance)) {
+        dotNetImageryLayer.compressionTolerance = jsObject.compressionTolerance;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetImageryLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetImageryLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetImageryLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.format)) {
+        dotNetImageryLayer.format = jsObject.format;
+    }
+    if (hasValue(jsObject.hasMultidimensions)) {
+        dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
+    }
+    if (hasValue(jsObject.imageMaxHeight)) {
+        dotNetImageryLayer.imageMaxHeight = jsObject.imageMaxHeight;
+    }
+    if (hasValue(jsObject.imageMaxWidth)) {
+        dotNetImageryLayer.imageMaxWidth = jsObject.imageMaxWidth;
+    }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetImageryLayer.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetImageryLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetImageryLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetImageryLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetImageryLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetImageryLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        dotNetImageryLayer.multidimensionalInfo = jsObject.multidimensionalInfo;
+    }
+    if (hasValue(jsObject.noData)) {
+        dotNetImageryLayer.noData = jsObject.noData;
+    }
+    if (hasValue(jsObject.noDataInterpretation)) {
+        dotNetImageryLayer.noDataInterpretation = jsObject.noDataInterpretation;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetImageryLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetImageryLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetImageryLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.pixelFilter)) {
+        dotNetImageryLayer.pixelFilter = jsObject.pixelFilter;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetImageryLayer.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetImageryLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetImageryLayer.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.rasterFunctionInfos)) {
+        dotNetImageryLayer.rasterFunctionInfos = jsObject.rasterFunctionInfos;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetImageryLayer.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetImageryLayer.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetImageryLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.sourceType)) {
+        dotNetImageryLayer.sourceType = jsObject.sourceType;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetImageryLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetImageryLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageryLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetImageryLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetImageryLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetImageryLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

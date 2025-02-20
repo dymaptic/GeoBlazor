@@ -50,9 +50,9 @@ export async function buildDotNetLocationSchemeForPolygonGenerated(jsObject: any
             let { buildDotNetLocationSchemeForPolygonOutline } = await import('./locationSchemeForPolygonOutline');
             dotNetLocationSchemeForPolygon.outline = await buildDotNetLocationSchemeForPolygonOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.opacity)) {
-            dotNetLocationSchemeForPolygon.opacity = jsObject.opacity;
-        }
+    if (hasValue(jsObject.opacity)) {
+        dotNetLocationSchemeForPolygon.opacity = jsObject.opacity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

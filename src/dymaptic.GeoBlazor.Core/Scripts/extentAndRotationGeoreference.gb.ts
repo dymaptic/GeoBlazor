@@ -43,12 +43,12 @@ export async function buildDotNetExtentAndRotationGeoreferenceGenerated(jsObject
             let { buildDotNetExtent } = await import('./extent');
             dotNetExtentAndRotationGeoreference.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.rotation)) {
-            dotNetExtentAndRotationGeoreference.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetExtentAndRotationGeoreference.type = jsObject.type;
-        }
+    if (hasValue(jsObject.rotation)) {
+        dotNetExtentAndRotationGeoreference.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetExtentAndRotationGeoreference.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

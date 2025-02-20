@@ -200,45 +200,45 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetGraphicsLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetGraphicsLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetGraphicsLayer.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetGraphicsLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetGraphicsLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetGraphicsLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetGraphicsLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetGraphicsLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetGraphicsLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-            dotNetGraphicsLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetGraphicsLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetGraphicsLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetGraphicsLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetGraphicsLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetGraphicsLayer.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetGraphicsLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetGraphicsLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetGraphicsLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetGraphicsLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetGraphicsLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetGraphicsLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+        dotNetGraphicsLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetGraphicsLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetGraphicsLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

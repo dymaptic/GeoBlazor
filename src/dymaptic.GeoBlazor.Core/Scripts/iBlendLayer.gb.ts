@@ -76,12 +76,12 @@ export async function buildDotNetIBlendLayerGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.blendMode)) {
-            dotNetIBlendLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetIBlendLayer.effect = jsObject.effect;
-        }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetIBlendLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetIBlendLayer.effect = jsObject.effect;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

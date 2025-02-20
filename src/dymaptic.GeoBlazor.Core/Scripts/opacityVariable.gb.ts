@@ -52,27 +52,27 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetOpacityVariable.field = jsObject.field;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetOpacityVariable.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetOpacityVariable.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetOpacityVariable.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetOpacityVariable.field = jsObject.field;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetOpacityVariable.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetOpacityVariable.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetOpacityVariable.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

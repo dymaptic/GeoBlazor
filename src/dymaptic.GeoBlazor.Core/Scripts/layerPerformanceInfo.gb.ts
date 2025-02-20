@@ -48,18 +48,18 @@ export async function buildDotNetLayerPerformanceInfoGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.displayedNumberOfFeatures)) {
-            dotNetLayerPerformanceInfo.displayedNumberOfFeatures = jsObject.displayedNumberOfFeatures;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeatures)) {
-            dotNetLayerPerformanceInfo.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
-        }
-        if (hasValue(jsObject.memory)) {
-            dotNetLayerPerformanceInfo.memory = jsObject.memory;
-        }
-        if (hasValue(jsObject.totalNumberOfFeatures)) {
-            dotNetLayerPerformanceInfo.totalNumberOfFeatures = jsObject.totalNumberOfFeatures;
-        }
+    if (hasValue(jsObject.displayedNumberOfFeatures)) {
+        dotNetLayerPerformanceInfo.displayedNumberOfFeatures = jsObject.displayedNumberOfFeatures;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeatures)) {
+        dotNetLayerPerformanceInfo.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
+    }
+    if (hasValue(jsObject.memory)) {
+        dotNetLayerPerformanceInfo.memory = jsObject.memory;
+    }
+    if (hasValue(jsObject.totalNumberOfFeatures)) {
+        dotNetLayerPerformanceInfo.totalNumberOfFeatures = jsObject.totalNumberOfFeatures;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

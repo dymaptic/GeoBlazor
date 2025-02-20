@@ -69,7 +69,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel);
+        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel, this.layerId, this.viewId);
     }
     async setAttachmentsViewModel(value: any): Promise<void> {
         let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
@@ -99,7 +99,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel);
+        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel, this.layerId, this.viewId);
     }
     async setFeatureFormViewModel(value: any): Promise<void> {
         let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
@@ -137,7 +137,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
-        return await buildDotNetSketchViewModel(this.component.sketchViewModel);
+        return await buildDotNetSketchViewModel(this.component.sketchViewModel, this.layerId, this.viewId);
     }
     async setSketchViewModel(value: any): Promise<void> {
         let { buildJsSketchViewModel } = await import('./sketchViewModel');
@@ -238,7 +238,7 @@ export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId
     return jsEditorViewModel;
 }
 
-export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -249,7 +249,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promis
     };
         if (hasValue(jsObject.attachmentsViewModel)) {
             let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel);
+            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel, layerId, viewId);
         }
         if (hasValue(jsObject.editableItems)) {
             let { buildDotNetEditableItem } = await import('./editableItem');
@@ -261,7 +261,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promis
         }
         if (hasValue(jsObject.featureFormViewModel)) {
             let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel);
+            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
         }
         if (hasValue(jsObject.featureTemplatesViewModel)) {
             let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
@@ -273,45 +273,45 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promis
         }
         if (hasValue(jsObject.sketchViewModel)) {
             let { buildDotNetSketchViewModel } = await import('./sketchViewModel');
-            dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel);
+            dotNetEditorViewModel.sketchViewModel = await buildDotNetSketchViewModel(jsObject.sketchViewModel, layerId, viewId);
         }
         if (hasValue(jsObject.snappingOptions)) {
             let { buildDotNetSnappingOptions } = await import('./snappingOptions');
             dotNetEditorViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
         }
-        if (hasValue(jsObject.activeWorkflow)) {
-            dotNetEditorViewModel.activeWorkflow = jsObject.activeWorkflow;
-        }
-        if (hasValue(jsObject.allowedWorkflows)) {
-            dotNetEditorViewModel.allowedWorkflows = jsObject.allowedWorkflows;
-        }
-        if (hasValue(jsObject.canCreate)) {
-            dotNetEditorViewModel.canCreate = jsObject.canCreate;
-        }
-        if (hasValue(jsObject.canUpdate)) {
-            dotNetEditorViewModel.canUpdate = jsObject.canUpdate;
-        }
-        if (hasValue(jsObject.failures)) {
-            dotNetEditorViewModel.failures = jsObject.failures;
-        }
-        if (hasValue(jsObject.labelOptions)) {
-            dotNetEditorViewModel.labelOptions = jsObject.labelOptions;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetEditorViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncing)) {
-            dotNetEditorViewModel.syncing = jsObject.syncing;
-        }
-        if (hasValue(jsObject.tooltipOptions)) {
-            dotNetEditorViewModel.tooltipOptions = jsObject.tooltipOptions;
-        }
-        if (hasValue(jsObject.valueOptions)) {
-            dotNetEditorViewModel.valueOptions = jsObject.valueOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetEditorViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeWorkflow)) {
+        dotNetEditorViewModel.activeWorkflow = jsObject.activeWorkflow;
+    }
+    if (hasValue(jsObject.allowedWorkflows)) {
+        dotNetEditorViewModel.allowedWorkflows = jsObject.allowedWorkflows;
+    }
+    if (hasValue(jsObject.canCreate)) {
+        dotNetEditorViewModel.canCreate = jsObject.canCreate;
+    }
+    if (hasValue(jsObject.canUpdate)) {
+        dotNetEditorViewModel.canUpdate = jsObject.canUpdate;
+    }
+    if (hasValue(jsObject.failures)) {
+        dotNetEditorViewModel.failures = jsObject.failures;
+    }
+    if (hasValue(jsObject.labelOptions)) {
+        dotNetEditorViewModel.labelOptions = jsObject.labelOptions;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetEditorViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncing)) {
+        dotNetEditorViewModel.syncing = jsObject.syncing;
+    }
+    if (hasValue(jsObject.tooltipOptions)) {
+        dotNetEditorViewModel.tooltipOptions = jsObject.tooltipOptions;
+    }
+    if (hasValue(jsObject.valueOptions)) {
+        dotNetEditorViewModel.valueOptions = jsObject.valueOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetEditorViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

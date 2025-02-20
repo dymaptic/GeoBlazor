@@ -54,12 +54,12 @@ export async function buildDotNetRelationParametersGenerated(jsObject: any): Pro
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetRelationParameters.geometries2 = jsObject.geometries2.map(i => buildDotNetGeometry(i));
         }
-        if (hasValue(jsObject.relation)) {
-            dotNetRelationParameters.relation = jsObject.relation;
-        }
-        if (hasValue(jsObject.relationParameter)) {
-            dotNetRelationParameters.relationParameter = jsObject.relationParameter;
-        }
+    if (hasValue(jsObject.relation)) {
+        dotNetRelationParameters.relation = jsObject.relation;
+    }
+    if (hasValue(jsObject.relationParameter)) {
+        dotNetRelationParameters.relationParameter = jsObject.relationParameter;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

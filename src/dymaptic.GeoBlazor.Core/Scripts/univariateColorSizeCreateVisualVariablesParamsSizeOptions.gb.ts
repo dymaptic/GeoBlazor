@@ -40,15 +40,15 @@ export async function buildDotNetUnivariateColorSizeCreateVisualVariablesParamsS
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.axis)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.axis = jsObject.axis;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.sizeScheme = jsObject.sizeScheme;
-        }
+    if (hasValue(jsObject.axis)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.axis = jsObject.axis;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions.sizeScheme = jsObject.sizeScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

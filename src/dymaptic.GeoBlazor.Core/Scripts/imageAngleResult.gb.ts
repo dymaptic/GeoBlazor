@@ -46,12 +46,12 @@ export async function buildDotNetImageAngleResultGenerated(jsObject: any): Promi
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetImageAngleResult.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.north)) {
-            dotNetImageAngleResult.north = jsObject.north;
-        }
-        if (hasValue(jsObject.up)) {
-            dotNetImageAngleResult.up = jsObject.up;
-        }
+    if (hasValue(jsObject.north)) {
+        dotNetImageAngleResult.north = jsObject.north;
+    }
+    if (hasValue(jsObject.up)) {
+        dotNetImageAngleResult.up = jsObject.up;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

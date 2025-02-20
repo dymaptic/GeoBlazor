@@ -89,21 +89,21 @@ export async function buildDotNetTableMenuItemConfigGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableMenuItemConfig.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetTableMenuItemConfig.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.iconClass)) {
-            dotNetTableMenuItemConfig.iconClass = jsObject.iconClass;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetTableMenuItemConfig.label = jsObject.label;
-        }
-        if (hasValue(jsObject.selected)) {
-            dotNetTableMenuItemConfig.selected = jsObject.selected;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableMenuItemConfig.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetTableMenuItemConfig.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.iconClass)) {
+        dotNetTableMenuItemConfig.iconClass = jsObject.iconClass;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetTableMenuItemConfig.label = jsObject.label;
+    }
+    if (hasValue(jsObject.selected)) {
+        dotNetTableMenuItemConfig.selected = jsObject.selected;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -470,9 +470,9 @@ export async function buildDotNetRasterFunctionUtilsGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultRaster)) {
-            dotNetRasterFunctionUtils.defaultRaster = jsObject.defaultRaster;
-        }
+    if (hasValue(jsObject.defaultRaster)) {
+        dotNetRasterFunctionUtils.defaultRaster = jsObject.defaultRaster;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

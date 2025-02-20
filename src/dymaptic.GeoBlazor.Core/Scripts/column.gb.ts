@@ -127,72 +127,72 @@ export async function buildDotNetColumnGenerated(jsObject: any): Promise<any> {
             let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
             dotNetColumn.menuConfig = await buildDotNetColumnTableMenuConfig(jsObject.menuConfig);
         }
-        if (hasValue(jsObject.autoWidth)) {
-            dotNetColumn.autoWidth = jsObject.autoWidth;
-        }
-        if (hasValue(jsObject.direction)) {
-            dotNetColumn.direction = jsObject.direction;
-        }
-        if (hasValue(jsObject.effectiveLabel)) {
-            dotNetColumn.effectiveLabel = jsObject.effectiveLabel;
-        }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetColumn.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.flexGrow)) {
-            dotNetColumn.flexGrow = jsObject.flexGrow;
-        }
-        if (hasValue(jsObject.formatFunction)) {
-            dotNetColumn.formatFunction = jsObject.formatFunction;
-        }
-        if (hasValue(jsObject.frozen)) {
-            dotNetColumn.frozen = jsObject.frozen;
-        }
-        if (hasValue(jsObject.frozenToEnd)) {
-            dotNetColumn.frozenToEnd = jsObject.frozenToEnd;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetColumn.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.initialSortPriority)) {
-            dotNetColumn.initialSortPriority = jsObject.initialSortPriority;
-        }
-        if (hasValue(jsObject.invalid)) {
-            dotNetColumn.invalid = jsObject.invalid;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetColumn.label = jsObject.label;
-        }
-        if (hasValue(jsObject.menu)) {
-            dotNetColumn.menu = jsObject.menu;
-        }
-        if (hasValue(jsObject.menuIsOpen)) {
-            dotNetColumn.menuIsOpen = jsObject.menuIsOpen;
-        }
-        if (hasValue(jsObject.menuIsVisible)) {
-            dotNetColumn.menuIsVisible = jsObject.menuIsVisible;
-        }
-        if (hasValue(jsObject.resizable)) {
-            dotNetColumn.resizable = jsObject.resizable;
-        }
-        if (hasValue(jsObject.sortable)) {
-            dotNetColumn.sortable = jsObject.sortable;
-        }
-        if (hasValue(jsObject.textAlign)) {
-            dotNetColumn.textAlign = jsObject.textAlign;
-        }
-        if (hasValue(jsObject.textWrap)) {
-            dotNetColumn.textWrap = jsObject.textWrap;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetColumn.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetColumn.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetColumn.width = jsObject.width;
-        }
+    if (hasValue(jsObject.autoWidth)) {
+        dotNetColumn.autoWidth = jsObject.autoWidth;
+    }
+    if (hasValue(jsObject.direction)) {
+        dotNetColumn.direction = jsObject.direction;
+    }
+    if (hasValue(jsObject.effectiveLabel)) {
+        dotNetColumn.effectiveLabel = jsObject.effectiveLabel;
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetColumn.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.flexGrow)) {
+        dotNetColumn.flexGrow = jsObject.flexGrow;
+    }
+    if (hasValue(jsObject.formatFunction)) {
+        dotNetColumn.formatFunction = jsObject.formatFunction;
+    }
+    if (hasValue(jsObject.frozen)) {
+        dotNetColumn.frozen = jsObject.frozen;
+    }
+    if (hasValue(jsObject.frozenToEnd)) {
+        dotNetColumn.frozenToEnd = jsObject.frozenToEnd;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetColumn.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.initialSortPriority)) {
+        dotNetColumn.initialSortPriority = jsObject.initialSortPriority;
+    }
+    if (hasValue(jsObject.invalid)) {
+        dotNetColumn.invalid = jsObject.invalid;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetColumn.label = jsObject.label;
+    }
+    if (hasValue(jsObject.menu)) {
+        dotNetColumn.menu = jsObject.menu;
+    }
+    if (hasValue(jsObject.menuIsOpen)) {
+        dotNetColumn.menuIsOpen = jsObject.menuIsOpen;
+    }
+    if (hasValue(jsObject.menuIsVisible)) {
+        dotNetColumn.menuIsVisible = jsObject.menuIsVisible;
+    }
+    if (hasValue(jsObject.resizable)) {
+        dotNetColumn.resizable = jsObject.resizable;
+    }
+    if (hasValue(jsObject.sortable)) {
+        dotNetColumn.sortable = jsObject.sortable;
+    }
+    if (hasValue(jsObject.textAlign)) {
+        dotNetColumn.textAlign = jsObject.textAlign;
+    }
+    if (hasValue(jsObject.textWrap)) {
+        dotNetColumn.textWrap = jsObject.textWrap;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetColumn.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetColumn.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetColumn.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -83,18 +83,18 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.canZoomIn)) {
-            dotNetZoomViewModel.canZoomIn = jsObject.canZoomIn;
-        }
-        if (hasValue(jsObject.canZoomOut)) {
-            dotNetZoomViewModel.canZoomOut = jsObject.canZoomOut;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetZoomViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetZoomViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.canZoomIn)) {
+        dotNetZoomViewModel.canZoomIn = jsObject.canZoomIn;
+    }
+    if (hasValue(jsObject.canZoomOut)) {
+        dotNetZoomViewModel.canZoomOut = jsObject.canZoomOut;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetZoomViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetZoomViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

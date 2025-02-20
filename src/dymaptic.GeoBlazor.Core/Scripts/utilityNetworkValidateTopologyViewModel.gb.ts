@@ -99,21 +99,21 @@ export async function buildDotNetUtilityNetworkValidateTopologyViewModelGenerate
             let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
             dotNetUtilityNetworkValidateTopologyViewModel.utilityNetwork = await buildDotNetUtilityNetwork(jsObject.utilityNetwork, layerId, viewId);
         }
-        if (hasValue(jsObject.executionError)) {
-            dotNetUtilityNetworkValidateTopologyViewModel.executionError = jsObject.executionError;
-        }
-        if (hasValue(jsObject.extentToValidate)) {
-            dotNetUtilityNetworkValidateTopologyViewModel.extentToValidate = jsObject.extentToValidate;
-        }
-        if (hasValue(jsObject.loadErrors)) {
-            dotNetUtilityNetworkValidateTopologyViewModel.loadErrors = jsObject.loadErrors;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetUtilityNetworkValidateTopologyViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUtilityNetworkValidateTopologyViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.executionError)) {
+        dotNetUtilityNetworkValidateTopologyViewModel.executionError = jsObject.executionError;
+    }
+    if (hasValue(jsObject.extentToValidate)) {
+        dotNetUtilityNetworkValidateTopologyViewModel.extentToValidate = jsObject.extentToValidate;
+    }
+    if (hasValue(jsObject.loadErrors)) {
+        dotNetUtilityNetworkValidateTopologyViewModel.loadErrors = jsObject.loadErrors;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetUtilityNetworkValidateTopologyViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUtilityNetworkValidateTopologyViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

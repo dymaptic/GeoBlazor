@@ -45,12 +45,12 @@ export async function buildDotNetSearchResponseResultsGenerated(jsObject: any): 
             let { buildDotNetSearchResult } = await import('./searchResult');
             dotNetSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
         }
-        if (hasValue(jsObject.source)) {
-            dotNetSearchResponseResults.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceIndex)) {
-            dotNetSearchResponseResults.sourceIndex = jsObject.sourceIndex;
-        }
+    if (hasValue(jsObject.source)) {
+        dotNetSearchResponseResults.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceIndex)) {
+        dotNetSearchResponseResults.sourceIndex = jsObject.sourceIndex;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

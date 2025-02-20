@@ -123,21 +123,21 @@ export async function buildDotNetILineSymbol3DLayerGenerated(jsObject: any): Pro
             let { buildDotNetLineSymbol3DLayerMaterial } = await import('./lineSymbol3DLayerMaterial');
             dotNetILineSymbol3DLayer.material = await buildDotNetLineSymbol3DLayerMaterial(jsObject.material);
         }
-        if (hasValue(jsObject.cap)) {
-            dotNetILineSymbol3DLayer.cap = jsObject.cap;
-        }
-        if (hasValue(jsObject.join)) {
-            dotNetILineSymbol3DLayer.join = jsObject.join;
-        }
-        if (hasValue(jsObject.pattern)) {
-            dotNetILineSymbol3DLayer.pattern = jsObject.pattern;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetILineSymbol3DLayer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetILineSymbol3DLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.cap)) {
+        dotNetILineSymbol3DLayer.cap = jsObject.cap;
+    }
+    if (hasValue(jsObject.join)) {
+        dotNetILineSymbol3DLayer.join = jsObject.join;
+    }
+    if (hasValue(jsObject.pattern)) {
+        dotNetILineSymbol3DLayer.pattern = jsObject.pattern;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetILineSymbol3DLayer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetILineSymbol3DLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

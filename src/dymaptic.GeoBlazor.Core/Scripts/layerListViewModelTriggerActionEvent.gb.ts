@@ -42,9 +42,9 @@ export async function buildDotNetLayerListViewModelTriggerActionEventGenerated(j
             let { buildDotNetListItem } = await import('./listItem');
             dotNetLayerListViewModelTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
         }
-        if (hasValue(jsObject.action)) {
-            dotNetLayerListViewModelTriggerActionEvent.action = jsObject.action;
-        }
+    if (hasValue(jsObject.action)) {
+        dotNetLayerListViewModelTriggerActionEvent.action = jsObject.action;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

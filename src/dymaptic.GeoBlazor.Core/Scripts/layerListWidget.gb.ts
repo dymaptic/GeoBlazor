@@ -184,63 +184,63 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
             let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
             dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.catalogLayerList)) {
-            dotNetLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
-        }
-        if (hasValue(jsObject.catalogOptions)) {
-            dotNetLayerListWidget.catalogOptions = jsObject.catalogOptions;
-        }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetLayerListWidget.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.dragEnabled)) {
-            dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
-        }
-        if (hasValue(jsObject.filterPlaceholder)) {
-            dotNetLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
-        }
-        if (hasValue(jsObject.filterText)) {
-            dotNetLayerListWidget.filterText = jsObject.filterText;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetLayerListWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.knowledgeGraphOptions)) {
-            dotNetLayerListWidget.knowledgeGraphOptions = jsObject.knowledgeGraphOptions;
-        }
-        if (hasValue(jsObject.listItemCreatedFunction)) {
-            dotNetLayerListWidget.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-        }
-        if (hasValue(jsObject.minDragEnabledItems)) {
-            dotNetLayerListWidget.minDragEnabledItems = jsObject.minDragEnabledItems;
-        }
-        if (hasValue(jsObject.minFilterItems)) {
-            dotNetLayerListWidget.minFilterItems = jsObject.minFilterItems;
-        }
-        if (hasValue(jsObject.multipleSelectionEnabled)) {
-            dotNetLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
-        }
-        if (hasValue(jsObject.selectionEnabled)) {
-            dotNetLayerListWidget.selectionEnabled = jsObject.selectionEnabled;
-        }
-        if (hasValue(jsObject.selectionMode)) {
-            dotNetLayerListWidget.selectionMode = jsObject.selectionMode;
-        }
-        if (hasValue(jsObject.tableList)) {
-            dotNetLayerListWidget.tableList = jsObject.tableList;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLayerListWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLayerListWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibilityAppearance)) {
-            dotNetLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetLayerListWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.catalogLayerList)) {
+        dotNetLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
+    }
+    if (hasValue(jsObject.catalogOptions)) {
+        dotNetLayerListWidget.catalogOptions = jsObject.catalogOptions;
+    }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetLayerListWidget.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.dragEnabled)) {
+        dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
+    }
+    if (hasValue(jsObject.filterPlaceholder)) {
+        dotNetLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
+    }
+    if (hasValue(jsObject.filterText)) {
+        dotNetLayerListWidget.filterText = jsObject.filterText;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetLayerListWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.knowledgeGraphOptions)) {
+        dotNetLayerListWidget.knowledgeGraphOptions = jsObject.knowledgeGraphOptions;
+    }
+    if (hasValue(jsObject.listItemCreatedFunction)) {
+        dotNetLayerListWidget.listItemCreatedFunction = jsObject.listItemCreatedFunction;
+    }
+    if (hasValue(jsObject.minDragEnabledItems)) {
+        dotNetLayerListWidget.minDragEnabledItems = jsObject.minDragEnabledItems;
+    }
+    if (hasValue(jsObject.minFilterItems)) {
+        dotNetLayerListWidget.minFilterItems = jsObject.minFilterItems;
+    }
+    if (hasValue(jsObject.multipleSelectionEnabled)) {
+        dotNetLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
+    }
+    if (hasValue(jsObject.selectionEnabled)) {
+        dotNetLayerListWidget.selectionEnabled = jsObject.selectionEnabled;
+    }
+    if (hasValue(jsObject.selectionMode)) {
+        dotNetLayerListWidget.selectionMode = jsObject.selectionMode;
+    }
+    if (hasValue(jsObject.tableList)) {
+        dotNetLayerListWidget.tableList = jsObject.tableList;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLayerListWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLayerListWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibilityAppearance)) {
+        dotNetLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetLayerListWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -51,18 +51,18 @@ export async function buildDotNetColumnTableMenuConfigGenerated(jsObject: any): 
             let { buildDotNetTableMenuItemConfig } = await import('./tableMenuItemConfig');
             dotNetColumnTableMenuConfig.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTableMenuItemConfig(i)));
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetColumnTableMenuConfig.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetColumnTableMenuConfig.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetColumnTableMenuConfig.open = jsObject.open;
-        }
-        if (hasValue(jsObject.selectionMode)) {
-            dotNetColumnTableMenuConfig.selectionMode = jsObject.selectionMode;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetColumnTableMenuConfig.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetColumnTableMenuConfig.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetColumnTableMenuConfig.open = jsObject.open;
+    }
+    if (hasValue(jsObject.selectionMode)) {
+        dotNetColumnTableMenuConfig.selectionMode = jsObject.selectionMode;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

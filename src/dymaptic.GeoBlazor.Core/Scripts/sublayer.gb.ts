@@ -22,7 +22,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -326,63 +326,63 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
             let { buildDotNetFeatureType } = await import('./featureType');
             dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
         }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetSublayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetSublayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetSublayer.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetSublayer.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetSublayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetSublayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetSublayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetSublayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetSublayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetSublayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetSublayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetSublayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.relationships)) {
-            dotNetSublayer.relationships = jsObject.relationships;
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetSublayer.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetSublayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetSublayer.sublayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.typeIdField)) {
-            dotNetSublayer.typeIdField = jsObject.typeIdField;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetSublayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetSublayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetSublayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetSublayer.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetSublayer.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetSublayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetSublayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetSublayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetSublayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetSublayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetSublayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetSublayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetSublayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.relationships)) {
+        dotNetSublayer.relationships = jsObject.relationships;
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetSublayer.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetSublayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetSublayer.sublayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.typeIdField)) {
+        dotNetSublayer.typeIdField = jsObject.typeIdField;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetSublayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

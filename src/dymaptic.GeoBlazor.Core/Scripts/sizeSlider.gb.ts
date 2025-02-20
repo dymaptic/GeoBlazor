@@ -214,54 +214,54 @@ export async function buildDotNetSizeSliderGenerated(jsObject: any): Promise<any
             let { buildDotNetSizeSliderViewModel } = await import('./sizeSliderViewModel');
             dotNetSizeSlider.viewModel = await buildDotNetSizeSliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetSizeSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetSizeSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetSizeSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetSizeSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.persistSizeRangeEnabled)) {
-            dotNetSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetSizeSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSizeSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetSizeSlider.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSizeSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetSizeSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetSizeSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetSizeSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetSizeSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetSizeSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetSizeSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetSizeSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetSizeSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetSizeSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.persistSizeRangeEnabled)) {
+        dotNetSizeSlider.persistSizeRangeEnabled = jsObject.persistSizeRangeEnabled;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetSizeSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetSizeSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSizeSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetSizeSlider.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetSizeSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSizeSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetSizeSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetSizeSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

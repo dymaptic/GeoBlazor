@@ -64,15 +64,15 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-        if (hasValue(jsObject.addAttachments)) {
-            dotNetFeatureEdits.addAttachments = jsObject.addAttachments;
-        }
-        if (hasValue(jsObject.deleteAttachments)) {
-            dotNetFeatureEdits.deleteAttachments = jsObject.deleteAttachments;
-        }
-        if (hasValue(jsObject.updateAttachments)) {
-            dotNetFeatureEdits.updateAttachments = jsObject.updateAttachments;
-        }
+    if (hasValue(jsObject.addAttachments)) {
+        dotNetFeatureEdits.addAttachments = jsObject.addAttachments;
+    }
+    if (hasValue(jsObject.deleteAttachments)) {
+        dotNetFeatureEdits.deleteAttachments = jsObject.deleteAttachments;
+    }
+    if (hasValue(jsObject.updateAttachments)) {
+        dotNetFeatureEdits.updateAttachments = jsObject.updateAttachments;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

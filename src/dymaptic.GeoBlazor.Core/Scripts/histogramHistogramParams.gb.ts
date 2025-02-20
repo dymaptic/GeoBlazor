@@ -99,54 +99,54 @@ export async function buildDotNetHistogramHistogramParamsGenerated(jsObject: any
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetHistogramHistogramParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetHistogramHistogramParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetHistogramHistogramParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetHistogramHistogramParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetHistogramHistogramParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetHistogramHistogramParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetHistogramHistogramParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.normalizationTotal)) {
-            dotNetHistogramHistogramParams.normalizationTotal = jsObject.normalizationTotal;
-        }
-        if (hasValue(jsObject.normalizationType)) {
-            dotNetHistogramHistogramParams.normalizationType = jsObject.normalizationType;
-        }
-        if (hasValue(jsObject.numBins)) {
-            dotNetHistogramHistogramParams.numBins = jsObject.numBins;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetHistogramHistogramParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetHistogramHistogramParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetHistogramHistogramParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.standardDeviationInterval)) {
-            dotNetHistogramHistogramParams.standardDeviationInterval = jsObject.standardDeviationInterval;
-        }
-        if (hasValue(jsObject.useFeaturesInView)) {
-            dotNetHistogramHistogramParams.useFeaturesInView = jsObject.useFeaturesInView;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetHistogramHistogramParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetHistogramHistogramParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetHistogramHistogramParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetHistogramHistogramParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetHistogramHistogramParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetHistogramHistogramParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetHistogramHistogramParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetHistogramHistogramParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.normalizationTotal)) {
+        dotNetHistogramHistogramParams.normalizationTotal = jsObject.normalizationTotal;
+    }
+    if (hasValue(jsObject.normalizationType)) {
+        dotNetHistogramHistogramParams.normalizationType = jsObject.normalizationType;
+    }
+    if (hasValue(jsObject.numBins)) {
+        dotNetHistogramHistogramParams.numBins = jsObject.numBins;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetHistogramHistogramParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetHistogramHistogramParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetHistogramHistogramParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.standardDeviationInterval)) {
+        dotNetHistogramHistogramParams.standardDeviationInterval = jsObject.standardDeviationInterval;
+    }
+    if (hasValue(jsObject.useFeaturesInView)) {
+        dotNetHistogramHistogramParams.useFeaturesInView = jsObject.useFeaturesInView;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetHistogramHistogramParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetHistogramHistogramParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

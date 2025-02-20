@@ -135,27 +135,27 @@ export async function buildDotNetIUnknownLayerGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetIUnknownLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIUnknownLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIUnknownLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIUnknownLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIUnknownLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIUnknownLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIUnknownLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetIUnknownLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIUnknownLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIUnknownLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIUnknownLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIUnknownLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIUnknownLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIUnknownLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

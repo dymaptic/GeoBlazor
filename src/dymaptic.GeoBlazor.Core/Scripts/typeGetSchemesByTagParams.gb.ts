@@ -4,6 +4,10 @@ import { buildDotNetTypeGetSchemesByTagParams } from './typeGetSchemesByTagParam
 
 export async function buildJsTypeGetSchemesByTagParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jstypeGetSchemesByTagParams: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jstypeGetSchemesByTagParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemap)) {
         jstypeGetSchemesByTagParams.basemap = dotNetObject.basemap;
@@ -19,10 +23,6 @@ export async function buildJsTypeGetSchemesByTagParamsGenerated(dotNetObject: an
     }
     if (hasValue(dotNetObject.includedTags)) {
         jstypeGetSchemesByTagParams.includedTags = dotNetObject.includedTags;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jstypeGetSchemesByTagParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.view)) {
         jstypeGetSchemesByTagParams.view = dotNetObject.view;
@@ -56,30 +56,31 @@ export async function buildDotNetTypeGetSchemesByTagParamsGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetTypeGetSchemesByTagParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetTypeGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.excludedTags)) {
-            dotNetTypeGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetTypeGetSchemesByTagParams.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.includedTags)) {
-            dotNetTypeGetSchemesByTagParams.includedTags = jsObject.includedTags;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetTypeGetSchemesByTagParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetTypeGetSchemesByTagParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetTypeGetSchemesByTagParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetTypeGetSchemesByTagParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.basemap)) {
+        dotNetTypeGetSchemesByTagParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetTypeGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.excludedTags)) {
+        dotNetTypeGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetTypeGetSchemesByTagParams.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.includedTags)) {
+        dotNetTypeGetSchemesByTagParams.includedTags = jsObject.includedTags;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetTypeGetSchemesByTagParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetTypeGetSchemesByTagParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

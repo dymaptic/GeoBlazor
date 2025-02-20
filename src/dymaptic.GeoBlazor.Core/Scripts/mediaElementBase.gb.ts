@@ -38,12 +38,12 @@ export async function buildDotNetMediaElementBaseGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.georeference)) {
-            dotNetMediaElementBase.georeference = jsObject.georeference;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetMediaElementBase.opacity = jsObject.opacity;
-        }
+    if (hasValue(jsObject.georeference)) {
+        dotNetMediaElementBase.georeference = jsObject.georeference;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetMediaElementBase.opacity = jsObject.opacity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

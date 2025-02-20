@@ -53,12 +53,12 @@ export async function buildDotNetRasterIdentifyResultGenerated(jsObject: any): P
             let { buildDotNetPoint } = await import('./point');
             dotNetRasterIdentifyResult.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.processedValue)) {
-            dotNetRasterIdentifyResult.processedValue = jsObject.processedValue;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetRasterIdentifyResult.value = jsObject.value;
-        }
+    if (hasValue(jsObject.processedValue)) {
+        dotNetRasterIdentifyResult.processedValue = jsObject.processedValue;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetRasterIdentifyResult.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

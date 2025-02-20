@@ -50,9 +50,9 @@ export async function buildDotNetSizeSchemeForPolygonGenerated(jsObject: any): P
             let { buildDotNetSizeSchemeForPoint } = await import('./sizeSchemeForPoint');
             dotNetSizeSchemeForPolygon.marker = await buildDotNetSizeSchemeForPoint(jsObject.marker);
         }
-        if (hasValue(jsObject.opacity)) {
-            dotNetSizeSchemeForPolygon.opacity = jsObject.opacity;
-        }
+    if (hasValue(jsObject.opacity)) {
+        dotNetSizeSchemeForPolygon.opacity = jsObject.opacity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

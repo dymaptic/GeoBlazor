@@ -42,9 +42,9 @@ export async function buildDotNetUnivariateColorSizeCreateContinuousRendererPara
             let { buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols } = await import('./univariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols');
             dotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions.symbols = await buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols(jsObject.symbols);
         }
-        if (hasValue(jsObject.symbolStyle)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions.symbolStyle = jsObject.symbolStyle;
-        }
+    if (hasValue(jsObject.symbolStyle)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions.symbolStyle = jsObject.symbolStyle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

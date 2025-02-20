@@ -50,9 +50,9 @@ export async function buildDotNetLocatorLocationToAddressParamsGenerated(jsObjec
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetLocatorLocationToAddressParams.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.locationType)) {
-            dotNetLocatorLocationToAddressParams.locationType = jsObject.locationType;
-        }
+    if (hasValue(jsObject.locationType)) {
+        dotNetLocatorLocationToAddressParams.locationType = jsObject.locationType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

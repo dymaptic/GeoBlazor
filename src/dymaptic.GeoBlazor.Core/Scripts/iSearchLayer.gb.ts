@@ -80,15 +80,15 @@ export async function buildDotNetISearchLayerGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetISearchLayer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetISearchLayer.iSearchLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.subLayer)) {
-            dotNetISearchLayer.subLayer = jsObject.subLayer;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetISearchLayer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetISearchLayer.iSearchLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.subLayer)) {
+        dotNetISearchLayer.subLayer = jsObject.subLayer;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

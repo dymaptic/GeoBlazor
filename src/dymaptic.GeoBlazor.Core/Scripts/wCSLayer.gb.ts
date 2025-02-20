@@ -67,7 +67,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        return await buildDotNetCoverageInfo(this.layer.coverageInfo);
+        return await buildDotNetCoverageInfo(this.layer.coverageInfo, this.layerId, this.viewId);
     }
     async setCoverageInfo(value: any): Promise<void> {
         let { buildJsCoverageInfo } = await import('./coverageInfo');
@@ -163,6 +163,18 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+    }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -214,6 +226,10 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsWCSLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsWCSLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -272,10 +288,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.renderer)) {
         jsWCSLayer.renderer = dotNetObject.renderer;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsWCSLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsWCSLayer.timeOffset = sanitizedTimeOffset;
@@ -326,7 +338,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.coverageInfo)) {
             let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo);
+            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo, layerId, viewId);
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
@@ -360,85 +372,86 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWCSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetWCSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWCSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetWCSLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetWCSLayer.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetWCSLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWCSLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.coverageId)) {
-            dotNetWCSLayer.coverageId = jsObject.coverageId;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetWCSLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetWCSLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetWCSLayer.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetWCSLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWCSLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWCSLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetWCSLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetWCSLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetWCSLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWCSLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWCSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetWCSLayer.renderer = jsObject.renderer;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetWCSLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetWCSLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWCSLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWCSLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetWCSLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetWCSLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetWCSLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetWCSLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetWCSLayer.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetWCSLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWCSLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.coverageId)) {
+        dotNetWCSLayer.coverageId = jsObject.coverageId;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetWCSLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetWCSLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetWCSLayer.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetWCSLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWCSLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWCSLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWCSLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWCSLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetWCSLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWCSLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWCSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetWCSLayer.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetWCSLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWCSLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWCSLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetWCSLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetWCSLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetWCSLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

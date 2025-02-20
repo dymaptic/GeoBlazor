@@ -204,66 +204,66 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
             let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
             dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.baseFilterText)) {
-            dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
-        }
-        if (hasValue(jsObject.baseListItemCreatedFunction)) {
-            dotNetBasemapLayerListWidget.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
-        }
-        if (hasValue(jsObject.basemapTitle)) {
-            dotNetBasemapLayerListWidget.basemapTitle = jsObject.basemapTitle;
-        }
-        if (hasValue(jsObject.catalogLayerList)) {
-            dotNetBasemapLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
-        }
-        if (hasValue(jsObject.catalogOptions)) {
-            dotNetBasemapLayerListWidget.catalogOptions = jsObject.catalogOptions;
-        }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.dragEnabled)) {
-            dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
-        }
-        if (hasValue(jsObject.editingEnabled)) {
-            dotNetBasemapLayerListWidget.editingEnabled = jsObject.editingEnabled;
-        }
-        if (hasValue(jsObject.editingTitle)) {
-            dotNetBasemapLayerListWidget.editingTitle = jsObject.editingTitle;
-        }
-        if (hasValue(jsObject.filterPlaceholder)) {
-            dotNetBasemapLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetBasemapLayerListWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.minFilterItems)) {
-            dotNetBasemapLayerListWidget.minFilterItems = jsObject.minFilterItems;
-        }
-        if (hasValue(jsObject.multipleSelectionEnabled)) {
-            dotNetBasemapLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
-        }
-        if (hasValue(jsObject.referenceFilterText)) {
-            dotNetBasemapLayerListWidget.referenceFilterText = jsObject.referenceFilterText;
-        }
-        if (hasValue(jsObject.referenceListItemCreatedFunction)) {
-            dotNetBasemapLayerListWidget.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
-        }
-        if (hasValue(jsObject.selectionMode)) {
-            dotNetBasemapLayerListWidget.selectionMode = jsObject.selectionMode;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBasemapLayerListWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapLayerListWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibilityAppearance)) {
-            dotNetBasemapLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.baseFilterText)) {
+        dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
+    }
+    if (hasValue(jsObject.baseListItemCreatedFunction)) {
+        dotNetBasemapLayerListWidget.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
+    }
+    if (hasValue(jsObject.basemapTitle)) {
+        dotNetBasemapLayerListWidget.basemapTitle = jsObject.basemapTitle;
+    }
+    if (hasValue(jsObject.catalogLayerList)) {
+        dotNetBasemapLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
+    }
+    if (hasValue(jsObject.catalogOptions)) {
+        dotNetBasemapLayerListWidget.catalogOptions = jsObject.catalogOptions;
+    }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.dragEnabled)) {
+        dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
+    }
+    if (hasValue(jsObject.editingEnabled)) {
+        dotNetBasemapLayerListWidget.editingEnabled = jsObject.editingEnabled;
+    }
+    if (hasValue(jsObject.editingTitle)) {
+        dotNetBasemapLayerListWidget.editingTitle = jsObject.editingTitle;
+    }
+    if (hasValue(jsObject.filterPlaceholder)) {
+        dotNetBasemapLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetBasemapLayerListWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.minFilterItems)) {
+        dotNetBasemapLayerListWidget.minFilterItems = jsObject.minFilterItems;
+    }
+    if (hasValue(jsObject.multipleSelectionEnabled)) {
+        dotNetBasemapLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
+    }
+    if (hasValue(jsObject.referenceFilterText)) {
+        dotNetBasemapLayerListWidget.referenceFilterText = jsObject.referenceFilterText;
+    }
+    if (hasValue(jsObject.referenceListItemCreatedFunction)) {
+        dotNetBasemapLayerListWidget.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
+    }
+    if (hasValue(jsObject.selectionMode)) {
+        dotNetBasemapLayerListWidget.selectionMode = jsObject.selectionMode;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBasemapLayerListWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapLayerListWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibilityAppearance)) {
+        dotNetBasemapLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

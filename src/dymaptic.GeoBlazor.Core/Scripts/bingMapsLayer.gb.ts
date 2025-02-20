@@ -234,63 +234,63 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetBingMapsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.bingLogo)) {
-            dotNetBingMapsLayer.bingLogo = jsObject.bingLogo;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetBingMapsLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetBingMapsLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.culture)) {
-            dotNetBingMapsLayer.culture = jsObject.culture;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetBingMapsLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.hasAttributionData)) {
-            dotNetBingMapsLayer.hasAttributionData = jsObject.hasAttributionData;
-        }
-        if (hasValue(jsObject.key)) {
-            dotNetBingMapsLayer.key = jsObject.key;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetBingMapsLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetBingMapsLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetBingMapsLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetBingMapsLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetBingMapsLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetBingMapsLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetBingMapsLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.region)) {
-            dotNetBingMapsLayer.region = jsObject.region;
-        }
-        if (hasValue(jsObject.style)) {
-            dotNetBingMapsLayer.style = jsObject.style;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBingMapsLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBingMapsLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.bingLogo)) {
+        dotNetBingMapsLayer.bingLogo = jsObject.bingLogo;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetBingMapsLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetBingMapsLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.culture)) {
+        dotNetBingMapsLayer.culture = jsObject.culture;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetBingMapsLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.hasAttributionData)) {
+        dotNetBingMapsLayer.hasAttributionData = jsObject.hasAttributionData;
+    }
+    if (hasValue(jsObject.key)) {
+        dotNetBingMapsLayer.key = jsObject.key;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetBingMapsLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetBingMapsLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetBingMapsLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetBingMapsLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetBingMapsLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetBingMapsLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetBingMapsLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.region)) {
+        dotNetBingMapsLayer.region = jsObject.region;
+    }
+    if (hasValue(jsObject.style)) {
+        dotNetBingMapsLayer.style = jsObject.style;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBingMapsLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBingMapsLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -365,195 +365,195 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
             let { buildDotNetExtent } = await import('./extent');
             dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
         }
-        if (hasValue(jsObject.access)) {
-            dotNetPortal.access = jsObject.access;
-        }
-        if (hasValue(jsObject.allSSL)) {
-            dotNetPortal.allSSL = jsObject.allSSL;
-        }
-        if (hasValue(jsObject.authMode)) {
-            dotNetPortal.authMode = jsObject.authMode;
-        }
-        if (hasValue(jsObject.authorizedCrossOriginDomains)) {
-            dotNetPortal.authorizedCrossOriginDomains = jsObject.authorizedCrossOriginDomains;
-        }
-        if (hasValue(jsObject.basemapGalleryGroupQuery)) {
-            dotNetPortal.basemapGalleryGroupQuery = jsObject.basemapGalleryGroupQuery;
-        }
-        if (hasValue(jsObject.basemapGalleryGroupQuery3D)) {
-            dotNetPortal.basemapGalleryGroupQuery3D = jsObject.basemapGalleryGroupQuery3D;
-        }
-        if (hasValue(jsObject.bingKey)) {
-            dotNetPortal.bingKey = jsObject.bingKey;
-        }
-        if (hasValue(jsObject.canListApps)) {
-            dotNetPortal.canListApps = jsObject.canListApps;
-        }
-        if (hasValue(jsObject.canListData)) {
-            dotNetPortal.canListData = jsObject.canListData;
-        }
-        if (hasValue(jsObject.canListPreProvisionedItems)) {
-            dotNetPortal.canListPreProvisionedItems = jsObject.canListPreProvisionedItems;
-        }
-        if (hasValue(jsObject.canProvisionDirectPurchase)) {
-            dotNetPortal.canProvisionDirectPurchase = jsObject.canProvisionDirectPurchase;
-        }
-        if (hasValue(jsObject.canSearchPublic)) {
-            dotNetPortal.canSearchPublic = jsObject.canSearchPublic;
-        }
-        if (hasValue(jsObject.canShareBingPublic)) {
-            dotNetPortal.canShareBingPublic = jsObject.canShareBingPublic;
-        }
-        if (hasValue(jsObject.canSharePublic)) {
-            dotNetPortal.canSharePublic = jsObject.canSharePublic;
-        }
-        if (hasValue(jsObject.canSignInArcGIS)) {
-            dotNetPortal.canSignInArcGIS = jsObject.canSignInArcGIS;
-        }
-        if (hasValue(jsObject.canSignInIDP)) {
-            dotNetPortal.canSignInIDP = jsObject.canSignInIDP;
-        }
-        if (hasValue(jsObject.colorSetsGroupQuery)) {
-            dotNetPortal.colorSetsGroupQuery = jsObject.colorSetsGroupQuery;
-        }
-        if (hasValue(jsObject.commentsEnabled)) {
-            dotNetPortal.commentsEnabled = jsObject.commentsEnabled;
-        }
-        if (hasValue(jsObject.created)) {
-            dotNetPortal.created = jsObject.created;
-        }
-        if (hasValue(jsObject.culture)) {
-            dotNetPortal.culture = jsObject.culture;
-        }
-        if (hasValue(jsObject.customBaseUrl)) {
-            dotNetPortal.customBaseUrl = jsObject.customBaseUrl;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetPortal.description = jsObject.description;
-        }
-        if (hasValue(jsObject.devBasemapGalleryGroupQuery)) {
-            dotNetPortal.devBasemapGalleryGroupQuery = jsObject.devBasemapGalleryGroupQuery;
-        }
-        if (hasValue(jsObject.eueiEnabled)) {
-            dotNetPortal.eueiEnabled = jsObject.eueiEnabled;
-        }
-        if (hasValue(jsObject.featuredGroups)) {
-            dotNetPortal.featuredGroups = jsObject.featuredGroups;
-        }
-        if (hasValue(jsObject.featuredItemsGroupQuery)) {
-            dotNetPortal.featuredItemsGroupQuery = jsObject.featuredItemsGroupQuery;
-        }
-        if (hasValue(jsObject.galleryTemplatesGroupQuery)) {
-            dotNetPortal.galleryTemplatesGroupQuery = jsObject.galleryTemplatesGroupQuery;
-        }
-        if (hasValue(jsObject.hasCategorySchema)) {
-            dotNetPortal.hasCategorySchema = jsObject.hasCategorySchema;
-        }
-        if (hasValue(jsObject.helperServices)) {
-            dotNetPortal.helperServices = jsObject.helperServices;
-        }
-        if (hasValue(jsObject.homePageFeaturedContent)) {
-            dotNetPortal.homePageFeaturedContent = jsObject.homePageFeaturedContent;
-        }
-        if (hasValue(jsObject.homePageFeaturedContentCount)) {
-            dotNetPortal.homePageFeaturedContentCount = jsObject.homePageFeaturedContentCount;
-        }
-        if (hasValue(jsObject.httpPort)) {
-            dotNetPortal.httpPort = jsObject.httpPort;
-        }
-        if (hasValue(jsObject.httpsPort)) {
-            dotNetPortal.httpsPort = jsObject.httpsPort;
-        }
-        if (hasValue(jsObject.ipCntryCode)) {
-            dotNetPortal.ipCntryCode = jsObject.ipCntryCode;
-        }
-        if (hasValue(jsObject.isOrganization)) {
-            dotNetPortal.isOrganization = jsObject.isOrganization;
-        }
-        if (hasValue(jsObject.isPortal)) {
-            dotNetPortal.isPortal = jsObject.isPortal;
-        }
-        if (hasValue(jsObject.isReadOnly)) {
-            dotNetPortal.isReadOnly = jsObject.isReadOnly;
-        }
-        if (hasValue(jsObject.layerTemplatesGroupQuery)) {
-            dotNetPortal.layerTemplatesGroupQuery = jsObject.layerTemplatesGroupQuery;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetPortal.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxTokenExpirationMinutes)) {
-            dotNetPortal.maxTokenExpirationMinutes = jsObject.maxTokenExpirationMinutes;
-        }
-        if (hasValue(jsObject.modified)) {
-            dotNetPortal.modified = jsObject.modified;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPortal.name = jsObject.name;
-        }
-        if (hasValue(jsObject.portalHostname)) {
-            dotNetPortal.portalHostname = jsObject.portalHostname;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetPortal.portalId = jsObject.id;
-        }
-        if (hasValue(jsObject.portalMode)) {
-            dotNetPortal.portalMode = jsObject.portalMode;
-        }
-        if (hasValue(jsObject.portalProperties)) {
-            dotNetPortal.portalProperties = jsObject.portalProperties;
-        }
-        if (hasValue(jsObject.recycleBinEnabled)) {
-            dotNetPortal.recycleBinEnabled = jsObject.recycleBinEnabled;
-        }
-        if (hasValue(jsObject.region)) {
-            dotNetPortal.region = jsObject.region;
-        }
-        if (hasValue(jsObject.restUrl)) {
-            dotNetPortal.restUrl = jsObject.restUrl;
-        }
-        if (hasValue(jsObject.rotatorPanels)) {
-            dotNetPortal.rotatorPanels = jsObject.rotatorPanels;
-        }
-        if (hasValue(jsObject.showHomePageDescription)) {
-            dotNetPortal.showHomePageDescription = jsObject.showHomePageDescription;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetPortal.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.supportsHostedServices)) {
-            dotNetPortal.supportsHostedServices = jsObject.supportsHostedServices;
-        }
-        if (hasValue(jsObject.symbolSetsGroupQuery)) {
-            dotNetPortal.symbolSetsGroupQuery = jsObject.symbolSetsGroupQuery;
-        }
-        if (hasValue(jsObject.templatesGroupQuery)) {
-            dotNetPortal.templatesGroupQuery = jsObject.templatesGroupQuery;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetPortal.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.units)) {
-            dotNetPortal.units = jsObject.units;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetPortal.url = jsObject.url;
-        }
-        if (hasValue(jsObject.urlKey)) {
-            dotNetPortal.urlKey = jsObject.urlKey;
-        }
-        if (hasValue(jsObject.use3dBasemaps)) {
-            dotNetPortal.use3dBasemaps = jsObject.use3dBasemaps;
-        }
-        if (hasValue(jsObject.useStandardizedQuery)) {
-            dotNetPortal.useStandardizedQuery = jsObject.useStandardizedQuery;
-        }
-        if (hasValue(jsObject.useVectorBasemaps)) {
-            dotNetPortal.useVectorBasemaps = jsObject.useVectorBasemaps;
-        }
-        if (hasValue(jsObject.vectorBasemapGalleryGroupQuery)) {
-            dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
-        }
+    if (hasValue(jsObject.access)) {
+        dotNetPortal.access = jsObject.access;
+    }
+    if (hasValue(jsObject.allSSL)) {
+        dotNetPortal.allSSL = jsObject.allSSL;
+    }
+    if (hasValue(jsObject.authMode)) {
+        dotNetPortal.authMode = jsObject.authMode;
+    }
+    if (hasValue(jsObject.authorizedCrossOriginDomains)) {
+        dotNetPortal.authorizedCrossOriginDomains = jsObject.authorizedCrossOriginDomains;
+    }
+    if (hasValue(jsObject.basemapGalleryGroupQuery)) {
+        dotNetPortal.basemapGalleryGroupQuery = jsObject.basemapGalleryGroupQuery;
+    }
+    if (hasValue(jsObject.basemapGalleryGroupQuery3D)) {
+        dotNetPortal.basemapGalleryGroupQuery3D = jsObject.basemapGalleryGroupQuery3D;
+    }
+    if (hasValue(jsObject.bingKey)) {
+        dotNetPortal.bingKey = jsObject.bingKey;
+    }
+    if (hasValue(jsObject.canListApps)) {
+        dotNetPortal.canListApps = jsObject.canListApps;
+    }
+    if (hasValue(jsObject.canListData)) {
+        dotNetPortal.canListData = jsObject.canListData;
+    }
+    if (hasValue(jsObject.canListPreProvisionedItems)) {
+        dotNetPortal.canListPreProvisionedItems = jsObject.canListPreProvisionedItems;
+    }
+    if (hasValue(jsObject.canProvisionDirectPurchase)) {
+        dotNetPortal.canProvisionDirectPurchase = jsObject.canProvisionDirectPurchase;
+    }
+    if (hasValue(jsObject.canSearchPublic)) {
+        dotNetPortal.canSearchPublic = jsObject.canSearchPublic;
+    }
+    if (hasValue(jsObject.canShareBingPublic)) {
+        dotNetPortal.canShareBingPublic = jsObject.canShareBingPublic;
+    }
+    if (hasValue(jsObject.canSharePublic)) {
+        dotNetPortal.canSharePublic = jsObject.canSharePublic;
+    }
+    if (hasValue(jsObject.canSignInArcGIS)) {
+        dotNetPortal.canSignInArcGIS = jsObject.canSignInArcGIS;
+    }
+    if (hasValue(jsObject.canSignInIDP)) {
+        dotNetPortal.canSignInIDP = jsObject.canSignInIDP;
+    }
+    if (hasValue(jsObject.colorSetsGroupQuery)) {
+        dotNetPortal.colorSetsGroupQuery = jsObject.colorSetsGroupQuery;
+    }
+    if (hasValue(jsObject.commentsEnabled)) {
+        dotNetPortal.commentsEnabled = jsObject.commentsEnabled;
+    }
+    if (hasValue(jsObject.created)) {
+        dotNetPortal.created = jsObject.created;
+    }
+    if (hasValue(jsObject.culture)) {
+        dotNetPortal.culture = jsObject.culture;
+    }
+    if (hasValue(jsObject.customBaseUrl)) {
+        dotNetPortal.customBaseUrl = jsObject.customBaseUrl;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetPortal.description = jsObject.description;
+    }
+    if (hasValue(jsObject.devBasemapGalleryGroupQuery)) {
+        dotNetPortal.devBasemapGalleryGroupQuery = jsObject.devBasemapGalleryGroupQuery;
+    }
+    if (hasValue(jsObject.eueiEnabled)) {
+        dotNetPortal.eueiEnabled = jsObject.eueiEnabled;
+    }
+    if (hasValue(jsObject.featuredGroups)) {
+        dotNetPortal.featuredGroups = jsObject.featuredGroups;
+    }
+    if (hasValue(jsObject.featuredItemsGroupQuery)) {
+        dotNetPortal.featuredItemsGroupQuery = jsObject.featuredItemsGroupQuery;
+    }
+    if (hasValue(jsObject.galleryTemplatesGroupQuery)) {
+        dotNetPortal.galleryTemplatesGroupQuery = jsObject.galleryTemplatesGroupQuery;
+    }
+    if (hasValue(jsObject.hasCategorySchema)) {
+        dotNetPortal.hasCategorySchema = jsObject.hasCategorySchema;
+    }
+    if (hasValue(jsObject.helperServices)) {
+        dotNetPortal.helperServices = jsObject.helperServices;
+    }
+    if (hasValue(jsObject.homePageFeaturedContent)) {
+        dotNetPortal.homePageFeaturedContent = jsObject.homePageFeaturedContent;
+    }
+    if (hasValue(jsObject.homePageFeaturedContentCount)) {
+        dotNetPortal.homePageFeaturedContentCount = jsObject.homePageFeaturedContentCount;
+    }
+    if (hasValue(jsObject.httpPort)) {
+        dotNetPortal.httpPort = jsObject.httpPort;
+    }
+    if (hasValue(jsObject.httpsPort)) {
+        dotNetPortal.httpsPort = jsObject.httpsPort;
+    }
+    if (hasValue(jsObject.ipCntryCode)) {
+        dotNetPortal.ipCntryCode = jsObject.ipCntryCode;
+    }
+    if (hasValue(jsObject.isOrganization)) {
+        dotNetPortal.isOrganization = jsObject.isOrganization;
+    }
+    if (hasValue(jsObject.isPortal)) {
+        dotNetPortal.isPortal = jsObject.isPortal;
+    }
+    if (hasValue(jsObject.isReadOnly)) {
+        dotNetPortal.isReadOnly = jsObject.isReadOnly;
+    }
+    if (hasValue(jsObject.layerTemplatesGroupQuery)) {
+        dotNetPortal.layerTemplatesGroupQuery = jsObject.layerTemplatesGroupQuery;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetPortal.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxTokenExpirationMinutes)) {
+        dotNetPortal.maxTokenExpirationMinutes = jsObject.maxTokenExpirationMinutes;
+    }
+    if (hasValue(jsObject.modified)) {
+        dotNetPortal.modified = jsObject.modified;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPortal.name = jsObject.name;
+    }
+    if (hasValue(jsObject.portalHostname)) {
+        dotNetPortal.portalHostname = jsObject.portalHostname;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetPortal.portalId = jsObject.id;
+    }
+    if (hasValue(jsObject.portalMode)) {
+        dotNetPortal.portalMode = jsObject.portalMode;
+    }
+    if (hasValue(jsObject.portalProperties)) {
+        dotNetPortal.portalProperties = jsObject.portalProperties;
+    }
+    if (hasValue(jsObject.recycleBinEnabled)) {
+        dotNetPortal.recycleBinEnabled = jsObject.recycleBinEnabled;
+    }
+    if (hasValue(jsObject.region)) {
+        dotNetPortal.region = jsObject.region;
+    }
+    if (hasValue(jsObject.restUrl)) {
+        dotNetPortal.restUrl = jsObject.restUrl;
+    }
+    if (hasValue(jsObject.rotatorPanels)) {
+        dotNetPortal.rotatorPanels = jsObject.rotatorPanels;
+    }
+    if (hasValue(jsObject.showHomePageDescription)) {
+        dotNetPortal.showHomePageDescription = jsObject.showHomePageDescription;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetPortal.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.supportsHostedServices)) {
+        dotNetPortal.supportsHostedServices = jsObject.supportsHostedServices;
+    }
+    if (hasValue(jsObject.symbolSetsGroupQuery)) {
+        dotNetPortal.symbolSetsGroupQuery = jsObject.symbolSetsGroupQuery;
+    }
+    if (hasValue(jsObject.templatesGroupQuery)) {
+        dotNetPortal.templatesGroupQuery = jsObject.templatesGroupQuery;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetPortal.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.units)) {
+        dotNetPortal.units = jsObject.units;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetPortal.url = jsObject.url;
+    }
+    if (hasValue(jsObject.urlKey)) {
+        dotNetPortal.urlKey = jsObject.urlKey;
+    }
+    if (hasValue(jsObject.use3dBasemaps)) {
+        dotNetPortal.use3dBasemaps = jsObject.use3dBasemaps;
+    }
+    if (hasValue(jsObject.useStandardizedQuery)) {
+        dotNetPortal.useStandardizedQuery = jsObject.useStandardizedQuery;
+    }
+    if (hasValue(jsObject.useVectorBasemaps)) {
+        dotNetPortal.useVectorBasemaps = jsObject.useVectorBasemaps;
+    }
+    if (hasValue(jsObject.vectorBasemapGalleryGroupQuery)) {
+        dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetEditedFeatureResultGenerated(jsObject: any): Pr
             let { buildDotNetEditedFeatureResultEditedFeatures } = await import('./editedFeatureResultEditedFeatures');
             dotNetEditedFeatureResult.editedFeatures = await buildDotNetEditedFeatureResultEditedFeatures(jsObject.editedFeatures);
         }
-        if (hasValue(jsObject.layerId)) {
-            dotNetEditedFeatureResult.layerId = jsObject.layerId;
-        }
+    if (hasValue(jsObject.layerId)) {
+        dotNetEditedFeatureResult.layerId = jsObject.layerId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

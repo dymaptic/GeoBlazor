@@ -42,12 +42,12 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any): Pro
             let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
             dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i)));
         }
-        if (hasValue(jsObject.title)) {
-            dotNetHeatmapRampElement.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetHeatmapRampElement.type = jsObject.type;
-        }
+    if (hasValue(jsObject.title)) {
+        dotNetHeatmapRampElement.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetHeatmapRampElement.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

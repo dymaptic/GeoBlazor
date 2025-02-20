@@ -85,51 +85,51 @@ export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Prom
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetRelationshipQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.cacheHint)) {
-            dotNetRelationshipQuery.cacheHint = jsObject.cacheHint;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetRelationshipQuery.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetRelationshipQuery.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetRelationshipQuery.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.maxAllowableOffset)) {
-            dotNetRelationshipQuery.maxAllowableOffset = jsObject.maxAllowableOffset;
-        }
-        if (hasValue(jsObject.num)) {
-            dotNetRelationshipQuery.num = jsObject.num;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetRelationshipQuery.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.orderByFields)) {
-            dotNetRelationshipQuery.orderByFields = jsObject.orderByFields;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetRelationshipQuery.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.relationshipId)) {
-            dotNetRelationshipQuery.relationshipId = jsObject.relationshipId;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetRelationshipQuery.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetRelationshipQuery.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetRelationshipQuery.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.start)) {
-            dotNetRelationshipQuery.start = jsObject.start;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetRelationshipQuery.where = jsObject.where;
-        }
+    if (hasValue(jsObject.cacheHint)) {
+        dotNetRelationshipQuery.cacheHint = jsObject.cacheHint;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetRelationshipQuery.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetRelationshipQuery.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetRelationshipQuery.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.maxAllowableOffset)) {
+        dotNetRelationshipQuery.maxAllowableOffset = jsObject.maxAllowableOffset;
+    }
+    if (hasValue(jsObject.num)) {
+        dotNetRelationshipQuery.num = jsObject.num;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetRelationshipQuery.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetRelationshipQuery.orderByFields = jsObject.orderByFields;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetRelationshipQuery.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.relationshipId)) {
+        dotNetRelationshipQuery.relationshipId = jsObject.relationshipId;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetRelationshipQuery.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetRelationshipQuery.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetRelationshipQuery.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.start)) {
+        dotNetRelationshipQuery.start = jsObject.start;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetRelationshipQuery.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

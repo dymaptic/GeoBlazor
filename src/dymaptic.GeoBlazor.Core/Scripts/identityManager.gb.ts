@@ -168,12 +168,12 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dialog)) {
-            dotNetIdentityManager.dialog = jsObject.dialog;
-        }
-        if (hasValue(jsObject.tokenValidity)) {
-            dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
-        }
+    if (hasValue(jsObject.dialog)) {
+        dotNetIdentityManager.dialog = jsObject.dialog;
+    }
+    if (hasValue(jsObject.tokenValidity)) {
+        dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

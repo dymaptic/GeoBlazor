@@ -78,21 +78,21 @@ export async function buildDotNetColorSchemeForPolygonGenerated(jsObject: any): 
             let { buildDotNetColorSchemeForPolygonOutline } = await import('./colorSchemeForPolygonOutline');
             dotNetColorSchemeForPolygon.outline = await buildDotNetColorSchemeForPolygonOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetColorSchemeForPolygon.colorSchemeForPolygonId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetColorSchemeForPolygon.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetColorSchemeForPolygon.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetColorSchemeForPolygon.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.theme)) {
-            dotNetColorSchemeForPolygon.theme = jsObject.theme;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSchemeForPolygon.colorSchemeForPolygonId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetColorSchemeForPolygon.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetColorSchemeForPolygon.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetColorSchemeForPolygon.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.theme)) {
+        dotNetColorSchemeForPolygon.theme = jsObject.theme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

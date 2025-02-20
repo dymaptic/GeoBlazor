@@ -36,57 +36,57 @@ export async function buildDotNetServiceDefinitionGenerated(jsObject: any): Prom
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetServiceDefinition.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.allowGeometryUpdates)) {
-            dotNetServiceDefinition.allowGeometryUpdates = jsObject.allowGeometryUpdates;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetServiceDefinition.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyrightText)) {
-            dotNetServiceDefinition.copyrightText = jsObject.copyrightText;
-        }
-        if (hasValue(jsObject.currentVersion)) {
-            dotNetServiceDefinition.currentVersion = jsObject.currentVersion;
-        }
-        if (hasValue(jsObject.dataEditingNotSupported)) {
-            dotNetServiceDefinition.dataEditingNotSupported = jsObject.dataEditingNotSupported;
-        }
-        if (hasValue(jsObject.dateFieldsTimeReference)) {
-            dotNetServiceDefinition.dateFieldsTimeReference = jsObject.dateFieldsTimeReference;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetServiceDefinition.description = jsObject.description;
-        }
-        if (hasValue(jsObject.maxRecordCount)) {
-            dotNetServiceDefinition.maxRecordCount = jsObject.maxRecordCount;
-        }
-        if (hasValue(jsObject.schemaEditingNotSupported)) {
-            dotNetServiceDefinition.schemaEditingNotSupported = jsObject.schemaEditingNotSupported;
-        }
-        if (hasValue(jsObject.searchMaxRecordCount)) {
-            dotNetServiceDefinition.searchMaxRecordCount = jsObject.searchMaxRecordCount;
-        }
-        if (hasValue(jsObject.serviceCapabilities)) {
-            dotNetServiceDefinition.serviceCapabilities = jsObject.serviceCapabilities;
-        }
-        if (hasValue(jsObject.serviceItemId)) {
-            dotNetServiceDefinition.serviceItemId = jsObject.serviceItemId;
-        }
-        if (hasValue(jsObject.supportedQueryFormats)) {
-            dotNetServiceDefinition.supportedQueryFormats = jsObject.supportedQueryFormats;
-        }
-        if (hasValue(jsObject.supportsDocuments)) {
-            dotNetServiceDefinition.supportsDocuments = jsObject.supportsDocuments;
-        }
-        if (hasValue(jsObject.supportsProvenance)) {
-            dotNetServiceDefinition.supportsProvenance = jsObject.supportsProvenance;
-        }
-        if (hasValue(jsObject.supportsSearch)) {
-            dotNetServiceDefinition.supportsSearch = jsObject.supportsSearch;
-        }
-        if (hasValue(jsObject.units)) {
-            dotNetServiceDefinition.units = jsObject.units;
-        }
+    if (hasValue(jsObject.allowGeometryUpdates)) {
+        dotNetServiceDefinition.allowGeometryUpdates = jsObject.allowGeometryUpdates;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetServiceDefinition.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyrightText)) {
+        dotNetServiceDefinition.copyrightText = jsObject.copyrightText;
+    }
+    if (hasValue(jsObject.currentVersion)) {
+        dotNetServiceDefinition.currentVersion = jsObject.currentVersion;
+    }
+    if (hasValue(jsObject.dataEditingNotSupported)) {
+        dotNetServiceDefinition.dataEditingNotSupported = jsObject.dataEditingNotSupported;
+    }
+    if (hasValue(jsObject.dateFieldsTimeReference)) {
+        dotNetServiceDefinition.dateFieldsTimeReference = jsObject.dateFieldsTimeReference;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetServiceDefinition.description = jsObject.description;
+    }
+    if (hasValue(jsObject.maxRecordCount)) {
+        dotNetServiceDefinition.maxRecordCount = jsObject.maxRecordCount;
+    }
+    if (hasValue(jsObject.schemaEditingNotSupported)) {
+        dotNetServiceDefinition.schemaEditingNotSupported = jsObject.schemaEditingNotSupported;
+    }
+    if (hasValue(jsObject.searchMaxRecordCount)) {
+        dotNetServiceDefinition.searchMaxRecordCount = jsObject.searchMaxRecordCount;
+    }
+    if (hasValue(jsObject.serviceCapabilities)) {
+        dotNetServiceDefinition.serviceCapabilities = jsObject.serviceCapabilities;
+    }
+    if (hasValue(jsObject.serviceItemId)) {
+        dotNetServiceDefinition.serviceItemId = jsObject.serviceItemId;
+    }
+    if (hasValue(jsObject.supportedQueryFormats)) {
+        dotNetServiceDefinition.supportedQueryFormats = jsObject.supportedQueryFormats;
+    }
+    if (hasValue(jsObject.supportsDocuments)) {
+        dotNetServiceDefinition.supportsDocuments = jsObject.supportsDocuments;
+    }
+    if (hasValue(jsObject.supportsProvenance)) {
+        dotNetServiceDefinition.supportsProvenance = jsObject.supportsProvenance;
+    }
+    if (hasValue(jsObject.supportsSearch)) {
+        dotNetServiceDefinition.supportsSearch = jsObject.supportsSearch;
+    }
+    if (hasValue(jsObject.units)) {
+        dotNetServiceDefinition.units = jsObject.units;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

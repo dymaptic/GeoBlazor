@@ -60,18 +60,18 @@ export async function buildDotNetRelationshipRendererResultGenerated(jsObject: a
             let { buildDotNetTypeUniqueValueInfo } = await import('./typeUniqueValueInfo');
             dotNetRelationshipRendererResult.uniqueValueInfos = await Promise.all(jsObject.uniqueValueInfos.map(async i => await buildDotNetTypeUniqueValueInfo(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetRelationshipRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetRelationshipRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.classBreaks)) {
-            dotNetRelationshipRendererResult.classBreaks = jsObject.classBreaks;
-        }
-        if (hasValue(jsObject.relationshipScheme)) {
-            dotNetRelationshipRendererResult.relationshipScheme = jsObject.relationshipScheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetRelationshipRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetRelationshipRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.classBreaks)) {
+        dotNetRelationshipRendererResult.classBreaks = jsObject.classBreaks;
+    }
+    if (hasValue(jsObject.relationshipScheme)) {
+        dotNetRelationshipRendererResult.relationshipScheme = jsObject.relationshipScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

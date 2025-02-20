@@ -71,30 +71,30 @@ export async function buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject: an
             let { buildDotNetPoint } = await import('./point');
             dotNetPopupViewOpenPopupOptions.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetPopupViewOpenPopupOptions.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetPopupViewOpenPopupOptions.content = jsObject.content;
-        }
-        if (hasValue(jsObject.featureMenuOpen)) {
-            dotNetPopupViewOpenPopupOptions.featureMenuOpen = jsObject.featureMenuOpen;
-        }
-        if (hasValue(jsObject.fetchFeatures)) {
-            dotNetPopupViewOpenPopupOptions.fetchFeatures = jsObject.fetchFeatures;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetPopupViewOpenPopupOptions.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.shouldFocus)) {
-            dotNetPopupViewOpenPopupOptions.shouldFocus = jsObject.shouldFocus;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupViewOpenPopupOptions.title = jsObject.title;
-        }
-        if (hasValue(jsObject.updateLocationEnabled)) {
-            dotNetPopupViewOpenPopupOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
-        }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetPopupViewOpenPopupOptions.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetPopupViewOpenPopupOptions.content = jsObject.content;
+    }
+    if (hasValue(jsObject.featureMenuOpen)) {
+        dotNetPopupViewOpenPopupOptions.featureMenuOpen = jsObject.featureMenuOpen;
+    }
+    if (hasValue(jsObject.fetchFeatures)) {
+        dotNetPopupViewOpenPopupOptions.fetchFeatures = jsObject.fetchFeatures;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetPopupViewOpenPopupOptions.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.shouldFocus)) {
+        dotNetPopupViewOpenPopupOptions.shouldFocus = jsObject.shouldFocus;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupViewOpenPopupOptions.title = jsObject.title;
+    }
+    if (hasValue(jsObject.updateLocationEnabled)) {
+        dotNetPopupViewOpenPopupOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

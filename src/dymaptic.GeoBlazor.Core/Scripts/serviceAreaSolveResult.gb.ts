@@ -83,9 +83,9 @@ export async function buildDotNetServiceAreaSolveResultGenerated(jsObject: any, 
             let { buildDotNetFeatureSet } = await import('./featureSet');
             dotNetServiceAreaSolveResult.serviceAreaPolylines = await buildDotNetFeatureSet(jsObject.serviceAreaPolylines, layerId, viewId);
         }
-        if (hasValue(jsObject.messages)) {
-            dotNetServiceAreaSolveResult.messages = jsObject.messages;
-        }
+    if (hasValue(jsObject.messages)) {
+        dotNetServiceAreaSolveResult.messages = jsObject.messages;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

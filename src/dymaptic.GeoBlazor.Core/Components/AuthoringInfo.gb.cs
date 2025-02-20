@@ -833,17 +833,17 @@ public partial class AuthoringInfo
             return VisualVariables;
         }
 
-        // get the property value
-        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>("getProperty",
-            CancellationTokenSource.Token, "visualVariables");
+        IReadOnlyList<AuthoringInfoVisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoVisualVariable>?>(
+            "getVisualVariables", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisualVariables = result;
+            VisualVariables = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+            ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
         }
-         
+        
         return VisualVariables;
     }
     

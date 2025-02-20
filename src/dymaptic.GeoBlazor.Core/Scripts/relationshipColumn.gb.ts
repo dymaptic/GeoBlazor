@@ -38,33 +38,33 @@ export async function buildDotNetRelationshipColumnGenerated(jsObject: any): Pro
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.collapsed)) {
-            dotNetRelationshipColumn.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.effectiveLabel)) {
-            dotNetRelationshipColumn.effectiveLabel = jsObject.effectiveLabel;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetRelationshipColumn.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.originRelationship)) {
-            dotNetRelationshipColumn.originRelationship = jsObject.originRelationship;
-        }
-        if (hasValue(jsObject.relationship)) {
-            dotNetRelationshipColumn.relationship = jsObject.relationship;
-        }
-        if (hasValue(jsObject.relationshipId)) {
-            dotNetRelationshipColumn.relationshipId = jsObject.relationshipId;
-        }
-        if (hasValue(jsObject.resizable)) {
-            dotNetRelationshipColumn.resizable = jsObject.resizable;
-        }
-        if (hasValue(jsObject.textAlign)) {
-            dotNetRelationshipColumn.textAlign = jsObject.textAlign;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetRelationshipColumn.width = jsObject.width;
-        }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetRelationshipColumn.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.effectiveLabel)) {
+        dotNetRelationshipColumn.effectiveLabel = jsObject.effectiveLabel;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetRelationshipColumn.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.originRelationship)) {
+        dotNetRelationshipColumn.originRelationship = jsObject.originRelationship;
+    }
+    if (hasValue(jsObject.relationship)) {
+        dotNetRelationshipColumn.relationship = jsObject.relationship;
+    }
+    if (hasValue(jsObject.relationshipId)) {
+        dotNetRelationshipColumn.relationshipId = jsObject.relationshipId;
+    }
+    if (hasValue(jsObject.resizable)) {
+        dotNetRelationshipColumn.resizable = jsObject.resizable;
+    }
+    if (hasValue(jsObject.textAlign)) {
+        dotNetRelationshipColumn.textAlign = jsObject.textAlign;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetRelationshipColumn.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -45,12 +45,12 @@ export async function buildDotNetSearchViewModelSearchCompleteEventResultsGenera
             let { buildDotNetSearchResult } = await import('./searchResult');
             dotNetSearchViewModelSearchCompleteEventResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
         }
-        if (hasValue(jsObject.source)) {
-            dotNetSearchViewModelSearchCompleteEventResults.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceIndex)) {
-            dotNetSearchViewModelSearchCompleteEventResults.sourceIndex = jsObject.sourceIndex;
-        }
+    if (hasValue(jsObject.source)) {
+        dotNetSearchViewModelSearchCompleteEventResults.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceIndex)) {
+        dotNetSearchViewModelSearchCompleteEventResults.sourceIndex = jsObject.sourceIndex;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

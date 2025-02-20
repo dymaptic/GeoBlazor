@@ -152,27 +152,27 @@ export async function buildDotNetUtilityNetworkAssociationsViewModelGenerated(js
             let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
             dotNetUtilityNetworkAssociationsViewModel.utilityNetwork = await buildDotNetUtilityNetwork(jsObject.utilityNetwork, layerId, viewId);
         }
-        if (hasValue(jsObject.includeConnectivityAssociations)) {
-            dotNetUtilityNetworkAssociationsViewModel.includeConnectivityAssociations = jsObject.includeConnectivityAssociations;
-        }
-        if (hasValue(jsObject.includeStructuralAttachmentAssociations)) {
-            dotNetUtilityNetworkAssociationsViewModel.includeStructuralAttachmentAssociations = jsObject.includeStructuralAttachmentAssociations;
-        }
-        if (hasValue(jsObject.maxAllowableAssociations)) {
-            dotNetUtilityNetworkAssociationsViewModel.maxAllowableAssociations = jsObject.maxAllowableAssociations;
-        }
-        if (hasValue(jsObject.showArrowsConnectivity)) {
-            dotNetUtilityNetworkAssociationsViewModel.showArrowsConnectivity = jsObject.showArrowsConnectivity;
-        }
-        if (hasValue(jsObject.showArrowsStructuralAttachment)) {
-            dotNetUtilityNetworkAssociationsViewModel.showArrowsStructuralAttachment = jsObject.showArrowsStructuralAttachment;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetUtilityNetworkAssociationsViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUtilityNetworkAssociationsViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.includeConnectivityAssociations)) {
+        dotNetUtilityNetworkAssociationsViewModel.includeConnectivityAssociations = jsObject.includeConnectivityAssociations;
+    }
+    if (hasValue(jsObject.includeStructuralAttachmentAssociations)) {
+        dotNetUtilityNetworkAssociationsViewModel.includeStructuralAttachmentAssociations = jsObject.includeStructuralAttachmentAssociations;
+    }
+    if (hasValue(jsObject.maxAllowableAssociations)) {
+        dotNetUtilityNetworkAssociationsViewModel.maxAllowableAssociations = jsObject.maxAllowableAssociations;
+    }
+    if (hasValue(jsObject.showArrowsConnectivity)) {
+        dotNetUtilityNetworkAssociationsViewModel.showArrowsConnectivity = jsObject.showArrowsConnectivity;
+    }
+    if (hasValue(jsObject.showArrowsStructuralAttachment)) {
+        dotNetUtilityNetworkAssociationsViewModel.showArrowsStructuralAttachment = jsObject.showArrowsStructuralAttachment;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetUtilityNetworkAssociationsViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUtilityNetworkAssociationsViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -47,18 +47,18 @@ export async function buildDotNetHeatmapStatisticsHeatmapStatisticsParamsGenerat
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetHeatmapStatisticsHeatmapStatisticsParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetHeatmapStatisticsHeatmapStatisticsParams.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetHeatmapStatisticsHeatmapStatisticsParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetHeatmapStatisticsHeatmapStatisticsParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetHeatmapStatisticsHeatmapStatisticsParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetHeatmapStatisticsHeatmapStatisticsParams.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetHeatmapStatisticsHeatmapStatisticsParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetHeatmapStatisticsHeatmapStatisticsParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

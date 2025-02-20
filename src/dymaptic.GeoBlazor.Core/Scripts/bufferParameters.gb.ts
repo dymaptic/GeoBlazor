@@ -68,18 +68,18 @@ export async function buildDotNetBufferParametersGenerated(jsObject: any): Promi
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetBufferParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.distances)) {
-            dotNetBufferParameters.distances = jsObject.distances;
-        }
-        if (hasValue(jsObject.geodesic)) {
-            dotNetBufferParameters.geodesic = jsObject.geodesic;
-        }
-        if (hasValue(jsObject.unionResults)) {
-            dotNetBufferParameters.unionResults = jsObject.unionResults;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetBufferParameters.unit = jsObject.unit;
-        }
+    if (hasValue(jsObject.distances)) {
+        dotNetBufferParameters.distances = jsObject.distances;
+    }
+    if (hasValue(jsObject.geodesic)) {
+        dotNetBufferParameters.geodesic = jsObject.geodesic;
+    }
+    if (hasValue(jsObject.unionResults)) {
+        dotNetBufferParameters.unionResults = jsObject.unionResults;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetBufferParameters.unit = jsObject.unit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

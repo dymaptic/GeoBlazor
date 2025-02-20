@@ -37,8 +37,22 @@ export default class DictionaryRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
+    async getVisualVariables(): Promise<any> {
+        if (!hasValue(this.component.visualVariables)) {
+            return null;
+        }
+        
+        let { buildDotNetVisualVariable } = await import('./visualVariable');
+        return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
+    
+    async setVisualVariables(value: any): Promise<void> {
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -53,7 +67,11 @@ export async function buildJsDictionaryRendererGenerated(dotNetObject: any, laye
     let jsDictionaryRenderer = new DictionaryRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsDictionaryRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsDictionaryRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.visualVariables)) {
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        jsDictionaryRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.config)) {
@@ -107,24 +125,28 @@ export async function buildDotNetDictionaryRendererGenerated(jsObject: any): Pro
             let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
             dotNetDictionaryRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
-        if (hasValue(jsObject.config)) {
-            dotNetDictionaryRenderer.config = jsObject.config;
+        if (hasValue(jsObject.visualVariables)) {
+            let { buildDotNetVisualVariable } = await import('./visualVariable');
+            dotNetDictionaryRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
         }
-        if (hasValue(jsObject.fieldMap)) {
-            dotNetDictionaryRenderer.fieldMap = jsObject.fieldMap;
-        }
-        if (hasValue(jsObject.scaleExpression)) {
-            dotNetDictionaryRenderer.scaleExpression = jsObject.scaleExpression;
-        }
-        if (hasValue(jsObject.scaleExpressionTitle)) {
-            dotNetDictionaryRenderer.scaleExpressionTitle = jsObject.scaleExpressionTitle;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDictionaryRenderer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetDictionaryRenderer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.config)) {
+        dotNetDictionaryRenderer.config = jsObject.config;
+    }
+    if (hasValue(jsObject.fieldMap)) {
+        dotNetDictionaryRenderer.fieldMap = jsObject.fieldMap;
+    }
+    if (hasValue(jsObject.scaleExpression)) {
+        dotNetDictionaryRenderer.scaleExpression = jsObject.scaleExpression;
+    }
+    if (hasValue(jsObject.scaleExpressionTitle)) {
+        dotNetDictionaryRenderer.scaleExpressionTitle = jsObject.scaleExpressionTitle;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDictionaryRenderer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetDictionaryRenderer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

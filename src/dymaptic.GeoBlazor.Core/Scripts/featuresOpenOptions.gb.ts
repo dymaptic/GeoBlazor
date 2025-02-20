@@ -71,30 +71,30 @@ export async function buildDotNetFeaturesOpenOptionsGenerated(jsObject: any, lay
             let { buildDotNetPoint } = await import('./point');
             dotNetFeaturesOpenOptions.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.actions)) {
-            dotNetFeaturesOpenOptions.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetFeaturesOpenOptions.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetFeaturesOpenOptions.content = jsObject.content;
-        }
-        if (hasValue(jsObject.featureMenuOpen)) {
-            dotNetFeaturesOpenOptions.featureMenuOpen = jsObject.featureMenuOpen;
-        }
-        if (hasValue(jsObject.fetchFeatures)) {
-            dotNetFeaturesOpenOptions.fetchFeatures = jsObject.fetchFeatures;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetFeaturesOpenOptions.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeaturesOpenOptions.title = jsObject.title;
-        }
-        if (hasValue(jsObject.updateLocationEnabled)) {
-            dotNetFeaturesOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
-        }
+    if (hasValue(jsObject.actions)) {
+        dotNetFeaturesOpenOptions.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetFeaturesOpenOptions.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetFeaturesOpenOptions.content = jsObject.content;
+    }
+    if (hasValue(jsObject.featureMenuOpen)) {
+        dotNetFeaturesOpenOptions.featureMenuOpen = jsObject.featureMenuOpen;
+    }
+    if (hasValue(jsObject.fetchFeatures)) {
+        dotNetFeaturesOpenOptions.fetchFeatures = jsObject.fetchFeatures;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetFeaturesOpenOptions.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeaturesOpenOptions.title = jsObject.title;
+    }
+    if (hasValue(jsObject.updateLocationEnabled)) {
+        dotNetFeaturesOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

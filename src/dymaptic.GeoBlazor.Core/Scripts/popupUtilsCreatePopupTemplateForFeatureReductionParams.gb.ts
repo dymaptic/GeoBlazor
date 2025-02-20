@@ -45,12 +45,12 @@ export async function buildDotNetPopupUtilsCreatePopupTemplateForFeatureReductio
             let { buildDotNetField } = await import('./field');
             dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.featureReduction = jsObject.featureReduction;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.title = jsObject.title;
-        }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.featureReduction = jsObject.featureReduction;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

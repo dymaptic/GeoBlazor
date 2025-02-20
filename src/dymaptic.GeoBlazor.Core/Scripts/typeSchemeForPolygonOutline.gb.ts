@@ -42,9 +42,9 @@ export async function buildDotNetTypeSchemeForPolygonOutlineGenerated(jsObject: 
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetTypeSchemeForPolygonOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.width)) {
-            dotNetTypeSchemeForPolygonOutline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.width)) {
+        dotNetTypeSchemeForPolygonOutline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

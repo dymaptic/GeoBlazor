@@ -102,51 +102,51 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: str
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetRasterInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.bandCount)) {
-            dotNetRasterInfo.bandCount = jsObject.bandCount;
-        }
-        if (hasValue(jsObject.bandInfos)) {
-            dotNetRasterInfo.bandInfos = jsObject.bandInfos;
-        }
-        if (hasValue(jsObject.colormap)) {
-            dotNetRasterInfo.colormap = jsObject.colormap;
-        }
-        if (hasValue(jsObject.dataType)) {
-            dotNetRasterInfo.dataType = jsObject.dataType;
-        }
-        if (hasValue(jsObject.hasMultidimensionalTranspose)) {
-            dotNetRasterInfo.hasMultidimensionalTranspose = jsObject.hasMultidimensionalTranspose;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetRasterInfo.height = jsObject.height;
-        }
-        if (hasValue(jsObject.histograms)) {
-            dotNetRasterInfo.histograms = jsObject.histograms;
-        }
-        if (hasValue(jsObject.keyProperties)) {
-            dotNetRasterInfo.keyProperties = jsObject.keyProperties;
-        }
-        if (hasValue(jsObject.multidimensionalInfo)) {
-            dotNetRasterInfo.multidimensionalInfo = jsObject.multidimensionalInfo;
-        }
-        if (hasValue(jsObject.noDataValue)) {
-            dotNetRasterInfo.noDataValue = jsObject.noDataValue;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetRasterInfo.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetRasterInfo.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.sensorInfo)) {
-            dotNetRasterInfo.sensorInfo = jsObject.sensorInfo;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetRasterInfo.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetRasterInfo.width = jsObject.width;
-        }
+    if (hasValue(jsObject.bandCount)) {
+        dotNetRasterInfo.bandCount = jsObject.bandCount;
+    }
+    if (hasValue(jsObject.bandInfos)) {
+        dotNetRasterInfo.bandInfos = jsObject.bandInfos;
+    }
+    if (hasValue(jsObject.colormap)) {
+        dotNetRasterInfo.colormap = jsObject.colormap;
+    }
+    if (hasValue(jsObject.dataType)) {
+        dotNetRasterInfo.dataType = jsObject.dataType;
+    }
+    if (hasValue(jsObject.hasMultidimensionalTranspose)) {
+        dotNetRasterInfo.hasMultidimensionalTranspose = jsObject.hasMultidimensionalTranspose;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetRasterInfo.height = jsObject.height;
+    }
+    if (hasValue(jsObject.histograms)) {
+        dotNetRasterInfo.histograms = jsObject.histograms;
+    }
+    if (hasValue(jsObject.keyProperties)) {
+        dotNetRasterInfo.keyProperties = jsObject.keyProperties;
+    }
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        dotNetRasterInfo.multidimensionalInfo = jsObject.multidimensionalInfo;
+    }
+    if (hasValue(jsObject.noDataValue)) {
+        dotNetRasterInfo.noDataValue = jsObject.noDataValue;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetRasterInfo.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetRasterInfo.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.sensorInfo)) {
+        dotNetRasterInfo.sensorInfo = jsObject.sensorInfo;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetRasterInfo.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetRasterInfo.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

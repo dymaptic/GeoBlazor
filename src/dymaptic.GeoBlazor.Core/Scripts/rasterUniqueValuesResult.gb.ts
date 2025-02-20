@@ -42,9 +42,9 @@ export async function buildDotNetRasterUniqueValuesResultGenerated(jsObject: any
             let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
             dotNetRasterUniqueValuesResult.renderer = await buildDotNetUniqueValueRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.classFieldName)) {
-            dotNetRasterUniqueValuesResult.classFieldName = jsObject.classFieldName;
-        }
+    if (hasValue(jsObject.classFieldName)) {
+        dotNetRasterUniqueValuesResult.classFieldName = jsObject.classFieldName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -67,18 +67,18 @@ export async function buildDotNetPredominanceSchemeForPolylineGenerated(jsObject
             let { buildDotNetSizeSchemeForPolyline } = await import('./sizeSchemeForPolyline');
             dotNetPredominanceSchemeForPolyline.sizeScheme = await buildDotNetSizeSchemeForPolyline(jsObject.sizeScheme);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetPredominanceSchemeForPolyline.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetPredominanceSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPredominanceSchemeForPolyline.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetPredominanceSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetPredominanceSchemeForPolyline.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetPredominanceSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPredominanceSchemeForPolyline.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetPredominanceSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

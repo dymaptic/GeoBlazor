@@ -67,30 +67,30 @@ export async function buildDotNetEditorLayerInfoGenerated(jsObject: any): Promis
             let { buildDotNetFormTemplate } = await import('./formTemplate');
             dotNetEditorLayerInfo.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
         }
-        if (hasValue(jsObject.addEnabled)) {
-            dotNetEditorLayerInfo.addEnabled = jsObject.addEnabled;
-        }
-        if (hasValue(jsObject.attachmentsOnCreateEnabled)) {
-            dotNetEditorLayerInfo.attachmentsOnCreateEnabled = jsObject.attachmentsOnCreateEnabled;
-        }
-        if (hasValue(jsObject.attachmentsOnUpdateEnabled)) {
-            dotNetEditorLayerInfo.attachmentsOnUpdateEnabled = jsObject.attachmentsOnUpdateEnabled;
-        }
-        if (hasValue(jsObject.attributeUpdatesEnabled)) {
-            dotNetEditorLayerInfo.attributeUpdatesEnabled = jsObject.attributeUpdatesEnabled;
-        }
-        if (hasValue(jsObject.deleteEnabled)) {
-            dotNetEditorLayerInfo.deleteEnabled = jsObject.deleteEnabled;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetEditorLayerInfo.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.geometryUpdatesEnabled)) {
-            dotNetEditorLayerInfo.geometryUpdatesEnabled = jsObject.geometryUpdatesEnabled;
-        }
-        if (hasValue(jsObject.updateEnabled)) {
-            dotNetEditorLayerInfo.updateEnabled = jsObject.updateEnabled;
-        }
+    if (hasValue(jsObject.addEnabled)) {
+        dotNetEditorLayerInfo.addEnabled = jsObject.addEnabled;
+    }
+    if (hasValue(jsObject.attachmentsOnCreateEnabled)) {
+        dotNetEditorLayerInfo.attachmentsOnCreateEnabled = jsObject.attachmentsOnCreateEnabled;
+    }
+    if (hasValue(jsObject.attachmentsOnUpdateEnabled)) {
+        dotNetEditorLayerInfo.attachmentsOnUpdateEnabled = jsObject.attachmentsOnUpdateEnabled;
+    }
+    if (hasValue(jsObject.attributeUpdatesEnabled)) {
+        dotNetEditorLayerInfo.attributeUpdatesEnabled = jsObject.attributeUpdatesEnabled;
+    }
+    if (hasValue(jsObject.deleteEnabled)) {
+        dotNetEditorLayerInfo.deleteEnabled = jsObject.deleteEnabled;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetEditorLayerInfo.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.geometryUpdatesEnabled)) {
+        dotNetEditorLayerInfo.geometryUpdatesEnabled = jsObject.geometryUpdatesEnabled;
+    }
+    if (hasValue(jsObject.updateEnabled)) {
+        dotNetEditorLayerInfo.updateEnabled = jsObject.updateEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

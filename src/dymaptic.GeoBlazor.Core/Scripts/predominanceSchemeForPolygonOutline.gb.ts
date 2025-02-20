@@ -42,9 +42,9 @@ export async function buildDotNetPredominanceSchemeForPolygonOutlineGenerated(js
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetPredominanceSchemeForPolygonOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.width)) {
-            dotNetPredominanceSchemeForPolygonOutline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.width)) {
+        dotNetPredominanceSchemeForPolygonOutline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

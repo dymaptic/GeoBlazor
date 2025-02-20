@@ -49,15 +49,15 @@ export async function buildDotNetClassBreakInfoGenerated(jsObject: any): Promise
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetClassBreakInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetClassBreakInfo.label = jsObject.label;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetClassBreakInfo.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetClassBreakInfo.minValue = jsObject.minValue;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetClassBreakInfo.label = jsObject.label;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetClassBreakInfo.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetClassBreakInfo.minValue = jsObject.minValue;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

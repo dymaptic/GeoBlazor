@@ -62,21 +62,21 @@ export async function buildDotNetRelationshipSchemeForPolylineGenerated(jsObject
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetRelationshipSchemeForPolyline.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetRelationshipSchemeForPolyline.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetRelationshipSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetRelationshipSchemeForPolyline.relationshipSchemeForPolylineId = jsObject.id;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetRelationshipSchemeForPolyline.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetRelationshipSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetRelationshipSchemeForPolyline.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetRelationshipSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetRelationshipSchemeForPolyline.relationshipSchemeForPolylineId = jsObject.id;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetRelationshipSchemeForPolyline.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetRelationshipSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

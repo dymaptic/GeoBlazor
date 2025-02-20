@@ -112,15 +112,15 @@ export async function buildDotNetPointDrawActionGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetPointDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetPointDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPointDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetPointDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetPointDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPointDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

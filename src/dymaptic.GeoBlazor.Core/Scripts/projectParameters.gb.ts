@@ -55,12 +55,12 @@ export async function buildDotNetProjectParametersGenerated(jsObject: any): Prom
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetProjectParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.transformation)) {
-            dotNetProjectParameters.transformation = jsObject.transformation;
-        }
-        if (hasValue(jsObject.transformForward)) {
-            dotNetProjectParameters.transformForward = jsObject.transformForward;
-        }
+    if (hasValue(jsObject.transformation)) {
+        dotNetProjectParameters.transformation = jsObject.transformation;
+    }
+    if (hasValue(jsObject.transformForward)) {
+        dotNetProjectParameters.transformForward = jsObject.transformForward;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

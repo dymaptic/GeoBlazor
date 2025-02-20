@@ -49,15 +49,15 @@ export async function buildDotNetStyleOriginGenerated(jsObject: any): Promise<an
             let { buildDotNetPortal } = await import('./portal');
             dotNetStyleOrigin.portal = await buildDotNetPortal(jsObject.portal);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetStyleOrigin.name = jsObject.name;
-        }
-        if (hasValue(jsObject.styleName)) {
-            dotNetStyleOrigin.styleName = jsObject.styleName;
-        }
-        if (hasValue(jsObject.styleUrl)) {
-            dotNetStyleOrigin.styleUrl = jsObject.styleUrl;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetStyleOrigin.name = jsObject.name;
+    }
+    if (hasValue(jsObject.styleName)) {
+        dotNetStyleOrigin.styleName = jsObject.styleName;
+    }
+    if (hasValue(jsObject.styleUrl)) {
+        dotNetStyleOrigin.styleUrl = jsObject.styleUrl;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

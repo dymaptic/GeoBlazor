@@ -55,21 +55,21 @@ export async function buildDotNetSceneViewPerformanceInfoGenerated(jsObject: any
             let { buildDotNetLayerPerformanceInfo } = await import('./layerPerformanceInfo');
             dotNetSceneViewPerformanceInfo.layerPerformanceInfos = await Promise.all(jsObject.layerPerformanceInfos.map(async i => await buildDotNetLayerPerformanceInfo(i)));
         }
-        if (hasValue(jsObject.edgesMemory)) {
-            dotNetSceneViewPerformanceInfo.edgesMemory = jsObject.edgesMemory;
-        }
-        if (hasValue(jsObject.quality)) {
-            dotNetSceneViewPerformanceInfo.quality = jsObject.quality;
-        }
-        if (hasValue(jsObject.terrainMemory)) {
-            dotNetSceneViewPerformanceInfo.terrainMemory = jsObject.terrainMemory;
-        }
-        if (hasValue(jsObject.totalMemory)) {
-            dotNetSceneViewPerformanceInfo.totalMemory = jsObject.totalMemory;
-        }
-        if (hasValue(jsObject.usedMemory)) {
-            dotNetSceneViewPerformanceInfo.usedMemory = jsObject.usedMemory;
-        }
+    if (hasValue(jsObject.edgesMemory)) {
+        dotNetSceneViewPerformanceInfo.edgesMemory = jsObject.edgesMemory;
+    }
+    if (hasValue(jsObject.quality)) {
+        dotNetSceneViewPerformanceInfo.quality = jsObject.quality;
+    }
+    if (hasValue(jsObject.terrainMemory)) {
+        dotNetSceneViewPerformanceInfo.terrainMemory = jsObject.terrainMemory;
+    }
+    if (hasValue(jsObject.totalMemory)) {
+        dotNetSceneViewPerformanceInfo.totalMemory = jsObject.totalMemory;
+    }
+    if (hasValue(jsObject.usedMemory)) {
+        dotNetSceneViewPerformanceInfo.usedMemory = jsObject.usedMemory;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

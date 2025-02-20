@@ -60,24 +60,24 @@ export async function buildDotNetGeometryServiceToGeoCoordinateStringParamsGener
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetGeometryServiceToGeoCoordinateStringParams.sr = buildDotNetSpatialReference(jsObject.sr);
         }
-        if (hasValue(jsObject.addSpaces)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.addSpaces = jsObject.addSpaces;
-        }
-        if (hasValue(jsObject.conversionMode)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.conversionMode = jsObject.conversionMode;
-        }
-        if (hasValue(jsObject.conversionType)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.conversionType = jsObject.conversionType;
-        }
-        if (hasValue(jsObject.coordinates)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.coordinates = jsObject.coordinates;
-        }
-        if (hasValue(jsObject.numOfDigits)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.numOfDigits = jsObject.numOfDigits;
-        }
-        if (hasValue(jsObject.rounding)) {
-            dotNetGeometryServiceToGeoCoordinateStringParams.rounding = jsObject.rounding;
-        }
+    if (hasValue(jsObject.addSpaces)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.addSpaces = jsObject.addSpaces;
+    }
+    if (hasValue(jsObject.conversionMode)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.conversionMode = jsObject.conversionMode;
+    }
+    if (hasValue(jsObject.conversionType)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.conversionType = jsObject.conversionType;
+    }
+    if (hasValue(jsObject.coordinates)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.coordinates = jsObject.coordinates;
+    }
+    if (hasValue(jsObject.numOfDigits)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.numOfDigits = jsObject.numOfDigits;
+    }
+    if (hasValue(jsObject.rounding)) {
+        dotNetGeometryServiceToGeoCoordinateStringParams.rounding = jsObject.rounding;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

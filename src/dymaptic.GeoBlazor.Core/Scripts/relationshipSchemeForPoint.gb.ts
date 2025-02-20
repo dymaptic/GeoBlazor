@@ -70,21 +70,21 @@ export async function buildDotNetRelationshipSchemeForPointGenerated(jsObject: a
             let { buildDotNetRelationshipSchemeForPointOutline } = await import('./relationshipSchemeForPointOutline');
             dotNetRelationshipSchemeForPoint.outline = await buildDotNetRelationshipSchemeForPointOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetRelationshipSchemeForPoint.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetRelationshipSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetRelationshipSchemeForPoint.relationshipSchemeForPointId = jsObject.id;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetRelationshipSchemeForPoint.size = jsObject.size;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetRelationshipSchemeForPoint.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetRelationshipSchemeForPoint.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetRelationshipSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetRelationshipSchemeForPoint.relationshipSchemeForPointId = jsObject.id;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetRelationshipSchemeForPoint.size = jsObject.size;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetRelationshipSchemeForPoint.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

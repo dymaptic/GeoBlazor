@@ -43,18 +43,18 @@ export async function buildDotNetColorSchemesGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemapId)) {
-            dotNetColorSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetColorSchemes.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.primaryScheme)) {
-            dotNetColorSchemes.primaryScheme = jsObject.primaryScheme;
-        }
-        if (hasValue(jsObject.secondarySchemes)) {
-            dotNetColorSchemes.secondarySchemes = jsObject.secondarySchemes;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetColorSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetColorSchemes.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.primaryScheme)) {
+        dotNetColorSchemes.primaryScheme = jsObject.primaryScheme;
+    }
+    if (hasValue(jsObject.secondarySchemes)) {
+        dotNetColorSchemes.secondarySchemes = jsObject.secondarySchemes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

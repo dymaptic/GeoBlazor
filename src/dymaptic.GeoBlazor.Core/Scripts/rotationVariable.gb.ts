@@ -51,27 +51,27 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.axis)) {
-            dotNetRotationVariable.axis = jsObject.axis;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetRotationVariable.field = jsObject.field;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetRotationVariable.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.rotationType)) {
-            dotNetRotationVariable.rotationType = jsObject.rotationType;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetRotationVariable.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetRotationVariable.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.axis)) {
+        dotNetRotationVariable.axis = jsObject.axis;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetRotationVariable.field = jsObject.field;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetRotationVariable.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.rotationType)) {
+        dotNetRotationVariable.rotationType = jsObject.rotationType;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetRotationVariable.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetRotationVariable.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -94,9 +94,9 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<
             let { buildDotNetViewpoint } = await import('./viewpoint');
             dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
         }
-        if (hasValue(jsObject.state)) {
-            dotNetViewAnimation.state = jsObject.state;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetViewAnimation.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

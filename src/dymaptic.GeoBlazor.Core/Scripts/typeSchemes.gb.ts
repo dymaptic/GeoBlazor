@@ -43,18 +43,18 @@ export async function buildDotNetTypeSchemesGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemapId)) {
-            dotNetTypeSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetTypeSchemes.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.primaryScheme)) {
-            dotNetTypeSchemes.primaryScheme = jsObject.primaryScheme;
-        }
-        if (hasValue(jsObject.secondarySchemes)) {
-            dotNetTypeSchemes.secondarySchemes = jsObject.secondarySchemes;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetTypeSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetTypeSchemes.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.primaryScheme)) {
+        dotNetTypeSchemes.primaryScheme = jsObject.primaryScheme;
+    }
+    if (hasValue(jsObject.secondarySchemes)) {
+        dotNetTypeSchemes.secondarySchemes = jsObject.secondarySchemes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

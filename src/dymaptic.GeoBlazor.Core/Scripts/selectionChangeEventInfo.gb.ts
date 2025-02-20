@@ -47,9 +47,9 @@ export async function buildDotNetSelectionChangeEventInfoGenerated(jsObject: any
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetSelectionChangeEventInfo.removed = jsObject.removed.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-        if (hasValue(jsObject.type)) {
-            dotNetSelectionChangeEventInfo.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetSelectionChangeEventInfo.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -53,27 +53,27 @@ export async function buildDotNetElevationProfileLineGenerated(jsObject: any): P
             let { buildDotNetPoint } = await import('./point');
             dotNetElevationProfileLine.hoveredPoint = buildDotNetPoint(jsObject.hoveredPoint);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetElevationProfileLine.elevationProfileLineId = jsObject.id;
-        }
-        if (hasValue(jsObject.progress)) {
-            dotNetElevationProfileLine.progress = jsObject.progress;
-        }
-        if (hasValue(jsObject.samples)) {
-            dotNetElevationProfileLine.samples = jsObject.samples;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetElevationProfileLine.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetElevationProfileLine.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetElevationProfileLine.type = jsObject.type;
-        }
-        if (hasValue(jsObject.viewVisualizationEnabled)) {
-            dotNetElevationProfileLine.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetElevationProfileLine.elevationProfileLineId = jsObject.id;
+    }
+    if (hasValue(jsObject.progress)) {
+        dotNetElevationProfileLine.progress = jsObject.progress;
+    }
+    if (hasValue(jsObject.samples)) {
+        dotNetElevationProfileLine.samples = jsObject.samples;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetElevationProfileLine.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetElevationProfileLine.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetElevationProfileLine.type = jsObject.type;
+    }
+    if (hasValue(jsObject.viewVisualizationEnabled)) {
+        dotNetElevationProfileLine.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -108,21 +108,21 @@ export async function buildDotNetFeatureTemplatesViewModelGenerated(jsObject: an
             let { buildDotNetTemplateItem } = await import('./templateItem');
             dotNetFeatureTemplatesViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTemplateItem(i)));
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetFeatureTemplatesViewModel.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.filterFunction)) {
-            dotNetFeatureTemplatesViewModel.filterFunction = jsObject.filterFunction;
-        }
-        if (hasValue(jsObject.groupBy)) {
-            dotNetFeatureTemplatesViewModel.groupBy = jsObject.groupBy;
-        }
-        if (hasValue(jsObject.layers)) {
-            dotNetFeatureTemplatesViewModel.layers = jsObject.layers;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeatureTemplatesViewModel.state = jsObject.state;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetFeatureTemplatesViewModel.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.filterFunction)) {
+        dotNetFeatureTemplatesViewModel.filterFunction = jsObject.filterFunction;
+    }
+    if (hasValue(jsObject.groupBy)) {
+        dotNetFeatureTemplatesViewModel.groupBy = jsObject.groupBy;
+    }
+    if (hasValue(jsObject.layers)) {
+        dotNetFeatureTemplatesViewModel.layers = jsObject.layers;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeatureTemplatesViewModel.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

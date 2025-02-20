@@ -42,9 +42,9 @@ export async function buildDotNetVisualVariablesResultSizeGenerated(jsObject: an
             let { buildDotNetSizeVariable } = await import('./sizeVariable');
             dotNetVisualVariablesResultSize.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetSizeVariable(i)));
         }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetVisualVariablesResultSize.sizeScheme = jsObject.sizeScheme;
-        }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetVisualVariablesResultSize.sizeScheme = jsObject.sizeScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

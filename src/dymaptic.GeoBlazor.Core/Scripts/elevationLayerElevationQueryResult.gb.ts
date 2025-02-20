@@ -45,12 +45,12 @@ export async function buildDotNetElevationLayerElevationQueryResultGenerated(jsO
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetElevationLayerElevationQueryResult.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.noDataValue)) {
-            dotNetElevationLayerElevationQueryResult.noDataValue = jsObject.noDataValue;
-        }
-        if (hasValue(jsObject.sampleInfo)) {
-            dotNetElevationLayerElevationQueryResult.sampleInfo = jsObject.sampleInfo;
-        }
+    if (hasValue(jsObject.noDataValue)) {
+        dotNetElevationLayerElevationQueryResult.noDataValue = jsObject.noDataValue;
+    }
+    if (hasValue(jsObject.sampleInfo)) {
+        dotNetElevationLayerElevationQueryResult.sampleInfo = jsObject.sampleInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

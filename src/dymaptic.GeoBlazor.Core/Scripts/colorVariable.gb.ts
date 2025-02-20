@@ -5,6 +5,10 @@ import { buildDotNetColorVariable } from './colorVariable';
 
 export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorVariable = new ColorVariable();
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsColorStop } = await import('./colorStop');
+        jsColorVariable.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.field)) {
         jsColorVariable.field = dotNetObject.field;
@@ -15,10 +19,6 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.normalizationField)) {
         jsColorVariable.normalizationField = dotNetObject.normalizationField;
-    }
-    if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsColorVariable.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.valueExpression)) {
         jsColorVariable.valueExpression = dotNetObject.valueExpression;
@@ -52,27 +52,28 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetColorVariable.field = jsObject.field;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetColorVariable.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetColorVariable.normalizationField = jsObject.normalizationField;
-        }
         if (hasValue(jsObject.stops)) {
-            dotNetColorVariable.stops = jsObject.stops;
+            let { buildDotNetColorStop } = await import('./colorStop');
+            dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
         }
-        if (hasValue(jsObject.type)) {
-            dotNetColorVariable.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetColorVariable.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetColorVariable.field = jsObject.field;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetColorVariable.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetColorVariable.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColorVariable.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetColorVariable.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

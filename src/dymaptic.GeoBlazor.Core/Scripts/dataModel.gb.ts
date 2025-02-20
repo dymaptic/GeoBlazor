@@ -36,30 +36,30 @@ export async function buildDotNetDataModelGenerated(jsObject: any): Promise<any>
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetDataModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.arcgisManaged)) {
-            dotNetDataModel.arcgisManaged = jsObject.arcgisManaged;
-        }
-        if (hasValue(jsObject.entityTypes)) {
-            dotNetDataModel.entityTypes = jsObject.entityTypes;
-        }
-        if (hasValue(jsObject.identifierInfo)) {
-            dotNetDataModel.identifierInfo = jsObject.identifierInfo;
-        }
-        if (hasValue(jsObject.metaEntityTypes)) {
-            dotNetDataModel.metaEntityTypes = jsObject.metaEntityTypes;
-        }
-        if (hasValue(jsObject.relationshipTypes)) {
-            dotNetDataModel.relationshipTypes = jsObject.relationshipTypes;
-        }
-        if (hasValue(jsObject.searchIndexes)) {
-            dotNetDataModel.searchIndexes = jsObject.searchIndexes;
-        }
-        if (hasValue(jsObject.strict)) {
-            dotNetDataModel.strict = jsObject.strict;
-        }
-        if (hasValue(jsObject.timestamp)) {
-            dotNetDataModel.timestamp = jsObject.timestamp;
-        }
+    if (hasValue(jsObject.arcgisManaged)) {
+        dotNetDataModel.arcgisManaged = jsObject.arcgisManaged;
+    }
+    if (hasValue(jsObject.entityTypes)) {
+        dotNetDataModel.entityTypes = jsObject.entityTypes;
+    }
+    if (hasValue(jsObject.identifierInfo)) {
+        dotNetDataModel.identifierInfo = jsObject.identifierInfo;
+    }
+    if (hasValue(jsObject.metaEntityTypes)) {
+        dotNetDataModel.metaEntityTypes = jsObject.metaEntityTypes;
+    }
+    if (hasValue(jsObject.relationshipTypes)) {
+        dotNetDataModel.relationshipTypes = jsObject.relationshipTypes;
+    }
+    if (hasValue(jsObject.searchIndexes)) {
+        dotNetDataModel.searchIndexes = jsObject.searchIndexes;
+    }
+    if (hasValue(jsObject.strict)) {
+        dotNetDataModel.strict = jsObject.strict;
+    }
+    if (hasValue(jsObject.timestamp)) {
+        dotNetDataModel.timestamp = jsObject.timestamp;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

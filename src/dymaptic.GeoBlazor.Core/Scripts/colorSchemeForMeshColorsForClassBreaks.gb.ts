@@ -42,9 +42,9 @@ export async function buildDotNetColorSchemeForMeshColorsForClassBreaksGenerated
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSchemeForMeshColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetColorSchemeForMeshColorsForClassBreaks.numClasses = jsObject.numClasses;
-        }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetColorSchemeForMeshColorsForClassBreaks.numClasses = jsObject.numClasses;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -38,9 +38,9 @@ export async function buildDotNetVideoViewParamsGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.container)) {
-            dotNetVideoViewParams.container = jsObject.container;
-        }
+    if (hasValue(jsObject.container)) {
+        dotNetVideoViewParams.container = jsObject.container;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

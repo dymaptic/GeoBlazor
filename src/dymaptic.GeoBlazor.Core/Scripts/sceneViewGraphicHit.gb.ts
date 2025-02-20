@@ -54,12 +54,12 @@ export async function buildDotNetSceneViewGraphicHitGenerated(jsObject: any, lay
             let { buildDotNetPoint } = await import('./point');
             dotNetSceneViewGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.distance)) {
-            dotNetSceneViewGraphicHit.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSceneViewGraphicHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.distance)) {
+        dotNetSceneViewGraphicHit.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSceneViewGraphicHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

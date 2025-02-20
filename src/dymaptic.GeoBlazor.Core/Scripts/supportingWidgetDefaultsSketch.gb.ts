@@ -58,9 +58,9 @@ export async function buildDotNetSupportingWidgetDefaultsSketchGenerated(jsObjec
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
             dotNetSupportingWidgetDefaultsSketch.polylineSymbol = buildDotNetSimpleLineSymbol(jsObject.polylineSymbol);
         }
-        if (hasValue(jsObject.defaultUpdateOptions)) {
-            dotNetSupportingWidgetDefaultsSketch.defaultUpdateOptions = jsObject.defaultUpdateOptions;
-        }
+    if (hasValue(jsObject.defaultUpdateOptions)) {
+        dotNetSupportingWidgetDefaultsSketch.defaultUpdateOptions = jsObject.defaultUpdateOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

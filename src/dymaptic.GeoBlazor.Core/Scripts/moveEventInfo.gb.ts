@@ -45,15 +45,15 @@ export async function buildDotNetMoveEventInfoGenerated(jsObject: any, layerId: 
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetMoveEventInfo.mover = buildDotNetGraphic(jsObject.mover, layerId, viewId);
         }
-        if (hasValue(jsObject.dx)) {
-            dotNetMoveEventInfo.dx = jsObject.dx;
-        }
-        if (hasValue(jsObject.dy)) {
-            dotNetMoveEventInfo.dy = jsObject.dy;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetMoveEventInfo.type = jsObject.type;
-        }
+    if (hasValue(jsObject.dx)) {
+        dotNetMoveEventInfo.dx = jsObject.dx;
+    }
+    if (hasValue(jsObject.dy)) {
+        dotNetMoveEventInfo.dy = jsObject.dy;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetMoveEventInfo.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

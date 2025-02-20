@@ -172,18 +172,18 @@ export async function buildDotNetBookmarksViewModelGenerated(jsObject: any): Pro
             let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
             dotNetBookmarksViewModel.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
         }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetBookmarksViewModel.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetBookmarksViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetBookmarksViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBookmarksViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetBookmarksViewModel.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetBookmarksViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetBookmarksViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBookmarksViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

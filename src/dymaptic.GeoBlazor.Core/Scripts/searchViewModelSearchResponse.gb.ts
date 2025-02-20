@@ -51,18 +51,18 @@ export async function buildDotNetSearchViewModelSearchResponseGenerated(jsObject
             let { buildDotNetSearchViewModelSearchResponseResults } = await import('./searchViewModelSearchResponseResults');
             dotNetSearchViewModelSearchResponse.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResponseResults(i)));
         }
-        if (hasValue(jsObject.activeSourceIndex)) {
-            dotNetSearchViewModelSearchResponse.activeSourceIndex = jsObject.activeSourceIndex;
-        }
-        if (hasValue(jsObject.errors)) {
-            dotNetSearchViewModelSearchResponse.errors = jsObject.errors;
-        }
-        if (hasValue(jsObject.numResults)) {
-            dotNetSearchViewModelSearchResponse.numResults = jsObject.numResults;
-        }
-        if (hasValue(jsObject.searchTerm)) {
-            dotNetSearchViewModelSearchResponse.searchTerm = jsObject.searchTerm;
-        }
+    if (hasValue(jsObject.activeSourceIndex)) {
+        dotNetSearchViewModelSearchResponse.activeSourceIndex = jsObject.activeSourceIndex;
+    }
+    if (hasValue(jsObject.errors)) {
+        dotNetSearchViewModelSearchResponse.errors = jsObject.errors;
+    }
+    if (hasValue(jsObject.numResults)) {
+        dotNetSearchViewModelSearchResponse.numResults = jsObject.numResults;
+    }
+    if (hasValue(jsObject.searchTerm)) {
+        dotNetSearchViewModelSearchResponse.searchTerm = jsObject.searchTerm;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

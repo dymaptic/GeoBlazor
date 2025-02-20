@@ -65,18 +65,18 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any): 
             let { buildDotNetPoint } = await import('./point');
             dotNetImageHeightParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
         }
-        if (hasValue(jsObject.linearUnit)) {
-            dotNetImageHeightParameters.linearUnit = jsObject.linearUnit;
-        }
-        if (hasValue(jsObject.operationType)) {
-            dotNetImageHeightParameters.operationType = jsObject.operationType;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageHeightParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageHeightParameters.type = jsObject.type;
-        }
+    if (hasValue(jsObject.linearUnit)) {
+        dotNetImageHeightParameters.linearUnit = jsObject.linearUnit;
+    }
+    if (hasValue(jsObject.operationType)) {
+        dotNetImageHeightParameters.operationType = jsObject.operationType;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageHeightParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageHeightParameters.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

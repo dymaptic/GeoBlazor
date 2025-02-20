@@ -4,16 +4,16 @@ import { buildDotNetFlowGetSchemesParams } from './flowGetSchemesParams';
 
 export async function buildJsFlowGetSchemesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsflowGetSchemesParams: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsflowGetSchemesParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemap)) {
         jsflowGetSchemesParams.basemap = dotNetObject.basemap;
     }
     if (hasValue(dotNetObject.basemapTheme)) {
         jsflowGetSchemesParams.basemapTheme = dotNetObject.basemapTheme;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsflowGetSchemesParams.theme = sanitizedTheme;
     }
     
     // @ts-ignore
@@ -41,15 +41,16 @@ export async function buildDotNetFlowGetSchemesParamsGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetFlowGetSchemesParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetFlowGetSchemesParams.basemapTheme = jsObject.basemapTheme;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetFlowGetSchemesParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetFlowGetSchemesParams.theme = await buildDotNetTheme(jsObject.theme);
         }
+    if (hasValue(jsObject.basemap)) {
+        dotNetFlowGetSchemesParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetFlowGetSchemesParams.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

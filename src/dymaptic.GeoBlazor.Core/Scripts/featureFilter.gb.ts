@@ -125,21 +125,21 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.distance)) {
-            dotNetFeatureFilter.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetFeatureFilter.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.spatialRelationship)) {
-            dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
-        }
-        if (hasValue(jsObject.units)) {
-            dotNetFeatureFilter.units = jsObject.units;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetFeatureFilter.where = jsObject.where;
-        }
+    if (hasValue(jsObject.distance)) {
+        dotNetFeatureFilter.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetFeatureFilter.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.spatialRelationship)) {
+        dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
+    }
+    if (hasValue(jsObject.units)) {
+        dotNetFeatureFilter.units = jsObject.units;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetFeatureFilter.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -105,24 +105,24 @@ export async function buildDotNetDataLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetDataLayer.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.doNotLocateOnRestrictedElements)) {
-            dotNetDataLayer.doNotLocateOnRestrictedElements = jsObject.doNotLocateOnRestrictedElements;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetDataLayer.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetDataLayer.name = jsObject.name;
-        }
-        if (hasValue(jsObject.spatialRelationship)) {
-            dotNetDataLayer.spatialRelationship = jsObject.spatialRelationship;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDataLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetDataLayer.where = jsObject.where;
-        }
+    if (hasValue(jsObject.doNotLocateOnRestrictedElements)) {
+        dotNetDataLayer.doNotLocateOnRestrictedElements = jsObject.doNotLocateOnRestrictedElements;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetDataLayer.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetDataLayer.name = jsObject.name;
+    }
+    if (hasValue(jsObject.spatialRelationship)) {
+        dotNetDataLayer.spatialRelationship = jsObject.spatialRelationship;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDataLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetDataLayer.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

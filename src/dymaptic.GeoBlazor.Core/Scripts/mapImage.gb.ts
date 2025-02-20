@@ -55,21 +55,21 @@ export async function buildDotNetMapImageGenerated(jsObject: any): Promise<any> 
             let { buildDotNetExtent } = await import('./extent');
             dotNetMapImage.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.height)) {
-            dotNetMapImage.height = jsObject.height;
-        }
-        if (hasValue(jsObject.href)) {
-            dotNetMapImage.href = jsObject.href;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetMapImage.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetMapImage.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetMapImage.width = jsObject.width;
-        }
+    if (hasValue(jsObject.height)) {
+        dotNetMapImage.height = jsObject.height;
+    }
+    if (hasValue(jsObject.href)) {
+        dotNetMapImage.href = jsObject.href;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetMapImage.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetMapImage.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetMapImage.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

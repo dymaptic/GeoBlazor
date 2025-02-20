@@ -84,27 +84,27 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
             let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
             dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
         }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetWFSLayerInfo.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetWFSLayerInfo.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetWFSLayerInfo.name = jsObject.name;
-        }
-        if (hasValue(jsObject.namespaceUri)) {
-            dotNetWFSLayerInfo.namespaceUri = jsObject.namespaceUri;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetWFSLayerInfo.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.swapXY)) {
-            dotNetWFSLayerInfo.swapXY = jsObject.swapXY;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetWFSLayerInfo.url = jsObject.url;
-        }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetWFSLayerInfo.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetWFSLayerInfo.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetWFSLayerInfo.name = jsObject.name;
+    }
+    if (hasValue(jsObject.namespaceUri)) {
+        dotNetWFSLayerInfo.namespaceUri = jsObject.namespaceUri;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetWFSLayerInfo.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.swapXY)) {
+        dotNetWFSLayerInfo.swapXY = jsObject.swapXY;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetWFSLayerInfo.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

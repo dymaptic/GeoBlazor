@@ -45,12 +45,12 @@ export async function buildDotNetLocationSchemeForPolylineGenerated(jsObject: an
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetLocationSchemeForPolyline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.opacity)) {
-            dotNetLocationSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetLocationSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.opacity)) {
+        dotNetLocationSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetLocationSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

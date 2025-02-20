@@ -75,18 +75,18 @@ export async function buildDotNetPredominanceRendererResultGenerated(jsObject: a
             let { buildDotNetSizeVisualVariableResult } = await import('./sizeVisualVariableResult');
             dotNetPredominanceRendererResult.size = await buildDotNetSizeVisualVariableResult(jsObject.size);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetPredominanceRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetPredominanceRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.excludedCategoryInfos)) {
-            dotNetPredominanceRendererResult.excludedCategoryInfos = jsObject.excludedCategoryInfos;
-        }
-        if (hasValue(jsObject.predominanceScheme)) {
-            dotNetPredominanceRendererResult.predominanceScheme = jsObject.predominanceScheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetPredominanceRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetPredominanceRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.excludedCategoryInfos)) {
+        dotNetPredominanceRendererResult.excludedCategoryInfos = jsObject.excludedCategoryInfos;
+    }
+    if (hasValue(jsObject.predominanceScheme)) {
+        dotNetPredominanceRendererResult.predominanceScheme = jsObject.predominanceScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

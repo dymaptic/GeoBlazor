@@ -250,78 +250,78 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetFeaturesViewModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.actions)) {
-            dotNetFeaturesViewModel.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetFeaturesViewModel.active = jsObject.active;
-        }
-        if (hasValue(jsObject.allActions)) {
-            dotNetFeaturesViewModel.allActions = jsObject.allActions;
-        }
-        if (hasValue(jsObject.autoCloseEnabled)) {
-            dotNetFeaturesViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
-        }
-        if (hasValue(jsObject.browseClusterEnabled)) {
-            dotNetFeaturesViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetFeaturesViewModel.content = jsObject.content;
-        }
-        if (hasValue(jsObject.defaultActions)) {
-            dotNetFeaturesViewModel.defaultActions = jsObject.defaultActions;
-        }
-        if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
-            dotNetFeaturesViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
-        }
-        if (hasValue(jsObject.featureCount)) {
-            dotNetFeaturesViewModel.featureCount = jsObject.featureCount;
-        }
-        if (hasValue(jsObject.featuresPerPage)) {
-            dotNetFeaturesViewModel.featuresPerPage = jsObject.featuresPerPage;
-        }
-        if (hasValue(jsObject.featureViewModelAbilities)) {
-            dotNetFeaturesViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetFeaturesViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetFeaturesViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.includeDefaultActions)) {
-            dotNetFeaturesViewModel.includeDefaultActions = jsObject.includeDefaultActions;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetFeaturesViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.pendingPromisesCount)) {
-            dotNetFeaturesViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
-        }
-        if (hasValue(jsObject.promiseCount)) {
-            dotNetFeaturesViewModel.promiseCount = jsObject.promiseCount;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetFeaturesViewModel.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.selectedFeatureIndex)) {
-            dotNetFeaturesViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeaturesViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeaturesViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeaturesViewModel.title = jsObject.title;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFeaturesViewModel.view = jsObject.view;
-        }
-        if (hasValue(jsObject.waitingForResult)) {
-            dotNetFeaturesViewModel.waitingForResult = jsObject.waitingForResult;
-        }
+    if (hasValue(jsObject.actions)) {
+        dotNetFeaturesViewModel.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetFeaturesViewModel.active = jsObject.active;
+    }
+    if (hasValue(jsObject.allActions)) {
+        dotNetFeaturesViewModel.allActions = jsObject.allActions;
+    }
+    if (hasValue(jsObject.autoCloseEnabled)) {
+        dotNetFeaturesViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
+    }
+    if (hasValue(jsObject.browseClusterEnabled)) {
+        dotNetFeaturesViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetFeaturesViewModel.content = jsObject.content;
+    }
+    if (hasValue(jsObject.defaultActions)) {
+        dotNetFeaturesViewModel.defaultActions = jsObject.defaultActions;
+    }
+    if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
+        dotNetFeaturesViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
+    }
+    if (hasValue(jsObject.featureCount)) {
+        dotNetFeaturesViewModel.featureCount = jsObject.featureCount;
+    }
+    if (hasValue(jsObject.featuresPerPage)) {
+        dotNetFeaturesViewModel.featuresPerPage = jsObject.featuresPerPage;
+    }
+    if (hasValue(jsObject.featureViewModelAbilities)) {
+        dotNetFeaturesViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetFeaturesViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetFeaturesViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.includeDefaultActions)) {
+        dotNetFeaturesViewModel.includeDefaultActions = jsObject.includeDefaultActions;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetFeaturesViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.pendingPromisesCount)) {
+        dotNetFeaturesViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
+    }
+    if (hasValue(jsObject.promiseCount)) {
+        dotNetFeaturesViewModel.promiseCount = jsObject.promiseCount;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetFeaturesViewModel.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.selectedFeatureIndex)) {
+        dotNetFeaturesViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeaturesViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeaturesViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeaturesViewModel.title = jsObject.title;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFeaturesViewModel.view = jsObject.view;
+    }
+    if (hasValue(jsObject.waitingForResult)) {
+        dotNetFeaturesViewModel.waitingForResult = jsObject.waitingForResult;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -52,18 +52,18 @@ export async function buildDotNetOffsetParametersGenerated(jsObject: any): Promi
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetOffsetParameters.geometries = jsObject.geometries.map(i => buildDotNetGeometry(i));
         }
-        if (hasValue(jsObject.bevelRatio)) {
-            dotNetOffsetParameters.bevelRatio = jsObject.bevelRatio;
-        }
-        if (hasValue(jsObject.offsetDistance)) {
-            dotNetOffsetParameters.offsetDistance = jsObject.offsetDistance;
-        }
-        if (hasValue(jsObject.offsetHow)) {
-            dotNetOffsetParameters.offsetHow = jsObject.offsetHow;
-        }
-        if (hasValue(jsObject.offsetUnit)) {
-            dotNetOffsetParameters.offsetUnit = jsObject.offsetUnit;
-        }
+    if (hasValue(jsObject.bevelRatio)) {
+        dotNetOffsetParameters.bevelRatio = jsObject.bevelRatio;
+    }
+    if (hasValue(jsObject.offsetDistance)) {
+        dotNetOffsetParameters.offsetDistance = jsObject.offsetDistance;
+    }
+    if (hasValue(jsObject.offsetHow)) {
+        dotNetOffsetParameters.offsetHow = jsObject.offsetHow;
+    }
+    if (hasValue(jsObject.offsetUnit)) {
+        dotNetOffsetParameters.offsetUnit = jsObject.offsetUnit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

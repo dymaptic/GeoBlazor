@@ -121,51 +121,51 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.autoCollapse)) {
-            dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
-        }
-        if (hasValue(jsObject.closeOnEsc)) {
-            dotNetExpandWidget.closeOnEsc = jsObject.closeOnEsc;
-        }
-        if (hasValue(jsObject.collapseIcon)) {
-            dotNetExpandWidget.collapseIcon = jsObject.collapseIcon;
-        }
-        if (hasValue(jsObject.collapseTooltip)) {
-            dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetExpandWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.expanded)) {
-            dotNetExpandWidget.expanded = jsObject.expanded;
-        }
-        if (hasValue(jsObject.expandIcon)) {
-            dotNetExpandWidget.expandIcon = jsObject.expandIcon;
-        }
-        if (hasValue(jsObject.expandTooltip)) {
-            dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
-        }
-        if (hasValue(jsObject.group)) {
-            dotNetExpandWidget.group = jsObject.group;
-        }
-        if (hasValue(jsObject.iconNumber)) {
-            dotNetExpandWidget.iconNumber = jsObject.iconNumber;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetExpandWidget.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.placement)) {
-            dotNetExpandWidget.placement = jsObject.placement;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetExpandWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetExpandWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.viewModel)) {
-            dotNetExpandWidget.viewModel = jsObject.viewModel;
-        }
+    if (hasValue(jsObject.autoCollapse)) {
+        dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
+    }
+    if (hasValue(jsObject.closeOnEsc)) {
+        dotNetExpandWidget.closeOnEsc = jsObject.closeOnEsc;
+    }
+    if (hasValue(jsObject.collapseIcon)) {
+        dotNetExpandWidget.collapseIcon = jsObject.collapseIcon;
+    }
+    if (hasValue(jsObject.collapseTooltip)) {
+        dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetExpandWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.expanded)) {
+        dotNetExpandWidget.expanded = jsObject.expanded;
+    }
+    if (hasValue(jsObject.expandIcon)) {
+        dotNetExpandWidget.expandIcon = jsObject.expandIcon;
+    }
+    if (hasValue(jsObject.expandTooltip)) {
+        dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
+    }
+    if (hasValue(jsObject.group)) {
+        dotNetExpandWidget.group = jsObject.group;
+    }
+    if (hasValue(jsObject.iconNumber)) {
+        dotNetExpandWidget.iconNumber = jsObject.iconNumber;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetExpandWidget.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.placement)) {
+        dotNetExpandWidget.placement = jsObject.placement;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetExpandWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetExpandWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.viewModel)) {
+        dotNetExpandWidget.viewModel = jsObject.viewModel;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

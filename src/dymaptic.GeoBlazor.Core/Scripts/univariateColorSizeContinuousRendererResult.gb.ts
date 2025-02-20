@@ -67,18 +67,18 @@ export async function buildDotNetUnivariateColorSizeContinuousRendererResultGene
             let { buildDotNetContinuousRendererResultSize } = await import('./continuousRendererResultSize');
             dotNetUnivariateColorSizeContinuousRendererResult.size = await buildDotNetContinuousRendererResultSize(jsObject.size);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetUnivariateColorSizeContinuousRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetUnivariateColorSizeContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetUnivariateColorSizeContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetUnivariateColorSizeContinuousRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetUnivariateColorSizeContinuousRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetUnivariateColorSizeContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetUnivariateColorSizeContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetUnivariateColorSizeContinuousRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

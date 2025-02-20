@@ -112,9 +112,9 @@ export async function buildDotNetManagedFBOGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.name)) {
-            dotNetManagedFBO.name = jsObject.name;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetManagedFBO.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

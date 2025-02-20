@@ -49,15 +49,15 @@ export async function buildDotNetIdentifyResultGenerated(jsObject: any, layerId:
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetIdentifyResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.displayFieldName)) {
-            dotNetIdentifyResult.displayFieldName = jsObject.displayFieldName;
-        }
-        if (hasValue(jsObject.layerId)) {
-            dotNetIdentifyResult.layerId = jsObject.layerId;
-        }
-        if (hasValue(jsObject.layerName)) {
-            dotNetIdentifyResult.layerName = jsObject.layerName;
-        }
+    if (hasValue(jsObject.displayFieldName)) {
+        dotNetIdentifyResult.displayFieldName = jsObject.displayFieldName;
+    }
+    if (hasValue(jsObject.layerId)) {
+        dotNetIdentifyResult.layerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.layerName)) {
+        dotNetIdentifyResult.layerName = jsObject.layerName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

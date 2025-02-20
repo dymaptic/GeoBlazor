@@ -56,27 +56,27 @@ export async function buildDotNetEditableItemGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.attachmentsOnCreateEnabled)) {
-            dotNetEditableItem.attachmentsOnCreateEnabled = jsObject.attachmentsOnCreateEnabled;
-        }
-        if (hasValue(jsObject.attachmentsOnUpdateEnabled)) {
-            dotNetEditableItem.attachmentsOnUpdateEnabled = jsObject.attachmentsOnUpdateEnabled;
-        }
-        if (hasValue(jsObject.attributeUpdatesEnabled)) {
-            dotNetEditableItem.attributeUpdatesEnabled = jsObject.attributeUpdatesEnabled;
-        }
-        if (hasValue(jsObject.geometryUpdatesEnabled)) {
-            dotNetEditableItem.geometryUpdatesEnabled = jsObject.geometryUpdatesEnabled;
-        }
-        if (hasValue(jsObject.hasAttachments)) {
-            dotNetEditableItem.hasAttachments = jsObject.hasAttachments;
-        }
-        if (hasValue(jsObject.hasInvalidFormTemplate)) {
-            dotNetEditableItem.hasInvalidFormTemplate = jsObject.hasInvalidFormTemplate;
-        }
-        if (hasValue(jsObject.supports)) {
-            dotNetEditableItem.supports = jsObject.supports;
-        }
+    if (hasValue(jsObject.attachmentsOnCreateEnabled)) {
+        dotNetEditableItem.attachmentsOnCreateEnabled = jsObject.attachmentsOnCreateEnabled;
+    }
+    if (hasValue(jsObject.attachmentsOnUpdateEnabled)) {
+        dotNetEditableItem.attachmentsOnUpdateEnabled = jsObject.attachmentsOnUpdateEnabled;
+    }
+    if (hasValue(jsObject.attributeUpdatesEnabled)) {
+        dotNetEditableItem.attributeUpdatesEnabled = jsObject.attributeUpdatesEnabled;
+    }
+    if (hasValue(jsObject.geometryUpdatesEnabled)) {
+        dotNetEditableItem.geometryUpdatesEnabled = jsObject.geometryUpdatesEnabled;
+    }
+    if (hasValue(jsObject.hasAttachments)) {
+        dotNetEditableItem.hasAttachments = jsObject.hasAttachments;
+    }
+    if (hasValue(jsObject.hasInvalidFormTemplate)) {
+        dotNetEditableItem.hasInvalidFormTemplate = jsObject.hasInvalidFormTemplate;
+    }
+    if (hasValue(jsObject.supports)) {
+        dotNetEditableItem.supports = jsObject.supports;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

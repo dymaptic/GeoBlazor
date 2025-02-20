@@ -4,6 +4,10 @@ import { buildDotNetFlowGetSchemesByTagParams } from './flowGetSchemesByTagParam
 
 export async function buildJsFlowGetSchemesByTagParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsflowGetSchemesByTagParams: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsflowGetSchemesByTagParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemap)) {
         jsflowGetSchemesByTagParams.basemap = dotNetObject.basemap;
@@ -16,10 +20,6 @@ export async function buildJsFlowGetSchemesByTagParamsGenerated(dotNetObject: an
     }
     if (hasValue(dotNetObject.includedTags)) {
         jsflowGetSchemesByTagParams.includedTags = dotNetObject.includedTags;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsflowGetSchemesByTagParams.theme = sanitizedTheme;
     }
     
     // @ts-ignore
@@ -47,21 +47,22 @@ export async function buildDotNetFlowGetSchemesByTagParamsGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetFlowGetSchemesByTagParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetFlowGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.excludedTags)) {
-            dotNetFlowGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
-        }
-        if (hasValue(jsObject.includedTags)) {
-            dotNetFlowGetSchemesByTagParams.includedTags = jsObject.includedTags;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetFlowGetSchemesByTagParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetFlowGetSchemesByTagParams.theme = await buildDotNetTheme(jsObject.theme);
         }
+    if (hasValue(jsObject.basemap)) {
+        dotNetFlowGetSchemesByTagParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetFlowGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.excludedTags)) {
+        dotNetFlowGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
+    }
+    if (hasValue(jsObject.includedTags)) {
+        dotNetFlowGetSchemesByTagParams.includedTags = jsObject.includedTags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

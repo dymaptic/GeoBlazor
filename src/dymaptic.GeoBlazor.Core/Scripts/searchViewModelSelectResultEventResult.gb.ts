@@ -50,9 +50,9 @@ export async function buildDotNetSearchViewModelSelectResultEventResultGenerated
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetSearchViewModelSelectResultEventResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetSearchViewModelSelectResultEventResult.name = jsObject.name;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetSearchViewModelSelectResultEventResult.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -38,12 +38,12 @@ export async function buildDotNetImageryLayerSaveAsOptionsGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            dotNetImageryLayerSaveAsOptions.folder = jsObject.folder;
-        }
-        if (hasValue(jsObject.validationOptions)) {
-            dotNetImageryLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
-        }
+    if (hasValue(jsObject.folder)) {
+        dotNetImageryLayerSaveAsOptions.folder = jsObject.folder;
+    }
+    if (hasValue(jsObject.validationOptions)) {
+        dotNetImageryLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

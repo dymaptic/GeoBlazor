@@ -42,9 +42,9 @@ export async function buildDotNetTextSymbol3DLayerHaloGenerated(jsObject: any): 
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetTextSymbol3DLayerHalo.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.size)) {
-            dotNetTextSymbol3DLayerHalo.size = jsObject.size;
-        }
+    if (hasValue(jsObject.size)) {
+        dotNetTextSymbol3DLayerHalo.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

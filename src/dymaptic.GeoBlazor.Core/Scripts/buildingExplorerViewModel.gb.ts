@@ -47,12 +47,12 @@ export async function buildDotNetBuildingExplorerViewModelGenerated(jsObject: an
             let { buildDotNetBuildingPhase } = await import('./buildingPhase');
             dotNetBuildingExplorerViewModel.phase = await buildDotNetBuildingPhase(jsObject.phase);
         }
-        if (hasValue(jsObject.state)) {
-            dotNetBuildingExplorerViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBuildingExplorerViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetBuildingExplorerViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBuildingExplorerViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

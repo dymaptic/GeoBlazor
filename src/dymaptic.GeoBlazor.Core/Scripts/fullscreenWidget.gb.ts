@@ -92,15 +92,15 @@ export async function buildDotNetFullscreenWidgetGenerated(jsObject: any): Promi
             let { buildDotNetFullscreenViewModel } = await import('./fullscreenViewModel');
             dotNetFullscreenWidget.viewModel = await buildDotNetFullscreenViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.element)) {
-            dotNetFullscreenWidget.element = jsObject.element;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFullscreenWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFullscreenWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.element)) {
+        dotNetFullscreenWidget.element = jsObject.element;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFullscreenWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFullscreenWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

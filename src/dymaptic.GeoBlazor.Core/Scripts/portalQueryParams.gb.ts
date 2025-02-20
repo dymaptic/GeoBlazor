@@ -61,27 +61,27 @@ export async function buildDotNetPortalQueryParamsGenerated(jsObject: any): Prom
             let { buildDotNetExtent } = await import('./extent');
             dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.categories)) {
-            dotNetPortalQueryParams.categories = jsObject.categories;
-        }
-        if (hasValue(jsObject.filter)) {
-            dotNetPortalQueryParams.filter = jsObject.filter;
-        }
-        if (hasValue(jsObject.num)) {
-            dotNetPortalQueryParams.num = jsObject.num;
-        }
-        if (hasValue(jsObject.query)) {
-            dotNetPortalQueryParams.query = jsObject.query;
-        }
-        if (hasValue(jsObject.sortField)) {
-            dotNetPortalQueryParams.sortField = jsObject.sortField;
-        }
-        if (hasValue(jsObject.sortOrder)) {
-            dotNetPortalQueryParams.sortOrder = jsObject.sortOrder;
-        }
-        if (hasValue(jsObject.start)) {
-            dotNetPortalQueryParams.start = jsObject.start;
-        }
+    if (hasValue(jsObject.categories)) {
+        dotNetPortalQueryParams.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.filter)) {
+        dotNetPortalQueryParams.filter = jsObject.filter;
+    }
+    if (hasValue(jsObject.num)) {
+        dotNetPortalQueryParams.num = jsObject.num;
+    }
+    if (hasValue(jsObject.query)) {
+        dotNetPortalQueryParams.query = jsObject.query;
+    }
+    if (hasValue(jsObject.sortField)) {
+        dotNetPortalQueryParams.sortField = jsObject.sortField;
+    }
+    if (hasValue(jsObject.sortOrder)) {
+        dotNetPortalQueryParams.sortOrder = jsObject.sortOrder;
+    }
+    if (hasValue(jsObject.start)) {
+        dotNetPortalQueryParams.start = jsObject.start;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

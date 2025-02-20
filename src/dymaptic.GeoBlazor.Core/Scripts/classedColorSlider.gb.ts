@@ -201,42 +201,42 @@ export async function buildDotNetClassedColorSliderGenerated(jsObject: any): Pro
             let { buildDotNetClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
             dotNetClassedColorSlider.viewModel = await buildDotNetClassedColorSliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetClassedColorSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetClassedColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetClassedColorSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetClassedColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetClassedColorSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetClassedColorSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetClassedColorSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetClassedColorSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetClassedColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetClassedColorSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetClassedColorSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetClassedColorSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetClassedColorSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetClassedColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetClassedColorSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetClassedColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetClassedColorSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetClassedColorSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetClassedColorSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetClassedColorSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetClassedColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetClassedColorSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetClassedColorSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetClassedColorSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

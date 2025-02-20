@@ -46,12 +46,12 @@ export async function buildDotNetGeneralizeParametersGenerated(jsObject: any): P
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetGeneralizeParameters.geometries = jsObject.geometries.map(i => buildDotNetGeometry(i));
         }
-        if (hasValue(jsObject.deviationUnit)) {
-            dotNetGeneralizeParameters.deviationUnit = jsObject.deviationUnit;
-        }
-        if (hasValue(jsObject.maxDeviation)) {
-            dotNetGeneralizeParameters.maxDeviation = jsObject.maxDeviation;
-        }
+    if (hasValue(jsObject.deviationUnit)) {
+        dotNetGeneralizeParameters.deviationUnit = jsObject.deviationUnit;
+    }
+    if (hasValue(jsObject.maxDeviation)) {
+        dotNetGeneralizeParameters.maxDeviation = jsObject.maxDeviation;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

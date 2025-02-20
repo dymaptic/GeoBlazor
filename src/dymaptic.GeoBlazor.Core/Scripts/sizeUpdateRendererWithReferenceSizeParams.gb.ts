@@ -71,33 +71,33 @@ export async function buildDotNetSizeUpdateRendererWithReferenceSizeParamsGenera
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetSizeUpdateRendererWithReferenceSizeParams.renderer = await buildDotNetRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.field)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.referenceSizeOptions)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.referenceSizeOptions = jsObject.referenceSizeOptions;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.sizeStops)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.sizeStops = jsObject.sizeStops;
-        }
-        if (hasValue(jsObject.typeScheme)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.typeScheme = jsObject.typeScheme;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSizeUpdateRendererWithReferenceSizeParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.referenceSizeOptions)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.referenceSizeOptions = jsObject.referenceSizeOptions;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.sizeStops)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.sizeStops = jsObject.sizeStops;
+    }
+    if (hasValue(jsObject.typeScheme)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.typeScheme = jsObject.typeScheme;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSizeUpdateRendererWithReferenceSizeParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

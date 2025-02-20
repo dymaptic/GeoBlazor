@@ -42,9 +42,9 @@ export async function buildDotNetConvertMeshOptionsGenerated(jsObject: any): Pro
             let { buildDotNetPoint } = await import('./point');
             dotNetConvertMeshOptions.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.signal)) {
-            dotNetConvertMeshOptions.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.signal)) {
+        dotNetConvertMeshOptions.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

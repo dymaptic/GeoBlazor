@@ -51,21 +51,21 @@ export async function buildDotNetCIMLineCalloutGenerated(jsObject: any): Promise
             let { buildDotNetCIMLineSymbol } = await import('./cIMLineSymbol');
             dotNetCIMLineCallout.leaderLineSymbol = await buildDotNetCIMLineSymbol(jsObject.leaderLineSymbol);
         }
-        if (hasValue(jsObject.gap)) {
-            dotNetCIMLineCallout.gap = jsObject.gap;
-        }
-        if (hasValue(jsObject.leaderOffset)) {
-            dotNetCIMLineCallout.leaderOffset = jsObject.leaderOffset;
-        }
-        if (hasValue(jsObject.leaderTolerance)) {
-            dotNetCIMLineCallout.leaderTolerance = jsObject.leaderTolerance;
-        }
-        if (hasValue(jsObject.lineStyle)) {
-            dotNetCIMLineCallout.lineStyle = jsObject.lineStyle;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMLineCallout.type = jsObject.type;
-        }
+    if (hasValue(jsObject.gap)) {
+        dotNetCIMLineCallout.gap = jsObject.gap;
+    }
+    if (hasValue(jsObject.leaderOffset)) {
+        dotNetCIMLineCallout.leaderOffset = jsObject.leaderOffset;
+    }
+    if (hasValue(jsObject.leaderTolerance)) {
+        dotNetCIMLineCallout.leaderTolerance = jsObject.leaderTolerance;
+    }
+    if (hasValue(jsObject.lineStyle)) {
+        dotNetCIMLineCallout.lineStyle = jsObject.lineStyle;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMLineCallout.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

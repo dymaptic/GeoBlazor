@@ -67,18 +67,18 @@ export async function buildDotNetTypeSchemeForPointGenerated(jsObject: any): Pro
             let { buildDotNetTypeSchemeForPointOutline } = await import('./typeSchemeForPointOutline');
             dotNetTypeSchemeForPoint.outline = await buildDotNetTypeSchemeForPointOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetTypeSchemeForPoint.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetTypeSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetTypeSchemeForPoint.size = jsObject.size;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetTypeSchemeForPoint.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetTypeSchemeForPoint.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetTypeSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetTypeSchemeForPoint.size = jsObject.size;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetTypeSchemeForPoint.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -124,15 +124,15 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any)
             let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
             dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
         }
-        if (hasValue(jsObject.source)) {
-            dotNetBasemapGalleryViewModel.source = jsObject.source;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetBasemapGalleryViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapGalleryViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.source)) {
+        dotNetBasemapGalleryViewModel.source = jsObject.source;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetBasemapGalleryViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapGalleryViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

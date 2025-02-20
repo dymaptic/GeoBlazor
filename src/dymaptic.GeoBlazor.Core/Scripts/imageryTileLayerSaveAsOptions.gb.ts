@@ -38,12 +38,12 @@ export async function buildDotNetImageryTileLayerSaveAsOptionsGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            dotNetImageryTileLayerSaveAsOptions.folder = jsObject.folder;
-        }
-        if (hasValue(jsObject.validationOptions)) {
-            dotNetImageryTileLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
-        }
+    if (hasValue(jsObject.folder)) {
+        dotNetImageryTileLayerSaveAsOptions.folder = jsObject.folder;
+    }
+    if (hasValue(jsObject.validationOptions)) {
+        dotNetImageryTileLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

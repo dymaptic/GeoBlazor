@@ -58,24 +58,24 @@ export async function buildDotNetRouteSymbolsGenerated(jsObject: any): Promise<a
             let { buildDotNetRouteStopSymbols } = await import('./routeStopSymbols');
             dotNetRouteSymbols.stops = await buildDotNetRouteStopSymbols(jsObject.stops);
         }
-        if (hasValue(jsObject.directionLines)) {
-            dotNetRouteSymbols.directionLines = jsObject.directionLines;
-        }
-        if (hasValue(jsObject.directionPoints)) {
-            dotNetRouteSymbols.directionPoints = jsObject.directionPoints;
-        }
-        if (hasValue(jsObject.pointBarriers)) {
-            dotNetRouteSymbols.pointBarriers = jsObject.pointBarriers;
-        }
-        if (hasValue(jsObject.polygonBarriers)) {
-            dotNetRouteSymbols.polygonBarriers = jsObject.polygonBarriers;
-        }
-        if (hasValue(jsObject.polylineBarriers)) {
-            dotNetRouteSymbols.polylineBarriers = jsObject.polylineBarriers;
-        }
-        if (hasValue(jsObject.routeInfo)) {
-            dotNetRouteSymbols.routeInfo = jsObject.routeInfo;
-        }
+    if (hasValue(jsObject.directionLines)) {
+        dotNetRouteSymbols.directionLines = jsObject.directionLines;
+    }
+    if (hasValue(jsObject.directionPoints)) {
+        dotNetRouteSymbols.directionPoints = jsObject.directionPoints;
+    }
+    if (hasValue(jsObject.pointBarriers)) {
+        dotNetRouteSymbols.pointBarriers = jsObject.pointBarriers;
+    }
+    if (hasValue(jsObject.polygonBarriers)) {
+        dotNetRouteSymbols.polygonBarriers = jsObject.polygonBarriers;
+    }
+    if (hasValue(jsObject.polylineBarriers)) {
+        dotNetRouteSymbols.polylineBarriers = jsObject.polylineBarriers;
+    }
+    if (hasValue(jsObject.routeInfo)) {
+        dotNetRouteSymbols.routeInfo = jsObject.routeInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

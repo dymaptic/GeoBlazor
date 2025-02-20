@@ -117,84 +117,84 @@ export async function buildDotNetCIMVectorMarkerGenerated(jsObject: any): Promis
             let { buildDotNetCIMMarkerGraphic } = await import('./cIMMarkerGraphic');
             dotNetCIMVectorMarker.markerGraphics = await Promise.all(jsObject.markerGraphics.map(async i => await buildDotNetCIMMarkerGraphic(i)));
         }
-        if (hasValue(jsObject.anchorPoint)) {
-            dotNetCIMVectorMarker.anchorPoint = jsObject.anchorPoint;
-        }
-        if (hasValue(jsObject.anchorPointUnits)) {
-            dotNetCIMVectorMarker.anchorPointUnits = jsObject.anchorPointUnits;
-        }
-        if (hasValue(jsObject.angleX)) {
-            dotNetCIMVectorMarker.angleX = jsObject.angleX;
-        }
-        if (hasValue(jsObject.angleY)) {
-            dotNetCIMVectorMarker.angleY = jsObject.angleY;
-        }
-        if (hasValue(jsObject.billboardMode3D)) {
-            dotNetCIMVectorMarker.billboardMode3D = jsObject.billboardMode3D;
-        }
-        if (hasValue(jsObject.clippingPath)) {
-            dotNetCIMVectorMarker.clippingPath = jsObject.clippingPath;
-        }
-        if (hasValue(jsObject.colorLocked)) {
-            dotNetCIMVectorMarker.colorLocked = jsObject.colorLocked;
-        }
-        if (hasValue(jsObject.depth3D)) {
-            dotNetCIMVectorMarker.depth3D = jsObject.depth3D;
-        }
-        if (hasValue(jsObject.dominantSizeAxis3D)) {
-            dotNetCIMVectorMarker.dominantSizeAxis3D = jsObject.dominantSizeAxis3D;
-        }
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMVectorMarker.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.enable)) {
-            dotNetCIMVectorMarker.enable = jsObject.enable;
-        }
-        if (hasValue(jsObject.frame)) {
-            dotNetCIMVectorMarker.frame = jsObject.frame;
-        }
-        if (hasValue(jsObject.markerPlacement)) {
-            dotNetCIMVectorMarker.markerPlacement = jsObject.markerPlacement;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetCIMVectorMarker.name = jsObject.name;
-        }
-        if (hasValue(jsObject.offsetX)) {
-            dotNetCIMVectorMarker.offsetX = jsObject.offsetX;
-        }
-        if (hasValue(jsObject.offsetY)) {
-            dotNetCIMVectorMarker.offsetY = jsObject.offsetY;
-        }
-        if (hasValue(jsObject.offsetZ)) {
-            dotNetCIMVectorMarker.offsetZ = jsObject.offsetZ;
-        }
-        if (hasValue(jsObject.overprint)) {
-            dotNetCIMVectorMarker.overprint = jsObject.overprint;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMVectorMarker.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.respectFrame)) {
-            dotNetCIMVectorMarker.respectFrame = jsObject.respectFrame;
-        }
-        if (hasValue(jsObject.rotateClockwise)) {
-            dotNetCIMVectorMarker.rotateClockwise = jsObject.rotateClockwise;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetCIMVectorMarker.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.scaleSymbolsProportionally)) {
-            dotNetCIMVectorMarker.scaleSymbolsProportionally = jsObject.scaleSymbolsProportionally;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetCIMVectorMarker.size = jsObject.size;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMVectorMarker.type = jsObject.type;
-        }
-        if (hasValue(jsObject.verticalOrientation3D)) {
-            dotNetCIMVectorMarker.verticalOrientation3D = jsObject.verticalOrientation3D;
-        }
+    if (hasValue(jsObject.anchorPoint)) {
+        dotNetCIMVectorMarker.anchorPoint = jsObject.anchorPoint;
+    }
+    if (hasValue(jsObject.anchorPointUnits)) {
+        dotNetCIMVectorMarker.anchorPointUnits = jsObject.anchorPointUnits;
+    }
+    if (hasValue(jsObject.angleX)) {
+        dotNetCIMVectorMarker.angleX = jsObject.angleX;
+    }
+    if (hasValue(jsObject.angleY)) {
+        dotNetCIMVectorMarker.angleY = jsObject.angleY;
+    }
+    if (hasValue(jsObject.billboardMode3D)) {
+        dotNetCIMVectorMarker.billboardMode3D = jsObject.billboardMode3D;
+    }
+    if (hasValue(jsObject.clippingPath)) {
+        dotNetCIMVectorMarker.clippingPath = jsObject.clippingPath;
+    }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetCIMVectorMarker.colorLocked = jsObject.colorLocked;
+    }
+    if (hasValue(jsObject.depth3D)) {
+        dotNetCIMVectorMarker.depth3D = jsObject.depth3D;
+    }
+    if (hasValue(jsObject.dominantSizeAxis3D)) {
+        dotNetCIMVectorMarker.dominantSizeAxis3D = jsObject.dominantSizeAxis3D;
+    }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMVectorMarker.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.enable)) {
+        dotNetCIMVectorMarker.enable = jsObject.enable;
+    }
+    if (hasValue(jsObject.frame)) {
+        dotNetCIMVectorMarker.frame = jsObject.frame;
+    }
+    if (hasValue(jsObject.markerPlacement)) {
+        dotNetCIMVectorMarker.markerPlacement = jsObject.markerPlacement;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetCIMVectorMarker.name = jsObject.name;
+    }
+    if (hasValue(jsObject.offsetX)) {
+        dotNetCIMVectorMarker.offsetX = jsObject.offsetX;
+    }
+    if (hasValue(jsObject.offsetY)) {
+        dotNetCIMVectorMarker.offsetY = jsObject.offsetY;
+    }
+    if (hasValue(jsObject.offsetZ)) {
+        dotNetCIMVectorMarker.offsetZ = jsObject.offsetZ;
+    }
+    if (hasValue(jsObject.overprint)) {
+        dotNetCIMVectorMarker.overprint = jsObject.overprint;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMVectorMarker.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.respectFrame)) {
+        dotNetCIMVectorMarker.respectFrame = jsObject.respectFrame;
+    }
+    if (hasValue(jsObject.rotateClockwise)) {
+        dotNetCIMVectorMarker.rotateClockwise = jsObject.rotateClockwise;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetCIMVectorMarker.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.scaleSymbolsProportionally)) {
+        dotNetCIMVectorMarker.scaleSymbolsProportionally = jsObject.scaleSymbolsProportionally;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetCIMVectorMarker.size = jsObject.size;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMVectorMarker.type = jsObject.type;
+    }
+    if (hasValue(jsObject.verticalOrientation3D)) {
+        dotNetCIMVectorMarker.verticalOrientation3D = jsObject.verticalOrientation3D;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

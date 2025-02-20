@@ -85,57 +85,57 @@ export async function buildDotNetColumnTemplateBaseGenerated(jsObject: any): Pro
             let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
             dotNetColumnTemplateBase.menuConfig = await buildDotNetColumnTableMenuConfig(jsObject.menuConfig);
         }
-        if (hasValue(jsObject.autoWidth)) {
-            dotNetColumnTemplateBase.autoWidth = jsObject.autoWidth;
-        }
-        if (hasValue(jsObject.direction)) {
-            dotNetColumnTemplateBase.direction = jsObject.direction;
-        }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetColumnTemplateBase.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.flexGrow)) {
-            dotNetColumnTemplateBase.flexGrow = jsObject.flexGrow;
-        }
-        if (hasValue(jsObject.formatFunction)) {
-            dotNetColumnTemplateBase.formatFunction = jsObject.formatFunction;
-        }
-        if (hasValue(jsObject.frozen)) {
-            dotNetColumnTemplateBase.frozen = jsObject.frozen;
-        }
-        if (hasValue(jsObject.frozenToEnd)) {
-            dotNetColumnTemplateBase.frozenToEnd = jsObject.frozenToEnd;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetColumnTemplateBase.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.initialSortPriority)) {
-            dotNetColumnTemplateBase.initialSortPriority = jsObject.initialSortPriority;
-        }
-        if (hasValue(jsObject.invalid)) {
-            dotNetColumnTemplateBase.invalid = jsObject.invalid;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetColumnTemplateBase.label = jsObject.label;
-        }
-        if (hasValue(jsObject.resizable)) {
-            dotNetColumnTemplateBase.resizable = jsObject.resizable;
-        }
-        if (hasValue(jsObject.sortable)) {
-            dotNetColumnTemplateBase.sortable = jsObject.sortable;
-        }
-        if (hasValue(jsObject.textAlign)) {
-            dotNetColumnTemplateBase.textAlign = jsObject.textAlign;
-        }
-        if (hasValue(jsObject.textWrap)) {
-            dotNetColumnTemplateBase.textWrap = jsObject.textWrap;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColumnTemplateBase.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetColumnTemplateBase.width = jsObject.width;
-        }
+    if (hasValue(jsObject.autoWidth)) {
+        dotNetColumnTemplateBase.autoWidth = jsObject.autoWidth;
+    }
+    if (hasValue(jsObject.direction)) {
+        dotNetColumnTemplateBase.direction = jsObject.direction;
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetColumnTemplateBase.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.flexGrow)) {
+        dotNetColumnTemplateBase.flexGrow = jsObject.flexGrow;
+    }
+    if (hasValue(jsObject.formatFunction)) {
+        dotNetColumnTemplateBase.formatFunction = jsObject.formatFunction;
+    }
+    if (hasValue(jsObject.frozen)) {
+        dotNetColumnTemplateBase.frozen = jsObject.frozen;
+    }
+    if (hasValue(jsObject.frozenToEnd)) {
+        dotNetColumnTemplateBase.frozenToEnd = jsObject.frozenToEnd;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetColumnTemplateBase.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.initialSortPriority)) {
+        dotNetColumnTemplateBase.initialSortPriority = jsObject.initialSortPriority;
+    }
+    if (hasValue(jsObject.invalid)) {
+        dotNetColumnTemplateBase.invalid = jsObject.invalid;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetColumnTemplateBase.label = jsObject.label;
+    }
+    if (hasValue(jsObject.resizable)) {
+        dotNetColumnTemplateBase.resizable = jsObject.resizable;
+    }
+    if (hasValue(jsObject.sortable)) {
+        dotNetColumnTemplateBase.sortable = jsObject.sortable;
+    }
+    if (hasValue(jsObject.textAlign)) {
+        dotNetColumnTemplateBase.textAlign = jsObject.textAlign;
+    }
+    if (hasValue(jsObject.textWrap)) {
+        dotNetColumnTemplateBase.textWrap = jsObject.textWrap;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColumnTemplateBase.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetColumnTemplateBase.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

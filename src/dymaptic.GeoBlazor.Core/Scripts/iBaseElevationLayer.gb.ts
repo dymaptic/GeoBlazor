@@ -217,27 +217,27 @@ export async function buildDotNetIBaseElevationLayerGenerated(jsObject: any): Pr
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIBaseElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetIBaseElevationLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIBaseElevationLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIBaseElevationLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIBaseElevationLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIBaseElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIBaseElevationLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIBaseElevationLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetIBaseElevationLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIBaseElevationLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIBaseElevationLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIBaseElevationLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIBaseElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIBaseElevationLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIBaseElevationLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

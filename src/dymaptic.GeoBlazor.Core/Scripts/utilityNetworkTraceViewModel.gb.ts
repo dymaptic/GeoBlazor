@@ -322,39 +322,39 @@ export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject:
             let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
             dotNetUtilityNetworkTraceViewModel.utilityNetwork = await buildDotNetUtilityNetwork(jsObject.utilityNetwork, layerId, viewId);
         }
-        if (hasValue(jsObject.defaultGraphicColor)) {
-            dotNetUtilityNetworkTraceViewModel.defaultGraphicColor = jsObject.defaultGraphicColor;
-        }
-        if (hasValue(jsObject.enableResultArea)) {
-            dotNetUtilityNetworkTraceViewModel.enableResultArea = jsObject.enableResultArea;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetUtilityNetworkTraceViewModel.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetUtilityNetworkTraceViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.resultAreaProperties)) {
-            dotNetUtilityNetworkTraceViewModel.resultAreaProperties = jsObject.resultAreaProperties;
-        }
-        if (hasValue(jsObject.selectedTraces)) {
-            dotNetUtilityNetworkTraceViewModel.selectedTraces = jsObject.selectedTraces;
-        }
-        if (hasValue(jsObject.selectOnComplete)) {
-            dotNetUtilityNetworkTraceViewModel.selectOnComplete = jsObject.selectOnComplete;
-        }
-        if (hasValue(jsObject.showGraphicsOnComplete)) {
-            dotNetUtilityNetworkTraceViewModel.showGraphicsOnComplete = jsObject.showGraphicsOnComplete;
-        }
-        if (hasValue(jsObject.showSelectionAttributes)) {
-            dotNetUtilityNetworkTraceViewModel.showSelectionAttributes = jsObject.showSelectionAttributes;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetUtilityNetworkTraceViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUtilityNetworkTraceViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.defaultGraphicColor)) {
+        dotNetUtilityNetworkTraceViewModel.defaultGraphicColor = jsObject.defaultGraphicColor;
+    }
+    if (hasValue(jsObject.enableResultArea)) {
+        dotNetUtilityNetworkTraceViewModel.enableResultArea = jsObject.enableResultArea;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetUtilityNetworkTraceViewModel.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetUtilityNetworkTraceViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.resultAreaProperties)) {
+        dotNetUtilityNetworkTraceViewModel.resultAreaProperties = jsObject.resultAreaProperties;
+    }
+    if (hasValue(jsObject.selectedTraces)) {
+        dotNetUtilityNetworkTraceViewModel.selectedTraces = jsObject.selectedTraces;
+    }
+    if (hasValue(jsObject.selectOnComplete)) {
+        dotNetUtilityNetworkTraceViewModel.selectOnComplete = jsObject.selectOnComplete;
+    }
+    if (hasValue(jsObject.showGraphicsOnComplete)) {
+        dotNetUtilityNetworkTraceViewModel.showGraphicsOnComplete = jsObject.showGraphicsOnComplete;
+    }
+    if (hasValue(jsObject.showSelectionAttributes)) {
+        dotNetUtilityNetworkTraceViewModel.showSelectionAttributes = jsObject.showSelectionAttributes;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetUtilityNetworkTraceViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUtilityNetworkTraceViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -46,9 +46,9 @@ export async function buildDotNetIArcGISCachedServiceGenerated(jsObject: any): P
             let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetIArcGISCachedService.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIArcGISCachedService.copyright = jsObject.copyright;
-        }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIArcGISCachedService.copyright = jsObject.copyright;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

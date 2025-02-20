@@ -60,27 +60,27 @@ export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any):
             let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
             dotNetFeatureLayerEditsEvent.editedFeatures = await buildDotNetEditedFeatureResult(jsObject.editedFeatures);
         }
-        if (hasValue(jsObject.addedAttachments)) {
-            dotNetFeatureLayerEditsEvent.addedAttachments = jsObject.addedAttachments;
-        }
-        if (hasValue(jsObject.addedFeatures)) {
-            dotNetFeatureLayerEditsEvent.addedFeatures = jsObject.addedFeatures;
-        }
-        if (hasValue(jsObject.deletedAttachments)) {
-            dotNetFeatureLayerEditsEvent.deletedAttachments = jsObject.deletedAttachments;
-        }
-        if (hasValue(jsObject.deletedFeatures)) {
-            dotNetFeatureLayerEditsEvent.deletedFeatures = jsObject.deletedFeatures;
-        }
-        if (hasValue(jsObject.exceededTransferLimit)) {
-            dotNetFeatureLayerEditsEvent.exceededTransferLimit = jsObject.exceededTransferLimit;
-        }
-        if (hasValue(jsObject.updatedAttachments)) {
-            dotNetFeatureLayerEditsEvent.updatedAttachments = jsObject.updatedAttachments;
-        }
-        if (hasValue(jsObject.updatedFeatures)) {
-            dotNetFeatureLayerEditsEvent.updatedFeatures = jsObject.updatedFeatures;
-        }
+    if (hasValue(jsObject.addedAttachments)) {
+        dotNetFeatureLayerEditsEvent.addedAttachments = jsObject.addedAttachments;
+    }
+    if (hasValue(jsObject.addedFeatures)) {
+        dotNetFeatureLayerEditsEvent.addedFeatures = jsObject.addedFeatures;
+    }
+    if (hasValue(jsObject.deletedAttachments)) {
+        dotNetFeatureLayerEditsEvent.deletedAttachments = jsObject.deletedAttachments;
+    }
+    if (hasValue(jsObject.deletedFeatures)) {
+        dotNetFeatureLayerEditsEvent.deletedFeatures = jsObject.deletedFeatures;
+    }
+    if (hasValue(jsObject.exceededTransferLimit)) {
+        dotNetFeatureLayerEditsEvent.exceededTransferLimit = jsObject.exceededTransferLimit;
+    }
+    if (hasValue(jsObject.updatedAttachments)) {
+        dotNetFeatureLayerEditsEvent.updatedAttachments = jsObject.updatedAttachments;
+    }
+    if (hasValue(jsObject.updatedFeatures)) {
+        dotNetFeatureLayerEditsEvent.updatedFeatures = jsObject.updatedFeatures;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

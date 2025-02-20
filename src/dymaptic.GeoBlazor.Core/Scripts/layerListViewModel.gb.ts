@@ -121,21 +121,21 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Pro
             let { buildDotNetListItem } = await import('./listItem');
             dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
         }
-        if (hasValue(jsObject.checkPublishStatusEnabled)) {
-            dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
-        }
-        if (hasValue(jsObject.listItemCreatedFunction)) {
-            dotNetLayerListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-        }
-        if (hasValue(jsObject.listModeDisabled)) {
-            dotNetLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetLayerListViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLayerListViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.checkPublishStatusEnabled)) {
+        dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
+    }
+    if (hasValue(jsObject.listItemCreatedFunction)) {
+        dotNetLayerListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
+    }
+    if (hasValue(jsObject.listModeDisabled)) {
+        dotNetLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetLayerListViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLayerListViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

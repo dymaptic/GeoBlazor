@@ -118,9 +118,9 @@ export async function buildDotNetDimensionAnalysisViewGenerated(jsObject: any): 
             let { buildDotNetLengthDimension } = await import('./lengthDimension');
             dotNetDimensionAnalysisView.selectedDimension = await buildDotNetLengthDimension(jsObject.selectedDimension);
         }
-        if (hasValue(jsObject.interactive)) {
-            dotNetDimensionAnalysisView.interactive = jsObject.interactive;
-        }
+    if (hasValue(jsObject.interactive)) {
+        dotNetDimensionAnalysisView.interactive = jsObject.interactive;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

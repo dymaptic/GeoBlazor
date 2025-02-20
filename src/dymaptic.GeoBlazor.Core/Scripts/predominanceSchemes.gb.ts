@@ -43,18 +43,18 @@ export async function buildDotNetPredominanceSchemesGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemapId)) {
-            dotNetPredominanceSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetPredominanceSchemes.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.primaryScheme)) {
-            dotNetPredominanceSchemes.primaryScheme = jsObject.primaryScheme;
-        }
-        if (hasValue(jsObject.secondarySchemes)) {
-            dotNetPredominanceSchemes.secondarySchemes = jsObject.secondarySchemes;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetPredominanceSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetPredominanceSchemes.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.primaryScheme)) {
+        dotNetPredominanceSchemes.primaryScheme = jsObject.primaryScheme;
+    }
+    if (hasValue(jsObject.secondarySchemes)) {
+        dotNetPredominanceSchemes.secondarySchemes = jsObject.secondarySchemes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

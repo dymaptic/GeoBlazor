@@ -49,18 +49,18 @@ export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.addressSearchEnabled)) {
-            dotNetSearch.addressSearchEnabled = jsObject.addressSearchEnabled;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetSearch.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.hintText)) {
-            dotNetSearch.hintText = jsObject.hintText;
-        }
-        if (hasValue(jsObject.tables)) {
-            dotNetSearch.tables = jsObject.tables;
-        }
+    if (hasValue(jsObject.addressSearchEnabled)) {
+        dotNetSearch.addressSearchEnabled = jsObject.addressSearchEnabled;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetSearch.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.hintText)) {
+        dotNetSearch.hintText = jsObject.hintText;
+    }
+    if (hasValue(jsObject.tables)) {
+        dotNetSearch.tables = jsObject.tables;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

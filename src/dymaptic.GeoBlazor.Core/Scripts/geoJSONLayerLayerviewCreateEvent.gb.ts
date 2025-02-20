@@ -42,9 +42,9 @@ export async function buildDotNetGeoJSONLayerLayerviewCreateEventGenerated(jsObj
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetGeoJSONLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetGeoJSONLayerLayerviewCreateEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetGeoJSONLayerLayerviewCreateEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

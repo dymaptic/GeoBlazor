@@ -135,81 +135,81 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetLocatorSearchSource.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.autoNavigate)) {
-            dotNetLocatorSearchSource.autoNavigate = jsObject.autoNavigate;
-        }
-        if (hasValue(jsObject.categories)) {
-            dotNetLocatorSearchSource.categories = jsObject.categories;
-        }
-        if (hasValue(jsObject.countryCode)) {
-            dotNetLocatorSearchSource.countryCode = jsObject.countryCode;
-        }
-        if (hasValue(jsObject.defaultZoomScale)) {
-            dotNetLocatorSearchSource.defaultZoomScale = jsObject.defaultZoomScale;
-        }
-        if (hasValue(jsObject.getResults)) {
-            dotNetLocatorSearchSource.getResultsHandler = jsObject.getResults;
-        }
-        if (hasValue(jsObject.getSuggestions)) {
-            dotNetLocatorSearchSource.getSuggestionsHandler = jsObject.getSuggestions;
-        }
-        if (hasValue(jsObject.localSearchDisabled)) {
-            dotNetLocatorSearchSource.localSearchDisabled = jsObject.localSearchDisabled;
-        }
-        if (hasValue(jsObject.locationType)) {
-            dotNetLocatorSearchSource.locationType = jsObject.locationType;
-        }
-        if (hasValue(jsObject.maxResults)) {
-            dotNetLocatorSearchSource.maxResults = jsObject.maxResults;
-        }
-        if (hasValue(jsObject.maxSuggestions)) {
-            dotNetLocatorSearchSource.maxSuggestions = jsObject.maxSuggestions;
-        }
-        if (hasValue(jsObject.minSuggestCharacters)) {
-            dotNetLocatorSearchSource.minSuggestCharacters = jsObject.minSuggestCharacters;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetLocatorSearchSource.name = jsObject.name;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetLocatorSearchSource.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.placeholder)) {
-            dotNetLocatorSearchSource.placeholder = jsObject.placeholder;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetLocatorSearchSource.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.prefix)) {
-            dotNetLocatorSearchSource.prefix = jsObject.prefix;
-        }
-        if (hasValue(jsObject.resultGraphicEnabled)) {
-            dotNetLocatorSearchSource.resultGraphicEnabled = jsObject.resultGraphicEnabled;
-        }
-        if (hasValue(jsObject.searchTemplate)) {
-            dotNetLocatorSearchSource.searchTemplate = jsObject.searchTemplate;
-        }
-        if (hasValue(jsObject.singleLineFieldName)) {
-            dotNetLocatorSearchSource.singleLineFieldName = jsObject.singleLineFieldName;
-        }
-        if (hasValue(jsObject.suffix)) {
-            dotNetLocatorSearchSource.suffix = jsObject.suffix;
-        }
-        if (hasValue(jsObject.suggestionsEnabled)) {
-            dotNetLocatorSearchSource.suggestionsEnabled = jsObject.suggestionsEnabled;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetLocatorSearchSource.url = jsObject.url;
-        }
-        if (hasValue(jsObject.withinViewEnabled)) {
-            dotNetLocatorSearchSource.withinViewEnabled = jsObject.withinViewEnabled;
-        }
-        if (hasValue(jsObject.zoomScale)) {
-            dotNetLocatorSearchSource.zoomScale = jsObject.zoomScale;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetLocatorSearchSource.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.autoNavigate)) {
+        dotNetLocatorSearchSource.autoNavigate = jsObject.autoNavigate;
+    }
+    if (hasValue(jsObject.categories)) {
+        dotNetLocatorSearchSource.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.countryCode)) {
+        dotNetLocatorSearchSource.countryCode = jsObject.countryCode;
+    }
+    if (hasValue(jsObject.defaultZoomScale)) {
+        dotNetLocatorSearchSource.defaultZoomScale = jsObject.defaultZoomScale;
+    }
+    if (hasValue(jsObject.getResults)) {
+        dotNetLocatorSearchSource.getResultsHandler = jsObject.getResults;
+    }
+    if (hasValue(jsObject.getSuggestions)) {
+        dotNetLocatorSearchSource.getSuggestionsHandler = jsObject.getSuggestions;
+    }
+    if (hasValue(jsObject.localSearchDisabled)) {
+        dotNetLocatorSearchSource.localSearchDisabled = jsObject.localSearchDisabled;
+    }
+    if (hasValue(jsObject.locationType)) {
+        dotNetLocatorSearchSource.locationType = jsObject.locationType;
+    }
+    if (hasValue(jsObject.maxResults)) {
+        dotNetLocatorSearchSource.maxResults = jsObject.maxResults;
+    }
+    if (hasValue(jsObject.maxSuggestions)) {
+        dotNetLocatorSearchSource.maxSuggestions = jsObject.maxSuggestions;
+    }
+    if (hasValue(jsObject.minSuggestCharacters)) {
+        dotNetLocatorSearchSource.minSuggestCharacters = jsObject.minSuggestCharacters;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetLocatorSearchSource.name = jsObject.name;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetLocatorSearchSource.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.placeholder)) {
+        dotNetLocatorSearchSource.placeholder = jsObject.placeholder;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetLocatorSearchSource.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.prefix)) {
+        dotNetLocatorSearchSource.prefix = jsObject.prefix;
+    }
+    if (hasValue(jsObject.resultGraphicEnabled)) {
+        dotNetLocatorSearchSource.resultGraphicEnabled = jsObject.resultGraphicEnabled;
+    }
+    if (hasValue(jsObject.searchTemplate)) {
+        dotNetLocatorSearchSource.searchTemplate = jsObject.searchTemplate;
+    }
+    if (hasValue(jsObject.singleLineFieldName)) {
+        dotNetLocatorSearchSource.singleLineFieldName = jsObject.singleLineFieldName;
+    }
+    if (hasValue(jsObject.suffix)) {
+        dotNetLocatorSearchSource.suffix = jsObject.suffix;
+    }
+    if (hasValue(jsObject.suggestionsEnabled)) {
+        dotNetLocatorSearchSource.suggestionsEnabled = jsObject.suggestionsEnabled;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetLocatorSearchSource.url = jsObject.url;
+    }
+    if (hasValue(jsObject.withinViewEnabled)) {
+        dotNetLocatorSearchSource.withinViewEnabled = jsObject.withinViewEnabled;
+    }
+    if (hasValue(jsObject.zoomScale)) {
+        dotNetLocatorSearchSource.zoomScale = jsObject.zoomScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

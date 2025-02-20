@@ -42,9 +42,9 @@ export async function buildDotNetGeoRSSLayerLayerviewCreateEventGenerated(jsObje
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetGeoRSSLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetGeoRSSLayerLayerviewCreateEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetGeoRSSLayerLayerviewCreateEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

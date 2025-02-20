@@ -42,9 +42,9 @@ export async function buildDotNetSearchSourceFilterGenerated(jsObject: any): Pro
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetSearchSourceFilter.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.where)) {
-            dotNetSearchSourceFilter.where = jsObject.where;
-        }
+    if (hasValue(jsObject.where)) {
+        dotNetSearchSourceFilter.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

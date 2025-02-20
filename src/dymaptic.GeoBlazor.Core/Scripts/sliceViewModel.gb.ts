@@ -118,21 +118,21 @@ export async function buildDotNetSliceViewModelGenerated(jsObject: any): Promise
             let { buildDotNetSlicePlane } = await import('./slicePlane');
             dotNetSliceViewModel.shape = await buildDotNetSlicePlane(jsObject.shape);
         }
-        if (hasValue(jsObject.excludedLayers)) {
-            dotNetSliceViewModel.excludedLayers = jsObject.excludedLayers;
-        }
-        if (hasValue(jsObject.excludeGroundSurface)) {
-            dotNetSliceViewModel.excludeGroundSurface = jsObject.excludeGroundSurface;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSliceViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tiltEnabled)) {
-            dotNetSliceViewModel.tiltEnabled = jsObject.tiltEnabled;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSliceViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.excludedLayers)) {
+        dotNetSliceViewModel.excludedLayers = jsObject.excludedLayers;
+    }
+    if (hasValue(jsObject.excludeGroundSurface)) {
+        dotNetSliceViewModel.excludeGroundSurface = jsObject.excludeGroundSurface;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSliceViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tiltEnabled)) {
+        dotNetSliceViewModel.tiltEnabled = jsObject.tiltEnabled;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSliceViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

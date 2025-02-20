@@ -229,36 +229,36 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetElevationLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetElevationLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetElevationLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetElevationLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetElevationLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetElevationLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetElevationLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetElevationLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetElevationLayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetElevationLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetElevationLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetElevationLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetElevationLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetElevationLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetElevationLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetElevationLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetElevationLayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

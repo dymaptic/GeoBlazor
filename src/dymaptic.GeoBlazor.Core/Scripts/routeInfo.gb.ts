@@ -131,30 +131,30 @@ export async function buildDotNetRouteInfoGenerated(jsObject: any): Promise<any>
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetRouteInfo.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.endTime)) {
-            dotNetRouteInfo.endTime = jsObject.endTime;
-        }
-        if (hasValue(jsObject.endTimeOffset)) {
-            dotNetRouteInfo.endTimeOffset = jsObject.endTimeOffset;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetRouteInfo.name = jsObject.name;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetRouteInfo.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.startTimeOffset)) {
-            dotNetRouteInfo.startTimeOffset = jsObject.startTimeOffset;
-        }
-        if (hasValue(jsObject.totalDistance)) {
-            dotNetRouteInfo.totalDistance = jsObject.totalDistance;
-        }
-        if (hasValue(jsObject.totalDuration)) {
-            dotNetRouteInfo.totalDuration = jsObject.totalDuration;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetRouteInfo.type = jsObject.type;
-        }
+    if (hasValue(jsObject.endTime)) {
+        dotNetRouteInfo.endTime = jsObject.endTime;
+    }
+    if (hasValue(jsObject.endTimeOffset)) {
+        dotNetRouteInfo.endTimeOffset = jsObject.endTimeOffset;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetRouteInfo.name = jsObject.name;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetRouteInfo.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.startTimeOffset)) {
+        dotNetRouteInfo.startTimeOffset = jsObject.startTimeOffset;
+    }
+    if (hasValue(jsObject.totalDistance)) {
+        dotNetRouteInfo.totalDistance = jsObject.totalDistance;
+    }
+    if (hasValue(jsObject.totalDuration)) {
+        dotNetRouteInfo.totalDuration = jsObject.totalDuration;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetRouteInfo.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

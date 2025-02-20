@@ -43,18 +43,18 @@ export async function buildDotNetSizeSchemesGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemapId)) {
-            dotNetSizeSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetSizeSchemes.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.primaryScheme)) {
-            dotNetSizeSchemes.primaryScheme = jsObject.primaryScheme;
-        }
-        if (hasValue(jsObject.secondarySchemes)) {
-            dotNetSizeSchemes.secondarySchemes = jsObject.secondarySchemes;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetSizeSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetSizeSchemes.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.primaryScheme)) {
+        dotNetSizeSchemes.primaryScheme = jsObject.primaryScheme;
+    }
+    if (hasValue(jsObject.secondarySchemes)) {
+        dotNetSizeSchemes.secondarySchemes = jsObject.secondarySchemes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

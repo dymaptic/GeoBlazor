@@ -85,8 +85,24 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
             options);
     }
 
+    async refresh(): Promise<void> {
+        this.layer.refresh();
+    }
+
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -146,6 +162,18 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+    }
+    async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(this.layer.portalItem);
+    }
+    async setPortalItem(value: any): Promise<void> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getRenderer(): Promise<any> {
         if (!hasValue(this.layer.renderer)) {
@@ -207,6 +235,10 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSLayer = new WFSLayer();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsWFSLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsWFSLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -222,6 +254,10 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsWFSLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.portalItem)) {
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsWFSLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
@@ -243,6 +279,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsWFSLayer.id = dotNetObject.arcGISLayerId;
     }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsWFSLayer.blendMode = dotNetObject.blendMode;
+    }
     if (hasValue(dotNetObject.copyright)) {
         jsWFSLayer.copyright = dotNetObject.copyright;
     }
@@ -255,9 +294,15 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.displayField)) {
         jsWFSLayer.displayField = dotNetObject.displayField;
     }
+    if (hasValue(dotNetObject.effect)) {
+        jsWFSLayer.effect = dotNetObject.effect;
+    }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         jsWFSLayer.elevationInfo = sanitizedElevationInfo;
+    }
+    if (hasValue(dotNetObject.featureReduction)) {
+        jsWFSLayer.featureReduction = dotNetObject.featureReduction;
     }
     if (hasValue(dotNetObject.geometryType)) {
         jsWFSLayer.geometryType = dotNetObject.geometryType;
@@ -277,6 +322,12 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.maxRecordCount)) {
         jsWFSLayer.maxRecordCount = dotNetObject.maxRecordCount;
     }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsWFSLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsWFSLayer.minScale = dotNetObject.minScale;
+    }
     if (hasValue(dotNetObject.name)) {
         jsWFSLayer.name = dotNetObject.name;
     }
@@ -289,6 +340,10 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.opacity)) {
         jsWFSLayer.opacity = dotNetObject.opacity;
     }
+    if (hasValue(dotNetObject.orderBy)) {
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
+        jsWFSLayer.orderBy = sanitizedOrderBy;
+    }
     if (hasValue(dotNetObject.outFields)) {
         jsWFSLayer.outFields = dotNetObject.outFields;
     }
@@ -297,6 +352,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         jsWFSLayer.popupEnabled = dotNetObject.popupEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsWFSLayer.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         jsWFSLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
@@ -343,6 +401,10 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
             dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -363,6 +425,10 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
+        if (hasValue(jsObject.portalItem)) {
+            let { buildDotNetPortalItem } = await import('./portalItem');
+            dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
         if (hasValue(jsObject.renderer)) {
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetWFSLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
@@ -379,84 +445,105 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
             let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
             dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetWFSLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetWFSLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWFSLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetWFSLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.dateFieldsTimeZone)) {
-            dotNetWFSLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetWFSLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetWFSLayer.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetWFSLayer.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetWFSLayer.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetWFSLayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetWFSLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWFSLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWFSLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxPageCount)) {
-            dotNetWFSLayer.maxPageCount = jsObject.maxPageCount;
-        }
-        if (hasValue(jsObject.maxRecordCount)) {
-            dotNetWFSLayer.maxRecordCount = jsObject.maxRecordCount;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetWFSLayer.name = jsObject.name;
-        }
-        if (hasValue(jsObject.namespaceUri)) {
-            dotNetWFSLayer.namespaceUri = jsObject.namespaceUri;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetWFSLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWFSLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetWFSLayer.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWFSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetWFSLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-            dotNetWFSLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWFSLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWFSLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetWFSLayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetWFSLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetWFSLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetWFSLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWFSLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetWFSLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.dateFieldsTimeZone)) {
+        dotNetWFSLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetWFSLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetWFSLayer.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetWFSLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetWFSLayer.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetWFSLayer.featureReduction = jsObject.featureReduction;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetWFSLayer.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetWFSLayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetWFSLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWFSLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWFSLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxPageCount)) {
+        dotNetWFSLayer.maxPageCount = jsObject.maxPageCount;
+    }
+    if (hasValue(jsObject.maxRecordCount)) {
+        dotNetWFSLayer.maxRecordCount = jsObject.maxRecordCount;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWFSLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWFSLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetWFSLayer.name = jsObject.name;
+    }
+    if (hasValue(jsObject.namespaceUri)) {
+        dotNetWFSLayer.namespaceUri = jsObject.namespaceUri;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetWFSLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWFSLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.orderBy)) {
+        dotNetWFSLayer.orderBy = jsObject.orderBy;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetWFSLayer.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWFSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetWFSLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetWFSLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+        dotNetWFSLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWFSLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWFSLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetWFSLayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

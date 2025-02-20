@@ -126,12 +126,12 @@ export async function buildDotNetClosestFacilitySolveResultGenerated(jsObject: a
             let { buildDotNetFeatureSet } = await import('./featureSet');
             dotNetClosestFacilitySolveResult.traversedTurns = await buildDotNetFeatureSet(jsObject.traversedTurns, layerId, viewId);
         }
-        if (hasValue(jsObject.directions)) {
-            dotNetClosestFacilitySolveResult.directions = jsObject.directions;
-        }
-        if (hasValue(jsObject.messages)) {
-            dotNetClosestFacilitySolveResult.messages = jsObject.messages;
-        }
+    if (hasValue(jsObject.directions)) {
+        dotNetClosestFacilitySolveResult.directions = jsObject.directions;
+    }
+    if (hasValue(jsObject.messages)) {
+        dotNetClosestFacilitySolveResult.messages = jsObject.messages;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

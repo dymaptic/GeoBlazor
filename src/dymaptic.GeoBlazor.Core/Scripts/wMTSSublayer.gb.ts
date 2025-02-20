@@ -81,30 +81,30 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
             let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
             dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i)));
         }
-        if (hasValue(jsObject.description)) {
-            dotNetWMTSSublayer.description = jsObject.description;
-        }
-        if (hasValue(jsObject.imageFormat)) {
-            dotNetWMTSSublayer.imageFormat = jsObject.imageFormat;
-        }
-        if (hasValue(jsObject.imageFormats)) {
-            dotNetWMTSSublayer.imageFormats = jsObject.imageFormats;
-        }
-        if (hasValue(jsObject.styleId)) {
-            dotNetWMTSSublayer.styleId = jsObject.styleId;
-        }
-        if (hasValue(jsObject.styles)) {
-            dotNetWMTSSublayer.styles = jsObject.styles;
-        }
-        if (hasValue(jsObject.tileMatrixSetId)) {
-            dotNetWMTSSublayer.tileMatrixSetId = jsObject.tileMatrixSetId;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWMTSSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetWMTSSublayer.wMTSSublayerId = jsObject.id;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetWMTSSublayer.description = jsObject.description;
+    }
+    if (hasValue(jsObject.imageFormat)) {
+        dotNetWMTSSublayer.imageFormat = jsObject.imageFormat;
+    }
+    if (hasValue(jsObject.imageFormats)) {
+        dotNetWMTSSublayer.imageFormats = jsObject.imageFormats;
+    }
+    if (hasValue(jsObject.styleId)) {
+        dotNetWMTSSublayer.styleId = jsObject.styleId;
+    }
+    if (hasValue(jsObject.styles)) {
+        dotNetWMTSSublayer.styles = jsObject.styles;
+    }
+    if (hasValue(jsObject.tileMatrixSetId)) {
+        dotNetWMTSSublayer.tileMatrixSetId = jsObject.tileMatrixSetId;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWMTSSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetWMTSSublayer.wMTSSublayerId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

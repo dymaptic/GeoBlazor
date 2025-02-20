@@ -37,7 +37,7 @@ export default class IPopupViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupWidget } = await import('./popupWidget');
-        return await buildDotNetPopupWidget(this.component.popup);
+        return await buildDotNetPopupWidget(this.component.popup, this.layerId, this.viewId);
     }
     async setPopup(value: any): Promise<void> {
         let { buildJsPopupWidget } = await import('./popupWidget');
@@ -86,7 +86,7 @@ export async function buildJsIPopupViewGenerated(dotNetObject: any, layerId: str
     return jsPopupView;
 }
 
-export async function buildDotNetIPopupViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIPopupViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -97,11 +97,11 @@ export async function buildDotNetIPopupViewGenerated(jsObject: any): Promise<any
     };
         if (hasValue(jsObject.popup)) {
             let { buildDotNetPopupWidget } = await import('./popupWidget');
-            dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup);
+            dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup, layerId, viewId);
         }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetIPopupView.popupEnabled = jsObject.popupEnabled;
-        }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetIPopupView.popupEnabled = jsObject.popupEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

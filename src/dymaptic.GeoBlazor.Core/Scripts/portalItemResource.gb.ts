@@ -101,12 +101,12 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any): Pro
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
-        if (hasValue(jsObject.path)) {
-            dotNetPortalItemResource.path = jsObject.path;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetPortalItemResource.url = jsObject.url;
-        }
+    if (hasValue(jsObject.path)) {
+        dotNetPortalItemResource.path = jsObject.path;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetPortalItemResource.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

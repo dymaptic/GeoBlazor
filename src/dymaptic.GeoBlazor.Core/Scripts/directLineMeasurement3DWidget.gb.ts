@@ -107,18 +107,18 @@ export async function buildDotNetDirectLineMeasurement3DWidgetGenerated(jsObject
             let { buildDotNetDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
             dotNetDirectLineMeasurement3DWidget.viewModel = await buildDotNetDirectLineMeasurement3DViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetDirectLineMeasurement3DWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetDirectLineMeasurement3DWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetDirectLineMeasurement3DWidget.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDirectLineMeasurement3DWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetDirectLineMeasurement3DWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetDirectLineMeasurement3DWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetDirectLineMeasurement3DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDirectLineMeasurement3DWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

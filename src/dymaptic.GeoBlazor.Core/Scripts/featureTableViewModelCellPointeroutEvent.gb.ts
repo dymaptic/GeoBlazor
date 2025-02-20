@@ -51,21 +51,21 @@ export async function buildDotNetFeatureTableViewModelCellPointeroutEventGenerat
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureTableViewModelCellPointeroutEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetFeatureTableViewModelCellPointeroutEvent.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.index)) {
-            dotNetFeatureTableViewModelCellPointeroutEvent.index = jsObject.index;
-        }
-        if (hasValue(jsObject.native)) {
-            dotNetFeatureTableViewModelCellPointeroutEvent.native = jsObject.native;
-        }
-        if (hasValue(jsObject.objectId)) {
-            dotNetFeatureTableViewModelCellPointeroutEvent.objectId = jsObject.objectId;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureTableViewModelCellPointeroutEvent.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetFeatureTableViewModelCellPointeroutEvent.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.index)) {
+        dotNetFeatureTableViewModelCellPointeroutEvent.index = jsObject.index;
+    }
+    if (hasValue(jsObject.native)) {
+        dotNetFeatureTableViewModelCellPointeroutEvent.native = jsObject.native;
+    }
+    if (hasValue(jsObject.objectId)) {
+        dotNetFeatureTableViewModelCellPointeroutEvent.objectId = jsObject.objectId;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureTableViewModelCellPointeroutEvent.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

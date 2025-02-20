@@ -143,42 +143,42 @@ export async function buildDotNetStopGenerated(jsObject: any): Promise<any> {
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetStop.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.arriveTime)) {
-            dotNetStop.arriveTime = jsObject.arriveTime;
-        }
-        if (hasValue(jsObject.arriveTimeOffset)) {
-            dotNetStop.arriveTimeOffset = jsObject.arriveTimeOffset;
-        }
-        if (hasValue(jsObject.curbApproach)) {
-            dotNetStop.curbApproach = jsObject.curbApproach;
-        }
-        if (hasValue(jsObject.departTime)) {
-            dotNetStop.departTime = jsObject.departTime;
-        }
-        if (hasValue(jsObject.departTimeOffset)) {
-            dotNetStop.departTimeOffset = jsObject.departTimeOffset;
-        }
-        if (hasValue(jsObject.locationType)) {
-            dotNetStop.locationType = jsObject.locationType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetStop.name = jsObject.name;
-        }
-        if (hasValue(jsObject.sequence)) {
-            dotNetStop.sequence = jsObject.sequence;
-        }
-        if (hasValue(jsObject.status)) {
-            dotNetStop.status = jsObject.status;
-        }
-        if (hasValue(jsObject.timeWindowEnd)) {
-            dotNetStop.timeWindowEnd = jsObject.timeWindowEnd;
-        }
-        if (hasValue(jsObject.timeWindowStart)) {
-            dotNetStop.timeWindowStart = jsObject.timeWindowStart;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetStop.type = jsObject.type;
-        }
+    if (hasValue(jsObject.arriveTime)) {
+        dotNetStop.arriveTime = jsObject.arriveTime;
+    }
+    if (hasValue(jsObject.arriveTimeOffset)) {
+        dotNetStop.arriveTimeOffset = jsObject.arriveTimeOffset;
+    }
+    if (hasValue(jsObject.curbApproach)) {
+        dotNetStop.curbApproach = jsObject.curbApproach;
+    }
+    if (hasValue(jsObject.departTime)) {
+        dotNetStop.departTime = jsObject.departTime;
+    }
+    if (hasValue(jsObject.departTimeOffset)) {
+        dotNetStop.departTimeOffset = jsObject.departTimeOffset;
+    }
+    if (hasValue(jsObject.locationType)) {
+        dotNetStop.locationType = jsObject.locationType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetStop.name = jsObject.name;
+    }
+    if (hasValue(jsObject.sequence)) {
+        dotNetStop.sequence = jsObject.sequence;
+    }
+    if (hasValue(jsObject.status)) {
+        dotNetStop.status = jsObject.status;
+    }
+    if (hasValue(jsObject.timeWindowEnd)) {
+        dotNetStop.timeWindowEnd = jsObject.timeWindowEnd;
+    }
+    if (hasValue(jsObject.timeWindowStart)) {
+        dotNetStop.timeWindowStart = jsObject.timeWindowStart;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetStop.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

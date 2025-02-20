@@ -43,9 +43,9 @@ export async function buildDotNetImagePixelLocationParametersGenerated(jsObject:
             let { buildDotNetPoint } = await import('./point');
             dotNetImagePixelLocationParameters.point = jsObject.point.map(i => buildDotNetPoint(i));
         }
-        if (hasValue(jsObject.rasterId)) {
-            dotNetImagePixelLocationParameters.rasterId = jsObject.rasterId;
-        }
+    if (hasValue(jsObject.rasterId)) {
+        dotNetImagePixelLocationParameters.rasterId = jsObject.rasterId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -12,6 +12,10 @@ export async function buildJsFlowCreateRendererParamsGenerated(dotNetObject: any
         let { buildJsLayer } = await import('./layer');
         jsflowCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsflowCreateRendererParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.flowRepresentation)) {
         jsflowCreateRendererParams.flowRepresentation = dotNetObject.flowRepresentation;
@@ -38,10 +42,6 @@ export async function buildJsFlowCreateRendererParamsGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.signal)) {
         jsflowCreateRendererParams.signal = dotNetObject.signal;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsflowCreateRendererParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.view)) {
         jsflowCreateRendererParams.view = dotNetObject.view;
@@ -76,36 +76,37 @@ export async function buildDotNetFlowCreateRendererParamsGenerated(jsObject: any
             let { buildDotNetFlowScheme } = await import('./flowScheme');
             dotNetFlowCreateRendererParams.flowScheme = await buildDotNetFlowScheme(jsObject.flowScheme);
         }
-        if (hasValue(jsObject.flowRepresentation)) {
-            dotNetFlowCreateRendererParams.flowRepresentation = jsObject.flowRepresentation;
-        }
-        if (hasValue(jsObject.includeColorVariable)) {
-            dotNetFlowCreateRendererParams.includeColorVariable = jsObject.includeColorVariable;
-        }
-        if (hasValue(jsObject.includeOpacityVariable)) {
-            dotNetFlowCreateRendererParams.includeOpacityVariable = jsObject.includeOpacityVariable;
-        }
-        if (hasValue(jsObject.includeSizeVariable)) {
-            dotNetFlowCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetFlowCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetFlowCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetFlowCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetFlowCreateRendererParams.signal = jsObject.signal;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetFlowCreateRendererParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetFlowCreateRendererParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetFlowCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.flowRepresentation)) {
+        dotNetFlowCreateRendererParams.flowRepresentation = jsObject.flowRepresentation;
+    }
+    if (hasValue(jsObject.includeColorVariable)) {
+        dotNetFlowCreateRendererParams.includeColorVariable = jsObject.includeColorVariable;
+    }
+    if (hasValue(jsObject.includeOpacityVariable)) {
+        dotNetFlowCreateRendererParams.includeOpacityVariable = jsObject.includeOpacityVariable;
+    }
+    if (hasValue(jsObject.includeSizeVariable)) {
+        dotNetFlowCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetFlowCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetFlowCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetFlowCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetFlowCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFlowCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -32,7 +32,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
@@ -44,7 +44,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -232,7 +232,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
+            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');
@@ -250,78 +250,78 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetPopupViewModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.actions)) {
-            dotNetPopupViewModel.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.active)) {
-            dotNetPopupViewModel.active = jsObject.active;
-        }
-        if (hasValue(jsObject.allActions)) {
-            dotNetPopupViewModel.allActions = jsObject.allActions;
-        }
-        if (hasValue(jsObject.autoCloseEnabled)) {
-            dotNetPopupViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
-        }
-        if (hasValue(jsObject.browseClusterEnabled)) {
-            dotNetPopupViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetPopupViewModel.content = jsObject.content;
-        }
-        if (hasValue(jsObject.defaultActions)) {
-            dotNetPopupViewModel.defaultActions = jsObject.defaultActions;
-        }
-        if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
-            dotNetPopupViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
-        }
-        if (hasValue(jsObject.featureCount)) {
-            dotNetPopupViewModel.featureCount = jsObject.featureCount;
-        }
-        if (hasValue(jsObject.featuresPerPage)) {
-            dotNetPopupViewModel.featuresPerPage = jsObject.featuresPerPage;
-        }
-        if (hasValue(jsObject.featureViewModelAbilities)) {
-            dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetPopupViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetPopupViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.includeDefaultActions)) {
-            dotNetPopupViewModel.includeDefaultActions = jsObject.includeDefaultActions;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetPopupViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.pendingPromisesCount)) {
-            dotNetPopupViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
-        }
-        if (hasValue(jsObject.promiseCount)) {
-            dotNetPopupViewModel.promiseCount = jsObject.promiseCount;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetPopupViewModel.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.selectedFeatureIndex)) {
-            dotNetPopupViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetPopupViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetPopupViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupViewModel.title = jsObject.title;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPopupViewModel.view = jsObject.view;
-        }
-        if (hasValue(jsObject.waitingForResult)) {
-            dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
-        }
+    if (hasValue(jsObject.actions)) {
+        dotNetPopupViewModel.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetPopupViewModel.active = jsObject.active;
+    }
+    if (hasValue(jsObject.allActions)) {
+        dotNetPopupViewModel.allActions = jsObject.allActions;
+    }
+    if (hasValue(jsObject.autoCloseEnabled)) {
+        dotNetPopupViewModel.autoCloseEnabled = jsObject.autoCloseEnabled;
+    }
+    if (hasValue(jsObject.browseClusterEnabled)) {
+        dotNetPopupViewModel.browseClusterEnabled = jsObject.browseClusterEnabled;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetPopupViewModel.content = jsObject.content;
+    }
+    if (hasValue(jsObject.defaultActions)) {
+        dotNetPopupViewModel.defaultActions = jsObject.defaultActions;
+    }
+    if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
+        dotNetPopupViewModel.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
+    }
+    if (hasValue(jsObject.featureCount)) {
+        dotNetPopupViewModel.featureCount = jsObject.featureCount;
+    }
+    if (hasValue(jsObject.featuresPerPage)) {
+        dotNetPopupViewModel.featuresPerPage = jsObject.featuresPerPage;
+    }
+    if (hasValue(jsObject.featureViewModelAbilities)) {
+        dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetPopupViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetPopupViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.includeDefaultActions)) {
+        dotNetPopupViewModel.includeDefaultActions = jsObject.includeDefaultActions;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetPopupViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.pendingPromisesCount)) {
+        dotNetPopupViewModel.pendingPromisesCount = jsObject.pendingPromisesCount;
+    }
+    if (hasValue(jsObject.promiseCount)) {
+        dotNetPopupViewModel.promiseCount = jsObject.promiseCount;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetPopupViewModel.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.selectedFeatureIndex)) {
+        dotNetPopupViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetPopupViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetPopupViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupViewModel.title = jsObject.title;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPopupViewModel.view = jsObject.view;
+    }
+    if (hasValue(jsObject.waitingForResult)) {
+        dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

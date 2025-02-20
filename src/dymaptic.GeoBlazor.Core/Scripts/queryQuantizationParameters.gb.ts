@@ -48,15 +48,15 @@ export async function buildDotNetQueryQuantizationParametersGenerated(jsObject: 
             let { buildDotNetExtent } = await import('./extent');
             dotNetQueryQuantizationParameters.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.mode)) {
-            dotNetQueryQuantizationParameters.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.originPosition)) {
-            dotNetQueryQuantizationParameters.originPosition = jsObject.originPosition;
-        }
-        if (hasValue(jsObject.tolerance)) {
-            dotNetQueryQuantizationParameters.tolerance = jsObject.tolerance;
-        }
+    if (hasValue(jsObject.mode)) {
+        dotNetQueryQuantizationParameters.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.originPosition)) {
+        dotNetQueryQuantizationParameters.originPosition = jsObject.originPosition;
+    }
+    if (hasValue(jsObject.tolerance)) {
+        dotNetQueryQuantizationParameters.tolerance = jsObject.tolerance;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

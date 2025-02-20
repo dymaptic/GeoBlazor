@@ -70,21 +70,21 @@ export async function buildDotNetSizeSchemeForPointGenerated(jsObject: any): Pro
             let { buildDotNetSizeSchemeForPointOutline } = await import('./sizeSchemeForPointOutline');
             dotNetSizeSchemeForPoint.outline = await buildDotNetSizeSchemeForPointOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.maxSize)) {
-            dotNetSizeSchemeForPoint.maxSize = jsObject.maxSize;
-        }
-        if (hasValue(jsObject.minSize)) {
-            dotNetSizeSchemeForPoint.minSize = jsObject.minSize;
-        }
-        if (hasValue(jsObject.noDataSize)) {
-            dotNetSizeSchemeForPoint.noDataSize = jsObject.noDataSize;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetSizeSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetSizeSchemeForPoint.size = jsObject.size;
-        }
+    if (hasValue(jsObject.maxSize)) {
+        dotNetSizeSchemeForPoint.maxSize = jsObject.maxSize;
+    }
+    if (hasValue(jsObject.minSize)) {
+        dotNetSizeSchemeForPoint.minSize = jsObject.minSize;
+    }
+    if (hasValue(jsObject.noDataSize)) {
+        dotNetSizeSchemeForPoint.noDataSize = jsObject.noDataSize;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetSizeSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetSizeSchemeForPoint.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

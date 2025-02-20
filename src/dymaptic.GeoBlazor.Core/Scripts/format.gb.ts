@@ -68,24 +68,24 @@ export async function buildDotNetFormatGenerated(jsObject: any): Promise<any> {
             let { buildDotNetCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
             dotNetFormat.viewModel = await buildDotNetCoordinateConversionViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.conversionInfo)) {
-            dotNetFormat.conversionInfo = jsObject.conversionInfo;
-        }
-        if (hasValue(jsObject.coordinateSegments)) {
-            dotNetFormat.coordinateSegments = jsObject.coordinateSegments;
-        }
-        if (hasValue(jsObject.currentPattern)) {
-            dotNetFormat.currentPattern = jsObject.currentPattern;
-        }
-        if (hasValue(jsObject.defaultPattern)) {
-            dotNetFormat.defaultPattern = jsObject.defaultPattern;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetFormat.label = jsObject.label;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFormat.name = jsObject.name;
-        }
+    if (hasValue(jsObject.conversionInfo)) {
+        dotNetFormat.conversionInfo = jsObject.conversionInfo;
+    }
+    if (hasValue(jsObject.coordinateSegments)) {
+        dotNetFormat.coordinateSegments = jsObject.coordinateSegments;
+    }
+    if (hasValue(jsObject.currentPattern)) {
+        dotNetFormat.currentPattern = jsObject.currentPattern;
+    }
+    if (hasValue(jsObject.defaultPattern)) {
+        dotNetFormat.defaultPattern = jsObject.defaultPattern;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetFormat.label = jsObject.label;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFormat.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -50,24 +50,24 @@ export async function buildDotNetRouteStopSymbolsGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.break)) {
-            dotNetRouteStopSymbols.break = jsObject.break;
-        }
-        if (hasValue(jsObject.first)) {
-            dotNetRouteStopSymbols.first = jsObject.first;
-        }
-        if (hasValue(jsObject.last)) {
-            dotNetRouteStopSymbols.last = jsObject.last;
-        }
-        if (hasValue(jsObject.middle)) {
-            dotNetRouteStopSymbols.middle = jsObject.middle;
-        }
-        if (hasValue(jsObject.unlocated)) {
-            dotNetRouteStopSymbols.unlocated = jsObject.unlocated;
-        }
-        if (hasValue(jsObject.waypoint)) {
-            dotNetRouteStopSymbols.waypoint = jsObject.waypoint;
-        }
+    if (hasValue(jsObject.break)) {
+        dotNetRouteStopSymbols.break = jsObject.break;
+    }
+    if (hasValue(jsObject.first)) {
+        dotNetRouteStopSymbols.first = jsObject.first;
+    }
+    if (hasValue(jsObject.last)) {
+        dotNetRouteStopSymbols.last = jsObject.last;
+    }
+    if (hasValue(jsObject.middle)) {
+        dotNetRouteStopSymbols.middle = jsObject.middle;
+    }
+    if (hasValue(jsObject.unlocated)) {
+        dotNetRouteStopSymbols.unlocated = jsObject.unlocated;
+    }
+    if (hasValue(jsObject.waypoint)) {
+        dotNetRouteStopSymbols.waypoint = jsObject.waypoint;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

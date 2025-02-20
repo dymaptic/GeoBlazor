@@ -116,15 +116,15 @@ export async function buildDotNetPolygonBarrierGenerated(jsObject: any): Promise
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetPolygonBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.barrierType)) {
-            dotNetPolygonBarrier.barrierType = jsObject.barrierType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPolygonBarrier.name = jsObject.name;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPolygonBarrier.type = jsObject.type;
-        }
+    if (hasValue(jsObject.barrierType)) {
+        dotNetPolygonBarrier.barrierType = jsObject.barrierType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPolygonBarrier.name = jsObject.name;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPolygonBarrier.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -43,21 +43,21 @@ export async function buildDotNetVersionAdapterGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureServiceUrl)) {
-            dotNetVersionAdapter.featureServiceUrl = jsObject.featureServiceUrl;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetVersionAdapter.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetVersionAdapter.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetVersionAdapter.type = jsObject.type;
-        }
-        if (hasValue(jsObject.versionableItem)) {
-            dotNetVersionAdapter.versionableItem = jsObject.versionableItem;
-        }
+    if (hasValue(jsObject.featureServiceUrl)) {
+        dotNetVersionAdapter.featureServiceUrl = jsObject.featureServiceUrl;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetVersionAdapter.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetVersionAdapter.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetVersionAdapter.type = jsObject.type;
+    }
+    if (hasValue(jsObject.versionableItem)) {
+        dotNetVersionAdapter.versionableItem = jsObject.versionableItem;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

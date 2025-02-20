@@ -81,24 +81,24 @@ export async function buildDotNetColorSchemeForPointGenerated(jsObject: any): Pr
             let { buildDotNetColorSchemeForPointOutline } = await import('./colorSchemeForPointOutline');
             dotNetColorSchemeForPoint.outline = await buildDotNetColorSchemeForPointOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetColorSchemeForPoint.colorSchemeForPointId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetColorSchemeForPoint.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetColorSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetColorSchemeForPoint.size = jsObject.size;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetColorSchemeForPoint.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.theme)) {
-            dotNetColorSchemeForPoint.theme = jsObject.theme;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSchemeForPoint.colorSchemeForPointId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetColorSchemeForPoint.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetColorSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetColorSchemeForPoint.size = jsObject.size;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetColorSchemeForPoint.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.theme)) {
+        dotNetColorSchemeForPoint.theme = jsObject.theme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

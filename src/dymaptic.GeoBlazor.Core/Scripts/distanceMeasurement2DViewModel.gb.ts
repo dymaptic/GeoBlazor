@@ -86,27 +86,27 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geodesicDistanceThreshold)) {
-            dotNetDistanceMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-        }
-        if (hasValue(jsObject.measurement)) {
-            dotNetDistanceMeasurement2DViewModel.measurement = jsObject.measurement;
-        }
-        if (hasValue(jsObject.measurementLabel)) {
-            dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetDistanceMeasurement2DViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetDistanceMeasurement2DViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDistanceMeasurement2DViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetDistanceMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
+    }
+    if (hasValue(jsObject.measurement)) {
+        dotNetDistanceMeasurement2DViewModel.measurement = jsObject.measurement;
+    }
+    if (hasValue(jsObject.measurementLabel)) {
+        dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetDistanceMeasurement2DViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetDistanceMeasurement2DViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDistanceMeasurement2DViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

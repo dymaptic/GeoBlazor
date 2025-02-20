@@ -79,21 +79,21 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.style)) {
-            dotNetScaleBarWidget.style = jsObject.style;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetScaleBarWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetScaleBarWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetScaleBarWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.viewModel)) {
-            dotNetScaleBarWidget.viewModel = jsObject.viewModel;
-        }
+    if (hasValue(jsObject.style)) {
+        dotNetScaleBarWidget.style = jsObject.style;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetScaleBarWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetScaleBarWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetScaleBarWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.viewModel)) {
+        dotNetScaleBarWidget.viewModel = jsObject.viewModel;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

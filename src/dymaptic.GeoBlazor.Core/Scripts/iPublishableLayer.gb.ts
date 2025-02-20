@@ -70,9 +70,9 @@ export async function buildDotNetIPublishableLayerGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.publishingInfo)) {
-            dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
-        }
+    if (hasValue(jsObject.publishingInfo)) {
+        dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

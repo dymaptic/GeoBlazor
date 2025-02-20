@@ -135,15 +135,15 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetGround.surfaceColor = buildDotNetMapColor(jsObject.surfaceColor);
         }
-        if (hasValue(jsObject.loaded)) {
-            dotNetGround.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.navigationConstraint)) {
-            dotNetGround.navigationConstraint = jsObject.navigationConstraint;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetGround.opacity = jsObject.opacity;
-        }
+    if (hasValue(jsObject.loaded)) {
+        dotNetGround.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.navigationConstraint)) {
+        dotNetGround.navigationConstraint = jsObject.navigationConstraint;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetGround.opacity = jsObject.opacity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

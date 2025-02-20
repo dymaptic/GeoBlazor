@@ -98,69 +98,69 @@ export async function buildDotNetSizeCreateClassBreaksRendererParamsGenerated(js
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetSizeCreateClassBreaksRendererParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetSizeCreateClassBreaksRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetSizeCreateClassBreaksRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetSizeCreateClassBreaksRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetSizeCreateClassBreaksRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetSizeCreateClassBreaksRendererParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetSizeCreateClassBreaksRendererParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetSizeCreateClassBreaksRendererParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.normalizationTotal)) {
-            dotNetSizeCreateClassBreaksRendererParams.normalizationTotal = jsObject.normalizationTotal;
-        }
-        if (hasValue(jsObject.normalizationType)) {
-            dotNetSizeCreateClassBreaksRendererParams.normalizationType = jsObject.normalizationType;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetSizeCreateClassBreaksRendererParams.numClasses = jsObject.numClasses;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetSizeCreateClassBreaksRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSizeCreateClassBreaksRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeCreateClassBreaksRendererParams.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetSizeCreateClassBreaksRendererParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetSizeCreateClassBreaksRendererParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.standardDeviationInterval)) {
-            dotNetSizeCreateClassBreaksRendererParams.standardDeviationInterval = jsObject.standardDeviationInterval;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetSizeCreateClassBreaksRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetSizeCreateClassBreaksRendererParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetSizeCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSizeCreateClassBreaksRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetSizeCreateClassBreaksRendererParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetSizeCreateClassBreaksRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetSizeCreateClassBreaksRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetSizeCreateClassBreaksRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetSizeCreateClassBreaksRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetSizeCreateClassBreaksRendererParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetSizeCreateClassBreaksRendererParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetSizeCreateClassBreaksRendererParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.normalizationTotal)) {
+        dotNetSizeCreateClassBreaksRendererParams.normalizationTotal = jsObject.normalizationTotal;
+    }
+    if (hasValue(jsObject.normalizationType)) {
+        dotNetSizeCreateClassBreaksRendererParams.normalizationType = jsObject.normalizationType;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetSizeCreateClassBreaksRendererParams.numClasses = jsObject.numClasses;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetSizeCreateClassBreaksRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSizeCreateClassBreaksRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeCreateClassBreaksRendererParams.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetSizeCreateClassBreaksRendererParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetSizeCreateClassBreaksRendererParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.standardDeviationInterval)) {
+        dotNetSizeCreateClassBreaksRendererParams.standardDeviationInterval = jsObject.standardDeviationInterval;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetSizeCreateClassBreaksRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetSizeCreateClassBreaksRendererParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetSizeCreateClassBreaksRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSizeCreateClassBreaksRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

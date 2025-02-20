@@ -60,30 +60,30 @@ export async function buildDotNetViewImmediateDoubleClickEventGenerated(jsObject
             let { buildDotNetPoint } = await import('./point');
             dotNetViewImmediateDoubleClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.button)) {
-            dotNetViewImmediateDoubleClickEvent.button = jsObject.button;
-        }
-        if (hasValue(jsObject.buttons)) {
-            dotNetViewImmediateDoubleClickEvent.buttons = jsObject.buttons;
-        }
-        if (hasValue(jsObject.native)) {
-            dotNetViewImmediateDoubleClickEvent.native = jsObject.native;
-        }
-        if (hasValue(jsObject.stopPropagation)) {
-            dotNetViewImmediateDoubleClickEvent.stopPropagation = jsObject.stopPropagation;
-        }
-        if (hasValue(jsObject.timestamp)) {
-            dotNetViewImmediateDoubleClickEvent.timestamp = jsObject.timestamp;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewImmediateDoubleClickEvent.type = jsObject.type;
-        }
-        if (hasValue(jsObject.x)) {
-            dotNetViewImmediateDoubleClickEvent.x = jsObject.x;
-        }
-        if (hasValue(jsObject.y)) {
-            dotNetViewImmediateDoubleClickEvent.y = jsObject.y;
-        }
+    if (hasValue(jsObject.button)) {
+        dotNetViewImmediateDoubleClickEvent.button = jsObject.button;
+    }
+    if (hasValue(jsObject.buttons)) {
+        dotNetViewImmediateDoubleClickEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.native)) {
+        dotNetViewImmediateDoubleClickEvent.native = jsObject.native;
+    }
+    if (hasValue(jsObject.stopPropagation)) {
+        dotNetViewImmediateDoubleClickEvent.stopPropagation = jsObject.stopPropagation;
+    }
+    if (hasValue(jsObject.timestamp)) {
+        dotNetViewImmediateDoubleClickEvent.timestamp = jsObject.timestamp;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewImmediateDoubleClickEvent.type = jsObject.type;
+    }
+    if (hasValue(jsObject.x)) {
+        dotNetViewImmediateDoubleClickEvent.x = jsObject.x;
+    }
+    if (hasValue(jsObject.y)) {
+        dotNetViewImmediateDoubleClickEvent.y = jsObject.y;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

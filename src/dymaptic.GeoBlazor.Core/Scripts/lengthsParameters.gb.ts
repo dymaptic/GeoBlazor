@@ -49,15 +49,15 @@ export async function buildDotNetLengthsParametersGenerated(jsObject: any): Prom
             let { buildDotNetPolyline } = await import('./polyline');
             dotNetLengthsParameters.polylines = jsObject.polylines.map(i => buildDotNetPolyline(i));
         }
-        if (hasValue(jsObject.calculationType)) {
-            dotNetLengthsParameters.calculationType = jsObject.calculationType;
-        }
-        if (hasValue(jsObject.geodesic)) {
-            dotNetLengthsParameters.geodesic = jsObject.geodesic;
-        }
-        if (hasValue(jsObject.lengthUnit)) {
-            dotNetLengthsParameters.lengthUnit = jsObject.lengthUnit;
-        }
+    if (hasValue(jsObject.calculationType)) {
+        dotNetLengthsParameters.calculationType = jsObject.calculationType;
+    }
+    if (hasValue(jsObject.geodesic)) {
+        dotNetLengthsParameters.geodesic = jsObject.geodesic;
+    }
+    if (hasValue(jsObject.lengthUnit)) {
+        dotNetLengthsParameters.lengthUnit = jsObject.lengthUnit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

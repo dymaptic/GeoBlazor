@@ -108,24 +108,24 @@ export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.components)) {
-            dotNetDefaultUI.components = jsObject.components;
-        }
-        if (hasValue(jsObject.container)) {
-            dotNetDefaultUI.container = jsObject.container;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetDefaultUI.height = jsObject.height;
-        }
-        if (hasValue(jsObject.padding)) {
-            dotNetDefaultUI.padding = jsObject.padding;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDefaultUI.view = jsObject.view;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetDefaultUI.width = jsObject.width;
-        }
+    if (hasValue(jsObject.components)) {
+        dotNetDefaultUI.components = jsObject.components;
+    }
+    if (hasValue(jsObject.container)) {
+        dotNetDefaultUI.container = jsObject.container;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetDefaultUI.height = jsObject.height;
+    }
+    if (hasValue(jsObject.padding)) {
+        dotNetDefaultUI.padding = jsObject.padding;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDefaultUI.view = jsObject.view;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetDefaultUI.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -48,9 +48,9 @@ export async function buildDotNetConversionGenerated(jsObject: any): Promise<any
             let { buildDotNetConversionPosition } = await import('./conversionPosition');
             dotNetConversion.position = await buildDotNetConversionPosition(jsObject.position);
         }
-        if (hasValue(jsObject.displayCoordinate)) {
-            dotNetConversion.displayCoordinate = jsObject.displayCoordinate;
-        }
+    if (hasValue(jsObject.displayCoordinate)) {
+        dotNetConversion.displayCoordinate = jsObject.displayCoordinate;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

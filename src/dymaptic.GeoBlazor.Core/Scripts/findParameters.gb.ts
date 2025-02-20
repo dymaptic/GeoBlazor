@@ -64,30 +64,30 @@ export async function buildDotNetFindParametersGenerated(jsObject: any): Promise
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetFindParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.contains)) {
-            dotNetFindParameters.contains = jsObject.contains;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetFindParameters.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetFindParameters.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.layerIds)) {
-            dotNetFindParameters.layerIds = jsObject.layerIds;
-        }
-        if (hasValue(jsObject.maxAllowableOffset)) {
-            dotNetFindParameters.maxAllowableOffset = jsObject.maxAllowableOffset;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetFindParameters.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.searchFields)) {
-            dotNetFindParameters.searchFields = jsObject.searchFields;
-        }
-        if (hasValue(jsObject.searchText)) {
-            dotNetFindParameters.searchText = jsObject.searchText;
-        }
+    if (hasValue(jsObject.contains)) {
+        dotNetFindParameters.contains = jsObject.contains;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetFindParameters.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetFindParameters.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.layerIds)) {
+        dotNetFindParameters.layerIds = jsObject.layerIds;
+    }
+    if (hasValue(jsObject.maxAllowableOffset)) {
+        dotNetFindParameters.maxAllowableOffset = jsObject.maxAllowableOffset;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetFindParameters.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.searchFields)) {
+        dotNetFindParameters.searchFields = jsObject.searchFields;
+    }
+    if (hasValue(jsObject.searchText)) {
+        dotNetFindParameters.searchText = jsObject.searchText;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

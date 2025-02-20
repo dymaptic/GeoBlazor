@@ -53,18 +53,18 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
             let { buildDotNetPoint } = await import('./point');
             dotNetCamera.position = buildDotNetPoint(jsObject.position);
         }
-        if (hasValue(jsObject.fov)) {
-            dotNetCamera.fov = jsObject.fov;
-        }
-        if (hasValue(jsObject.heading)) {
-            dotNetCamera.heading = jsObject.heading;
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetCamera.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.tilt)) {
-            dotNetCamera.tilt = jsObject.tilt;
-        }
+    if (hasValue(jsObject.fov)) {
+        dotNetCamera.fov = jsObject.fov;
+    }
+    if (hasValue(jsObject.heading)) {
+        dotNetCamera.heading = jsObject.heading;
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetCamera.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.tilt)) {
+        dotNetCamera.tilt = jsObject.tilt;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

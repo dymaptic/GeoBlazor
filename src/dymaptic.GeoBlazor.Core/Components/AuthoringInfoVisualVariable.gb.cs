@@ -531,17 +531,17 @@ public partial class AuthoringInfoVisualVariable
             return Theme;
         }
 
-        // get the property value
-        Theme? result = await JsComponentReference!.InvokeAsync<Theme?>("getProperty",
-            CancellationTokenSource.Token, "theme");
+        Theme? result = await JsComponentReference.InvokeAsync<Theme?>(
+            "getTheme", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Theme = result;
+            Theme = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Theme)] = Theme;
+            ModifiedParameters[nameof(Theme)] = Theme;
         }
-         
+        
         return Theme;
     }
     

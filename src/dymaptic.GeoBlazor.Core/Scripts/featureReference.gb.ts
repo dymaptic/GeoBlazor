@@ -38,9 +38,9 @@ export async function buildDotNetFeatureReferenceGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.attributes)) {
-            dotNetFeatureReference.attributes = jsObject.attributes;
-        }
+    if (hasValue(jsObject.attributes)) {
+        dotNetFeatureReference.attributes = jsObject.attributes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

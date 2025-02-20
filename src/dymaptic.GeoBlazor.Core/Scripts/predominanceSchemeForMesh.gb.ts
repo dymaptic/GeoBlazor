@@ -56,15 +56,15 @@ export async function buildDotNetPredominanceSchemeForMeshGenerated(jsObject: an
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetPredominanceSchemeForMesh.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetPredominanceSchemeForMesh.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetPredominanceSchemeForMesh.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPredominanceSchemeForMesh.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetPredominanceSchemeForMesh.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetPredominanceSchemeForMesh.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPredominanceSchemeForMesh.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

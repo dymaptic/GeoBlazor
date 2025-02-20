@@ -45,15 +45,15 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.area)) {
-            dotNetBookmarkOptionsScreenshotSettings.area = jsObject.area;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetBookmarkOptionsScreenshotSettings.height = jsObject.height;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetBookmarkOptionsScreenshotSettings.width = jsObject.width;
-        }
+    if (hasValue(jsObject.area)) {
+        dotNetBookmarkOptionsScreenshotSettings.area = jsObject.area;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetBookmarkOptionsScreenshotSettings.height = jsObject.height;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetBookmarkOptionsScreenshotSettings.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

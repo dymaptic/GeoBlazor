@@ -40,9 +40,9 @@ export async function buildDotNetViewshedAnalysisGenerated(jsObject: any): Promi
             let { buildDotNetViewshed } = await import('./viewshed');
             dotNetViewshedAnalysis.viewsheds = await Promise.all(jsObject.viewsheds.map(async i => await buildDotNetViewshed(i)));
         }
-        if (hasValue(jsObject.type)) {
-            dotNetViewshedAnalysis.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetViewshedAnalysis.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

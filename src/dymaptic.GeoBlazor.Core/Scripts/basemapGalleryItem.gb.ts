@@ -43,15 +43,15 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Pro
             let { buildDotNetBasemap } = await import('./basemap');
             dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap);
         }
-        if (hasValue(jsObject.error)) {
-            dotNetBasemapGalleryItem.error = jsObject.error;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetBasemapGalleryItem.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapGalleryItem.view = jsObject.view;
-        }
+    if (hasValue(jsObject.error)) {
+        dotNetBasemapGalleryItem.error = jsObject.error;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetBasemapGalleryItem.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapGalleryItem.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

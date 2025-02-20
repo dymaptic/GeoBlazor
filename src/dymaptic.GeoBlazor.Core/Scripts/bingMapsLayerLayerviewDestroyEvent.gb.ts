@@ -42,9 +42,9 @@ export async function buildDotNetBingMapsLayerLayerviewDestroyEventGenerated(jsO
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetBingMapsLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetBingMapsLayerLayerviewDestroyEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetBingMapsLayerLayerviewDestroyEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

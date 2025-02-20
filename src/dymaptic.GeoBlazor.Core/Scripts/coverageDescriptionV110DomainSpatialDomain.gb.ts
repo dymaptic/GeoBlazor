@@ -57,24 +57,24 @@ export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGener
             let { buildDotNetExtent } = await import('./extent');
             dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
         }
-        if (hasValue(jsObject.columns)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.columns = jsObject.columns;
-        }
-        if (hasValue(jsObject.gridBaseCRS)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.gridBaseCRS = jsObject.gridBaseCRS;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.origin)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.origin = jsObject.origin;
-        }
-        if (hasValue(jsObject.rows)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.rows = jsObject.rows;
-        }
-        if (hasValue(jsObject.useEPSGAxis)) {
-            dotNetCoverageDescriptionV110DomainSpatialDomain.useEPSGAxis = jsObject.useEPSGAxis;
-        }
+    if (hasValue(jsObject.columns)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.columns = jsObject.columns;
+    }
+    if (hasValue(jsObject.gridBaseCRS)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.gridBaseCRS = jsObject.gridBaseCRS;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.origin)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.origin = jsObject.origin;
+    }
+    if (hasValue(jsObject.rows)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.rows = jsObject.rows;
+    }
+    if (hasValue(jsObject.useEPSGAxis)) {
+        dotNetCoverageDescriptionV110DomainSpatialDomain.useEPSGAxis = jsObject.useEPSGAxis;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

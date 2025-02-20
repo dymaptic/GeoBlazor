@@ -57,7 +57,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     return jsCoverageInfo;
 }
 
-export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -72,35 +72,35 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
+            dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
         }
-        if (hasValue(jsObject.bandNames)) {
-            dotNetCoverageInfo.bandNames = jsObject.bandNames;
-        }
-        if (hasValue(jsObject.coverageDescription)) {
-            dotNetCoverageInfo.coverageDescription = jsObject.coverageDescription;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetCoverageInfo.coverageId = jsObject.id;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetCoverageInfo.description = jsObject.description;
-        }
-        if (hasValue(jsObject.supportedFormats)) {
-            dotNetCoverageInfo.supportedFormats = jsObject.supportedFormats;
-        }
-        if (hasValue(jsObject.supportedInterpolations)) {
-            dotNetCoverageInfo.supportedInterpolations = jsObject.supportedInterpolations;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetCoverageInfo.title = jsObject.title;
-        }
-        if (hasValue(jsObject.useEPSGAxis)) {
-            dotNetCoverageInfo.useEPSGAxis = jsObject.useEPSGAxis;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetCoverageInfo.version = jsObject.version;
-        }
+    if (hasValue(jsObject.bandNames)) {
+        dotNetCoverageInfo.bandNames = jsObject.bandNames;
+    }
+    if (hasValue(jsObject.coverageDescription)) {
+        dotNetCoverageInfo.coverageDescription = jsObject.coverageDescription;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetCoverageInfo.coverageId = jsObject.id;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetCoverageInfo.description = jsObject.description;
+    }
+    if (hasValue(jsObject.supportedFormats)) {
+        dotNetCoverageInfo.supportedFormats = jsObject.supportedFormats;
+    }
+    if (hasValue(jsObject.supportedInterpolations)) {
+        dotNetCoverageInfo.supportedInterpolations = jsObject.supportedInterpolations;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetCoverageInfo.title = jsObject.title;
+    }
+    if (hasValue(jsObject.useEPSGAxis)) {
+        dotNetCoverageInfo.useEPSGAxis = jsObject.useEPSGAxis;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetCoverageInfo.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

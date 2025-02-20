@@ -51,9 +51,9 @@ export async function buildDotNetGraphicHitGenerated(jsObject: any, layerId: str
             let { buildDotNetPoint } = await import('./point');
             dotNetGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetGraphicHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetGraphicHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -54,21 +54,21 @@ export async function buildDotNetBookmarkOptionsGenerated(jsObject: any): Promis
             let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
             dotNetBookmarkOptions.screenshotSettings = await buildDotNetBookmarkOptionsScreenshotSettings(jsObject.screenshotSettings);
         }
-        if (hasValue(jsObject.captureRotation)) {
-            dotNetBookmarkOptions.captureRotation = jsObject.captureRotation;
-        }
-        if (hasValue(jsObject.captureScale)) {
-            dotNetBookmarkOptions.captureScale = jsObject.captureScale;
-        }
-        if (hasValue(jsObject.captureTimeExtent)) {
-            dotNetBookmarkOptions.captureTimeExtent = jsObject.captureTimeExtent;
-        }
-        if (hasValue(jsObject.captureViewpoint)) {
-            dotNetBookmarkOptions.captureViewpoint = jsObject.captureViewpoint;
-        }
-        if (hasValue(jsObject.takeScreenshot)) {
-            dotNetBookmarkOptions.takeScreenshot = jsObject.takeScreenshot;
-        }
+    if (hasValue(jsObject.captureRotation)) {
+        dotNetBookmarkOptions.captureRotation = jsObject.captureRotation;
+    }
+    if (hasValue(jsObject.captureScale)) {
+        dotNetBookmarkOptions.captureScale = jsObject.captureScale;
+    }
+    if (hasValue(jsObject.captureTimeExtent)) {
+        dotNetBookmarkOptions.captureTimeExtent = jsObject.captureTimeExtent;
+    }
+    if (hasValue(jsObject.captureViewpoint)) {
+        dotNetBookmarkOptions.captureViewpoint = jsObject.captureViewpoint;
+    }
+    if (hasValue(jsObject.takeScreenshot)) {
+        dotNetBookmarkOptions.takeScreenshot = jsObject.takeScreenshot;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

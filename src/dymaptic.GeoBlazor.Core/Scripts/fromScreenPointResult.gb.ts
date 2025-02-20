@@ -42,9 +42,9 @@ export async function buildDotNetFromScreenPointResultGenerated(jsObject: any): 
             let { buildDotNetPoint } = await import('./point');
             dotNetFromScreenPointResult.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.vertex)) {
-            dotNetFromScreenPointResult.vertex = jsObject.vertex;
-        }
+    if (hasValue(jsObject.vertex)) {
+        dotNetFromScreenPointResult.vertex = jsObject.vertex;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

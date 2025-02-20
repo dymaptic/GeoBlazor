@@ -32,7 +32,7 @@ export async function buildJsSearchViewModelSearchResponseResultsGenerated(dotNe
     return jsSearchViewModelSearchResponseResults;
 }
 
-export async function buildDotNetSearchViewModelSearchResponseResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSearchViewModelSearchResponseResultsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -43,14 +43,14 @@ export async function buildDotNetSearchViewModelSearchResponseResultsGenerated(j
     };
         if (hasValue(jsObject.results)) {
             let { buildDotNetSearchViewModelSearchResult } = await import('./searchViewModelSearchResult');
-            dotNetSearchViewModelSearchResponseResults.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResult(i, layerId, viewId)));
+            dotNetSearchViewModelSearchResponseResults.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResult(i)));
         }
-        if (hasValue(jsObject.source)) {
-            dotNetSearchViewModelSearchResponseResults.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceIndex)) {
-            dotNetSearchViewModelSearchResponseResults.sourceIndex = jsObject.sourceIndex;
-        }
+    if (hasValue(jsObject.source)) {
+        dotNetSearchViewModelSearchResponseResults.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceIndex)) {
+        dotNetSearchViewModelSearchResponseResults.sourceIndex = jsObject.sourceIndex;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

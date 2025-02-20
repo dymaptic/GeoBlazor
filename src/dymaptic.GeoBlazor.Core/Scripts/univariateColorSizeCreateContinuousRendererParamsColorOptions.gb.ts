@@ -37,12 +37,12 @@ export async function buildDotNetUnivariateColorSizeCreateContinuousRendererPara
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParamsColorOptions.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.isContinuous)) {
-            dotNetUnivariateColorSizeCreateContinuousRendererParamsColorOptions.isContinuous = jsObject.isContinuous;
-        }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParamsColorOptions.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.isContinuous)) {
+        dotNetUnivariateColorSizeCreateContinuousRendererParamsColorOptions.isContinuous = jsObject.isContinuous;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

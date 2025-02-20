@@ -48,15 +48,15 @@ export async function buildDotNetTypeUniqueValueInfoGenerated(jsObject: any): Pr
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetTypeUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.count)) {
-            dotNetTypeUniqueValueInfo.count = jsObject.count;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetTypeUniqueValueInfo.label = jsObject.label;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetTypeUniqueValueInfo.value = jsObject.value;
-        }
+    if (hasValue(jsObject.count)) {
+        dotNetTypeUniqueValueInfo.count = jsObject.count;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetTypeUniqueValueInfo.label = jsObject.label;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetTypeUniqueValueInfo.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

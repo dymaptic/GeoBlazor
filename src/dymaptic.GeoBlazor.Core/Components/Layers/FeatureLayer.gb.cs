@@ -1445,17 +1445,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FeatureEffect;
         }
 
-        // get the property value
-        FeatureEffect? result = await JsComponentReference!.InvokeAsync<FeatureEffect?>("getProperty",
-            CancellationTokenSource.Token, "featureEffect");
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureEffect = result;
+            FeatureEffect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+            ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
         }
-         
+        
         return FeatureEffect;
     }
     
@@ -2560,17 +2560,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Subtypes;
         }
 
-        // get the property value
-        IReadOnlyList<Subtype>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Subtype>?>("getProperty",
-            CancellationTokenSource.Token, "subtypes");
+        IReadOnlyList<Subtype>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Subtype>?>(
+            "getSubtypes", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Subtypes = result;
+            Subtypes = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Subtypes)] = Subtypes;
+            ModifiedParameters[nameof(Subtypes)] = Subtypes;
         }
-         
+        
         return Subtypes;
     }
     
@@ -2655,17 +2655,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeInfo;
         }
 
-        // get the property value
-        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, "timeInfo");
+        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
+            "getTimeInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeInfo = result;
+            TimeInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+            ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-         
+        
         return TimeInfo;
     }
     

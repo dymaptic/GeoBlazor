@@ -46,15 +46,15 @@ export async function buildDotNetColormapCreateRendererParamsGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetColormapCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetColormapCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColormapCreateRendererParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetColormapCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetColormapCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColormapCreateRendererParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

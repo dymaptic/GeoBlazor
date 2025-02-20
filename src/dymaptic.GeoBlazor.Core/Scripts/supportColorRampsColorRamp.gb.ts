@@ -53,12 +53,12 @@ export async function buildDotNetSupportColorRampsColorRampGenerated(jsObject: a
             let { buildDotNetColorRampColorsForClassBreaks } = await import('./colorRampColorsForClassBreaks');
             dotNetSupportColorRampsColorRamp.colorsForClassBreaks = await Promise.all(jsObject.colorsForClassBreaks.map(async i => await buildDotNetColorRampColorsForClassBreaks(i)));
         }
-        if (hasValue(jsObject.name)) {
-            dotNetSupportColorRampsColorRamp.name = jsObject.name;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetSupportColorRampsColorRamp.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetSupportColorRampsColorRamp.name = jsObject.name;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetSupportColorRampsColorRamp.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -54,21 +54,21 @@ export async function buildDotNetClassBreaksRendererResultGenerated(jsObject: an
             let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
             dotNetClassBreaksRendererResult.renderer = await buildDotNetClassBreaksRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetClassBreaksRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetClassBreaksRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.classBreaksResult)) {
-            dotNetClassBreaksRendererResult.classBreaksResult = jsObject.classBreaksResult;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetClassBreaksRendererResult.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetClassBreaksRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetClassBreaksRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetClassBreaksRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.classBreaksResult)) {
+        dotNetClassBreaksRendererResult.classBreaksResult = jsObject.classBreaksResult;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetClassBreaksRendererResult.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetClassBreaksRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

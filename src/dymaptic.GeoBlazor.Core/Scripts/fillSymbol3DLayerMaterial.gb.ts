@@ -42,9 +42,9 @@ export async function buildDotNetFillSymbol3DLayerMaterialGenerated(jsObject: an
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetFillSymbol3DLayerMaterial.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetFillSymbol3DLayerMaterial.colorMixMode = jsObject.colorMixMode;
-        }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetFillSymbol3DLayerMaterial.colorMixMode = jsObject.colorMixMode;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

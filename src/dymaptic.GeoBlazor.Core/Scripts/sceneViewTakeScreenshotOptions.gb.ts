@@ -55,21 +55,21 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsGenerated(jsObjec
             let { buildDotNetFormat } = await import('./format');
             dotNetSceneViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
         }
-        if (hasValue(jsObject.area)) {
-            dotNetSceneViewTakeScreenshotOptions.area = jsObject.area;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetSceneViewTakeScreenshotOptions.height = jsObject.height;
-        }
-        if (hasValue(jsObject.ignorePadding)) {
-            dotNetSceneViewTakeScreenshotOptions.ignorePadding = jsObject.ignorePadding;
-        }
-        if (hasValue(jsObject.quality)) {
-            dotNetSceneViewTakeScreenshotOptions.quality = jsObject.quality;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetSceneViewTakeScreenshotOptions.width = jsObject.width;
-        }
+    if (hasValue(jsObject.area)) {
+        dotNetSceneViewTakeScreenshotOptions.area = jsObject.area;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetSceneViewTakeScreenshotOptions.height = jsObject.height;
+    }
+    if (hasValue(jsObject.ignorePadding)) {
+        dotNetSceneViewTakeScreenshotOptions.ignorePadding = jsObject.ignorePadding;
+    }
+    if (hasValue(jsObject.quality)) {
+        dotNetSceneViewTakeScreenshotOptions.quality = jsObject.quality;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetSceneViewTakeScreenshotOptions.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

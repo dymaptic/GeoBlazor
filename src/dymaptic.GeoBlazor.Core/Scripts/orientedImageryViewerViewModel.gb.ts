@@ -66,36 +66,36 @@ export async function buildDotNetOrientedImageryViewerViewModelGenerated(jsObjec
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.brightness)) {
-            dotNetOrientedImageryViewerViewModel.brightness = jsObject.brightness;
-        }
-        if (hasValue(jsObject.contrast)) {
-            dotNetOrientedImageryViewerViewModel.contrast = jsObject.contrast;
-        }
-        if (hasValue(jsObject.currentCoverageVisible)) {
-            dotNetOrientedImageryViewerViewModel.currentCoverageVisible = jsObject.currentCoverageVisible;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetOrientedImageryViewerViewModel.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.imageGalleryEnabled)) {
-            dotNetOrientedImageryViewerViewModel.imageGalleryEnabled = jsObject.imageGalleryEnabled;
-        }
-        if (hasValue(jsObject.imageLoaded)) {
-            dotNetOrientedImageryViewerViewModel.imageLoaded = jsObject.imageLoaded;
-        }
-        if (hasValue(jsObject.isAdditionalCoverageVisible)) {
-            dotNetOrientedImageryViewerViewModel.isAdditionalCoverageVisible = jsObject.isAdditionalCoverageVisible;
-        }
-        if (hasValue(jsObject.isAdditionalPointSourcesVisible)) {
-            dotNetOrientedImageryViewerViewModel.isAdditionalPointSourcesVisible = jsObject.isAdditionalPointSourcesVisible;
-        }
-        if (hasValue(jsObject.mapImageConversionToolState)) {
-            dotNetOrientedImageryViewerViewModel.mapImageConversionToolState = jsObject.mapImageConversionToolState;
-        }
-        if (hasValue(jsObject.sharpness)) {
-            dotNetOrientedImageryViewerViewModel.sharpness = jsObject.sharpness;
-        }
+    if (hasValue(jsObject.brightness)) {
+        dotNetOrientedImageryViewerViewModel.brightness = jsObject.brightness;
+    }
+    if (hasValue(jsObject.contrast)) {
+        dotNetOrientedImageryViewerViewModel.contrast = jsObject.contrast;
+    }
+    if (hasValue(jsObject.currentCoverageVisible)) {
+        dotNetOrientedImageryViewerViewModel.currentCoverageVisible = jsObject.currentCoverageVisible;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetOrientedImageryViewerViewModel.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.imageGalleryEnabled)) {
+        dotNetOrientedImageryViewerViewModel.imageGalleryEnabled = jsObject.imageGalleryEnabled;
+    }
+    if (hasValue(jsObject.imageLoaded)) {
+        dotNetOrientedImageryViewerViewModel.imageLoaded = jsObject.imageLoaded;
+    }
+    if (hasValue(jsObject.isAdditionalCoverageVisible)) {
+        dotNetOrientedImageryViewerViewModel.isAdditionalCoverageVisible = jsObject.isAdditionalCoverageVisible;
+    }
+    if (hasValue(jsObject.isAdditionalPointSourcesVisible)) {
+        dotNetOrientedImageryViewerViewModel.isAdditionalPointSourcesVisible = jsObject.isAdditionalPointSourcesVisible;
+    }
+    if (hasValue(jsObject.mapImageConversionToolState)) {
+        dotNetOrientedImageryViewerViewModel.mapImageConversionToolState = jsObject.mapImageConversionToolState;
+    }
+    if (hasValue(jsObject.sharpness)) {
+        dotNetOrientedImageryViewerViewModel.sharpness = jsObject.sharpness;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -166,108 +166,108 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.aggregateIds)) {
-            dotNetQuery.aggregateIds = jsObject.aggregateIds;
-        }
-        if (hasValue(jsObject.cacheHint)) {
-            dotNetQuery.cacheHint = jsObject.cacheHint;
-        }
-        if (hasValue(jsObject.datumTransformation)) {
-            dotNetQuery.datumTransformation = jsObject.datumTransformation;
-        }
-        if (hasValue(jsObject.distance)) {
-            dotNetQuery.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetQuery.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetQuery.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.groupByFieldsForStatistics)) {
-            dotNetQuery.groupByFieldsForStatistics = jsObject.groupByFieldsForStatistics;
-        }
-        if (hasValue(jsObject.having)) {
-            dotNetQuery.having = jsObject.having;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetQuery.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.maxAllowableOffset)) {
-            dotNetQuery.maxAllowableOffset = jsObject.maxAllowableOffset;
-        }
-        if (hasValue(jsObject.maxRecordCountFactor)) {
-            dotNetQuery.maxRecordCountFactor = jsObject.maxRecordCountFactor;
-        }
-        if (hasValue(jsObject.multipatchOption)) {
-            dotNetQuery.multipatchOption = jsObject.multipatchOption;
-        }
-        if (hasValue(jsObject.num)) {
-            dotNetQuery.num = jsObject.num;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetQuery.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.orderByFields)) {
-            dotNetQuery.orderByFields = jsObject.orderByFields;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetQuery.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.outStatistics)) {
-            dotNetQuery.outStatistics = jsObject.outStatistics;
-        }
-        if (hasValue(jsObject.parameterValues)) {
-            dotNetQuery.parameterValues = jsObject.parameterValues;
-        }
-        if (hasValue(jsObject.quantizationParameters)) {
-            dotNetQuery.quantizationParameters = jsObject.quantizationParameters;
-        }
-        if (hasValue(jsObject.rangeValues)) {
-            dotNetQuery.rangeValues = jsObject.rangeValues;
-        }
-        if (hasValue(jsObject.relationParameter)) {
-            dotNetQuery.relationParameter = jsObject.relationParameter;
-        }
-        if (hasValue(jsObject.returnCentroid)) {
-            dotNetQuery.returnCentroid = jsObject.returnCentroid;
-        }
-        if (hasValue(jsObject.returnDistinctValues)) {
-            dotNetQuery.returnDistinctValues = jsObject.returnDistinctValues;
-        }
-        if (hasValue(jsObject.returnExceededLimitFeatures)) {
-            dotNetQuery.returnExceededLimitFeatures = jsObject.returnExceededLimitFeatures;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetQuery.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetQuery.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnQueryGeometry)) {
-            dotNetQuery.returnQueryGeometry = jsObject.returnQueryGeometry;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetQuery.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.spatialRelationship)) {
-            dotNetQuery.spatialRelationship = jsObject.spatialRelationship;
-        }
-        if (hasValue(jsObject.sqlFormat)) {
-            dotNetQuery.sqlFormat = jsObject.sqlFormat;
-        }
-        if (hasValue(jsObject.start)) {
-            dotNetQuery.start = jsObject.start;
-        }
-        if (hasValue(jsObject.text)) {
-            dotNetQuery.text = jsObject.text;
-        }
-        if (hasValue(jsObject.units)) {
-            dotNetQuery.units = jsObject.units;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetQuery.where = jsObject.where;
-        }
+    if (hasValue(jsObject.aggregateIds)) {
+        dotNetQuery.aggregateIds = jsObject.aggregateIds;
+    }
+    if (hasValue(jsObject.cacheHint)) {
+        dotNetQuery.cacheHint = jsObject.cacheHint;
+    }
+    if (hasValue(jsObject.datumTransformation)) {
+        dotNetQuery.datumTransformation = jsObject.datumTransformation;
+    }
+    if (hasValue(jsObject.distance)) {
+        dotNetQuery.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetQuery.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetQuery.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.groupByFieldsForStatistics)) {
+        dotNetQuery.groupByFieldsForStatistics = jsObject.groupByFieldsForStatistics;
+    }
+    if (hasValue(jsObject.having)) {
+        dotNetQuery.having = jsObject.having;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetQuery.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.maxAllowableOffset)) {
+        dotNetQuery.maxAllowableOffset = jsObject.maxAllowableOffset;
+    }
+    if (hasValue(jsObject.maxRecordCountFactor)) {
+        dotNetQuery.maxRecordCountFactor = jsObject.maxRecordCountFactor;
+    }
+    if (hasValue(jsObject.multipatchOption)) {
+        dotNetQuery.multipatchOption = jsObject.multipatchOption;
+    }
+    if (hasValue(jsObject.num)) {
+        dotNetQuery.num = jsObject.num;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetQuery.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetQuery.orderByFields = jsObject.orderByFields;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetQuery.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.outStatistics)) {
+        dotNetQuery.outStatistics = jsObject.outStatistics;
+    }
+    if (hasValue(jsObject.parameterValues)) {
+        dotNetQuery.parameterValues = jsObject.parameterValues;
+    }
+    if (hasValue(jsObject.quantizationParameters)) {
+        dotNetQuery.quantizationParameters = jsObject.quantizationParameters;
+    }
+    if (hasValue(jsObject.rangeValues)) {
+        dotNetQuery.rangeValues = jsObject.rangeValues;
+    }
+    if (hasValue(jsObject.relationParameter)) {
+        dotNetQuery.relationParameter = jsObject.relationParameter;
+    }
+    if (hasValue(jsObject.returnCentroid)) {
+        dotNetQuery.returnCentroid = jsObject.returnCentroid;
+    }
+    if (hasValue(jsObject.returnDistinctValues)) {
+        dotNetQuery.returnDistinctValues = jsObject.returnDistinctValues;
+    }
+    if (hasValue(jsObject.returnExceededLimitFeatures)) {
+        dotNetQuery.returnExceededLimitFeatures = jsObject.returnExceededLimitFeatures;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetQuery.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetQuery.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnQueryGeometry)) {
+        dotNetQuery.returnQueryGeometry = jsObject.returnQueryGeometry;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetQuery.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.spatialRelationship)) {
+        dotNetQuery.spatialRelationship = jsObject.spatialRelationship;
+    }
+    if (hasValue(jsObject.sqlFormat)) {
+        dotNetQuery.sqlFormat = jsObject.sqlFormat;
+    }
+    if (hasValue(jsObject.start)) {
+        dotNetQuery.start = jsObject.start;
+    }
+    if (hasValue(jsObject.text)) {
+        dotNetQuery.text = jsObject.text;
+    }
+    if (hasValue(jsObject.units)) {
+        dotNetQuery.units = jsObject.units;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetQuery.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -43,9 +43,9 @@ export async function buildDotNetControlPointGenerated(jsObject: any): Promise<a
             let { buildDotNetPoint } = await import('./point');
             dotNetControlPoint.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.sourcePoint)) {
-            dotNetControlPoint.sourcePoint = jsObject.sourcePoint;
-        }
+    if (hasValue(jsObject.sourcePoint)) {
+        dotNetControlPoint.sourcePoint = jsObject.sourcePoint;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

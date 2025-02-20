@@ -48,15 +48,15 @@ export async function buildDotNetClustersSchemeGenerated(jsObject: any): Promise
             let { buildDotNetLabel } = await import('./label');
             dotNetClustersScheme.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
         }
-        if (hasValue(jsObject.clusterMinSize)) {
-            dotNetClustersScheme.clusterMinSize = jsObject.clusterMinSize;
-        }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetClustersScheme.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetClustersScheme.name = jsObject.name;
-        }
+    if (hasValue(jsObject.clusterMinSize)) {
+        dotNetClustersScheme.clusterMinSize = jsObject.clusterMinSize;
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetClustersScheme.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetClustersScheme.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -64,33 +64,33 @@ export async function buildDotNetRgbCreateRendererParamsGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dynamicRangeAdjustment)) {
-            dotNetRgbCreateRendererParams.dynamicRangeAdjustment = jsObject.dynamicRangeAdjustment;
-        }
-        if (hasValue(jsObject.estimateStatistics)) {
-            dotNetRgbCreateRendererParams.estimateStatistics = jsObject.estimateStatistics;
-        }
-        if (hasValue(jsObject.gamma)) {
-            dotNetRgbCreateRendererParams.gamma = jsObject.gamma;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetRgbCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetRgbCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.rgbBandIds)) {
-            dotNetRgbCreateRendererParams.rgbBandIds = jsObject.rgbBandIds;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetRgbCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.stretchType)) {
-            dotNetRgbCreateRendererParams.stretchType = jsObject.stretchType;
-        }
-        if (hasValue(jsObject.useGamma)) {
-            dotNetRgbCreateRendererParams.useGamma = jsObject.useGamma;
-        }
+    if (hasValue(jsObject.dynamicRangeAdjustment)) {
+        dotNetRgbCreateRendererParams.dynamicRangeAdjustment = jsObject.dynamicRangeAdjustment;
+    }
+    if (hasValue(jsObject.estimateStatistics)) {
+        dotNetRgbCreateRendererParams.estimateStatistics = jsObject.estimateStatistics;
+    }
+    if (hasValue(jsObject.gamma)) {
+        dotNetRgbCreateRendererParams.gamma = jsObject.gamma;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetRgbCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetRgbCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.rgbBandIds)) {
+        dotNetRgbCreateRendererParams.rgbBandIds = jsObject.rgbBandIds;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetRgbCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.stretchType)) {
+        dotNetRgbCreateRendererParams.stretchType = jsObject.stretchType;
+    }
+    if (hasValue(jsObject.useGamma)) {
+        dotNetRgbCreateRendererParams.useGamma = jsObject.useGamma;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

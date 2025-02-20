@@ -51,18 +51,18 @@ export async function buildDotNetConfigGenerated(jsObject: any): Promise<any> {
             let { buildDotNetField } = await import('./field');
             dotNetConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
-        if (hasValue(jsObject.displayField)) {
-            dotNetConfig.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.editFieldsInfo)) {
-            dotNetConfig.editFieldsInfo = jsObject.editFieldsInfo;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetConfig.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetConfig.title = jsObject.title;
-        }
+    if (hasValue(jsObject.displayField)) {
+        dotNetConfig.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.editFieldsInfo)) {
+        dotNetConfig.editFieldsInfo = jsObject.editFieldsInfo;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetConfig.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetConfig.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

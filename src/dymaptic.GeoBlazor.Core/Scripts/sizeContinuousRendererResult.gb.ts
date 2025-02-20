@@ -65,24 +65,24 @@ export async function buildDotNetSizeContinuousRendererResultGenerated(jsObject:
             let { buildDotNetSizeVariable } = await import('./sizeVariable');
             dotNetSizeContinuousRendererResult.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetSizeVariable(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetSizeContinuousRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetSizeContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetSizeContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.isGrid)) {
-            dotNetSizeContinuousRendererResult.isGrid = jsObject.isGrid;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeContinuousRendererResult.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetSizeContinuousRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetSizeContinuousRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetSizeContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetSizeContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.isGrid)) {
+        dotNetSizeContinuousRendererResult.isGrid = jsObject.isGrid;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeContinuousRendererResult.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetSizeContinuousRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

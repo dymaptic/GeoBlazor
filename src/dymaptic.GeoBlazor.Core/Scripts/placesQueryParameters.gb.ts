@@ -72,30 +72,30 @@ export async function buildDotNetPlacesQueryParametersGenerated(jsObject: any): 
             let { buildDotNetPoint } = await import('./point');
             dotNetPlacesQueryParameters.point = buildDotNetPoint(jsObject.point);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetPlacesQueryParameters.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.categoryIds)) {
-            dotNetPlacesQueryParameters.categoryIds = jsObject.categoryIds;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetPlacesQueryParameters.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetPlacesQueryParameters.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.pageSize)) {
-            dotNetPlacesQueryParameters.pageSize = jsObject.pageSize;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetPlacesQueryParameters.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.searchText)) {
-            dotNetPlacesQueryParameters.searchText = jsObject.searchText;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetPlacesQueryParameters.url = jsObject.url;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetPlacesQueryParameters.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.categoryIds)) {
+        dotNetPlacesQueryParameters.categoryIds = jsObject.categoryIds;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetPlacesQueryParameters.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetPlacesQueryParameters.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.pageSize)) {
+        dotNetPlacesQueryParameters.pageSize = jsObject.pageSize;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetPlacesQueryParameters.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.searchText)) {
+        dotNetPlacesQueryParameters.searchText = jsObject.searchText;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetPlacesQueryParameters.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

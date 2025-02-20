@@ -196,27 +196,27 @@ export async function buildDotNetVersionManagementServiceGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.capabilities)) {
-            dotNetVersionManagementService.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.defaultVersionIdentifier)) {
-            dotNetVersionManagementService.defaultVersionIdentifier = jsObject.defaultVersionIdentifier;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetVersionManagementService.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetVersionManagementService.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetVersionManagementService.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetVersionManagementService.name = jsObject.name;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetVersionManagementService.url = jsObject.url;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetVersionManagementService.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.defaultVersionIdentifier)) {
+        dotNetVersionManagementService.defaultVersionIdentifier = jsObject.defaultVersionIdentifier;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetVersionManagementService.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetVersionManagementService.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetVersionManagementService.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetVersionManagementService.name = jsObject.name;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetVersionManagementService.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

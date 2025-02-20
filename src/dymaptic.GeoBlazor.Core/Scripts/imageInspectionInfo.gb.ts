@@ -81,39 +81,39 @@ export async function buildDotNetImageInspectionInfoGenerated(jsObject: any): Pr
             let { buildDotNetPoint } = await import('./point');
             dotNetImageInspectionInfo.perspectiveCenter = buildDotNetPoint(jsObject.perspectiveCenter);
         }
-        if (hasValue(jsObject.acquisitionDate)) {
-            dotNetImageInspectionInfo.acquisitionDate = jsObject.acquisitionDate;
-        }
-        if (hasValue(jsObject.cameraID)) {
-            dotNetImageInspectionInfo.cameraID = jsObject.cameraID;
-        }
-        if (hasValue(jsObject.cols)) {
-            dotNetImageInspectionInfo.cols = jsObject.cols;
-        }
-        if (hasValue(jsObject.focalLength)) {
-            dotNetImageInspectionInfo.focalLength = jsObject.focalLength;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetImageInspectionInfo.imageInspectionInfoId = jsObject.id;
-        }
-        if (hasValue(jsObject.make)) {
-            dotNetImageInspectionInfo.make = jsObject.make;
-        }
-        if (hasValue(jsObject.model)) {
-            dotNetImageInspectionInfo.model = jsObject.model;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetImageInspectionInfo.orientation = jsObject.orientation;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageInspectionInfo.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.referenceUri)) {
-            dotNetImageInspectionInfo.referenceUri = jsObject.referenceUri;
-        }
-        if (hasValue(jsObject.rows)) {
-            dotNetImageInspectionInfo.rows = jsObject.rows;
-        }
+    if (hasValue(jsObject.acquisitionDate)) {
+        dotNetImageInspectionInfo.acquisitionDate = jsObject.acquisitionDate;
+    }
+    if (hasValue(jsObject.cameraID)) {
+        dotNetImageInspectionInfo.cameraID = jsObject.cameraID;
+    }
+    if (hasValue(jsObject.cols)) {
+        dotNetImageInspectionInfo.cols = jsObject.cols;
+    }
+    if (hasValue(jsObject.focalLength)) {
+        dotNetImageInspectionInfo.focalLength = jsObject.focalLength;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetImageInspectionInfo.imageInspectionInfoId = jsObject.id;
+    }
+    if (hasValue(jsObject.make)) {
+        dotNetImageInspectionInfo.make = jsObject.make;
+    }
+    if (hasValue(jsObject.model)) {
+        dotNetImageInspectionInfo.model = jsObject.model;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetImageInspectionInfo.orientation = jsObject.orientation;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageInspectionInfo.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.referenceUri)) {
+        dotNetImageInspectionInfo.referenceUri = jsObject.referenceUri;
+    }
+    if (hasValue(jsObject.rows)) {
+        dotNetImageInspectionInfo.rows = jsObject.rows;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

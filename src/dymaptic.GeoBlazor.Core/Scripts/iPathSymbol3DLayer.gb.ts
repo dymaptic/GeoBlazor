@@ -115,33 +115,33 @@ export async function buildDotNetIPathSymbol3DLayerGenerated(jsObject: any): Pro
             let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
             dotNetIPathSymbol3DLayer.material = await buildDotNetPathSymbol3DLayerMaterial(jsObject.material);
         }
-        if (hasValue(jsObject.anchor)) {
-            dotNetIPathSymbol3DLayer.anchor = jsObject.anchor;
-        }
-        if (hasValue(jsObject.cap)) {
-            dotNetIPathSymbol3DLayer.cap = jsObject.cap;
-        }
-        if (hasValue(jsObject.castShadows)) {
-            dotNetIPathSymbol3DLayer.castShadows = jsObject.castShadows;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetIPathSymbol3DLayer.height = jsObject.height;
-        }
-        if (hasValue(jsObject.join)) {
-            dotNetIPathSymbol3DLayer.join = jsObject.join;
-        }
-        if (hasValue(jsObject.profile)) {
-            dotNetIPathSymbol3DLayer.profile = jsObject.profile;
-        }
-        if (hasValue(jsObject.profileRotation)) {
-            dotNetIPathSymbol3DLayer.profileRotation = jsObject.profileRotation;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIPathSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetIPathSymbol3DLayer.width = jsObject.width;
-        }
+    if (hasValue(jsObject.anchor)) {
+        dotNetIPathSymbol3DLayer.anchor = jsObject.anchor;
+    }
+    if (hasValue(jsObject.cap)) {
+        dotNetIPathSymbol3DLayer.cap = jsObject.cap;
+    }
+    if (hasValue(jsObject.castShadows)) {
+        dotNetIPathSymbol3DLayer.castShadows = jsObject.castShadows;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetIPathSymbol3DLayer.height = jsObject.height;
+    }
+    if (hasValue(jsObject.join)) {
+        dotNetIPathSymbol3DLayer.join = jsObject.join;
+    }
+    if (hasValue(jsObject.profile)) {
+        dotNetIPathSymbol3DLayer.profile = jsObject.profile;
+    }
+    if (hasValue(jsObject.profileRotation)) {
+        dotNetIPathSymbol3DLayer.profileRotation = jsObject.profileRotation;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIPathSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetIPathSymbol3DLayer.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

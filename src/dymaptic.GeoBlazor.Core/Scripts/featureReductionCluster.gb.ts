@@ -86,30 +86,30 @@ export async function buildDotNetFeatureReductionClusterGenerated(jsObject: any)
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetFeatureReductionCluster.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.clusterMaxSize)) {
-            dotNetFeatureReductionCluster.clusterMaxSize = jsObject.clusterMaxSize;
-        }
-        if (hasValue(jsObject.clusterMinSize)) {
-            dotNetFeatureReductionCluster.clusterMinSize = jsObject.clusterMinSize;
-        }
-        if (hasValue(jsObject.clusterRadius)) {
-            dotNetFeatureReductionCluster.clusterRadius = jsObject.clusterRadius;
-        }
-        if (hasValue(jsObject.fields)) {
-            dotNetFeatureReductionCluster.fields = jsObject.fields;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetFeatureReductionCluster.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetFeatureReductionCluster.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetFeatureReductionCluster.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureReductionCluster.type = jsObject.type;
-        }
+    if (hasValue(jsObject.clusterMaxSize)) {
+        dotNetFeatureReductionCluster.clusterMaxSize = jsObject.clusterMaxSize;
+    }
+    if (hasValue(jsObject.clusterMinSize)) {
+        dotNetFeatureReductionCluster.clusterMinSize = jsObject.clusterMinSize;
+    }
+    if (hasValue(jsObject.clusterRadius)) {
+        dotNetFeatureReductionCluster.clusterRadius = jsObject.clusterRadius;
+    }
+    if (hasValue(jsObject.fields)) {
+        dotNetFeatureReductionCluster.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetFeatureReductionCluster.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetFeatureReductionCluster.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetFeatureReductionCluster.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureReductionCluster.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

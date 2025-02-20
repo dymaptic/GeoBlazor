@@ -40,15 +40,15 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.point)) {
-            dotNetSearchViewModelDefaultSymbols.point = jsObject.point;
-        }
-        if (hasValue(jsObject.polygon)) {
-            dotNetSearchViewModelDefaultSymbols.polygon = jsObject.polygon;
-        }
-        if (hasValue(jsObject.polyline)) {
-            dotNetSearchViewModelDefaultSymbols.polyline = jsObject.polyline;
-        }
+    if (hasValue(jsObject.point)) {
+        dotNetSearchViewModelDefaultSymbols.point = jsObject.point;
+    }
+    if (hasValue(jsObject.polygon)) {
+        dotNetSearchViewModelDefaultSymbols.polygon = jsObject.polygon;
+    }
+    if (hasValue(jsObject.polyline)) {
+        dotNetSearchViewModelDefaultSymbols.polyline = jsObject.polyline;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

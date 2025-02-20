@@ -72,33 +72,33 @@ export async function buildDotNetHeatmapRendererGenerated(jsObject: any): Promis
             let { buildDotNetHeatmapColorStop } = await import('./heatmapColorStop');
             dotNetHeatmapRenderer.colorStops = await Promise.all(jsObject.colorStops.map(async i => await buildDotNetHeatmapColorStop(i)));
         }
-        if (hasValue(jsObject.field)) {
-            dotNetHeatmapRenderer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetHeatmapRenderer.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxDensity)) {
-            dotNetHeatmapRenderer.maxDensity = jsObject.maxDensity;
-        }
-        if (hasValue(jsObject.minDensity)) {
-            dotNetHeatmapRenderer.minDensity = jsObject.minDensity;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetHeatmapRenderer.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.referenceScale)) {
-            dotNetHeatmapRenderer.referenceScale = jsObject.referenceScale;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetHeatmapRenderer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetHeatmapRenderer.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetHeatmapRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetHeatmapRenderer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetHeatmapRenderer.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxDensity)) {
+        dotNetHeatmapRenderer.maxDensity = jsObject.maxDensity;
+    }
+    if (hasValue(jsObject.minDensity)) {
+        dotNetHeatmapRenderer.minDensity = jsObject.minDensity;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetHeatmapRenderer.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.referenceScale)) {
+        dotNetHeatmapRenderer.referenceScale = jsObject.referenceScale;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetHeatmapRenderer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetHeatmapRenderer.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetHeatmapRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

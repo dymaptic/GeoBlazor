@@ -54,21 +54,21 @@ export async function buildDotNetSizeClassBreaksRendererResultGenerated(jsObject
             let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
             dotNetSizeClassBreaksRendererResult.renderer = await buildDotNetClassBreaksRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetSizeClassBreaksRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetSizeClassBreaksRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.classBreaksResult)) {
-            dotNetSizeClassBreaksRendererResult.classBreaksResult = jsObject.classBreaksResult;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetSizeClassBreaksRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeClassBreaksRendererResult.sizeScheme = jsObject.sizeScheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetSizeClassBreaksRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetSizeClassBreaksRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.classBreaksResult)) {
+        dotNetSizeClassBreaksRendererResult.classBreaksResult = jsObject.classBreaksResult;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetSizeClassBreaksRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeClassBreaksRendererResult.sizeScheme = jsObject.sizeScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

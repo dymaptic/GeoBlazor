@@ -40,9 +40,9 @@ export async function buildDotNetLocalBasemapsSourceGenerated(jsObject: any): Pr
             let { buildDotNetBasemap } = await import('./basemap');
             dotNetLocalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
         }
-        if (hasValue(jsObject.state)) {
-            dotNetLocalBasemapsSource.state = jsObject.state;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetLocalBasemapsSource.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

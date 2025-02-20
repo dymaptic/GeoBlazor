@@ -39,9 +39,9 @@ export async function buildDotNetUtilityNetworkTraceAddFlagErrorEventGenerated(j
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetUtilityNetworkTraceAddFlagErrorEvent.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetUtilityNetworkTraceAddFlagErrorEvent.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetUtilityNetworkTraceAddFlagErrorEvent.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

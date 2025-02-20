@@ -51,12 +51,12 @@ export async function buildDotNetLineCallout3DGenerated(jsObject: any): Promise<
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetLineCallout3D.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.size)) {
-            dotNetLineCallout3D.size = jsObject.size;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLineCallout3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.size)) {
+        dotNetLineCallout3D.size = jsObject.size;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLineCallout3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

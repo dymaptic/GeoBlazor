@@ -35,9 +35,9 @@ export async function buildDotNetEditsGenerated(jsObject: any, layerId: string |
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetEdits.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.modified)) {
-            dotNetEdits.modified = jsObject.modified;
-        }
+    if (hasValue(jsObject.modified)) {
+        dotNetEdits.modified = jsObject.modified;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

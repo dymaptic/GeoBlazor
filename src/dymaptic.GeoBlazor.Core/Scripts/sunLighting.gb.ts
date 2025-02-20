@@ -82,21 +82,21 @@ export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.cameraTrackingEnabled)) {
-            dotNetSunLighting.cameraTrackingEnabled = jsObject.cameraTrackingEnabled;
-        }
-        if (hasValue(jsObject.date)) {
-            dotNetSunLighting.date = jsObject.date;
-        }
-        if (hasValue(jsObject.directShadowsEnabled)) {
-            dotNetSunLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
-        }
-        if (hasValue(jsObject.displayUTCOffset)) {
-            dotNetSunLighting.displayUTCOffset = jsObject.displayUTCOffset;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSunLighting.type = jsObject.type;
-        }
+    if (hasValue(jsObject.cameraTrackingEnabled)) {
+        dotNetSunLighting.cameraTrackingEnabled = jsObject.cameraTrackingEnabled;
+    }
+    if (hasValue(jsObject.date)) {
+        dotNetSunLighting.date = jsObject.date;
+    }
+    if (hasValue(jsObject.directShadowsEnabled)) {
+        dotNetSunLighting.directShadowsEnabled = jsObject.directShadowsEnabled;
+    }
+    if (hasValue(jsObject.displayUTCOffset)) {
+        dotNetSunLighting.displayUTCOffset = jsObject.displayUTCOffset;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSunLighting.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

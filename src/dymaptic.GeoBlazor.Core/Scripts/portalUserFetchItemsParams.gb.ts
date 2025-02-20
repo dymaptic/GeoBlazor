@@ -53,27 +53,27 @@ export async function buildDotNetPortalUserFetchItemsParamsGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            dotNetPortalUserFetchItemsParams.folder = jsObject.folder;
-        }
-        if (hasValue(jsObject.includeSubfolderItems)) {
-            dotNetPortalUserFetchItemsParams.includeSubfolderItems = jsObject.includeSubfolderItems;
-        }
-        if (hasValue(jsObject.inRecycleBin)) {
-            dotNetPortalUserFetchItemsParams.inRecycleBin = jsObject.inRecycleBin;
-        }
-        if (hasValue(jsObject.num)) {
-            dotNetPortalUserFetchItemsParams.num = jsObject.num;
-        }
-        if (hasValue(jsObject.sortField)) {
-            dotNetPortalUserFetchItemsParams.sortField = jsObject.sortField;
-        }
-        if (hasValue(jsObject.sortOrder)) {
-            dotNetPortalUserFetchItemsParams.sortOrder = jsObject.sortOrder;
-        }
-        if (hasValue(jsObject.start)) {
-            dotNetPortalUserFetchItemsParams.start = jsObject.start;
-        }
+    if (hasValue(jsObject.folder)) {
+        dotNetPortalUserFetchItemsParams.folder = jsObject.folder;
+    }
+    if (hasValue(jsObject.includeSubfolderItems)) {
+        dotNetPortalUserFetchItemsParams.includeSubfolderItems = jsObject.includeSubfolderItems;
+    }
+    if (hasValue(jsObject.inRecycleBin)) {
+        dotNetPortalUserFetchItemsParams.inRecycleBin = jsObject.inRecycleBin;
+    }
+    if (hasValue(jsObject.num)) {
+        dotNetPortalUserFetchItemsParams.num = jsObject.num;
+    }
+    if (hasValue(jsObject.sortField)) {
+        dotNetPortalUserFetchItemsParams.sortField = jsObject.sortField;
+    }
+    if (hasValue(jsObject.sortOrder)) {
+        dotNetPortalUserFetchItemsParams.sortOrder = jsObject.sortOrder;
+    }
+    if (hasValue(jsObject.start)) {
+        dotNetPortalUserFetchItemsParams.start = jsObject.start;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

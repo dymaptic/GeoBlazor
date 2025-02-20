@@ -116,15 +116,15 @@ export async function buildDotNetPolylineBarrierGenerated(jsObject: any): Promis
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetPolylineBarrier.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.barrierType)) {
-            dotNetPolylineBarrier.barrierType = jsObject.barrierType;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPolylineBarrier.name = jsObject.name;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetPolylineBarrier.type = jsObject.type;
-        }
+    if (hasValue(jsObject.barrierType)) {
+        dotNetPolylineBarrier.barrierType = jsObject.barrierType;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPolylineBarrier.name = jsObject.name;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetPolylineBarrier.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

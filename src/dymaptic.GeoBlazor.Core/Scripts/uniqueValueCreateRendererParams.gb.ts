@@ -55,24 +55,24 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classFieldName)) {
-            dotNetUniqueValueCreateRendererParams.classFieldName = jsObject.classFieldName;
-        }
-        if (hasValue(jsObject.colorRamp)) {
-            dotNetUniqueValueCreateRendererParams.colorRamp = jsObject.colorRamp;
-        }
-        if (hasValue(jsObject.colors)) {
-            dotNetUniqueValueCreateRendererParams.colors = jsObject.colors;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetUniqueValueCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetUniqueValueCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetUniqueValueCreateRendererParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.classFieldName)) {
+        dotNetUniqueValueCreateRendererParams.classFieldName = jsObject.classFieldName;
+    }
+    if (hasValue(jsObject.colorRamp)) {
+        dotNetUniqueValueCreateRendererParams.colorRamp = jsObject.colorRamp;
+    }
+    if (hasValue(jsObject.colors)) {
+        dotNetUniqueValueCreateRendererParams.colors = jsObject.colors;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetUniqueValueCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetUniqueValueCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetUniqueValueCreateRendererParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

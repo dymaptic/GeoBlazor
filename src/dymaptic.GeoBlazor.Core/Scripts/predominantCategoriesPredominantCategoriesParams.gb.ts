@@ -47,18 +47,18 @@ export async function buildDotNetPredominantCategoriesPredominantCategoriesParam
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fields)) {
-            dotNetPredominantCategoriesPredominantCategoriesParams.fields = jsObject.fields;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetPredominantCategoriesPredominantCategoriesParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetPredominantCategoriesPredominantCategoriesParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPredominantCategoriesPredominantCategoriesParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.fields)) {
+        dotNetPredominantCategoriesPredominantCategoriesParams.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetPredominantCategoriesPredominantCategoriesParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetPredominantCategoriesPredominantCategoriesParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPredominantCategoriesPredominantCategoriesParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

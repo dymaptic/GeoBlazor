@@ -45,12 +45,12 @@ export async function buildDotNetTableMenuConfigGenerated(jsObject: any): Promis
             let { buildDotNetTableMenuItemConfig } = await import('./tableMenuItemConfig');
             dotNetTableMenuConfig.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTableMenuItemConfig(i)));
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableMenuConfig.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetTableMenuConfig.open = jsObject.open;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableMenuConfig.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetTableMenuConfig.open = jsObject.open;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -96,54 +96,54 @@ export async function buildDotNetTemplateOptionsGenerated(jsObject: any): Promis
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetTemplateOptions.layoutItem = await buildDotNetPortalItem(jsObject.layoutItem);
         }
-        if (hasValue(jsObject.attributionEnabled)) {
-            dotNetTemplateOptions.attributionEnabled = jsObject.attributionEnabled;
-        }
-        if (hasValue(jsObject.author)) {
-            dotNetTemplateOptions.author = jsObject.author;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetTemplateOptions.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customTextElements)) {
-            dotNetTemplateOptions.customTextElements = jsObject.customTextElements;
-        }
-        if (hasValue(jsObject.dpi)) {
-            dotNetTemplateOptions.dpi = jsObject.dpi;
-        }
-        if (hasValue(jsObject.fileName)) {
-            dotNetTemplateOptions.fileName = jsObject.fileName;
-        }
-        if (hasValue(jsObject.forceFeatureAttributes)) {
-            dotNetTemplateOptions.forceFeatureAttributes = jsObject.forceFeatureAttributes;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetTemplateOptions.height = jsObject.height;
-        }
-        if (hasValue(jsObject.includeTables)) {
-            dotNetTemplateOptions.includeTables = jsObject.includeTables;
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetTemplateOptions.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetTemplateOptions.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.northArrowEnabled)) {
-            dotNetTemplateOptions.northArrowEnabled = jsObject.northArrowEnabled;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetTemplateOptions.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.scaleEnabled)) {
-            dotNetTemplateOptions.scaleEnabled = jsObject.scaleEnabled;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTemplateOptions.title = jsObject.title;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetTemplateOptions.width = jsObject.width;
-        }
+    if (hasValue(jsObject.attributionEnabled)) {
+        dotNetTemplateOptions.attributionEnabled = jsObject.attributionEnabled;
+    }
+    if (hasValue(jsObject.author)) {
+        dotNetTemplateOptions.author = jsObject.author;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetTemplateOptions.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customTextElements)) {
+        dotNetTemplateOptions.customTextElements = jsObject.customTextElements;
+    }
+    if (hasValue(jsObject.dpi)) {
+        dotNetTemplateOptions.dpi = jsObject.dpi;
+    }
+    if (hasValue(jsObject.fileName)) {
+        dotNetTemplateOptions.fileName = jsObject.fileName;
+    }
+    if (hasValue(jsObject.forceFeatureAttributes)) {
+        dotNetTemplateOptions.forceFeatureAttributes = jsObject.forceFeatureAttributes;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetTemplateOptions.height = jsObject.height;
+    }
+    if (hasValue(jsObject.includeTables)) {
+        dotNetTemplateOptions.includeTables = jsObject.includeTables;
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetTemplateOptions.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetTemplateOptions.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.northArrowEnabled)) {
+        dotNetTemplateOptions.northArrowEnabled = jsObject.northArrowEnabled;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetTemplateOptions.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.scaleEnabled)) {
+        dotNetTemplateOptions.scaleEnabled = jsObject.scaleEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTemplateOptions.title = jsObject.title;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetTemplateOptions.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

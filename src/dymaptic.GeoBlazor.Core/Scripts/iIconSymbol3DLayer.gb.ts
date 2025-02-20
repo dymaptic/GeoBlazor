@@ -124,21 +124,21 @@ export async function buildDotNetIIconSymbol3DLayerGenerated(jsObject: any): Pro
             let { buildDotNetIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
             dotNetIIconSymbol3DLayer.outline = await buildDotNetIconSymbol3DLayerOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.anchor)) {
-            dotNetIIconSymbol3DLayer.anchor = jsObject.anchor;
-        }
-        if (hasValue(jsObject.anchorPosition)) {
-            dotNetIIconSymbol3DLayer.anchorPosition = jsObject.anchorPosition;
-        }
-        if (hasValue(jsObject.resource)) {
-            dotNetIIconSymbol3DLayer.resource = jsObject.resource;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetIIconSymbol3DLayer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIIconSymbol3DLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.anchor)) {
+        dotNetIIconSymbol3DLayer.anchor = jsObject.anchor;
+    }
+    if (hasValue(jsObject.anchorPosition)) {
+        dotNetIIconSymbol3DLayer.anchorPosition = jsObject.anchorPosition;
+    }
+    if (hasValue(jsObject.resource)) {
+        dotNetIIconSymbol3DLayer.resource = jsObject.resource;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetIIconSymbol3DLayer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIIconSymbol3DLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

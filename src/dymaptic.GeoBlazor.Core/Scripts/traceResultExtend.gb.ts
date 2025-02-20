@@ -56,21 +56,21 @@ export async function buildDotNetTraceResultExtendGenerated(jsObject: any): Prom
             let { buildDotNetTraceResult } = await import('./traceResult');
             dotNetTraceResultExtend.traceResult = await buildDotNetTraceResult(jsObject.TraceResult);
         }
-        if (hasValue(jsObject.graphicColor)) {
-            dotNetTraceResultExtend.graphicColor = jsObject.graphicColor;
-        }
-        if (hasValue(jsObject.graphicEnabled)) {
-            dotNetTraceResultExtend.graphicEnabled = jsObject.graphicEnabled;
-        }
-        if (hasValue(jsObject.selectionEnabled)) {
-            dotNetTraceResultExtend.selectionEnabled = jsObject.selectionEnabled;
-        }
-        if (hasValue(jsObject.status)) {
-            dotNetTraceResultExtend.status = jsObject.status;
-        }
-        if (hasValue(jsObject.TraceItem)) {
-            dotNetTraceResultExtend.traceItem = jsObject.TraceItem;
-        }
+    if (hasValue(jsObject.graphicColor)) {
+        dotNetTraceResultExtend.graphicColor = jsObject.graphicColor;
+    }
+    if (hasValue(jsObject.graphicEnabled)) {
+        dotNetTraceResultExtend.graphicEnabled = jsObject.graphicEnabled;
+    }
+    if (hasValue(jsObject.selectionEnabled)) {
+        dotNetTraceResultExtend.selectionEnabled = jsObject.selectionEnabled;
+    }
+    if (hasValue(jsObject.status)) {
+        dotNetTraceResultExtend.status = jsObject.status;
+    }
+    if (hasValue(jsObject.TraceItem)) {
+        dotNetTraceResultExtend.traceItem = jsObject.TraceItem;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

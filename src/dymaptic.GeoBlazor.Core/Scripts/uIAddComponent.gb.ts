@@ -45,12 +45,12 @@ export async function buildDotNetUIAddComponentGenerated(jsObject: any): Promise
             let { buildDotNetPosition } = await import('./position');
             dotNetUIAddComponent.position = await buildDotNetPosition(jsObject.position);
         }
-        if (hasValue(jsObject.component)) {
-            dotNetUIAddComponent.component = jsObject.component;
-        }
-        if (hasValue(jsObject.index)) {
-            dotNetUIAddComponent.index = jsObject.index;
-        }
+    if (hasValue(jsObject.component)) {
+        dotNetUIAddComponent.component = jsObject.component;
+    }
+    if (hasValue(jsObject.index)) {
+        dotNetUIAddComponent.index = jsObject.index;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

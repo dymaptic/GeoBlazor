@@ -145,42 +145,42 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetISmartMappingSliderBaseWidget.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetISmartMappingSliderBaseWidget.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetISmartMappingSliderBaseWidget.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetISmartMappingSliderBaseWidget.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetISmartMappingSliderBaseWidget.state = jsObject.state;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetISmartMappingSliderBaseWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetISmartMappingSliderBaseWidget.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetISmartMappingSliderBaseWidget.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetISmartMappingSliderBaseWidget.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetISmartMappingSliderBaseWidget.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetISmartMappingSliderBaseWidget.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetISmartMappingSliderBaseWidget.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetISmartMappingSliderBaseWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetISmartMappingSliderBaseWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

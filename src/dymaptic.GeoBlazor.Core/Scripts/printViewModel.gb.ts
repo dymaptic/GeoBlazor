@@ -139,54 +139,54 @@ export async function buildDotNetPrintViewModelGenerated(jsObject: any): Promise
             let { buildDotNetPortal } = await import('./portal');
             dotNetPrintViewModel.portal = await buildDotNetPortal(jsObject.portal);
         }
-        if (hasValue(jsObject.allowedFormats)) {
-            dotNetPrintViewModel.allowedFormats = jsObject.allowedFormats;
-        }
-        if (hasValue(jsObject.allowedLayouts)) {
-            dotNetPrintViewModel.allowedLayouts = jsObject.allowedLayouts;
-        }
-        if (hasValue(jsObject.effectivePrintServiceUrl)) {
-            dotNetPrintViewModel.effectivePrintServiceUrl = jsObject.effectivePrintServiceUrl;
-        }
-        if (hasValue(jsObject.effectiveTemplateCustomTextElements)) {
-            dotNetPrintViewModel.effectiveTemplateCustomTextElements = jsObject.effectiveTemplateCustomTextElements;
-        }
-        if (hasValue(jsObject.extraParameters)) {
-            dotNetPrintViewModel.extraParameters = jsObject.extraParameters;
-        }
-        if (hasValue(jsObject.includeDefaultTemplates)) {
-            dotNetPrintViewModel.includeDefaultTemplates = jsObject.includeDefaultTemplates;
-        }
-        if (hasValue(jsObject.layoutTemplateInfo)) {
-            dotNetPrintViewModel.layoutTemplateInfo = jsObject.layoutTemplateInfo;
-        }
-        if (hasValue(jsObject.layoutTemplateNorthArrowInfo)) {
-            dotNetPrintViewModel.layoutTemplateNorthArrowInfo = jsObject.layoutTemplateNorthArrowInfo;
-        }
-        if (hasValue(jsObject.printServiceUrl)) {
-            dotNetPrintViewModel.printServiceUrl = jsObject.printServiceUrl;
-        }
-        if (hasValue(jsObject.printTimeout)) {
-            dotNetPrintViewModel.printTimeout = jsObject.printTimeout;
-        }
-        if (hasValue(jsObject.showPrintAreaEnabled)) {
-            dotNetPrintViewModel.showPrintAreaEnabled = jsObject.showPrintAreaEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetPrintViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.templateCustomTextElements)) {
-            dotNetPrintViewModel.templateCustomTextElements = jsObject.templateCustomTextElements;
-        }
-        if (hasValue(jsObject.templatesInfo)) {
-            dotNetPrintViewModel.templatesInfo = jsObject.templatesInfo;
-        }
-        if (hasValue(jsObject.updateDelay)) {
-            dotNetPrintViewModel.updateDelay = jsObject.updateDelay;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPrintViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.allowedFormats)) {
+        dotNetPrintViewModel.allowedFormats = jsObject.allowedFormats;
+    }
+    if (hasValue(jsObject.allowedLayouts)) {
+        dotNetPrintViewModel.allowedLayouts = jsObject.allowedLayouts;
+    }
+    if (hasValue(jsObject.effectivePrintServiceUrl)) {
+        dotNetPrintViewModel.effectivePrintServiceUrl = jsObject.effectivePrintServiceUrl;
+    }
+    if (hasValue(jsObject.effectiveTemplateCustomTextElements)) {
+        dotNetPrintViewModel.effectiveTemplateCustomTextElements = jsObject.effectiveTemplateCustomTextElements;
+    }
+    if (hasValue(jsObject.extraParameters)) {
+        dotNetPrintViewModel.extraParameters = jsObject.extraParameters;
+    }
+    if (hasValue(jsObject.includeDefaultTemplates)) {
+        dotNetPrintViewModel.includeDefaultTemplates = jsObject.includeDefaultTemplates;
+    }
+    if (hasValue(jsObject.layoutTemplateInfo)) {
+        dotNetPrintViewModel.layoutTemplateInfo = jsObject.layoutTemplateInfo;
+    }
+    if (hasValue(jsObject.layoutTemplateNorthArrowInfo)) {
+        dotNetPrintViewModel.layoutTemplateNorthArrowInfo = jsObject.layoutTemplateNorthArrowInfo;
+    }
+    if (hasValue(jsObject.printServiceUrl)) {
+        dotNetPrintViewModel.printServiceUrl = jsObject.printServiceUrl;
+    }
+    if (hasValue(jsObject.printTimeout)) {
+        dotNetPrintViewModel.printTimeout = jsObject.printTimeout;
+    }
+    if (hasValue(jsObject.showPrintAreaEnabled)) {
+        dotNetPrintViewModel.showPrintAreaEnabled = jsObject.showPrintAreaEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetPrintViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.templateCustomTextElements)) {
+        dotNetPrintViewModel.templateCustomTextElements = jsObject.templateCustomTextElements;
+    }
+    if (hasValue(jsObject.templatesInfo)) {
+        dotNetPrintViewModel.templatesInfo = jsObject.templatesInfo;
+    }
+    if (hasValue(jsObject.updateDelay)) {
+        dotNetPrintViewModel.updateDelay = jsObject.updateDelay;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPrintViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

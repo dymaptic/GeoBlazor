@@ -60,21 +60,21 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promis
             let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
             dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i)));
         }
-        if (hasValue(jsObject.basemapLegendVisible)) {
-            dotNetLegendViewModel.basemapLegendVisible = jsObject.basemapLegendVisible;
-        }
-        if (hasValue(jsObject.hideLayersNotInCurrentView)) {
-            dotNetLegendViewModel.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
-        }
-        if (hasValue(jsObject.respectLayerVisibility)) {
-            dotNetLegendViewModel.respectLayerVisibility = jsObject.respectLayerVisibility;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetLegendViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLegendViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.basemapLegendVisible)) {
+        dotNetLegendViewModel.basemapLegendVisible = jsObject.basemapLegendVisible;
+    }
+    if (hasValue(jsObject.hideLayersNotInCurrentView)) {
+        dotNetLegendViewModel.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(jsObject.respectLayerVisibility)) {
+        dotNetLegendViewModel.respectLayerVisibility = jsObject.respectLayerVisibility;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetLegendViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLegendViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

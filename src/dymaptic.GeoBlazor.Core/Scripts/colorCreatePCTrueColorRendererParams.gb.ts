@@ -44,15 +44,15 @@ export async function buildDotNetColorCreatePCTrueColorRendererParamsGenerated(j
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.density)) {
-            dotNetColorCreatePCTrueColorRendererParams.density = jsObject.density;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColorCreatePCTrueColorRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetColorCreatePCTrueColorRendererParams.size = jsObject.size;
-        }
+    if (hasValue(jsObject.density)) {
+        dotNetColorCreatePCTrueColorRendererParams.density = jsObject.density;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColorCreatePCTrueColorRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetColorCreatePCTrueColorRendererParams.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

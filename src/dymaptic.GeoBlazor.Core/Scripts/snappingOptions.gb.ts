@@ -55,21 +55,21 @@ export async function buildDotNetSnappingOptionsGenerated(jsObject: any): Promis
             let { buildDotNetFeatureSnappingLayerSource } = await import('./featureSnappingLayerSource');
             dotNetSnappingOptions.featureSources = await Promise.all(jsObject.featureSources.map(async i => await buildDotNetFeatureSnappingLayerSource(i)));
         }
-        if (hasValue(jsObject.attributeRulesEnabled)) {
-            dotNetSnappingOptions.attributeRulesEnabled = jsObject.attributeRulesEnabled;
-        }
-        if (hasValue(jsObject.distance)) {
-            dotNetSnappingOptions.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.enabled)) {
-            dotNetSnappingOptions.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.featureEnabled)) {
-            dotNetSnappingOptions.featureEnabled = jsObject.featureEnabled;
-        }
-        if (hasValue(jsObject.selfEnabled)) {
-            dotNetSnappingOptions.selfEnabled = jsObject.selfEnabled;
-        }
+    if (hasValue(jsObject.attributeRulesEnabled)) {
+        dotNetSnappingOptions.attributeRulesEnabled = jsObject.attributeRulesEnabled;
+    }
+    if (hasValue(jsObject.distance)) {
+        dotNetSnappingOptions.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.enabled)) {
+        dotNetSnappingOptions.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.featureEnabled)) {
+        dotNetSnappingOptions.featureEnabled = jsObject.featureEnabled;
+    }
+    if (hasValue(jsObject.selfEnabled)) {
+        dotNetSnappingOptions.selfEnabled = jsObject.selfEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

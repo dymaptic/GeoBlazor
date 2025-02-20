@@ -79,15 +79,15 @@ export async function buildDotNetILegendLayerGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.layerId)) {
-            dotNetILegendLayer.layerId = jsObject.layerId;
-        }
-        if (hasValue(jsObject.subLayerIds)) {
-            dotNetILegendLayer.subLayerIds = jsObject.subLayerIds;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetILegendLayer.title = jsObject.title;
-        }
+    if (hasValue(jsObject.layerId)) {
+        dotNetILegendLayer.layerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.subLayerIds)) {
+        dotNetILegendLayer.subLayerIds = jsObject.subLayerIds;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetILegendLayer.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

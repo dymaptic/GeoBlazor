@@ -74,39 +74,39 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.hideLayersNotInCurrentView)) {
-            dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
-        }
-        if (hasValue(jsObject.isScaleDriven)) {
-            dotNetActiveLayerInfo.isScaleDriven = jsObject.isScaleDriven;
-        }
-        if (hasValue(jsObject.legendElements)) {
-            dotNetActiveLayerInfo.legendElements = jsObject.legendElements;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetActiveLayerInfo.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.ready)) {
-            dotNetActiveLayerInfo.ready = jsObject.ready;
-        }
-        if (hasValue(jsObject.respectLayerVisibility)) {
-            dotNetActiveLayerInfo.respectLayerVisibility = jsObject.respectLayerVisibility;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetActiveLayerInfo.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.sublayerIds)) {
-            dotNetActiveLayerInfo.sublayerIds = jsObject.sublayerIds;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetActiveLayerInfo.title = jsObject.title;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetActiveLayerInfo.version = jsObject.version;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetActiveLayerInfo.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hideLayersNotInCurrentView)) {
+        dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(jsObject.isScaleDriven)) {
+        dotNetActiveLayerInfo.isScaleDriven = jsObject.isScaleDriven;
+    }
+    if (hasValue(jsObject.legendElements)) {
+        dotNetActiveLayerInfo.legendElements = jsObject.legendElements;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetActiveLayerInfo.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.ready)) {
+        dotNetActiveLayerInfo.ready = jsObject.ready;
+    }
+    if (hasValue(jsObject.respectLayerVisibility)) {
+        dotNetActiveLayerInfo.respectLayerVisibility = jsObject.respectLayerVisibility;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetActiveLayerInfo.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.sublayerIds)) {
+        dotNetActiveLayerInfo.sublayerIds = jsObject.sublayerIds;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetActiveLayerInfo.title = jsObject.title;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetActiveLayerInfo.version = jsObject.version;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetActiveLayerInfo.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

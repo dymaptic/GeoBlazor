@@ -65,24 +65,24 @@ export async function buildDotNetSizeAgeRendererResultGenerated(jsObject: any): 
             let { buildDotNetSizeVariable } = await import('./sizeVariable');
             dotNetSizeAgeRendererResult.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetSizeVariable(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetSizeAgeRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetSizeAgeRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetSizeAgeRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeAgeRendererResult.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetSizeAgeRendererResult.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetSizeAgeRendererResult.unit = jsObject.unit;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetSizeAgeRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetSizeAgeRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetSizeAgeRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeAgeRendererResult.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetSizeAgeRendererResult.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetSizeAgeRendererResult.unit = jsObject.unit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

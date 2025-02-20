@@ -59,18 +59,18 @@ export async function buildDotNetTypeRendererResultGenerated(jsObject: any): Pro
             let { buildDotNetTypeUniqueValueInfo } = await import('./typeUniqueValueInfo');
             dotNetTypeRendererResult.uniqueValueInfos = await Promise.all(jsObject.uniqueValueInfos.map(async i => await buildDotNetTypeUniqueValueInfo(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetTypeRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetTypeRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.excludedUniqueValueInfos)) {
-            dotNetTypeRendererResult.excludedUniqueValueInfos = jsObject.excludedUniqueValueInfos;
-        }
-        if (hasValue(jsObject.typeScheme)) {
-            dotNetTypeRendererResult.typeScheme = jsObject.typeScheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetTypeRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetTypeRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.excludedUniqueValueInfos)) {
+        dotNetTypeRendererResult.excludedUniqueValueInfos = jsObject.excludedUniqueValueInfos;
+    }
+    if (hasValue(jsObject.typeScheme)) {
+        dotNetTypeRendererResult.typeScheme = jsObject.typeScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -45,12 +45,12 @@ export async function buildDotNetFetchItemsResultGenerated(jsObject: any): Promi
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i)));
         }
-        if (hasValue(jsObject.nextStart)) {
-            dotNetFetchItemsResult.nextStart = jsObject.nextStart;
-        }
-        if (hasValue(jsObject.total)) {
-            dotNetFetchItemsResult.total = jsObject.total;
-        }
+    if (hasValue(jsObject.nextStart)) {
+        dotNetFetchItemsResult.nextStart = jsObject.nextStart;
+    }
+    if (hasValue(jsObject.total)) {
+        dotNetFetchItemsResult.total = jsObject.total;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

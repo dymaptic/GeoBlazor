@@ -42,9 +42,9 @@ export async function buildDotNetColorRampsColorRampGenerated(jsObject: any): Pr
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorRampsColorRamp.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.name)) {
-            dotNetColorRampsColorRamp.name = jsObject.name;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetColorRampsColorRamp.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

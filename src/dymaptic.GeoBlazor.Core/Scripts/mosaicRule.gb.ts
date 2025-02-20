@@ -76,39 +76,39 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
             let { buildDotNetPoint } = await import('./point');
             dotNetMosaicRule.viewpoint = buildDotNetPoint(jsObject.viewpoint);
         }
-        if (hasValue(jsObject.ascending)) {
-            dotNetMosaicRule.ascending = jsObject.ascending;
-        }
-        if (hasValue(jsObject.itemRasterFunction)) {
-            dotNetMosaicRule.itemRasterFunction = jsObject.itemRasterFunction;
-        }
-        if (hasValue(jsObject.itemRenderingRule)) {
-            dotNetMosaicRule.itemRenderingRule = jsObject.itemRenderingRule;
-        }
-        if (hasValue(jsObject.lockRasterIds)) {
-            dotNetMosaicRule.lockRasterIds = jsObject.lockRasterIds;
-        }
-        if (hasValue(jsObject.method)) {
-            dotNetMosaicRule.method = jsObject.method;
-        }
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetMosaicRule.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetMosaicRule.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.operation)) {
-            dotNetMosaicRule.operation = jsObject.operation;
-        }
-        if (hasValue(jsObject.sortField)) {
-            dotNetMosaicRule.sortField = jsObject.sortField;
-        }
-        if (hasValue(jsObject.sortValue)) {
-            dotNetMosaicRule.sortValue = jsObject.sortValue;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetMosaicRule.where = jsObject.where;
-        }
+    if (hasValue(jsObject.ascending)) {
+        dotNetMosaicRule.ascending = jsObject.ascending;
+    }
+    if (hasValue(jsObject.itemRasterFunction)) {
+        dotNetMosaicRule.itemRasterFunction = jsObject.itemRasterFunction;
+    }
+    if (hasValue(jsObject.itemRenderingRule)) {
+        dotNetMosaicRule.itemRenderingRule = jsObject.itemRenderingRule;
+    }
+    if (hasValue(jsObject.lockRasterIds)) {
+        dotNetMosaicRule.lockRasterIds = jsObject.lockRasterIds;
+    }
+    if (hasValue(jsObject.method)) {
+        dotNetMosaicRule.method = jsObject.method;
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetMosaicRule.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetMosaicRule.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.operation)) {
+        dotNetMosaicRule.operation = jsObject.operation;
+    }
+    if (hasValue(jsObject.sortField)) {
+        dotNetMosaicRule.sortField = jsObject.sortField;
+    }
+    if (hasValue(jsObject.sortValue)) {
+        dotNetMosaicRule.sortValue = jsObject.sortValue;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetMosaicRule.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

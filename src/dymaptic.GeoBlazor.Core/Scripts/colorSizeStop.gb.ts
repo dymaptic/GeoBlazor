@@ -49,15 +49,15 @@ export async function buildDotNetColorSizeStopGenerated(jsObject: any): Promise<
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSizeStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetColorSizeStop.label = jsObject.label;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetColorSizeStop.size = jsObject.size;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetColorSizeStop.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetColorSizeStop.label = jsObject.label;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetColorSizeStop.size = jsObject.size;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetColorSizeStop.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

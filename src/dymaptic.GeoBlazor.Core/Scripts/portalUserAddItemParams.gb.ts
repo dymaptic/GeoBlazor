@@ -45,12 +45,12 @@ export async function buildDotNetPortalUserAddItemParamsGenerated(jsObject: any)
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetPortalUserAddItemParams.item = await buildDotNetPortalItem(jsObject.item);
         }
-        if (hasValue(jsObject.data)) {
-            dotNetPortalUserAddItemParams.data = jsObject.data;
-        }
-        if (hasValue(jsObject.folder)) {
-            dotNetPortalUserAddItemParams.folder = jsObject.folder;
-        }
+    if (hasValue(jsObject.data)) {
+        dotNetPortalUserAddItemParams.data = jsObject.data;
+    }
+    if (hasValue(jsObject.folder)) {
+        dotNetPortalUserAddItemParams.folder = jsObject.folder;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -52,21 +52,21 @@ export async function buildDotNetSlicePlaneGenerated(jsObject: any): Promise<any
             let { buildDotNetPoint } = await import('./point');
             dotNetSlicePlane.position = buildDotNetPoint(jsObject.position);
         }
-        if (hasValue(jsObject.heading)) {
-            dotNetSlicePlane.heading = jsObject.heading;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetSlicePlane.height = jsObject.height;
-        }
-        if (hasValue(jsObject.tilt)) {
-            dotNetSlicePlane.tilt = jsObject.tilt;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSlicePlane.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetSlicePlane.width = jsObject.width;
-        }
+    if (hasValue(jsObject.heading)) {
+        dotNetSlicePlane.heading = jsObject.heading;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetSlicePlane.height = jsObject.height;
+    }
+    if (hasValue(jsObject.tilt)) {
+        dotNetSlicePlane.tilt = jsObject.tilt;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSlicePlane.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetSlicePlane.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

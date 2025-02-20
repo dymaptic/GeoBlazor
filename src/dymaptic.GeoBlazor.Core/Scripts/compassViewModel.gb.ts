@@ -76,18 +76,18 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetCompassViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetCompassViewModel.orientation = jsObject.orientation;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetCompassViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCompassViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetCompassViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetCompassViewModel.orientation = jsObject.orientation;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetCompassViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCompassViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

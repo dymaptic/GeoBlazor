@@ -42,9 +42,9 @@ export async function buildDotNetWebTileLayerLayerviewCreateEventGenerated(jsObj
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetWebTileLayerLayerviewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetWebTileLayerLayerviewCreateEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetWebTileLayerLayerviewCreateEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

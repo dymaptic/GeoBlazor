@@ -40,27 +40,27 @@ export async function buildDotNetCatalogLayerViewGenerated(jsObject: any): Promi
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetCatalogLayerView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
         }
-        if (hasValue(jsObject.footprintLayerView)) {
-            dotNetCatalogLayerView.footprintLayerView = jsObject.footprintLayerView;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetCatalogLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetCatalogLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetCatalogLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetCatalogLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetCatalogLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetCatalogLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.footprintLayerView)) {
+        dotNetCatalogLayerView.footprintLayerView = jsObject.footprintLayerView;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetCatalogLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetCatalogLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetCatalogLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetCatalogLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetCatalogLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetCatalogLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

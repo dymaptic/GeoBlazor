@@ -106,12 +106,12 @@ export async function buildDotNetElevationSamplerGenerated(jsObject: any): Promi
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetElevationSampler.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.demResolution)) {
-            dotNetElevationSampler.demResolution = jsObject.demResolution;
-        }
-        if (hasValue(jsObject.noDataValue)) {
-            dotNetElevationSampler.noDataValue = jsObject.noDataValue;
-        }
+    if (hasValue(jsObject.demResolution)) {
+        dotNetElevationSampler.demResolution = jsObject.demResolution;
+    }
+    if (hasValue(jsObject.noDataValue)) {
+        dotNetElevationSampler.noDataValue = jsObject.noDataValue;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

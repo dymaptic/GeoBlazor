@@ -81,51 +81,51 @@ export async function buildDotNetPredominanceCreateRendererParamsGenerated(jsObj
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetPredominanceCreateRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetPredominanceCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.fields)) {
-            dotNetPredominanceCreateRendererParams.fields = jsObject.fields;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetPredominanceCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.includeOpacityVariable)) {
-            dotNetPredominanceCreateRendererParams.includeOpacityVariable = jsObject.includeOpacityVariable;
-        }
-        if (hasValue(jsObject.includeSizeVariable)) {
-            dotNetPredominanceCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetPredominanceCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetPredominanceCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.predominanceScheme)) {
-            dotNetPredominanceCreateRendererParams.predominanceScheme = jsObject.predominanceScheme;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetPredominanceCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetPredominanceCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.sortBy)) {
-            dotNetPredominanceCreateRendererParams.sortBy = jsObject.sortBy;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetPredominanceCreateRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetPredominanceCreateRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPredominanceCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetPredominanceCreateRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetPredominanceCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.fields)) {
+        dotNetPredominanceCreateRendererParams.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetPredominanceCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.includeOpacityVariable)) {
+        dotNetPredominanceCreateRendererParams.includeOpacityVariable = jsObject.includeOpacityVariable;
+    }
+    if (hasValue(jsObject.includeSizeVariable)) {
+        dotNetPredominanceCreateRendererParams.includeSizeVariable = jsObject.includeSizeVariable;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetPredominanceCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetPredominanceCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.predominanceScheme)) {
+        dotNetPredominanceCreateRendererParams.predominanceScheme = jsObject.predominanceScheme;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetPredominanceCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetPredominanceCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.sortBy)) {
+        dotNetPredominanceCreateRendererParams.sortBy = jsObject.sortBy;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetPredominanceCreateRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetPredominanceCreateRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPredominanceCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -104,15 +104,15 @@ export async function buildDotNetControlPointsGeoreferenceGenerated(jsObject: an
             let { buildDotNetControlPoint } = await import('./controlPoint');
             dotNetControlPointsGeoreference.controlPoints = await Promise.all(jsObject.controlPoints.map(async i => await buildDotNetControlPoint(i)));
         }
-        if (hasValue(jsObject.height)) {
-            dotNetControlPointsGeoreference.height = jsObject.height;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetControlPointsGeoreference.type = jsObject.type;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetControlPointsGeoreference.width = jsObject.width;
-        }
+    if (hasValue(jsObject.height)) {
+        dotNetControlPointsGeoreference.height = jsObject.height;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetControlPointsGeoreference.type = jsObject.type;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetControlPointsGeoreference.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

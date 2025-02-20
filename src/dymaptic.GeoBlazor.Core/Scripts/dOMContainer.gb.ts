@@ -42,27 +42,27 @@ export async function buildDotNetDOMContainerGenerated(jsObject: any): Promise<a
             let { buildDotNetDefaultUI } = await import('./defaultUI');
             dotNetDOMContainer.ui = await buildDotNetDefaultUI(jsObject.ui);
         }
-        if (hasValue(jsObject.container)) {
-            dotNetDOMContainer.container = jsObject.container;
-        }
-        if (hasValue(jsObject.focused)) {
-            dotNetDOMContainer.focused = jsObject.focused;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetDOMContainer.height = jsObject.height;
-        }
-        if (hasValue(jsObject.resizing)) {
-            dotNetDOMContainer.resizing = jsObject.resizing;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetDOMContainer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetDOMContainer.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetDOMContainer.width = jsObject.width;
-        }
+    if (hasValue(jsObject.container)) {
+        dotNetDOMContainer.container = jsObject.container;
+    }
+    if (hasValue(jsObject.focused)) {
+        dotNetDOMContainer.focused = jsObject.focused;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetDOMContainer.height = jsObject.height;
+    }
+    if (hasValue(jsObject.resizing)) {
+        dotNetDOMContainer.resizing = jsObject.resizing;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetDOMContainer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetDOMContainer.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetDOMContainer.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

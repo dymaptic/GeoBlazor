@@ -682,17 +682,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return PixelDataSource;
         }
 
-        // get the property value
-        PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>("getProperty",
-            CancellationTokenSource.Token, "pixelDataSource");
+        PixelData? result = await JsComponentReference.InvokeAsync<PixelData?>(
+            "getPixelDataSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PixelDataSource = result;
+            PixelDataSource = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
+            ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
         }
-         
+        
         return PixelDataSource;
     }
     
@@ -1027,17 +1027,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TimeInfo;
         }
 
-        // get the property value
-        TimeInfo? result = await JsComponentReference!.InvokeAsync<TimeInfo?>("getProperty",
-            CancellationTokenSource.Token, "timeInfo");
+        TimeInfo? result = await JsComponentReference.InvokeAsync<TimeInfo?>(
+            "getTimeInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeInfo = result;
+            TimeInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+            ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
         }
-         
+        
         return TimeInfo;
     }
     

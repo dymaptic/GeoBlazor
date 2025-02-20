@@ -156,27 +156,27 @@ export async function buildDotNetShadowCastViewModelGenerated(jsObject: any): Pr
             let { buildDotNetShadowCastViewModelThresholdOptions } = await import('./shadowCastViewModelThresholdOptions');
             dotNetShadowCastViewModel.thresholdOptions = await buildDotNetShadowCastViewModelThresholdOptions(jsObject.thresholdOptions);
         }
-        if (hasValue(jsObject.date)) {
-            dotNetShadowCastViewModel.date = jsObject.date;
-        }
-        if (hasValue(jsObject.endTimeOfDay)) {
-            dotNetShadowCastViewModel.endTimeOfDay = jsObject.endTimeOfDay;
-        }
-        if (hasValue(jsObject.startTimeOfDay)) {
-            dotNetShadowCastViewModel.startTimeOfDay = jsObject.startTimeOfDay;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetShadowCastViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.utcOffset)) {
-            dotNetShadowCastViewModel.utcOffset = jsObject.utcOffset;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetShadowCastViewModel.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visualizationType)) {
-            dotNetShadowCastViewModel.visualizationType = jsObject.visualizationType;
-        }
+    if (hasValue(jsObject.date)) {
+        dotNetShadowCastViewModel.date = jsObject.date;
+    }
+    if (hasValue(jsObject.endTimeOfDay)) {
+        dotNetShadowCastViewModel.endTimeOfDay = jsObject.endTimeOfDay;
+    }
+    if (hasValue(jsObject.startTimeOfDay)) {
+        dotNetShadowCastViewModel.startTimeOfDay = jsObject.startTimeOfDay;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetShadowCastViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.utcOffset)) {
+        dotNetShadowCastViewModel.utcOffset = jsObject.utcOffset;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetShadowCastViewModel.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visualizationType)) {
+        dotNetShadowCastViewModel.visualizationType = jsObject.visualizationType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

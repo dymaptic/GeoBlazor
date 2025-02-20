@@ -45,12 +45,12 @@ export async function buildDotNetSceneViewHitTestResultGenerated(jsObject: any):
             let { buildDotNetHitTestResultGround } = await import('./hitTestResultGround');
             dotNetSceneViewHitTestResult.ground = await buildDotNetHitTestResultGround(jsObject.ground);
         }
-        if (hasValue(jsObject.results)) {
-            dotNetSceneViewHitTestResult.results = jsObject.results;
-        }
-        if (hasValue(jsObject.screenPoint)) {
-            dotNetSceneViewHitTestResult.screenPoint = jsObject.screenPoint;
-        }
+    if (hasValue(jsObject.results)) {
+        dotNetSceneViewHitTestResult.results = jsObject.results;
+    }
+    if (hasValue(jsObject.screenPoint)) {
+        dotNetSceneViewHitTestResult.screenPoint = jsObject.screenPoint;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

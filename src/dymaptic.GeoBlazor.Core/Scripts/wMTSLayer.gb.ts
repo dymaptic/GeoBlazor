@@ -47,6 +47,10 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         return this.layer.findSublayerById(id);
     }
 
+    async refresh(): Promise<void> {
+        this.layer.refresh();
+    }
+
     // region properties
     
     async getActiveLayer(): Promise<any> {
@@ -72,6 +76,18 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtent =  buildJsExtent(value);
+    }
+    async getPortalItem(): Promise<any> {
+        if (!hasValue(this.layer.portalItem)) {
+            return null;
+        }
+        
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(this.layer.portalItem);
+    }
+    async setPortalItem(value: any): Promise<void> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
@@ -119,6 +135,10 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         let { buildJsExtent } = await import('./extent');
         jsWMTSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
+    if (hasValue(dotNetObject.portalItem)) {
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsWMTSLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         jsWMTSLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMTSSublayer(i, layerId, viewId))) as any;
@@ -131,6 +151,9 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.arcGISLayerId)) {
         jsWMTSLayer.id = dotNetObject.arcGISLayerId;
     }
+    if (hasValue(dotNetObject.blendMode)) {
+        jsWMTSLayer.blendMode = dotNetObject.blendMode;
+    }
     if (hasValue(dotNetObject.copyright)) {
         jsWMTSLayer.copyright = dotNetObject.copyright;
     }
@@ -140,14 +163,26 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.customParameters)) {
         jsWMTSLayer.customParameters = dotNetObject.customParameters;
     }
+    if (hasValue(dotNetObject.effect)) {
+        jsWMTSLayer.effect = dotNetObject.effect;
+    }
     if (hasValue(dotNetObject.listMode)) {
         jsWMTSLayer.listMode = dotNetObject.listMode;
+    }
+    if (hasValue(dotNetObject.maxScale)) {
+        jsWMTSLayer.maxScale = dotNetObject.maxScale;
+    }
+    if (hasValue(dotNetObject.minScale)) {
+        jsWMTSLayer.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
         jsWMTSLayer.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
         jsWMTSLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+    }
+    if (hasValue(dotNetObject.refreshInterval)) {
+        jsWMTSLayer.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.serviceMode)) {
         jsWMTSLayer.serviceMode = dotNetObject.serviceMode;
@@ -201,6 +236,10 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetExtent } = await import('./extent');
             dotNetWMTSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
         }
+        if (hasValue(jsObject.portalItem)) {
+            let { buildDotNetPortalItem } = await import('./portalItem');
+            dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        }
         if (hasValue(jsObject.sublayers)) {
             let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
             dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
@@ -209,45 +248,60 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWMTSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetWMTSLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWMTSLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customLayerParameters)) {
-            dotNetWMTSLayer.customLayerParameters = jsObject.customLayerParameters;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetWMTSLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWMTSLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWMTSLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWMTSLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWMTSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.serviceMode)) {
-            dotNetWMTSLayer.serviceMode = jsObject.serviceMode;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWMTSLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWMTSLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetWMTSLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetWMTSLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetWMTSLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetWMTSLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWMTSLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customLayerParameters)) {
+        dotNetWMTSLayer.customLayerParameters = jsObject.customLayerParameters;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetWMTSLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetWMTSLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWMTSLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWMTSLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWMTSLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWMTSLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWMTSLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWMTSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetWMTSLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.serviceMode)) {
+        dotNetWMTSLayer.serviceMode = jsObject.serviceMode;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWMTSLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWMTSLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetWMTSLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetWMTSLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

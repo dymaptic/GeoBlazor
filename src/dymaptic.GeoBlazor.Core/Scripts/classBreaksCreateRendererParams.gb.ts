@@ -67,36 +67,36 @@ export async function buildDotNetClassBreaksCreateRendererParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetClassBreaksCreateRendererParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.colorRamp)) {
-            dotNetClassBreaksCreateRendererParams.colorRamp = jsObject.colorRamp;
-        }
-        if (hasValue(jsObject.colors)) {
-            dotNetClassBreaksCreateRendererParams.colors = jsObject.colors;
-        }
-        if (hasValue(jsObject.definedInterval)) {
-            dotNetClassBreaksCreateRendererParams.definedInterval = jsObject.definedInterval;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetClassBreaksCreateRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetClassBreaksCreateRendererParams.numClasses = jsObject.numClasses;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetClassBreaksCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetClassBreaksCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetClassBreaksCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.variableName)) {
-            dotNetClassBreaksCreateRendererParams.variableName = jsObject.variableName;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetClassBreaksCreateRendererParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.colorRamp)) {
+        dotNetClassBreaksCreateRendererParams.colorRamp = jsObject.colorRamp;
+    }
+    if (hasValue(jsObject.colors)) {
+        dotNetClassBreaksCreateRendererParams.colors = jsObject.colors;
+    }
+    if (hasValue(jsObject.definedInterval)) {
+        dotNetClassBreaksCreateRendererParams.definedInterval = jsObject.definedInterval;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetClassBreaksCreateRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetClassBreaksCreateRendererParams.numClasses = jsObject.numClasses;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetClassBreaksCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetClassBreaksCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetClassBreaksCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.variableName)) {
+        dotNetClassBreaksCreateRendererParams.variableName = jsObject.variableName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

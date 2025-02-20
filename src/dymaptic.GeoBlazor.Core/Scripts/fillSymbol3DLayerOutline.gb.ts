@@ -49,15 +49,15 @@ export async function buildDotNetFillSymbol3DLayerOutlineGenerated(jsObject: any
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetFillSymbol3DLayerOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.pattern)) {
-            dotNetFillSymbol3DLayerOutline.pattern = jsObject.pattern;
-        }
-        if (hasValue(jsObject.patternCap)) {
-            dotNetFillSymbol3DLayerOutline.patternCap = jsObject.patternCap;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetFillSymbol3DLayerOutline.size = jsObject.size;
-        }
+    if (hasValue(jsObject.pattern)) {
+        dotNetFillSymbol3DLayerOutline.pattern = jsObject.pattern;
+    }
+    if (hasValue(jsObject.patternCap)) {
+        dotNetFillSymbol3DLayerOutline.patternCap = jsObject.patternCap;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetFillSymbol3DLayerOutline.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

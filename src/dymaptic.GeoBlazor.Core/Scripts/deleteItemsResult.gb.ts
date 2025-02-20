@@ -45,12 +45,12 @@ export async function buildDotNetDeleteItemsResultGenerated(jsObject: any): Prom
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item);
         }
-        if (hasValue(jsObject.error)) {
-            dotNetDeleteItemsResult.error = jsObject.error;
-        }
-        if (hasValue(jsObject.success)) {
-            dotNetDeleteItemsResult.success = jsObject.success;
-        }
+    if (hasValue(jsObject.error)) {
+        dotNetDeleteItemsResult.error = jsObject.error;
+    }
+    if (hasValue(jsObject.success)) {
+        dotNetDeleteItemsResult.success = jsObject.success;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

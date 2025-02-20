@@ -58,24 +58,24 @@ export async function buildDotNetImageGPSInfoGenerated(jsObject: any): Promise<a
             let { buildDotNetPoint } = await import('./point');
             dotNetImageGPSInfo.center = buildDotNetPoint(jsObject.center);
         }
-        if (hasValue(jsObject.acquisitionDate)) {
-            dotNetImageGPSInfo.acquisitionDate = jsObject.acquisitionDate;
-        }
-        if (hasValue(jsObject.cameraID)) {
-            dotNetImageGPSInfo.cameraID = jsObject.cameraID;
-        }
-        if (hasValue(jsObject.gps)) {
-            dotNetImageGPSInfo.gps = jsObject.gps;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetImageGPSInfo.imageGPSInfoId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetImageGPSInfo.name = jsObject.name;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetImageGPSInfo.orientation = jsObject.orientation;
-        }
+    if (hasValue(jsObject.acquisitionDate)) {
+        dotNetImageGPSInfo.acquisitionDate = jsObject.acquisitionDate;
+    }
+    if (hasValue(jsObject.cameraID)) {
+        dotNetImageGPSInfo.cameraID = jsObject.cameraID;
+    }
+    if (hasValue(jsObject.gps)) {
+        dotNetImageGPSInfo.gps = jsObject.gps;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetImageGPSInfo.imageGPSInfoId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetImageGPSInfo.name = jsObject.name;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetImageGPSInfo.orientation = jsObject.orientation;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

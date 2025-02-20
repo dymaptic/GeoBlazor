@@ -142,15 +142,15 @@ export async function buildDotNetBuildingComponentSublayerViewGenerated(jsObject
             let { buildDotNetBuildingComponentSublayer } = await import('./buildingComponentSublayer');
             dotNetBuildingComponentSublayerView.sublayer = await buildDotNetBuildingComponentSublayer(jsObject.sublayer);
         }
-        if (hasValue(jsObject.availableFields)) {
-            dotNetBuildingComponentSublayerView.availableFields = jsObject.availableFields;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBuildingComponentSublayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBuildingComponentSublayerView.updating = jsObject.updating;
-        }
+    if (hasValue(jsObject.availableFields)) {
+        dotNetBuildingComponentSublayerView.availableFields = jsObject.availableFields;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBuildingComponentSublayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBuildingComponentSublayerView.updating = jsObject.updating;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

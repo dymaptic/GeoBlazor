@@ -42,9 +42,9 @@ export async function buildDotNetIconSymbol3DLayerOutlineGenerated(jsObject: any
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetIconSymbol3DLayerOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.size)) {
-            dotNetIconSymbol3DLayerOutline.size = jsObject.size;
-        }
+    if (hasValue(jsObject.size)) {
+        dotNetIconSymbol3DLayerOutline.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

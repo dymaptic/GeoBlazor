@@ -59,18 +59,18 @@ export async function buildDotNetHeatmapRendererResultGenerated(jsObject: any): 
             let { buildDotNetHeatmapScheme } = await import('./heatmapScheme');
             dotNetHeatmapRendererResult.scheme = await buildDotNetHeatmapScheme(jsObject.scheme);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetHeatmapRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetHeatmapRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetHeatmapRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetHeatmapRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetHeatmapRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetHeatmapRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetHeatmapRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetHeatmapRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

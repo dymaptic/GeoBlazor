@@ -36,27 +36,27 @@ export async function buildDotNetRelationshipInputGenerated(jsObject: any): Prom
             let { buildDotNetGroupInput } = await import('./groupInput');
             dotNetRelationshipInput.group = await buildDotNetGroupInput(jsObject.group);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetRelationshipInput.description = jsObject.description;
-        }
-        if (hasValue(jsObject.displayCount)) {
-            dotNetRelationshipInput.displayCount = jsObject.displayCount;
-        }
-        if (hasValue(jsObject.displayType)) {
-            dotNetRelationshipInput.displayType = jsObject.displayType;
-        }
-        if (hasValue(jsObject.editable)) {
-            dotNetRelationshipInput.editable = jsObject.editable;
-        }
-        if (hasValue(jsObject.orderByFields)) {
-            dotNetRelationshipInput.orderByFields = jsObject.orderByFields;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetRelationshipInput.type = jsObject.type;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetRelationshipInput.updating = jsObject.updating;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetRelationshipInput.description = jsObject.description;
+    }
+    if (hasValue(jsObject.displayCount)) {
+        dotNetRelationshipInput.displayCount = jsObject.displayCount;
+    }
+    if (hasValue(jsObject.displayType)) {
+        dotNetRelationshipInput.displayType = jsObject.displayType;
+    }
+    if (hasValue(jsObject.editable)) {
+        dotNetRelationshipInput.editable = jsObject.editable;
+    }
+    if (hasValue(jsObject.orderByFields)) {
+        dotNetRelationshipInput.orderByFields = jsObject.orderByFields;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetRelationshipInput.type = jsObject.type;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetRelationshipInput.updating = jsObject.updating;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

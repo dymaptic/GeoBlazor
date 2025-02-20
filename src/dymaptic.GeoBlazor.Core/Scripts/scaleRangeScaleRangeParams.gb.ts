@@ -47,18 +47,18 @@ export async function buildDotNetScaleRangeScaleRangeParamsGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.forBinning)) {
-            dotNetScaleRangeScaleRangeParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.sampleSize)) {
-            dotNetScaleRangeScaleRangeParams.sampleSize = jsObject.sampleSize;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetScaleRangeScaleRangeParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetScaleRangeScaleRangeParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetScaleRangeScaleRangeParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.sampleSize)) {
+        dotNetScaleRangeScaleRangeParams.sampleSize = jsObject.sampleSize;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetScaleRangeScaleRangeParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetScaleRangeScaleRangeParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

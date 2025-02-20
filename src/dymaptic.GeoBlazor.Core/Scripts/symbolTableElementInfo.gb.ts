@@ -51,18 +51,18 @@ export async function buildDotNetSymbolTableElementInfoGenerated(jsObject: any):
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetSymbolTableElementInfo.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetSymbolTableElementInfo.label = jsObject.label;
-        }
-        if (hasValue(jsObject.preview)) {
-            dotNetSymbolTableElementInfo.preview = jsObject.preview;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetSymbolTableElementInfo.size = jsObject.size;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetSymbolTableElementInfo.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetSymbolTableElementInfo.label = jsObject.label;
+    }
+    if (hasValue(jsObject.preview)) {
+        dotNetSymbolTableElementInfo.preview = jsObject.preview;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetSymbolTableElementInfo.size = jsObject.size;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetSymbolTableElementInfo.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

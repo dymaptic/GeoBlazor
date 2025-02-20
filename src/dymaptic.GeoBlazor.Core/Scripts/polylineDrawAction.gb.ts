@@ -131,18 +131,18 @@ export async function buildDotNetPolylineDrawActionGenerated(jsObject: any): Pro
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetPolylineDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetPolylineDrawAction.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetPolylineDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPolylineDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetPolylineDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetPolylineDrawAction.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetPolylineDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPolylineDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

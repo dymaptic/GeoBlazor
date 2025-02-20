@@ -54,21 +54,21 @@ export async function buildDotNetCoverageDescriptionV201EoMetadataObservationGen
             let { buildDotNetPolygon } = await import('./polygon');
             dotNetCoverageDescriptionV201EoMetadataObservation.footprint = buildDotNetPolygon(jsObject.footprint);
         }
-        if (hasValue(jsObject.acquisitionType)) {
-            dotNetCoverageDescriptionV201EoMetadataObservation.acquisitionType = jsObject.acquisitionType;
-        }
-        if (hasValue(jsObject.identifier)) {
-            dotNetCoverageDescriptionV201EoMetadataObservation.identifier = jsObject.identifier;
-        }
-        if (hasValue(jsObject.phenomenonTime)) {
-            dotNetCoverageDescriptionV201EoMetadataObservation.phenomenonTime = jsObject.phenomenonTime;
-        }
-        if (hasValue(jsObject.resultTime)) {
-            dotNetCoverageDescriptionV201EoMetadataObservation.resultTime = jsObject.resultTime;
-        }
-        if (hasValue(jsObject.status)) {
-            dotNetCoverageDescriptionV201EoMetadataObservation.status = jsObject.status;
-        }
+    if (hasValue(jsObject.acquisitionType)) {
+        dotNetCoverageDescriptionV201EoMetadataObservation.acquisitionType = jsObject.acquisitionType;
+    }
+    if (hasValue(jsObject.identifier)) {
+        dotNetCoverageDescriptionV201EoMetadataObservation.identifier = jsObject.identifier;
+    }
+    if (hasValue(jsObject.phenomenonTime)) {
+        dotNetCoverageDescriptionV201EoMetadataObservation.phenomenonTime = jsObject.phenomenonTime;
+    }
+    if (hasValue(jsObject.resultTime)) {
+        dotNetCoverageDescriptionV201EoMetadataObservation.resultTime = jsObject.resultTime;
+    }
+    if (hasValue(jsObject.status)) {
+        dotNetCoverageDescriptionV201EoMetadataObservation.status = jsObject.status;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

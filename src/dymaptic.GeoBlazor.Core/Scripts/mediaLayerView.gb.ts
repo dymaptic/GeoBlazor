@@ -41,33 +41,33 @@ export async function buildDotNetMediaLayerViewGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.interactionOptions)) {
-            dotNetMediaLayerView.interactionOptions = jsObject.interactionOptions;
-        }
-        if (hasValue(jsObject.interactive)) {
-            dotNetMediaLayerView.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.selectedElement)) {
-            dotNetMediaLayerView.selectedElement = jsObject.selectedElement;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetMediaLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetMediaLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetMediaLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetMediaLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetMediaLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetMediaLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.interactionOptions)) {
+        dotNetMediaLayerView.interactionOptions = jsObject.interactionOptions;
+    }
+    if (hasValue(jsObject.interactive)) {
+        dotNetMediaLayerView.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.selectedElement)) {
+        dotNetMediaLayerView.selectedElement = jsObject.selectedElement;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetMediaLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetMediaLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetMediaLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetMediaLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetMediaLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetMediaLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetRasterStretchColorrampResultGenerated(jsObject:
             let { buildDotNetRasterStretchRenderer } = await import('./rasterStretchRenderer');
             dotNetRasterStretchColorrampResult.renderer = await buildDotNetRasterStretchRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.bandId)) {
-            dotNetRasterStretchColorrampResult.bandId = jsObject.bandId;
-        }
+    if (hasValue(jsObject.bandId)) {
+        dotNetRasterStretchColorrampResult.bandId = jsObject.bandId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

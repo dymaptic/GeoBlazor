@@ -44,7 +44,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
@@ -56,7 +56,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -93,7 +93,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget);
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.widget.spatialReference)) {
@@ -113,7 +113,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(this.widget.viewModel);
+        return await buildDotNetFeaturesViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsFeaturesViewModel } = await import('./featuresViewModel');
@@ -146,6 +146,9 @@ export async function buildJsFeaturesWidgetGenerated(dotNetObject: any, layerId:
 
     if (hasValue(dotNetObject.content)) {
         jsFeatures.content = dotNetObject.content;
+    }
+    if (hasValue(dotNetObject.goToOverride)) {
+        jsFeatures.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         jsFeatures.headingLevel = dotNetObject.headingLevel;
@@ -218,7 +221,7 @@ export async function buildDotNetFeaturesWidgetGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget);
+            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
@@ -226,44 +229,47 @@ export async function buildDotNetFeaturesWidgetGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-            dotNetFeaturesWidget.viewModel = await buildDotNetFeaturesViewModel(jsObject.viewModel);
+            dotNetFeaturesWidget.viewModel = await buildDotNetFeaturesViewModel(jsObject.viewModel, layerId, viewId);
         }
-        if (hasValue(jsObject.active)) {
-            dotNetFeaturesWidget.active = jsObject.active;
-        }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetFeaturesWidget.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetFeaturesWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetFeaturesWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetFeaturesWidget.map = jsObject.map;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetFeaturesWidget.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.selectedFeatureIndex)) {
-            dotNetFeaturesWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeaturesWidget.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeaturesWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeaturesWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFeaturesWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetFeaturesWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.active)) {
+        dotNetFeaturesWidget.active = jsObject.active;
+    }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetFeaturesWidget.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetFeaturesWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetFeaturesWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetFeaturesWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetFeaturesWidget.map = jsObject.map;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetFeaturesWidget.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.selectedFeatureIndex)) {
+        dotNetFeaturesWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeaturesWidget.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeaturesWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeaturesWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFeaturesWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetFeaturesWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

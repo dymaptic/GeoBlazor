@@ -118,21 +118,21 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
             let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
             dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.activeTool)) {
-            dotNetMeasurementWidget.activeTool = jsObject.activeTool;
-        }
-        if (hasValue(jsObject.areaUnit)) {
-            dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;
-        }
-        if (hasValue(jsObject.linearUnit)) {
-            dotNetMeasurementWidget.linearUnit = jsObject.linearUnit;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetMeasurementWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetMeasurementWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeTool)) {
+        dotNetMeasurementWidget.activeTool = jsObject.activeTool;
+    }
+    if (hasValue(jsObject.areaUnit)) {
+        dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;
+    }
+    if (hasValue(jsObject.linearUnit)) {
+        dotNetMeasurementWidget.linearUnit = jsObject.linearUnit;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetMeasurementWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetMeasurementWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

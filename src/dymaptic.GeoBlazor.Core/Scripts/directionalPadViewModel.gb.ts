@@ -82,18 +82,18 @@ export async function buildDotNetDirectionalPadViewModelGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.angle)) {
-            dotNetDirectionalPadViewModel.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetDirectionalPadViewModel.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetDirectionalPadViewModel.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetDirectionalPadViewModel.state = jsObject.state;
-        }
+    if (hasValue(jsObject.angle)) {
+        dotNetDirectionalPadViewModel.angle = jsObject.angle;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetDirectionalPadViewModel.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetDirectionalPadViewModel.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetDirectionalPadViewModel.state = jsObject.state;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

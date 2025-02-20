@@ -130,24 +130,24 @@ export async function buildDotNetJobInfoGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.jobId)) {
-            dotNetJobInfo.jobId = jsObject.jobId;
-        }
-        if (hasValue(jsObject.jobStatus)) {
-            dotNetJobInfo.jobStatus = jsObject.jobStatus;
-        }
-        if (hasValue(jsObject.messages)) {
-            dotNetJobInfo.messages = jsObject.messages;
-        }
-        if (hasValue(jsObject.progress)) {
-            dotNetJobInfo.progress = jsObject.progress;
-        }
-        if (hasValue(jsObject.requestOptions)) {
-            dotNetJobInfo.requestOptions = jsObject.requestOptions;
-        }
-        if (hasValue(jsObject.sourceUrl)) {
-            dotNetJobInfo.sourceUrl = jsObject.sourceUrl;
-        }
+    if (hasValue(jsObject.jobId)) {
+        dotNetJobInfo.jobId = jsObject.jobId;
+    }
+    if (hasValue(jsObject.jobStatus)) {
+        dotNetJobInfo.jobStatus = jsObject.jobStatus;
+    }
+    if (hasValue(jsObject.messages)) {
+        dotNetJobInfo.messages = jsObject.messages;
+    }
+    if (hasValue(jsObject.progress)) {
+        dotNetJobInfo.progress = jsObject.progress;
+    }
+    if (hasValue(jsObject.requestOptions)) {
+        dotNetJobInfo.requestOptions = jsObject.requestOptions;
+    }
+    if (hasValue(jsObject.sourceUrl)) {
+        dotNetJobInfo.sourceUrl = jsObject.sourceUrl;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

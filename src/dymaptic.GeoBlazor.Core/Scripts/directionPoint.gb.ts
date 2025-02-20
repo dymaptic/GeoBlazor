@@ -125,24 +125,24 @@ export async function buildDotNetDirectionPointGenerated(jsObject: any): Promise
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetDirectionPoint.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
         }
-        if (hasValue(jsObject.arrivalTime)) {
-            dotNetDirectionPoint.arrivalTime = jsObject.arrivalTime;
-        }
-        if (hasValue(jsObject.arrivalTimeOffset)) {
-            dotNetDirectionPoint.arrivalTimeOffset = jsObject.arrivalTimeOffset;
-        }
-        if (hasValue(jsObject.directionPointType)) {
-            dotNetDirectionPoint.directionPointType = jsObject.directionPointType;
-        }
-        if (hasValue(jsObject.displayText)) {
-            dotNetDirectionPoint.displayText = jsObject.displayText;
-        }
-        if (hasValue(jsObject.sequence)) {
-            dotNetDirectionPoint.sequence = jsObject.sequence;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDirectionPoint.type = jsObject.type;
-        }
+    if (hasValue(jsObject.arrivalTime)) {
+        dotNetDirectionPoint.arrivalTime = jsObject.arrivalTime;
+    }
+    if (hasValue(jsObject.arrivalTimeOffset)) {
+        dotNetDirectionPoint.arrivalTimeOffset = jsObject.arrivalTimeOffset;
+    }
+    if (hasValue(jsObject.directionPointType)) {
+        dotNetDirectionPoint.directionPointType = jsObject.directionPointType;
+    }
+    if (hasValue(jsObject.displayText)) {
+        dotNetDirectionPoint.displayText = jsObject.displayText;
+    }
+    if (hasValue(jsObject.sequence)) {
+        dotNetDirectionPoint.sequence = jsObject.sequence;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDirectionPoint.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

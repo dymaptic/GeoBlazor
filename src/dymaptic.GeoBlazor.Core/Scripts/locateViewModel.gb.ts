@@ -123,30 +123,30 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
-        if (hasValue(jsObject.error)) {
-            dotNetLocateViewModel.error = jsObject.error;
-        }
-        if (hasValue(jsObject.geolocationOptions)) {
-            dotNetLocateViewModel.geolocationOptions = jsObject.geolocationOptions;
-        }
-        if (hasValue(jsObject.goToLocationEnabled)) {
-            dotNetLocateViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetLocateViewModel.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetLocateViewModel.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetLocateViewModel.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetLocateViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLocateViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.error)) {
+        dotNetLocateViewModel.error = jsObject.error;
+    }
+    if (hasValue(jsObject.geolocationOptions)) {
+        dotNetLocateViewModel.geolocationOptions = jsObject.geolocationOptions;
+    }
+    if (hasValue(jsObject.goToLocationEnabled)) {
+        dotNetLocateViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetLocateViewModel.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetLocateViewModel.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetLocateViewModel.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetLocateViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLocateViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

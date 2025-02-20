@@ -44,15 +44,15 @@ export async function buildDotNetAgeUtilsGetAgeExpressionsParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.endTime)) {
-            dotNetAgeUtilsGetAgeExpressionsParams.endTime = jsObject.endTime;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetAgeUtilsGetAgeExpressionsParams.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAgeUtilsGetAgeExpressionsParams.unit = jsObject.unit;
-        }
+    if (hasValue(jsObject.endTime)) {
+        dotNetAgeUtilsGetAgeExpressionsParams.endTime = jsObject.endTime;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetAgeUtilsGetAgeExpressionsParams.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAgeUtilsGetAgeExpressionsParams.unit = jsObject.unit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

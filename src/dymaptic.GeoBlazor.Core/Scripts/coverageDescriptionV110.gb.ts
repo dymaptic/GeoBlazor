@@ -66,33 +66,33 @@ export async function buildDotNetCoverageDescriptionV110Generated(jsObject: any)
             let { buildDotNetCoverageDescriptionV110Domain } = await import('./coverageDescriptionV110Domain');
             dotNetCoverageDescriptionV110.domain = await buildDotNetCoverageDescriptionV110Domain(jsObject.domain);
         }
-        if (hasValue(jsObject.abstract)) {
-            dotNetCoverageDescriptionV110.abstract = jsObject.abstract;
-        }
-        if (hasValue(jsObject.identifier)) {
-            dotNetCoverageDescriptionV110.identifier = jsObject.identifier;
-        }
-        if (hasValue(jsObject.metadata)) {
-            dotNetCoverageDescriptionV110.metadata = jsObject.metadata;
-        }
-        if (hasValue(jsObject.range)) {
-            dotNetCoverageDescriptionV110.range = jsObject.range;
-        }
-        if (hasValue(jsObject.resolution)) {
-            dotNetCoverageDescriptionV110.resolution = jsObject.resolution;
-        }
-        if (hasValue(jsObject.supportedCRSs)) {
-            dotNetCoverageDescriptionV110.supportedCRSs = jsObject.supportedCRSs;
-        }
-        if (hasValue(jsObject.supportedFormats)) {
-            dotNetCoverageDescriptionV110.supportedFormats = jsObject.supportedFormats;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetCoverageDescriptionV110.title = jsObject.title;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetCoverageDescriptionV110.version = jsObject.version;
-        }
+    if (hasValue(jsObject.abstract)) {
+        dotNetCoverageDescriptionV110.abstract = jsObject.abstract;
+    }
+    if (hasValue(jsObject.identifier)) {
+        dotNetCoverageDescriptionV110.identifier = jsObject.identifier;
+    }
+    if (hasValue(jsObject.metadata)) {
+        dotNetCoverageDescriptionV110.metadata = jsObject.metadata;
+    }
+    if (hasValue(jsObject.range)) {
+        dotNetCoverageDescriptionV110.range = jsObject.range;
+    }
+    if (hasValue(jsObject.resolution)) {
+        dotNetCoverageDescriptionV110.resolution = jsObject.resolution;
+    }
+    if (hasValue(jsObject.supportedCRSs)) {
+        dotNetCoverageDescriptionV110.supportedCRSs = jsObject.supportedCRSs;
+    }
+    if (hasValue(jsObject.supportedFormats)) {
+        dotNetCoverageDescriptionV110.supportedFormats = jsObject.supportedFormats;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetCoverageDescriptionV110.title = jsObject.title;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetCoverageDescriptionV110.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -6,7 +6,7 @@ export async function buildJsSizeVisualVariableResultGenerated(dotNetObject: any
     let jssizeVisualVariableResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jssizeVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jssizeVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsSizeVariable } = await import('./sizeVariable');
@@ -65,24 +65,24 @@ export async function buildDotNetSizeVisualVariableResultGenerated(jsObject: any
             let { buildDotNetSizeVariable } = await import('./sizeVariable');
             dotNetSizeVisualVariableResult.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetSizeVariable(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetSizeVisualVariableResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetSizeVisualVariableResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetSizeVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.isGrid)) {
-            dotNetSizeVisualVariableResult.isGrid = jsObject.isGrid;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeVisualVariableResult.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetSizeVisualVariableResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetSizeVisualVariableResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetSizeVisualVariableResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetSizeVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.isGrid)) {
+        dotNetSizeVisualVariableResult.isGrid = jsObject.isGrid;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeVisualVariableResult.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetSizeVisualVariableResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

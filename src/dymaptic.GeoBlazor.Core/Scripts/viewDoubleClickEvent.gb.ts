@@ -60,30 +60,30 @@ export async function buildDotNetViewDoubleClickEventGenerated(jsObject: any): P
             let { buildDotNetPoint } = await import('./point');
             dotNetViewDoubleClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.button)) {
-            dotNetViewDoubleClickEvent.button = jsObject.button;
-        }
-        if (hasValue(jsObject.buttons)) {
-            dotNetViewDoubleClickEvent.buttons = jsObject.buttons;
-        }
-        if (hasValue(jsObject.native)) {
-            dotNetViewDoubleClickEvent.native = jsObject.native;
-        }
-        if (hasValue(jsObject.stopPropagation)) {
-            dotNetViewDoubleClickEvent.stopPropagation = jsObject.stopPropagation;
-        }
-        if (hasValue(jsObject.timestamp)) {
-            dotNetViewDoubleClickEvent.timestamp = jsObject.timestamp;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewDoubleClickEvent.type = jsObject.type;
-        }
-        if (hasValue(jsObject.x)) {
-            dotNetViewDoubleClickEvent.x = jsObject.x;
-        }
-        if (hasValue(jsObject.y)) {
-            dotNetViewDoubleClickEvent.y = jsObject.y;
-        }
+    if (hasValue(jsObject.button)) {
+        dotNetViewDoubleClickEvent.button = jsObject.button;
+    }
+    if (hasValue(jsObject.buttons)) {
+        dotNetViewDoubleClickEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.native)) {
+        dotNetViewDoubleClickEvent.native = jsObject.native;
+    }
+    if (hasValue(jsObject.stopPropagation)) {
+        dotNetViewDoubleClickEvent.stopPropagation = jsObject.stopPropagation;
+    }
+    if (hasValue(jsObject.timestamp)) {
+        dotNetViewDoubleClickEvent.timestamp = jsObject.timestamp;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewDoubleClickEvent.type = jsObject.type;
+    }
+    if (hasValue(jsObject.x)) {
+        dotNetViewDoubleClickEvent.x = jsObject.x;
+    }
+    if (hasValue(jsObject.y)) {
+        dotNetViewDoubleClickEvent.y = jsObject.y;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

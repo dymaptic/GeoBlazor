@@ -71,30 +71,30 @@ export async function buildDotNetPopupOpenOptionsGenerated(jsObject: any, layerI
             let { buildDotNetPoint } = await import('./point');
             dotNetPopupOpenOptions.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.collapsed)) {
-            dotNetPopupOpenOptions.collapsed = jsObject.collapsed;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetPopupOpenOptions.content = jsObject.content;
-        }
-        if (hasValue(jsObject.featureMenuOpen)) {
-            dotNetPopupOpenOptions.featureMenuOpen = jsObject.featureMenuOpen;
-        }
-        if (hasValue(jsObject.fetchFeatures)) {
-            dotNetPopupOpenOptions.fetchFeatures = jsObject.fetchFeatures;
-        }
-        if (hasValue(jsObject.promises)) {
-            dotNetPopupOpenOptions.promises = jsObject.promises;
-        }
-        if (hasValue(jsObject.shouldFocus)) {
-            dotNetPopupOpenOptions.shouldFocus = jsObject.shouldFocus;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupOpenOptions.title = jsObject.title;
-        }
-        if (hasValue(jsObject.updateLocationEnabled)) {
-            dotNetPopupOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
-        }
+    if (hasValue(jsObject.collapsed)) {
+        dotNetPopupOpenOptions.collapsed = jsObject.collapsed;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetPopupOpenOptions.content = jsObject.content;
+    }
+    if (hasValue(jsObject.featureMenuOpen)) {
+        dotNetPopupOpenOptions.featureMenuOpen = jsObject.featureMenuOpen;
+    }
+    if (hasValue(jsObject.fetchFeatures)) {
+        dotNetPopupOpenOptions.fetchFeatures = jsObject.fetchFeatures;
+    }
+    if (hasValue(jsObject.promises)) {
+        dotNetPopupOpenOptions.promises = jsObject.promises;
+    }
+    if (hasValue(jsObject.shouldFocus)) {
+        dotNetPopupOpenOptions.shouldFocus = jsObject.shouldFocus;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupOpenOptions.title = jsObject.title;
+    }
+    if (hasValue(jsObject.updateLocationEnabled)) {
+        dotNetPopupOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

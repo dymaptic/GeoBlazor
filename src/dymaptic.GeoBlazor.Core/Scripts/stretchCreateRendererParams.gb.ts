@@ -70,39 +70,39 @@ export async function buildDotNetStretchCreateRendererParamsGenerated(jsObject: 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.bandId)) {
-            dotNetStretchCreateRendererParams.bandId = jsObject.bandId;
-        }
-        if (hasValue(jsObject.colorRamp)) {
-            dotNetStretchCreateRendererParams.colorRamp = jsObject.colorRamp;
-        }
-        if (hasValue(jsObject.dynamicRangeAdjustment)) {
-            dotNetStretchCreateRendererParams.dynamicRangeAdjustment = jsObject.dynamicRangeAdjustment;
-        }
-        if (hasValue(jsObject.estimateStatistics)) {
-            dotNetStretchCreateRendererParams.estimateStatistics = jsObject.estimateStatistics;
-        }
-        if (hasValue(jsObject.gamma)) {
-            dotNetStretchCreateRendererParams.gamma = jsObject.gamma;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetStretchCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetStretchCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetStretchCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.stretchType)) {
-            dotNetStretchCreateRendererParams.stretchType = jsObject.stretchType;
-        }
-        if (hasValue(jsObject.useGamma)) {
-            dotNetStretchCreateRendererParams.useGamma = jsObject.useGamma;
-        }
-        if (hasValue(jsObject.variableName)) {
-            dotNetStretchCreateRendererParams.variableName = jsObject.variableName;
-        }
+    if (hasValue(jsObject.bandId)) {
+        dotNetStretchCreateRendererParams.bandId = jsObject.bandId;
+    }
+    if (hasValue(jsObject.colorRamp)) {
+        dotNetStretchCreateRendererParams.colorRamp = jsObject.colorRamp;
+    }
+    if (hasValue(jsObject.dynamicRangeAdjustment)) {
+        dotNetStretchCreateRendererParams.dynamicRangeAdjustment = jsObject.dynamicRangeAdjustment;
+    }
+    if (hasValue(jsObject.estimateStatistics)) {
+        dotNetStretchCreateRendererParams.estimateStatistics = jsObject.estimateStatistics;
+    }
+    if (hasValue(jsObject.gamma)) {
+        dotNetStretchCreateRendererParams.gamma = jsObject.gamma;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetStretchCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetStretchCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetStretchCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.stretchType)) {
+        dotNetStretchCreateRendererParams.stretchType = jsObject.stretchType;
+    }
+    if (hasValue(jsObject.useGamma)) {
+        dotNetStretchCreateRendererParams.useGamma = jsObject.useGamma;
+    }
+    if (hasValue(jsObject.variableName)) {
+        dotNetStretchCreateRendererParams.variableName = jsObject.variableName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

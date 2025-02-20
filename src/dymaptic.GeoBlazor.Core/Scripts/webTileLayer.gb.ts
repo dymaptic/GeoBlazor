@@ -237,54 +237,54 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWebTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetWebTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetWebTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetWebTileLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetWebTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetWebTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetWebTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetWebTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetWebTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetWebTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetWebTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetWebTileLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.subDomains)) {
-            dotNetWebTileLayer.subDomains = jsObject.subDomains;
-        }
-        if (hasValue(jsObject.tileServers)) {
-            dotNetWebTileLayer.tileServers = jsObject.tileServers;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWebTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetWebTileLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.urlTemplate)) {
-            dotNetWebTileLayer.urlTemplate = jsObject.urlTemplate;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetWebTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetWebTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetWebTileLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetWebTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetWebTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetWebTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWebTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWebTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetWebTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetWebTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetWebTileLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.subDomains)) {
+        dotNetWebTileLayer.subDomains = jsObject.subDomains;
+    }
+    if (hasValue(jsObject.tileServers)) {
+        dotNetWebTileLayer.tileServers = jsObject.tileServers;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWebTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetWebTileLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.urlTemplate)) {
+        dotNetWebTileLayer.urlTemplate = jsObject.urlTemplate;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

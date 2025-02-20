@@ -43,9 +43,9 @@ export async function buildDotNetClusterRendererResultGenerated(jsObject: any): 
             let { buildDotNetPieChartRenderer } = await import('./pieChartRenderer');
             dotNetClusterRendererResult.renderer = await buildDotNetPieChartRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.fields)) {
-            dotNetClusterRendererResult.fields = jsObject.fields;
-        }
+    if (hasValue(jsObject.fields)) {
+        dotNetClusterRendererResult.fields = jsObject.fields;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

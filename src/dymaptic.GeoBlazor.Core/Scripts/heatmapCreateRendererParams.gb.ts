@@ -70,33 +70,33 @@ export async function buildDotNetHeatmapCreateRendererParamsGenerated(jsObject: 
             let { buildDotNetHeatmapScheme } = await import('./heatmapScheme');
             dotNetHeatmapCreateRendererParams.heatmapScheme = await buildDotNetHeatmapScheme(jsObject.heatmapScheme);
         }
-        if (hasValue(jsObject.fadeRatio)) {
-            dotNetHeatmapCreateRendererParams.fadeRatio = jsObject.fadeRatio;
-        }
-        if (hasValue(jsObject.fadeToTransparent)) {
-            dotNetHeatmapCreateRendererParams.fadeToTransparent = jsObject.fadeToTransparent;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetHeatmapCreateRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.maxRatio)) {
-            dotNetHeatmapCreateRendererParams.maxRatio = jsObject.maxRatio;
-        }
-        if (hasValue(jsObject.minRatio)) {
-            dotNetHeatmapCreateRendererParams.minRatio = jsObject.minRatio;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetHeatmapCreateRendererParams.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetHeatmapCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetHeatmapCreateRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetHeatmapCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.fadeRatio)) {
+        dotNetHeatmapCreateRendererParams.fadeRatio = jsObject.fadeRatio;
+    }
+    if (hasValue(jsObject.fadeToTransparent)) {
+        dotNetHeatmapCreateRendererParams.fadeToTransparent = jsObject.fadeToTransparent;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetHeatmapCreateRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.maxRatio)) {
+        dotNetHeatmapCreateRendererParams.maxRatio = jsObject.maxRatio;
+    }
+    if (hasValue(jsObject.minRatio)) {
+        dotNetHeatmapCreateRendererParams.minRatio = jsObject.minRatio;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetHeatmapCreateRendererParams.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetHeatmapCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetHeatmapCreateRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetHeatmapCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -81,27 +81,27 @@ export async function buildDotNetBuildingGroupSublayerGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetBuildingGroupSublayer.buildingSublayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.isEmpty)) {
-            dotNetBuildingGroupSublayer.isEmpty = jsObject.isEmpty;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetBuildingGroupSublayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.modelName)) {
-            dotNetBuildingGroupSublayer.modelName = jsObject.modelName;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetBuildingGroupSublayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetBuildingGroupSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBuildingGroupSublayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetBuildingGroupSublayer.buildingSublayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.isEmpty)) {
+        dotNetBuildingGroupSublayer.isEmpty = jsObject.isEmpty;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetBuildingGroupSublayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.modelName)) {
+        dotNetBuildingGroupSublayer.modelName = jsObject.modelName;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetBuildingGroupSublayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetBuildingGroupSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBuildingGroupSublayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

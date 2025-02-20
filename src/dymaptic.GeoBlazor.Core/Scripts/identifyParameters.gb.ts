@@ -117,51 +117,51 @@ export async function buildDotNetIdentifyParametersGenerated(jsObject: any): Pro
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIdentifyParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.dpi)) {
-            dotNetIdentifyParameters.dpi = jsObject.dpi;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetIdentifyParameters.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetIdentifyParameters.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetIdentifyParameters.height = jsObject.height;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetIdentifyParameters.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.layerIds)) {
-            dotNetIdentifyParameters.layerIds = jsObject.layerIds;
-        }
-        if (hasValue(jsObject.layerOption)) {
-            dotNetIdentifyParameters.layerOption = jsObject.layerOption;
-        }
-        if (hasValue(jsObject.maxAllowableOffset)) {
-            dotNetIdentifyParameters.maxAllowableOffset = jsObject.maxAllowableOffset;
-        }
-        if (hasValue(jsObject.returnFieldName)) {
-            dotNetIdentifyParameters.returnFieldName = jsObject.returnFieldName;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetIdentifyParameters.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetIdentifyParameters.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnUnformattedValues)) {
-            dotNetIdentifyParameters.returnUnformattedValues = jsObject.returnUnformattedValues;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetIdentifyParameters.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.tolerance)) {
-            dotNetIdentifyParameters.tolerance = jsObject.tolerance;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetIdentifyParameters.width = jsObject.width;
-        }
+    if (hasValue(jsObject.dpi)) {
+        dotNetIdentifyParameters.dpi = jsObject.dpi;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetIdentifyParameters.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetIdentifyParameters.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetIdentifyParameters.height = jsObject.height;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetIdentifyParameters.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.layerIds)) {
+        dotNetIdentifyParameters.layerIds = jsObject.layerIds;
+    }
+    if (hasValue(jsObject.layerOption)) {
+        dotNetIdentifyParameters.layerOption = jsObject.layerOption;
+    }
+    if (hasValue(jsObject.maxAllowableOffset)) {
+        dotNetIdentifyParameters.maxAllowableOffset = jsObject.maxAllowableOffset;
+    }
+    if (hasValue(jsObject.returnFieldName)) {
+        dotNetIdentifyParameters.returnFieldName = jsObject.returnFieldName;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetIdentifyParameters.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetIdentifyParameters.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnUnformattedValues)) {
+        dotNetIdentifyParameters.returnUnformattedValues = jsObject.returnUnformattedValues;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetIdentifyParameters.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.tolerance)) {
+        dotNetIdentifyParameters.tolerance = jsObject.tolerance;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetIdentifyParameters.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

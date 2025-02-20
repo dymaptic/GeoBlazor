@@ -56,15 +56,15 @@ export async function buildDotNetSymbolUtilsGetDisplayedSymbolOptionsGenerated(j
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetSymbolUtilsGetDisplayedSymbolOptions.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.resolution)) {
-            dotNetSymbolUtilsGetDisplayedSymbolOptions.resolution = jsObject.resolution;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetSymbolUtilsGetDisplayedSymbolOptions.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.viewingMode)) {
-            dotNetSymbolUtilsGetDisplayedSymbolOptions.viewingMode = jsObject.viewingMode;
-        }
+    if (hasValue(jsObject.resolution)) {
+        dotNetSymbolUtilsGetDisplayedSymbolOptions.resolution = jsObject.resolution;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetSymbolUtilsGetDisplayedSymbolOptions.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.viewingMode)) {
+        dotNetSymbolUtilsGetDisplayedSymbolOptions.viewingMode = jsObject.viewingMode;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

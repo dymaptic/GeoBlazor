@@ -42,9 +42,9 @@ export async function buildDotNetBaseDynamicLayerLayerviewDestroyEventGenerated(
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetBaseDynamicLayerLayerviewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetBaseDynamicLayerLayerviewDestroyEvent.view = jsObject.view;
-        }
+    if (hasValue(jsObject.view)) {
+        dotNetBaseDynamicLayerLayerviewDestroyEvent.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

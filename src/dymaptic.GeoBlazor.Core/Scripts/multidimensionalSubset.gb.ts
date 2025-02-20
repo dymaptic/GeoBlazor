@@ -44,15 +44,15 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetMultidimensionalSubset.areaOfInterest = buildDotNetGeometry(jsObject.areaOfInterest);
         }
-        if (hasValue(jsObject.dimensions)) {
-            dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
-        }
-        if (hasValue(jsObject.subsetDefinitions)) {
-            dotNetMultidimensionalSubset.subsetDefinitions = jsObject.subsetDefinitions;
-        }
-        if (hasValue(jsObject.variables)) {
-            dotNetMultidimensionalSubset.variables = jsObject.variables;
-        }
+    if (hasValue(jsObject.dimensions)) {
+        dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
+    }
+    if (hasValue(jsObject.subsetDefinitions)) {
+        dotNetMultidimensionalSubset.subsetDefinitions = jsObject.subsetDefinitions;
+    }
+    if (hasValue(jsObject.variables)) {
+        dotNetMultidimensionalSubset.variables = jsObject.variables;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

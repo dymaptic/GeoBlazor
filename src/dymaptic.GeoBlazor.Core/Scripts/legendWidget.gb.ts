@@ -151,30 +151,30 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
             let { buildDotNetLegendViewModel } = await import('./legendViewModel');
             dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.basemapLegendVisible)) {
-            dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetLegendWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.hideLayersNotInCurrentView)) {
-            dotNetLegendWidget.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
-        }
-        if (hasValue(jsObject.respectLayerDefinitionExpression)) {
-            dotNetLegendWidget.respectLayerDefinitionExpression = jsObject.respectLayerDefinitionExpression;
-        }
-        if (hasValue(jsObject.respectLayerVisibility)) {
-            dotNetLegendWidget.respectLayerVisibility = jsObject.respectLayerVisibility;
-        }
-        if (hasValue(jsObject.style)) {
-            dotNetLegendWidget.style = jsObject.style;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLegendWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLegendWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.basemapLegendVisible)) {
+        dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetLegendWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.hideLayersNotInCurrentView)) {
+        dotNetLegendWidget.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(jsObject.respectLayerDefinitionExpression)) {
+        dotNetLegendWidget.respectLayerDefinitionExpression = jsObject.respectLayerDefinitionExpression;
+    }
+    if (hasValue(jsObject.respectLayerVisibility)) {
+        dotNetLegendWidget.respectLayerVisibility = jsObject.respectLayerVisibility;
+    }
+    if (hasValue(jsObject.style)) {
+        dotNetLegendWidget.style = jsObject.style;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLegendWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLegendWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

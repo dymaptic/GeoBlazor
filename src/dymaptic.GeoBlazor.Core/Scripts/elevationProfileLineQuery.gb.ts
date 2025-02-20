@@ -57,30 +57,30 @@ export async function buildDotNetElevationProfileLineQueryGenerated(jsObject: an
             let { buildDotNetPoint } = await import('./point');
             dotNetElevationProfileLineQuery.hoveredPoint = buildDotNetPoint(jsObject.hoveredPoint);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetElevationProfileLineQuery.elevationProfileLineId = jsObject.id;
-        }
-        if (hasValue(jsObject.progress)) {
-            dotNetElevationProfileLineQuery.progress = jsObject.progress;
-        }
-        if (hasValue(jsObject.samples)) {
-            dotNetElevationProfileLineQuery.samples = jsObject.samples;
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetElevationProfileLineQuery.source = jsObject.source;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetElevationProfileLineQuery.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetElevationProfileLineQuery.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetElevationProfileLineQuery.type = jsObject.type;
-        }
-        if (hasValue(jsObject.viewVisualizationEnabled)) {
-            dotNetElevationProfileLineQuery.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetElevationProfileLineQuery.elevationProfileLineId = jsObject.id;
+    }
+    if (hasValue(jsObject.progress)) {
+        dotNetElevationProfileLineQuery.progress = jsObject.progress;
+    }
+    if (hasValue(jsObject.samples)) {
+        dotNetElevationProfileLineQuery.samples = jsObject.samples;
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetElevationProfileLineQuery.source = jsObject.source;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetElevationProfileLineQuery.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetElevationProfileLineQuery.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetElevationProfileLineQuery.type = jsObject.type;
+    }
+    if (hasValue(jsObject.viewVisualizationEnabled)) {
+        dotNetElevationProfileLineQuery.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

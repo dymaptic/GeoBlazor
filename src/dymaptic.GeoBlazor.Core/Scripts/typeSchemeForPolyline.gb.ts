@@ -59,18 +59,18 @@ export async function buildDotNetTypeSchemeForPolylineGenerated(jsObject: any): 
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetTypeSchemeForPolyline.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetTypeSchemeForPolyline.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetTypeSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetTypeSchemeForPolyline.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetTypeSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetTypeSchemeForPolyline.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetTypeSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetTypeSchemeForPolyline.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetTypeSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

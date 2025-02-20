@@ -38,9 +38,9 @@ export async function buildDotNetViewLayerviewCreateErrorEventGenerated(jsObject
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.error)) {
-            dotNetViewLayerviewCreateErrorEvent.error = jsObject.error;
-        }
+    if (hasValue(jsObject.error)) {
+        dotNetViewLayerviewCreateErrorEvent.error = jsObject.error;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

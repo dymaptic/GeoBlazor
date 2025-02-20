@@ -245,54 +245,54 @@ export async function buildDotNetIOpenStreetMapLayerGenerated(jsObject: any): Pr
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIOpenStreetMapLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetIOpenStreetMapLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetIOpenStreetMapLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIOpenStreetMapLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetIOpenStreetMapLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetIOpenStreetMapLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetIOpenStreetMapLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetIOpenStreetMapLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetIOpenStreetMapLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetIOpenStreetMapLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetIOpenStreetMapLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetIOpenStreetMapLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.subDomains)) {
-            dotNetIOpenStreetMapLayer.subDomains = jsObject.subDomains;
-        }
-        if (hasValue(jsObject.tileServers)) {
-            dotNetIOpenStreetMapLayer.tileServers = jsObject.tileServers;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetIOpenStreetMapLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIOpenStreetMapLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.urlTemplate)) {
-            dotNetIOpenStreetMapLayer.urlTemplate = jsObject.urlTemplate;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetIOpenStreetMapLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetIOpenStreetMapLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIOpenStreetMapLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetIOpenStreetMapLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetIOpenStreetMapLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetIOpenStreetMapLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetIOpenStreetMapLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetIOpenStreetMapLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetIOpenStreetMapLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetIOpenStreetMapLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetIOpenStreetMapLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.subDomains)) {
+        dotNetIOpenStreetMapLayer.subDomains = jsObject.subDomains;
+    }
+    if (hasValue(jsObject.tileServers)) {
+        dotNetIOpenStreetMapLayer.tileServers = jsObject.tileServers;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetIOpenStreetMapLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIOpenStreetMapLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.urlTemplate)) {
+        dotNetIOpenStreetMapLayer.urlTemplate = jsObject.urlTemplate;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

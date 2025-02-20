@@ -42,9 +42,9 @@ export async function buildDotNetDotDensitySchemeOutlineGenerated(jsObject: any)
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetDotDensitySchemeOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.width)) {
-            dotNetDotDensitySchemeOutline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.width)) {
+        dotNetDotDensitySchemeOutline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetExecuteContextGenerated(jsObject: any): Promise
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetExecuteContext.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetExecuteContext.timeZone = jsObject.timeZone;
-        }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetExecuteContext.timeZone = jsObject.timeZone;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

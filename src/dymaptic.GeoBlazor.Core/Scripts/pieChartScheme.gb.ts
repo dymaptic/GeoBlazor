@@ -67,18 +67,18 @@ export async function buildDotNetPieChartSchemeGenerated(jsObject: any): Promise
             let { buildDotNetPieChartSchemeOutline } = await import('./pieChartSchemeOutline');
             dotNetPieChartScheme.outline = await buildDotNetPieChartSchemeOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetPieChartScheme.name = jsObject.name;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetPieChartScheme.size = jsObject.size;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetPieChartScheme.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPieChartScheme.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetPieChartScheme.name = jsObject.name;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetPieChartScheme.size = jsObject.size;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetPieChartScheme.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPieChartScheme.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

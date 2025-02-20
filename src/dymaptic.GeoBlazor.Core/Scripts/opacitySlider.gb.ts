@@ -197,45 +197,45 @@ export async function buildDotNetOpacitySliderGenerated(jsObject: any): Promise<
             let { buildDotNetOpacitySliderViewModel } = await import('./opacitySliderViewModel');
             dotNetOpacitySlider.viewModel = await buildDotNetOpacitySliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetOpacitySlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetOpacitySlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetOpacitySlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetOpacitySlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetOpacitySlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetOpacitySlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetOpacitySlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetOpacitySlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetOpacitySlider.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetOpacitySlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetOpacitySlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetOpacitySlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetOpacitySlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetOpacitySlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetOpacitySlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetOpacitySlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetOpacitySlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetOpacitySlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetOpacitySlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetOpacitySlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetOpacitySlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetOpacitySlider.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetOpacitySlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetOpacitySlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetOpacitySlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetOpacitySlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

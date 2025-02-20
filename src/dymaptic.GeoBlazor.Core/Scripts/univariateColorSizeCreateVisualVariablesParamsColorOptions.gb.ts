@@ -4,6 +4,10 @@ import { buildDotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions }
 
 export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsColorOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsunivariateColorSizeCreateVisualVariablesParamsColorOptions: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.colorScheme)) {
         jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.colorScheme = dotNetObject.colorScheme;
@@ -13,10 +17,6 @@ export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsColor
     }
     if (hasValue(dotNetObject.legendOptions)) {
         jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.legendOptions = dotNetObject.legendOptions;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.theme = sanitizedTheme;
     }
     
     // @ts-ignore
@@ -44,18 +44,19 @@ export async function buildDotNetUnivariateColorSizeCreateVisualVariablesParamsC
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.isContinuous)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.isContinuous = jsObject.isContinuous;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.legendOptions = jsObject.legendOptions;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.theme = await buildDotNetTheme(jsObject.theme);
         }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.isContinuous)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.isContinuous = jsObject.isContinuous;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions.legendOptions = jsObject.legendOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

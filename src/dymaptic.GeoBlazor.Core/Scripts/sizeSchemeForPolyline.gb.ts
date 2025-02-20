@@ -62,21 +62,21 @@ export async function buildDotNetSizeSchemeForPolylineGenerated(jsObject: any): 
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetSizeSchemeForPolyline.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.maxWidth)) {
-            dotNetSizeSchemeForPolyline.maxWidth = jsObject.maxWidth;
-        }
-        if (hasValue(jsObject.minWidth)) {
-            dotNetSizeSchemeForPolyline.minWidth = jsObject.minWidth;
-        }
-        if (hasValue(jsObject.noDataWidth)) {
-            dotNetSizeSchemeForPolyline.noDataWidth = jsObject.noDataWidth;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetSizeSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetSizeSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.maxWidth)) {
+        dotNetSizeSchemeForPolyline.maxWidth = jsObject.maxWidth;
+    }
+    if (hasValue(jsObject.minWidth)) {
+        dotNetSizeSchemeForPolyline.minWidth = jsObject.minWidth;
+    }
+    if (hasValue(jsObject.noDataWidth)) {
+        dotNetSizeSchemeForPolyline.noDataWidth = jsObject.noDataWidth;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetSizeSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetSizeSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

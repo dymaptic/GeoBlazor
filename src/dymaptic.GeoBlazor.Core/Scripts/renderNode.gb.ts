@@ -115,24 +115,24 @@ export async function buildDotNetRenderNodeGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.camera)) {
-            dotNetRenderNode.camera = jsObject.camera;
-        }
-        if (hasValue(jsObject.consumes)) {
-            dotNetRenderNode.consumes = jsObject.consumes;
-        }
-        if (hasValue(jsObject.gl)) {
-            dotNetRenderNode.gl = jsObject.gl;
-        }
-        if (hasValue(jsObject.produces)) {
-            dotNetRenderNode.produces = jsObject.produces;
-        }
-        if (hasValue(jsObject.sunLight)) {
-            dotNetRenderNode.sunLight = jsObject.sunLight;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetRenderNode.view = jsObject.view;
-        }
+    if (hasValue(jsObject.camera)) {
+        dotNetRenderNode.camera = jsObject.camera;
+    }
+    if (hasValue(jsObject.consumes)) {
+        dotNetRenderNode.consumes = jsObject.consumes;
+    }
+    if (hasValue(jsObject.gl)) {
+        dotNetRenderNode.gl = jsObject.gl;
+    }
+    if (hasValue(jsObject.produces)) {
+        dotNetRenderNode.produces = jsObject.produces;
+    }
+    if (hasValue(jsObject.sunLight)) {
+        dotNetRenderNode.sunLight = jsObject.sunLight;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetRenderNode.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

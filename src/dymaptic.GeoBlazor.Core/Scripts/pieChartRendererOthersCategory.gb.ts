@@ -45,12 +45,12 @@ export async function buildDotNetPieChartRendererOthersCategoryGenerated(jsObjec
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetPieChartRendererOthersCategory.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetPieChartRendererOthersCategory.label = jsObject.label;
-        }
-        if (hasValue(jsObject.threshold)) {
-            dotNetPieChartRendererOthersCategory.threshold = jsObject.threshold;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetPieChartRendererOthersCategory.label = jsObject.label;
+    }
+    if (hasValue(jsObject.threshold)) {
+        dotNetPieChartRendererOthersCategory.threshold = jsObject.threshold;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

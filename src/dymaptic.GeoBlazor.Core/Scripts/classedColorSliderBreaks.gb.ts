@@ -45,12 +45,12 @@ export async function buildDotNetClassedColorSliderBreaksGenerated(jsObject: any
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetClassedColorSliderBreaks.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.max)) {
-            dotNetClassedColorSliderBreaks.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetClassedColorSliderBreaks.min = jsObject.min;
-        }
+    if (hasValue(jsObject.max)) {
+        dotNetClassedColorSliderBreaks.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetClassedColorSliderBreaks.min = jsObject.min;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

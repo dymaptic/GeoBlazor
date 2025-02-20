@@ -48,18 +48,18 @@ export async function buildDotNetISceneServiceGenerated(jsObject: any): Promise<
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetISceneService.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.copyright)) {
-            dotNetISceneService.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.layerId)) {
-            dotNetISceneService.sceneServiceLayerId = jsObject.layerId;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetISceneService.url = jsObject.url;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetISceneService.version = jsObject.version;
-        }
+    if (hasValue(jsObject.copyright)) {
+        dotNetISceneService.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.layerId)) {
+        dotNetISceneService.sceneServiceLayerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetISceneService.url = jsObject.url;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetISceneService.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -140,72 +140,72 @@ export async function buildDotNetGroupColumnGenerated(jsObject: any): Promise<an
             let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
             dotNetGroupColumn.menuConfig = await buildDotNetColumnTableMenuConfig(jsObject.menuConfig);
         }
-        if (hasValue(jsObject.autoWidth)) {
-            dotNetGroupColumn.autoWidth = jsObject.autoWidth;
-        }
-        if (hasValue(jsObject.direction)) {
-            dotNetGroupColumn.direction = jsObject.direction;
-        }
-        if (hasValue(jsObject.effectiveLabel)) {
-            dotNetGroupColumn.effectiveLabel = jsObject.effectiveLabel;
-        }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetGroupColumn.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.flexGrow)) {
-            dotNetGroupColumn.flexGrow = jsObject.flexGrow;
-        }
-        if (hasValue(jsObject.formatFunction)) {
-            dotNetGroupColumn.formatFunction = jsObject.formatFunction;
-        }
-        if (hasValue(jsObject.frozen)) {
-            dotNetGroupColumn.frozen = jsObject.frozen;
-        }
-        if (hasValue(jsObject.frozenToEnd)) {
-            dotNetGroupColumn.frozenToEnd = jsObject.frozenToEnd;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetGroupColumn.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.initialSortPriority)) {
-            dotNetGroupColumn.initialSortPriority = jsObject.initialSortPriority;
-        }
-        if (hasValue(jsObject.invalid)) {
-            dotNetGroupColumn.invalid = jsObject.invalid;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetGroupColumn.label = jsObject.label;
-        }
-        if (hasValue(jsObject.menu)) {
-            dotNetGroupColumn.menu = jsObject.menu;
-        }
-        if (hasValue(jsObject.menuIsOpen)) {
-            dotNetGroupColumn.menuIsOpen = jsObject.menuIsOpen;
-        }
-        if (hasValue(jsObject.menuIsVisible)) {
-            dotNetGroupColumn.menuIsVisible = jsObject.menuIsVisible;
-        }
-        if (hasValue(jsObject.resizable)) {
-            dotNetGroupColumn.resizable = jsObject.resizable;
-        }
-        if (hasValue(jsObject.sortable)) {
-            dotNetGroupColumn.sortable = jsObject.sortable;
-        }
-        if (hasValue(jsObject.textAlign)) {
-            dotNetGroupColumn.textAlign = jsObject.textAlign;
-        }
-        if (hasValue(jsObject.textWrap)) {
-            dotNetGroupColumn.textWrap = jsObject.textWrap;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetGroupColumn.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetGroupColumn.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetGroupColumn.width = jsObject.width;
-        }
+    if (hasValue(jsObject.autoWidth)) {
+        dotNetGroupColumn.autoWidth = jsObject.autoWidth;
+    }
+    if (hasValue(jsObject.direction)) {
+        dotNetGroupColumn.direction = jsObject.direction;
+    }
+    if (hasValue(jsObject.effectiveLabel)) {
+        dotNetGroupColumn.effectiveLabel = jsObject.effectiveLabel;
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetGroupColumn.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.flexGrow)) {
+        dotNetGroupColumn.flexGrow = jsObject.flexGrow;
+    }
+    if (hasValue(jsObject.formatFunction)) {
+        dotNetGroupColumn.formatFunction = jsObject.formatFunction;
+    }
+    if (hasValue(jsObject.frozen)) {
+        dotNetGroupColumn.frozen = jsObject.frozen;
+    }
+    if (hasValue(jsObject.frozenToEnd)) {
+        dotNetGroupColumn.frozenToEnd = jsObject.frozenToEnd;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetGroupColumn.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.initialSortPriority)) {
+        dotNetGroupColumn.initialSortPriority = jsObject.initialSortPriority;
+    }
+    if (hasValue(jsObject.invalid)) {
+        dotNetGroupColumn.invalid = jsObject.invalid;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetGroupColumn.label = jsObject.label;
+    }
+    if (hasValue(jsObject.menu)) {
+        dotNetGroupColumn.menu = jsObject.menu;
+    }
+    if (hasValue(jsObject.menuIsOpen)) {
+        dotNetGroupColumn.menuIsOpen = jsObject.menuIsOpen;
+    }
+    if (hasValue(jsObject.menuIsVisible)) {
+        dotNetGroupColumn.menuIsVisible = jsObject.menuIsVisible;
+    }
+    if (hasValue(jsObject.resizable)) {
+        dotNetGroupColumn.resizable = jsObject.resizable;
+    }
+    if (hasValue(jsObject.sortable)) {
+        dotNetGroupColumn.sortable = jsObject.sortable;
+    }
+    if (hasValue(jsObject.textAlign)) {
+        dotNetGroupColumn.textAlign = jsObject.textAlign;
+    }
+    if (hasValue(jsObject.textWrap)) {
+        dotNetGroupColumn.textWrap = jsObject.textWrap;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetGroupColumn.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetGroupColumn.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetGroupColumn.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

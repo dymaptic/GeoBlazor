@@ -93,6 +93,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -203,6 +215,15 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.layer.spatialReference =  buildJsSpatialReference(value);
     }
+    async getSubtypes(): Promise<any> {
+        if (!hasValue(this.layer.subtypes)) {
+            return null;
+        }
+        
+        let { buildDotNetSubtype } = await import('./subtype');
+        return await Promise.all(this.layer.subtypes.map(async i => await buildDotNetSubtype(i)));
+    }
+    
     async getTemplates(): Promise<any> {
         if (!hasValue(this.layer.templates)) {
             return null;
@@ -228,6 +249,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+    }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getTypes(): Promise<any> {
         if (!hasValue(this.layer.types)) {
@@ -267,6 +300,10 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayer = new FeatureLayer();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsFeatureLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsFeatureLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -306,6 +343,10 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsFeatureLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsFeatureLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.types)) {
         let { buildJsFeatureType } = await import('./featureType');
@@ -355,10 +396,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         jsFeatureLayer.elevationInfo = sanitizedElevationInfo;
-    }
-    if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsFeatureLayer.featureEffect = sanitizedFeatureEffect;
     }
     if (hasValue(dotNetObject.featureReduction)) {
         jsFeatureLayer.featureReduction = dotNetObject.featureReduction;
@@ -434,10 +471,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.sourceJSON)) {
         jsFeatureLayer.sourceJSON = dotNetObject.sourceJSON;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsFeatureLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsFeatureLayer.timeOffset = sanitizedTimeOffset;
@@ -494,6 +527,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetFeatureLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
             dotNetFeatureLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -526,6 +563,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetFeatureLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
+        if (hasValue(jsObject.subtypes)) {
+            let { buildDotNetSubtype } = await import('./subtype');
+            dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i)));
+        }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
             dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
@@ -533,6 +574,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+        }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetFeatureLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
         }
         if (hasValue(jsObject.types)) {
             let { buildDotNetFeatureType } = await import('./featureType');
@@ -542,195 +587,186 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetFeatureLayer.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetFeatureLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetFeatureLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetFeatureLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.charts)) {
-            dotNetFeatureLayer.charts = jsObject.charts;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetFeatureLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetFeatureLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.dateFieldsTimeZone)) {
-            dotNetFeatureLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        }
-        if (hasValue(jsObject.datesInUnknownTimezone)) {
-            dotNetFeatureLayer.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetFeatureLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetFeatureLayer.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.dynamicDataSource)) {
-            dotNetFeatureLayer.dynamicDataSource = jsObject.dynamicDataSource;
-        }
-        if (hasValue(jsObject.editFieldsInfo)) {
-            dotNetFeatureLayer.editFieldsInfo = jsObject.editFieldsInfo;
-        }
-        if (hasValue(jsObject.editingEnabled)) {
-            dotNetFeatureLayer.editingEnabled = jsObject.editingEnabled;
-        }
-        if (hasValue(jsObject.editingInfo)) {
-            dotNetFeatureLayer.editingInfo = jsObject.editingInfo;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetFeatureLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.effectiveCapabilities)) {
-            dotNetFeatureLayer.effectiveCapabilities = jsObject.effectiveCapabilities;
-        }
-        if (hasValue(jsObject.effectiveEditingEnabled)) {
-            dotNetFeatureLayer.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetFeatureLayer.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetFeatureLayer.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetFeatureLayer.featureReduction = jsObject.featureReduction;
-        }
-        if (hasValue(jsObject.floorInfo)) {
-            dotNetFeatureLayer.floorInfo = jsObject.floorInfo;
-        }
-        if (hasValue(jsObject.formTemplate)) {
-            dotNetFeatureLayer.formTemplate = jsObject.formTemplate;
-        }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetFeatureLayer.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.geometryFieldsInfo)) {
-            dotNetFeatureLayer.geometryFieldsInfo = jsObject.geometryFieldsInfo;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetFeatureLayer.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.hasM)) {
-            dotNetFeatureLayer.hasM = jsObject.hasM;
-        }
-        if (hasValue(jsObject.hasZ)) {
-            dotNetFeatureLayer.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.historicMoment)) {
-            dotNetFeatureLayer.historicMoment = jsObject.historicMoment;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetFeatureLayer.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetFeatureLayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.layerId)) {
-            dotNetFeatureLayer.layerIndex = jsObject.layerId;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetFeatureLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetFeatureLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetFeatureLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetFeatureLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetFeatureLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetFeatureLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetFeatureLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.orderBy)) {
-            dotNetFeatureLayer.orderBy = jsObject.orderBy;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetFeatureLayer.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetFeatureLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetFeatureLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.preferredTimeZone)) {
-            dotNetFeatureLayer.preferredTimeZone = jsObject.preferredTimeZone;
-        }
-        if (hasValue(jsObject.publishingInfo)) {
-            dotNetFeatureLayer.publishingInfo = jsObject.publishingInfo;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetFeatureLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.relationships)) {
-            dotNetFeatureLayer.relationships = jsObject.relationships;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetFeatureLayer.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetFeatureLayer.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-            dotNetFeatureLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        }
-        if (hasValue(jsObject.serviceDefinitionExpression)) {
-            dotNetFeatureLayer.serviceDefinitionExpression = jsObject.serviceDefinitionExpression;
-        }
-        if (hasValue(jsObject.serviceItemId)) {
-            dotNetFeatureLayer.serviceItemId = jsObject.serviceItemId;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetFeatureLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.subtypeField)) {
-            dotNetFeatureLayer.subtypeField = jsObject.subtypeField;
-        }
-        if (hasValue(jsObject.subtypes)) {
-            dotNetFeatureLayer.subtypes = jsObject.subtypes;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetFeatureLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetFeatureLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeatureLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.typeIdField)) {
-            dotNetFeatureLayer.typeIdField = jsObject.typeIdField;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetFeatureLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetFeatureLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetFeatureLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetFeatureLayer.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetFeatureLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetFeatureLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.charts)) {
+        dotNetFeatureLayer.charts = jsObject.charts;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetFeatureLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetFeatureLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.dateFieldsTimeZone)) {
+        dotNetFeatureLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+    }
+    if (hasValue(jsObject.datesInUnknownTimezone)) {
+        dotNetFeatureLayer.datesInUnknownTimezone = jsObject.datesInUnknownTimezone;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetFeatureLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetFeatureLayer.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.dynamicDataSource)) {
+        dotNetFeatureLayer.dynamicDataSource = jsObject.dynamicDataSource;
+    }
+    if (hasValue(jsObject.editFieldsInfo)) {
+        dotNetFeatureLayer.editFieldsInfo = jsObject.editFieldsInfo;
+    }
+    if (hasValue(jsObject.editingEnabled)) {
+        dotNetFeatureLayer.editingEnabled = jsObject.editingEnabled;
+    }
+    if (hasValue(jsObject.editingInfo)) {
+        dotNetFeatureLayer.editingInfo = jsObject.editingInfo;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetFeatureLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.effectiveCapabilities)) {
+        dotNetFeatureLayer.effectiveCapabilities = jsObject.effectiveCapabilities;
+    }
+    if (hasValue(jsObject.effectiveEditingEnabled)) {
+        dotNetFeatureLayer.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetFeatureLayer.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetFeatureLayer.featureReduction = jsObject.featureReduction;
+    }
+    if (hasValue(jsObject.floorInfo)) {
+        dotNetFeatureLayer.floorInfo = jsObject.floorInfo;
+    }
+    if (hasValue(jsObject.formTemplate)) {
+        dotNetFeatureLayer.formTemplate = jsObject.formTemplate;
+    }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetFeatureLayer.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.geometryFieldsInfo)) {
+        dotNetFeatureLayer.geometryFieldsInfo = jsObject.geometryFieldsInfo;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetFeatureLayer.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.hasM)) {
+        dotNetFeatureLayer.hasM = jsObject.hasM;
+    }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetFeatureLayer.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.historicMoment)) {
+        dotNetFeatureLayer.historicMoment = jsObject.historicMoment;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetFeatureLayer.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetFeatureLayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.layerId)) {
+        dotNetFeatureLayer.layerIndex = jsObject.layerId;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetFeatureLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetFeatureLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetFeatureLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetFeatureLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetFeatureLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetFeatureLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetFeatureLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.orderBy)) {
+        dotNetFeatureLayer.orderBy = jsObject.orderBy;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetFeatureLayer.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetFeatureLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetFeatureLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.preferredTimeZone)) {
+        dotNetFeatureLayer.preferredTimeZone = jsObject.preferredTimeZone;
+    }
+    if (hasValue(jsObject.publishingInfo)) {
+        dotNetFeatureLayer.publishingInfo = jsObject.publishingInfo;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetFeatureLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.relationships)) {
+        dotNetFeatureLayer.relationships = jsObject.relationships;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetFeatureLayer.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetFeatureLayer.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+        dotNetFeatureLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.serviceDefinitionExpression)) {
+        dotNetFeatureLayer.serviceDefinitionExpression = jsObject.serviceDefinitionExpression;
+    }
+    if (hasValue(jsObject.serviceItemId)) {
+        dotNetFeatureLayer.serviceItemId = jsObject.serviceItemId;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetFeatureLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.subtypeField)) {
+        dotNetFeatureLayer.subtypeField = jsObject.subtypeField;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetFeatureLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeatureLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.typeIdField)) {
+        dotNetFeatureLayer.typeIdField = jsObject.typeIdField;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetFeatureLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetFeatureLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetFeatureLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

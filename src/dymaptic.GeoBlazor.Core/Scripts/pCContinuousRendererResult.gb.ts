@@ -54,21 +54,21 @@ export async function buildDotNetPCContinuousRendererResultGenerated(jsObject: a
             let { buildDotNetPointCloudStretchRenderer } = await import('./pointCloudStretchRenderer');
             dotNetPCContinuousRendererResult.renderer = await buildDotNetPointCloudStretchRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetPCContinuousRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetPCContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetPCContinuousRendererResult.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetPCContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetPCContinuousRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetPCContinuousRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetPCContinuousRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetPCContinuousRendererResult.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetPCContinuousRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetPCContinuousRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -78,33 +78,33 @@ export async function buildDotNetUniqueValuesUniqueValuesParamsGenerated(jsObjec
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.field)) {
-            dotNetUniqueValuesUniqueValuesParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetUniqueValuesUniqueValuesParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.returnAllCodedValues)) {
-            dotNetUniqueValuesUniqueValuesParams.returnAllCodedValues = jsObject.returnAllCodedValues;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetUniqueValuesUniqueValuesParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetUniqueValuesUniqueValuesParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetUniqueValuesUniqueValuesParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.useFeaturesInView)) {
-            dotNetUniqueValuesUniqueValuesParams.useFeaturesInView = jsObject.useFeaturesInView;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetUniqueValuesUniqueValuesParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetUniqueValuesUniqueValuesParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetUniqueValuesUniqueValuesParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetUniqueValuesUniqueValuesParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.returnAllCodedValues)) {
+        dotNetUniqueValuesUniqueValuesParams.returnAllCodedValues = jsObject.returnAllCodedValues;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetUniqueValuesUniqueValuesParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetUniqueValuesUniqueValuesParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetUniqueValuesUniqueValuesParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.useFeaturesInView)) {
+        dotNetUniqueValuesUniqueValuesParams.useFeaturesInView = jsObject.useFeaturesInView;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetUniqueValuesUniqueValuesParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetUniqueValuesUniqueValuesParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -165,24 +165,24 @@ export async function buildDotNetITextSymbol3DLayerGenerated(jsObject: any): Pro
             let { buildDotNetTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
             dotNetITextSymbol3DLayer.material = await buildDotNetTextSymbol3DLayerMaterial(jsObject.material);
         }
-        if (hasValue(jsObject.horizontalAlignment)) {
-            dotNetITextSymbol3DLayer.horizontalAlignment = jsObject.horizontalAlignment;
-        }
-        if (hasValue(jsObject.lineHeight)) {
-            dotNetITextSymbol3DLayer.lineHeight = jsObject.lineHeight;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetITextSymbol3DLayer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.text)) {
-            dotNetITextSymbol3DLayer.text = jsObject.text;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetITextSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.verticalAlignment)) {
-            dotNetITextSymbol3DLayer.verticalAlignment = jsObject.verticalAlignment;
-        }
+    if (hasValue(jsObject.horizontalAlignment)) {
+        dotNetITextSymbol3DLayer.horizontalAlignment = jsObject.horizontalAlignment;
+    }
+    if (hasValue(jsObject.lineHeight)) {
+        dotNetITextSymbol3DLayer.lineHeight = jsObject.lineHeight;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetITextSymbol3DLayer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.text)) {
+        dotNetITextSymbol3DLayer.text = jsObject.text;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetITextSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.verticalAlignment)) {
+        dotNetITextSymbol3DLayer.verticalAlignment = jsObject.verticalAlignment;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

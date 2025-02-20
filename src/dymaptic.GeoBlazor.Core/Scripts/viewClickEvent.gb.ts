@@ -60,30 +60,30 @@ export async function buildDotNetViewClickEventGenerated(jsObject: any): Promise
             let { buildDotNetPoint } = await import('./point');
             dotNetViewClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.button)) {
-            dotNetViewClickEvent.button = jsObject.button;
-        }
-        if (hasValue(jsObject.buttons)) {
-            dotNetViewClickEvent.buttons = jsObject.buttons;
-        }
-        if (hasValue(jsObject.native)) {
-            dotNetViewClickEvent.native = jsObject.native;
-        }
-        if (hasValue(jsObject.stopPropagation)) {
-            dotNetViewClickEvent.stopPropagation = jsObject.stopPropagation;
-        }
-        if (hasValue(jsObject.timestamp)) {
-            dotNetViewClickEvent.timestamp = jsObject.timestamp;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewClickEvent.type = jsObject.type;
-        }
-        if (hasValue(jsObject.x)) {
-            dotNetViewClickEvent.x = jsObject.x;
-        }
-        if (hasValue(jsObject.y)) {
-            dotNetViewClickEvent.y = jsObject.y;
-        }
+    if (hasValue(jsObject.button)) {
+        dotNetViewClickEvent.button = jsObject.button;
+    }
+    if (hasValue(jsObject.buttons)) {
+        dotNetViewClickEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.native)) {
+        dotNetViewClickEvent.native = jsObject.native;
+    }
+    if (hasValue(jsObject.stopPropagation)) {
+        dotNetViewClickEvent.stopPropagation = jsObject.stopPropagation;
+    }
+    if (hasValue(jsObject.timestamp)) {
+        dotNetViewClickEvent.timestamp = jsObject.timestamp;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewClickEvent.type = jsObject.type;
+    }
+    if (hasValue(jsObject.x)) {
+        dotNetViewClickEvent.x = jsObject.x;
+    }
+    if (hasValue(jsObject.y)) {
+        dotNetViewClickEvent.y = jsObject.y;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

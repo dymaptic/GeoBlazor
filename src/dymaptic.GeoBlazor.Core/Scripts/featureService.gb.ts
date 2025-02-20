@@ -100,39 +100,39 @@ export async function buildDotNetFeatureServiceGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.capabilities)) {
-            dotNetFeatureService.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.effectiveCapabilities)) {
-            dotNetFeatureService.effectiveCapabilities = jsObject.effectiveCapabilities;
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            dotNetFeatureService.layerInfos = jsObject.layerInfos;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetFeatureService.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetFeatureService.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetFeatureService.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.tableInfos)) {
-            dotNetFeatureService.tableInfos = jsObject.tableInfos;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetFeatureService.url = jsObject.url;
-        }
-        if (hasValue(jsObject.userTypeExtensions)) {
-            dotNetFeatureService.userTypeExtensions = jsObject.userTypeExtensions;
-        }
-        if (hasValue(jsObject.utilityNetworkUrl)) {
-            dotNetFeatureService.utilityNetworkUrl = jsObject.utilityNetworkUrl;
-        }
-        if (hasValue(jsObject.versionManagementServiceUrl)) {
-            dotNetFeatureService.versionManagementServiceUrl = jsObject.versionManagementServiceUrl;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetFeatureService.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.effectiveCapabilities)) {
+        dotNetFeatureService.effectiveCapabilities = jsObject.effectiveCapabilities;
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        dotNetFeatureService.layerInfos = jsObject.layerInfos;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetFeatureService.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetFeatureService.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetFeatureService.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.tableInfos)) {
+        dotNetFeatureService.tableInfos = jsObject.tableInfos;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetFeatureService.url = jsObject.url;
+    }
+    if (hasValue(jsObject.userTypeExtensions)) {
+        dotNetFeatureService.userTypeExtensions = jsObject.userTypeExtensions;
+    }
+    if (hasValue(jsObject.utilityNetworkUrl)) {
+        dotNetFeatureService.utilityNetworkUrl = jsObject.utilityNetworkUrl;
+    }
+    if (hasValue(jsObject.versionManagementServiceUrl)) {
+        dotNetFeatureService.versionManagementServiceUrl = jsObject.versionManagementServiceUrl;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -55,21 +55,21 @@ export async function buildDotNetValidateNetworkTopologyParametersGenerated(jsOb
             let { buildDotNetExtent } = await import('./extent');
             dotNetValidateNetworkTopologyParameters.validateArea = buildDotNetExtent(jsObject.validateArea);
         }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetValidateNetworkTopologyParameters.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.outSpatialReference)) {
-            dotNetValidateNetworkTopologyParameters.outSpatialReference = jsObject.outSpatialReference;
-        }
-        if (hasValue(jsObject.sessionID)) {
-            dotNetValidateNetworkTopologyParameters.sessionID = jsObject.sessionID;
-        }
-        if (hasValue(jsObject.validationSet)) {
-            dotNetValidateNetworkTopologyParameters.validationSet = jsObject.validationSet;
-        }
-        if (hasValue(jsObject.validationType)) {
-            dotNetValidateNetworkTopologyParameters.validationType = jsObject.validationType;
-        }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetValidateNetworkTopologyParameters.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetValidateNetworkTopologyParameters.outSpatialReference = jsObject.outSpatialReference;
+    }
+    if (hasValue(jsObject.sessionID)) {
+        dotNetValidateNetworkTopologyParameters.sessionID = jsObject.sessionID;
+    }
+    if (hasValue(jsObject.validationSet)) {
+        dotNetValidateNetworkTopologyParameters.validationSet = jsObject.validationSet;
+    }
+    if (hasValue(jsObject.validationType)) {
+        dotNetValidateNetworkTopologyParameters.validationType = jsObject.validationType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

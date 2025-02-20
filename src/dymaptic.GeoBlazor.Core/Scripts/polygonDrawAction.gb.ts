@@ -131,18 +131,18 @@ export async function buildDotNetPolygonDrawActionGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetPolygonDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetPolygonDrawAction.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetPolygonDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPolygonDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetPolygonDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetPolygonDrawAction.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetPolygonDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPolygonDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

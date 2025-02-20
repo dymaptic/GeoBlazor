@@ -163,27 +163,27 @@ export async function buildDotNetFeatureFormViewModelGenerated(jsObject: any, la
             let { buildDotNetFormTemplate } = await import('./formTemplate');
             dotNetFeatureFormViewModel.formTemplate = await buildDotNetFormTemplate(jsObject.formTemplate);
         }
-        if (hasValue(jsObject.inputs)) {
-            dotNetFeatureFormViewModel.inputs = jsObject.inputs;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetFeatureFormViewModel.map = jsObject.map;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeatureFormViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.submittable)) {
-            dotNetFeatureFormViewModel.submittable = jsObject.submittable;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeatureFormViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetFeatureFormViewModel.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.valid)) {
-            dotNetFeatureFormViewModel.valid = jsObject.valid;
-        }
+    if (hasValue(jsObject.inputs)) {
+        dotNetFeatureFormViewModel.inputs = jsObject.inputs;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetFeatureFormViewModel.map = jsObject.map;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeatureFormViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.submittable)) {
+        dotNetFeatureFormViewModel.submittable = jsObject.submittable;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeatureFormViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetFeatureFormViewModel.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.valid)) {
+        dotNetFeatureFormViewModel.valid = jsObject.valid;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -59,27 +59,27 @@ export async function buildDotNetFenceGeotriggerGenerated(jsObject: any): Promis
             let { buildDotNetFeatureFenceParameters } = await import('./featureFenceParameters');
             dotNetFenceGeotrigger.fenceParameters = await buildDotNetFeatureFenceParameters(jsObject.fenceParameters);
         }
-        if (hasValue(jsObject.enterExitRule)) {
-            dotNetFenceGeotrigger.enterExitRule = jsObject.enterExitRule;
-        }
-        if (hasValue(jsObject.feed)) {
-            dotNetFenceGeotrigger.feed = jsObject.feed;
-        }
-        if (hasValue(jsObject.feedAccuracyMode)) {
-            dotNetFenceGeotrigger.feedAccuracyMode = jsObject.feedAccuracyMode;
-        }
-        if (hasValue(jsObject.fenceNotificationRule)) {
-            dotNetFenceGeotrigger.fenceNotificationRule = jsObject.fenceNotificationRule;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFenceGeotrigger.name = jsObject.name;
-        }
-        if (hasValue(jsObject.notificationOptions)) {
-            dotNetFenceGeotrigger.notificationOptions = jsObject.notificationOptions;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFenceGeotrigger.type = jsObject.type;
-        }
+    if (hasValue(jsObject.enterExitRule)) {
+        dotNetFenceGeotrigger.enterExitRule = jsObject.enterExitRule;
+    }
+    if (hasValue(jsObject.feed)) {
+        dotNetFenceGeotrigger.feed = jsObject.feed;
+    }
+    if (hasValue(jsObject.feedAccuracyMode)) {
+        dotNetFenceGeotrigger.feedAccuracyMode = jsObject.feedAccuracyMode;
+    }
+    if (hasValue(jsObject.fenceNotificationRule)) {
+        dotNetFenceGeotrigger.fenceNotificationRule = jsObject.fenceNotificationRule;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFenceGeotrigger.name = jsObject.name;
+    }
+    if (hasValue(jsObject.notificationOptions)) {
+        dotNetFenceGeotrigger.notificationOptions = jsObject.notificationOptions;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFenceGeotrigger.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

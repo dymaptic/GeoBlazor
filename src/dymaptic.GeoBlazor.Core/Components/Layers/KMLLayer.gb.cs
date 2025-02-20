@@ -364,17 +364,17 @@ public partial class KMLLayer : IBlendLayer,
             return Sublayers;
         }
 
-        // get the property value
-        IReadOnlyList<KMLSublayer>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<KMLSublayer>?>("getProperty",
-            CancellationTokenSource.Token, "sublayers");
+        IReadOnlyList<KMLSublayer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<KMLSublayer>?>(
+            "getSublayers", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Sublayers = result;
+            Sublayers = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Sublayers)] = Sublayers;
+            ModifiedParameters[nameof(Sublayers)] = Sublayers;
         }
-         
+        
         return Sublayers;
     }
     

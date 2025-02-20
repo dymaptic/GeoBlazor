@@ -105,12 +105,12 @@ export async function buildDotNetViewshedAnalysisView3DGenerated(jsObject: any):
             let { buildDotNetViewshed } = await import('./viewshed');
             dotNetViewshedAnalysisView3D.selectedViewshed = await buildDotNetViewshed(jsObject.selectedViewshed);
         }
-        if (hasValue(jsObject.interactive)) {
-            dotNetViewshedAnalysisView3D.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewshedAnalysisView3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.interactive)) {
+        dotNetViewshedAnalysisView3D.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewshedAnalysisView3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

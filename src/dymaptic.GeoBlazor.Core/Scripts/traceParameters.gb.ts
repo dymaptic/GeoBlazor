@@ -61,27 +61,27 @@ export async function buildDotNetTraceParametersGenerated(jsObject: any): Promis
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetTraceParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
         }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetTraceParameters.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.moment)) {
-            dotNetTraceParameters.moment = jsObject.moment;
-        }
-        if (hasValue(jsObject.namedTraceConfigurationGlobalId)) {
-            dotNetTraceParameters.namedTraceConfigurationGlobalId = jsObject.namedTraceConfigurationGlobalId;
-        }
-        if (hasValue(jsObject.resultTypes)) {
-            dotNetTraceParameters.resultTypes = jsObject.resultTypes;
-        }
-        if (hasValue(jsObject.traceConfiguration)) {
-            dotNetTraceParameters.traceConfiguration = jsObject.traceConfiguration;
-        }
-        if (hasValue(jsObject.traceLocations)) {
-            dotNetTraceParameters.traceLocations = jsObject.traceLocations;
-        }
-        if (hasValue(jsObject.traceType)) {
-            dotNetTraceParameters.traceType = jsObject.traceType;
-        }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetTraceParameters.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.moment)) {
+        dotNetTraceParameters.moment = jsObject.moment;
+    }
+    if (hasValue(jsObject.namedTraceConfigurationGlobalId)) {
+        dotNetTraceParameters.namedTraceConfigurationGlobalId = jsObject.namedTraceConfigurationGlobalId;
+    }
+    if (hasValue(jsObject.resultTypes)) {
+        dotNetTraceParameters.resultTypes = jsObject.resultTypes;
+    }
+    if (hasValue(jsObject.traceConfiguration)) {
+        dotNetTraceParameters.traceConfiguration = jsObject.traceConfiguration;
+    }
+    if (hasValue(jsObject.traceLocations)) {
+        dotNetTraceParameters.traceLocations = jsObject.traceLocations;
+    }
+    if (hasValue(jsObject.traceType)) {
+        dotNetTraceParameters.traceType = jsObject.traceType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

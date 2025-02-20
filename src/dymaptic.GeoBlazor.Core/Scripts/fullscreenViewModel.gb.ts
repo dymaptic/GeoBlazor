@@ -84,15 +84,15 @@ export async function buildDotNetFullscreenViewModelGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.element)) {
-            dotNetFullscreenViewModel.element = jsObject.element;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFullscreenViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFullscreenViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.element)) {
+        dotNetFullscreenViewModel.element = jsObject.element;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFullscreenViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFullscreenViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

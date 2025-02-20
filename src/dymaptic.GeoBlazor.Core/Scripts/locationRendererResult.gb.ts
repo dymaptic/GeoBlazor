@@ -48,15 +48,15 @@ export async function buildDotNetLocationRendererResultGenerated(jsObject: any):
             let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
             dotNetLocationRendererResult.renderer = await buildDotNetSimpleRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetLocationRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetLocationRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.locationScheme)) {
-            dotNetLocationRendererResult.locationScheme = jsObject.locationScheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetLocationRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetLocationRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.locationScheme)) {
+        dotNetLocationRendererResult.locationScheme = jsObject.locationScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -49,8 +49,36 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
+    async getUniqueValueGroups(): Promise<any> {
+        if (!hasValue(this.component.uniqueValueGroups)) {
+            return null;
+        }
+        
+        let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
+        return await Promise.all(this.component.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
+    }
+    
+    async setUniqueValueGroups(value: any): Promise<void> {
+        let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
+        this.component.uniqueValueGroups = await Promise.all(value.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId))) as any;
+    }
+    
+    async getUniqueValueInfos(): Promise<any> {
+        if (!hasValue(this.component.uniqueValueInfos)) {
+            return null;
+        }
+        
+        let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
+        return await Promise.all(this.component.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i)));
+    }
+    
+    async setUniqueValueInfos(value: any): Promise<void> {
+        let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
+        this.component.uniqueValueInfos = await Promise.all(value.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getVisualVariables(): Promise<any> {
         if (!hasValue(this.component.visualVariables)) {
             return null;
@@ -79,7 +107,15 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let jsUniqueValueRenderer = new UniqueValueRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.uniqueValueGroups)) {
+        let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
+        jsUniqueValueRenderer.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId))) as any;
+    }
+    if (hasValue(dotNetObject.uniqueValueInfos)) {
+        let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
+        jsUniqueValueRenderer.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
@@ -113,14 +149,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.orderByClassesEnabled)) {
         jsUniqueValueRenderer.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
-    }
-    if (hasValue(dotNetObject.uniqueValueGroups)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedUniqueValueGroups } = dotNetObject.uniqueValueGroups;
-        jsUniqueValueRenderer.uniqueValueGroups = sanitizedUniqueValueGroups;
-    }
-    if (hasValue(dotNetObject.uniqueValueInfos)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedUniqueValueInfos } = dotNetObject.uniqueValueInfos;
-        jsUniqueValueRenderer.uniqueValueInfos = sanitizedUniqueValueInfos;
     }
     if (hasValue(dotNetObject.valueExpression)) {
         jsUniqueValueRenderer.valueExpression = dotNetObject.valueExpression;
@@ -164,52 +192,54 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
             let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
             dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
         }
+        if (hasValue(jsObject.uniqueValueGroups)) {
+            let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
+            dotNetUniqueValueRenderer.uniqueValueGroups = await Promise.all(jsObject.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
+        }
+        if (hasValue(jsObject.uniqueValueInfos)) {
+            let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
+            dotNetUniqueValueRenderer.uniqueValueInfos = await Promise.all(jsObject.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i)));
+        }
         if (hasValue(jsObject.visualVariables)) {
             let { buildDotNetVisualVariable } = await import('./visualVariable');
             dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
         }
-        if (hasValue(jsObject.backgroundFillSymbol)) {
-            dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
-        }
-        if (hasValue(jsObject.defaultLabel)) {
-            dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
-        }
-        if (hasValue(jsObject.defaultSymbol)) {
-            dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetUniqueValueRenderer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.field2)) {
-            dotNetUniqueValueRenderer.field2 = jsObject.field2;
-        }
-        if (hasValue(jsObject.field3)) {
-            dotNetUniqueValueRenderer.field3 = jsObject.field3;
-        }
-        if (hasValue(jsObject.fieldDelimiter)) {
-            dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetUniqueValueRenderer.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.orderByClassesEnabled)) {
-            dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetUniqueValueRenderer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.uniqueValueGroups)) {
-            dotNetUniqueValueRenderer.uniqueValueGroups = jsObject.uniqueValueGroups;
-        }
-        if (hasValue(jsObject.uniqueValueInfos)) {
-            dotNetUniqueValueRenderer.uniqueValueInfos = jsObject.uniqueValueInfos;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.backgroundFillSymbol)) {
+        dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
+    }
+    if (hasValue(jsObject.defaultLabel)) {
+        dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
+    }
+    if (hasValue(jsObject.defaultSymbol)) {
+        dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetUniqueValueRenderer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.field2)) {
+        dotNetUniqueValueRenderer.field2 = jsObject.field2;
+    }
+    if (hasValue(jsObject.field3)) {
+        dotNetUniqueValueRenderer.field3 = jsObject.field3;
+    }
+    if (hasValue(jsObject.fieldDelimiter)) {
+        dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetUniqueValueRenderer.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.orderByClassesEnabled)) {
+        dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetUniqueValueRenderer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

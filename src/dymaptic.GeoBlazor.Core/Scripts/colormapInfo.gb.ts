@@ -46,12 +46,12 @@ export async function buildDotNetColormapInfoGenerated(jsObject: any): Promise<a
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColormapInfo.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetColormapInfo.label = jsObject.label;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetColormapInfo.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetColormapInfo.label = jsObject.label;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetColormapInfo.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -46,12 +46,12 @@ export async function buildDotNetImagePointResultGenerated(jsObject: any): Promi
             let { buildDotNetPoint } = await import('./point');
             dotNetImagePointResult.point = buildDotNetPoint(jsObject.point);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetImagePointResult.name = jsObject.name;
-        }
-        if (hasValue(jsObject.sensorName)) {
-            dotNetImagePointResult.sensorName = jsObject.sensorName;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetImagePointResult.name = jsObject.name;
+    }
+    if (hasValue(jsObject.sensorName)) {
+        dotNetImagePointResult.sensorName = jsObject.sensorName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

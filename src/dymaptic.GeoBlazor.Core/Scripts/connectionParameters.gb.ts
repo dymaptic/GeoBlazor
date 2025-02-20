@@ -54,21 +54,21 @@ export async function buildDotNetConnectionParametersGenerated(jsObject: any): P
             let { buildDotNetExtent } = await import('./extent');
             dotNetConnectionParameters.geometryDefinition = buildDotNetExtent(jsObject.geometryDefinition);
         }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetConnectionParameters.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetConnectionParameters.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.maxReconnectionAttempts)) {
-            dotNetConnectionParameters.maxReconnectionAttempts = jsObject.maxReconnectionAttempts;
-        }
-        if (hasValue(jsObject.maxReconnectionInterval)) {
-            dotNetConnectionParameters.maxReconnectionInterval = jsObject.maxReconnectionInterval;
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            dotNetConnectionParameters.spatialReference = jsObject.spatialReference;
-        }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetConnectionParameters.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetConnectionParameters.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.maxReconnectionAttempts)) {
+        dotNetConnectionParameters.maxReconnectionAttempts = jsObject.maxReconnectionAttempts;
+    }
+    if (hasValue(jsObject.maxReconnectionInterval)) {
+        dotNetConnectionParameters.maxReconnectionInterval = jsObject.maxReconnectionInterval;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetConnectionParameters.spatialReference = jsObject.spatialReference;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

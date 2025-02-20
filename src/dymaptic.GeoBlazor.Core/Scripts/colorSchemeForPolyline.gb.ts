@@ -73,24 +73,24 @@ export async function buildDotNetColorSchemeForPolylineGenerated(jsObject: any):
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSchemeForPolyline.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetColorSchemeForPolyline.colorSchemeForPolylineId = jsObject.id;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetColorSchemeForPolyline.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetColorSchemeForPolyline.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetColorSchemeForPolyline.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.theme)) {
-            dotNetColorSchemeForPolyline.theme = jsObject.theme;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetColorSchemeForPolyline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetColorSchemeForPolyline.colorSchemeForPolylineId = jsObject.id;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetColorSchemeForPolyline.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetColorSchemeForPolyline.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetColorSchemeForPolyline.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.theme)) {
+        dotNetColorSchemeForPolyline.theme = jsObject.theme;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetColorSchemeForPolyline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

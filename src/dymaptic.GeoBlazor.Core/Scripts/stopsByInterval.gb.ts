@@ -43,9 +43,9 @@ export async function buildDotNetStopsByIntervalGenerated(jsObject: any): Promis
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetStopsByInterval.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.interval)) {
-            dotNetStopsByInterval.interval = jsObject.interval;
-        }
+    if (hasValue(jsObject.interval)) {
+        dotNetStopsByInterval.interval = jsObject.interval;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

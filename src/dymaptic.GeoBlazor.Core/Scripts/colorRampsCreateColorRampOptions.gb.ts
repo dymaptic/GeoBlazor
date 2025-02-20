@@ -42,9 +42,9 @@ export async function buildDotNetColorRampsCreateColorRampOptionsGenerated(jsObj
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorRampsCreateColorRampOptions.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.algorithm)) {
-            dotNetColorRampsCreateColorRampOptions.algorithm = jsObject.algorithm;
-        }
+    if (hasValue(jsObject.algorithm)) {
+        dotNetColorRampsCreateColorRampOptions.algorithm = jsObject.algorithm;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

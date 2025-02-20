@@ -137,24 +137,24 @@ export async function buildDotNetScaleRangeSliderViewModelGenerated(jsObject: an
             let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
             dotNetScaleRangeSliderViewModel.sliderViewModel = await buildDotNetSliderViewModel(jsObject.sliderViewModel);
         }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetScaleRangeSliderViewModel.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.maxScaleLimit)) {
-            dotNetScaleRangeSliderViewModel.maxScaleLimit = jsObject.maxScaleLimit;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetScaleRangeSliderViewModel.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.minScaleLimit)) {
-            dotNetScaleRangeSliderViewModel.minScaleLimit = jsObject.minScaleLimit;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetScaleRangeSliderViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetScaleRangeSliderViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetScaleRangeSliderViewModel.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.maxScaleLimit)) {
+        dotNetScaleRangeSliderViewModel.maxScaleLimit = jsObject.maxScaleLimit;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetScaleRangeSliderViewModel.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.minScaleLimit)) {
+        dotNetScaleRangeSliderViewModel.minScaleLimit = jsObject.minScaleLimit;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetScaleRangeSliderViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetScaleRangeSliderViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

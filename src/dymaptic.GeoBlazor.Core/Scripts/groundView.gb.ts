@@ -44,9 +44,9 @@ export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetGroundView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
         }
-        if (hasValue(jsObject.updating)) {
-            dotNetGroundView.updating = jsObject.updating;
-        }
+    if (hasValue(jsObject.updating)) {
+        dotNetGroundView.updating = jsObject.updating;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

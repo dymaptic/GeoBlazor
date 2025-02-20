@@ -56,15 +56,15 @@ export async function buildDotNetTypeSchemeForMeshGenerated(jsObject: any): Prom
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetTypeSchemeForMesh.noDataColor = buildDotNetMapColor(jsObject.noDataColor);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetTypeSchemeForMesh.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetTypeSchemeForMesh.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetTypeSchemeForMesh.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetTypeSchemeForMesh.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetTypeSchemeForMesh.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetTypeSchemeForMesh.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -53,12 +53,12 @@ export async function buildDotNetFlowSchemesGenerated(jsObject: any): Promise<an
             let { buildDotNetFlowScheme } = await import('./flowScheme');
             dotNetFlowSchemes.secondarySchemes = await Promise.all(jsObject.secondarySchemes.map(async i => await buildDotNetFlowScheme(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetFlowSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetFlowSchemes.basemapTheme = jsObject.basemapTheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetFlowSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetFlowSchemes.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

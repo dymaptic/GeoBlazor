@@ -72,15 +72,15 @@ export async function buildDotNetPredominanceSchemeForPointGenerated(jsObject: a
             let { buildDotNetSizeSchemeForPoint } = await import('./sizeSchemeForPoint');
             dotNetPredominanceSchemeForPoint.sizeScheme = await buildDotNetSizeSchemeForPoint(jsObject.sizeScheme);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetPredominanceSchemeForPoint.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetPredominanceSchemeForPoint.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPredominanceSchemeForPoint.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetPredominanceSchemeForPoint.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetPredominanceSchemeForPoint.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPredominanceSchemeForPoint.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

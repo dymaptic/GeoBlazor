@@ -46,12 +46,12 @@ export async function buildDotNetEdges3DGenerated(jsObject: any): Promise<any> {
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetEdges3D.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.extensionLength)) {
-            dotNetEdges3D.extensionLength = jsObject.extensionLength;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetEdges3D.size = jsObject.size;
-        }
+    if (hasValue(jsObject.extensionLength)) {
+        dotNetEdges3D.extensionLength = jsObject.extensionLength;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetEdges3D.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

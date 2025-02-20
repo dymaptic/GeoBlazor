@@ -54,12 +54,12 @@ export async function buildDotNetMeasureAreaFromImageResultGenerated(jsObject: a
             let { buildDotNetPolygon } = await import('./polygon');
             dotNetMeasureAreaFromImageResult.geometry = buildDotNetPolygon(jsObject.geometry);
         }
-        if (hasValue(jsObject.area)) {
-            dotNetMeasureAreaFromImageResult.area = jsObject.area;
-        }
-        if (hasValue(jsObject.length)) {
-            dotNetMeasureAreaFromImageResult.length = jsObject.length;
-        }
+    if (hasValue(jsObject.area)) {
+        dotNetMeasureAreaFromImageResult.area = jsObject.area;
+    }
+    if (hasValue(jsObject.length)) {
+        dotNetMeasureAreaFromImageResult.length = jsObject.length;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

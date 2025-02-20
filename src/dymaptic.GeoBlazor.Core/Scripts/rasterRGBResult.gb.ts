@@ -42,9 +42,9 @@ export async function buildDotNetRasterRGBResultGenerated(jsObject: any): Promis
             let { buildDotNetRasterStretchRenderer } = await import('./rasterStretchRenderer');
             dotNetRasterRGBResult.renderer = await buildDotNetRasterStretchRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.rgbBandIds)) {
-            dotNetRasterRGBResult.rgbBandIds = jsObject.rgbBandIds;
-        }
+    if (hasValue(jsObject.rgbBandIds)) {
+        dotNetRasterRGBResult.rgbBandIds = jsObject.rgbBandIds;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

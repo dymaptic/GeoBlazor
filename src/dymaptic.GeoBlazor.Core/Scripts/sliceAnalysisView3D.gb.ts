@@ -42,15 +42,15 @@ export async function buildDotNetSliceAnalysisView3DGenerated(jsObject: any): Pr
             let { buildDotNetSliceAnalysis } = await import('./sliceAnalysis');
             dotNetSliceAnalysisView3D.analysis = await buildDotNetSliceAnalysis(jsObject.analysis);
         }
-        if (hasValue(jsObject.active)) {
-            dotNetSliceAnalysisView3D.active = jsObject.active;
-        }
-        if (hasValue(jsObject.interactive)) {
-            dotNetSliceAnalysisView3D.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSliceAnalysisView3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.active)) {
+        dotNetSliceAnalysisView3D.active = jsObject.active;
+    }
+    if (hasValue(jsObject.interactive)) {
+        dotNetSliceAnalysisView3D.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSliceAnalysisView3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetLocationSchemeForPolygonOutlineGenerated(jsObje
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetLocationSchemeForPolygonOutline.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.width)) {
-            dotNetLocationSchemeForPolygonOutline.width = jsObject.width;
-        }
+    if (hasValue(jsObject.width)) {
+        dotNetLocationSchemeForPolygonOutline.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

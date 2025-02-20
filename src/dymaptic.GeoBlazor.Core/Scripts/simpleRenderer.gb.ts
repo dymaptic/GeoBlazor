@@ -7,7 +7,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     let jsSimpleRenderer = new SimpleRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
@@ -59,12 +59,12 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
             let { buildDotNetVisualVariable } = await import('./visualVariable');
             dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
         }
-        if (hasValue(jsObject.label)) {
-            dotNetSimpleRenderer.label = jsObject.label;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSimpleRenderer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetSimpleRenderer.label = jsObject.label;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSimpleRenderer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

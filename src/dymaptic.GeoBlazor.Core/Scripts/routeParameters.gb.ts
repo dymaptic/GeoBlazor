@@ -234,123 +234,123 @@ export async function buildDotNetRouteParametersGenerated(jsObject: any): Promis
             let { buildDotNetStop } = await import('./stop');
             dotNetRouteParameters.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetStop(i)));
         }
-        if (hasValue(jsObject.accumulateAttributes)) {
-            dotNetRouteParameters.accumulateAttributes = jsObject.accumulateAttributes;
-        }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetRouteParameters.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.attributeParameterValues)) {
-            dotNetRouteParameters.attributeParameterValues = jsObject.attributeParameterValues;
-        }
-        if (hasValue(jsObject.directionsLanguage)) {
-            dotNetRouteParameters.directionsLanguage = jsObject.directionsLanguage;
-        }
-        if (hasValue(jsObject.directionsLengthUnits)) {
-            dotNetRouteParameters.directionsLengthUnits = jsObject.directionsLengthUnits;
-        }
-        if (hasValue(jsObject.directionsOutputType)) {
-            dotNetRouteParameters.directionsOutputType = jsObject.directionsOutputType;
-        }
-        if (hasValue(jsObject.directionsStyleName)) {
-            dotNetRouteParameters.directionsStyleName = jsObject.directionsStyleName;
-        }
-        if (hasValue(jsObject.directionsTimeAttribute)) {
-            dotNetRouteParameters.directionsTimeAttribute = jsObject.directionsTimeAttribute;
-        }
-        if (hasValue(jsObject.findBestSequence)) {
-            dotNetRouteParameters.findBestSequence = jsObject.findBestSequence;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetRouteParameters.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.geometryPrecisionM)) {
-            dotNetRouteParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
-        }
-        if (hasValue(jsObject.geometryPrecisionZ)) {
-            dotNetRouteParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
-        }
-        if (hasValue(jsObject.ignoreInvalidLocations)) {
-            dotNetRouteParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
-        }
-        if (hasValue(jsObject.impedanceAttribute)) {
-            dotNetRouteParameters.impedanceAttribute = jsObject.impedanceAttribute;
-        }
-        if (hasValue(jsObject.outputGeometryPrecision)) {
-            dotNetRouteParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
-        }
-        if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
-            dotNetRouteParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
-        }
-        if (hasValue(jsObject.outputLines)) {
-            dotNetRouteParameters.outputLines = jsObject.outputLines;
-        }
-        if (hasValue(jsObject.overrides)) {
-            dotNetRouteParameters.overrides = jsObject.overrides;
-        }
-        if (hasValue(jsObject.preserveFirstStop)) {
-            dotNetRouteParameters.preserveFirstStop = jsObject.preserveFirstStop;
-        }
-        if (hasValue(jsObject.preserveLastStop)) {
-            dotNetRouteParameters.preserveLastStop = jsObject.preserveLastStop;
-        }
-        if (hasValue(jsObject.preserveObjectID)) {
-            dotNetRouteParameters.preserveObjectID = jsObject.preserveObjectID;
-        }
-        if (hasValue(jsObject.restrictionAttributes)) {
-            dotNetRouteParameters.restrictionAttributes = jsObject.restrictionAttributes;
-        }
-        if (hasValue(jsObject.restrictUTurns)) {
-            dotNetRouteParameters.restrictUTurns = jsObject.restrictUTurns;
-        }
-        if (hasValue(jsObject.returnBarriers)) {
-            dotNetRouteParameters.returnBarriers = jsObject.returnBarriers;
-        }
-        if (hasValue(jsObject.returnDirections)) {
-            dotNetRouteParameters.returnDirections = jsObject.returnDirections;
-        }
-        if (hasValue(jsObject.returnPolygonBarriers)) {
-            dotNetRouteParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
-        }
-        if (hasValue(jsObject.returnPolylineBarriers)) {
-            dotNetRouteParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
-        }
-        if (hasValue(jsObject.returnRoutes)) {
-            dotNetRouteParameters.returnRoutes = jsObject.returnRoutes;
-        }
-        if (hasValue(jsObject.returnStops)) {
-            dotNetRouteParameters.returnStops = jsObject.returnStops;
-        }
-        if (hasValue(jsObject.returnTraversedEdges)) {
-            dotNetRouteParameters.returnTraversedEdges = jsObject.returnTraversedEdges;
-        }
-        if (hasValue(jsObject.returnTraversedJunctions)) {
-            dotNetRouteParameters.returnTraversedJunctions = jsObject.returnTraversedJunctions;
-        }
-        if (hasValue(jsObject.returnTraversedTurns)) {
-            dotNetRouteParameters.returnTraversedTurns = jsObject.returnTraversedTurns;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetRouteParameters.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetRouteParameters.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.startTimeIsUTC)) {
-            dotNetRouteParameters.startTimeIsUTC = jsObject.startTimeIsUTC;
-        }
-        if (hasValue(jsObject.timeWindowsAreUTC)) {
-            dotNetRouteParameters.timeWindowsAreUTC = jsObject.timeWindowsAreUTC;
-        }
-        if (hasValue(jsObject.travelMode)) {
-            dotNetRouteParameters.travelMode = jsObject.travelMode;
-        }
-        if (hasValue(jsObject.useHierarchy)) {
-            dotNetRouteParameters.useHierarchy = jsObject.useHierarchy;
-        }
-        if (hasValue(jsObject.useTimeWindows)) {
-            dotNetRouteParameters.useTimeWindows = jsObject.useTimeWindows;
-        }
+    if (hasValue(jsObject.accumulateAttributes)) {
+        dotNetRouteParameters.accumulateAttributes = jsObject.accumulateAttributes;
+    }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetRouteParameters.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.attributeParameterValues)) {
+        dotNetRouteParameters.attributeParameterValues = jsObject.attributeParameterValues;
+    }
+    if (hasValue(jsObject.directionsLanguage)) {
+        dotNetRouteParameters.directionsLanguage = jsObject.directionsLanguage;
+    }
+    if (hasValue(jsObject.directionsLengthUnits)) {
+        dotNetRouteParameters.directionsLengthUnits = jsObject.directionsLengthUnits;
+    }
+    if (hasValue(jsObject.directionsOutputType)) {
+        dotNetRouteParameters.directionsOutputType = jsObject.directionsOutputType;
+    }
+    if (hasValue(jsObject.directionsStyleName)) {
+        dotNetRouteParameters.directionsStyleName = jsObject.directionsStyleName;
+    }
+    if (hasValue(jsObject.directionsTimeAttribute)) {
+        dotNetRouteParameters.directionsTimeAttribute = jsObject.directionsTimeAttribute;
+    }
+    if (hasValue(jsObject.findBestSequence)) {
+        dotNetRouteParameters.findBestSequence = jsObject.findBestSequence;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetRouteParameters.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.geometryPrecisionM)) {
+        dotNetRouteParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
+    }
+    if (hasValue(jsObject.geometryPrecisionZ)) {
+        dotNetRouteParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
+    }
+    if (hasValue(jsObject.ignoreInvalidLocations)) {
+        dotNetRouteParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
+    }
+    if (hasValue(jsObject.impedanceAttribute)) {
+        dotNetRouteParameters.impedanceAttribute = jsObject.impedanceAttribute;
+    }
+    if (hasValue(jsObject.outputGeometryPrecision)) {
+        dotNetRouteParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
+    }
+    if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
+        dotNetRouteParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
+    }
+    if (hasValue(jsObject.outputLines)) {
+        dotNetRouteParameters.outputLines = jsObject.outputLines;
+    }
+    if (hasValue(jsObject.overrides)) {
+        dotNetRouteParameters.overrides = jsObject.overrides;
+    }
+    if (hasValue(jsObject.preserveFirstStop)) {
+        dotNetRouteParameters.preserveFirstStop = jsObject.preserveFirstStop;
+    }
+    if (hasValue(jsObject.preserveLastStop)) {
+        dotNetRouteParameters.preserveLastStop = jsObject.preserveLastStop;
+    }
+    if (hasValue(jsObject.preserveObjectID)) {
+        dotNetRouteParameters.preserveObjectID = jsObject.preserveObjectID;
+    }
+    if (hasValue(jsObject.restrictionAttributes)) {
+        dotNetRouteParameters.restrictionAttributes = jsObject.restrictionAttributes;
+    }
+    if (hasValue(jsObject.restrictUTurns)) {
+        dotNetRouteParameters.restrictUTurns = jsObject.restrictUTurns;
+    }
+    if (hasValue(jsObject.returnBarriers)) {
+        dotNetRouteParameters.returnBarriers = jsObject.returnBarriers;
+    }
+    if (hasValue(jsObject.returnDirections)) {
+        dotNetRouteParameters.returnDirections = jsObject.returnDirections;
+    }
+    if (hasValue(jsObject.returnPolygonBarriers)) {
+        dotNetRouteParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
+    }
+    if (hasValue(jsObject.returnPolylineBarriers)) {
+        dotNetRouteParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
+    }
+    if (hasValue(jsObject.returnRoutes)) {
+        dotNetRouteParameters.returnRoutes = jsObject.returnRoutes;
+    }
+    if (hasValue(jsObject.returnStops)) {
+        dotNetRouteParameters.returnStops = jsObject.returnStops;
+    }
+    if (hasValue(jsObject.returnTraversedEdges)) {
+        dotNetRouteParameters.returnTraversedEdges = jsObject.returnTraversedEdges;
+    }
+    if (hasValue(jsObject.returnTraversedJunctions)) {
+        dotNetRouteParameters.returnTraversedJunctions = jsObject.returnTraversedJunctions;
+    }
+    if (hasValue(jsObject.returnTraversedTurns)) {
+        dotNetRouteParameters.returnTraversedTurns = jsObject.returnTraversedTurns;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetRouteParameters.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetRouteParameters.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.startTimeIsUTC)) {
+        dotNetRouteParameters.startTimeIsUTC = jsObject.startTimeIsUTC;
+    }
+    if (hasValue(jsObject.timeWindowsAreUTC)) {
+        dotNetRouteParameters.timeWindowsAreUTC = jsObject.timeWindowsAreUTC;
+    }
+    if (hasValue(jsObject.travelMode)) {
+        dotNetRouteParameters.travelMode = jsObject.travelMode;
+    }
+    if (hasValue(jsObject.useHierarchy)) {
+        dotNetRouteParameters.useHierarchy = jsObject.useHierarchy;
+    }
+    if (hasValue(jsObject.useTimeWindows)) {
+        dotNetRouteParameters.useTimeWindows = jsObject.useTimeWindows;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

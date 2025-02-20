@@ -63,21 +63,21 @@ export async function buildDotNetImageIdentifyResultGenerated(jsObject: any, lay
             let { buildDotNetPoint } = await import('./point');
             dotNetImageIdentifyResult.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.catalogItemVisibilities)) {
-            dotNetImageIdentifyResult.catalogItemVisibilities = jsObject.catalogItemVisibilities;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetImageIdentifyResult.name = jsObject.name;
-        }
-        if (hasValue(jsObject.objectId)) {
-            dotNetImageIdentifyResult.objectId = jsObject.objectId;
-        }
-        if (hasValue(jsObject.properties)) {
-            dotNetImageIdentifyResult.properties = jsObject.properties;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetImageIdentifyResult.value = jsObject.value;
-        }
+    if (hasValue(jsObject.catalogItemVisibilities)) {
+        dotNetImageIdentifyResult.catalogItemVisibilities = jsObject.catalogItemVisibilities;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetImageIdentifyResult.name = jsObject.name;
+    }
+    if (hasValue(jsObject.objectId)) {
+        dotNetImageIdentifyResult.objectId = jsObject.objectId;
+    }
+    if (hasValue(jsObject.properties)) {
+        dotNetImageIdentifyResult.properties = jsObject.properties;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetImageIdentifyResult.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

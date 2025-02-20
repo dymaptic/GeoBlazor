@@ -42,9 +42,9 @@ export async function buildDotNetStopsByCountGenerated(jsObject: any): Promise<a
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetStopsByCount.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.count)) {
-            dotNetStopsByCount.count = jsObject.count;
-        }
+    if (hasValue(jsObject.count)) {
+        dotNetStopsByCount.count = jsObject.count;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

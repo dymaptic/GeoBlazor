@@ -45,12 +45,12 @@ export async function buildDotNetFetchResourceGenerated(jsObject: any): Promise<
             let { buildDotNetPortalItemResource } = await import('./portalItemResource');
             dotNetFetchResource.resource = await buildDotNetPortalItemResource(jsObject.resource);
         }
-        if (hasValue(jsObject.created)) {
-            dotNetFetchResource.created = jsObject.created;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetFetchResource.size = jsObject.size;
-        }
+    if (hasValue(jsObject.created)) {
+        dotNetFetchResource.created = jsObject.created;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetFetchResource.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

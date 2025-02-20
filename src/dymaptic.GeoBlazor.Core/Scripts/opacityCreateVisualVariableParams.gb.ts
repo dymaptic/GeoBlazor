@@ -74,45 +74,45 @@ export async function buildDotNetOpacityCreateVisualVariableParamsGenerated(jsOb
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetOpacityCreateVisualVariableParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetOpacityCreateVisualVariableParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetOpacityCreateVisualVariableParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetOpacityCreateVisualVariableParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetOpacityCreateVisualVariableParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetOpacityCreateVisualVariableParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetOpacityCreateVisualVariableParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetOpacityCreateVisualVariableParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetOpacityCreateVisualVariableParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetOpacityCreateVisualVariableParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetOpacityCreateVisualVariableParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetOpacityCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetOpacityCreateVisualVariableParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetOpacityCreateVisualVariableParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetOpacityCreateVisualVariableParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetOpacityCreateVisualVariableParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetOpacityCreateVisualVariableParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetOpacityCreateVisualVariableParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetOpacityCreateVisualVariableParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetOpacityCreateVisualVariableParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetOpacityCreateVisualVariableParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetOpacityCreateVisualVariableParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetOpacityCreateVisualVariableParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetOpacityCreateVisualVariableParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetOpacityCreateVisualVariableParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetOpacityCreateVisualVariableParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

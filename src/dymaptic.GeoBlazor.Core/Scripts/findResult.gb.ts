@@ -55,21 +55,21 @@ export async function buildDotNetFindResultGenerated(jsObject: any, layerId: str
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFindResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
         }
-        if (hasValue(jsObject.displayFieldName)) {
-            dotNetFindResult.displayFieldName = jsObject.displayFieldName;
-        }
-        if (hasValue(jsObject.foundFieldName)) {
-            dotNetFindResult.foundFieldName = jsObject.foundFieldName;
-        }
-        if (hasValue(jsObject.layerId)) {
-            dotNetFindResult.layerId = jsObject.layerId;
-        }
-        if (hasValue(jsObject.layerName)) {
-            dotNetFindResult.layerName = jsObject.layerName;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetFindResult.value = jsObject.value;
-        }
+    if (hasValue(jsObject.displayFieldName)) {
+        dotNetFindResult.displayFieldName = jsObject.displayFieldName;
+    }
+    if (hasValue(jsObject.foundFieldName)) {
+        dotNetFindResult.foundFieldName = jsObject.foundFieldName;
+    }
+    if (hasValue(jsObject.layerId)) {
+        dotNetFindResult.layerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.layerName)) {
+        dotNetFindResult.layerName = jsObject.layerName;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetFindResult.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

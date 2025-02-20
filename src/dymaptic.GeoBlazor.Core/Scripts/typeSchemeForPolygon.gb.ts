@@ -64,15 +64,15 @@ export async function buildDotNetTypeSchemeForPolygonGenerated(jsObject: any): P
             let { buildDotNetTypeSchemeForPolygonOutline } = await import('./typeSchemeForPolygonOutline');
             dotNetTypeSchemeForPolygon.outline = await buildDotNetTypeSchemeForPolygonOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetTypeSchemeForPolygon.name = jsObject.name;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetTypeSchemeForPolygon.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetTypeSchemeForPolygon.tags = jsObject.tags;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetTypeSchemeForPolygon.name = jsObject.name;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetTypeSchemeForPolygon.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetTypeSchemeForPolygon.tags = jsObject.tags;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

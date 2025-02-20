@@ -43,12 +43,12 @@ export async function buildDotNetSnappingControlsViewModelGenerated(jsObject: an
             let { buildDotNetSnappingOptions } = await import('./snappingOptions');
             dotNetSnappingControlsViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
         }
-        if (hasValue(jsObject.state)) {
-            dotNetSnappingControlsViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSnappingControlsViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetSnappingControlsViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSnappingControlsViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

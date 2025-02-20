@@ -315,78 +315,78 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetTileLayer.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.attributionDataUrl)) {
-            dotNetTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetTileLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetTileLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetTileLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.hasAttributionData)) {
-            dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetTileLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetTileLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.resampling)) {
-            dotNetTileLayer.resampling = jsObject.resampling;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetTileLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.tileServers)) {
-            dotNetTileLayer.tileServers = jsObject.tileServers;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetTileLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetTileLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetTileLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetTileLayer.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.attributionDataUrl)) {
+        dotNetTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetTileLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetTileLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetTileLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.hasAttributionData)) {
+        dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetTileLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetTileLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.resampling)) {
+        dotNetTileLayer.resampling = jsObject.resampling;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetTileLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.tileServers)) {
+        dotNetTileLayer.tileServers = jsObject.tileServers;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetTileLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetTileLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetTileLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

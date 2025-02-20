@@ -38,9 +38,9 @@ export async function buildDotNetElevationQueryResultSampleInfoGenerated(jsObjec
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.demResolution)) {
-            dotNetElevationQueryResultSampleInfo.demResolution = jsObject.demResolution;
-        }
+    if (hasValue(jsObject.demResolution)) {
+        dotNetElevationQueryResultSampleInfo.demResolution = jsObject.demResolution;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

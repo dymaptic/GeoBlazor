@@ -160,7 +160,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.rasterInfo);
+        return await buildDotNetRasterInfo(this.layer.rasterInfo, this.layerId, this.viewId);
     }
     async getTileInfo(): Promise<any> {
         if (!hasValue(this.layer.tileInfo)) {
@@ -185,6 +185,18 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+    }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
@@ -233,6 +245,10 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsImageryTileLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsImageryTileLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -295,10 +311,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.source)) {
         jsImageryTileLayer.source = dotNetObject.source;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsImageryTileLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsImageryTileLayer.timeOffset = sanitizedTimeOffset;
@@ -335,7 +347,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     return jsImageryTileLayer;
 }
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -366,11 +378,11 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryTileLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
+            dotNetImageryTileLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetImageryTileLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.tileInfo)) {
             let { buildDotNetTileInfo } = await import('./tileInfo');
@@ -380,91 +392,92 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryTileLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetImageryTileLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageryTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetImageryTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetImageryTileLayer.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetImageryTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetImageryTileLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetImageryTileLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetImageryTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetImageryTileLayer.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetImageryTileLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetImageryTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetImageryTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetImageryTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetImageryTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetImageryTileLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetImageryTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetImageryTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetImageryTileLayer.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetImageryTileLayer.renderer = jsObject.renderer;
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetImageryTileLayer.source = jsObject.source;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetImageryTileLayer.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetImageryTileLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetImageryTileLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetImageryTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageryTileLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetImageryTileLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetImageryTileLayer.useViewTime = jsObject.useViewTime;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetImageryTileLayer.version = jsObject.version;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetImageryTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetImageryTileLayer.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetImageryTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetImageryTileLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetImageryTileLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetImageryTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetImageryTileLayer.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetImageryTileLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetImageryTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetImageryTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetImageryTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetImageryTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetImageryTileLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetImageryTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetImageryTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetImageryTileLayer.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetImageryTileLayer.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetImageryTileLayer.source = jsObject.source;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetImageryTileLayer.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetImageryTileLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetImageryTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageryTileLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetImageryTileLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetImageryTileLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetImageryTileLayer.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

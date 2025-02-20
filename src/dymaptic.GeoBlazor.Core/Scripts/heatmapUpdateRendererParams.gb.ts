@@ -42,9 +42,9 @@ export async function buildDotNetHeatmapUpdateRendererParamsGenerated(jsObject: 
             let { buildDotNetHeatmapRenderer } = await import('./heatmapRenderer');
             dotNetHeatmapUpdateRendererParams.renderer = await buildDotNetHeatmapRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.fadeRatio)) {
-            dotNetHeatmapUpdateRendererParams.fadeRatio = jsObject.fadeRatio;
-        }
+    if (hasValue(jsObject.fadeRatio)) {
+        dotNetHeatmapUpdateRendererParams.fadeRatio = jsObject.fadeRatio;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

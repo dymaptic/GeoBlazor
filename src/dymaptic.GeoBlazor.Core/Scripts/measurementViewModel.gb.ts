@@ -47,24 +47,24 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeTool)) {
-            dotNetMeasurementViewModel.activeTool = jsObject.activeTool;
-        }
-        if (hasValue(jsObject.activeViewModel)) {
-            dotNetMeasurementViewModel.activeViewModel = jsObject.activeViewModel;
-        }
-        if (hasValue(jsObject.areaUnit)) {
-            dotNetMeasurementViewModel.areaUnit = jsObject.areaUnit;
-        }
-        if (hasValue(jsObject.linearUnit)) {
-            dotNetMeasurementViewModel.linearUnit = jsObject.linearUnit;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetMeasurementViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetMeasurementViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeTool)) {
+        dotNetMeasurementViewModel.activeTool = jsObject.activeTool;
+    }
+    if (hasValue(jsObject.activeViewModel)) {
+        dotNetMeasurementViewModel.activeViewModel = jsObject.activeViewModel;
+    }
+    if (hasValue(jsObject.areaUnit)) {
+        dotNetMeasurementViewModel.areaUnit = jsObject.areaUnit;
+    }
+    if (hasValue(jsObject.linearUnit)) {
+        dotNetMeasurementViewModel.linearUnit = jsObject.linearUnit;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetMeasurementViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetMeasurementViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

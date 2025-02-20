@@ -57,15 +57,15 @@ export async function buildDotNetLengthDimensionGenerated(jsObject: any): Promis
             let { buildDotNetPoint } = await import('./point');
             dotNetLengthDimension.startPoint = buildDotNetPoint(jsObject.startPoint);
         }
-        if (hasValue(jsObject.measureType)) {
-            dotNetLengthDimension.measureType = jsObject.measureType;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetLengthDimension.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.orientation)) {
-            dotNetLengthDimension.orientation = jsObject.orientation;
-        }
+    if (hasValue(jsObject.measureType)) {
+        dotNetLengthDimension.measureType = jsObject.measureType;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetLengthDimension.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.orientation)) {
+        dotNetLengthDimension.orientation = jsObject.orientation;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

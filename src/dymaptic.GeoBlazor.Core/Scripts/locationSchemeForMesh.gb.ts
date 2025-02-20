@@ -42,9 +42,9 @@ export async function buildDotNetLocationSchemeForMeshGenerated(jsObject: any): 
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetLocationSchemeForMesh.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.opacity)) {
-            dotNetLocationSchemeForMesh.opacity = jsObject.opacity;
-        }
+    if (hasValue(jsObject.opacity)) {
+        dotNetLocationSchemeForMesh.opacity = jsObject.opacity;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -49,15 +49,15 @@ export async function buildDotNetAreasAndLengthsParametersGenerated(jsObject: an
             let { buildDotNetPolygon } = await import('./polygon');
             dotNetAreasAndLengthsParameters.polygons = jsObject.polygons.map(i => buildDotNetPolygon(i));
         }
-        if (hasValue(jsObject.areaUnit)) {
-            dotNetAreasAndLengthsParameters.areaUnit = jsObject.areaUnit;
-        }
-        if (hasValue(jsObject.calculationType)) {
-            dotNetAreasAndLengthsParameters.calculationType = jsObject.calculationType;
-        }
-        if (hasValue(jsObject.lengthUnit)) {
-            dotNetAreasAndLengthsParameters.lengthUnit = jsObject.lengthUnit;
-        }
+    if (hasValue(jsObject.areaUnit)) {
+        dotNetAreasAndLengthsParameters.areaUnit = jsObject.areaUnit;
+    }
+    if (hasValue(jsObject.calculationType)) {
+        dotNetAreasAndLengthsParameters.calculationType = jsObject.calculationType;
+    }
+    if (hasValue(jsObject.lengthUnit)) {
+        dotNetAreasAndLengthsParameters.lengthUnit = jsObject.lengthUnit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

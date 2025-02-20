@@ -57,24 +57,24 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
             let { buildDotNetExtent } = await import('./extent');
             dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope);
         }
-        if (hasValue(jsObject.axisLabels)) {
-            dotNetCoverageDescriptionV201BoundedBy.axisLabels = jsObject.axisLabels;
-        }
-        if (hasValue(jsObject.beginPosition)) {
-            dotNetCoverageDescriptionV201BoundedBy.beginPosition = jsObject.beginPosition;
-        }
-        if (hasValue(jsObject.endPosition)) {
-            dotNetCoverageDescriptionV201BoundedBy.endPosition = jsObject.endPosition;
-        }
-        if (hasValue(jsObject.envelopeAllDims)) {
-            dotNetCoverageDescriptionV201BoundedBy.envelopeAllDims = jsObject.envelopeAllDims;
-        }
-        if (hasValue(jsObject.isEastFirst)) {
-            dotNetCoverageDescriptionV201BoundedBy.isEastFirst = jsObject.isEastFirst;
-        }
-        if (hasValue(jsObject.uomLabels)) {
-            dotNetCoverageDescriptionV201BoundedBy.uomLabels = jsObject.uomLabels;
-        }
+    if (hasValue(jsObject.axisLabels)) {
+        dotNetCoverageDescriptionV201BoundedBy.axisLabels = jsObject.axisLabels;
+    }
+    if (hasValue(jsObject.beginPosition)) {
+        dotNetCoverageDescriptionV201BoundedBy.beginPosition = jsObject.beginPosition;
+    }
+    if (hasValue(jsObject.endPosition)) {
+        dotNetCoverageDescriptionV201BoundedBy.endPosition = jsObject.endPosition;
+    }
+    if (hasValue(jsObject.envelopeAllDims)) {
+        dotNetCoverageDescriptionV201BoundedBy.envelopeAllDims = jsObject.envelopeAllDims;
+    }
+    if (hasValue(jsObject.isEastFirst)) {
+        dotNetCoverageDescriptionV201BoundedBy.isEastFirst = jsObject.isEastFirst;
+    }
+    if (hasValue(jsObject.uomLabels)) {
+        dotNetCoverageDescriptionV201BoundedBy.uomLabels = jsObject.uomLabels;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

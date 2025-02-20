@@ -116,15 +116,15 @@ export async function buildDotNetIExtrudeSymbol3DLayerGenerated(jsObject: any): 
             let { buildDotNetExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
             dotNetIExtrudeSymbol3DLayer.material = await buildDotNetExtrudeSymbol3DLayerMaterial(jsObject.material);
         }
-        if (hasValue(jsObject.castShadows)) {
-            dotNetIExtrudeSymbol3DLayer.castShadows = jsObject.castShadows;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetIExtrudeSymbol3DLayer.size = jsObject.size;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIExtrudeSymbol3DLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.castShadows)) {
+        dotNetIExtrudeSymbol3DLayer.castShadows = jsObject.castShadows;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetIExtrudeSymbol3DLayer.size = jsObject.size;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIExtrudeSymbol3DLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

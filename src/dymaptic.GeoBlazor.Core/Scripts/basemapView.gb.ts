@@ -42,12 +42,12 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<an
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetBasemapView.referenceLayerViews = await Promise.all(jsObject.referenceLayerViews.map(async i => await buildDotNetLayerView(i)));
         }
-        if (hasValue(jsObject.updating)) {
-            dotNetBasemapView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapView.view = jsObject.view;
-        }
+    if (hasValue(jsObject.updating)) {
+        dotNetBasemapView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapView.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -43,9 +43,9 @@ export async function buildDotNetKnowledgeGraphGenerated(jsObject: any): Promise
             let { buildDotNetServiceDefinition } = await import('./serviceDefinition');
             dotNetKnowledgeGraph.serviceDefinition = await buildDotNetServiceDefinition(jsObject.serviceDefinition);
         }
-        if (hasValue(jsObject.url)) {
-            dotNetKnowledgeGraph.url = jsObject.url;
-        }
+    if (hasValue(jsObject.url)) {
+        dotNetKnowledgeGraph.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

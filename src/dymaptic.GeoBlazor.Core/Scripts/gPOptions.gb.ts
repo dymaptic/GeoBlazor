@@ -65,15 +65,15 @@ export async function buildDotNetGPOptionsGenerated(jsObject: any): Promise<any>
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetGPOptions.processSpatialReference = buildDotNetSpatialReference(jsObject.processSpatialReference);
         }
-        if (hasValue(jsObject.returnColumnName)) {
-            dotNetGPOptions.returnColumnName = jsObject.returnColumnName;
-        }
-        if (hasValue(jsObject.returnM)) {
-            dotNetGPOptions.returnM = jsObject.returnM;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetGPOptions.returnZ = jsObject.returnZ;
-        }
+    if (hasValue(jsObject.returnColumnName)) {
+        dotNetGPOptions.returnColumnName = jsObject.returnColumnName;
+    }
+    if (hasValue(jsObject.returnM)) {
+        dotNetGPOptions.returnM = jsObject.returnM;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetGPOptions.returnZ = jsObject.returnZ;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

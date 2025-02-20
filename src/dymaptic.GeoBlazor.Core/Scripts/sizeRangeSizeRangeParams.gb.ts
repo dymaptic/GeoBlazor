@@ -44,15 +44,15 @@ export async function buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.forBinning)) {
-            dotNetSizeRangeSizeRangeParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSizeRangeSizeRangeParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSizeRangeSizeRangeParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetSizeRangeSizeRangeParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSizeRangeSizeRangeParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSizeRangeSizeRangeParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

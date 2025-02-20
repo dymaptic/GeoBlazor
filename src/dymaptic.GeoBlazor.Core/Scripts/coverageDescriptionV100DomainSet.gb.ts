@@ -42,9 +42,9 @@ export async function buildDotNetCoverageDescriptionV100DomainSetGenerated(jsObj
             let { buildDotNetCoverageDescriptionV100DomainSetSpatialDomain } = await import('./coverageDescriptionV100DomainSetSpatialDomain');
             dotNetCoverageDescriptionV100DomainSet.spatialDomain = await buildDotNetCoverageDescriptionV100DomainSetSpatialDomain(jsObject.spatialDomain);
         }
-        if (hasValue(jsObject.temporalDomain)) {
-            dotNetCoverageDescriptionV100DomainSet.temporalDomain = jsObject.temporalDomain;
-        }
+    if (hasValue(jsObject.temporalDomain)) {
+        dotNetCoverageDescriptionV100DomainSet.temporalDomain = jsObject.temporalDomain;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

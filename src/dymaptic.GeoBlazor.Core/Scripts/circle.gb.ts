@@ -216,36 +216,36 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetCircle.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.cache)) {
-            dotNetCircle.cache = jsObject.cache;
-        }
-        if (hasValue(jsObject.geodesic)) {
-            dotNetCircle.geodesic = jsObject.geodesic;
-        }
-        if (hasValue(jsObject.hasM)) {
-            dotNetCircle.hasM = jsObject.hasM;
-        }
-        if (hasValue(jsObject.hasZ)) {
-            dotNetCircle.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.isSelfIntersecting)) {
-            dotNetCircle.isSelfIntersecting = jsObject.isSelfIntersecting;
-        }
-        if (hasValue(jsObject.numberOfPoints)) {
-            dotNetCircle.numberOfPoints = jsObject.numberOfPoints;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetCircle.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.radiusUnit)) {
-            dotNetCircle.radiusUnit = jsObject.radiusUnit;
-        }
-        if (hasValue(jsObject.rings)) {
-            dotNetCircle.rings = jsObject.rings;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCircle.type = jsObject.type;
-        }
+    if (hasValue(jsObject.cache)) {
+        dotNetCircle.cache = jsObject.cache;
+    }
+    if (hasValue(jsObject.geodesic)) {
+        dotNetCircle.geodesic = jsObject.geodesic;
+    }
+    if (hasValue(jsObject.hasM)) {
+        dotNetCircle.hasM = jsObject.hasM;
+    }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetCircle.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.isSelfIntersecting)) {
+        dotNetCircle.isSelfIntersecting = jsObject.isSelfIntersecting;
+    }
+    if (hasValue(jsObject.numberOfPoints)) {
+        dotNetCircle.numberOfPoints = jsObject.numberOfPoints;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetCircle.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.radiusUnit)) {
+        dotNetCircle.radiusUnit = jsObject.radiusUnit;
+    }
+    if (hasValue(jsObject.rings)) {
+        dotNetCircle.rings = jsObject.rings;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCircle.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

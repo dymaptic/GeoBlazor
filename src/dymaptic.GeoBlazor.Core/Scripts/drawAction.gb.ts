@@ -100,15 +100,15 @@ export async function buildDotNetDrawActionGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

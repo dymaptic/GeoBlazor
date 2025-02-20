@@ -43,9 +43,9 @@ export async function buildDotNetGeotriggersInfoFeatureFilterGenerated(jsObject:
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetGeotriggersInfoFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.where)) {
-            dotNetGeotriggersInfoFeatureFilter.where = jsObject.where;
-        }
+    if (hasValue(jsObject.where)) {
+        dotNetGeotriggersInfoFeatureFilter.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

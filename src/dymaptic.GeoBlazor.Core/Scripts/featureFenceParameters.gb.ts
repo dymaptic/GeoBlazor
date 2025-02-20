@@ -47,15 +47,15 @@ export async function buildDotNetFeatureFenceParametersGenerated(jsObject: any):
             let { buildDotNetGeotriggersInfoFeatureFilter } = await import('./geotriggersInfoFeatureFilter');
             dotNetFeatureFenceParameters.filter = await buildDotNetGeotriggersInfoFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.bufferDistance)) {
-            dotNetFeatureFenceParameters.bufferDistance = jsObject.bufferDistance;
-        }
-        if (hasValue(jsObject.fenceSource)) {
-            dotNetFeatureFenceParameters.fenceSource = jsObject.fenceSource;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureFenceParameters.type = jsObject.type;
-        }
+    if (hasValue(jsObject.bufferDistance)) {
+        dotNetFeatureFenceParameters.bufferDistance = jsObject.bufferDistance;
+    }
+    if (hasValue(jsObject.fenceSource)) {
+        dotNetFeatureFenceParameters.fenceSource = jsObject.fenceSource;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureFenceParameters.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

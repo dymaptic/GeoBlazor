@@ -43,9 +43,9 @@ export async function buildDotNetMeasureLengthFromImageResultGenerated(jsObject:
             let { buildDotNetPolyline } = await import('./polyline');
             dotNetMeasureLengthFromImageResult.geometry = buildDotNetPolyline(jsObject.geometry);
         }
-        if (hasValue(jsObject.length)) {
-            dotNetMeasureLengthFromImageResult.length = jsObject.length;
-        }
+    if (hasValue(jsObject.length)) {
+        dotNetMeasureLengthFromImageResult.length = jsObject.length;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

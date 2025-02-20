@@ -42,9 +42,9 @@ export async function buildDotNetColorSliderViewModelStopInfoGenerated(jsObject:
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorSliderViewModelStopInfo.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.offset)) {
-            dotNetColorSliderViewModelStopInfo.offset = jsObject.offset;
-        }
+    if (hasValue(jsObject.offset)) {
+        dotNetColorSliderViewModelStopInfo.offset = jsObject.offset;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

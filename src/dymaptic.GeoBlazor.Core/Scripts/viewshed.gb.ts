@@ -55,21 +55,21 @@ export async function buildDotNetViewshedGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPoint } = await import('./point');
             dotNetViewshed.observer = buildDotNetPoint(jsObject.observer);
         }
-        if (hasValue(jsObject.farDistance)) {
-            dotNetViewshed.farDistance = jsObject.farDistance;
-        }
-        if (hasValue(jsObject.heading)) {
-            dotNetViewshed.heading = jsObject.heading;
-        }
-        if (hasValue(jsObject.horizontalFieldOfView)) {
-            dotNetViewshed.horizontalFieldOfView = jsObject.horizontalFieldOfView;
-        }
-        if (hasValue(jsObject.tilt)) {
-            dotNetViewshed.tilt = jsObject.tilt;
-        }
-        if (hasValue(jsObject.verticalFieldOfView)) {
-            dotNetViewshed.verticalFieldOfView = jsObject.verticalFieldOfView;
-        }
+    if (hasValue(jsObject.farDistance)) {
+        dotNetViewshed.farDistance = jsObject.farDistance;
+    }
+    if (hasValue(jsObject.heading)) {
+        dotNetViewshed.heading = jsObject.heading;
+    }
+    if (hasValue(jsObject.horizontalFieldOfView)) {
+        dotNetViewshed.horizontalFieldOfView = jsObject.horizontalFieldOfView;
+    }
+    if (hasValue(jsObject.tilt)) {
+        dotNetViewshed.tilt = jsObject.tilt;
+    }
+    if (hasValue(jsObject.verticalFieldOfView)) {
+        dotNetViewshed.verticalFieldOfView = jsObject.verticalFieldOfView;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

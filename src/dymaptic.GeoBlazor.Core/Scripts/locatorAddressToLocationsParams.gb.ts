@@ -79,30 +79,30 @@ export async function buildDotNetLocatorAddressToLocationsParamsGenerated(jsObje
             let { buildDotNetExtent } = await import('./extent');
             dotNetLocatorAddressToLocationsParams.searchExtent = buildDotNetExtent(jsObject.searchExtent);
         }
-        if (hasValue(jsObject.address)) {
-            dotNetLocatorAddressToLocationsParams.address = jsObject.address;
-        }
-        if (hasValue(jsObject.categories)) {
-            dotNetLocatorAddressToLocationsParams.categories = jsObject.categories;
-        }
-        if (hasValue(jsObject.countryCode)) {
-            dotNetLocatorAddressToLocationsParams.countryCode = jsObject.countryCode;
-        }
-        if (hasValue(jsObject.forStorage)) {
-            dotNetLocatorAddressToLocationsParams.forStorage = jsObject.forStorage;
-        }
-        if (hasValue(jsObject.locationType)) {
-            dotNetLocatorAddressToLocationsParams.locationType = jsObject.locationType;
-        }
-        if (hasValue(jsObject.magicKey)) {
-            dotNetLocatorAddressToLocationsParams.magicKey = jsObject.magicKey;
-        }
-        if (hasValue(jsObject.maxLocations)) {
-            dotNetLocatorAddressToLocationsParams.maxLocations = jsObject.maxLocations;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetLocatorAddressToLocationsParams.outFields = jsObject.outFields;
-        }
+    if (hasValue(jsObject.address)) {
+        dotNetLocatorAddressToLocationsParams.address = jsObject.address;
+    }
+    if (hasValue(jsObject.categories)) {
+        dotNetLocatorAddressToLocationsParams.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.countryCode)) {
+        dotNetLocatorAddressToLocationsParams.countryCode = jsObject.countryCode;
+    }
+    if (hasValue(jsObject.forStorage)) {
+        dotNetLocatorAddressToLocationsParams.forStorage = jsObject.forStorage;
+    }
+    if (hasValue(jsObject.locationType)) {
+        dotNetLocatorAddressToLocationsParams.locationType = jsObject.locationType;
+    }
+    if (hasValue(jsObject.magicKey)) {
+        dotNetLocatorAddressToLocationsParams.magicKey = jsObject.magicKey;
+    }
+    if (hasValue(jsObject.maxLocations)) {
+        dotNetLocatorAddressToLocationsParams.maxLocations = jsObject.maxLocations;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetLocatorAddressToLocationsParams.outFields = jsObject.outFields;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

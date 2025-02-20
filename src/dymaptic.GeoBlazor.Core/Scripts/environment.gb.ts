@@ -48,21 +48,21 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.atmosphereEnabled)) {
-            dotNetEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
-        }
-        if (hasValue(jsObject.background)) {
-            dotNetEnvironment.background = jsObject.background;
-        }
-        if (hasValue(jsObject.lighting)) {
-            dotNetEnvironment.lighting = jsObject.lighting;
-        }
-        if (hasValue(jsObject.starsEnabled)) {
-            dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
-        }
-        if (hasValue(jsObject.weather)) {
-            dotNetEnvironment.weather = jsObject.weather;
-        }
+    if (hasValue(jsObject.atmosphereEnabled)) {
+        dotNetEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
+    }
+    if (hasValue(jsObject.background)) {
+        dotNetEnvironment.background = jsObject.background;
+    }
+    if (hasValue(jsObject.lighting)) {
+        dotNetEnvironment.lighting = jsObject.lighting;
+    }
+    if (hasValue(jsObject.starsEnabled)) {
+        dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
+    }
+    if (hasValue(jsObject.weather)) {
+        dotNetEnvironment.weather = jsObject.weather;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

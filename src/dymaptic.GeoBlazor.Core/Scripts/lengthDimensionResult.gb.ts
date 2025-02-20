@@ -44,9 +44,9 @@ export async function buildDotNetLengthDimensionResultGenerated(jsObject: any): 
             let { buildDotNetLengthDimension } = await import('./lengthDimension');
             dotNetLengthDimensionResult.dimension = await buildDotNetLengthDimension(jsObject.dimension);
         }
-        if (hasValue(jsObject.length)) {
-            dotNetLengthDimensionResult.length = jsObject.length;
-        }
+    if (hasValue(jsObject.length)) {
+        dotNetLengthDimensionResult.length = jsObject.length;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

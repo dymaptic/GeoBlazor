@@ -42,9 +42,9 @@ export async function buildDotNetShadowCastViewModelDurationOptionsGenerated(jsO
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetShadowCastViewModelDurationOptions.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.mode)) {
-            dotNetShadowCastViewModelDurationOptions.mode = jsObject.mode;
-        }
+    if (hasValue(jsObject.mode)) {
+        dotNetShadowCastViewModelDurationOptions.mode = jsObject.mode;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

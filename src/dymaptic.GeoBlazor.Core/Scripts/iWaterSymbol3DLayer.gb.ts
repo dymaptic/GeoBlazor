@@ -99,18 +99,18 @@ export async function buildDotNetIWaterSymbol3DLayerGenerated(jsObject: any): Pr
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetIWaterSymbol3DLayer.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetIWaterSymbol3DLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.waterbodySize)) {
-            dotNetIWaterSymbol3DLayer.waterbodySize = jsObject.waterbodySize;
-        }
-        if (hasValue(jsObject.waveDirection)) {
-            dotNetIWaterSymbol3DLayer.waveDirection = jsObject.waveDirection;
-        }
-        if (hasValue(jsObject.waveStrength)) {
-            dotNetIWaterSymbol3DLayer.waveStrength = jsObject.waveStrength;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetIWaterSymbol3DLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.waterbodySize)) {
+        dotNetIWaterSymbol3DLayer.waterbodySize = jsObject.waterbodySize;
+    }
+    if (hasValue(jsObject.waveDirection)) {
+        dotNetIWaterSymbol3DLayer.waveDirection = jsObject.waveDirection;
+    }
+    if (hasValue(jsObject.waveStrength)) {
+        dotNetIWaterSymbol3DLayer.waveStrength = jsObject.waveStrength;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

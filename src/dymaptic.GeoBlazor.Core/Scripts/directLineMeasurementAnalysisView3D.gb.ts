@@ -39,12 +39,12 @@ export async function buildDotNetDirectLineMeasurementAnalysisView3DGenerated(js
             let { buildDotNetDirectLineMeasurementAnalysis } = await import('./directLineMeasurementAnalysis');
             dotNetDirectLineMeasurementAnalysisView3D.analysis = await buildDotNetDirectLineMeasurementAnalysis(jsObject.analysis);
         }
-        if (hasValue(jsObject.result)) {
-            dotNetDirectLineMeasurementAnalysisView3D.result = jsObject.result;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetDirectLineMeasurementAnalysisView3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.result)) {
+        dotNetDirectLineMeasurementAnalysisView3D.result = jsObject.result;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetDirectLineMeasurementAnalysisView3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

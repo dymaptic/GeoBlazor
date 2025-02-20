@@ -77,42 +77,42 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetMapViewConstraints.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.effectiveLODs)) {
-            dotNetMapViewConstraints.effectiveLODs = jsObject.effectiveLODs;
-        }
-        if (hasValue(jsObject.effectiveMaxScale)) {
-            dotNetMapViewConstraints.effectiveMaxScale = jsObject.effectiveMaxScale;
-        }
-        if (hasValue(jsObject.effectiveMaxZoom)) {
-            dotNetMapViewConstraints.effectiveMaxZoom = jsObject.effectiveMaxZoom;
-        }
-        if (hasValue(jsObject.effectiveMinScale)) {
-            dotNetMapViewConstraints.effectiveMinScale = jsObject.effectiveMinScale;
-        }
-        if (hasValue(jsObject.effectiveMinZoom)) {
-            dotNetMapViewConstraints.effectiveMinZoom = jsObject.effectiveMinZoom;
-        }
-        if (hasValue(jsObject.lods)) {
-            dotNetMapViewConstraints.lods = jsObject.lods;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetMapViewConstraints.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.maxZoom)) {
-            dotNetMapViewConstraints.maxZoom = jsObject.maxZoom;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetMapViewConstraints.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.minZoom)) {
-            dotNetMapViewConstraints.minZoom = jsObject.minZoom;
-        }
-        if (hasValue(jsObject.rotationEnabled)) {
-            dotNetMapViewConstraints.rotationEnabled = jsObject.rotationEnabled;
-        }
-        if (hasValue(jsObject.snapToZoom)) {
-            dotNetMapViewConstraints.snapToZoom = jsObject.snapToZoom;
-        }
+    if (hasValue(jsObject.effectiveLODs)) {
+        dotNetMapViewConstraints.effectiveLODs = jsObject.effectiveLODs;
+    }
+    if (hasValue(jsObject.effectiveMaxScale)) {
+        dotNetMapViewConstraints.effectiveMaxScale = jsObject.effectiveMaxScale;
+    }
+    if (hasValue(jsObject.effectiveMaxZoom)) {
+        dotNetMapViewConstraints.effectiveMaxZoom = jsObject.effectiveMaxZoom;
+    }
+    if (hasValue(jsObject.effectiveMinScale)) {
+        dotNetMapViewConstraints.effectiveMinScale = jsObject.effectiveMinScale;
+    }
+    if (hasValue(jsObject.effectiveMinZoom)) {
+        dotNetMapViewConstraints.effectiveMinZoom = jsObject.effectiveMinZoom;
+    }
+    if (hasValue(jsObject.lods)) {
+        dotNetMapViewConstraints.lods = jsObject.lods;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetMapViewConstraints.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.maxZoom)) {
+        dotNetMapViewConstraints.maxZoom = jsObject.maxZoom;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetMapViewConstraints.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.minZoom)) {
+        dotNetMapViewConstraints.minZoom = jsObject.minZoom;
+    }
+    if (hasValue(jsObject.rotationEnabled)) {
+        dotNetMapViewConstraints.rotationEnabled = jsObject.rotationEnabled;
+    }
+    if (hasValue(jsObject.snapToZoom)) {
+        dotNetMapViewConstraints.snapToZoom = jsObject.snapToZoom;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

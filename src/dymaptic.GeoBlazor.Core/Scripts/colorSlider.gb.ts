@@ -29,6 +29,20 @@ export default class ColorSliderGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getStops(): Promise<any> {
+        if (!hasValue(this.component.stops)) {
+            return null;
+        }
+        
+        let { buildDotNetColorStop } = await import('./colorStop');
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetColorStop(i)));
+    }
+    
+    async setStops(value: any): Promise<void> {
+        let { buildJsColorStop } = await import('./colorStop');
+        this.component.stops = await Promise.all(value.map(async i => await buildJsColorStop(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.component.viewModel)) {
             return null;
@@ -89,6 +103,10 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
             index);
         };
     }
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsColorStop } = await import('./colorStop');
+        jsColorSlider.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsColorSliderViewModel } = await import('./colorSliderViewModel');
         jsColorSlider.viewModel = await buildJsColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
@@ -112,10 +130,6 @@ export async function buildJsColorSliderGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
         jsColorSlider.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
-    }
-    if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsColorSlider.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
         jsColorSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
@@ -179,55 +193,56 @@ export async function buildDotNetColorSliderGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.stops)) {
+            let { buildDotNetColorStop } = await import('./colorStop');
+            dotNetColorSlider.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
+        }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetColorSliderViewModel } = await import('./colorSliderViewModel');
             dotNetColorSlider.viewModel = await buildDotNetColorSliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.handlesSyncedToPrimary)) {
-            dotNetColorSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
-        }
-        if (hasValue(jsObject.histogramConfig)) {
-            dotNetColorSlider.histogramConfig = jsObject.histogramConfig;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetColorSlider.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetColorSlider.max = jsObject.max;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetColorSlider.min = jsObject.min;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetColorSlider.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.primaryHandleEnabled)) {
-            dotNetColorSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetColorSlider.state = jsObject.state;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetColorSlider.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetColorSlider.type = jsObject.type;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetColorSlider.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.zoomOptions)) {
-            dotNetColorSlider.zoomOptions = jsObject.zoomOptions;
-        }
+    if (hasValue(jsObject.handlesSyncedToPrimary)) {
+        dotNetColorSlider.handlesSyncedToPrimary = jsObject.handlesSyncedToPrimary;
+    }
+    if (hasValue(jsObject.histogramConfig)) {
+        dotNetColorSlider.histogramConfig = jsObject.histogramConfig;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetColorSlider.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetColorSlider.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetColorSlider.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetColorSlider.max = jsObject.max;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetColorSlider.min = jsObject.min;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetColorSlider.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.primaryHandleEnabled)) {
+        dotNetColorSlider.primaryHandleEnabled = jsObject.primaryHandleEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetColorSlider.state = jsObject.state;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetColorSlider.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetColorSlider.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetColorSlider.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.zoomOptions)) {
+        dotNetColorSlider.zoomOptions = jsObject.zoomOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

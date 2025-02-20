@@ -64,15 +64,15 @@ export async function buildDotNetPieChartRendererResultGenerated(jsObject: any):
             let { buildDotNetSizeVisualVariableResult } = await import('./sizeVisualVariableResult');
             dotNetPieChartRendererResult.size = await buildDotNetSizeVisualVariableResult(jsObject.size);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetPieChartRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetPieChartRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetPieChartRendererResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetPieChartRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetPieChartRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetPieChartRendererResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

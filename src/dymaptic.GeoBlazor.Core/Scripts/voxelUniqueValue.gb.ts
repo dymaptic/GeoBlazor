@@ -48,15 +48,15 @@ export async function buildDotNetVoxelUniqueValueGenerated(jsObject: any): Promi
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetVoxelUniqueValue.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.enabled)) {
-            dotNetVoxelUniqueValue.enabled = jsObject.enabled;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetVoxelUniqueValue.label = jsObject.label;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetVoxelUniqueValue.value = jsObject.value;
-        }
+    if (hasValue(jsObject.enabled)) {
+        dotNetVoxelUniqueValue.enabled = jsObject.enabled;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetVoxelUniqueValue.label = jsObject.label;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetVoxelUniqueValue.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

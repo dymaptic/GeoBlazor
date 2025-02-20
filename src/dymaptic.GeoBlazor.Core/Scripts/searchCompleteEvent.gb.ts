@@ -51,18 +51,18 @@ export async function buildDotNetSearchCompleteEventGenerated(jsObject: any): Pr
             let { buildDotNetSearchCompleteEventResults } = await import('./searchCompleteEventResults');
             dotNetSearchCompleteEvent.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchCompleteEventResults(i)));
         }
-        if (hasValue(jsObject.activeSourceIndex)) {
-            dotNetSearchCompleteEvent.activeSourceIndex = jsObject.activeSourceIndex;
-        }
-        if (hasValue(jsObject.errors)) {
-            dotNetSearchCompleteEvent.errors = jsObject.errors;
-        }
-        if (hasValue(jsObject.numResults)) {
-            dotNetSearchCompleteEvent.numResults = jsObject.numResults;
-        }
-        if (hasValue(jsObject.searchTerm)) {
-            dotNetSearchCompleteEvent.searchTerm = jsObject.searchTerm;
-        }
+    if (hasValue(jsObject.activeSourceIndex)) {
+        dotNetSearchCompleteEvent.activeSourceIndex = jsObject.activeSourceIndex;
+    }
+    if (hasValue(jsObject.errors)) {
+        dotNetSearchCompleteEvent.errors = jsObject.errors;
+    }
+    if (hasValue(jsObject.numResults)) {
+        dotNetSearchCompleteEvent.numResults = jsObject.numResults;
+    }
+    if (hasValue(jsObject.searchTerm)) {
+        dotNetSearchCompleteEvent.searchTerm = jsObject.searchTerm;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

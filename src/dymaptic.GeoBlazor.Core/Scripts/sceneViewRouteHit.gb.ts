@@ -46,12 +46,12 @@ export async function buildDotNetSceneViewRouteHitGenerated(jsObject: any): Prom
             let { buildDotNetPoint } = await import('./point');
             dotNetSceneViewRouteHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.networkFeature)) {
-            dotNetSceneViewRouteHit.networkFeature = jsObject.networkFeature;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSceneViewRouteHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.networkFeature)) {
+        dotNetSceneViewRouteHit.networkFeature = jsObject.networkFeature;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSceneViewRouteHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -50,15 +50,15 @@ export async function buildDotNetMediaHitGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPoint } = await import('./point');
             dotNetMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.element)) {
-            dotNetMediaHit.element = jsObject.element;
-        }
-        if (hasValue(jsObject.sourcePoint)) {
-            dotNetMediaHit.sourcePoint = jsObject.sourcePoint;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetMediaHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.element)) {
+        dotNetMediaHit.element = jsObject.element;
+    }
+    if (hasValue(jsObject.sourcePoint)) {
+        dotNetMediaHit.sourcePoint = jsObject.sourcePoint;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetMediaHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

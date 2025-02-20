@@ -40,18 +40,18 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any): Pro
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.infos)) {
-            dotNetSymbolTableElement.infos = jsObject.infos;
-        }
-        if (hasValue(jsObject.legendType)) {
-            dotNetSymbolTableElement.legendType = jsObject.legendType;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetSymbolTableElement.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSymbolTableElement.type = jsObject.type;
-        }
+    if (hasValue(jsObject.infos)) {
+        dotNetSymbolTableElement.infos = jsObject.infos;
+    }
+    if (hasValue(jsObject.legendType)) {
+        dotNetSymbolTableElement.legendType = jsObject.legendType;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetSymbolTableElement.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSymbolTableElement.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

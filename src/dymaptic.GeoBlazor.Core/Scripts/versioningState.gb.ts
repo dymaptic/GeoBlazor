@@ -171,42 +171,42 @@ export async function buildDotNetVersioningStateGenerated(jsObject: any): Promis
             let { buildDotNetVersionManagementService } = await import('./versionManagementService');
             dotNetVersioningState.versionManagementService = await buildDotNetVersionManagementService(jsObject.versionManagementService);
         }
-        if (hasValue(jsObject.currentVersion)) {
-            dotNetVersioningState.currentVersion = jsObject.currentVersion;
-        }
-        if (hasValue(jsObject.currentVersionInfo)) {
-            dotNetVersioningState.currentVersionInfo = jsObject.currentVersionInfo;
-        }
-        if (hasValue(jsObject.defaultVersionIdentifier)) {
-            dotNetVersioningState.defaultVersionIdentifier = jsObject.defaultVersionIdentifier;
-        }
-        if (hasValue(jsObject.featureServiceUrl)) {
-            dotNetVersioningState.featureServiceUrl = jsObject.featureServiceUrl;
-        }
-        if (hasValue(jsObject.isDefault)) {
-            dotNetVersioningState.isDefault = jsObject.isDefault;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetVersioningState.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.loadError)) {
-            dotNetVersioningState.loadError = jsObject.loadError;
-        }
-        if (hasValue(jsObject.loadStatus)) {
-            dotNetVersioningState.loadStatus = jsObject.loadStatus;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetVersioningState.state = jsObject.state;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetVersioningState.url = jsObject.url;
-        }
-        if (hasValue(jsObject.usePersistentReadSessions)) {
-            dotNetVersioningState.usePersistentReadSessions = jsObject.usePersistentReadSessions;
-        }
-        if (hasValue(jsObject.versionInfos)) {
-            dotNetVersioningState.versionInfos = jsObject.versionInfos;
-        }
+    if (hasValue(jsObject.currentVersion)) {
+        dotNetVersioningState.currentVersion = jsObject.currentVersion;
+    }
+    if (hasValue(jsObject.currentVersionInfo)) {
+        dotNetVersioningState.currentVersionInfo = jsObject.currentVersionInfo;
+    }
+    if (hasValue(jsObject.defaultVersionIdentifier)) {
+        dotNetVersioningState.defaultVersionIdentifier = jsObject.defaultVersionIdentifier;
+    }
+    if (hasValue(jsObject.featureServiceUrl)) {
+        dotNetVersioningState.featureServiceUrl = jsObject.featureServiceUrl;
+    }
+    if (hasValue(jsObject.isDefault)) {
+        dotNetVersioningState.isDefault = jsObject.isDefault;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetVersioningState.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.loadError)) {
+        dotNetVersioningState.loadError = jsObject.loadError;
+    }
+    if (hasValue(jsObject.loadStatus)) {
+        dotNetVersioningState.loadStatus = jsObject.loadStatus;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetVersioningState.state = jsObject.state;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetVersioningState.url = jsObject.url;
+    }
+    if (hasValue(jsObject.usePersistentReadSessions)) {
+        dotNetVersioningState.usePersistentReadSessions = jsObject.usePersistentReadSessions;
+    }
+    if (hasValue(jsObject.versionInfos)) {
+        dotNetVersioningState.versionInfos = jsObject.versionInfos;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

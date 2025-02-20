@@ -107,30 +107,30 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.height)) {
-            dotNetPixelBlock.height = jsObject.height;
-        }
-        if (hasValue(jsObject.mask)) {
-            dotNetPixelBlock.mask = jsObject.mask;
-        }
-        if (hasValue(jsObject.maskIsAlpha)) {
-            dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
-        }
-        if (hasValue(jsObject.pixels)) {
-            dotNetPixelBlock.pixels = jsObject.pixels;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetPixelBlock.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetPixelBlock.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.validPixelCount)) {
-            dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetPixelBlock.width = jsObject.width;
-        }
+    if (hasValue(jsObject.height)) {
+        dotNetPixelBlock.height = jsObject.height;
+    }
+    if (hasValue(jsObject.mask)) {
+        dotNetPixelBlock.mask = jsObject.mask;
+    }
+    if (hasValue(jsObject.maskIsAlpha)) {
+        dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
+    }
+    if (hasValue(jsObject.pixels)) {
+        dotNetPixelBlock.pixels = jsObject.pixels;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetPixelBlock.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetPixelBlock.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.validPixelCount)) {
+        dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetPixelBlock.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

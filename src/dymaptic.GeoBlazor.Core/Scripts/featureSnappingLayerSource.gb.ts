@@ -35,9 +35,9 @@ export async function buildDotNetFeatureSnappingLayerSourceGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.enabled)) {
-            dotNetFeatureSnappingLayerSource.enabled = jsObject.enabled;
-        }
+    if (hasValue(jsObject.enabled)) {
+        dotNetFeatureSnappingLayerSource.enabled = jsObject.enabled;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
             let { buildDotNetListItem } = await import('./listItem');
             dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
         }
-        if (hasValue(jsObject.action)) {
-            dotNetBasemapLayerListTriggerActionEvent.action = jsObject.action;
-        }
+    if (hasValue(jsObject.action)) {
+        dotNetBasemapLayerListTriggerActionEvent.action = jsObject.action;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

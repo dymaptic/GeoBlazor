@@ -85,15 +85,15 @@ export async function buildDotNetRenderContextGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.camera)) {
-            dotNetRenderContext.camera = jsObject.camera;
-        }
-        if (hasValue(jsObject.gl)) {
-            dotNetRenderContext.gl = jsObject.gl;
-        }
-        if (hasValue(jsObject.sunLight)) {
-            dotNetRenderContext.sunLight = jsObject.sunLight;
-        }
+    if (hasValue(jsObject.camera)) {
+        dotNetRenderContext.camera = jsObject.camera;
+    }
+    if (hasValue(jsObject.gl)) {
+        dotNetRenderContext.gl = jsObject.gl;
+    }
+    if (hasValue(jsObject.sunLight)) {
+        dotNetRenderContext.sunLight = jsObject.sunLight;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

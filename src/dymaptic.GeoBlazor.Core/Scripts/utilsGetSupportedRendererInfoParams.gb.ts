@@ -46,15 +46,15 @@ export async function buildDotNetUtilsGetSupportedRendererInfoParamsGenerated(js
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetUtilsGetSupportedRendererInfoParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetUtilsGetSupportedRendererInfoParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetUtilsGetSupportedRendererInfoParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetUtilsGetSupportedRendererInfoParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetUtilsGetSupportedRendererInfoParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetUtilsGetSupportedRendererInfoParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

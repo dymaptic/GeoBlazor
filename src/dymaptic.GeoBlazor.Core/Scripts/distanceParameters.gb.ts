@@ -54,12 +54,12 @@ export async function buildDotNetDistanceParametersGenerated(jsObject: any): Pro
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetDistanceParameters.geometry2 = buildDotNetGeometry(jsObject.geometry2);
         }
-        if (hasValue(jsObject.distanceUnit)) {
-            dotNetDistanceParameters.distanceUnit = jsObject.distanceUnit;
-        }
-        if (hasValue(jsObject.geodesic)) {
-            dotNetDistanceParameters.geodesic = jsObject.geodesic;
-        }
+    if (hasValue(jsObject.distanceUnit)) {
+        dotNetDistanceParameters.distanceUnit = jsObject.distanceUnit;
+    }
+    if (hasValue(jsObject.geodesic)) {
+        dotNetDistanceParameters.geodesic = jsObject.geodesic;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

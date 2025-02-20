@@ -100,15 +100,15 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
             let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
             dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.layout)) {
-            dotNetZoomWidget.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetZoomWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetZoomWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.layout)) {
+        dotNetZoomWidget.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetZoomWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetZoomWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

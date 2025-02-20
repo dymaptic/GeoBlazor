@@ -67,24 +67,24 @@ export async function buildDotNetWebDocTimeSliderGenerated(jsObject: any): Promi
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetWebDocTimeSlider.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
         }
-        if (hasValue(jsObject.loop)) {
-            dotNetWebDocTimeSlider.loop = jsObject.loop;
-        }
-        if (hasValue(jsObject.numStops)) {
-            dotNetWebDocTimeSlider.numStops = jsObject.numStops;
-        }
-        if (hasValue(jsObject.numThumbs)) {
-            dotNetWebDocTimeSlider.numThumbs = jsObject.numThumbs;
-        }
-        if (hasValue(jsObject.stopDelay)) {
-            dotNetWebDocTimeSlider.stopDelay = jsObject.stopDelay;
-        }
-        if (hasValue(jsObject.stopInterval)) {
-            dotNetWebDocTimeSlider.stopInterval = jsObject.stopInterval;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetWebDocTimeSlider.stops = jsObject.stops;
-        }
+    if (hasValue(jsObject.loop)) {
+        dotNetWebDocTimeSlider.loop = jsObject.loop;
+    }
+    if (hasValue(jsObject.numStops)) {
+        dotNetWebDocTimeSlider.numStops = jsObject.numStops;
+    }
+    if (hasValue(jsObject.numThumbs)) {
+        dotNetWebDocTimeSlider.numThumbs = jsObject.numThumbs;
+    }
+    if (hasValue(jsObject.stopDelay)) {
+        dotNetWebDocTimeSlider.stopDelay = jsObject.stopDelay;
+    }
+    if (hasValue(jsObject.stopInterval)) {
+        dotNetWebDocTimeSlider.stopInterval = jsObject.stopInterval;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetWebDocTimeSlider.stops = jsObject.stops;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

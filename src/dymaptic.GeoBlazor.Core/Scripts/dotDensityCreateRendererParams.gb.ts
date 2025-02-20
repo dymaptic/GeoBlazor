@@ -68,30 +68,30 @@ export async function buildDotNetDotDensityCreateRendererParamsGenerated(jsObjec
             let { buildDotNetDotDensityScheme } = await import('./dotDensityScheme');
             dotNetDotDensityCreateRendererParams.dotDensityScheme = await buildDotNetDotDensityScheme(jsObject.dotDensityScheme);
         }
-        if (hasValue(jsObject.attributes)) {
-            dotNetDotDensityCreateRendererParams.attributes = jsObject.attributes;
-        }
-        if (hasValue(jsObject.dotBlendingEnabled)) {
-            dotNetDotDensityCreateRendererParams.dotBlendingEnabled = jsObject.dotBlendingEnabled;
-        }
-        if (hasValue(jsObject.dotValueOptimizationEnabled)) {
-            dotNetDotDensityCreateRendererParams.dotValueOptimizationEnabled = jsObject.dotValueOptimizationEnabled;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetDotDensityCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetDotDensityCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetDotDensityCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetDotDensityCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDotDensityCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.attributes)) {
+        dotNetDotDensityCreateRendererParams.attributes = jsObject.attributes;
+    }
+    if (hasValue(jsObject.dotBlendingEnabled)) {
+        dotNetDotDensityCreateRendererParams.dotBlendingEnabled = jsObject.dotBlendingEnabled;
+    }
+    if (hasValue(jsObject.dotValueOptimizationEnabled)) {
+        dotNetDotDensityCreateRendererParams.dotValueOptimizationEnabled = jsObject.dotValueOptimizationEnabled;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetDotDensityCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetDotDensityCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetDotDensityCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetDotDensityCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDotDensityCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

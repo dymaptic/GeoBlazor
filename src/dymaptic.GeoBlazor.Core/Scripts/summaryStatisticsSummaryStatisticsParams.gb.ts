@@ -90,45 +90,45 @@ export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerat
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.field)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.normalizationTotal)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.normalizationTotal = jsObject.normalizationTotal;
-        }
-        if (hasValue(jsObject.normalizationType)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.normalizationType = jsObject.normalizationType;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.useFeaturesInView)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.useFeaturesInView = jsObject.useFeaturesInView;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSummaryStatisticsSummaryStatisticsParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.normalizationTotal)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.normalizationTotal = jsObject.normalizationTotal;
+    }
+    if (hasValue(jsObject.normalizationType)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.normalizationType = jsObject.normalizationType;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.useFeaturesInView)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.useFeaturesInView = jsObject.useFeaturesInView;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSummaryStatisticsSummaryStatisticsParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

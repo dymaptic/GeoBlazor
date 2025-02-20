@@ -158,30 +158,30 @@ export async function buildDotNetBaseLayerViewGL2DGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.context)) {
-            dotNetBaseLayerViewGL2D.context = jsObject.context;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetBaseLayerViewGL2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBaseLayerViewGL2D.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.tiles)) {
-            dotNetBaseLayerViewGL2D.tiles = jsObject.tiles;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBaseLayerViewGL2D.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBaseLayerViewGL2D.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetBaseLayerViewGL2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetBaseLayerViewGL2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.context)) {
+        dotNetBaseLayerViewGL2D.context = jsObject.context;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetBaseLayerViewGL2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBaseLayerViewGL2D.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.tiles)) {
+        dotNetBaseLayerViewGL2D.tiles = jsObject.tiles;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBaseLayerViewGL2D.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBaseLayerViewGL2D.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetBaseLayerViewGL2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetBaseLayerViewGL2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -59,30 +59,30 @@ export async function buildDotNetVideoViewGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.container)) {
-            dotNetVideoView.container = jsObject.container;
-        }
-        if (hasValue(jsObject.focused)) {
-            dotNetVideoView.focused = jsObject.focused;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetVideoView.height = jsObject.height;
-        }
-        if (hasValue(jsObject.ready)) {
-            dotNetVideoView.ready = jsObject.ready;
-        }
-        if (hasValue(jsObject.resizing)) {
-            dotNetVideoView.resizing = jsObject.resizing;
-        }
-        if (hasValue(jsObject.videoHeight)) {
-            dotNetVideoView.videoHeight = jsObject.videoHeight;
-        }
-        if (hasValue(jsObject.videoWidth)) {
-            dotNetVideoView.videoWidth = jsObject.videoWidth;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetVideoView.width = jsObject.width;
-        }
+    if (hasValue(jsObject.container)) {
+        dotNetVideoView.container = jsObject.container;
+    }
+    if (hasValue(jsObject.focused)) {
+        dotNetVideoView.focused = jsObject.focused;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetVideoView.height = jsObject.height;
+    }
+    if (hasValue(jsObject.ready)) {
+        dotNetVideoView.ready = jsObject.ready;
+    }
+    if (hasValue(jsObject.resizing)) {
+        dotNetVideoView.resizing = jsObject.resizing;
+    }
+    if (hasValue(jsObject.videoHeight)) {
+        dotNetVideoView.videoHeight = jsObject.videoHeight;
+    }
+    if (hasValue(jsObject.videoWidth)) {
+        dotNetVideoView.videoWidth = jsObject.videoWidth;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetVideoView.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

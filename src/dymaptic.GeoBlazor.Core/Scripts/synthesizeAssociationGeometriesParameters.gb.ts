@@ -61,27 +61,27 @@ export async function buildDotNetSynthesizeAssociationGeometriesParametersGenera
             let { buildDotNetExtent } = await import('./extent');
             dotNetSynthesizeAssociationGeometriesParameters.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetSynthesizeAssociationGeometriesParameters.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.maxGeometryCount)) {
-            dotNetSynthesizeAssociationGeometriesParameters.maxGeometryCount = jsObject.maxGeometryCount;
-        }
-        if (hasValue(jsObject.moment)) {
-            dotNetSynthesizeAssociationGeometriesParameters.moment = jsObject.moment;
-        }
-        if (hasValue(jsObject.outSpatialReference)) {
-            dotNetSynthesizeAssociationGeometriesParameters.outSpatialReference = jsObject.outSpatialReference;
-        }
-        if (hasValue(jsObject.returnAttachmentAssociations)) {
-            dotNetSynthesizeAssociationGeometriesParameters.returnAttachmentAssociations = jsObject.returnAttachmentAssociations;
-        }
-        if (hasValue(jsObject.returnConnectivityAssociations)) {
-            dotNetSynthesizeAssociationGeometriesParameters.returnConnectivityAssociations = jsObject.returnConnectivityAssociations;
-        }
-        if (hasValue(jsObject.returnContainmentAssociations)) {
-            dotNetSynthesizeAssociationGeometriesParameters.returnContainmentAssociations = jsObject.returnContainmentAssociations;
-        }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetSynthesizeAssociationGeometriesParameters.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.maxGeometryCount)) {
+        dotNetSynthesizeAssociationGeometriesParameters.maxGeometryCount = jsObject.maxGeometryCount;
+    }
+    if (hasValue(jsObject.moment)) {
+        dotNetSynthesizeAssociationGeometriesParameters.moment = jsObject.moment;
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetSynthesizeAssociationGeometriesParameters.outSpatialReference = jsObject.outSpatialReference;
+    }
+    if (hasValue(jsObject.returnAttachmentAssociations)) {
+        dotNetSynthesizeAssociationGeometriesParameters.returnAttachmentAssociations = jsObject.returnAttachmentAssociations;
+    }
+    if (hasValue(jsObject.returnConnectivityAssociations)) {
+        dotNetSynthesizeAssociationGeometriesParameters.returnConnectivityAssociations = jsObject.returnConnectivityAssociations;
+    }
+    if (hasValue(jsObject.returnContainmentAssociations)) {
+        dotNetSynthesizeAssociationGeometriesParameters.returnContainmentAssociations = jsObject.returnContainmentAssociations;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

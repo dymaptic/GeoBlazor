@@ -47,18 +47,18 @@ export async function buildDotNetPieChartCreateRendererForClusteringParamsGenera
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetPieChartCreateRendererForClusteringParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetPieChartCreateRendererForClusteringParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.shape)) {
-            dotNetPieChartCreateRendererForClusteringParams.shape = jsObject.shape;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetPieChartCreateRendererForClusteringParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetPieChartCreateRendererForClusteringParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetPieChartCreateRendererForClusteringParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.shape)) {
+        dotNetPieChartCreateRendererForClusteringParams.shape = jsObject.shape;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetPieChartCreateRendererForClusteringParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

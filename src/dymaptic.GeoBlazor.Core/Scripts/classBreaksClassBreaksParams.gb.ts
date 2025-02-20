@@ -93,48 +93,48 @@ export async function buildDotNetClassBreaksClassBreaksParamsGenerated(jsObject:
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetClassBreaksClassBreaksParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetClassBreaksClassBreaksParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetClassBreaksClassBreaksParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetClassBreaksClassBreaksParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetClassBreaksClassBreaksParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetClassBreaksClassBreaksParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetClassBreaksClassBreaksParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetClassBreaksClassBreaksParams.numClasses = jsObject.numClasses;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetClassBreaksClassBreaksParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetClassBreaksClassBreaksParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetClassBreaksClassBreaksParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.standardDeviationInterval)) {
-            dotNetClassBreaksClassBreaksParams.standardDeviationInterval = jsObject.standardDeviationInterval;
-        }
-        if (hasValue(jsObject.useFeaturesInView)) {
-            dotNetClassBreaksClassBreaksParams.useFeaturesInView = jsObject.useFeaturesInView;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetClassBreaksClassBreaksParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetClassBreaksClassBreaksParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetClassBreaksClassBreaksParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetClassBreaksClassBreaksParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetClassBreaksClassBreaksParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetClassBreaksClassBreaksParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetClassBreaksClassBreaksParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetClassBreaksClassBreaksParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetClassBreaksClassBreaksParams.numClasses = jsObject.numClasses;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetClassBreaksClassBreaksParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetClassBreaksClassBreaksParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetClassBreaksClassBreaksParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.standardDeviationInterval)) {
+        dotNetClassBreaksClassBreaksParams.standardDeviationInterval = jsObject.standardDeviationInterval;
+    }
+    if (hasValue(jsObject.useFeaturesInView)) {
+        dotNetClassBreaksClassBreaksParams.useFeaturesInView = jsObject.useFeaturesInView;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetClassBreaksClassBreaksParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetClassBreaksClassBreaksParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -128,15 +128,15 @@ export async function buildDotNetMultipointDrawActionGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetMultipointDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetMultipointDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetMultipointDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetMultipointDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetMultipointDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetMultipointDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -50,21 +50,21 @@ export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeP
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.endTime)) {
-            dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.endTime = jsObject.endTime;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.endTime)) {
+        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.endTime = jsObject.endTime;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

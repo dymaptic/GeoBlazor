@@ -80,15 +80,15 @@ export async function buildDotNetWhereClauseGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fieldNames)) {
-            dotNetWhereClause.fieldNames = jsObject.fieldNames;
-        }
-        if (hasValue(jsObject.isStandardized)) {
-            dotNetWhereClause.isStandardized = jsObject.isStandardized;
-        }
-        if (hasValue(jsObject.parseTree)) {
-            dotNetWhereClause.parseTree = jsObject.parseTree;
-        }
+    if (hasValue(jsObject.fieldNames)) {
+        dotNetWhereClause.fieldNames = jsObject.fieldNames;
+    }
+    if (hasValue(jsObject.isStandardized)) {
+        dotNetWhereClause.isStandardized = jsObject.isStandardized;
+    }
+    if (hasValue(jsObject.parseTree)) {
+        dotNetWhereClause.parseTree = jsObject.parseTree;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

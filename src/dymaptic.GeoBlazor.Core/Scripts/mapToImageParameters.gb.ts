@@ -46,12 +46,12 @@ export async function buildDotNetMapToImageParametersGenerated(jsObject: any): P
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetMapToImageParameters.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.rasterId)) {
-            dotNetMapToImageParameters.rasterId = jsObject.rasterId;
-        }
-        if (hasValue(jsObject.visibleOnly)) {
-            dotNetMapToImageParameters.visibleOnly = jsObject.visibleOnly;
-        }
+    if (hasValue(jsObject.rasterId)) {
+        dotNetMapToImageParameters.rasterId = jsObject.rasterId;
+    }
+    if (hasValue(jsObject.visibleOnly)) {
+        dotNetMapToImageParameters.visibleOnly = jsObject.visibleOnly;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

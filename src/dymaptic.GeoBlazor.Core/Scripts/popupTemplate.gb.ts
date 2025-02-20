@@ -27,24 +27,24 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
             let { buildDotNetLayerOptions } = await import('./layerOptions');
             dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions);
         }
-        if (hasValue(jsObject.actions)) {
-            dotNetPopupTemplate.actions = jsObject.actions;
-        }
-        if (hasValue(jsObject.lastEditInfoEnabled)) {
-            dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetPopupTemplate.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.overwriteActions)) {
-            dotNetPopupTemplate.overwriteActions = jsObject.overwriteActions;
-        }
-        if (hasValue(jsObject.returnGeometry)) {
-            dotNetPopupTemplate.returnGeometry = jsObject.returnGeometry;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPopupTemplate.title = jsObject.title;
-        }
+    if (hasValue(jsObject.actions)) {
+        dotNetPopupTemplate.actions = jsObject.actions;
+    }
+    if (hasValue(jsObject.lastEditInfoEnabled)) {
+        dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetPopupTemplate.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.overwriteActions)) {
+        dotNetPopupTemplate.overwriteActions = jsObject.overwriteActions;
+    }
+    if (hasValue(jsObject.returnGeometry)) {
+        dotNetPopupTemplate.returnGeometry = jsObject.returnGeometry;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPopupTemplate.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

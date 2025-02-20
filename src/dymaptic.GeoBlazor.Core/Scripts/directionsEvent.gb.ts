@@ -49,15 +49,15 @@ export async function buildDotNetDirectionsEventGenerated(jsObject: any): Promis
             let { buildDotNetPoint } = await import('./point');
             dotNetDirectionsEvent.geometry = buildDotNetPoint(jsObject.geometry);
         }
-        if (hasValue(jsObject.arriveTime)) {
-            dotNetDirectionsEvent.arriveTime = jsObject.arriveTime;
-        }
-        if (hasValue(jsObject.arriveTimeOffset)) {
-            dotNetDirectionsEvent.arriveTimeOffset = jsObject.arriveTimeOffset;
-        }
-        if (hasValue(jsObject.strings)) {
-            dotNetDirectionsEvent.strings = jsObject.strings;
-        }
+    if (hasValue(jsObject.arriveTime)) {
+        dotNetDirectionsEvent.arriveTime = jsObject.arriveTime;
+    }
+    if (hasValue(jsObject.arriveTimeOffset)) {
+        dotNetDirectionsEvent.arriveTimeOffset = jsObject.arriveTimeOffset;
+    }
+    if (hasValue(jsObject.strings)) {
+        dotNetDirectionsEvent.strings = jsObject.strings;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

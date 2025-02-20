@@ -57,15 +57,15 @@ export async function buildDotNetFindImagesParametersGenerated(jsObject: any): P
             let { buildDotNetPoint } = await import('./point');
             dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
         }
-        if (hasValue(jsObject.maxCount)) {
-            dotNetFindImagesParameters.maxCount = jsObject.maxCount;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetFindImagesParameters.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetFindImagesParameters.where = jsObject.where;
-        }
+    if (hasValue(jsObject.maxCount)) {
+        dotNetFindImagesParameters.maxCount = jsObject.maxCount;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetFindImagesParameters.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetFindImagesParameters.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

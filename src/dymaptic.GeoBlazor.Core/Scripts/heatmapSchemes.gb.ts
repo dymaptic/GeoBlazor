@@ -53,12 +53,12 @@ export async function buildDotNetHeatmapSchemesGenerated(jsObject: any): Promise
             let { buildDotNetHeatmapScheme } = await import('./heatmapScheme');
             dotNetHeatmapSchemes.secondarySchemes = await Promise.all(jsObject.secondarySchemes.map(async i => await buildDotNetHeatmapScheme(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetHeatmapSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetHeatmapSchemes.basemapTheme = jsObject.basemapTheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetHeatmapSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetHeatmapSchemes.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -45,12 +45,12 @@ export async function buildDotNetSchemeGenerated(jsObject: any): Promise<any> {
             let { buildDotNetLabel } = await import('./label');
             dotNetScheme.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
         }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetScheme.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetScheme.name = jsObject.name;
-        }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetScheme.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetScheme.name = jsObject.name;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

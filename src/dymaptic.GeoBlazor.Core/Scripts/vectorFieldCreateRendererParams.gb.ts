@@ -55,24 +55,24 @@ export async function buildDotNetVectorFieldCreateRendererParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.flowRepresentation)) {
-            dotNetVectorFieldCreateRendererParams.flowRepresentation = jsObject.flowRepresentation;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetVectorFieldCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetVectorFieldCreateRendererParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.rotationType)) {
-            dotNetVectorFieldCreateRendererParams.rotationType = jsObject.rotationType;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetVectorFieldCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.style)) {
-            dotNetVectorFieldCreateRendererParams.style = jsObject.style;
-        }
+    if (hasValue(jsObject.flowRepresentation)) {
+        dotNetVectorFieldCreateRendererParams.flowRepresentation = jsObject.flowRepresentation;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetVectorFieldCreateRendererParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetVectorFieldCreateRendererParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.rotationType)) {
+        dotNetVectorFieldCreateRendererParams.rotationType = jsObject.rotationType;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetVectorFieldCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.style)) {
+        dotNetVectorFieldCreateRendererParams.style = jsObject.style;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

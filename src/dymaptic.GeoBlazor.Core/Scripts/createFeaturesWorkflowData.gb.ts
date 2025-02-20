@@ -45,7 +45,7 @@ export async function buildDotNetCreateFeaturesWorkflowDataGenerated(jsObject: a
     };
         if (hasValue(jsObject.creationInfo)) {
             let { buildDotNetCreationInfo } = await import('./creationInfo');
-            dotNetCreateFeaturesWorkflowData.creationInfo = await buildDotNetCreationInfo(jsObject.creationInfo, layerId, viewId);
+            dotNetCreateFeaturesWorkflowData.creationInfo = await buildDotNetCreationInfo(jsObject.creationInfo);
         }
         if (hasValue(jsObject.pendingFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');

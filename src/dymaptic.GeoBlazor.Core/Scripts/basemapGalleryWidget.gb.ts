@@ -118,21 +118,21 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
             let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
             dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetBasemapGalleryWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.source)) {
-            dotNetBasemapGalleryWidget.source = jsObject.source;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBasemapGalleryWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapGalleryWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetBasemapGalleryWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.source)) {
+        dotNetBasemapGalleryWidget.source = jsObject.source;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBasemapGalleryWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapGalleryWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

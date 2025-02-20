@@ -249,42 +249,42 @@ export async function buildDotNetSketchViewModelGenerated(jsObject: any, layerId
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetSketchViewModel.updateGraphics = jsObject.updateGraphics.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-        if (hasValue(jsObject.activeTool)) {
-            dotNetSketchViewModel.activeTool = jsObject.activeTool;
-        }
-        if (hasValue(jsObject.defaultCreateOptions)) {
-            dotNetSketchViewModel.defaultCreateOptions = jsObject.defaultCreateOptions;
-        }
-        if (hasValue(jsObject.defaultUpdateOptions)) {
-            dotNetSketchViewModel.defaultUpdateOptions = jsObject.defaultUpdateOptions;
-        }
-        if (hasValue(jsObject.labelOptions)) {
-            dotNetSketchViewModel.labelOptions = jsObject.labelOptions;
-        }
-        if (hasValue(jsObject.pointSymbol)) {
-            dotNetSketchViewModel.pointSymbol = jsObject.pointSymbol;
-        }
-        if (hasValue(jsObject.polygonSymbol)) {
-            dotNetSketchViewModel.polygonSymbol = jsObject.polygonSymbol;
-        }
-        if (hasValue(jsObject.polylineSymbol)) {
-            dotNetSketchViewModel.polylineSymbol = jsObject.polylineSymbol;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSketchViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tooltipOptions)) {
-            dotNetSketchViewModel.tooltipOptions = jsObject.tooltipOptions;
-        }
-        if (hasValue(jsObject.updateOnGraphicClick)) {
-            dotNetSketchViewModel.updateOnGraphicClick = jsObject.updateOnGraphicClick;
-        }
-        if (hasValue(jsObject.valueOptions)) {
-            dotNetSketchViewModel.valueOptions = jsObject.valueOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSketchViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeTool)) {
+        dotNetSketchViewModel.activeTool = jsObject.activeTool;
+    }
+    if (hasValue(jsObject.defaultCreateOptions)) {
+        dotNetSketchViewModel.defaultCreateOptions = jsObject.defaultCreateOptions;
+    }
+    if (hasValue(jsObject.defaultUpdateOptions)) {
+        dotNetSketchViewModel.defaultUpdateOptions = jsObject.defaultUpdateOptions;
+    }
+    if (hasValue(jsObject.labelOptions)) {
+        dotNetSketchViewModel.labelOptions = jsObject.labelOptions;
+    }
+    if (hasValue(jsObject.pointSymbol)) {
+        dotNetSketchViewModel.pointSymbol = jsObject.pointSymbol;
+    }
+    if (hasValue(jsObject.polygonSymbol)) {
+        dotNetSketchViewModel.polygonSymbol = jsObject.polygonSymbol;
+    }
+    if (hasValue(jsObject.polylineSymbol)) {
+        dotNetSketchViewModel.polylineSymbol = jsObject.polylineSymbol;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSketchViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tooltipOptions)) {
+        dotNetSketchViewModel.tooltipOptions = jsObject.tooltipOptions;
+    }
+    if (hasValue(jsObject.updateOnGraphicClick)) {
+        dotNetSketchViewModel.updateOnGraphicClick = jsObject.updateOnGraphicClick;
+    }
+    if (hasValue(jsObject.valueOptions)) {
+        dotNetSketchViewModel.valueOptions = jsObject.valueOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSketchViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -51,9 +51,9 @@ export async function buildDotNetTrimExtendParametersGenerated(jsObject: any): P
             let { buildDotNetPolyline } = await import('./polyline');
             dotNetTrimExtendParameters.trimExtendTo = buildDotNetPolyline(jsObject.trimExtendTo);
         }
-        if (hasValue(jsObject.extendHow)) {
-            dotNetTrimExtendParameters.extendHow = jsObject.extendHow;
-        }
+    if (hasValue(jsObject.extendHow)) {
+        dotNetTrimExtendParameters.extendHow = jsObject.extendHow;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -73,42 +73,42 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
             let { buildDotNetExtent } = await import('./extent');
             dotNetWMSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetWMSSublayer.description = jsObject.description;
-        }
-        if (hasValue(jsObject.dimensions)) {
-            dotNetWMSSublayer.dimensions = jsObject.dimensions;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetWMSSublayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.legendUrl)) {
-            dotNetWMSSublayer.legendUrl = jsObject.legendUrl;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetWMSSublayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetWMSSublayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetWMSSublayer.name = jsObject.name;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetWMSSublayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.queryable)) {
-            dotNetWMSSublayer.queryable = jsObject.queryable;
-        }
-        if (hasValue(jsObject.spatialReferences)) {
-            dotNetWMSSublayer.spatialReferences = jsObject.spatialReferences;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetWMSSublayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetWMSSublayer.wMSSublayerId = jsObject.id;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetWMSSublayer.description = jsObject.description;
+    }
+    if (hasValue(jsObject.dimensions)) {
+        dotNetWMSSublayer.dimensions = jsObject.dimensions;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetWMSSublayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.legendUrl)) {
+        dotNetWMSSublayer.legendUrl = jsObject.legendUrl;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetWMSSublayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetWMSSublayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetWMSSublayer.name = jsObject.name;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetWMSSublayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.queryable)) {
+        dotNetWMSSublayer.queryable = jsObject.queryable;
+    }
+    if (hasValue(jsObject.spatialReferences)) {
+        dotNetWMSSublayer.spatialReferences = jsObject.spatialReferences;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetWMSSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetWMSSublayer.wMSSublayerId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

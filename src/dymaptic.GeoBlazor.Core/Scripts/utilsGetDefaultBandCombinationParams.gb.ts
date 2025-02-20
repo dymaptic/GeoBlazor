@@ -46,15 +46,15 @@ export async function buildDotNetUtilsGetDefaultBandCombinationParamsGenerated(j
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetUtilsGetDefaultBandCombinationParams.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetUtilsGetDefaultBandCombinationParams.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetUtilsGetDefaultBandCombinationParams.signal = jsObject.signal;
-        }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetUtilsGetDefaultBandCombinationParams.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetUtilsGetDefaultBandCombinationParams.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetUtilsGetDefaultBandCombinationParams.signal = jsObject.signal;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -51,9 +51,9 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any): Promise<
             let { buildDotNetTileInfo } = await import('./tileInfo');
             dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

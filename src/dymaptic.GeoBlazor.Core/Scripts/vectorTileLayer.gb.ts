@@ -301,60 +301,60 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetVectorTileLayer.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetVectorTileLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.attributionDataUrl)) {
-            dotNetVectorTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetVectorTileLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetVectorTileLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.currentStyleInfo)) {
-            dotNetVectorTileLayer.currentStyleInfo = jsObject.currentStyleInfo;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetVectorTileLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetVectorTileLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetVectorTileLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetVectorTileLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetVectorTileLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetVectorTileLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetVectorTileLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetVectorTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.style)) {
-            dotNetVectorTileLayer.style = jsObject.style;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetVectorTileLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetVectorTileLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetVectorTileLayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetVectorTileLayer.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetVectorTileLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.attributionDataUrl)) {
+        dotNetVectorTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetVectorTileLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetVectorTileLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.currentStyleInfo)) {
+        dotNetVectorTileLayer.currentStyleInfo = jsObject.currentStyleInfo;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetVectorTileLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetVectorTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetVectorTileLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetVectorTileLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetVectorTileLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetVectorTileLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetVectorTileLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetVectorTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.style)) {
+        dotNetVectorTileLayer.style = jsObject.style;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetVectorTileLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetVectorTileLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetVectorTileLayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -72,24 +72,24 @@ export async function buildDotNetFeatureReductionBinningGenerated(jsObject: any)
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetFeatureReductionBinning.renderer = await buildDotNetRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.fields)) {
-            dotNetFeatureReductionBinning.fields = jsObject.fields;
-        }
-        if (hasValue(jsObject.fixedBinLevel)) {
-            dotNetFeatureReductionBinning.fixedBinLevel = jsObject.fixedBinLevel;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetFeatureReductionBinning.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetFeatureReductionBinning.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetFeatureReductionBinning.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureReductionBinning.type = jsObject.type;
-        }
+    if (hasValue(jsObject.fields)) {
+        dotNetFeatureReductionBinning.fields = jsObject.fields;
+    }
+    if (hasValue(jsObject.fixedBinLevel)) {
+        dotNetFeatureReductionBinning.fixedBinLevel = jsObject.fixedBinLevel;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetFeatureReductionBinning.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetFeatureReductionBinning.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetFeatureReductionBinning.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureReductionBinning.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

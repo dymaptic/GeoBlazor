@@ -45,12 +45,12 @@ export async function buildDotNetUIMoveComponentGenerated(jsObject: any): Promis
             let { buildDotNetPosition } = await import('./position');
             dotNetUIMoveComponent.position = await buildDotNetPosition(jsObject.position);
         }
-        if (hasValue(jsObject.component)) {
-            dotNetUIMoveComponent.component = jsObject.component;
-        }
-        if (hasValue(jsObject.index)) {
-            dotNetUIMoveComponent.index = jsObject.index;
-        }
+    if (hasValue(jsObject.component)) {
+        dotNetUIMoveComponent.component = jsObject.component;
+    }
+    if (hasValue(jsObject.index)) {
+        dotNetUIMoveComponent.index = jsObject.index;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

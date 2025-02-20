@@ -56,27 +56,27 @@ export async function buildDotNetColorCreatePCContinuousRendererParamsGenerated(
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetColorCreatePCContinuousRendererParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetColorCreatePCContinuousRendererParams.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.density)) {
-            dotNetColorCreatePCContinuousRendererParams.density = jsObject.density;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetColorCreatePCContinuousRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColorCreatePCContinuousRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetColorCreatePCContinuousRendererParams.size = jsObject.size;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetColorCreatePCContinuousRendererParams.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.basemap)) {
+        dotNetColorCreatePCContinuousRendererParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetColorCreatePCContinuousRendererParams.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.density)) {
+        dotNetColorCreatePCContinuousRendererParams.density = jsObject.density;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetColorCreatePCContinuousRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColorCreatePCContinuousRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetColorCreatePCContinuousRendererParams.size = jsObject.size;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetColorCreatePCContinuousRendererParams.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

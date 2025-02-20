@@ -71,30 +71,30 @@ export async function buildDotNetCoverageDescriptionV100Generated(jsObject: any)
             let { buildDotNetExtent } = await import('./extent');
             dotNetCoverageDescriptionV100.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetCoverageDescriptionV100.description = jsObject.description;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetCoverageDescriptionV100.label = jsObject.label;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetCoverageDescriptionV100.name = jsObject.name;
-        }
-        if (hasValue(jsObject.rangeSet)) {
-            dotNetCoverageDescriptionV100.rangeSet = jsObject.rangeSet;
-        }
-        if (hasValue(jsObject.supportedCRSs)) {
-            dotNetCoverageDescriptionV100.supportedCRSs = jsObject.supportedCRSs;
-        }
-        if (hasValue(jsObject.supportedFormats)) {
-            dotNetCoverageDescriptionV100.supportedFormats = jsObject.supportedFormats;
-        }
-        if (hasValue(jsObject.supportedInterpolations)) {
-            dotNetCoverageDescriptionV100.supportedInterpolations = jsObject.supportedInterpolations;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetCoverageDescriptionV100.version = jsObject.version;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetCoverageDescriptionV100.description = jsObject.description;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetCoverageDescriptionV100.label = jsObject.label;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetCoverageDescriptionV100.name = jsObject.name;
+    }
+    if (hasValue(jsObject.rangeSet)) {
+        dotNetCoverageDescriptionV100.rangeSet = jsObject.rangeSet;
+    }
+    if (hasValue(jsObject.supportedCRSs)) {
+        dotNetCoverageDescriptionV100.supportedCRSs = jsObject.supportedCRSs;
+    }
+    if (hasValue(jsObject.supportedFormats)) {
+        dotNetCoverageDescriptionV100.supportedFormats = jsObject.supportedFormats;
+    }
+    if (hasValue(jsObject.supportedInterpolations)) {
+        dotNetCoverageDescriptionV100.supportedInterpolations = jsObject.supportedInterpolations;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetCoverageDescriptionV100.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

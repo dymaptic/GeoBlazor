@@ -76,12 +76,12 @@ export async function buildDotNetIScaleRangeLayerGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.maxScale)) {
-            dotNetIScaleRangeLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetIScaleRangeLayer.minScale = jsObject.minScale;
-        }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetIScaleRangeLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetIScaleRangeLayer.minScale = jsObject.minScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

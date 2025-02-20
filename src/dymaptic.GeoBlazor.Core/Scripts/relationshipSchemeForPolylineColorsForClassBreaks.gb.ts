@@ -42,9 +42,9 @@ export async function buildDotNetRelationshipSchemeForPolylineColorsForClassBrea
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetRelationshipSchemeForPolylineColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetRelationshipSchemeForPolylineColorsForClassBreaks.numClasses = jsObject.numClasses;
-        }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetRelationshipSchemeForPolylineColorsForClassBreaks.numClasses = jsObject.numClasses;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

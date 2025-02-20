@@ -43,12 +43,12 @@ export async function buildDotNetLineOfSightAnalysisView3DGenerated(jsObject: an
             let { buildDotNetLineOfSightAnalysisResult } = await import('./lineOfSightAnalysisResult');
             dotNetLineOfSightAnalysisView3D.results = await Promise.all(jsObject.results.map(async i => await buildDotNetLineOfSightAnalysisResult(i)));
         }
-        if (hasValue(jsObject.interactive)) {
-            dotNetLineOfSightAnalysisView3D.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetLineOfSightAnalysisView3D.type = jsObject.type;
-        }
+    if (hasValue(jsObject.interactive)) {
+        dotNetLineOfSightAnalysisView3D.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetLineOfSightAnalysisView3D.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

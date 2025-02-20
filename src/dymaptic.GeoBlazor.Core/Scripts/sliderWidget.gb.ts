@@ -74,102 +74,102 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
             let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
             dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetSliderWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.draggableSegmentsEnabled)) {
-            dotNetSliderWidget.draggableSegmentsEnabled = jsObject.draggableSegmentsEnabled;
-        }
-        if (hasValue(jsObject.effectiveMax)) {
-            dotNetSliderWidget.effectiveMax = jsObject.effectiveMax;
-        }
-        if (hasValue(jsObject.effectiveMin)) {
-            dotNetSliderWidget.effectiveMin = jsObject.effectiveMin;
-        }
-        if (hasValue(jsObject.effectiveSegmentElements)) {
-            dotNetSliderWidget.effectiveSegmentElements = jsObject.effectiveSegmentElements;
-        }
-        if (hasValue(jsObject.inputCreatedFunction)) {
-            dotNetSliderWidget.inputCreatedFunction = jsObject.inputCreatedFunction;
-        }
-        if (hasValue(jsObject.inputFormatFunction)) {
-            dotNetSliderWidget.inputFormatFunction = jsObject.inputFormatFunction;
-        }
-        if (hasValue(jsObject.inputParseFunction)) {
-            dotNetSliderWidget.inputParseFunction = jsObject.inputParseFunction;
-        }
-        if (hasValue(jsObject.labelElements)) {
-            dotNetSliderWidget.labelElements = jsObject.labelElements;
-        }
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetSliderWidget.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labelInputsEnabled)) {
-            dotNetSliderWidget.labelInputsEnabled = jsObject.labelInputsEnabled;
-        }
-        if (hasValue(jsObject.labels)) {
-            dotNetSliderWidget.labels = jsObject.labels;
-        }
-        if (hasValue(jsObject.layout)) {
-            dotNetSliderWidget.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.max)) {
-            dotNetSliderWidget.max = jsObject.max;
-        }
-        if (hasValue(jsObject.maxLabelElement)) {
-            dotNetSliderWidget.maxLabelElement = jsObject.maxLabelElement;
-        }
-        if (hasValue(jsObject.min)) {
-            dotNetSliderWidget.min = jsObject.min;
-        }
-        if (hasValue(jsObject.minLabelElement)) {
-            dotNetSliderWidget.minLabelElement = jsObject.minLabelElement;
-        }
-        if (hasValue(jsObject.precision)) {
-            dotNetSliderWidget.precision = jsObject.precision;
-        }
-        if (hasValue(jsObject.rangeLabelInputsEnabled)) {
-            dotNetSliderWidget.rangeLabelInputsEnabled = jsObject.rangeLabelInputsEnabled;
-        }
-        if (hasValue(jsObject.segmentElements)) {
-            dotNetSliderWidget.segmentElements = jsObject.segmentElements;
-        }
-        if (hasValue(jsObject.snapOnClickEnabled)) {
-            dotNetSliderWidget.snapOnClickEnabled = jsObject.snapOnClickEnabled;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetSliderWidget.state = jsObject.state;
-        }
-        if (hasValue(jsObject.steps)) {
-            dotNetSliderWidget.steps = jsObject.steps;
-        }
-        if (hasValue(jsObject.syncedSegmentsEnabled)) {
-            dotNetSliderWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
-        }
-        if (hasValue(jsObject.thumbCreatedFunction)) {
-            dotNetSliderWidget.thumbCreatedFunction = jsObject.thumbCreatedFunction;
-        }
-        if (hasValue(jsObject.thumbElements)) {
-            dotNetSliderWidget.thumbElements = jsObject.thumbElements;
-        }
-        if (hasValue(jsObject.thumbsConstrained)) {
-            dotNetSliderWidget.thumbsConstrained = jsObject.thumbsConstrained;
-        }
-        if (hasValue(jsObject.tickElements)) {
-            dotNetSliderWidget.tickElements = jsObject.tickElements;
-        }
-        if (hasValue(jsObject.trackElement)) {
-            dotNetSliderWidget.trackElement = jsObject.trackElement;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSliderWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetSliderWidget.values = jsObject.values;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetSliderWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetSliderWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.draggableSegmentsEnabled)) {
+        dotNetSliderWidget.draggableSegmentsEnabled = jsObject.draggableSegmentsEnabled;
+    }
+    if (hasValue(jsObject.effectiveMax)) {
+        dotNetSliderWidget.effectiveMax = jsObject.effectiveMax;
+    }
+    if (hasValue(jsObject.effectiveMin)) {
+        dotNetSliderWidget.effectiveMin = jsObject.effectiveMin;
+    }
+    if (hasValue(jsObject.effectiveSegmentElements)) {
+        dotNetSliderWidget.effectiveSegmentElements = jsObject.effectiveSegmentElements;
+    }
+    if (hasValue(jsObject.inputCreatedFunction)) {
+        dotNetSliderWidget.inputCreatedFunction = jsObject.inputCreatedFunction;
+    }
+    if (hasValue(jsObject.inputFormatFunction)) {
+        dotNetSliderWidget.inputFormatFunction = jsObject.inputFormatFunction;
+    }
+    if (hasValue(jsObject.inputParseFunction)) {
+        dotNetSliderWidget.inputParseFunction = jsObject.inputParseFunction;
+    }
+    if (hasValue(jsObject.labelElements)) {
+        dotNetSliderWidget.labelElements = jsObject.labelElements;
+    }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetSliderWidget.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labelInputsEnabled)) {
+        dotNetSliderWidget.labelInputsEnabled = jsObject.labelInputsEnabled;
+    }
+    if (hasValue(jsObject.labels)) {
+        dotNetSliderWidget.labels = jsObject.labels;
+    }
+    if (hasValue(jsObject.layout)) {
+        dotNetSliderWidget.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.max)) {
+        dotNetSliderWidget.max = jsObject.max;
+    }
+    if (hasValue(jsObject.maxLabelElement)) {
+        dotNetSliderWidget.maxLabelElement = jsObject.maxLabelElement;
+    }
+    if (hasValue(jsObject.min)) {
+        dotNetSliderWidget.min = jsObject.min;
+    }
+    if (hasValue(jsObject.minLabelElement)) {
+        dotNetSliderWidget.minLabelElement = jsObject.minLabelElement;
+    }
+    if (hasValue(jsObject.precision)) {
+        dotNetSliderWidget.precision = jsObject.precision;
+    }
+    if (hasValue(jsObject.rangeLabelInputsEnabled)) {
+        dotNetSliderWidget.rangeLabelInputsEnabled = jsObject.rangeLabelInputsEnabled;
+    }
+    if (hasValue(jsObject.segmentElements)) {
+        dotNetSliderWidget.segmentElements = jsObject.segmentElements;
+    }
+    if (hasValue(jsObject.snapOnClickEnabled)) {
+        dotNetSliderWidget.snapOnClickEnabled = jsObject.snapOnClickEnabled;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetSliderWidget.state = jsObject.state;
+    }
+    if (hasValue(jsObject.steps)) {
+        dotNetSliderWidget.steps = jsObject.steps;
+    }
+    if (hasValue(jsObject.syncedSegmentsEnabled)) {
+        dotNetSliderWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(jsObject.thumbCreatedFunction)) {
+        dotNetSliderWidget.thumbCreatedFunction = jsObject.thumbCreatedFunction;
+    }
+    if (hasValue(jsObject.thumbElements)) {
+        dotNetSliderWidget.thumbElements = jsObject.thumbElements;
+    }
+    if (hasValue(jsObject.thumbsConstrained)) {
+        dotNetSliderWidget.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.tickElements)) {
+        dotNetSliderWidget.tickElements = jsObject.tickElements;
+    }
+    if (hasValue(jsObject.trackElement)) {
+        dotNetSliderWidget.trackElement = jsObject.trackElement;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSliderWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetSliderWidget.values = jsObject.values;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetSliderWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

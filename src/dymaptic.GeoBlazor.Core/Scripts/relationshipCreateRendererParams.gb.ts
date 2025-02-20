@@ -82,51 +82,51 @@ export async function buildDotNetRelationshipCreateRendererParamsGenerated(jsObj
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classificationMethod)) {
-            dotNetRelationshipCreateRendererParams.classificationMethod = jsObject.classificationMethod;
-        }
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetRelationshipCreateRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetRelationshipCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.field1)) {
-            dotNetRelationshipCreateRendererParams.field1 = jsObject.field1;
-        }
-        if (hasValue(jsObject.field2)) {
-            dotNetRelationshipCreateRendererParams.field2 = jsObject.field2;
-        }
-        if (hasValue(jsObject.focus)) {
-            dotNetRelationshipCreateRendererParams.focus = jsObject.focus;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetRelationshipCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetRelationshipCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.numClasses)) {
-            dotNetRelationshipCreateRendererParams.numClasses = jsObject.numClasses;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetRelationshipCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.relationshipScheme)) {
-            dotNetRelationshipCreateRendererParams.relationshipScheme = jsObject.relationshipScheme;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetRelationshipCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetRelationshipCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetRelationshipCreateRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetRelationshipCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.classificationMethod)) {
+        dotNetRelationshipCreateRendererParams.classificationMethod = jsObject.classificationMethod;
+    }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetRelationshipCreateRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetRelationshipCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.field1)) {
+        dotNetRelationshipCreateRendererParams.field1 = jsObject.field1;
+    }
+    if (hasValue(jsObject.field2)) {
+        dotNetRelationshipCreateRendererParams.field2 = jsObject.field2;
+    }
+    if (hasValue(jsObject.focus)) {
+        dotNetRelationshipCreateRendererParams.focus = jsObject.focus;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetRelationshipCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetRelationshipCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.numClasses)) {
+        dotNetRelationshipCreateRendererParams.numClasses = jsObject.numClasses;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetRelationshipCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.relationshipScheme)) {
+        dotNetRelationshipCreateRendererParams.relationshipScheme = jsObject.relationshipScheme;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetRelationshipCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetRelationshipCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetRelationshipCreateRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetRelationshipCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

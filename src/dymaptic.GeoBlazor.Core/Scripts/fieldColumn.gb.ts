@@ -178,102 +178,102 @@ export async function buildDotNetFieldColumnGenerated(jsObject: any): Promise<an
             let { buildDotNetColumnTableMenuConfig } = await import('./columnTableMenuConfig');
             dotNetFieldColumn.menuConfig = await buildDotNetColumnTableMenuConfig(jsObject.menuConfig);
         }
-        if (hasValue(jsObject.alias)) {
-            dotNetFieldColumn.alias = jsObject.alias;
-        }
-        if (hasValue(jsObject.autoWidth)) {
-            dotNetFieldColumn.autoWidth = jsObject.autoWidth;
-        }
-        if (hasValue(jsObject.defaultValue)) {
-            dotNetFieldColumn.defaultValue = jsObject.defaultValue;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetFieldColumn.description = jsObject.description;
-        }
-        if (hasValue(jsObject.direction)) {
-            dotNetFieldColumn.direction = jsObject.direction;
-        }
-        if (hasValue(jsObject.editable)) {
-            dotNetFieldColumn.editable = jsObject.editable;
-        }
-        if (hasValue(jsObject.effectiveLabel)) {
-            dotNetFieldColumn.effectiveLabel = jsObject.effectiveLabel;
-        }
-        if (hasValue(jsObject.fieldName)) {
-            dotNetFieldColumn.fieldName = jsObject.fieldName;
-        }
-        if (hasValue(jsObject.flexGrow)) {
-            dotNetFieldColumn.flexGrow = jsObject.flexGrow;
-        }
-        if (hasValue(jsObject.formatFunction)) {
-            dotNetFieldColumn.formatFunction = jsObject.formatFunction;
-        }
-        if (hasValue(jsObject.frozen)) {
-            dotNetFieldColumn.frozen = jsObject.frozen;
-        }
-        if (hasValue(jsObject.frozenToEnd)) {
-            dotNetFieldColumn.frozenToEnd = jsObject.frozenToEnd;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetFieldColumn.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.initialSortPriority)) {
-            dotNetFieldColumn.initialSortPriority = jsObject.initialSortPriority;
-        }
-        if (hasValue(jsObject.invalid)) {
-            dotNetFieldColumn.invalid = jsObject.invalid;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetFieldColumn.label = jsObject.label;
-        }
-        if (hasValue(jsObject.maxLength)) {
-            dotNetFieldColumn.maxLength = jsObject.maxLength;
-        }
-        if (hasValue(jsObject.menu)) {
-            dotNetFieldColumn.menu = jsObject.menu;
-        }
-        if (hasValue(jsObject.menuIsOpen)) {
-            dotNetFieldColumn.menuIsOpen = jsObject.menuIsOpen;
-        }
-        if (hasValue(jsObject.menuIsVisible)) {
-            dotNetFieldColumn.menuIsVisible = jsObject.menuIsVisible;
-        }
-        if (hasValue(jsObject.minLength)) {
-            dotNetFieldColumn.minLength = jsObject.minLength;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetFieldColumn.name = jsObject.name;
-        }
-        if (hasValue(jsObject.nullable)) {
-            dotNetFieldColumn.nullable = jsObject.nullable;
-        }
-        if (hasValue(jsObject.required)) {
-            dotNetFieldColumn.required = jsObject.required;
-        }
-        if (hasValue(jsObject.resizable)) {
-            dotNetFieldColumn.resizable = jsObject.resizable;
-        }
-        if (hasValue(jsObject.sortable)) {
-            dotNetFieldColumn.sortable = jsObject.sortable;
-        }
-        if (hasValue(jsObject.template)) {
-            dotNetFieldColumn.template = jsObject.template;
-        }
-        if (hasValue(jsObject.textAlign)) {
-            dotNetFieldColumn.textAlign = jsObject.textAlign;
-        }
-        if (hasValue(jsObject.textWrap)) {
-            dotNetFieldColumn.textWrap = jsObject.textWrap;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFieldColumn.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetFieldColumn.visibleElements = jsObject.visibleElements;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetFieldColumn.width = jsObject.width;
-        }
+    if (hasValue(jsObject.alias)) {
+        dotNetFieldColumn.alias = jsObject.alias;
+    }
+    if (hasValue(jsObject.autoWidth)) {
+        dotNetFieldColumn.autoWidth = jsObject.autoWidth;
+    }
+    if (hasValue(jsObject.defaultValue)) {
+        dotNetFieldColumn.defaultValue = jsObject.defaultValue;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetFieldColumn.description = jsObject.description;
+    }
+    if (hasValue(jsObject.direction)) {
+        dotNetFieldColumn.direction = jsObject.direction;
+    }
+    if (hasValue(jsObject.editable)) {
+        dotNetFieldColumn.editable = jsObject.editable;
+    }
+    if (hasValue(jsObject.effectiveLabel)) {
+        dotNetFieldColumn.effectiveLabel = jsObject.effectiveLabel;
+    }
+    if (hasValue(jsObject.fieldName)) {
+        dotNetFieldColumn.fieldName = jsObject.fieldName;
+    }
+    if (hasValue(jsObject.flexGrow)) {
+        dotNetFieldColumn.flexGrow = jsObject.flexGrow;
+    }
+    if (hasValue(jsObject.formatFunction)) {
+        dotNetFieldColumn.formatFunction = jsObject.formatFunction;
+    }
+    if (hasValue(jsObject.frozen)) {
+        dotNetFieldColumn.frozen = jsObject.frozen;
+    }
+    if (hasValue(jsObject.frozenToEnd)) {
+        dotNetFieldColumn.frozenToEnd = jsObject.frozenToEnd;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetFieldColumn.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.initialSortPriority)) {
+        dotNetFieldColumn.initialSortPriority = jsObject.initialSortPriority;
+    }
+    if (hasValue(jsObject.invalid)) {
+        dotNetFieldColumn.invalid = jsObject.invalid;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetFieldColumn.label = jsObject.label;
+    }
+    if (hasValue(jsObject.maxLength)) {
+        dotNetFieldColumn.maxLength = jsObject.maxLength;
+    }
+    if (hasValue(jsObject.menu)) {
+        dotNetFieldColumn.menu = jsObject.menu;
+    }
+    if (hasValue(jsObject.menuIsOpen)) {
+        dotNetFieldColumn.menuIsOpen = jsObject.menuIsOpen;
+    }
+    if (hasValue(jsObject.menuIsVisible)) {
+        dotNetFieldColumn.menuIsVisible = jsObject.menuIsVisible;
+    }
+    if (hasValue(jsObject.minLength)) {
+        dotNetFieldColumn.minLength = jsObject.minLength;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetFieldColumn.name = jsObject.name;
+    }
+    if (hasValue(jsObject.nullable)) {
+        dotNetFieldColumn.nullable = jsObject.nullable;
+    }
+    if (hasValue(jsObject.required)) {
+        dotNetFieldColumn.required = jsObject.required;
+    }
+    if (hasValue(jsObject.resizable)) {
+        dotNetFieldColumn.resizable = jsObject.resizable;
+    }
+    if (hasValue(jsObject.sortable)) {
+        dotNetFieldColumn.sortable = jsObject.sortable;
+    }
+    if (hasValue(jsObject.template)) {
+        dotNetFieldColumn.template = jsObject.template;
+    }
+    if (hasValue(jsObject.textAlign)) {
+        dotNetFieldColumn.textAlign = jsObject.textAlign;
+    }
+    if (hasValue(jsObject.textWrap)) {
+        dotNetFieldColumn.textWrap = jsObject.textWrap;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFieldColumn.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetFieldColumn.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetFieldColumn.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

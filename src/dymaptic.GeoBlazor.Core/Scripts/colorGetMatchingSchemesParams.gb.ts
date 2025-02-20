@@ -8,13 +8,13 @@ export async function buildJsColorGetMatchingSchemesParamsGenerated(dotNetObject
         let { buildJsMapColor } = await import('./mapColor');
         jscolorGetMatchingSchemesParams.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jscolorGetMatchingSchemesParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.geometryType)) {
         jscolorGetMatchingSchemesParams.geometryType = dotNetObject.geometryType;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jscolorGetMatchingSchemesParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.view)) {
         jscolorGetMatchingSchemesParams.view = dotNetObject.view;
@@ -52,18 +52,19 @@ export async function buildDotNetColorGetMatchingSchemesParamsGenerated(jsObject
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetColorGetMatchingSchemesParams.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
         }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetColorGetMatchingSchemesParams.geometryType = jsObject.geometryType;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetColorGetMatchingSchemesParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetColorGetMatchingSchemesParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetColorGetMatchingSchemesParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetColorGetMatchingSchemesParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetColorGetMatchingSchemesParams.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorGetMatchingSchemesParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetColorGetMatchingSchemesParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

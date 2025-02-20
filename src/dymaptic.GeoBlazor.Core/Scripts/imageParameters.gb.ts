@@ -77,27 +77,27 @@ export async function buildDotNetImageParametersGenerated(jsObject: any): Promis
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetImageParameters.imageSpatialReference = buildDotNetSpatialReference(jsObject.imageSpatialReference);
         }
-        if (hasValue(jsObject.dpi)) {
-            dotNetImageParameters.dpi = jsObject.dpi;
-        }
-        if (hasValue(jsObject.height)) {
-            dotNetImageParameters.height = jsObject.height;
-        }
-        if (hasValue(jsObject.layerDefinitions)) {
-            dotNetImageParameters.layerDefinitions = jsObject.layerDefinitions;
-        }
-        if (hasValue(jsObject.layerIds)) {
-            dotNetImageParameters.layerIds = jsObject.layerIds;
-        }
-        if (hasValue(jsObject.layerOption)) {
-            dotNetImageParameters.layerOption = jsObject.layerOption;
-        }
-        if (hasValue(jsObject.transparent)) {
-            dotNetImageParameters.transparent = jsObject.transparent;
-        }
-        if (hasValue(jsObject.width)) {
-            dotNetImageParameters.width = jsObject.width;
-        }
+    if (hasValue(jsObject.dpi)) {
+        dotNetImageParameters.dpi = jsObject.dpi;
+    }
+    if (hasValue(jsObject.height)) {
+        dotNetImageParameters.height = jsObject.height;
+    }
+    if (hasValue(jsObject.layerDefinitions)) {
+        dotNetImageParameters.layerDefinitions = jsObject.layerDefinitions;
+    }
+    if (hasValue(jsObject.layerIds)) {
+        dotNetImageParameters.layerIds = jsObject.layerIds;
+    }
+    if (hasValue(jsObject.layerOption)) {
+        dotNetImageParameters.layerOption = jsObject.layerOption;
+    }
+    if (hasValue(jsObject.transparent)) {
+        dotNetImageParameters.transparent = jsObject.transparent;
+    }
+    if (hasValue(jsObject.width)) {
+        dotNetImageParameters.width = jsObject.width;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -59,30 +59,30 @@ export async function buildDotNetLocationCreateRendererParamsGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetLocationCreateRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetLocationCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.locationScheme)) {
-            dotNetLocationCreateRendererParams.locationScheme = jsObject.locationScheme;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetLocationCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetLocationCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetLocationCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetLocationCreateRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLocationCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetLocationCreateRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetLocationCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.locationScheme)) {
+        dotNetLocationCreateRendererParams.locationScheme = jsObject.locationScheme;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetLocationCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetLocationCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetLocationCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetLocationCreateRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLocationCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

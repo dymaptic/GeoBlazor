@@ -99,27 +99,27 @@ export async function buildDotNetCredentialGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.expires)) {
-            dotNetCredential.expires = jsObject.expires;
-        }
-        if (hasValue(jsObject.isAdmin)) {
-            dotNetCredential.isAdmin = jsObject.isAdmin;
-        }
-        if (hasValue(jsObject.oAuthState)) {
-            dotNetCredential.oAuthState = jsObject.oAuthState;
-        }
-        if (hasValue(jsObject.server)) {
-            dotNetCredential.server = jsObject.server;
-        }
-        if (hasValue(jsObject.ssl)) {
-            dotNetCredential.ssl = jsObject.ssl;
-        }
-        if (hasValue(jsObject.token)) {
-            dotNetCredential.token = jsObject.token;
-        }
-        if (hasValue(jsObject.userId)) {
-            dotNetCredential.userId = jsObject.userId;
-        }
+    if (hasValue(jsObject.expires)) {
+        dotNetCredential.expires = jsObject.expires;
+    }
+    if (hasValue(jsObject.isAdmin)) {
+        dotNetCredential.isAdmin = jsObject.isAdmin;
+    }
+    if (hasValue(jsObject.oAuthState)) {
+        dotNetCredential.oAuthState = jsObject.oAuthState;
+    }
+    if (hasValue(jsObject.server)) {
+        dotNetCredential.server = jsObject.server;
+    }
+    if (hasValue(jsObject.ssl)) {
+        dotNetCredential.ssl = jsObject.ssl;
+    }
+    if (hasValue(jsObject.token)) {
+        dotNetCredential.token = jsObject.token;
+    }
+    if (hasValue(jsObject.userId)) {
+        dotNetCredential.userId = jsObject.userId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

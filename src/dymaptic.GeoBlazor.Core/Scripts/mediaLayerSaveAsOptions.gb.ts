@@ -38,12 +38,12 @@ export async function buildDotNetMediaLayerSaveAsOptionsGenerated(jsObject: any)
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            dotNetMediaLayerSaveAsOptions.folder = jsObject.folder;
-        }
-        if (hasValue(jsObject.validationOptions)) {
-            dotNetMediaLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
-        }
+    if (hasValue(jsObject.folder)) {
+        dotNetMediaLayerSaveAsOptions.folder = jsObject.folder;
+    }
+    if (hasValue(jsObject.validationOptions)) {
+        dotNetMediaLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

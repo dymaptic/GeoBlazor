@@ -53,12 +53,12 @@ export async function buildDotNetPieChartSchemesGenerated(jsObject: any): Promis
             let { buildDotNetPieChartScheme } = await import('./pieChartScheme');
             dotNetPieChartSchemes.secondarySchemes = await Promise.all(jsObject.secondarySchemes.map(async i => await buildDotNetPieChartScheme(i)));
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetPieChartSchemes.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetPieChartSchemes.basemapTheme = jsObject.basemapTheme;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetPieChartSchemes.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetPieChartSchemes.basemapTheme = jsObject.basemapTheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

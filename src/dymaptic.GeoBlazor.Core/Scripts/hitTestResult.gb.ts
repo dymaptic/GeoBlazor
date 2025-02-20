@@ -38,12 +38,12 @@ export async function buildDotNetHitTestResultGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.results)) {
-            dotNetHitTestResult.results = jsObject.results;
-        }
-        if (hasValue(jsObject.screenPoint)) {
-            dotNetHitTestResult.screenPoint = jsObject.screenPoint;
-        }
+    if (hasValue(jsObject.results)) {
+        dotNetHitTestResult.results = jsObject.results;
+    }
+    if (hasValue(jsObject.screenPoint)) {
+        dotNetHitTestResult.screenPoint = jsObject.screenPoint;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

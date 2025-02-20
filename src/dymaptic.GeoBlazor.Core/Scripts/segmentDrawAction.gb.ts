@@ -119,18 +119,18 @@ export async function buildDotNetSegmentDrawActionGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.hasZ)) {
-            dotNetSegmentDrawAction.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetSegmentDrawAction.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.vertices)) {
-            dotNetSegmentDrawAction.vertices = jsObject.vertices;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSegmentDrawAction.view = jsObject.view;
-        }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetSegmentDrawAction.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetSegmentDrawAction.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.vertices)) {
+        dotNetSegmentDrawAction.vertices = jsObject.vertices;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSegmentDrawAction.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

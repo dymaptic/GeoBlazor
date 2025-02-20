@@ -76,42 +76,42 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.allowOverrun)) {
-            dotNetLabel.allowOverrun = jsObject.allowOverrun;
-        }
-        if (hasValue(jsObject.deconflictionStrategy)) {
-            dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
-        }
-        if (hasValue(jsObject.labelExpression)) {
-            dotNetLabel.labelExpression = jsObject.labelExpression;
-        }
-        if (hasValue(jsObject.labelExpressionInfo)) {
-            dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
-        }
-        if (hasValue(jsObject.labelPlacement)) {
-            dotNetLabel.labelPlacement = jsObject.labelPlacement;
-        }
-        if (hasValue(jsObject.labelPosition)) {
-            dotNetLabel.labelPosition = jsObject.labelPosition;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetLabel.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetLabel.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.repeatLabel)) {
-            dotNetLabel.repeatLabel = jsObject.repeatLabel;
-        }
-        if (hasValue(jsObject.repeatLabelDistance)) {
-            dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
-        }
-        if (hasValue(jsObject.useCodedValues)) {
-            dotNetLabel.useCodedValues = jsObject.useCodedValues;
-        }
-        if (hasValue(jsObject.where)) {
-            dotNetLabel.where = jsObject.where;
-        }
+    if (hasValue(jsObject.allowOverrun)) {
+        dotNetLabel.allowOverrun = jsObject.allowOverrun;
+    }
+    if (hasValue(jsObject.deconflictionStrategy)) {
+        dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
+    }
+    if (hasValue(jsObject.labelExpression)) {
+        dotNetLabel.labelExpression = jsObject.labelExpression;
+    }
+    if (hasValue(jsObject.labelExpressionInfo)) {
+        dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
+    }
+    if (hasValue(jsObject.labelPlacement)) {
+        dotNetLabel.labelPlacement = jsObject.labelPlacement;
+    }
+    if (hasValue(jsObject.labelPosition)) {
+        dotNetLabel.labelPosition = jsObject.labelPosition;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetLabel.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetLabel.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.repeatLabel)) {
+        dotNetLabel.repeatLabel = jsObject.repeatLabel;
+    }
+    if (hasValue(jsObject.repeatLabelDistance)) {
+        dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
+    }
+    if (hasValue(jsObject.useCodedValues)) {
+        dotNetLabel.useCodedValues = jsObject.useCodedValues;
+    }
+    if (hasValue(jsObject.where)) {
+        dotNetLabel.where = jsObject.where;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

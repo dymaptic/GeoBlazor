@@ -151,17 +151,17 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return FeatureEffect;
         }
 
-        // get the property value
-        FeatureEffect? result = await JsComponentReference!.InvokeAsync<FeatureEffect?>("getProperty",
-            CancellationTokenSource.Token, "featureEffect");
+        FeatureEffect? result = await JsComponentReference.InvokeAsync<FeatureEffect?>(
+            "getFeatureEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureEffect = result;
+            FeatureEffect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+            ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
         }
-         
+        
         return FeatureEffect;
     }
     
@@ -306,17 +306,17 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return HighlightOptions;
         }
 
-        // get the property value
-        HighlightOptions? result = await JsComponentReference!.InvokeAsync<HighlightOptions?>("getProperty",
-            CancellationTokenSource.Token, "highlightOptions");
+        HighlightOptions? result = await JsComponentReference.InvokeAsync<HighlightOptions?>(
+            "getHighlightOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             HighlightOptions = result;
+            HighlightOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
+            ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
         }
-         
+        
         return HighlightOptions;
     }
     

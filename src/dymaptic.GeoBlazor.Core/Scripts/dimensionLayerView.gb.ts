@@ -114,27 +114,27 @@ export async function buildDotNetDimensionLayerViewGenerated(jsObject: any): Pro
             let { buildDotNetLengthDimension } = await import('./lengthDimension');
             dotNetDimensionLayerView.selectedDimension = await buildDotNetLengthDimension(jsObject.selectedDimension);
         }
-        if (hasValue(jsObject.interactive)) {
-            dotNetDimensionLayerView.interactive = jsObject.interactive;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetDimensionLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetDimensionLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetDimensionLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetDimensionLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetDimensionLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetDimensionLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.interactive)) {
+        dotNetDimensionLayerView.interactive = jsObject.interactive;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetDimensionLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetDimensionLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetDimensionLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetDimensionLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetDimensionLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetDimensionLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

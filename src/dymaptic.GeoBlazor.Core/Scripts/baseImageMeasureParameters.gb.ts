@@ -42,9 +42,9 @@ export async function buildDotNetBaseImageMeasureParametersGenerated(jsObject: a
             let { buildDotNetMosaicRule } = await import('./mosaicRule');
             dotNetBaseImageMeasureParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
         }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetBaseImageMeasureParameters.pixelSize = jsObject.pixelSize;
-        }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetBaseImageMeasureParameters.pixelSize = jsObject.pixelSize;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

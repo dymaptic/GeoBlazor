@@ -94,12 +94,12 @@ export async function buildDotNetRouteResultGenerated(jsObject: any, layerId: st
             let { buildDotNetFeatureSet } = await import('./featureSet');
             dotNetRouteResult.traversedTurns = await buildDotNetFeatureSet(jsObject.traversedTurns, layerId, viewId);
         }
-        if (hasValue(jsObject.directions)) {
-            dotNetRouteResult.directions = jsObject.directions;
-        }
-        if (hasValue(jsObject.routeName)) {
-            dotNetRouteResult.routeName = jsObject.routeName;
-        }
+    if (hasValue(jsObject.directions)) {
+        dotNetRouteResult.directions = jsObject.directions;
+    }
+    if (hasValue(jsObject.routeName)) {
+        dotNetRouteResult.routeName = jsObject.routeName;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

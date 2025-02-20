@@ -35,9 +35,9 @@ export async function buildDotNetGeotriggersInfoGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geotriggers)) {
-            dotNetGeotriggersInfo.geotriggers = jsObject.geotriggers;
-        }
+    if (hasValue(jsObject.geotriggers)) {
+        dotNetGeotriggersInfo.geotriggers = jsObject.geotriggers;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

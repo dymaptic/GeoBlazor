@@ -51,18 +51,18 @@ export async function buildDotNetValidateTopologyPropsGenerated(jsObject: any): 
             let { buildDotNetExtent } = await import('./extent');
             dotNetValidateTopologyProps.validateArea = buildDotNetExtent(jsObject.validateArea);
         }
-        if (hasValue(jsObject.gdbVersion)) {
-            dotNetValidateTopologyProps.gdbVersion = jsObject.gdbVersion;
-        }
-        if (hasValue(jsObject.sessionID)) {
-            dotNetValidateTopologyProps.sessionID = jsObject.sessionID;
-        }
-        if (hasValue(jsObject.validationSet)) {
-            dotNetValidateTopologyProps.validationSet = jsObject.validationSet;
-        }
-        if (hasValue(jsObject.validationType)) {
-            dotNetValidateTopologyProps.validationType = jsObject.validationType;
-        }
+    if (hasValue(jsObject.gdbVersion)) {
+        dotNetValidateTopologyProps.gdbVersion = jsObject.gdbVersion;
+    }
+    if (hasValue(jsObject.sessionID)) {
+        dotNetValidateTopologyProps.sessionID = jsObject.sessionID;
+    }
+    if (hasValue(jsObject.validationSet)) {
+        dotNetValidateTopologyProps.validationSet = jsObject.validationSet;
+    }
+    if (hasValue(jsObject.validationType)) {
+        dotNetValidateTopologyProps.validationType = jsObject.validationType;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

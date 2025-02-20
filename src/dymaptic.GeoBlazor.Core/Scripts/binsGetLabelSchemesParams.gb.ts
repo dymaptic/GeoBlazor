@@ -46,9 +46,9 @@ export async function buildDotNetBinsGetLabelSchemesParamsGenerated(jsObject: an
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetBinsGetLabelSchemesParams.renderer = await buildDotNetRenderer(jsObject.renderer);
         }
-        if (hasValue(jsObject.field)) {
-            dotNetBinsGetLabelSchemesParams.field = jsObject.field;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetBinsGetLabelSchemesParams.field = jsObject.field;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

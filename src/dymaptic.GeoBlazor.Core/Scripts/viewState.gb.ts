@@ -110,21 +110,21 @@ export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any>
             let { buildDotNetExtent } = await import('./extent');
             dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
         }
-        if (hasValue(jsObject.center)) {
-            dotNetViewState.center = jsObject.center;
-        }
-        if (hasValue(jsObject.resolution)) {
-            dotNetViewState.resolution = jsObject.resolution;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetViewState.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetViewState.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetViewState.size = jsObject.size;
-        }
+    if (hasValue(jsObject.center)) {
+        dotNetViewState.center = jsObject.center;
+    }
+    if (hasValue(jsObject.resolution)) {
+        dotNetViewState.resolution = jsObject.resolution;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetViewState.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetViewState.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetViewState.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

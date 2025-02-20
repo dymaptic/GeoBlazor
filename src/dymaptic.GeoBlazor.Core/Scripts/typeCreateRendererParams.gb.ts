@@ -92,63 +92,63 @@ export async function buildDotNetTypeCreateRendererParamsGenerated(jsObject: any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetTypeCreateRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetTypeCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetTypeCreateRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.field2)) {
-            dotNetTypeCreateRendererParams.field2 = jsObject.field2;
-        }
-        if (hasValue(jsObject.field3)) {
-            dotNetTypeCreateRendererParams.field3 = jsObject.field3;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetTypeCreateRendererParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetTypeCreateRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.numTypes)) {
-            dotNetTypeCreateRendererParams.numTypes = jsObject.numTypes;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetTypeCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.returnAllCodedValues)) {
-            dotNetTypeCreateRendererParams.returnAllCodedValues = jsObject.returnAllCodedValues;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetTypeCreateRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetTypeCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.sortBy)) {
-            dotNetTypeCreateRendererParams.sortBy = jsObject.sortBy;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetTypeCreateRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetTypeCreateRendererParams.symbolType = jsObject.symbolType;
-        }
-        if (hasValue(jsObject.typeScheme)) {
-            dotNetTypeCreateRendererParams.typeScheme = jsObject.typeScheme;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetTypeCreateRendererParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetTypeCreateRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetTypeCreateRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetTypeCreateRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetTypeCreateRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetTypeCreateRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.field2)) {
+        dotNetTypeCreateRendererParams.field2 = jsObject.field2;
+    }
+    if (hasValue(jsObject.field3)) {
+        dotNetTypeCreateRendererParams.field3 = jsObject.field3;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetTypeCreateRendererParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetTypeCreateRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.numTypes)) {
+        dotNetTypeCreateRendererParams.numTypes = jsObject.numTypes;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetTypeCreateRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.returnAllCodedValues)) {
+        dotNetTypeCreateRendererParams.returnAllCodedValues = jsObject.returnAllCodedValues;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetTypeCreateRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetTypeCreateRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.sortBy)) {
+        dotNetTypeCreateRendererParams.sortBy = jsObject.sortBy;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetTypeCreateRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetTypeCreateRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.typeScheme)) {
+        dotNetTypeCreateRendererParams.typeScheme = jsObject.typeScheme;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetTypeCreateRendererParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetTypeCreateRendererParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetTypeCreateRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

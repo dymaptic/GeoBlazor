@@ -58,21 +58,21 @@ export async function buildDotNetTypeCreatePCClassRendererParamsGenerated(jsObje
             let { buildDotNetTypeSchemeForPoint } = await import('./typeSchemeForPoint');
             dotNetTypeCreatePCClassRendererParams.typeScheme = await buildDotNetTypeSchemeForPoint(jsObject.typeScheme);
         }
-        if (hasValue(jsObject.density)) {
-            dotNetTypeCreatePCClassRendererParams.density = jsObject.density;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetTypeCreatePCClassRendererParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetTypeCreatePCClassRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetTypeCreatePCClassRendererParams.size = jsObject.size;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetTypeCreatePCClassRendererParams.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.density)) {
+        dotNetTypeCreatePCClassRendererParams.density = jsObject.density;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetTypeCreatePCClassRendererParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetTypeCreatePCClassRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetTypeCreatePCClassRendererParams.size = jsObject.size;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetTypeCreatePCClassRendererParams.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -83,24 +83,24 @@ export async function buildDotNetButtonMenuWidgetGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.disabled)) {
-            dotNetButtonMenuWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.iconClass)) {
-            dotNetButtonMenuWidget.iconClass = jsObject.iconClass;
-        }
-        if (hasValue(jsObject.items)) {
-            dotNetButtonMenuWidget.items = jsObject.items;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetButtonMenuWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetButtonMenuWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.viewModel)) {
-            dotNetButtonMenuWidget.viewModel = jsObject.viewModel;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetButtonMenuWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.iconClass)) {
+        dotNetButtonMenuWidget.iconClass = jsObject.iconClass;
+    }
+    if (hasValue(jsObject.items)) {
+        dotNetButtonMenuWidget.items = jsObject.items;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetButtonMenuWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetButtonMenuWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.viewModel)) {
+        dotNetButtonMenuWidget.viewModel = jsObject.viewModel;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -67,15 +67,15 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageHistogramParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageHistogramParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetImageHistogramParameters.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetImageHistogramParameters.renderingRule = jsObject.renderingRule;
-        }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageHistogramParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetImageHistogramParameters.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetImageHistogramParameters.renderingRule = jsObject.renderingRule;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

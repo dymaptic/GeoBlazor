@@ -19,12 +19,32 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+    async highlight(target: any): Promise<any> {
+        let { buildJsGraphic } = await import('./graphic');
+        let jsTarget = buildJsGraphic(target) as any;
+        let result = this.component.highlight(jsTarget);
+        let { buildDotNetHighlightHandle } = await import('./highlightHandle');
+        return await buildDotNetHighlightHandle(result);
+    }
+
     async queryGraphics(): Promise<any> {
         return await this.component.queryGraphics();
     }
 
     // region properties
     
+    async getHighlightOptions(): Promise<any> {
+        if (!hasValue(this.component.highlightOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+    }
+    async setHighlightOptions(value: any): Promise<void> {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+    }
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -45,6 +65,10 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
 
 export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphicsLayerView = new GraphicsLayerView();
+    if (hasValue(dotNetObject.highlightOptions)) {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+    }
 
 
     let { default: GraphicsLayerViewWrapper } = await import('./graphicsLayerView');
@@ -78,24 +102,28 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+        if (hasValue(jsObject.highlightOptions)) {
+            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+            dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
         }
-        if (hasValue(jsObject.suspended)) {
-            dotNetGraphicsLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetGraphicsLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetGraphicsLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetGraphicsLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetGraphicsLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetGraphicsLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetGraphicsLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetGraphicsLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetGraphicsLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetGraphicsLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

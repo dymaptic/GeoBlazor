@@ -111,12 +111,12 @@ export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any):
             let { buildDotNetBasemap } = await import('./basemap');
             dotNetBasemapToggleViewModel.nextBasemap = await buildDotNetBasemap(jsObject.nextBasemap);
         }
-        if (hasValue(jsObject.state)) {
-            dotNetBasemapToggleViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapToggleViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetBasemapToggleViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapToggleViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

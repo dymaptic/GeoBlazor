@@ -8,6 +8,10 @@ export async function buildJsColorCreateAgeRendererParamsGenerated(dotNetObject:
         let { buildJsLayer } = await import('./layer');
         jscolorCreateAgeRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jscolorCreateAgeRendererParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.colorMixMode)) {
         jscolorCreateAgeRendererParams.colorMixMode = dotNetObject.colorMixMode;
@@ -48,10 +52,6 @@ export async function buildJsColorCreateAgeRendererParamsGenerated(dotNetObject:
     if (hasValue(dotNetObject.symbolType)) {
         jscolorCreateAgeRendererParams.symbolType = dotNetObject.symbolType;
     }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jscolorCreateAgeRendererParams.theme = sanitizedTheme;
-    }
     if (hasValue(dotNetObject.unit)) {
         jscolorCreateAgeRendererParams.unit = dotNetObject.unit;
     }
@@ -84,54 +84,55 @@ export async function buildDotNetColorCreateAgeRendererParamsGenerated(jsObject:
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorMixMode)) {
-            dotNetColorCreateAgeRendererParams.colorMixMode = jsObject.colorMixMode;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetColorCreateAgeRendererParams.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultSymbolEnabled)) {
-            dotNetColorCreateAgeRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
-        }
-        if (hasValue(jsObject.endTime)) {
-            dotNetColorCreateAgeRendererParams.endTime = jsObject.endTime;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetColorCreateAgeRendererParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetColorCreateAgeRendererParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetColorCreateAgeRendererParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.outlineOptimizationEnabled)) {
-            dotNetColorCreateAgeRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetColorCreateAgeRendererParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetColorCreateAgeRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.startTime)) {
-            dotNetColorCreateAgeRendererParams.startTime = jsObject.startTime;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetColorCreateAgeRendererParams.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.symbolType)) {
-            dotNetColorCreateAgeRendererParams.symbolType = jsObject.symbolType;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetColorCreateAgeRendererParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetColorCreateAgeRendererParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.unit)) {
-            dotNetColorCreateAgeRendererParams.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetColorCreateAgeRendererParams.view = jsObject.view;
-        }
+    if (hasValue(jsObject.colorMixMode)) {
+        dotNetColorCreateAgeRendererParams.colorMixMode = jsObject.colorMixMode;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetColorCreateAgeRendererParams.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultSymbolEnabled)) {
+        dotNetColorCreateAgeRendererParams.defaultSymbolEnabled = jsObject.defaultSymbolEnabled;
+    }
+    if (hasValue(jsObject.endTime)) {
+        dotNetColorCreateAgeRendererParams.endTime = jsObject.endTime;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetColorCreateAgeRendererParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetColorCreateAgeRendererParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetColorCreateAgeRendererParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.outlineOptimizationEnabled)) {
+        dotNetColorCreateAgeRendererParams.outlineOptimizationEnabled = jsObject.outlineOptimizationEnabled;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetColorCreateAgeRendererParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetColorCreateAgeRendererParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.startTime)) {
+        dotNetColorCreateAgeRendererParams.startTime = jsObject.startTime;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetColorCreateAgeRendererParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.symbolType)) {
+        dotNetColorCreateAgeRendererParams.symbolType = jsObject.symbolType;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetColorCreateAgeRendererParams.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorCreateAgeRendererParams.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -56,21 +56,21 @@ export async function buildDotNetPlaceResultGenerated(jsObject: any): Promise<an
             let { buildDotNetPoint } = await import('./point');
             dotNetPlaceResult.location = buildDotNetPoint(jsObject.location);
         }
-        if (hasValue(jsObject.categories)) {
-            dotNetPlaceResult.categories = jsObject.categories;
-        }
-        if (hasValue(jsObject.distance)) {
-            dotNetPlaceResult.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.icon)) {
-            dotNetPlaceResult.icon = jsObject.icon;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetPlaceResult.name = jsObject.name;
-        }
-        if (hasValue(jsObject.placeId)) {
-            dotNetPlaceResult.placeId = jsObject.placeId;
-        }
+    if (hasValue(jsObject.categories)) {
+        dotNetPlaceResult.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.distance)) {
+        dotNetPlaceResult.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetPlaceResult.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetPlaceResult.name = jsObject.name;
+    }
+    if (hasValue(jsObject.placeId)) {
+        dotNetPlaceResult.placeId = jsObject.placeId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

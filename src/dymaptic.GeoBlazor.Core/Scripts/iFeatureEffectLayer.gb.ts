@@ -25,6 +25,18 @@ export default class IFeatureEffectLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -37,11 +49,11 @@ export default class IFeatureEffectLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsIFeatureEffectLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureEffectLayer = new FeatureEffectLayer();
-
     if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsFeatureEffectLayer.featureEffect = sanitizedFeatureEffect;
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsFeatureEffectLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
+
 
     let { default: IFeatureEffectLayerWrapper } = await import('./iFeatureEffectLayer');
     let iFeatureEffectLayerWrapper = new IFeatureEffectLayerWrapper(jsFeatureEffectLayer);
@@ -75,7 +87,8 @@ export async function buildDotNetIFeatureEffectLayerGenerated(jsObject: any): Pr
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.featureEffect)) {
-            dotNetIFeatureEffectLayer.featureEffect = jsObject.featureEffect;
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetIFeatureEffectLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
         }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

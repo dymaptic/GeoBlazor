@@ -39,9 +39,9 @@ export async function buildDotNetGeometryFilterGenerated(jsObject: any): Promise
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetGeometryFilter.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetGeometryFilter.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetGeometryFilter.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

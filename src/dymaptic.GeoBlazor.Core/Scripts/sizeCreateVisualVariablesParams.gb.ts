@@ -8,6 +8,10 @@ export async function buildJsSizeCreateVisualVariablesParamsGenerated(dotNetObje
         let { buildJsLayer } = await import('./layer');
         jssizeCreateVisualVariablesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jssizeCreateVisualVariablesParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.axis)) {
         jssizeCreateVisualVariablesParams.axis = dotNetObject.axis;
@@ -51,10 +55,6 @@ export async function buildJsSizeCreateVisualVariablesParamsGenerated(dotNetObje
     if (hasValue(dotNetObject.statistics)) {
         jssizeCreateVisualVariablesParams.statistics = dotNetObject.statistics;
     }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jssizeCreateVisualVariablesParams.theme = sanitizedTheme;
-    }
     if (hasValue(dotNetObject.valueExpression)) {
         jssizeCreateVisualVariablesParams.valueExpression = dotNetObject.valueExpression;
     }
@@ -93,63 +93,64 @@ export async function buildDotNetSizeCreateVisualVariablesParamsGenerated(jsObje
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.axis)) {
-            dotNetSizeCreateVisualVariablesParams.axis = jsObject.axis;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetSizeCreateVisualVariablesParams.field = jsObject.field;
-        }
-        if (hasValue(jsObject.forBinning)) {
-            dotNetSizeCreateVisualVariablesParams.forBinning = jsObject.forBinning;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetSizeCreateVisualVariablesParams.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.maxValue)) {
-            dotNetSizeCreateVisualVariablesParams.maxValue = jsObject.maxValue;
-        }
-        if (hasValue(jsObject.minValue)) {
-            dotNetSizeCreateVisualVariablesParams.minValue = jsObject.minValue;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetSizeCreateVisualVariablesParams.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.referenceSizeOptions)) {
-            dotNetSizeCreateVisualVariablesParams.referenceSizeOptions = jsObject.referenceSizeOptions;
-        }
-        if (hasValue(jsObject.signal)) {
-            dotNetSizeCreateVisualVariablesParams.signal = jsObject.signal;
-        }
-        if (hasValue(jsObject.sizeOptimizationEnabled)) {
-            dotNetSizeCreateVisualVariablesParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
-        }
-        if (hasValue(jsObject.sizeScheme)) {
-            dotNetSizeCreateVisualVariablesParams.sizeScheme = jsObject.sizeScheme;
-        }
-        if (hasValue(jsObject.sqlExpression)) {
-            dotNetSizeCreateVisualVariablesParams.sqlExpression = jsObject.sqlExpression;
-        }
-        if (hasValue(jsObject.sqlWhere)) {
-            dotNetSizeCreateVisualVariablesParams.sqlWhere = jsObject.sqlWhere;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetSizeCreateVisualVariablesParams.statistics = jsObject.statistics;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetSizeCreateVisualVariablesParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetSizeCreateVisualVariablesParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetSizeCreateVisualVariablesParams.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetSizeCreateVisualVariablesParams.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSizeCreateVisualVariablesParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetSizeCreateVisualVariablesParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.axis)) {
+        dotNetSizeCreateVisualVariablesParams.axis = jsObject.axis;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetSizeCreateVisualVariablesParams.field = jsObject.field;
+    }
+    if (hasValue(jsObject.forBinning)) {
+        dotNetSizeCreateVisualVariablesParams.forBinning = jsObject.forBinning;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetSizeCreateVisualVariablesParams.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.maxValue)) {
+        dotNetSizeCreateVisualVariablesParams.maxValue = jsObject.maxValue;
+    }
+    if (hasValue(jsObject.minValue)) {
+        dotNetSizeCreateVisualVariablesParams.minValue = jsObject.minValue;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetSizeCreateVisualVariablesParams.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.referenceSizeOptions)) {
+        dotNetSizeCreateVisualVariablesParams.referenceSizeOptions = jsObject.referenceSizeOptions;
+    }
+    if (hasValue(jsObject.signal)) {
+        dotNetSizeCreateVisualVariablesParams.signal = jsObject.signal;
+    }
+    if (hasValue(jsObject.sizeOptimizationEnabled)) {
+        dotNetSizeCreateVisualVariablesParams.sizeOptimizationEnabled = jsObject.sizeOptimizationEnabled;
+    }
+    if (hasValue(jsObject.sizeScheme)) {
+        dotNetSizeCreateVisualVariablesParams.sizeScheme = jsObject.sizeScheme;
+    }
+    if (hasValue(jsObject.sqlExpression)) {
+        dotNetSizeCreateVisualVariablesParams.sqlExpression = jsObject.sqlExpression;
+    }
+    if (hasValue(jsObject.sqlWhere)) {
+        dotNetSizeCreateVisualVariablesParams.sqlWhere = jsObject.sqlWhere;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetSizeCreateVisualVariablesParams.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetSizeCreateVisualVariablesParams.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetSizeCreateVisualVariablesParams.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSizeCreateVisualVariablesParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetSizeCreateVisualVariablesParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

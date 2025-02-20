@@ -51,18 +51,18 @@ export async function buildDotNetSearchViewModelSearchCompleteEventGenerated(jsO
             let { buildDotNetSearchViewModelSearchCompleteEventResults } = await import('./searchViewModelSearchCompleteEventResults');
             dotNetSearchViewModelSearchCompleteEvent.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchCompleteEventResults(i)));
         }
-        if (hasValue(jsObject.activeSourceIndex)) {
-            dotNetSearchViewModelSearchCompleteEvent.activeSourceIndex = jsObject.activeSourceIndex;
-        }
-        if (hasValue(jsObject.errors)) {
-            dotNetSearchViewModelSearchCompleteEvent.errors = jsObject.errors;
-        }
-        if (hasValue(jsObject.numResults)) {
-            dotNetSearchViewModelSearchCompleteEvent.numResults = jsObject.numResults;
-        }
-        if (hasValue(jsObject.searchTerm)) {
-            dotNetSearchViewModelSearchCompleteEvent.searchTerm = jsObject.searchTerm;
-        }
+    if (hasValue(jsObject.activeSourceIndex)) {
+        dotNetSearchViewModelSearchCompleteEvent.activeSourceIndex = jsObject.activeSourceIndex;
+    }
+    if (hasValue(jsObject.errors)) {
+        dotNetSearchViewModelSearchCompleteEvent.errors = jsObject.errors;
+    }
+    if (hasValue(jsObject.numResults)) {
+        dotNetSearchViewModelSearchCompleteEvent.numResults = jsObject.numResults;
+    }
+    if (hasValue(jsObject.searchTerm)) {
+        dotNetSearchViewModelSearchCompleteEvent.searchTerm = jsObject.searchTerm;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

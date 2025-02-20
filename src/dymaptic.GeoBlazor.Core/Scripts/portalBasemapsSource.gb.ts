@@ -129,18 +129,18 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): P
             let { buildDotNetPortal } = await import('./portal');
             dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal);
         }
-        if (hasValue(jsObject.filterFunction)) {
-            dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
-        }
-        if (hasValue(jsObject.query)) {
-            dotNetPortalBasemapsSource.query = jsObject.query;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetPortalBasemapsSource.state = jsObject.state;
-        }
-        if (hasValue(jsObject.updateBasemapsCallback)) {
-            dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
-        }
+    if (hasValue(jsObject.filterFunction)) {
+        dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
+    }
+    if (hasValue(jsObject.query)) {
+        dotNetPortalBasemapsSource.query = jsObject.query;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetPortalBasemapsSource.state = jsObject.state;
+    }
+    if (hasValue(jsObject.updateBasemapsCallback)) {
+        dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

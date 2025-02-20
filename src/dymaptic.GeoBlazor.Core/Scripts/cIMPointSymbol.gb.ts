@@ -73,39 +73,39 @@ export async function buildDotNetCIMPointSymbolGenerated(jsObject: any): Promise
             let { buildDotNetCIMPolygonSymbol } = await import('./cIMPolygonSymbol');
             dotNetCIMPointSymbol.haloSymbol = await buildDotNetCIMPolygonSymbol(jsObject.haloSymbol);
         }
-        if (hasValue(jsObject.angle)) {
-            dotNetCIMPointSymbol.angle = jsObject.angle;
-        }
-        if (hasValue(jsObject.angleAlignment)) {
-            dotNetCIMPointSymbol.angleAlignment = jsObject.angleAlignment;
-        }
-        if (hasValue(jsObject.callout)) {
-            dotNetCIMPointSymbol.callout = jsObject.callout;
-        }
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMPointSymbol.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.haloSize)) {
-            dotNetCIMPointSymbol.haloSize = jsObject.haloSize;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMPointSymbol.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.scaleX)) {
-            dotNetCIMPointSymbol.scaleX = jsObject.scaleX;
-        }
-        if (hasValue(jsObject.symbol3DProperties)) {
-            dotNetCIMPointSymbol.symbol3DProperties = jsObject.symbol3DProperties;
-        }
-        if (hasValue(jsObject.thumbnailURI)) {
-            dotNetCIMPointSymbol.thumbnailURI = jsObject.thumbnailURI;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMPointSymbol.type = jsObject.type;
-        }
-        if (hasValue(jsObject.useRealWorldSymbolSizes)) {
-            dotNetCIMPointSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
-        }
+    if (hasValue(jsObject.angle)) {
+        dotNetCIMPointSymbol.angle = jsObject.angle;
+    }
+    if (hasValue(jsObject.angleAlignment)) {
+        dotNetCIMPointSymbol.angleAlignment = jsObject.angleAlignment;
+    }
+    if (hasValue(jsObject.callout)) {
+        dotNetCIMPointSymbol.callout = jsObject.callout;
+    }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMPointSymbol.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.haloSize)) {
+        dotNetCIMPointSymbol.haloSize = jsObject.haloSize;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMPointSymbol.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.scaleX)) {
+        dotNetCIMPointSymbol.scaleX = jsObject.scaleX;
+    }
+    if (hasValue(jsObject.symbol3DProperties)) {
+        dotNetCIMPointSymbol.symbol3DProperties = jsObject.symbol3DProperties;
+    }
+    if (hasValue(jsObject.thumbnailURI)) {
+        dotNetCIMPointSymbol.thumbnailURI = jsObject.thumbnailURI;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMPointSymbol.type = jsObject.type;
+    }
+    if (hasValue(jsObject.useRealWorldSymbolSizes)) {
+        dotNetCIMPointSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

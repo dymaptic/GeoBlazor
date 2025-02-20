@@ -60,21 +60,21 @@ export async function buildDotNetImageAreaParametersGenerated(jsObject: any): Pr
             let { buildDotNetMosaicRule } = await import('./mosaicRule');
             dotNetImageAreaParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
         }
-        if (hasValue(jsObject.areaUnit)) {
-            dotNetImageAreaParameters.areaUnit = jsObject.areaUnit;
-        }
-        if (hasValue(jsObject.is3D)) {
-            dotNetImageAreaParameters.is3D = jsObject.is3D;
-        }
-        if (hasValue(jsObject.linearUnit)) {
-            dotNetImageAreaParameters.linearUnit = jsObject.linearUnit;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageAreaParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetImageAreaParameters.type = jsObject.type;
-        }
+    if (hasValue(jsObject.areaUnit)) {
+        dotNetImageAreaParameters.areaUnit = jsObject.areaUnit;
+    }
+    if (hasValue(jsObject.is3D)) {
+        dotNetImageAreaParameters.is3D = jsObject.is3D;
+    }
+    if (hasValue(jsObject.linearUnit)) {
+        dotNetImageAreaParameters.linearUnit = jsObject.linearUnit;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageAreaParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetImageAreaParameters.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

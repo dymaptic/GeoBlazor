@@ -40,9 +40,9 @@ export async function buildDotNetSceneModificationGenerated(jsObject: any): Prom
             let { buildDotNetPolygon } = await import('./polygon');
             dotNetSceneModification.geometry = buildDotNetPolygon(jsObject.geometry);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetSceneModification.type = jsObject.type;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetSceneModification.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

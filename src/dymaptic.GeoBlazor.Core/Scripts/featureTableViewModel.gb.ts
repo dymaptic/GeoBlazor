@@ -251,78 +251,78 @@ export async function buildDotNetFeatureTableViewModelGenerated(jsObject: any): 
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetFeatureTableViewModel.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.actionColumnConfig)) {
-            dotNetFeatureTableViewModel.actionColumnConfig = jsObject.actionColumnConfig;
-        }
-        if (hasValue(jsObject.activeFilters)) {
-            dotNetFeatureTableViewModel.activeFilters = jsObject.activeFilters;
-        }
-        if (hasValue(jsObject.activeSortOrders)) {
-            dotNetFeatureTableViewModel.activeSortOrders = jsObject.activeSortOrders;
-        }
-        if (hasValue(jsObject.attachmentsEnabled)) {
-            dotNetFeatureTableViewModel.attachmentsEnabled = jsObject.attachmentsEnabled;
-        }
-        if (hasValue(jsObject.autoRefreshEnabled)) {
-            dotNetFeatureTableViewModel.autoRefreshEnabled = jsObject.autoRefreshEnabled;
-        }
-        if (hasValue(jsObject.columns)) {
-            dotNetFeatureTableViewModel.columns = jsObject.columns;
-        }
-        if (hasValue(jsObject.editingEnabled)) {
-            dotNetFeatureTableViewModel.editingEnabled = jsObject.editingEnabled;
-        }
-        if (hasValue(jsObject.filterBySelectionEnabled)) {
-            dotNetFeatureTableViewModel.filterBySelectionEnabled = jsObject.filterBySelectionEnabled;
-        }
-        if (hasValue(jsObject.hiddenFields)) {
-            dotNetFeatureTableViewModel.hiddenFields = jsObject.hiddenFields;
-        }
-        if (hasValue(jsObject.highlightEnabled)) {
-            dotNetFeatureTableViewModel.highlightEnabled = jsObject.highlightEnabled;
-        }
-        if (hasValue(jsObject.highlightIds)) {
-            dotNetFeatureTableViewModel.highlightIds = jsObject.highlightIds;
-        }
-        if (hasValue(jsObject.multipleSelectionEnabled)) {
-            dotNetFeatureTableViewModel.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
-        }
-        if (hasValue(jsObject.multiSortEnabled)) {
-            dotNetFeatureTableViewModel.multiSortEnabled = jsObject.multiSortEnabled;
-        }
-        if (hasValue(jsObject.objectIds)) {
-            dotNetFeatureTableViewModel.objectIds = jsObject.objectIds;
-        }
-        if (hasValue(jsObject.relatedRecordsEnabled)) {
-            dotNetFeatureTableViewModel.relatedRecordsEnabled = jsObject.relatedRecordsEnabled;
-        }
-        if (hasValue(jsObject.returnGeometryEnabled)) {
-            dotNetFeatureTableViewModel.returnGeometryEnabled = jsObject.returnGeometryEnabled;
-        }
-        if (hasValue(jsObject.returnMEnabled)) {
-            dotNetFeatureTableViewModel.returnMEnabled = jsObject.returnMEnabled;
-        }
-        if (hasValue(jsObject.returnZEnabled)) {
-            dotNetFeatureTableViewModel.returnZEnabled = jsObject.returnZEnabled;
-        }
-        if (hasValue(jsObject.rowHighlightIds)) {
-            dotNetFeatureTableViewModel.rowHighlightIds = jsObject.rowHighlightIds;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetFeatureTableViewModel.size = jsObject.size;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetFeatureTableViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.tableTemplate)) {
-            dotNetFeatureTableViewModel.tableTemplate = jsObject.tableTemplate;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeatureTableViewModel.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFeatureTableViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.actionColumnConfig)) {
+        dotNetFeatureTableViewModel.actionColumnConfig = jsObject.actionColumnConfig;
+    }
+    if (hasValue(jsObject.activeFilters)) {
+        dotNetFeatureTableViewModel.activeFilters = jsObject.activeFilters;
+    }
+    if (hasValue(jsObject.activeSortOrders)) {
+        dotNetFeatureTableViewModel.activeSortOrders = jsObject.activeSortOrders;
+    }
+    if (hasValue(jsObject.attachmentsEnabled)) {
+        dotNetFeatureTableViewModel.attachmentsEnabled = jsObject.attachmentsEnabled;
+    }
+    if (hasValue(jsObject.autoRefreshEnabled)) {
+        dotNetFeatureTableViewModel.autoRefreshEnabled = jsObject.autoRefreshEnabled;
+    }
+    if (hasValue(jsObject.columns)) {
+        dotNetFeatureTableViewModel.columns = jsObject.columns;
+    }
+    if (hasValue(jsObject.editingEnabled)) {
+        dotNetFeatureTableViewModel.editingEnabled = jsObject.editingEnabled;
+    }
+    if (hasValue(jsObject.filterBySelectionEnabled)) {
+        dotNetFeatureTableViewModel.filterBySelectionEnabled = jsObject.filterBySelectionEnabled;
+    }
+    if (hasValue(jsObject.hiddenFields)) {
+        dotNetFeatureTableViewModel.hiddenFields = jsObject.hiddenFields;
+    }
+    if (hasValue(jsObject.highlightEnabled)) {
+        dotNetFeatureTableViewModel.highlightEnabled = jsObject.highlightEnabled;
+    }
+    if (hasValue(jsObject.highlightIds)) {
+        dotNetFeatureTableViewModel.highlightIds = jsObject.highlightIds;
+    }
+    if (hasValue(jsObject.multipleSelectionEnabled)) {
+        dotNetFeatureTableViewModel.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
+    }
+    if (hasValue(jsObject.multiSortEnabled)) {
+        dotNetFeatureTableViewModel.multiSortEnabled = jsObject.multiSortEnabled;
+    }
+    if (hasValue(jsObject.objectIds)) {
+        dotNetFeatureTableViewModel.objectIds = jsObject.objectIds;
+    }
+    if (hasValue(jsObject.relatedRecordsEnabled)) {
+        dotNetFeatureTableViewModel.relatedRecordsEnabled = jsObject.relatedRecordsEnabled;
+    }
+    if (hasValue(jsObject.returnGeometryEnabled)) {
+        dotNetFeatureTableViewModel.returnGeometryEnabled = jsObject.returnGeometryEnabled;
+    }
+    if (hasValue(jsObject.returnMEnabled)) {
+        dotNetFeatureTableViewModel.returnMEnabled = jsObject.returnMEnabled;
+    }
+    if (hasValue(jsObject.returnZEnabled)) {
+        dotNetFeatureTableViewModel.returnZEnabled = jsObject.returnZEnabled;
+    }
+    if (hasValue(jsObject.rowHighlightIds)) {
+        dotNetFeatureTableViewModel.rowHighlightIds = jsObject.rowHighlightIds;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetFeatureTableViewModel.size = jsObject.size;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetFeatureTableViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.tableTemplate)) {
+        dotNetFeatureTableViewModel.tableTemplate = jsObject.tableTemplate;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeatureTableViewModel.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFeatureTableViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

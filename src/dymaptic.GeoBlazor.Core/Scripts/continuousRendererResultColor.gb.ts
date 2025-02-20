@@ -42,9 +42,9 @@ export async function buildDotNetContinuousRendererResultColorGenerated(jsObject
             let { buildDotNetColorVariable } = await import('./colorVariable');
             dotNetContinuousRendererResultColor.visualVariable = await buildDotNetColorVariable(jsObject.visualVariable);
         }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetContinuousRendererResultColor.colorScheme = jsObject.colorScheme;
-        }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetContinuousRendererResultColor.colorScheme = jsObject.colorScheme;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

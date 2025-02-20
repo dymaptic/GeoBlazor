@@ -4,6 +4,10 @@ import { buildDotNetColorGetSchemesByTagParams } from './colorGetSchemesByTagPar
 
 export async function buildJsColorGetSchemesByTagParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jscolorGetSchemesByTagParams: any = {}
+    if (hasValue(dotNetObject.theme)) {
+        let { buildJsTheme } = await import('./theme');
+        jscolorGetSchemesByTagParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemap)) {
         jscolorGetSchemesByTagParams.basemap = dotNetObject.basemap;
@@ -19,10 +23,6 @@ export async function buildJsColorGetSchemesByTagParamsGenerated(dotNetObject: a
     }
     if (hasValue(dotNetObject.includedTags)) {
         jscolorGetSchemesByTagParams.includedTags = dotNetObject.includedTags;
-    }
-    if (hasValue(dotNetObject.theme)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTheme } = dotNetObject.theme;
-        jscolorGetSchemesByTagParams.theme = sanitizedTheme;
     }
     if (hasValue(dotNetObject.view)) {
         jscolorGetSchemesByTagParams.view = dotNetObject.view;
@@ -56,30 +56,31 @@ export async function buildDotNetColorGetSchemesByTagParamsGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            dotNetColorGetSchemesByTagParams.basemap = jsObject.basemap;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetColorGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.excludedTags)) {
-            dotNetColorGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetColorGetSchemesByTagParams.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.includedTags)) {
-            dotNetColorGetSchemesByTagParams.includedTags = jsObject.includedTags;
-        }
         if (hasValue(jsObject.theme)) {
-            dotNetColorGetSchemesByTagParams.theme = jsObject.theme;
+            let { buildDotNetTheme } = await import('./theme');
+            dotNetColorGetSchemesByTagParams.theme = await buildDotNetTheme(jsObject.theme);
         }
-        if (hasValue(jsObject.view)) {
-            dotNetColorGetSchemesByTagParams.view = jsObject.view;
-        }
-        if (hasValue(jsObject.worldScale)) {
-            dotNetColorGetSchemesByTagParams.worldScale = jsObject.worldScale;
-        }
+    if (hasValue(jsObject.basemap)) {
+        dotNetColorGetSchemesByTagParams.basemap = jsObject.basemap;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetColorGetSchemesByTagParams.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.excludedTags)) {
+        dotNetColorGetSchemesByTagParams.excludedTags = jsObject.excludedTags;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetColorGetSchemesByTagParams.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.includedTags)) {
+        dotNetColorGetSchemesByTagParams.includedTags = jsObject.includedTags;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetColorGetSchemesByTagParams.view = jsObject.view;
+    }
+    if (hasValue(jsObject.worldScale)) {
+        dotNetColorGetSchemesByTagParams.worldScale = jsObject.worldScale;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

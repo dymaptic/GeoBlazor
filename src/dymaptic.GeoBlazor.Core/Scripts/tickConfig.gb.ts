@@ -10,21 +10,21 @@ export async function buildDotNetTickConfigGenerated(jsObject: any): Promise<any
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.labelFormatFunction)) {
-            dotNetTickConfig.labelFormatFunction = jsObject.labelFormatFunction;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetTickConfig.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.mode)) {
-            dotNetTickConfig.mode = jsObject.mode;
-        }
-        if (hasValue(jsObject.tickCreatedFunction)) {
-            dotNetTickConfig.tickCreatedFunction = jsObject.tickCreatedFunction;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetTickConfig.values = jsObject.values;
-        }
+    if (hasValue(jsObject.labelFormatFunction)) {
+        dotNetTickConfig.labelFormatFunction = jsObject.labelFormatFunction;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetTickConfig.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.mode)) {
+        dotNetTickConfig.mode = jsObject.mode;
+    }
+    if (hasValue(jsObject.tickCreatedFunction)) {
+        dotNetTickConfig.tickCreatedFunction = jsObject.tickCreatedFunction;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetTickConfig.values = jsObject.values;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

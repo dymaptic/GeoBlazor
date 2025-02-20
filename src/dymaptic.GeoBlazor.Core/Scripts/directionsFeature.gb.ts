@@ -54,12 +54,12 @@ export async function buildDotNetDirectionsFeatureGenerated(jsObject: any): Prom
             let { buildDotNetPolyline } = await import('./polyline');
             dotNetDirectionsFeature.geometry = buildDotNetPolyline(jsObject.geometry);
         }
-        if (hasValue(jsObject.attributes)) {
-            dotNetDirectionsFeature.attributes = jsObject.attributes;
-        }
-        if (hasValue(jsObject.strings)) {
-            dotNetDirectionsFeature.strings = jsObject.strings;
-        }
+    if (hasValue(jsObject.attributes)) {
+        dotNetDirectionsFeature.attributes = jsObject.attributes;
+    }
+    if (hasValue(jsObject.strings)) {
+        dotNetDirectionsFeature.strings = jsObject.strings;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

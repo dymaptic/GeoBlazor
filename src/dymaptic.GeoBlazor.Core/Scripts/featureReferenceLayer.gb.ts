@@ -76,12 +76,12 @@ export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.id)) {
-            dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

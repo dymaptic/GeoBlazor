@@ -48,15 +48,15 @@ export async function buildDotNetSymbolUtilsRenderPieChartPreviewHTMLOptionsGene
             let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
             dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.outline = buildDotNetSimpleLineSymbol(jsObject.outline);
         }
-        if (hasValue(jsObject.holePercentage)) {
-            dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.holePercentage = jsObject.holePercentage;
-        }
-        if (hasValue(jsObject.radius)) {
-            dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.radius = jsObject.radius;
-        }
-        if (hasValue(jsObject.values)) {
-            dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.values = jsObject.values;
-        }
+    if (hasValue(jsObject.holePercentage)) {
+        dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.holePercentage = jsObject.holePercentage;
+    }
+    if (hasValue(jsObject.radius)) {
+        dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.radius = jsObject.radius;
+    }
+    if (hasValue(jsObject.values)) {
+        dotNetSymbolUtilsRenderPieChartPreviewHTMLOptions.values = jsObject.values;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

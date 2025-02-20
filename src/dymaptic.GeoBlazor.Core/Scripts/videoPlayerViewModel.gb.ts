@@ -149,36 +149,36 @@ export async function buildDotNetVideoPlayerViewModelGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.buffered)) {
-            dotNetVideoPlayerViewModel.buffered = jsObject.buffered;
-        }
-        if (hasValue(jsObject.currentTime)) {
-            dotNetVideoPlayerViewModel.currentTime = jsObject.currentTime;
-        }
-        if (hasValue(jsObject.duration)) {
-            dotNetVideoPlayerViewModel.duration = jsObject.duration;
-        }
-        if (hasValue(jsObject.ended)) {
-            dotNetVideoPlayerViewModel.ended = jsObject.ended;
-        }
-        if (hasValue(jsObject.followingMode)) {
-            dotNetVideoPlayerViewModel.followingMode = jsObject.followingMode;
-        }
-        if (hasValue(jsObject.metadata)) {
-            dotNetVideoPlayerViewModel.metadata = jsObject.metadata;
-        }
-        if (hasValue(jsObject.playing)) {
-            dotNetVideoPlayerViewModel.playing = jsObject.playing;
-        }
-        if (hasValue(jsObject.seekLength)) {
-            dotNetVideoPlayerViewModel.seekLength = jsObject.seekLength;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetVideoPlayerViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetVideoPlayerViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.buffered)) {
+        dotNetVideoPlayerViewModel.buffered = jsObject.buffered;
+    }
+    if (hasValue(jsObject.currentTime)) {
+        dotNetVideoPlayerViewModel.currentTime = jsObject.currentTime;
+    }
+    if (hasValue(jsObject.duration)) {
+        dotNetVideoPlayerViewModel.duration = jsObject.duration;
+    }
+    if (hasValue(jsObject.ended)) {
+        dotNetVideoPlayerViewModel.ended = jsObject.ended;
+    }
+    if (hasValue(jsObject.followingMode)) {
+        dotNetVideoPlayerViewModel.followingMode = jsObject.followingMode;
+    }
+    if (hasValue(jsObject.metadata)) {
+        dotNetVideoPlayerViewModel.metadata = jsObject.metadata;
+    }
+    if (hasValue(jsObject.playing)) {
+        dotNetVideoPlayerViewModel.playing = jsObject.playing;
+    }
+    if (hasValue(jsObject.seekLength)) {
+        dotNetVideoPlayerViewModel.seekLength = jsObject.seekLength;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetVideoPlayerViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetVideoPlayerViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

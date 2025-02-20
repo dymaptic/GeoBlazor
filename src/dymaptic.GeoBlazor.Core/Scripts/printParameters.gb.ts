@@ -54,12 +54,12 @@ export async function buildDotNetPrintParametersGenerated(jsObject: any): Promis
             let { buildDotNetPrintTemplate } = await import('./printTemplate');
             dotNetPrintParameters.template = await buildDotNetPrintTemplate(jsObject.template);
         }
-        if (hasValue(jsObject.extraParameters)) {
-            dotNetPrintParameters.extraParameters = jsObject.extraParameters;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetPrintParameters.view = jsObject.view;
-        }
+    if (hasValue(jsObject.extraParameters)) {
+        dotNetPrintParameters.extraParameters = jsObject.extraParameters;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetPrintParameters.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

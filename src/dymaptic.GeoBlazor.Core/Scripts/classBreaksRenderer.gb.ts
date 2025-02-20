@@ -81,6 +81,20 @@ export default class ClassBreaksRendererGenerated implements IPropertyWrapper {
         let { buildJsSymbol } = await import('./symbol');
         this.component.defaultSymbol =  buildJsSymbol(value);
     }
+    async getVisualVariables(): Promise<any> {
+        if (!hasValue(this.component.visualVariables)) {
+            return null;
+        }
+        
+        let { buildDotNetVisualVariable } = await import('./visualVariable');
+        return await Promise.all(this.component.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
+    
+    async setVisualVariables(value: any): Promise<void> {
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        this.component.visualVariables = await Promise.all(value.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -104,6 +118,10 @@ export async function buildJsClassBreaksRendererGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.defaultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsClassBreaksRenderer.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+    }
+    if (hasValue(dotNetObject.visualVariables)) {
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        jsClassBreaksRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
@@ -177,36 +195,40 @@ export async function buildDotNetClassBreaksRendererGenerated(jsObject: any): Pr
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetClassBreaksRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
         }
-        if (hasValue(jsObject.backgroundFillSymbol)) {
-            dotNetClassBreaksRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
+        if (hasValue(jsObject.visualVariables)) {
+            let { buildDotNetVisualVariable } = await import('./visualVariable');
+            dotNetClassBreaksRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
         }
-        if (hasValue(jsObject.defaultLabel)) {
-            dotNetClassBreaksRenderer.defaultLabel = jsObject.defaultLabel;
-        }
-        if (hasValue(jsObject.field)) {
-            dotNetClassBreaksRenderer.field = jsObject.field;
-        }
-        if (hasValue(jsObject.legendOptions)) {
-            dotNetClassBreaksRenderer.legendOptions = jsObject.legendOptions;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetClassBreaksRenderer.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.normalizationTotal)) {
-            dotNetClassBreaksRenderer.normalizationTotal = jsObject.normalizationTotal;
-        }
-        if (hasValue(jsObject.normalizationType)) {
-            dotNetClassBreaksRenderer.normalizationType = jsObject.normalizationType;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetClassBreaksRenderer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetClassBreaksRenderer.valueExpression = jsObject.valueExpression;
-        }
-        if (hasValue(jsObject.valueExpressionTitle)) {
-            dotNetClassBreaksRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
-        }
+    if (hasValue(jsObject.backgroundFillSymbol)) {
+        dotNetClassBreaksRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
+    }
+    if (hasValue(jsObject.defaultLabel)) {
+        dotNetClassBreaksRenderer.defaultLabel = jsObject.defaultLabel;
+    }
+    if (hasValue(jsObject.field)) {
+        dotNetClassBreaksRenderer.field = jsObject.field;
+    }
+    if (hasValue(jsObject.legendOptions)) {
+        dotNetClassBreaksRenderer.legendOptions = jsObject.legendOptions;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetClassBreaksRenderer.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.normalizationTotal)) {
+        dotNetClassBreaksRenderer.normalizationTotal = jsObject.normalizationTotal;
+    }
+    if (hasValue(jsObject.normalizationType)) {
+        dotNetClassBreaksRenderer.normalizationType = jsObject.normalizationType;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetClassBreaksRenderer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetClassBreaksRenderer.valueExpression = jsObject.valueExpression;
+    }
+    if (hasValue(jsObject.valueExpressionTitle)) {
+        dotNetClassBreaksRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

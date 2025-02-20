@@ -6,7 +6,7 @@ export async function buildJsOpacityVisualVariableResultGenerated(dotNetObject: 
     let jsopacityVisualVariableResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsopacityVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsopacityVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariable)) {
         let { buildJsOpacityVariable } = await import('./opacityVariable');
@@ -53,12 +53,12 @@ export async function buildDotNetOpacityVisualVariableResultGenerated(jsObject: 
             let { buildDotNetOpacityVariable } = await import('./opacityVariable');
             dotNetOpacityVisualVariableResult.visualVariable = await buildDotNetOpacityVariable(jsObject.visualVariable);
         }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetOpacityVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetOpacityVisualVariableResult.statistics = jsObject.statistics;
-        }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetOpacityVisualVariableResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetOpacityVisualVariableResult.statistics = jsObject.statistics;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

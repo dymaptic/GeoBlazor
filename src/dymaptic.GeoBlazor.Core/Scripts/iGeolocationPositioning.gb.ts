@@ -52,18 +52,18 @@ export async function buildDotNetIGeolocationPositioningGenerated(jsObject: any,
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetIGeolocationPositioning.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
         }
-        if (hasValue(jsObject.geolocationOptions)) {
-            dotNetIGeolocationPositioning.geolocationOptions = jsObject.geolocationOptions;
-        }
-        if (hasValue(jsObject.goToLocationEnabled)) {
-            dotNetIGeolocationPositioning.goToLocationEnabled = jsObject.goToLocationEnabled;
-        }
-        if (hasValue(jsObject.scale)) {
-            dotNetIGeolocationPositioning.scale = jsObject.scale;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetIGeolocationPositioning.view = jsObject.view;
-        }
+    if (hasValue(jsObject.geolocationOptions)) {
+        dotNetIGeolocationPositioning.geolocationOptions = jsObject.geolocationOptions;
+    }
+    if (hasValue(jsObject.goToLocationEnabled)) {
+        dotNetIGeolocationPositioning.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.scale)) {
+        dotNetIGeolocationPositioning.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetIGeolocationPositioning.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

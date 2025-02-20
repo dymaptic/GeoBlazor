@@ -65,7 +65,7 @@ export default class FeatureWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-        return await buildDotNetFeatureViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetFeatureViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsFeatureViewModel } = await import('./featureViewModel');
@@ -157,32 +157,32 @@ export async function buildDotNetFeatureWidgetGenerated(jsObject: any, layerId: 
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetFeatureWidget.viewModel = await buildDotNetFeatureViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetFeatureWidget.viewModel = await buildDotNetFeatureViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
-            dotNetFeatureWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetFeatureWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.map)) {
-            dotNetFeatureWidget.map = jsObject.map;
-        }
-        if (hasValue(jsObject.timeZone)) {
-            dotNetFeatureWidget.timeZone = jsObject.timeZone;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetFeatureWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFeatureWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetFeatureWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetFeatureWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
+        dotNetFeatureWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetFeatureWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.map)) {
+        dotNetFeatureWidget.map = jsObject.map;
+    }
+    if (hasValue(jsObject.timeZone)) {
+        dotNetFeatureWidget.timeZone = jsObject.timeZone;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetFeatureWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFeatureWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetFeatureWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetFeatureWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

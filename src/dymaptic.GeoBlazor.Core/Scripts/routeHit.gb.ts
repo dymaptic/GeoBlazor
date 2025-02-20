@@ -46,12 +46,12 @@ export async function buildDotNetRouteHitGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPoint } = await import('./point');
             dotNetRouteHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.networkFeature)) {
-            dotNetRouteHit.networkFeature = jsObject.networkFeature;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetRouteHit.type = jsObject.type;
-        }
+    if (hasValue(jsObject.networkFeature)) {
+        dotNetRouteHit.networkFeature = jsObject.networkFeature;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetRouteHit.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

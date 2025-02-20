@@ -51,18 +51,18 @@ export async function buildDotNetCoverageDescriptionV100DomainSetSpatialDomainGe
             let { buildDotNetExtent } = await import('./extent');
             dotNetCoverageDescriptionV100DomainSetSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
         }
-        if (hasValue(jsObject.columns)) {
-            dotNetCoverageDescriptionV100DomainSetSpatialDomain.columns = jsObject.columns;
-        }
-        if (hasValue(jsObject.offset)) {
-            dotNetCoverageDescriptionV100DomainSetSpatialDomain.offset = jsObject.offset;
-        }
-        if (hasValue(jsObject.origin)) {
-            dotNetCoverageDescriptionV100DomainSetSpatialDomain.origin = jsObject.origin;
-        }
-        if (hasValue(jsObject.rows)) {
-            dotNetCoverageDescriptionV100DomainSetSpatialDomain.rows = jsObject.rows;
-        }
+    if (hasValue(jsObject.columns)) {
+        dotNetCoverageDescriptionV100DomainSetSpatialDomain.columns = jsObject.columns;
+    }
+    if (hasValue(jsObject.offset)) {
+        dotNetCoverageDescriptionV100DomainSetSpatialDomain.offset = jsObject.offset;
+    }
+    if (hasValue(jsObject.origin)) {
+        dotNetCoverageDescriptionV100DomainSetSpatialDomain.origin = jsObject.origin;
+    }
+    if (hasValue(jsObject.rows)) {
+        dotNetCoverageDescriptionV100DomainSetSpatialDomain.rows = jsObject.rows;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

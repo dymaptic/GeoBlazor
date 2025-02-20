@@ -45,15 +45,15 @@ export async function buildDotNetInputSettingGenerated(jsObject: any): Promise<a
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetInputSetting.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.description)) {
-            dotNetInputSetting.description = jsObject.description;
-        }
-        if (hasValue(jsObject.label)) {
-            dotNetInputSetting.label = jsObject.label;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetInputSetting.type = jsObject.type;
-        }
+    if (hasValue(jsObject.description)) {
+        dotNetInputSetting.description = jsObject.description;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetInputSetting.label = jsObject.label;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetInputSetting.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

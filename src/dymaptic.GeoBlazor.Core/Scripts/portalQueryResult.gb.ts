@@ -54,12 +54,12 @@ export async function buildDotNetPortalQueryResultGenerated(jsObject: any): Prom
             let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
             dotNetPortalQueryResult.queryParams = await buildDotNetPortalQueryParams(jsObject.queryParams);
         }
-        if (hasValue(jsObject.results)) {
-            dotNetPortalQueryResult.results = jsObject.results;
-        }
-        if (hasValue(jsObject.total)) {
-            dotNetPortalQueryResult.total = jsObject.total;
-        }
+    if (hasValue(jsObject.results)) {
+        dotNetPortalQueryResult.results = jsObject.results;
+    }
+    if (hasValue(jsObject.total)) {
+        dotNetPortalQueryResult.total = jsObject.total;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

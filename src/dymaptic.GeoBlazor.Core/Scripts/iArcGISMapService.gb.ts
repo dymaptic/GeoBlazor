@@ -49,18 +49,18 @@ export async function buildDotNetIArcGISMapServiceGenerated(jsObject: any): Prom
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetIArcGISMapService.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetIArcGISMapService.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIArcGISMapService.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetIArcGISMapService.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetIArcGISMapService.version = jsObject.version;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetIArcGISMapService.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIArcGISMapService.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetIArcGISMapService.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetIArcGISMapService.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

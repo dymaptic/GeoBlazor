@@ -77,7 +77,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-        return await buildDotNetSearchViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetSearchViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsSearchViewModel } = await import('./searchViewModel');
@@ -261,68 +261,68 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-            dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.activeMenu)) {
-            dotNetSearchWidget.activeMenu = jsObject.activeMenu;
-        }
-        if (hasValue(jsObject.activeSourceIndex)) {
-            dotNetSearchWidget.activeSourceIndex = jsObject.activeSourceIndex;
-        }
-        if (hasValue(jsObject.allPlaceholder)) {
-            dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
-        }
-        if (hasValue(jsObject.autoSelect)) {
-            dotNetSearchWidget.autoSelect = jsObject.autoSelect;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetSearchWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetSearchWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.includeDefaultSources)) {
-            dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
-        }
-        if (hasValue(jsObject.locationEnabled)) {
-            dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
-        }
-        if (hasValue(jsObject.maxResults)) {
-            dotNetSearchWidget.maxResults = jsObject.maxResults;
-        }
-        if (hasValue(jsObject.maxSuggestions)) {
-            dotNetSearchWidget.maxSuggestions = jsObject.maxSuggestions;
-        }
-        if (hasValue(jsObject.minSuggestCharacters)) {
-            dotNetSearchWidget.minSuggestCharacters = jsObject.minSuggestCharacters;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.resultGraphicEnabled)) {
-            dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;
-        }
-        if (hasValue(jsObject.results)) {
-            dotNetSearchWidget.results = jsObject.results;
-        }
-        if (hasValue(jsObject.searchAllEnabled)) {
-            dotNetSearchWidget.searchAllEnabled = jsObject.searchAllEnabled;
-        }
-        if (hasValue(jsObject.searchTerm)) {
-            dotNetSearchWidget.searchTerm = jsObject.searchTerm;
-        }
-        if (hasValue(jsObject.suggestions)) {
-            dotNetSearchWidget.suggestions = jsObject.suggestions;
-        }
-        if (hasValue(jsObject.suggestionsEnabled)) {
-            dotNetSearchWidget.suggestionsEnabled = jsObject.suggestionsEnabled;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetSearchWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSearchWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.activeMenu)) {
+        dotNetSearchWidget.activeMenu = jsObject.activeMenu;
+    }
+    if (hasValue(jsObject.activeSourceIndex)) {
+        dotNetSearchWidget.activeSourceIndex = jsObject.activeSourceIndex;
+    }
+    if (hasValue(jsObject.allPlaceholder)) {
+        dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
+    }
+    if (hasValue(jsObject.autoSelect)) {
+        dotNetSearchWidget.autoSelect = jsObject.autoSelect;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetSearchWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetSearchWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.includeDefaultSources)) {
+        dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
+    }
+    if (hasValue(jsObject.locationEnabled)) {
+        dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
+    }
+    if (hasValue(jsObject.maxResults)) {
+        dotNetSearchWidget.maxResults = jsObject.maxResults;
+    }
+    if (hasValue(jsObject.maxSuggestions)) {
+        dotNetSearchWidget.maxSuggestions = jsObject.maxSuggestions;
+    }
+    if (hasValue(jsObject.minSuggestCharacters)) {
+        dotNetSearchWidget.minSuggestCharacters = jsObject.minSuggestCharacters;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.resultGraphicEnabled)) {
+        dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;
+    }
+    if (hasValue(jsObject.results)) {
+        dotNetSearchWidget.results = jsObject.results;
+    }
+    if (hasValue(jsObject.searchAllEnabled)) {
+        dotNetSearchWidget.searchAllEnabled = jsObject.searchAllEnabled;
+    }
+    if (hasValue(jsObject.searchTerm)) {
+        dotNetSearchWidget.searchTerm = jsObject.searchTerm;
+    }
+    if (hasValue(jsObject.suggestions)) {
+        dotNetSearchWidget.suggestions = jsObject.suggestions;
+    }
+    if (hasValue(jsObject.suggestionsEnabled)) {
+        dotNetSearchWidget.suggestionsEnabled = jsObject.suggestionsEnabled;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetSearchWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSearchWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -52,9 +52,9 @@ export async function buildDotNetLineOfSightAnalysisTargetGenerated(jsObject: an
             let { buildDotNetPoint } = await import('./point');
             dotNetLineOfSightAnalysisTarget.position = buildDotNetPoint(jsObject.position);
         }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetLineOfSightAnalysisTarget.elevationInfo = jsObject.elevationInfo;
-        }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetLineOfSightAnalysisTarget.elevationInfo = jsObject.elevationInfo;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

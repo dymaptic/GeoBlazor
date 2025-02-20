@@ -212,48 +212,48 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGeoRSSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetGeoRSSLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetGeoRSSLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetGeoRSSLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetGeoRSSLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetGeoRSSLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetGeoRSSLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetGeoRSSLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetGeoRSSLayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetGeoRSSLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetGeoRSSLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetGeoRSSLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetGeoRSSLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetGeoRSSLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetGeoRSSLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetGeoRSSLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetGeoRSSLayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

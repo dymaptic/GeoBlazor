@@ -45,12 +45,12 @@ export async function buildDotNetFieldInfosConfigGenerated(jsObject: any): Promi
             let { buildDotNetField } = await import('./field');
             dotNetFieldInfosConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
         }
-        if (hasValue(jsObject.editFieldsInfo)) {
-            dotNetFieldInfosConfig.editFieldsInfo = jsObject.editFieldsInfo;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetFieldInfosConfig.objectIdField = jsObject.objectIdField;
-        }
+    if (hasValue(jsObject.editFieldsInfo)) {
+        dotNetFieldInfosConfig.editFieldsInfo = jsObject.editFieldsInfo;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetFieldInfosConfig.objectIdField = jsObject.objectIdField;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

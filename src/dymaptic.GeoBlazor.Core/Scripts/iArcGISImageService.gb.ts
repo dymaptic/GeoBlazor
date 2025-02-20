@@ -294,7 +294,7 @@ export default class IArcGISImageServiceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.component.serviceRasterInfo);
+        return await buildDotNetRasterInfo(this.component.serviceRasterInfo, this.layerId, this.viewId);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
@@ -420,7 +420,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     return jsArcGISImageService;
 }
 
-export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -455,87 +455,87 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Pr
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetIArcGISImageService.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetIArcGISImageService.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetIArcGISImageService.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.compressionQuality)) {
-            dotNetIArcGISImageService.compressionQuality = jsObject.compressionQuality;
-        }
-        if (hasValue(jsObject.compressionTolerance)) {
-            dotNetIArcGISImageService.compressionTolerance = jsObject.compressionTolerance;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIArcGISImageService.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetIArcGISImageService.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.format)) {
-            dotNetIArcGISImageService.format = jsObject.format;
-        }
-        if (hasValue(jsObject.hasMultidimensions)) {
-            dotNetIArcGISImageService.hasMultidimensions = jsObject.hasMultidimensions;
-        }
-        if (hasValue(jsObject.imageMaxHeight)) {
-            dotNetIArcGISImageService.imageMaxHeight = jsObject.imageMaxHeight;
-        }
-        if (hasValue(jsObject.imageMaxWidth)) {
-            dotNetIArcGISImageService.imageMaxWidth = jsObject.imageMaxWidth;
-        }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetIArcGISImageService.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.multidimensionalInfo)) {
-            dotNetIArcGISImageService.multidimensionalInfo = jsObject.multidimensionalInfo;
-        }
-        if (hasValue(jsObject.noData)) {
-            dotNetIArcGISImageService.noData = jsObject.noData;
-        }
-        if (hasValue(jsObject.noDataInterpretation)) {
-            dotNetIArcGISImageService.noDataInterpretation = jsObject.noDataInterpretation;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetIArcGISImageService.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.pixelFilter)) {
-            dotNetIArcGISImageService.pixelFilter = jsObject.pixelFilter;
-        }
-        if (hasValue(jsObject.pixelType)) {
-            dotNetIArcGISImageService.pixelType = jsObject.pixelType;
-        }
-        if (hasValue(jsObject.rasterFunction)) {
-            dotNetIArcGISImageService.rasterFunction = jsObject.rasterFunction;
-        }
-        if (hasValue(jsObject.rasterFunctionInfos)) {
-            dotNetIArcGISImageService.rasterFunctionInfos = jsObject.rasterFunctionInfos;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetIArcGISImageService.renderer = jsObject.renderer;
-        }
-        if (hasValue(jsObject.renderingRule)) {
-            dotNetIArcGISImageService.renderingRule = jsObject.renderingRule;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetIArcGISImageService.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.sourceType)) {
-            dotNetIArcGISImageService.sourceType = jsObject.sourceType;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetIArcGISImageService.url = jsObject.url;
-        }
-        if (hasValue(jsObject.version)) {
-            dotNetIArcGISImageService.version = jsObject.version;
-        }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetIArcGISImageService.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetIArcGISImageService.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.compressionQuality)) {
+        dotNetIArcGISImageService.compressionQuality = jsObject.compressionQuality;
+    }
+    if (hasValue(jsObject.compressionTolerance)) {
+        dotNetIArcGISImageService.compressionTolerance = jsObject.compressionTolerance;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIArcGISImageService.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetIArcGISImageService.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.format)) {
+        dotNetIArcGISImageService.format = jsObject.format;
+    }
+    if (hasValue(jsObject.hasMultidimensions)) {
+        dotNetIArcGISImageService.hasMultidimensions = jsObject.hasMultidimensions;
+    }
+    if (hasValue(jsObject.imageMaxHeight)) {
+        dotNetIArcGISImageService.imageMaxHeight = jsObject.imageMaxHeight;
+    }
+    if (hasValue(jsObject.imageMaxWidth)) {
+        dotNetIArcGISImageService.imageMaxWidth = jsObject.imageMaxWidth;
+    }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetIArcGISImageService.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        dotNetIArcGISImageService.multidimensionalInfo = jsObject.multidimensionalInfo;
+    }
+    if (hasValue(jsObject.noData)) {
+        dotNetIArcGISImageService.noData = jsObject.noData;
+    }
+    if (hasValue(jsObject.noDataInterpretation)) {
+        dotNetIArcGISImageService.noDataInterpretation = jsObject.noDataInterpretation;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetIArcGISImageService.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.pixelFilter)) {
+        dotNetIArcGISImageService.pixelFilter = jsObject.pixelFilter;
+    }
+    if (hasValue(jsObject.pixelType)) {
+        dotNetIArcGISImageService.pixelType = jsObject.pixelType;
+    }
+    if (hasValue(jsObject.rasterFunction)) {
+        dotNetIArcGISImageService.rasterFunction = jsObject.rasterFunction;
+    }
+    if (hasValue(jsObject.rasterFunctionInfos)) {
+        dotNetIArcGISImageService.rasterFunctionInfos = jsObject.rasterFunctionInfos;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetIArcGISImageService.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        dotNetIArcGISImageService.renderingRule = jsObject.renderingRule;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetIArcGISImageService.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.sourceType)) {
+        dotNetIArcGISImageService.sourceType = jsObject.sourceType;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetIArcGISImageService.url = jsObject.url;
+    }
+    if (hasValue(jsObject.version)) {
+        dotNetIArcGISImageService.version = jsObject.version;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

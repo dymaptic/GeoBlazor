@@ -129,15 +129,15 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
             let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
             dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetBasemapToggleWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBasemapToggleWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetBasemapToggleWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetBasemapToggleWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBasemapToggleWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetBasemapToggleWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

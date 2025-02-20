@@ -63,24 +63,24 @@ export async function buildDotNetFlagPropertyGenerated(jsObject: any, layerId: s
             let { buildDotNetPoint } = await import('./point');
             dotNetFlagProperty.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.allTerminals)) {
-            dotNetFlagProperty.allTerminals = jsObject.allTerminals;
-        }
-        if (hasValue(jsObject.details)) {
-            dotNetFlagProperty.details = jsObject.details;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetFlagProperty.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetFlagProperty.flagPropertyId = jsObject.id;
-        }
-        if (hasValue(jsObject.selectedTerminals)) {
-            dotNetFlagProperty.selectedTerminals = jsObject.selectedTerminals;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetFlagProperty.type = jsObject.type;
-        }
+    if (hasValue(jsObject.allTerminals)) {
+        dotNetFlagProperty.allTerminals = jsObject.allTerminals;
+    }
+    if (hasValue(jsObject.details)) {
+        dotNetFlagProperty.details = jsObject.details;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetFlagProperty.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetFlagProperty.flagPropertyId = jsObject.id;
+    }
+    if (hasValue(jsObject.selectedTerminals)) {
+        dotNetFlagProperty.selectedTerminals = jsObject.selectedTerminals;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetFlagProperty.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

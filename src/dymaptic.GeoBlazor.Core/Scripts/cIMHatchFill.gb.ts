@@ -69,39 +69,39 @@ export async function buildDotNetCIMHatchFillGenerated(jsObject: any): Promise<a
             let { buildDotNetCIMLineSymbol } = await import('./cIMLineSymbol');
             dotNetCIMHatchFill.lineSymbol = await buildDotNetCIMLineSymbol(jsObject.lineSymbol);
         }
-        if (hasValue(jsObject.colorLocked)) {
-            dotNetCIMHatchFill.colorLocked = jsObject.colorLocked;
-        }
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMHatchFill.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.enable)) {
-            dotNetCIMHatchFill.enable = jsObject.enable;
-        }
-        if (hasValue(jsObject.name)) {
-            dotNetCIMHatchFill.name = jsObject.name;
-        }
-        if (hasValue(jsObject.offsetX)) {
-            dotNetCIMHatchFill.offsetX = jsObject.offsetX;
-        }
-        if (hasValue(jsObject.offsetY)) {
-            dotNetCIMHatchFill.offsetY = jsObject.offsetY;
-        }
-        if (hasValue(jsObject.overprint)) {
-            dotNetCIMHatchFill.overprint = jsObject.overprint;
-        }
-        if (hasValue(jsObject.primitiveName)) {
-            dotNetCIMHatchFill.primitiveName = jsObject.primitiveName;
-        }
-        if (hasValue(jsObject.rotation)) {
-            dotNetCIMHatchFill.rotation = jsObject.rotation;
-        }
-        if (hasValue(jsObject.separation)) {
-            dotNetCIMHatchFill.separation = jsObject.separation;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMHatchFill.type = jsObject.type;
-        }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetCIMHatchFill.colorLocked = jsObject.colorLocked;
+    }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMHatchFill.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.enable)) {
+        dotNetCIMHatchFill.enable = jsObject.enable;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetCIMHatchFill.name = jsObject.name;
+    }
+    if (hasValue(jsObject.offsetX)) {
+        dotNetCIMHatchFill.offsetX = jsObject.offsetX;
+    }
+    if (hasValue(jsObject.offsetY)) {
+        dotNetCIMHatchFill.offsetY = jsObject.offsetY;
+    }
+    if (hasValue(jsObject.overprint)) {
+        dotNetCIMHatchFill.overprint = jsObject.overprint;
+    }
+    if (hasValue(jsObject.primitiveName)) {
+        dotNetCIMHatchFill.primitiveName = jsObject.primitiveName;
+    }
+    if (hasValue(jsObject.rotation)) {
+        dotNetCIMHatchFill.rotation = jsObject.rotation;
+    }
+    if (hasValue(jsObject.separation)) {
+        dotNetCIMHatchFill.separation = jsObject.separation;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMHatchFill.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -95,6 +95,18 @@ export default class IImageryTileMixinGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.component.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.component.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.component.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -119,6 +131,10 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsImageryTileMixin.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsImageryTileMixin.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.bandIds)) {
         jsImageryTileMixin.bandIds = dotNetObject.bandIds;
@@ -138,10 +154,6 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.renderer)) {
         jsImageryTileMixin.renderer = dotNetObject.renderer;
-    }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsImageryTileMixin.timeInfo = sanitizedTimeInfo;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
@@ -202,33 +214,34 @@ export async function buildDotNetIImageryTileMixinGenerated(jsObject: any): Prom
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetIImageryTileMixin.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.bandIds)) {
-            dotNetIImageryTileMixin.bandIds = jsObject.bandIds;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetIImageryTileMixin.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetIImageryTileMixin.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetIImageryTileMixin.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetIImageryTileMixin.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.renderer)) {
-            dotNetIImageryTileMixin.renderer = jsObject.renderer;
-        }
         if (hasValue(jsObject.timeInfo)) {
-            dotNetIImageryTileMixin.timeInfo = jsObject.timeInfo;
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetIImageryTileMixin.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
         }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetIImageryTileMixin.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetIImageryTileMixin.useViewTime = jsObject.useViewTime;
-        }
+    if (hasValue(jsObject.bandIds)) {
+        dotNetIImageryTileMixin.bandIds = jsObject.bandIds;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetIImageryTileMixin.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetIImageryTileMixin.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetIImageryTileMixin.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetIImageryTileMixin.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.renderer)) {
+        dotNetIImageryTileMixin.renderer = jsObject.renderer;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetIImageryTileMixin.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetIImageryTileMixin.useViewTime = jsObject.useViewTime;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

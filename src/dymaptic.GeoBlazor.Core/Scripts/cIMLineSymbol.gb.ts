@@ -44,18 +44,18 @@ export async function buildDotNetCIMLineSymbolGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effects)) {
-            dotNetCIMLineSymbol.effects = jsObject.effects;
-        }
-        if (hasValue(jsObject.thumbnailURI)) {
-            dotNetCIMLineSymbol.thumbnailURI = jsObject.thumbnailURI;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetCIMLineSymbol.type = jsObject.type;
-        }
-        if (hasValue(jsObject.useRealWorldSymbolSizes)) {
-            dotNetCIMLineSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
-        }
+    if (hasValue(jsObject.effects)) {
+        dotNetCIMLineSymbol.effects = jsObject.effects;
+    }
+    if (hasValue(jsObject.thumbnailURI)) {
+        dotNetCIMLineSymbol.thumbnailURI = jsObject.thumbnailURI;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetCIMLineSymbol.type = jsObject.type;
+    }
+    if (hasValue(jsObject.useRealWorldSymbolSizes)) {
+        dotNetCIMLineSymbol.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

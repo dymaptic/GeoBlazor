@@ -54,21 +54,21 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any): Promise<a
             let { buildDotNetSymbol } = await import('./symbol');
             dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol);
         }
-        if (hasValue(jsObject.label)) {
-            dotNetSizeRampStop.label = jsObject.label;
-        }
-        if (hasValue(jsObject.outlineSize)) {
-            dotNetSizeRampStop.outlineSize = jsObject.outlineSize;
-        }
-        if (hasValue(jsObject.preview)) {
-            dotNetSizeRampStop.preview = jsObject.preview;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetSizeRampStop.size = jsObject.size;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetSizeRampStop.value = jsObject.value;
-        }
+    if (hasValue(jsObject.label)) {
+        dotNetSizeRampStop.label = jsObject.label;
+    }
+    if (hasValue(jsObject.outlineSize)) {
+        dotNetSizeRampStop.outlineSize = jsObject.outlineSize;
+    }
+    if (hasValue(jsObject.preview)) {
+        dotNetSizeRampStop.preview = jsObject.preview;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetSizeRampStop.size = jsObject.size;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetSizeRampStop.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

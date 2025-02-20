@@ -136,45 +136,45 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any): Promise<an
             let { buildDotNetPortal } = await import('./portal');
             dotNetPortalGroup.portal = await buildDotNetPortal(jsObject.portal);
         }
-        if (hasValue(jsObject.access)) {
-            dotNetPortalGroup.access = jsObject.access;
-        }
-        if (hasValue(jsObject.created)) {
-            dotNetPortalGroup.created = jsObject.created;
-        }
-        if (hasValue(jsObject.description)) {
-            dotNetPortalGroup.description = jsObject.description;
-        }
-        if (hasValue(jsObject.isInvitationOnly)) {
-            dotNetPortalGroup.isInvitationOnly = jsObject.isInvitationOnly;
-        }
-        if (hasValue(jsObject.modified)) {
-            dotNetPortalGroup.modified = jsObject.modified;
-        }
-        if (hasValue(jsObject.owner)) {
-            dotNetPortalGroup.owner = jsObject.owner;
-        }
-        if (hasValue(jsObject.id)) {
-            dotNetPortalGroup.portalGroupId = jsObject.id;
-        }
-        if (hasValue(jsObject.snippet)) {
-            dotNetPortalGroup.snippet = jsObject.snippet;
-        }
-        if (hasValue(jsObject.sourceJSON)) {
-            dotNetPortalGroup.sourceJSON = jsObject.sourceJSON;
-        }
-        if (hasValue(jsObject.tags)) {
-            dotNetPortalGroup.tags = jsObject.tags;
-        }
-        if (hasValue(jsObject.thumbnailUrl)) {
-            dotNetPortalGroup.thumbnailUrl = jsObject.thumbnailUrl;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetPortalGroup.title = jsObject.title;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetPortalGroup.url = jsObject.url;
-        }
+    if (hasValue(jsObject.access)) {
+        dotNetPortalGroup.access = jsObject.access;
+    }
+    if (hasValue(jsObject.created)) {
+        dotNetPortalGroup.created = jsObject.created;
+    }
+    if (hasValue(jsObject.description)) {
+        dotNetPortalGroup.description = jsObject.description;
+    }
+    if (hasValue(jsObject.isInvitationOnly)) {
+        dotNetPortalGroup.isInvitationOnly = jsObject.isInvitationOnly;
+    }
+    if (hasValue(jsObject.modified)) {
+        dotNetPortalGroup.modified = jsObject.modified;
+    }
+    if (hasValue(jsObject.owner)) {
+        dotNetPortalGroup.owner = jsObject.owner;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetPortalGroup.portalGroupId = jsObject.id;
+    }
+    if (hasValue(jsObject.snippet)) {
+        dotNetPortalGroup.snippet = jsObject.snippet;
+    }
+    if (hasValue(jsObject.sourceJSON)) {
+        dotNetPortalGroup.sourceJSON = jsObject.sourceJSON;
+    }
+    if (hasValue(jsObject.tags)) {
+        dotNetPortalGroup.tags = jsObject.tags;
+    }
+    if (hasValue(jsObject.thumbnailUrl)) {
+        dotNetPortalGroup.thumbnailUrl = jsObject.thumbnailUrl;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetPortalGroup.title = jsObject.title;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetPortalGroup.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

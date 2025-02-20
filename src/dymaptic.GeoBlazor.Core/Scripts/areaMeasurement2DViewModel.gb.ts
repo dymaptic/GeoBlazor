@@ -86,27 +86,27 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geodesicDistanceThreshold)) {
-            dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-        }
-        if (hasValue(jsObject.measurement)) {
-            dotNetAreaMeasurement2DViewModel.measurement = jsObject.measurement;
-        }
-        if (hasValue(jsObject.measurementLabel)) {
-            dotNetAreaMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
-        }
-        if (hasValue(jsObject.state)) {
-            dotNetAreaMeasurement2DViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAreaMeasurement2DViewModel.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetAreaMeasurement2DViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
+    }
+    if (hasValue(jsObject.measurement)) {
+        dotNetAreaMeasurement2DViewModel.measurement = jsObject.measurement;
+    }
+    if (hasValue(jsObject.measurementLabel)) {
+        dotNetAreaMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
+    }
+    if (hasValue(jsObject.state)) {
+        dotNetAreaMeasurement2DViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAreaMeasurement2DViewModel.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetAreaMeasurement2DViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

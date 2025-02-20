@@ -144,33 +144,33 @@ export async function buildDotNetSceneLayerViewGenerated(jsObject: any): Promise
             let { buildDotNetFeatureFilter } = await import('./featureFilter');
             dotNetSceneLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
         }
-        if (hasValue(jsObject.availableFields)) {
-            dotNetSceneLayerView.availableFields = jsObject.availableFields;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeatures)) {
-            dotNetSceneLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
-        }
-        if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
-            dotNetSceneLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
-        }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetSceneLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetSceneLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetSceneLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.availableFields)) {
+        dotNetSceneLayerView.availableFields = jsObject.availableFields;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeatures)) {
+        dotNetSceneLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
+    }
+    if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
+        dotNetSceneLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
+    }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetSceneLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetSceneLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetSceneLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetSceneLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetSceneLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetSceneLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

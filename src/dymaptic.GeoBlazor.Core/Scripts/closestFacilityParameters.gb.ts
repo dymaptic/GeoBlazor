@@ -220,129 +220,129 @@ export async function buildDotNetClosestFacilityParametersGenerated(jsObject: an
             let { buildDotNetPolylineBarrier } = await import('./polylineBarrier');
             dotNetClosestFacilityParameters.polylineBarriers = await Promise.all(jsObject.polylineBarriers.map(async i => await buildDotNetPolylineBarrier(i)));
         }
-        if (hasValue(jsObject.accumulateAttributes)) {
-            dotNetClosestFacilityParameters.accumulateAttributes = jsObject.accumulateAttributes;
-        }
-        if (hasValue(jsObject.apiKey)) {
-            dotNetClosestFacilityParameters.apiKey = jsObject.apiKey;
-        }
-        if (hasValue(jsObject.attributeParameterValues)) {
-            dotNetClosestFacilityParameters.attributeParameterValues = jsObject.attributeParameterValues;
-        }
-        if (hasValue(jsObject.defaultCutoff)) {
-            dotNetClosestFacilityParameters.defaultCutoff = jsObject.defaultCutoff;
-        }
-        if (hasValue(jsObject.defaultTargetFacilityCount)) {
-            dotNetClosestFacilityParameters.defaultTargetFacilityCount = jsObject.defaultTargetFacilityCount;
-        }
-        if (hasValue(jsObject.directionsLanguage)) {
-            dotNetClosestFacilityParameters.directionsLanguage = jsObject.directionsLanguage;
-        }
-        if (hasValue(jsObject.directionsLengthUnits)) {
-            dotNetClosestFacilityParameters.directionsLengthUnits = jsObject.directionsLengthUnits;
-        }
-        if (hasValue(jsObject.directionsOutputType)) {
-            dotNetClosestFacilityParameters.directionsOutputType = jsObject.directionsOutputType;
-        }
-        if (hasValue(jsObject.directionsStyleName)) {
-            dotNetClosestFacilityParameters.directionsStyleName = jsObject.directionsStyleName;
-        }
-        if (hasValue(jsObject.directionsTimeAttribute)) {
-            dotNetClosestFacilityParameters.directionsTimeAttribute = jsObject.directionsTimeAttribute;
-        }
-        if (hasValue(jsObject.facilities)) {
-            dotNetClosestFacilityParameters.facilities = jsObject.facilities;
-        }
-        if (hasValue(jsObject.geometryPrecision)) {
-            dotNetClosestFacilityParameters.geometryPrecision = jsObject.geometryPrecision;
-        }
-        if (hasValue(jsObject.geometryPrecisionM)) {
-            dotNetClosestFacilityParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
-        }
-        if (hasValue(jsObject.geometryPrecisionZ)) {
-            dotNetClosestFacilityParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
-        }
-        if (hasValue(jsObject.ignoreInvalidLocations)) {
-            dotNetClosestFacilityParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
-        }
-        if (hasValue(jsObject.impedanceAttribute)) {
-            dotNetClosestFacilityParameters.impedanceAttribute = jsObject.impedanceAttribute;
-        }
-        if (hasValue(jsObject.incidents)) {
-            dotNetClosestFacilityParameters.incidents = jsObject.incidents;
-        }
-        if (hasValue(jsObject.outputGeometryPrecision)) {
-            dotNetClosestFacilityParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
-        }
-        if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
-            dotNetClosestFacilityParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
-        }
-        if (hasValue(jsObject.outputLines)) {
-            dotNetClosestFacilityParameters.outputLines = jsObject.outputLines;
-        }
-        if (hasValue(jsObject.overrides)) {
-            dotNetClosestFacilityParameters.overrides = jsObject.overrides;
-        }
-        if (hasValue(jsObject.preserveObjectID)) {
-            dotNetClosestFacilityParameters.preserveObjectID = jsObject.preserveObjectID;
-        }
-        if (hasValue(jsObject.restrictionAttributes)) {
-            dotNetClosestFacilityParameters.restrictionAttributes = jsObject.restrictionAttributes;
-        }
-        if (hasValue(jsObject.restrictUTurns)) {
-            dotNetClosestFacilityParameters.restrictUTurns = jsObject.restrictUTurns;
-        }
-        if (hasValue(jsObject.returnDirections)) {
-            dotNetClosestFacilityParameters.returnDirections = jsObject.returnDirections;
-        }
-        if (hasValue(jsObject.returnFacilities)) {
-            dotNetClosestFacilityParameters.returnFacilities = jsObject.returnFacilities;
-        }
-        if (hasValue(jsObject.returnIncidents)) {
-            dotNetClosestFacilityParameters.returnIncidents = jsObject.returnIncidents;
-        }
-        if (hasValue(jsObject.returnPointBarriers)) {
-            dotNetClosestFacilityParameters.returnPointBarriers = jsObject.returnPointBarriers;
-        }
-        if (hasValue(jsObject.returnPolygonBarriers)) {
-            dotNetClosestFacilityParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
-        }
-        if (hasValue(jsObject.returnPolylineBarriers)) {
-            dotNetClosestFacilityParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
-        }
-        if (hasValue(jsObject.returnRoutes)) {
-            dotNetClosestFacilityParameters.returnRoutes = jsObject.returnRoutes;
-        }
-        if (hasValue(jsObject.returnTraversedEdges)) {
-            dotNetClosestFacilityParameters.returnTraversedEdges = jsObject.returnTraversedEdges;
-        }
-        if (hasValue(jsObject.returnTraversedJunctions)) {
-            dotNetClosestFacilityParameters.returnTraversedJunctions = jsObject.returnTraversedJunctions;
-        }
-        if (hasValue(jsObject.returnTraversedTurns)) {
-            dotNetClosestFacilityParameters.returnTraversedTurns = jsObject.returnTraversedTurns;
-        }
-        if (hasValue(jsObject.returnZ)) {
-            dotNetClosestFacilityParameters.returnZ = jsObject.returnZ;
-        }
-        if (hasValue(jsObject.timeOfDay)) {
-            dotNetClosestFacilityParameters.timeOfDay = jsObject.timeOfDay;
-        }
-        if (hasValue(jsObject.timeOfDayIsUTC)) {
-            dotNetClosestFacilityParameters.timeOfDayIsUTC = jsObject.timeOfDayIsUTC;
-        }
-        if (hasValue(jsObject.timeOfDayUsage)) {
-            dotNetClosestFacilityParameters.timeOfDayUsage = jsObject.timeOfDayUsage;
-        }
-        if (hasValue(jsObject.travelDirection)) {
-            dotNetClosestFacilityParameters.travelDirection = jsObject.travelDirection;
-        }
-        if (hasValue(jsObject.travelMode)) {
-            dotNetClosestFacilityParameters.travelMode = jsObject.travelMode;
-        }
-        if (hasValue(jsObject.useHierarchy)) {
-            dotNetClosestFacilityParameters.useHierarchy = jsObject.useHierarchy;
-        }
+    if (hasValue(jsObject.accumulateAttributes)) {
+        dotNetClosestFacilityParameters.accumulateAttributes = jsObject.accumulateAttributes;
+    }
+    if (hasValue(jsObject.apiKey)) {
+        dotNetClosestFacilityParameters.apiKey = jsObject.apiKey;
+    }
+    if (hasValue(jsObject.attributeParameterValues)) {
+        dotNetClosestFacilityParameters.attributeParameterValues = jsObject.attributeParameterValues;
+    }
+    if (hasValue(jsObject.defaultCutoff)) {
+        dotNetClosestFacilityParameters.defaultCutoff = jsObject.defaultCutoff;
+    }
+    if (hasValue(jsObject.defaultTargetFacilityCount)) {
+        dotNetClosestFacilityParameters.defaultTargetFacilityCount = jsObject.defaultTargetFacilityCount;
+    }
+    if (hasValue(jsObject.directionsLanguage)) {
+        dotNetClosestFacilityParameters.directionsLanguage = jsObject.directionsLanguage;
+    }
+    if (hasValue(jsObject.directionsLengthUnits)) {
+        dotNetClosestFacilityParameters.directionsLengthUnits = jsObject.directionsLengthUnits;
+    }
+    if (hasValue(jsObject.directionsOutputType)) {
+        dotNetClosestFacilityParameters.directionsOutputType = jsObject.directionsOutputType;
+    }
+    if (hasValue(jsObject.directionsStyleName)) {
+        dotNetClosestFacilityParameters.directionsStyleName = jsObject.directionsStyleName;
+    }
+    if (hasValue(jsObject.directionsTimeAttribute)) {
+        dotNetClosestFacilityParameters.directionsTimeAttribute = jsObject.directionsTimeAttribute;
+    }
+    if (hasValue(jsObject.facilities)) {
+        dotNetClosestFacilityParameters.facilities = jsObject.facilities;
+    }
+    if (hasValue(jsObject.geometryPrecision)) {
+        dotNetClosestFacilityParameters.geometryPrecision = jsObject.geometryPrecision;
+    }
+    if (hasValue(jsObject.geometryPrecisionM)) {
+        dotNetClosestFacilityParameters.geometryPrecisionM = jsObject.geometryPrecisionM;
+    }
+    if (hasValue(jsObject.geometryPrecisionZ)) {
+        dotNetClosestFacilityParameters.geometryPrecisionZ = jsObject.geometryPrecisionZ;
+    }
+    if (hasValue(jsObject.ignoreInvalidLocations)) {
+        dotNetClosestFacilityParameters.ignoreInvalidLocations = jsObject.ignoreInvalidLocations;
+    }
+    if (hasValue(jsObject.impedanceAttribute)) {
+        dotNetClosestFacilityParameters.impedanceAttribute = jsObject.impedanceAttribute;
+    }
+    if (hasValue(jsObject.incidents)) {
+        dotNetClosestFacilityParameters.incidents = jsObject.incidents;
+    }
+    if (hasValue(jsObject.outputGeometryPrecision)) {
+        dotNetClosestFacilityParameters.outputGeometryPrecision = jsObject.outputGeometryPrecision;
+    }
+    if (hasValue(jsObject.outputGeometryPrecisionUnits)) {
+        dotNetClosestFacilityParameters.outputGeometryPrecisionUnits = jsObject.outputGeometryPrecisionUnits;
+    }
+    if (hasValue(jsObject.outputLines)) {
+        dotNetClosestFacilityParameters.outputLines = jsObject.outputLines;
+    }
+    if (hasValue(jsObject.overrides)) {
+        dotNetClosestFacilityParameters.overrides = jsObject.overrides;
+    }
+    if (hasValue(jsObject.preserveObjectID)) {
+        dotNetClosestFacilityParameters.preserveObjectID = jsObject.preserveObjectID;
+    }
+    if (hasValue(jsObject.restrictionAttributes)) {
+        dotNetClosestFacilityParameters.restrictionAttributes = jsObject.restrictionAttributes;
+    }
+    if (hasValue(jsObject.restrictUTurns)) {
+        dotNetClosestFacilityParameters.restrictUTurns = jsObject.restrictUTurns;
+    }
+    if (hasValue(jsObject.returnDirections)) {
+        dotNetClosestFacilityParameters.returnDirections = jsObject.returnDirections;
+    }
+    if (hasValue(jsObject.returnFacilities)) {
+        dotNetClosestFacilityParameters.returnFacilities = jsObject.returnFacilities;
+    }
+    if (hasValue(jsObject.returnIncidents)) {
+        dotNetClosestFacilityParameters.returnIncidents = jsObject.returnIncidents;
+    }
+    if (hasValue(jsObject.returnPointBarriers)) {
+        dotNetClosestFacilityParameters.returnPointBarriers = jsObject.returnPointBarriers;
+    }
+    if (hasValue(jsObject.returnPolygonBarriers)) {
+        dotNetClosestFacilityParameters.returnPolygonBarriers = jsObject.returnPolygonBarriers;
+    }
+    if (hasValue(jsObject.returnPolylineBarriers)) {
+        dotNetClosestFacilityParameters.returnPolylineBarriers = jsObject.returnPolylineBarriers;
+    }
+    if (hasValue(jsObject.returnRoutes)) {
+        dotNetClosestFacilityParameters.returnRoutes = jsObject.returnRoutes;
+    }
+    if (hasValue(jsObject.returnTraversedEdges)) {
+        dotNetClosestFacilityParameters.returnTraversedEdges = jsObject.returnTraversedEdges;
+    }
+    if (hasValue(jsObject.returnTraversedJunctions)) {
+        dotNetClosestFacilityParameters.returnTraversedJunctions = jsObject.returnTraversedJunctions;
+    }
+    if (hasValue(jsObject.returnTraversedTurns)) {
+        dotNetClosestFacilityParameters.returnTraversedTurns = jsObject.returnTraversedTurns;
+    }
+    if (hasValue(jsObject.returnZ)) {
+        dotNetClosestFacilityParameters.returnZ = jsObject.returnZ;
+    }
+    if (hasValue(jsObject.timeOfDay)) {
+        dotNetClosestFacilityParameters.timeOfDay = jsObject.timeOfDay;
+    }
+    if (hasValue(jsObject.timeOfDayIsUTC)) {
+        dotNetClosestFacilityParameters.timeOfDayIsUTC = jsObject.timeOfDayIsUTC;
+    }
+    if (hasValue(jsObject.timeOfDayUsage)) {
+        dotNetClosestFacilityParameters.timeOfDayUsage = jsObject.timeOfDayUsage;
+    }
+    if (hasValue(jsObject.travelDirection)) {
+        dotNetClosestFacilityParameters.travelDirection = jsObject.travelDirection;
+    }
+    if (hasValue(jsObject.travelMode)) {
+        dotNetClosestFacilityParameters.travelMode = jsObject.travelMode;
+    }
+    if (hasValue(jsObject.useHierarchy)) {
+        dotNetClosestFacilityParameters.useHierarchy = jsObject.useHierarchy;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

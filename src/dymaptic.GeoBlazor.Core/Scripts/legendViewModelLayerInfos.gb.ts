@@ -38,9 +38,9 @@ export async function buildDotNetLegendViewModelLayerInfosGenerated(jsObject: an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.title)) {
-            dotNetLegendViewModelLayerInfos.title = jsObject.title;
-        }
+    if (hasValue(jsObject.title)) {
+        dotNetLegendViewModelLayerInfos.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

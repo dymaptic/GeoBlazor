@@ -39,12 +39,12 @@ export async function buildDotNetServiceContentsLayersGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.capabilities)) {
-            dotNetServiceContentsLayers.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            dotNetServiceContentsLayers.layerInfos = jsObject.layerInfos;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetServiceContentsLayers.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        dotNetServiceContentsLayers.layerInfos = jsObject.layerInfos;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

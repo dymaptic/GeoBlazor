@@ -96,15 +96,15 @@ export async function buildDotNetNavigationToggleWidgetGenerated(jsObject: any):
             let { buildDotNetNavigationToggleViewModel } = await import('./navigationToggleViewModel');
             dotNetNavigationToggleWidget.viewModel = await buildDotNetNavigationToggleViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.layout)) {
-            dotNetNavigationToggleWidget.layout = jsObject.layout;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetNavigationToggleWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetNavigationToggleWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.layout)) {
+        dotNetNavigationToggleWidget.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetNavigationToggleWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetNavigationToggleWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

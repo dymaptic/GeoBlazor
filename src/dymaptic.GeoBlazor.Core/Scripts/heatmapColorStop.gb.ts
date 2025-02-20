@@ -43,9 +43,9 @@ export async function buildDotNetHeatmapColorStopGenerated(jsObject: any): Promi
             let { buildDotNetMapColor } = await import('./mapColor');
             dotNetHeatmapColorStop.color = buildDotNetMapColor(jsObject.color);
         }
-        if (hasValue(jsObject.ratio)) {
-            dotNetHeatmapColorStop.ratio = jsObject.ratio;
-        }
+    if (hasValue(jsObject.ratio)) {
+        dotNetHeatmapColorStop.ratio = jsObject.ratio;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

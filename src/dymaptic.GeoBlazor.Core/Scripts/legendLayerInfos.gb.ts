@@ -41,12 +41,12 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.sublayerIds)) {
-            dotNetLegendLayerInfos.sublayerIds = jsObject.sublayerIds;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetLegendLayerInfos.title = jsObject.title;
-        }
+    if (hasValue(jsObject.sublayerIds)) {
+        dotNetLegendLayerInfos.sublayerIds = jsObject.sublayerIds;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetLegendLayerInfos.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

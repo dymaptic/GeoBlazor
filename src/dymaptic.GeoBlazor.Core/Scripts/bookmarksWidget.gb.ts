@@ -190,36 +190,36 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
             let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
             dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.disabled)) {
-            dotNetBookmarksWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.dragEnabled)) {
-            dotNetBookmarksWidget.dragEnabled = jsObject.dragEnabled;
-        }
-        if (hasValue(jsObject.editingEnabled)) {
-            dotNetBookmarksWidget.editingEnabled = jsObject.editingEnabled;
-        }
-        if (hasValue(jsObject.filterPlaceholder)) {
-            dotNetBookmarksWidget.filterPlaceholder = jsObject.filterPlaceholder;
-        }
-        if (hasValue(jsObject.filterText)) {
-            dotNetBookmarksWidget.filterText = jsObject.filterText;
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            dotNetBookmarksWidget.goToOverride = jsObject.goToOverride;
-        }
-        if (hasValue(jsObject.headingLevel)) {
-            dotNetBookmarksWidget.headingLevel = jsObject.headingLevel;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetBookmarksWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBookmarksWidget.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleElements)) {
-            dotNetBookmarksWidget.visibleElements = jsObject.visibleElements;
-        }
+    if (hasValue(jsObject.disabled)) {
+        dotNetBookmarksWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.dragEnabled)) {
+        dotNetBookmarksWidget.dragEnabled = jsObject.dragEnabled;
+    }
+    if (hasValue(jsObject.editingEnabled)) {
+        dotNetBookmarksWidget.editingEnabled = jsObject.editingEnabled;
+    }
+    if (hasValue(jsObject.filterPlaceholder)) {
+        dotNetBookmarksWidget.filterPlaceholder = jsObject.filterPlaceholder;
+    }
+    if (hasValue(jsObject.filterText)) {
+        dotNetBookmarksWidget.filterText = jsObject.filterText;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetBookmarksWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.headingLevel)) {
+        dotNetBookmarksWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetBookmarksWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBookmarksWidget.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        dotNetBookmarksWidget.visibleElements = jsObject.visibleElements;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

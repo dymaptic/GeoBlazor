@@ -522,17 +522,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return UniqueValueGroups;
         }
 
-        // get the property value
-        IReadOnlyList<UniqueValueGroup>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>("getProperty",
-            CancellationTokenSource.Token, "uniqueValueGroups");
+        IReadOnlyList<UniqueValueGroup>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueGroup>?>(
+            "getUniqueValueGroups", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UniqueValueGroups = result;
+            UniqueValueGroups = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
+            ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
         }
-         
+        
         return UniqueValueGroups;
     }
     
@@ -552,17 +552,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return UniqueValueInfos;
         }
 
-        // get the property value
-        IReadOnlyList<UniqueValueInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>("getProperty",
-            CancellationTokenSource.Token, "uniqueValueInfos");
+        IReadOnlyList<UniqueValueInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValueInfo>?>(
+            "getUniqueValueInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             UniqueValueInfos = result;
+            UniqueValueInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
+            ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
         }
-         
+        
         return UniqueValueInfos;
     }
     

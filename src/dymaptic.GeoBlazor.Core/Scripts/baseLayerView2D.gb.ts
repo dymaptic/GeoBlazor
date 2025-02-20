@@ -113,27 +113,27 @@ export async function buildDotNetBaseLayerView2DGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetBaseLayerView2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetBaseLayerView2D.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.tiles)) {
-            dotNetBaseLayerView2D.tiles = jsObject.tiles;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetBaseLayerView2D.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetBaseLayerView2D.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetBaseLayerView2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetBaseLayerView2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetBaseLayerView2D.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetBaseLayerView2D.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.tiles)) {
+        dotNetBaseLayerView2D.tiles = jsObject.tiles;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetBaseLayerView2D.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetBaseLayerView2D.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetBaseLayerView2D.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetBaseLayerView2D.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

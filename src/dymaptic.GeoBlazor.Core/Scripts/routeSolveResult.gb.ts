@@ -65,11 +65,11 @@ export async function buildDotNetRouteSolveResultGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.routeResults)) {
             let { buildDotNetRouteResult } = await import('./routeResult');
-            dotNetRouteSolveResult.routeResults = await Promise.all(jsObject.routeResults.map(async i => await buildDotNetRouteResult(i)));
+            dotNetRouteSolveResult.routeResults = await Promise.all(jsObject.routeResults.map(async i => await buildDotNetRouteResult(i, layerId, viewId)));
         }
-        if (hasValue(jsObject.messages)) {
-            dotNetRouteSolveResult.messages = jsObject.messages;
-        }
+    if (hasValue(jsObject.messages)) {
+        dotNetRouteSolveResult.messages = jsObject.messages;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

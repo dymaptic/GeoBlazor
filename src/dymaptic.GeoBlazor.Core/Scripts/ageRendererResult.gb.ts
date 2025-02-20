@@ -65,24 +65,24 @@ export async function buildDotNetAgeRendererResultGenerated(jsObject: any): Prom
             let { buildDotNetColorVariable } = await import('./colorVariable');
             dotNetAgeRendererResult.visualVariable = await buildDotNetColorVariable(jsObject.visualVariable);
         }
-        if (hasValue(jsObject.basemapId)) {
-            dotNetAgeRendererResult.basemapId = jsObject.basemapId;
-        }
-        if (hasValue(jsObject.basemapTheme)) {
-            dotNetAgeRendererResult.basemapTheme = jsObject.basemapTheme;
-        }
-        if (hasValue(jsObject.colorScheme)) {
-            dotNetAgeRendererResult.colorScheme = jsObject.colorScheme;
-        }
-        if (hasValue(jsObject.defaultValuesUsed)) {
-            dotNetAgeRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
-        }
-        if (hasValue(jsObject.statistics)) {
-            dotNetAgeRendererResult.statistics = jsObject.statistics;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAgeRendererResult.unit = jsObject.unit;
-        }
+    if (hasValue(jsObject.basemapId)) {
+        dotNetAgeRendererResult.basemapId = jsObject.basemapId;
+    }
+    if (hasValue(jsObject.basemapTheme)) {
+        dotNetAgeRendererResult.basemapTheme = jsObject.basemapTheme;
+    }
+    if (hasValue(jsObject.colorScheme)) {
+        dotNetAgeRendererResult.colorScheme = jsObject.colorScheme;
+    }
+    if (hasValue(jsObject.defaultValuesUsed)) {
+        dotNetAgeRendererResult.defaultValuesUsed = jsObject.defaultValuesUsed;
+    }
+    if (hasValue(jsObject.statistics)) {
+        dotNetAgeRendererResult.statistics = jsObject.statistics;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAgeRendererResult.unit = jsObject.unit;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

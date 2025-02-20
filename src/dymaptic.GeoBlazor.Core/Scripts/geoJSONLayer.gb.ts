@@ -97,6 +97,18 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getFeatureEffect(): Promise<any> {
+        if (!hasValue(this.layer.featureEffect)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
+    }
+    async setFeatureEffect(value: any): Promise<void> {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
+    }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -219,6 +231,18 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    async getTimeInfo(): Promise<any> {
+        if (!hasValue(this.layer.timeInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
+    }
+    async setTimeInfo(value: any): Promise<void> {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+    }
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -243,6 +267,10 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayer = new GeoJSONLayer();
+    if (hasValue(dotNetObject.featureEffect)) {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsGeoJSONLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsGeoJSONLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -279,6 +307,10 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsGeoJSONLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.timeInfo)) {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsGeoJSONLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsGeoJSONLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
@@ -311,10 +343,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         jsGeoJSONLayer.elevationInfo = sanitizedElevationInfo;
-    }
-    if (hasValue(dotNetObject.featureEffect)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureEffect } = dotNetObject.featureEffect;
-        jsGeoJSONLayer.featureEffect = sanitizedFeatureEffect;
     }
     if (hasValue(dotNetObject.featureReduction)) {
         jsGeoJSONLayer.featureReduction = dotNetObject.featureReduction;
@@ -362,10 +390,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         jsGeoJSONLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
-    if (hasValue(dotNetObject.timeInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeInfo } = dotNetObject.timeInfo;
-        jsGeoJSONLayer.timeInfo = sanitizedTimeInfo;
-    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsGeoJSONLayer.timeOffset = sanitizedTimeOffset;
@@ -410,7 +434,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     return jsGeoJSONLayer;
 }
 
-export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -419,6 +443,10 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.featureEffect)) {
+            let { buildDotNetFeatureEffect } = await import('./featureEffect');
+            dotNetGeoJSONLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
             dotNetGeoJSONLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -453,124 +481,122 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
+            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGeoJSONLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
+        if (hasValue(jsObject.timeInfo)) {
+            let { buildDotNetTimeInfo } = await import('./timeInfo');
+            dotNetGeoJSONLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetGeoJSONLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetGeoJSONLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetGeoJSONLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.capabilities)) {
-            dotNetGeoJSONLayer.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.copyright)) {
-            dotNetGeoJSONLayer.copyright = jsObject.copyright;
-        }
-        if (hasValue(jsObject.customParameters)) {
-            dotNetGeoJSONLayer.customParameters = jsObject.customParameters;
-        }
-        if (hasValue(jsObject.dateFieldsTimeZone)) {
-            dotNetGeoJSONLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
-        }
-        if (hasValue(jsObject.definitionExpression)) {
-            dotNetGeoJSONLayer.definitionExpression = jsObject.definitionExpression;
-        }
-        if (hasValue(jsObject.displayField)) {
-            dotNetGeoJSONLayer.displayField = jsObject.displayField;
-        }
-        if (hasValue(jsObject.editingEnabled)) {
-            dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetGeoJSONLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.elevationInfo)) {
-            dotNetGeoJSONLayer.elevationInfo = jsObject.elevationInfo;
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            dotNetGeoJSONLayer.featureEffect = jsObject.featureEffect;
-        }
-        if (hasValue(jsObject.featureReduction)) {
-            dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
-        }
-        if (hasValue(jsObject.geometryType)) {
-            dotNetGeoJSONLayer.geometryType = jsObject.geometryType;
-        }
-        if (hasValue(jsObject.hasZ)) {
-            dotNetGeoJSONLayer.hasZ = jsObject.hasZ;
-        }
-        if (hasValue(jsObject.isTable)) {
-            dotNetGeoJSONLayer.isTable = jsObject.isTable;
-        }
-        if (hasValue(jsObject.labelsVisible)) {
-            dotNetGeoJSONLayer.labelsVisible = jsObject.labelsVisible;
-        }
-        if (hasValue(jsObject.legendEnabled)) {
-            dotNetGeoJSONLayer.legendEnabled = jsObject.legendEnabled;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetGeoJSONLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetGeoJSONLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetGeoJSONLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetGeoJSONLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.objectIdField)) {
-            dotNetGeoJSONLayer.objectIdField = jsObject.objectIdField;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetGeoJSONLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.orderBy)) {
-            dotNetGeoJSONLayer.orderBy = jsObject.orderBy;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetGeoJSONLayer.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetGeoJSONLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.popupEnabled)) {
-            dotNetGeoJSONLayer.popupEnabled = jsObject.popupEnabled;
-        }
-        if (hasValue(jsObject.refreshInterval)) {
-            dotNetGeoJSONLayer.refreshInterval = jsObject.refreshInterval;
-        }
-        if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
-            dotNetGeoJSONLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            dotNetGeoJSONLayer.timeInfo = jsObject.timeInfo;
-        }
-        if (hasValue(jsObject.timeOffset)) {
-            dotNetGeoJSONLayer.timeOffset = jsObject.timeOffset;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetGeoJSONLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetGeoJSONLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetGeoJSONLayer.url = jsObject.url;
-        }
-        if (hasValue(jsObject.useViewTime)) {
-            dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetGeoJSONLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetGeoJSONLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetGeoJSONLayer.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.copyright)) {
+        dotNetGeoJSONLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.customParameters)) {
+        dotNetGeoJSONLayer.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.dateFieldsTimeZone)) {
+        dotNetGeoJSONLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
+    }
+    if (hasValue(jsObject.definitionExpression)) {
+        dotNetGeoJSONLayer.definitionExpression = jsObject.definitionExpression;
+    }
+    if (hasValue(jsObject.displayField)) {
+        dotNetGeoJSONLayer.displayField = jsObject.displayField;
+    }
+    if (hasValue(jsObject.editingEnabled)) {
+        dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetGeoJSONLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.elevationInfo)) {
+        dotNetGeoJSONLayer.elevationInfo = jsObject.elevationInfo;
+    }
+    if (hasValue(jsObject.featureReduction)) {
+        dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
+    }
+    if (hasValue(jsObject.geometryType)) {
+        dotNetGeoJSONLayer.geometryType = jsObject.geometryType;
+    }
+    if (hasValue(jsObject.hasZ)) {
+        dotNetGeoJSONLayer.hasZ = jsObject.hasZ;
+    }
+    if (hasValue(jsObject.isTable)) {
+        dotNetGeoJSONLayer.isTable = jsObject.isTable;
+    }
+    if (hasValue(jsObject.labelsVisible)) {
+        dotNetGeoJSONLayer.labelsVisible = jsObject.labelsVisible;
+    }
+    if (hasValue(jsObject.legendEnabled)) {
+        dotNetGeoJSONLayer.legendEnabled = jsObject.legendEnabled;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetGeoJSONLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetGeoJSONLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetGeoJSONLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetGeoJSONLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.objectIdField)) {
+        dotNetGeoJSONLayer.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetGeoJSONLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.orderBy)) {
+        dotNetGeoJSONLayer.orderBy = jsObject.orderBy;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetGeoJSONLayer.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetGeoJSONLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.popupEnabled)) {
+        dotNetGeoJSONLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.refreshInterval)) {
+        dotNetGeoJSONLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
+        dotNetGeoJSONLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        dotNetGeoJSONLayer.timeOffset = jsObject.timeOffset;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetGeoJSONLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetGeoJSONLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetGeoJSONLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.useViewTime)) {
+        dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

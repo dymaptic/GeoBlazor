@@ -57,15 +57,15 @@ export async function buildDotNetImageToMapParametersGenerated(jsObject: any): P
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetImageToMapParameters.inSpatialReference = buildDotNetSpatialReference(jsObject.inSpatialReference);
         }
-        if (hasValue(jsObject.adjust)) {
-            dotNetImageToMapParameters.adjust = jsObject.adjust;
-        }
-        if (hasValue(jsObject.depthOffset)) {
-            dotNetImageToMapParameters.depthOffset = jsObject.depthOffset;
-        }
-        if (hasValue(jsObject.rasterId)) {
-            dotNetImageToMapParameters.rasterId = jsObject.rasterId;
-        }
+    if (hasValue(jsObject.adjust)) {
+        dotNetImageToMapParameters.adjust = jsObject.adjust;
+    }
+    if (hasValue(jsObject.depthOffset)) {
+        dotNetImageToMapParameters.depthOffset = jsObject.depthOffset;
+    }
+    if (hasValue(jsObject.rasterId)) {
+        dotNetImageToMapParameters.rasterId = jsObject.rasterId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

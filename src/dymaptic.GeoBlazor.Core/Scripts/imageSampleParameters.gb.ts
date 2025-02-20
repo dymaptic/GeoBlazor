@@ -85,27 +85,27 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any): 
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetImageSampleParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
         }
-        if (hasValue(jsObject.interpolation)) {
-            dotNetImageSampleParameters.interpolation = jsObject.interpolation;
-        }
-        if (hasValue(jsObject.outFields)) {
-            dotNetImageSampleParameters.outFields = jsObject.outFields;
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            dotNetImageSampleParameters.pixelSize = jsObject.pixelSize;
-        }
-        if (hasValue(jsObject.returnFirstValueOnly)) {
-            dotNetImageSampleParameters.returnFirstValueOnly = jsObject.returnFirstValueOnly;
-        }
-        if (hasValue(jsObject.sampleCount)) {
-            dotNetImageSampleParameters.sampleCount = jsObject.sampleCount;
-        }
-        if (hasValue(jsObject.sampleDistance)) {
-            dotNetImageSampleParameters.sampleDistance = jsObject.sampleDistance;
-        }
-        if (hasValue(jsObject.sliceId)) {
-            dotNetImageSampleParameters.sliceId = jsObject.sliceId;
-        }
+    if (hasValue(jsObject.interpolation)) {
+        dotNetImageSampleParameters.interpolation = jsObject.interpolation;
+    }
+    if (hasValue(jsObject.outFields)) {
+        dotNetImageSampleParameters.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        dotNetImageSampleParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.returnFirstValueOnly)) {
+        dotNetImageSampleParameters.returnFirstValueOnly = jsObject.returnFirstValueOnly;
+    }
+    if (hasValue(jsObject.sampleCount)) {
+        dotNetImageSampleParameters.sampleCount = jsObject.sampleCount;
+    }
+    if (hasValue(jsObject.sampleDistance)) {
+        dotNetImageSampleParameters.sampleDistance = jsObject.sampleDistance;
+    }
+    if (hasValue(jsObject.sliceId)) {
+        dotNetImageSampleParameters.sliceId = jsObject.sliceId;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

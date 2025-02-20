@@ -48,15 +48,15 @@ export async function buildDotNetNearestPointResultGenerated(jsObject: any): Pro
             let { buildDotNetPoint } = await import('./point');
             dotNetNearestPointResult.coordinate = buildDotNetPoint(jsObject.coordinate);
         }
-        if (hasValue(jsObject.distance)) {
-            dotNetNearestPointResult.distance = jsObject.distance;
-        }
-        if (hasValue(jsObject.isEmpty)) {
-            dotNetNearestPointResult.isEmpty = jsObject.isEmpty;
-        }
-        if (hasValue(jsObject.vertexIndex)) {
-            dotNetNearestPointResult.vertexIndex = jsObject.vertexIndex;
-        }
+    if (hasValue(jsObject.distance)) {
+        dotNetNearestPointResult.distance = jsObject.distance;
+    }
+    if (hasValue(jsObject.isEmpty)) {
+        dotNetNearestPointResult.isEmpty = jsObject.isEmpty;
+    }
+    if (hasValue(jsObject.vertexIndex)) {
+        dotNetNearestPointResult.vertexIndex = jsObject.vertexIndex;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

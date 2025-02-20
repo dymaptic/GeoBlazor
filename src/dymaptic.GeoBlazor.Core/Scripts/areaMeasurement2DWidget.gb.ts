@@ -95,18 +95,18 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
             let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
             dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
         }
-        if (hasValue(jsObject.type)) {
-            dotNetAreaMeasurement2DWidget.type = jsObject.type;
-        }
-        if (hasValue(jsObject.unit)) {
-            dotNetAreaMeasurement2DWidget.unit = jsObject.unit;
-        }
-        if (hasValue(jsObject.unitOptions)) {
-            dotNetAreaMeasurement2DWidget.unitOptions = jsObject.unitOptions;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetAreaMeasurement2DWidget.view = jsObject.view;
-        }
+    if (hasValue(jsObject.type)) {
+        dotNetAreaMeasurement2DWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.unit)) {
+        dotNetAreaMeasurement2DWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.unitOptions)) {
+        dotNetAreaMeasurement2DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetAreaMeasurement2DWidget.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

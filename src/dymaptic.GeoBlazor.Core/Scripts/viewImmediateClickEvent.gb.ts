@@ -60,30 +60,30 @@ export async function buildDotNetViewImmediateClickEventGenerated(jsObject: any)
             let { buildDotNetPoint } = await import('./point');
             dotNetViewImmediateClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
         }
-        if (hasValue(jsObject.button)) {
-            dotNetViewImmediateClickEvent.button = jsObject.button;
-        }
-        if (hasValue(jsObject.buttons)) {
-            dotNetViewImmediateClickEvent.buttons = jsObject.buttons;
-        }
-        if (hasValue(jsObject.native)) {
-            dotNetViewImmediateClickEvent.native = jsObject.native;
-        }
-        if (hasValue(jsObject.stopPropagation)) {
-            dotNetViewImmediateClickEvent.stopPropagation = jsObject.stopPropagation;
-        }
-        if (hasValue(jsObject.timestamp)) {
-            dotNetViewImmediateClickEvent.timestamp = jsObject.timestamp;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetViewImmediateClickEvent.type = jsObject.type;
-        }
-        if (hasValue(jsObject.x)) {
-            dotNetViewImmediateClickEvent.x = jsObject.x;
-        }
-        if (hasValue(jsObject.y)) {
-            dotNetViewImmediateClickEvent.y = jsObject.y;
-        }
+    if (hasValue(jsObject.button)) {
+        dotNetViewImmediateClickEvent.button = jsObject.button;
+    }
+    if (hasValue(jsObject.buttons)) {
+        dotNetViewImmediateClickEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.native)) {
+        dotNetViewImmediateClickEvent.native = jsObject.native;
+    }
+    if (hasValue(jsObject.stopPropagation)) {
+        dotNetViewImmediateClickEvent.stopPropagation = jsObject.stopPropagation;
+    }
+    if (hasValue(jsObject.timestamp)) {
+        dotNetViewImmediateClickEvent.timestamp = jsObject.timestamp;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetViewImmediateClickEvent.type = jsObject.type;
+    }
+    if (hasValue(jsObject.x)) {
+        dotNetViewImmediateClickEvent.x = jsObject.x;
+    }
+    if (hasValue(jsObject.y)) {
+        dotNetViewImmediateClickEvent.y = jsObject.y;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

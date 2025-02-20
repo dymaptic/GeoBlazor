@@ -59,6 +59,20 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    async getSublayers(): Promise<any> {
+        if (!hasValue(this.layer.sublayers)) {
+            return null;
+        }
+        
+        let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
+    }
+    
+    async setSublayers(value: any): Promise<void> {
+        let { buildJsKMLSublayer } = await import('./kMLSublayer');
+        this.layer.sublayers = await Promise.all(value.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -91,6 +105,10 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         jsKMLLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.sublayers)) {
+        let { buildJsKMLSublayer } = await import('./kMLSublayer');
+        jsKMLLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsKMLLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
@@ -119,10 +137,6 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
         jsKMLLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
-    }
-    if (hasValue(dotNetObject.sublayers)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSublayers } = dotNetObject.sublayers;
-        jsKMLLayer.sublayers = sanitizedSublayers;
     }
     if (hasValue(dotNetObject.title)) {
         jsKMLLayer.title = dotNetObject.title;
@@ -170,49 +184,50 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPortalItem } = await import('./portalItem');
             dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
         }
+        if (hasValue(jsObject.sublayers)) {
+            let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
+            dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
+        }
         if (hasValue(jsObject.visibilityTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
             dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
         }
-        if (hasValue(jsObject.id)) {
-            dotNetKMLLayer.arcGISLayerId = jsObject.id;
-        }
-        if (hasValue(jsObject.blendMode)) {
-            dotNetKMLLayer.blendMode = jsObject.blendMode;
-        }
-        if (hasValue(jsObject.effect)) {
-            dotNetKMLLayer.effect = jsObject.effect;
-        }
-        if (hasValue(jsObject.listMode)) {
-            dotNetKMLLayer.listMode = jsObject.listMode;
-        }
-        if (hasValue(jsObject.loaded)) {
-            dotNetKMLLayer.loaded = jsObject.loaded;
-        }
-        if (hasValue(jsObject.maxScale)) {
-            dotNetKMLLayer.maxScale = jsObject.maxScale;
-        }
-        if (hasValue(jsObject.minScale)) {
-            dotNetKMLLayer.minScale = jsObject.minScale;
-        }
-        if (hasValue(jsObject.opacity)) {
-            dotNetKMLLayer.opacity = jsObject.opacity;
-        }
-        if (hasValue(jsObject.persistenceEnabled)) {
-            dotNetKMLLayer.persistenceEnabled = jsObject.persistenceEnabled;
-        }
-        if (hasValue(jsObject.sublayers)) {
-            dotNetKMLLayer.sublayers = jsObject.sublayers;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetKMLLayer.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetKMLLayer.type = jsObject.type;
-        }
-        if (hasValue(jsObject.url)) {
-            dotNetKMLLayer.url = jsObject.url;
-        }
+    if (hasValue(jsObject.id)) {
+        dotNetKMLLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.blendMode)) {
+        dotNetKMLLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetKMLLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.listMode)) {
+        dotNetKMLLayer.listMode = jsObject.listMode;
+    }
+    if (hasValue(jsObject.loaded)) {
+        dotNetKMLLayer.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.maxScale)) {
+        dotNetKMLLayer.maxScale = jsObject.maxScale;
+    }
+    if (hasValue(jsObject.minScale)) {
+        dotNetKMLLayer.minScale = jsObject.minScale;
+    }
+    if (hasValue(jsObject.opacity)) {
+        dotNetKMLLayer.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.persistenceEnabled)) {
+        dotNetKMLLayer.persistenceEnabled = jsObject.persistenceEnabled;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetKMLLayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetKMLLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.url)) {
+        dotNetKMLLayer.url = jsObject.url;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

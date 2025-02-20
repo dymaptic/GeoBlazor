@@ -43,9 +43,9 @@ export async function buildDotNetImageBoundaryResultGenerated(jsObject: any): Pr
             let { buildDotNetGeometry } = await import('./geometry');
             dotNetImageBoundaryResult.geometry = buildDotNetGeometry(jsObject.geometry);
         }
-        if (hasValue(jsObject.area)) {
-            dotNetImageBoundaryResult.area = jsObject.area;
-        }
+    if (hasValue(jsObject.area)) {
+        dotNetImageBoundaryResult.area = jsObject.area;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

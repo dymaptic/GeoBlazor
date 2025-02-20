@@ -45,12 +45,12 @@ export async function buildDotNetTemplateGenerated(jsObject: any): Promise<any> 
             let { buildDotNetPopupTemplate } = await import('./popupTemplate');
             dotNetTemplate.value = await buildDotNetPopupTemplate(jsObject.value);
         }
-        if (hasValue(jsObject.name)) {
-            dotNetTemplate.name = jsObject.name;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTemplate.title = jsObject.title;
-        }
+    if (hasValue(jsObject.name)) {
+        dotNetTemplate.name = jsObject.name;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTemplate.title = jsObject.title;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

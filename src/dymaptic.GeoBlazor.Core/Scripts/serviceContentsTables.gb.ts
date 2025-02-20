@@ -39,12 +39,12 @@ export async function buildDotNetServiceContentsTablesGenerated(jsObject: any): 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.capabilities)) {
-            dotNetServiceContentsTables.capabilities = jsObject.capabilities;
-        }
-        if (hasValue(jsObject.tableInfos)) {
-            dotNetServiceContentsTables.tableInfos = jsObject.tableInfos;
-        }
+    if (hasValue(jsObject.capabilities)) {
+        dotNetServiceContentsTables.capabilities = jsObject.capabilities;
+    }
+    if (hasValue(jsObject.tableInfos)) {
+        dotNetServiceContentsTables.tableInfos = jsObject.tableInfos;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -42,9 +42,9 @@ export async function buildDotNetSupportedRendererInfoGenerated(jsObject: any): 
             let { buildDotNetRenderer } = await import('./renderer');
             dotNetSupportedRendererInfo.defaultRenderer = await buildDotNetRenderer(jsObject.defaultRenderer);
         }
-        if (hasValue(jsObject.supportedTypes)) {
-            dotNetSupportedRendererInfo.supportedTypes = jsObject.supportedTypes;
-        }
+    if (hasValue(jsObject.supportedTypes)) {
+        dotNetSupportedRendererInfo.supportedTypes = jsObject.supportedTypes;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -50,9 +50,9 @@ export async function buildDotNetElevationQueryResultGenerated(jsObject: any): P
             let { buildDotNetElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
             dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i)));
         }
-        if (hasValue(jsObject.noDataValue)) {
-            dotNetElevationQueryResult.noDataValue = jsObject.noDataValue;
-        }
+    if (hasValue(jsObject.noDataValue)) {
+        dotNetElevationQueryResult.noDataValue = jsObject.noDataValue;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

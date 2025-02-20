@@ -118,7 +118,7 @@ export async function buildJsLineOfSightViewModelGenerated(dotNetObject: any, la
     return jsLineOfSightViewModel;
 }
 
-export async function buildDotNetLineOfSightViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLineOfSightViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -137,14 +137,14 @@ export async function buildDotNetLineOfSightViewModelGenerated(jsObject: any, la
         }
         if (hasValue(jsObject.targets)) {
             let { buildDotNetLineOfSightTarget } = await import('./lineOfSightTarget');
-            dotNetLineOfSightViewModel.targets = await Promise.all(jsObject.targets.map(async i => await buildDotNetLineOfSightTarget(i, layerId, viewId)));
+            dotNetLineOfSightViewModel.targets = await Promise.all(jsObject.targets.map(async i => await buildDotNetLineOfSightTarget(i)));
         }
-        if (hasValue(jsObject.state)) {
-            dotNetLineOfSightViewModel.state = jsObject.state;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetLineOfSightViewModel.view = jsObject.view;
-        }
+    if (hasValue(jsObject.state)) {
+        dotNetLineOfSightViewModel.state = jsObject.state;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetLineOfSightViewModel.view = jsObject.view;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

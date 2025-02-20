@@ -107,30 +107,30 @@ export async function buildDotNetTableListItemPanelWidgetGenerated(jsObject: any
             let { buildDotNetTableListListItem } = await import('./tableListListItem');
             dotNetTableListItemPanelWidget.listItem = await buildDotNetTableListListItem(jsObject.listItem);
         }
-        if (hasValue(jsObject.className)) {
-            dotNetTableListItemPanelWidget.className = jsObject.className;
-        }
-        if (hasValue(jsObject.content)) {
-            dotNetTableListItemPanelWidget.content = jsObject.content;
-        }
-        if (hasValue(jsObject.disabled)) {
-            dotNetTableListItemPanelWidget.disabled = jsObject.disabled;
-        }
-        if (hasValue(jsObject.flowEnabled)) {
-            dotNetTableListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
-        }
-        if (hasValue(jsObject.image)) {
-            dotNetTableListItemPanelWidget.image = jsObject.image;
-        }
-        if (hasValue(jsObject.open)) {
-            dotNetTableListItemPanelWidget.open = jsObject.open;
-        }
-        if (hasValue(jsObject.title)) {
-            dotNetTableListItemPanelWidget.title = jsObject.title;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetTableListItemPanelWidget.type = jsObject.type;
-        }
+    if (hasValue(jsObject.className)) {
+        dotNetTableListItemPanelWidget.className = jsObject.className;
+    }
+    if (hasValue(jsObject.content)) {
+        dotNetTableListItemPanelWidget.content = jsObject.content;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetTableListItemPanelWidget.disabled = jsObject.disabled;
+    }
+    if (hasValue(jsObject.flowEnabled)) {
+        dotNetTableListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
+    }
+    if (hasValue(jsObject.image)) {
+        dotNetTableListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.open)) {
+        dotNetTableListItemPanelWidget.open = jsObject.open;
+    }
+    if (hasValue(jsObject.title)) {
+        dotNetTableListItemPanelWidget.title = jsObject.title;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetTableListItemPanelWidget.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

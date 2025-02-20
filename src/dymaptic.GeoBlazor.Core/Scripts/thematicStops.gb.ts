@@ -44,21 +44,21 @@ export async function buildDotNetThematicStopsGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.field)) {
-            dotNetThematicStops.field = jsObject.field;
-        }
-        if (hasValue(jsObject.normalizationField)) {
-            dotNetThematicStops.normalizationField = jsObject.normalizationField;
-        }
-        if (hasValue(jsObject.stops)) {
-            dotNetThematicStops.stops = jsObject.stops;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetThematicStops.type = jsObject.type;
-        }
-        if (hasValue(jsObject.valueExpression)) {
-            dotNetThematicStops.valueExpression = jsObject.valueExpression;
-        }
+    if (hasValue(jsObject.field)) {
+        dotNetThematicStops.field = jsObject.field;
+    }
+    if (hasValue(jsObject.normalizationField)) {
+        dotNetThematicStops.normalizationField = jsObject.normalizationField;
+    }
+    if (hasValue(jsObject.stops)) {
+        dotNetThematicStops.stops = jsObject.stops;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetThematicStops.type = jsObject.type;
+    }
+    if (hasValue(jsObject.valueExpression)) {
+        dotNetThematicStops.valueExpression = jsObject.valueExpression;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

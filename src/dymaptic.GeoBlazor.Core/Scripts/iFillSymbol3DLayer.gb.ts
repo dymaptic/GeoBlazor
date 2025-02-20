@@ -137,15 +137,15 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
             let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
             dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline);
         }
-        if (hasValue(jsObject.castShadows)) {
-            dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
-        }
-        if (hasValue(jsObject.pattern)) {
-            dotNetIFillSymbol3DLayer.pattern = jsObject.pattern;
-        }
-        if (hasValue(jsObject.type)) {
-            dotNetIFillSymbol3DLayer.type = jsObject.type;
-        }
+    if (hasValue(jsObject.castShadows)) {
+        dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
+    }
+    if (hasValue(jsObject.pattern)) {
+        dotNetIFillSymbol3DLayer.pattern = jsObject.pattern;
+    }
+    if (hasValue(jsObject.type)) {
+        dotNetIFillSymbol3DLayer.type = jsObject.type;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

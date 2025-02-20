@@ -48,15 +48,15 @@ export async function buildDotNetTileInfoCreateOptionsGenerated(jsObject: any): 
             let { buildDotNetSpatialReference } = await import('./spatialReference');
             dotNetTileInfoCreateOptions.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
         }
-        if (hasValue(jsObject.numLODs)) {
-            dotNetTileInfoCreateOptions.numLODs = jsObject.numLODs;
-        }
-        if (hasValue(jsObject.scales)) {
-            dotNetTileInfoCreateOptions.scales = jsObject.scales;
-        }
-        if (hasValue(jsObject.size)) {
-            dotNetTileInfoCreateOptions.size = jsObject.size;
-        }
+    if (hasValue(jsObject.numLODs)) {
+        dotNetTileInfoCreateOptions.numLODs = jsObject.numLODs;
+    }
+    if (hasValue(jsObject.scales)) {
+        dotNetTileInfoCreateOptions.scales = jsObject.scales;
+    }
+    if (hasValue(jsObject.size)) {
+        dotNetTileInfoCreateOptions.size = jsObject.size;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

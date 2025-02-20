@@ -41,15 +41,15 @@ export async function buildDotNetRasterSliceValueGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.magdirValue)) {
-            dotNetRasterSliceValue.magdirValue = jsObject.magdirValue;
-        }
-        if (hasValue(jsObject.multidimensionalDefinition)) {
-            dotNetRasterSliceValue.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-        }
-        if (hasValue(jsObject.value)) {
-            dotNetRasterSliceValue.value = jsObject.value;
-        }
+    if (hasValue(jsObject.magdirValue)) {
+        dotNetRasterSliceValue.magdirValue = jsObject.magdirValue;
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        dotNetRasterSliceValue.multidimensionalDefinition = jsObject.multidimensionalDefinition;
+    }
+    if (hasValue(jsObject.value)) {
+        dotNetRasterSliceValue.value = jsObject.value;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

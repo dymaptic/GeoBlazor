@@ -43,9 +43,9 @@ export async function buildDotNetImageGPSInfoResultGenerated(jsObject: any): Pro
             let { buildDotNetImageGPSInfo } = await import('./imageGPSInfo');
             dotNetImageGPSInfoResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageGPSInfo(i)));
         }
-        if (hasValue(jsObject.cameras)) {
-            dotNetImageGPSInfoResult.cameras = jsObject.cameras;
-        }
+    if (hasValue(jsObject.cameras)) {
+        dotNetImageGPSInfoResult.cameras = jsObject.cameras;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

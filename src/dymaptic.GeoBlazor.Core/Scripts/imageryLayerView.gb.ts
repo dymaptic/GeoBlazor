@@ -29,6 +29,18 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getHighlightOptions(): Promise<any> {
+        if (!hasValue(this.component.highlightOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+    }
+    async setHighlightOptions(value: any): Promise<void> {
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+    }
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -36,6 +48,18 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
+    }
+    async getPixelData(): Promise<any> {
+        if (!hasValue(this.component.pixelData)) {
+            return null;
+        }
+        
+        let { buildDotNetPixelData } = await import('./pixelData');
+        return await buildDotNetPixelData(this.component.pixelData);
+    }
+    async setPixelData(value: any): Promise<void> {
+        let { buildJsPixelData } = await import('./pixelData');
+        this.component.pixelData = await  buildJsPixelData(value, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -49,15 +73,15 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
 
 export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsImageryLayerView = new ImageryLayerView();
-
     if (hasValue(dotNetObject.highlightOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHighlightOptions } = dotNetObject.highlightOptions;
-        jsImageryLayerView.highlightOptions = sanitizedHighlightOptions;
+        let { buildJsHighlightOptions } = await import('./highlightOptions');
+        jsImageryLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.pixelData)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPixelData } = dotNetObject.pixelData;
-        jsImageryLayerView.pixelData = sanitizedPixelData;
+        let { buildJsPixelData } = await import('./pixelData');
+        jsImageryLayerView.pixelData = await buildJsPixelData(dotNetObject.pixelData, layerId, viewId) as any;
     }
+
 
     let { default: ImageryLayerViewWrapper } = await import('./imageryLayerView');
     let imageryLayerViewWrapper = new ImageryLayerViewWrapper(jsImageryLayerView);
@@ -91,29 +115,31 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.highlightOptions)) {
-            dotNetImageryLayerView.highlightOptions = jsObject.highlightOptions;
+            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+            dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
         }
         if (hasValue(jsObject.pixelData)) {
-            dotNetImageryLayerView.pixelData = jsObject.pixelData;
+            let { buildDotNetPixelData } = await import('./pixelData');
+            dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData);
         }
-        if (hasValue(jsObject.spatialReferenceSupported)) {
-            dotNetImageryLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
-        }
-        if (hasValue(jsObject.suspended)) {
-            dotNetImageryLayerView.suspended = jsObject.suspended;
-        }
-        if (hasValue(jsObject.updating)) {
-            dotNetImageryLayerView.updating = jsObject.updating;
-        }
-        if (hasValue(jsObject.view)) {
-            dotNetImageryLayerView.view = jsObject.view;
-        }
-        if (hasValue(jsObject.visibleAtCurrentScale)) {
-            dotNetImageryLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
-        }
-        if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
-            dotNetImageryLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
-        }
+    if (hasValue(jsObject.spatialReferenceSupported)) {
+        dotNetImageryLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
+    }
+    if (hasValue(jsObject.suspended)) {
+        dotNetImageryLayerView.suspended = jsObject.suspended;
+    }
+    if (hasValue(jsObject.updating)) {
+        dotNetImageryLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.view)) {
+        dotNetImageryLayerView.view = jsObject.view;
+    }
+    if (hasValue(jsObject.visibleAtCurrentScale)) {
+        dotNetImageryLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
+    }
+    if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
+        dotNetImageryLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

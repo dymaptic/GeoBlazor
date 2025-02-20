@@ -51,24 +51,24 @@ export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any): P
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.atmosphere)) {
-            dotNetSceneViewEnvironment.atmosphere = jsObject.atmosphere;
-        }
-        if (hasValue(jsObject.atmosphereEnabled)) {
-            dotNetSceneViewEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
-        }
-        if (hasValue(jsObject.background)) {
-            dotNetSceneViewEnvironment.background = jsObject.background;
-        }
-        if (hasValue(jsObject.lighting)) {
-            dotNetSceneViewEnvironment.lighting = jsObject.lighting;
-        }
-        if (hasValue(jsObject.starsEnabled)) {
-            dotNetSceneViewEnvironment.starsEnabled = jsObject.starsEnabled;
-        }
-        if (hasValue(jsObject.weather)) {
-            dotNetSceneViewEnvironment.weather = jsObject.weather;
-        }
+    if (hasValue(jsObject.atmosphere)) {
+        dotNetSceneViewEnvironment.atmosphere = jsObject.atmosphere;
+    }
+    if (hasValue(jsObject.atmosphereEnabled)) {
+        dotNetSceneViewEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
+    }
+    if (hasValue(jsObject.background)) {
+        dotNetSceneViewEnvironment.background = jsObject.background;
+    }
+    if (hasValue(jsObject.lighting)) {
+        dotNetSceneViewEnvironment.lighting = jsObject.lighting;
+    }
+    if (hasValue(jsObject.starsEnabled)) {
+        dotNetSceneViewEnvironment.starsEnabled = jsObject.starsEnabled;
+    }
+    if (hasValue(jsObject.weather)) {
+        dotNetSceneViewEnvironment.weather = jsObject.weather;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {
