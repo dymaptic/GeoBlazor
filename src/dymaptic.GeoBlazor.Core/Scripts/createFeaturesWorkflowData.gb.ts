@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCreateFeaturesWorkflowData } from './createFeaturesWorkflowData';
 
 export async function buildJsCreateFeaturesWorkflowDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCreateFeaturesWorkflowData = new CreateFeaturesWorkflowData();
+    let jsCreateFeaturesWorkflowData: any = {}
     if (hasValue(dotNetObject.creationInfo)) {
         let { buildJsCreationInfo } = await import('./creationInfo');
         jsCreateFeaturesWorkflowData.creationInfo = await buildJsCreationInfo(dotNetObject.creationInfo, layerId, viewId) as any;

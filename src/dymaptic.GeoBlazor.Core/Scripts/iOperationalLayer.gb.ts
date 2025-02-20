@@ -36,7 +36,7 @@ export default class IOperationalLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIOperationalLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOperationalLayer = new OperationalLayer();
+    let jsOperationalLayer: any = {}
 
     if (hasValue(dotNetObject.persistenceEnabled)) {
         jsOperationalLayer.persistenceEnabled = dotNetObject.persistenceEnabled;

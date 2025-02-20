@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBasemapView } from './basemapView';
 
 export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapView = new BasemapView();
+    let jsBasemapView: any = {}
 
     
     // @ts-ignore

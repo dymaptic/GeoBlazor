@@ -93,7 +93,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget);
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.widget.spatialReference)) {
@@ -215,7 +215,7 @@ export async function buildDotNetFeaturesWidgetGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget);
+            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

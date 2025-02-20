@@ -6,8 +6,7 @@ export function buildJsColor(color: any) {
 
 export function buildJsMapColor(color: any) {
     if (!hasValue(color)) return null;
-    // @ts-ignore
-    if (typeof color === "string" || color instanceof Array<number>) return color;
+        if (typeof color === "string" || color instanceof Array<number>) return color;
     if (hasValue(color?.hexOrNameValue)) {
         return color.hexOrNameValue;
     }

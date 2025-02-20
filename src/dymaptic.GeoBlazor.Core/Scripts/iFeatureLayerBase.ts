@@ -1,20 +1,10 @@
-import FeatureLayerBase = __esri.FeatureLayerBase;
-import IFeatureLayerBaseGenerated from './iFeatureLayerBase.gb';
-
-export default class IFeatureLayerBaseWrapper extends IFeatureLayerBaseGenerated {
-
-    constructor(component: FeatureLayerBase) {
-        super(component);
-    }
-
-}
 
 export async function buildJsIFeatureLayerBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsIFeatureLayerBaseGenerated} = await import('./iFeatureLayerBase.gb');
+    let { buildJsIFeatureLayerBaseGenerated } = await import('./iFeatureLayerBase.gb');
     return await buildJsIFeatureLayerBaseGenerated(dotNetObject, layerId, viewId);
-}
+}     
 
 export async function buildDotNetIFeatureLayerBase(jsObject: any): Promise<any> {
-    let {buildDotNetIFeatureLayerBaseGenerated} = await import('./iFeatureLayerBase.gb');
+    let { buildDotNetIFeatureLayerBaseGenerated } = await import('./iFeatureLayerBase.gb');
     return await buildDotNetIFeatureLayerBaseGenerated(jsObject);
 }

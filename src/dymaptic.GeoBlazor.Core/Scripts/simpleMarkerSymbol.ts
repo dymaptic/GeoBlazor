@@ -32,8 +32,7 @@ export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {
         jsSimpleMarkerSymbol.yoffset = dotNetObject.yoffset;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(simpleMarkerSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleMarkerSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleMarkerSymbol;
 
@@ -54,8 +53,7 @@ export function buildDotNetSimpleMarkerSymbol(jsObject: any): any {
     }
 
     let dotNetSimpleMarkerSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetSimpleMarkerSymbol.color = buildDotNetMapColor(jsObject.color);

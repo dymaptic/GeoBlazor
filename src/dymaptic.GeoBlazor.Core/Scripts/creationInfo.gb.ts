@@ -60,7 +60,7 @@ export async function buildDotNetCreationInfoGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.template)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetCreationInfo.template = await buildDotNetFeatureTemplate(jsObject.template, layerId, viewId);
+            dotNetCreationInfo.template = await buildDotNetFeatureTemplate(jsObject.template);
         }
     if (hasValue(jsObject.maxFeatures)) {
         dotNetCreationInfo.maxFeatures = jsObject.maxFeatures;

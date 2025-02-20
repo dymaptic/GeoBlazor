@@ -22,8 +22,7 @@ export function buildDotNetTimeExtent(jsObject: any): any {
     }
 
     let dotNetTimeExtent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.end)) {
         dotNetTimeExtent.end = jsObject.end.toISOString();

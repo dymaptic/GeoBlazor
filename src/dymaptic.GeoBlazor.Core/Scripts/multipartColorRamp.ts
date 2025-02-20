@@ -10,8 +10,7 @@ export function buildJsMultipartColorRamp(dotNetObject: any): any {
         jsMultipartColorRamp.colorRamps = dotNetObject.colorRamps.map(buildJsAlgorithmicColorRamp) as any;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(multipartColorRampWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsMultipartColorRamp);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMultipartColorRamp;
 
@@ -32,8 +31,7 @@ export function buildDotNetMultipartColorRamp(jsObject: any): any {
     }
 
     let dotNetMultipartColorRamp: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.colorRamps)) {
         dotNetMultipartColorRamp.colorRamps = jsObject.colorRamps.map(i => buildDotNetAlgorithmicColorRamp(i));

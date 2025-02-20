@@ -13,7 +13,6 @@ import {
     DotNetRelationshipQuery,
     DotNetTopFeaturesQuery
 } from "./definitions";
-import {buildJsQuery, buildJsRelationshipQuery, buildJsTopFeaturesQuery,} from "./jsBuilder";
 import {
     decodeProtobufGraphics,
     getGraphicsFromProtobufStream,
@@ -45,7 +44,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {
-        let jsQuery = buildJsQuery(query);
+        let { buildJsQuery} = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         let {buildDotNetExtent} = await import('./extent');
         let result = await this.layer.queryExtent(jsQuery, options);
         return {
@@ -60,7 +60,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
             let jsQuery: Query | undefined = undefined;
 
             if (this.hasValue(query)) {
-                jsQuery = buildJsQuery(query as DotNetQuery);
+                let { buildJsQuery} = await import('./query');
+                jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
             }
 
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
@@ -81,19 +82,22 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     }
 
     async queryFeatureCount(query: DotNetQuery, options: any): Promise<number> {
-        let jsQuery = buildJsQuery(query);
+        let { buildJsQuery} = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         return await this.layer.queryFeatureCount(jsQuery, options);
     }
 
     async queryObjectIds(query: DotNetQuery, options: any): Promise<number[]> {
-        let jsQuery = buildJsQuery(query);
+        let { buildJsQuery} = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId);
         return await this.layer.queryObjectIds(jsQuery, options);
     }
 
     async queryRelatedFeatures(query: DotNetRelationshipQuery, options: any, dotNetRef: any,
                                queryId: string): Promise<any | null> {
         try {
-            let jsQuery = buildJsRelationshipQuery(query);
+            let { buildJsRelationshipQuery} = await import('./relationshipQuery');
+            let jsQuery = await buildJsRelationshipQuery(query);
             let featureSetsDictionary = await this.layer.queryRelatedFeatures(jsQuery, options);
             let graphicsDictionary: any = {};
             let {buildDotNetFeatureSet} = await import('./featureSet');
@@ -117,7 +121,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     }
 
     async queryRelatedFeaturesCount(query: DotNetRelationshipQuery, options: any): Promise<number> {
-        let jsQuery = buildJsRelationshipQuery(query);
+        let { buildJsRelationshipQuery} = await import('./relationshipQuery');
+        let jsQuery = await buildJsRelationshipQuery(query);
         return await this.layer.queryRelatedFeaturesCount(jsQuery, options);
     }
 
@@ -125,7 +130,8 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     async queryTopFeatures(query: DotNetTopFeaturesQuery, options: any, dotNetRef: any,
                            queryId: string): Promise<DotNetFeatureSet | null> {
         try {
-            let jsQuery = buildJsTopFeaturesQuery(query);
+            let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
+            let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
             let featureSet = await this.layer.queryTopFeatures(jsQuery, options);
             let {buildDotNetFeatureSet} = await import('./featureSet');
             let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
@@ -142,17 +148,20 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     }
 
     async queryTopFeatureCount(query: DotNetTopFeaturesQuery, options: any): Promise<number> {
-        let jsQuery = buildJsTopFeaturesQuery(query);
+        let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
+        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
         return await this.layer.queryTopFeatureCount(jsQuery, options);
     }
 
     async queryTopObjectIds(query: DotNetTopFeaturesQuery, options: any): Promise<number[]> {
-        let jsQuery = buildJsTopFeaturesQuery(query);
+        let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
+        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
         return await this.layer.queryTopObjectIds(jsQuery, options);
     }
 
     async queryTopFeaturesExtent(query: DotNetTopFeaturesQuery, options: any): Promise<any> {
-        let jsQuery = buildJsTopFeaturesQuery(query);
+        let { buildJsTopFeaturesQuery} = await import('./topFeaturesQuery');
+        let jsQuery = await buildJsTopFeaturesQuery(query, this.layerId, this.viewId);
         let result = await this.layer.queryTopFeaturesExtent(jsQuery, options);
         let {buildDotNetExtent} = await import('./extent');
         return {

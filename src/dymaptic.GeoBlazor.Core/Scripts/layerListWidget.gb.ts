@@ -78,7 +78,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     let jsLayerList = new LayerList();
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         jsLayerList.listItemCreatedFunction = (event) => {
-            dotNetObject.dotNetObjectReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {

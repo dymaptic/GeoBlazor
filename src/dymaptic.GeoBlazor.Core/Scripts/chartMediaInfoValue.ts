@@ -23,8 +23,7 @@ export function buildJsChartMediaInfoValue(dotNetObject: any): any {
         jsChartMediaInfoValue.tooltipField = dotNetObject.tooltipField;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsChartMediaInfoValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValue;
 
@@ -45,8 +44,7 @@ export function buildDotNetChartMediaInfoValue(jsObject: any): any {
     }
 
     let dotNetChartMediaInfoValue: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.colors)) {
         dotNetChartMediaInfoValue.colors = jsObject.colors.map(i => buildDotNetMapColor(i));

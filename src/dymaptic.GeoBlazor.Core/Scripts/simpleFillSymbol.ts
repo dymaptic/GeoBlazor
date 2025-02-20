@@ -16,8 +16,7 @@ export function buildJsSimpleFillSymbol(dotNetObject: any): any {
         jsSimpleFillSymbol.style = dotNetObject.style;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(simpleFillSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleFillSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
 
@@ -38,8 +37,7 @@ export function buildDotNetSimpleFillSymbol(jsObject: any): any {
     }
 
     let dotNetSimpleFillSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetSimpleFillSymbol.color = buildDotNetMapColor(jsObject.color);

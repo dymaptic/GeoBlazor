@@ -28,8 +28,7 @@ export function buildJsFieldInfo(dotNetObject: any): any {
         jsFieldInfo.tooltip = dotNetObject.tooltip;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(fieldInfoWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
 
@@ -50,8 +49,7 @@ export function buildDotNetFieldInfo(jsObject: any): any {
     }
 
     let dotNetFieldInfo: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.format)) {
         dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format);

@@ -30,8 +30,7 @@ export function buildJsRelationshipPopupContent(dotNetObject: any): any {
         jsRelationshipContent.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(relationshipPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipContent;
 
@@ -52,8 +51,7 @@ export function buildDotNetRelationshipPopupContent(jsObject: any): any {
     }
 
     let dotNetRelationshipPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.orderByFields)) {
         dotNetRelationshipPopupContent.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));

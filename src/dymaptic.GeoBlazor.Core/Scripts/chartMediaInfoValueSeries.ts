@@ -6,8 +6,7 @@ import {buildDotNetMapColor} from './mapColor';
 export function buildJsChartMediaInfoValueSeries(dotNetObject: any): any {
     let jsChartMediaInfoValueSeries = new ChartMediaInfoValueSeries();
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(chartMediaInfoValueSeriesWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsChartMediaInfoValueSeries);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValueSeries;
 
@@ -28,8 +27,7 @@ export function buildDotNetChartMediaInfoValueSeries(jsObject: any): any {
     }
 
     let dotNetChartMediaInfoValueSeries: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetChartMediaInfoValueSeries.color = buildDotNetMapColor(jsObject.color);

@@ -36,8 +36,7 @@ export function buildJsPictureFillSymbol(dotNetObject: any): any {
         jsPictureFillSymbol.yscale = dotNetObject.yscale;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(pictureFillSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsPictureFillSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPictureFillSymbol;
 
@@ -58,8 +57,7 @@ export function buildDotNetPictureFillSymbol(jsObject: any): any {
     }
 
     let dotNetPictureFillSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetPictureFillSymbol.color = buildDotNetMapColor(jsObject.color);

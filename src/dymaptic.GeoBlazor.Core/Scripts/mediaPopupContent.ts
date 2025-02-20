@@ -20,8 +20,7 @@ export function buildJsMediaPopupContent(dotNetObject: any): any {
         jsMediaContent.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(mediaPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsMediaContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMediaContent;
 
@@ -42,8 +41,7 @@ export function buildDotNetMediaPopupContent(jsObject: any): any {
     }
 
     let dotNetMediaPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.mediaInfos)) {
         dotNetMediaPopupContent.mediaInfos = jsObject.mediaInfos.map(i => buildDotNetMediaInfo(i));

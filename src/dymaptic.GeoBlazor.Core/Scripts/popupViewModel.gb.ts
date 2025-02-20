@@ -32,7 +32,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetFeaturesViewModel(result);
     }
 
     async open(options: any): Promise<void> {
@@ -44,7 +44,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetFeaturesViewModel(result);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -226,7 +226,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
+            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');

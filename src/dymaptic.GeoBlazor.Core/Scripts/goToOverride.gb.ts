@@ -7,8 +7,7 @@ export async function buildDotNetGoToOverrideGenerated(jsObject: any): Promise<a
     }
     
     let dotNetGoToOverride: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

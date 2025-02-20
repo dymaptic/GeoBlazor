@@ -22,8 +22,7 @@ export function buildJsImageMediaInfo(dotNetObject: any): any {
         jsImageMediaInfo.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfo;
 
@@ -44,8 +43,7 @@ export function buildDotNetImageMediaInfo(jsObject: any): any {
     }
 
     let dotNetImageMediaInfo: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.value)) {
         dotNetImageMediaInfo.value = buildDotNetImageMediaInfoValue(jsObject.value);

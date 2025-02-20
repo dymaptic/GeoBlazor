@@ -67,8 +67,7 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
         jsPopupTemplate.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(popupTemplateWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsPopupTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTemplate;
 

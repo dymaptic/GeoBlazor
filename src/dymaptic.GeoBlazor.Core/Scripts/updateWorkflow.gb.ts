@@ -51,7 +51,7 @@ export default class UpdateWorkflowGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetUpdateWorkflowData } = await import('./updateWorkflowData');
-        return await buildDotNetUpdateWorkflowData(this.component.data);
+        return await buildDotNetUpdateWorkflowData(this.component.data, this.layerId, this.viewId);
     }
     getProperty(prop: string): any {
         return this.component[prop];
@@ -89,7 +89,7 @@ export async function buildJsUpdateWorkflowGenerated(dotNetObject: any, layerId:
     return jsUpdateWorkflow;
 }
 
-export async function buildDotNetUpdateWorkflowGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUpdateWorkflowGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -100,7 +100,7 @@ export async function buildDotNetUpdateWorkflowGenerated(jsObject: any): Promise
     };
         if (hasValue(jsObject.data)) {
             let { buildDotNetUpdateWorkflowData } = await import('./updateWorkflowData');
-            dotNetUpdateWorkflow.data = await buildDotNetUpdateWorkflowData(jsObject.data);
+            dotNetUpdateWorkflow.data = await buildDotNetUpdateWorkflowData(jsObject.data, layerId, viewId);
         }
     if (hasValue(jsObject.hasNextStep)) {
         dotNetUpdateWorkflow.hasNextStep = jsObject.hasNextStep;

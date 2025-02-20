@@ -61,6 +61,7 @@ import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
 import Measurement from "@arcgis/core/widgets/Measurement";
+// @ts-ignore
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
 import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
@@ -127,9 +128,6 @@ export {
     SimpleRenderer
 };
 
-
-export * from './jsBuilder';
-
 export const arcGisObjectRefs: Record<string, any> = {};
 // this could be either the arcGIS object or a "wrapper" class
 export const jsObjectRefs: Record<string, any> = {};
@@ -164,7 +162,6 @@ export async function setPro(): Promise<void> {
 export async function getObjectRefForProperty(obj: any, prop: string): Promise<any> {
     const val = await getProperty(obj, prop);
     return {
-        // @ts-ignore
         value: hasValue(val) ? DotNet.createJSObjectReference(val) : null
     };
 }
@@ -220,8 +217,7 @@ export function getJsComponent(id: string) {
     const component = jsObjectRefs[id];
 
     if (hasValue(component)) {
-        // @ts-ignore
-        return DotNet.createJSObjectReference();
+        return DotNet.createJSObjectReference(component);
     }
     return null;
 }
@@ -609,10 +605,8 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 jsLayerView = new FeatureLayerViewWrapper(jsLayerView);
             }
 
-            // @ts-ignore
-            const layerRef = DotNet.createJSObjectReference(jsLayer);
-            // @ts-ignore
-            const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
+                        const layerRef = DotNet.createJSObjectReference(jsLayer);
+                        const layerViewRef = DotNet.createJSObjectReference(jsLayerView);
 
             const result = {
                 layerObjectRef: layerRef,
@@ -650,7 +644,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
             let seenObjects = new WeakMap();
-            const jsonLayerResult = JSON.stringify(structuredClone(result.layer), function (key, value) {
+            const jsonLayerResult = JSON.stringify(result.layer, function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
@@ -662,7 +656,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             });
             
             seenObjects = new WeakMap();
-            const jsonLayerViewResult = JSON.stringify(structuredClone(result.layerView), function (key, value) {
+            const jsonLayerViewResult = JSON.stringify(result.layerView, function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layerView type ${result.layerView.type} detected at path: ${key}, value: ${value}`);
@@ -758,10 +752,10 @@ function debounce(func: Function, wait: number | null, immediate: boolean) {
     // Calling debounce returns a new anonymous function
     return () => {
         // reference the context and args for the setTimeout function
-        // @ts-ignore
+        // @ts-ignore        
         const context: any = this,
-            // eslint-disable-next-line prefer-rest-params
-            args = arguments;
+        // eslint-disable-next-line prefer-rest-params
+        args = arguments;
 
         // Should the function be called now? If immediate is true
         //   and not already in a timeout then the answer is: Yes
@@ -1127,9 +1121,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
                     await Pro.addFeatureReduction(geoJsonLayer, layerObject.proProperties.FeatureReduction, viewId);
-                } else {
-                    // @ts-ignore
-                    geoJsonLayer.featureReduction = null;
                 }
                 break;
             case 'web-tile':
@@ -1201,9 +1192,6 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
             case 'csv':
                 if (hasValue(layerObject.proProperties?.FeatureReduction) && hasValue(Pro)) {
                     await Pro.addFeatureReduction(currentLayer, layerObject.proProperties.FeatureReduction, viewId);
-                } else {
-                    // @ts-ignore
-                    (currentLayer as CSVLayer).featureReduction = null;
                 }
                 break;
             case 'map-image':
@@ -1248,7 +1236,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 }
                 if (hasValue(layerObject.multidimensionalDefinition) && layerObject.multidimensionalDefinition.length > 0) {
                     (currentLayer as ImageryTileLayer).multidimensionalDefinition = layerObject.multidimensionalDefinition.map(d => {
-                        const {id, dotNetObjectReference, ...sanitizedDef} = d;
+                        const {id, dotNetComponentReference, ...sanitizedDef} = d;
                         return sanitizedDef;
                     });
                 }
@@ -2106,11 +2094,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
             if (hasValue(dotNetWidget.nextBasemapStyle)) {
                 basemapToggle.nextBasemap = dotNetWidget.nextBasemapStyle;
             } else if (hasValue(dotNetWidget.nextBasemapName)) {
-                // @ts-ignore
-                basemapToggle.nextBasemap = dotNetWidget.nextBasemapName;
+                                basemapToggle.nextBasemap = dotNetWidget.nextBasemapName;
             } else {
-                // @ts-ignore
-                basemapToggle.nextBasemap = dotNetWidget.nextBasemap;
+                                basemapToggle.nextBasemap = dotNetWidget.nextBasemap;
             }
             break;
         case 'basemap-gallery':
@@ -2500,8 +2486,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
     jsObjectRefs[dotNetWidget.id] = wrapper;
 
-    // @ts-ignore
-    const jsRef = DotNet.createJSObjectReference(wrapper);
+        const jsRef = DotNet.createJSObjectReference(wrapper);
 
     // register, to be removed when we finish code generation of all widgets
     await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
@@ -3199,8 +3184,7 @@ export function getProtobufGraphicStream(graphics: DotNetGraphic[], layer: Featu
     };
     const collection = ProtoGraphicCollection.fromObject(obj);
     const encoded = ProtoGraphicCollection.encode(collection).finish();
-    // @ts-ignore
-    return DotNet.createJSStreamReference(encoded);
+        return DotNet.createJSStreamReference(encoded);
 }
 
 function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
@@ -3218,8 +3202,7 @@ function getProtobufViewHitStream(viewHits: DotNetViewHit[]): any {
     };
     const collection = ProtoViewHitCollection.fromObject(obj);
     const encoded = ProtoViewHitCollection.encode(collection).finish();
-    // @ts-ignore
-    return DotNet.createJSStreamReference(encoded);
+        return DotNet.createJSStreamReference(encoded);
 }
 
 function updateGraphicForProtobuf(graphic: DotNetGraphic, layer: FeatureLayer | null) {
@@ -3350,10 +3333,8 @@ export function createAbortControllerAndSignal() {
     const controller = new AbortController();
     const signal = controller.signal;
     return {
-        // @ts-ignore
-        abortControllerRef: DotNet.createJSObjectReference(controller),
-        // @ts-ignore
-        abortSignalRef: DotNet.createJSObjectReference(signal)
+                abortControllerRef: DotNet.createJSObjectReference(controller),
+                abortSignalRef: DotNet.createJSObjectReference(signal)
     }
 }
 
@@ -3372,8 +3353,7 @@ export async function takeScreenshot(viewId, options): Promise<any> {
 
     const buffer = base64ToArrayBuffer(screenshot.dataUrl.split(",")[1]);
 
-    // @ts-ignore
-    const jsStreamRef = DotNet.createJSStreamReference(buffer);
+        const jsStreamRef = DotNet.createJSStreamReference(buffer);
 
     return {
         width: screenshot.data.width,

@@ -36,7 +36,7 @@ export default class IFeatureReductionLayerGenerated implements IPropertyWrapper
 
 
 export async function buildJsIFeatureReductionLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureReductionLayer = new FeatureReductionLayer();
+    let jsFeatureReductionLayer: any = {}
 
     if (hasValue(dotNetObject.featureReduction)) {
         jsFeatureReductionLayer.featureReduction = dotNetObject.featureReduction;

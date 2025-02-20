@@ -48,7 +48,7 @@ export default class IFeatureEffectLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIFeatureEffectLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureEffectLayer = new FeatureEffectLayer();
+    let jsFeatureEffectLayer: any = {}
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         jsFeatureEffectLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;

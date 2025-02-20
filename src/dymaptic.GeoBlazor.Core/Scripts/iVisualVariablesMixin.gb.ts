@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIVisualVariablesMixin } from './iVisualVariablesMixin';
 
 export async function buildJsIVisualVariablesMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVisualVariablesMixin = new VisualVariablesMixin();
+    let jsVisualVariablesMixin: any = {}
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
         jsVisualVariablesMixin.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;

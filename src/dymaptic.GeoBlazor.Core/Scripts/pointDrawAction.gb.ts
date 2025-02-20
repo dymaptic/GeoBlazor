@@ -64,7 +64,7 @@ export default class PointDrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPointDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPointDrawAction = new PointDrawAction();
+    let jsPointDrawAction: any = {}
 
     if (hasValue(dotNetObject.hasZ)) {
         jsPointDrawAction.hasZ = dotNetObject.hasZ;

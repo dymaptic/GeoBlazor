@@ -29,8 +29,9 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     A .NET Object reference to this class for use in JavaScript.
     /// </summary>
-    protected DotNetObjectReference<LogicComponent> DotNetObjectReference =>
-        Microsoft.JSInterop.DotNetObjectReference.Create(this);
+    [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
+    protected DotNetObjectReference<LogicComponent> DotNetComponentReference =>
+        DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     The project library which houses this particular logic component.
@@ -72,7 +73,7 @@ public abstract class LogicComponent : IDisposable
             IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference);
+                CancellationTokenSource.Token, DotNetComponentReference);
         }
     }
 

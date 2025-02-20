@@ -87,12 +87,12 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     let jsBasemapLayerList = new BasemapLayerList();
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
         jsBasemapLayerList.baseListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetObjectReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
         jsBasemapLayerList.referenceListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetObjectReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
+            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {

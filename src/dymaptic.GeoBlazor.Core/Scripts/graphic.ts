@@ -56,8 +56,7 @@ export function buildJsGraphic(graphicObject: any): Graphic {
         graphicsRefs[groupId!][graphicObject.id] = graphic;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(graphic);
+        let jsObjectRef = DotNet.createJSObjectReference(graphic);
     jsObjectRefs[graphicObject.id] = jsObjectRef;
 
     return graphic;

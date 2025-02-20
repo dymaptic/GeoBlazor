@@ -12,10 +12,6 @@ export async function buildJsSceneLayerApplyEditsEditsGenerated(dotNetObject: an
         let { buildJsGraphic } = await import('./graphic');
         jsSceneLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    else if (hasValue(dotNetObject.graphicCollectionDeleteFeatures)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsSceneLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
-    }
     else if (hasValue(dotNetObject.featureIdentifierCollectionDeleteFeatures)) {
         jsSceneLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphic;
     }

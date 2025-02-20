@@ -64,7 +64,7 @@ export default class PolylineDrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPolylineDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPolylineDrawAction = new PolylineDrawAction();
+    let jsPolylineDrawAction: any = {}
 
     if (hasValue(dotNetObject.hasZ)) {
         jsPolylineDrawAction.hasZ = dotNetObject.hasZ;

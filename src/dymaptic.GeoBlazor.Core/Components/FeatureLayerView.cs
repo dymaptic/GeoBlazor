@@ -386,7 +386,7 @@ public partial class FeatureLayerView : LayerView
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         FeatureSet result = await JsComponentReference.InvokeAsync<FeatureSet>("queryFeatures", 
-            cancellationToken, query, new { signal = abortSignal }, DotNetObjectReference.Create(this), queryId);
+            cancellationToken, query, new { signal = abortSignal }, DotNetComponentReference, queryId);
         if (_activeQueries.ContainsKey(queryId))
         {
             result = result with { Features = _activeQueries[queryId]};

@@ -6,7 +6,7 @@ export async function buildJsOpacityVisualVariableResultGenerated(dotNetObject: 
     let jsopacityVisualVariableResult: any = {}
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsopacityVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsopacityVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.visualVariable)) {
         let { buildJsOpacityVariable } = await import('./opacityVariable');

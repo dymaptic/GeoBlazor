@@ -3,7 +3,7 @@ import RelationshipQuery from '@arcgis/core/rest/support/RelationshipQuery';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipQuery } from './relationshipQuery';
 
-export async function buildJsRelationshipQueryGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Promise<any> {
     let jsRelationshipQuery = new RelationshipQuery();
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');

@@ -16,8 +16,7 @@ export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
         jsAlgorithmicColorRamp.algorithm = dotNetObject.algorithm;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
 
@@ -38,8 +37,7 @@ export function buildDotNetAlgorithmicColorRamp(jsObject: any): any {
     }
 
     let dotNetAlgorithmicColorRamp: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.fromColor)) {
         dotNetAlgorithmicColorRamp.fromColor = buildDotNetMapColor(jsObject.fromColor);

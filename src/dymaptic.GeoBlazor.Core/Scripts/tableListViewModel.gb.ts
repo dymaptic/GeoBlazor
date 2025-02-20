@@ -7,7 +7,7 @@ export async function buildJsTableListViewModelGenerated(dotNetObject: any, laye
     let jsTableListViewModel = new TableListViewModel();
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         jsTableListViewModel.listItemCreatedFunction = (event) => {
-            dotNetObject.dotNetObjectReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
 
@@ -25,8 +25,7 @@ export async function buildJsTableListViewModelGenerated(dotNetObject: any, laye
     });
     
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsTableListViewModel);
+        let jsObjectRef = DotNet.createJSObjectReference(jsTableListViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTableListViewModel;
     
@@ -47,8 +46,7 @@ export async function buildDotNetTableListViewModelGenerated(jsObject: any): Pro
     }
     
     let dotNetTableListViewModel: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.tableItems)) {
             let { buildDotNetTableListListItem } = await import('./tableListListItem');

@@ -19,8 +19,7 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
         jsActionToggle.value = dotNetObject.value;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsActionToggle);
+        let jsObjectRef = DotNet.createJSObjectReference(jsActionToggle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
     
@@ -41,8 +40,7 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
     }
     
     let dotNetActionToggle: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionToggle.actionId = jsObject.id;

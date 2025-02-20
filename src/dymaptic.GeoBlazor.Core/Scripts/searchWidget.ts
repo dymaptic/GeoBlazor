@@ -8,7 +8,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     private searchWidget: Search;
 
     constructor(search: Search) {
-        super(widget);
+        super(search);
     }
 
     async getActiveSource() {
@@ -106,7 +106,7 @@ export async function buildJsSearchWidget(dotNetObject: any, layerId: string | n
     return await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSearchWidget(jsObject: any): Promise<any> {
+export async function buildDotNetSearchWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSearchWidgetGenerated} = await import('./searchWidget.gb');
-    return await buildDotNetSearchWidgetGenerated(jsObject);
+    return await buildDotNetSearchWidgetGenerated(jsObject, layerId, viewId);
 }

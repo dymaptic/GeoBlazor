@@ -1,7 +1,7 @@
 import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
 import {DotNetQuery} from './definitions';
-import {buildJsFeatureFilter, getProtobufGraphicStream, hasValue} from './arcGisJsInterop';
+import {getProtobufGraphicStream, hasValue} from './arcGisJsInterop';
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     private geoBlazorLayerId: string | null = null;
@@ -11,12 +11,13 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     }
 
     async setFeatureEffect(dnfeatureEffect): Promise<void> {
-        let {buildJsFeatureEffect} = await import('./jsBuilder');
-        this.component.featureEffect = buildJsFeatureEffect(dnfeatureEffect);
+        let {buildJsFeatureEffect} = await import('./featureEffect');
+        this.component.featureEffect = await buildJsFeatureEffect(dnfeatureEffect, this.layerId, this.viewId);
     }
 
-    setFilter(dnDeatureFilter): void {
-        this.component.filter = buildJsFeatureFilter(dnDeatureFilter);
+    async setFilter(dnDeatureFilter): Promise<void> {
+        let {buildJsFeatureFilter} = await import('./featureFilter');
+        this.component.filter = await buildJsFeatureFilter(dnDeatureFilter, this.layerId, this.viewId);
     }
 
     setMaximumNumberOfFeatures(maximumNumberOfFeatures: number): void {

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIArcGISMapService } from './iArcGISMapService';
 
 export async function buildJsIArcGISMapServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsArcGISMapService = new ArcGISMapService();
+    let jsArcGISMapService: any = {}
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         jsArcGISMapService.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;

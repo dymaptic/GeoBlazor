@@ -10,8 +10,7 @@ export function buildJsExpressionPopupContent(dotNetObject: any): any {
         jsExpressionContent.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(expressionPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsExpressionContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionContent;
 
@@ -32,8 +31,7 @@ export function buildDotNetExpressionPopupContent(jsObject: any): any {
     }
 
     let dotNetExpressionPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.expressionInfo)) {
         dotNetExpressionPopupContent.expressionInfo = buildDotNetElementExpressionInfo(jsObject.expressionInfo);

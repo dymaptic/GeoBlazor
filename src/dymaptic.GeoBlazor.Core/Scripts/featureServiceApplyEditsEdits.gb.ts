@@ -12,10 +12,6 @@ export async function buildJsFeatureServiceApplyEditsEditsGenerated(dotNetObject
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureServiceApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    else if (hasValue(dotNetObject.graphicCollectionDeleteFeatures)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsFeatureServiceApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
-    }
     else if (hasValue(dotNetObject.stringCollectionDeleteFeatures)) {
         jsFeatureServiceApplyEditsEdits.deleteFeatures = dotNetObject.graphic;
     }
@@ -46,7 +42,7 @@ export async function buildJsFeatureServiceApplyEditsEditsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceApplyEditsEdits;
     
-    let dnInstantiatedObject = await buildDotNetFeatureServiceApplyEditsEdits(jsFeatureServiceApplyEditsEdits);
+    let dnInstantiatedObject = await buildDotNetFeatureServiceApplyEditsEdits(jsFeatureServiceApplyEditsEdits, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

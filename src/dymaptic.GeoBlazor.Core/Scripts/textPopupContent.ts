@@ -8,8 +8,7 @@ export function buildJsTextPopupContent(dotNetObject: any): any {
     if (hasValue(dotNetObject.text)) {
         jsTextContent.text = dotNetObject.text;
     }
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(textPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsTextContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextContent;
 
@@ -30,8 +29,7 @@ export function buildDotNetTextPopupContent(jsObject: any): any {
     }
 
     let dotNetTextPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.text)) {
         dotNetTextPopupContent.text = jsObject.text;

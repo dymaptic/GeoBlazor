@@ -99,7 +99,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel);
+        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel, this.layerId, this.viewId);
     }
     async setFeatureFormViewModel(value: any): Promise<void> {
         let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
@@ -235,7 +235,7 @@ export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId
     return jsEditorViewModel;
 }
 
-export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -258,7 +258,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any): Promis
         }
         if (hasValue(jsObject.featureFormViewModel)) {
             let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel);
+            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
         }
         if (hasValue(jsObject.featureTemplatesViewModel)) {
             let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');

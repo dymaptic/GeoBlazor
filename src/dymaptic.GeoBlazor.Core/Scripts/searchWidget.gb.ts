@@ -204,7 +204,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
     let { buildDotNetSearchWidget } = await import('./searchWidget');
-    let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch);
+    let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

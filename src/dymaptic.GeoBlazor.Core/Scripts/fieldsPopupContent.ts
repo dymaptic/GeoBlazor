@@ -17,8 +17,7 @@ export function buildJsFieldsPopupContent(dotNetObject: any): any {
         jsFieldsContent.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(fieldsPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsFieldsContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsContent;
 
@@ -39,8 +38,7 @@ export function buildDotNetFieldsPopupContent(jsObject: any): any {
     }
 
     let dotNetFieldsPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.fieldInfos)) {
         dotNetFieldsPopupContent.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));

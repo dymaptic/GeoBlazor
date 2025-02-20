@@ -44,8 +44,7 @@ export async function buildJsTableListListItemPanelWidgetGenerated(dotNetObject:
         jsTableListListItemPanel.id = dotNetObject.widgetId;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsTableListListItemPanel);
+        let jsObjectRef = DotNet.createJSObjectReference(jsTableListListItemPanel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTableListListItemPanel;
     
@@ -66,8 +65,7 @@ export async function buildDotNetTableListListItemPanelWidgetGenerated(jsObject:
     }
     
     let dotNetTableListListItemPanelWidget: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.listItem)) {
             let { buildDotNetTableListListItem } = await import('./tableListListItem');

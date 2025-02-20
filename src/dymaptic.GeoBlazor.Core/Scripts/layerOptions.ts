@@ -13,8 +13,7 @@ export function buildJsLayerOptions(dotNetObject: any): any {
         jsLayerOptions.showNoDataRecords = dotNetObject.showNoDataRecords;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(layerOptionsWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsLayerOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
 
@@ -35,8 +34,7 @@ export function buildDotNetLayerOptions(jsObject: any): any {
     }
 
     let dotNetLayerOptions: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.returnTopmostRaster)) {
         dotNetLayerOptions.returnTopmostRaster = jsObject.returnTopmostRaster;

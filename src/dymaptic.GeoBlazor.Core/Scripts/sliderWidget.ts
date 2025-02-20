@@ -4,7 +4,7 @@ import Slider from '@arcgis/core/widgets/Slider';
 export default class SliderWidgetWrapper extends SliderWidgetGenerated {
     private slider: Slider;
 
-    constructor(slider: Slider) {
+    constructor(widget: Slider) {
         super(widget);
     }
 

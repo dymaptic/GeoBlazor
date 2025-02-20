@@ -29,8 +29,7 @@ export function buildJsSimpleLineSymbol(dotNetObject: any): any {
         jsSimpleLineSymbol.width = dotNetObject.width;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(simpleLineSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleLineSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
 
@@ -55,8 +54,7 @@ export function buildDotNetSimpleLineSymbol(jsObject: any): any {
     }
 
     let dotNetSimpleLineSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetSimpleLineSymbol.color = buildDotNetMapColor(jsObject.color);

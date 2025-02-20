@@ -65,7 +65,7 @@ export async function buildDotNetRouteSolveResultGenerated(jsObject: any, layerI
         }
         if (hasValue(jsObject.routeResults)) {
             let { buildDotNetRouteResult } = await import('./routeResult');
-            dotNetRouteSolveResult.routeResults = await Promise.all(jsObject.routeResults.map(async i => await buildDotNetRouteResult(i, layerId, viewId)));
+            dotNetRouteSolveResult.routeResults = await Promise.all(jsObject.routeResults.map(async i => await buildDotNetRouteResult(i)));
         }
     if (hasValue(jsObject.messages)) {
         dotNetRouteSolveResult.messages = jsObject.messages;

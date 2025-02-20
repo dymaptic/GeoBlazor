@@ -27,8 +27,7 @@ export async function buildDotNetRenderer(jsObject: any): Promise<any> {
             let {buildDotNetUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildDotNetUniqueValueRenderer(jsObject);
         case 'pie-chart': // only available in Pro
-            // @ts-ignore
-            let {buildDotNetPieChartRenderer} = await import('./pieChartRenderer');
+                        let {buildDotNetPieChartRenderer} = await import('./pieChartRenderer');
             return await buildDotNetPieChartRenderer(jsObject);
         default:
             return null;

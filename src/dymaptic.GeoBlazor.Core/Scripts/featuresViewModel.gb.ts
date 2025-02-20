@@ -226,7 +226,7 @@ export async function buildDotNetFeaturesViewModelGenerated(jsObject: any, layer
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetFeaturesViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
+            dotNetFeaturesViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');

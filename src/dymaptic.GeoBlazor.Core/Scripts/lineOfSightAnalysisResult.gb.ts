@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineOfSightAnalysisResult } from './lineOfSightAnalysisResult';
 
 export async function buildJsLineOfSightAnalysisResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightAnalysisResult = new LineOfSightAnalysisResult();
+    let jsLineOfSightAnalysisResult: any = {}
     if (hasValue(dotNetObject.target)) {
         let { buildJsLineOfSightAnalysisTarget } = await import('./lineOfSightAnalysisTarget');
         jsLineOfSightAnalysisResult.target = await buildJsLineOfSightAnalysisTarget(dotNetObject.target, layerId, viewId) as any;
@@ -15,7 +15,7 @@ export async function buildJsLineOfSightAnalysisResultGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisResult;
     
-    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisResult(jsLineOfSightAnalysisResult);
+    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisResult(jsLineOfSightAnalysisResult, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

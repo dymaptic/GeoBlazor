@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEdits } from './edits';
 
 export async function buildJsEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEdits = new Edits();
+    let jsEdits: any = {}
 
     
     // @ts-ignore

@@ -13,8 +13,7 @@ export function buildJsImageMediaInfoValue(dotNetObject: any): any {
         jsImageMediaInfoValue.sourceURL = dotNetObject.sourceURL;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(imageMediaInfoValueWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfoValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfoValue;
 
@@ -35,8 +34,7 @@ export function buildDotNetImageMediaInfoValue(jsObject: any): any {
     }
 
     let dotNetImageMediaInfoValue: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.linkURL)) {
         dotNetImageMediaInfoValue.linkURL = jsObject.linkURL;

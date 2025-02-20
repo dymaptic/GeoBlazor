@@ -12,8 +12,7 @@ export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
         jsRelatedRecordsInfoFieldOrder.order = dotNetObject.order;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(relatedRecordsInfoFieldOrderWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsRelatedRecordsInfoFieldOrder);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
 
@@ -34,8 +33,7 @@ export function buildDotNetRelatedRecordsInfoFieldOrder(jsObject: any): any {
     }
 
     let dotNetRelatedRecordsInfoFieldOrder: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.field)) {
         dotNetRelatedRecordsInfoFieldOrder.field = jsObject.field;

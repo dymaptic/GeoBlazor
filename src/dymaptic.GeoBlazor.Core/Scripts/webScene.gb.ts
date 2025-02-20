@@ -46,8 +46,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
         jsWebScene.widgets = dotNetObject.widgets;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsWebScene);
+        let jsObjectRef = DotNet.createJSObjectReference(jsWebScene);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
     
@@ -68,8 +67,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetWebScene: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.clippingArea)) {
             let { buildDotNetExtent } = await import('./extent');

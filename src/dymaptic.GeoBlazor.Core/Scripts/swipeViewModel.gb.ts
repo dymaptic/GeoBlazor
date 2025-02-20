@@ -24,8 +24,7 @@ export async function buildJsSwipeViewModelGenerated(dotNetObject: any, layerId:
         jsSwipeViewModel.view = dotNetObject.view;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsSwipeViewModel);
+        let jsObjectRef = DotNet.createJSObjectReference(jsSwipeViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSwipeViewModel;
     
@@ -46,8 +45,7 @@ export async function buildDotNetSwipeViewModelGenerated(jsObject: any): Promise
     }
     
     let dotNetSwipeViewModel: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.direction)) {
         dotNetSwipeViewModel.direction = jsObject.direction;

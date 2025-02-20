@@ -60,7 +60,7 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsElevationSamplerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsElevationSampler = new ElevationSampler();
+    let jsElevationSampler: any = {}
 
     jsElevationSampler.on('changed', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsChanged', evt);

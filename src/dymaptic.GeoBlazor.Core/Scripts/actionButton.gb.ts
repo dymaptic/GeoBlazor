@@ -19,8 +19,7 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
         jsActionButton.title = dotNetObject.title;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
+        let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
     
@@ -41,8 +40,7 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
     }
     
     let dotNetActionButton: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionButton.actionId = jsObject.id;

@@ -1,4 +1,15 @@
-﻿export interface MapObject {
+﻿declare global {
+    interface DotNet {
+        invokeMethodAsync(assembly: string, method: string, ...args: any[]): Promise<any>;
+        createJSObjectReference(obj: any): any;
+        createJSStreamReference(data: Uint8Array): any;
+        disposeJSObjectReference(obj: any): void;
+    }
+
+    let DotNet: DotNet;
+}
+
+export interface MapObject {
     declaredClass: string;
 
     destroy();
@@ -814,3 +825,5 @@ export interface IPropertyWrapper {
 
     unwrap(): any;
 }
+
+export {}

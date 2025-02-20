@@ -47,7 +47,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-        return await buildDotNetLocateViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetLocateViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
@@ -138,7 +138,7 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-            dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel);
         }
     if (hasValue(jsObject.geolocationOptions)) {
         dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;

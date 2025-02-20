@@ -1118,7 +1118,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
-                DotNetObjectReference.Create(this));
+                DotNetComponentReference);
 
         if (jsRef != null)
         {

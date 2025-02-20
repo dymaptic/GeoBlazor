@@ -34,8 +34,7 @@ export async function buildJsTimeSliderGenerated(dotNetObject: any, layerId: str
         jsTimeSlider.stops = dotNetObject.stops;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsTimeSlider);
+        let jsObjectRef = DotNet.createJSObjectReference(jsTimeSlider);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeSlider;
     
@@ -56,8 +55,7 @@ export async function buildDotNetTimeSliderGenerated(jsObject: any): Promise<any
     }
     
     let dotNetTimeSlider: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.currentTimeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

@@ -37,7 +37,7 @@ export default class DictionaryRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
     }
     async getVisualVariables(): Promise<any> {
         if (!hasValue(this.component.visualVariables)) {
@@ -67,7 +67,7 @@ export async function buildJsDictionaryRendererGenerated(dotNetObject: any, laye
     let jsDictionaryRenderer = new DictionaryRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsDictionaryRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        jsDictionaryRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');

@@ -1,7 +1,6 @@
 // override generated code in this file
 import SpatialReference from '@arcgis/core/geometry/SpatialReference';
-import {hasValue} from "./jsBuilder";
-import {arcGisObjectRefs, jsObjectRefs} from "./arcGisJsInterop";
+import {arcGisObjectRefs, jsObjectRefs, hasValue} from "./arcGisJsInterop";
 
 
 export function buildDotNetSpatialReference(spatialReference: SpatialReference) {

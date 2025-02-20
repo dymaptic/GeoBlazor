@@ -23,8 +23,7 @@ export function buildJsMapFont(dotNetObject: any): any {
         jsFont.weight = dotNetObject.weight;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(mapFontWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsFont);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFont;
 
@@ -45,8 +44,7 @@ export function buildDotNetMapFont(jsObject: any): any {
     }
 
     let dotNetMapFont: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.decoration)) {
         dotNetMapFont.decoration = jsObject.decoration;

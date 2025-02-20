@@ -16,8 +16,7 @@ export function buildJsLineSymbolMarker(dotNetObject: any): any {
         jsLineSymbolMarker.style = dotNetObject.style;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(lineSymbolMarkerWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsLineSymbolMarker);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbolMarker;
 
@@ -38,8 +37,7 @@ export function buildDotNetLineSymbolMarker(jsObject: any): any {
     }
 
     let dotNetLineSymbolMarker: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetLineSymbolMarker.color = buildDotNetMapColor(jsObject.color);

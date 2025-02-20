@@ -3,8 +3,7 @@ import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialRef
 import {DotNetPolygon} from "./definitions";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import {hasValue} from "./jsBuilder";
-import {copyValuesIfExists} from "./arcGisJsInterop";
+import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
 
 export function buildDotNetPolygon(polygon: any): any {
     if (polygon === undefined || polygon === null) return null;

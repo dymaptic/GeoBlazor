@@ -48,7 +48,7 @@ export default class IPortalLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIPortalLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalLayer = new PortalLayer();
+    let jsPortalLayer: any = {}
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsPortalLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;

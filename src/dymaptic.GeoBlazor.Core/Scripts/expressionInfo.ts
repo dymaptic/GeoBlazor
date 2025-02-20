@@ -19,8 +19,7 @@ export function buildJsExpressionInfo(dotNetObject: any): any {
         jsExpressionInfo.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(expressionInfoWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionInfo;
 
@@ -41,8 +40,7 @@ export function buildDotNetExpressionInfo(jsObject: any): any {
     }
 
     let dotNetExpressionInfo: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.expression)) {
         dotNetExpressionInfo.expression = jsObject.expression;

@@ -20,8 +20,7 @@ export function buildJsPieChartMediaInfo(dotNetObject: any): any {
         jsPieChartMediaInfo.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(pieChartMediaInfoWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsPieChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPieChartMediaInfo;
 
@@ -42,8 +41,7 @@ export function buildDotNetPieChartMediaInfo(jsObject: any): any {
     }
 
     let dotNetPieChartMediaInfo: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.value)) {
         dotNetPieChartMediaInfo.value = buildDotNetChartMediaInfoValue(jsObject.value);

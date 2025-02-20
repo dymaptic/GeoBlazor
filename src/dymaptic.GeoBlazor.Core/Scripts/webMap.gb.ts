@@ -47,8 +47,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
         jsWebMap.widgets = dotNetObject.widgets;
     }
     
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(jsWebMap);
+        let jsObjectRef = DotNet.createJSObjectReference(jsWebMap);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebMap;
     
@@ -69,8 +68,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     }
     
     let dotNetWebMap: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.bookmarks)) {
             let { buildDotNetBookmark } = await import('./bookmark');

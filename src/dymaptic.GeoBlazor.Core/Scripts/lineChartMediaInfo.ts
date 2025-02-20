@@ -20,8 +20,7 @@ export function buildJsLineChartMediaInfo(dotNetObject: any): any {
         jsLineChartMediaInfo.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(lineChartMediaInfoWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsLineChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineChartMediaInfo;
 
@@ -42,8 +41,7 @@ export function buildDotNetLineChartMediaInfo(jsObject: any): any {
     }
 
     let dotNetLineChartMediaInfo: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.value)) {
         dotNetLineChartMediaInfo.value = buildDotNetChartMediaInfoValue(jsObject.value);

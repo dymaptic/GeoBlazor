@@ -15,8 +15,7 @@ export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
         jsAttachmentsContent.title = dotNetObject.title;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(attachmentsPopupContentWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsContent;
 
@@ -37,8 +36,7 @@ export function buildDotNetAttachmentsPopupContent(jsObject: any): any {
     }
 
     let dotNetAttachmentsPopupContent: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
     if (hasValue(jsObject.description)) {

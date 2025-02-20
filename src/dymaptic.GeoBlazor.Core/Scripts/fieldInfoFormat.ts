@@ -16,8 +16,7 @@ export function buildJsFieldInfoFormat(dotNetObject: any): any {
         jsFieldInfoFormat.places = dotNetObject.places;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(fieldInfoFormatWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfoFormat);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
 
@@ -38,8 +37,7 @@ export function buildDotNetFieldInfoFormat(jsObject: any): any {
     }
 
     let dotNetFieldInfoFormat: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.dateFormat)) {
         dotNetFieldInfoFormat.dateFormat = jsObject.dateFormat;

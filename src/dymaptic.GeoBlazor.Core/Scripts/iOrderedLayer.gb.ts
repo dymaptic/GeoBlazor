@@ -36,7 +36,7 @@ export default class IOrderedLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIOrderedLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOrderedLayer = new OrderedLayer();
+    let jsOrderedLayer: any = {}
 
     if (hasValue(dotNetObject.orderBy)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;

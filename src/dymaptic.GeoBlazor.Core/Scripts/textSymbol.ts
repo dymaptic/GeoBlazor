@@ -59,8 +59,7 @@ export function buildJsTextSymbol(dotNetObject: any): any {
         jsTextSymbol.yoffset = dotNetObject.yoffset;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(textSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsTextSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol;
 
@@ -81,8 +80,7 @@ export function buildDotNetTextSymbol(jsObject: any): any {
     }
 
     let dotNetTextSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.backgroundColor)) {
         dotNetTextSymbol.backgroundColor = buildDotNetMapColor(jsObject.backgroundColor);

@@ -30,8 +30,7 @@ export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
         jsPictureMarkerSymbol.yoffset = dotNetObject.yoffset;
     }
 
-    // @ts-ignore
-    let jsObjectRef = DotNet.createJSObjectReference(pictureMarkerSymbolWrapper);
+        let jsObjectRef = DotNet.createJSObjectReference(jsPictureMarkerSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPictureMarkerSymbol;
 
@@ -52,8 +51,7 @@ export function buildDotNetPictureMarkerSymbol(jsObject: any): any {
     }
 
     let dotNetPictureMarkerSymbol: any = {
-        // @ts-ignore
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+                jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetPictureMarkerSymbol.color = buildDotNetMapColor(jsObject.color);

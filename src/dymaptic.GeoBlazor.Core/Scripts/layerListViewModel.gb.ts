@@ -68,7 +68,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     let jsLayerListViewModel = new LayerListViewModel();
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         jsLayerListViewModel.listItemCreatedFunction = (event) => {
-            dotNetObject.dotNetObjectReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
 

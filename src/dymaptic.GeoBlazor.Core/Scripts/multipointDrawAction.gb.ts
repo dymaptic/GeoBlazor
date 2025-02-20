@@ -64,7 +64,7 @@ export default class MultipointDrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsMultipointDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMultipointDrawAction = new MultipointDrawAction();
+    let jsMultipointDrawAction: any = {}
 
     if (hasValue(dotNetObject.hasZ)) {
         jsMultipointDrawAction.hasZ = dotNetObject.hasZ;
