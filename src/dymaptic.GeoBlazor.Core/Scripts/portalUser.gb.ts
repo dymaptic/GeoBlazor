@@ -226,9 +226,6 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
     if (hasValue(jsObject.roleId)) {
         dotNetPortalUser.roleId = jsObject.roleId;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetPortalUser.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
     }

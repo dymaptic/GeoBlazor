@@ -341,9 +341,6 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     if (hasValue(jsObject.snippet)) {
         dotNetPortalItem.snippet = jsObject.snippet;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetPortalItem.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.tags)) {
         dotNetPortalItem.tags = jsObject.tags;
     }

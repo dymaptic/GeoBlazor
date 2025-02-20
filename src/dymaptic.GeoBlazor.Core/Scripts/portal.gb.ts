@@ -518,9 +518,6 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     if (hasValue(jsObject.showHomePageDescription)) {
         dotNetPortal.showHomePageDescription = jsObject.showHomePageDescription;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetPortal.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.supportsHostedServices)) {
         dotNetPortal.supportsHostedServices = jsObject.supportsHostedServices;
     }

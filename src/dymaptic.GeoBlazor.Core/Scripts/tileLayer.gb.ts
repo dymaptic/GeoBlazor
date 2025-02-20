@@ -365,9 +365,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     if (hasValue(jsObject.resampling)) {
         dotNetTileLayer.resampling = jsObject.resampling;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetTileLayer.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.tileServers)) {
         dotNetTileLayer.tileServers = jsObject.tileServers;
     }

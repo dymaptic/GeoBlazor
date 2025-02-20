@@ -247,9 +247,6 @@ export async function buildDotNetElevationLayerGenerated(jsObject: any): Promise
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetElevationLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetElevationLayer.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.title)) {
         dotNetElevationLayer.title = jsObject.title;
     }

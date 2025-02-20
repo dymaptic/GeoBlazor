@@ -67,7 +67,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        return await buildDotNetCoverageInfo(this.layer.coverageInfo, this.layerId, this.viewId);
+        return await buildDotNetCoverageInfo(this.layer.coverageInfo);
     }
     async setCoverageInfo(value: any): Promise<void> {
         let { buildJsCoverageInfo } = await import('./coverageInfo');
@@ -141,7 +141,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.rasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.layer.rasterInfo);
     }
     async getServiceRasterInfo(): Promise<any> {
         if (!hasValue(this.layer.serviceRasterInfo)) {
@@ -149,7 +149,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
     }
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
@@ -327,7 +327,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     return jsWCSLayer;
 }
 
-export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -338,7 +338,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.coverageInfo)) {
             let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo, layerId, viewId);
+            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo);
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
@@ -362,11 +362,11 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetWCSLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
+            dotNetWCSLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+            dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

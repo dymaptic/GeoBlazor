@@ -4,6 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     A dynamic data layer is a layer created on-the-fly with data stored in a registered workspace. This is data that can be rendered and queried on the fly, but that isn't explicitly exposed as a service sublayer. Depending on the type of data source, these layers are classified as one of the following:
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#DynamicDataLayer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class DynamicDataLayer : DynamicLayer
 {
     /// <summary>
@@ -22,15 +23,12 @@ public class DynamicDataLayer : DynamicLayer
     /// <param name="fields">
     ///     Controls field visibility in the layer. Only specified fields will be visible. If null, all fields are visible in the dynamic layer. The specification for a field object is provided below.
     /// </param>
-    public DynamicDataLayer(DynamicDataSource dataSource, IEnumerable<DynamicLayerField>? fields = null)
+    public DynamicDataLayer(DynamicDataSource dataSource, IReadOnlyList<DynamicLayerField>? fields = null)
     {
 #pragma warning disable BL0005 // Set parameter or member default value.
 
         DataSource = dataSource;
-        if (fields is not null)
-        {
-            _fields = new HashSet<DynamicLayerField>(fields);
-        }
+        Fields = fields;
 #pragma warning restore BL0005 // Set parameter or member default value.
 
     }
@@ -46,7 +44,9 @@ public class DynamicDataLayer : DynamicLayer
     /// <summary>
     ///     Controls field visibility in the layer. Only specified fields will be visible. If null, all fields are visible in the dynamic layer. The specification for a field object is provided below.
     /// </summary>
-    public IReadOnlyCollection<DynamicLayerField> Fields { get => _fields; set => _fields = new HashSet<DynamicLayerField>(value); }
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<DynamicLayerField>? Fields { get; set; }
 
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
@@ -57,7 +57,8 @@ public class DynamicDataLayer : DynamicLayer
                 DataSource = dataSource;
                 break;
             case DynamicLayerField field:
-                _fields.Add(field);
+                Fields ??= [];
+                Fields = [..Fields, field];
                 break;
             default:
                 await base.RegisterChildComponent(child);
@@ -74,7 +75,7 @@ public class DynamicDataLayer : DynamicLayer
                 DataSource = null;
                 break;
             case DynamicLayerField field:
-                _fields.Remove(field);
+                Fields = Fields?.Except([field]).ToList();
                 break;
             default:
                 await base.UnregisterChildComponent(child);
@@ -86,15 +87,17 @@ public class DynamicDataLayer : DynamicLayer
     public override void ValidateRequiredChildren()
     {
         DataSource?.ValidateRequiredChildren();
-        foreach (DynamicLayerField field in _fields)
+
+        if (Fields is not null)
         {
-            field.ValidateRequiredChildren();
+            foreach (DynamicLayerField field in Fields)
+            {
+                field.ValidateRequiredChildren();
+            }
         }
 
         base.ValidateRequiredChildren();
     }
-
-    private HashSet<DynamicLayerField> _fields = new();
 }
 
 

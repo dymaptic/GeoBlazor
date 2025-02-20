@@ -77,8 +77,7 @@ export async function buildJsRouteParametersGenerated(dotNetObject: any, layerId
         jsRouteParameters.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.attributeParameterValues)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAttributeParameterValues } = dotNetObject.attributeParameterValues;
-        jsRouteParameters.attributeParameterValues = sanitizedAttributeParameterValues;
+        jsRouteParameters.attributeParameterValues = dotNetObject.attributeParameterValues;
     }
     if (hasValue(dotNetObject.directionsLanguage)) {
         jsRouteParameters.directionsLanguage = dotNetObject.directionsLanguage;

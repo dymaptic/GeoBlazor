@@ -294,7 +294,7 @@ export default class IArcGISImageServiceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.component.serviceRasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.component.serviceRasterInfo);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
@@ -420,7 +420,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     return jsArcGISImageService;
 }
 
-export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -455,7 +455,7 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
@@ -523,9 +523,6 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     if (hasValue(jsObject.renderingRule)) {
         dotNetIArcGISImageService.renderingRule = jsObject.renderingRule;
-    }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetIArcGISImageService.sourceJSON = jsObject.sourceJSON;
     }
     if (hasValue(jsObject.sourceType)) {
         dotNetIArcGISImageService.sourceType = jsObject.sourceType;

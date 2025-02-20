@@ -160,9 +160,6 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any): Promise<an
     if (hasValue(jsObject.snippet)) {
         dotNetPortalGroup.snippet = jsObject.snippet;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetPortalGroup.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.tags)) {
         dotNetPortalGroup.tags = jsObject.tags;
     }

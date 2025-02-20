@@ -431,9 +431,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     if (hasValue(jsObject.refreshInterval)) {
         dotNetMapImageLayer.refreshInterval = jsObject.refreshInterval;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetMapImageLayer.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.timeOffset)) {
         dotNetMapImageLayer.timeOffset = jsObject.timeOffset;
     }

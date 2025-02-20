@@ -7,7 +7,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     let jsSimpleRenderer = new SimpleRenderer();
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');

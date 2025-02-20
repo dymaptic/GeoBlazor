@@ -9,8 +9,7 @@ export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerI
         jsDynamicDataLayer.dataSource = dotNetObject.dataSource;
     }
     if (hasValue(dotNetObject.fields)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFields } = dotNetObject.fields;
-        jsDynamicDataLayer.fields = sanitizedFields;
+        jsDynamicDataLayer.fields = dotNetObject.fields;
     }
     
     // @ts-ignore

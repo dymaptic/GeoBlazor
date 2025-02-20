@@ -53,9 +53,6 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
     if (hasValue(jsObject.networkLink)) {
         dotNetKMLSublayer.networkLink = jsObject.networkLink;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetKMLSublayer.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.title)) {
         dotNetKMLSublayer.title = jsObject.title;
     }

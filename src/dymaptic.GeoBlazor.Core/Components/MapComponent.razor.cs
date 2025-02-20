@@ -657,6 +657,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
                     instantiatedComponent = deserialized;
                     CopyProperties(instantiatedComponent);
                 }
+
+                // we can't serialize the already-serialized sourceJSON, so we call this separately
+                if (componentType.GetMethod("GetSourceJSON") is { } getSourceJSONMethod)
+                {
+                    getSourceJSONMethod.Invoke(this, []);
+                }
             }
         }
         catch(Exception ex)

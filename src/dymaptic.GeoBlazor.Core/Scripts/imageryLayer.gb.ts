@@ -374,7 +374,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
@@ -610,7 +610,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     return jsImageryLayer;
 }
 
-export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -657,7 +657,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
@@ -776,9 +776,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.renderingRule)) {
         dotNetImageryLayer.renderingRule = jsObject.renderingRule;
-    }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetImageryLayer.sourceJSON = jsObject.sourceJSON;
     }
     if (hasValue(jsObject.sourceType)) {
         dotNetImageryLayer.sourceType = jsObject.sourceType;

@@ -81,7 +81,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget);
     }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
@@ -216,7 +216,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetPopupWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
+            dotNetPopupWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget);
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');

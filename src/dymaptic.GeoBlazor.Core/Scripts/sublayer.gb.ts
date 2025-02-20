@@ -368,9 +368,6 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.source)) {
         dotNetSublayer.source = jsObject.source;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetSublayer.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.id)) {
         dotNetSublayer.sublayerId = jsObject.id;
     }

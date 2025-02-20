@@ -351,9 +351,6 @@ export async function buildDotNetIFeatureLayerBaseGenerated(jsObject: any): Prom
     if (hasValue(jsObject.serviceItemId)) {
         dotNetIFeatureLayerBase.serviceItemId = jsObject.serviceItemId;
     }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetIFeatureLayerBase.sourceJSON = jsObject.sourceJSON;
-    }
     if (hasValue(jsObject.subtypeField)) {
         dotNetIFeatureLayerBase.subtypeField = jsObject.subtypeField;
     }

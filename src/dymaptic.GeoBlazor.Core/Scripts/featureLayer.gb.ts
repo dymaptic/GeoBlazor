@@ -74,7 +74,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
-        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options, this.layerId, this.viewId) as any;
+        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -739,9 +739,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.serviceItemId)) {
         dotNetFeatureLayer.serviceItemId = jsObject.serviceItemId;
-    }
-    if (hasValue(jsObject.sourceJSON)) {
-        dotNetFeatureLayer.sourceJSON = jsObject.sourceJSON;
     }
     if (hasValue(jsObject.subtypeField)) {
         dotNetFeatureLayer.subtypeField = jsObject.subtypeField;

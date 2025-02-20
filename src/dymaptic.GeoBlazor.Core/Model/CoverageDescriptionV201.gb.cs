@@ -60,7 +60,7 @@ public partial record CoverageDescriptionV201(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Extension = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyList<CoverageDescriptionV201RangeType>? RangeType = null,
+    IReadOnlyCollection<CoverageDescriptionV201RangeType>? RangeType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CoverageDescriptionV201Resolution? Resolution = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -378,17 +378,17 @@ public partial class VectorTileLayer : IBlendLayer,
             return CurrentStyleInfo;
         }
 
-        // get the property value
-        VectorTileLayerCurrentStyleInfo? result = await JsComponentReference!.InvokeAsync<VectorTileLayerCurrentStyleInfo?>("getProperty",
-            CancellationTokenSource.Token, "currentStyleInfo");
+        VectorTileLayerCurrentStyleInfo? result = await JsComponentReference.InvokeAsync<VectorTileLayerCurrentStyleInfo?>(
+            "getCurrentStyleInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CurrentStyleInfo = result;
+            CurrentStyleInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
+            ModifiedParameters[nameof(CurrentStyleInfo)] = CurrentStyleInfo;
         }
-         
+        
         return CurrentStyleInfo;
     }
     

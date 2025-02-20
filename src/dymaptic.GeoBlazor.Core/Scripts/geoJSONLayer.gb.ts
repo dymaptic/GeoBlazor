@@ -434,7 +434,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     return jsGeoJSONLayer;
 }
 
-export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -481,7 +481,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i)));
+            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

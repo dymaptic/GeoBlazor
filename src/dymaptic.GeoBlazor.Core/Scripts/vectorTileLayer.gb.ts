@@ -97,6 +97,14 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getCurrentStyleInfo(): Promise<any> {
+        if (!hasValue(this.layer.currentStyleInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
+        return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -277,6 +285,10 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.currentStyleInfo)) {
+            let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
+            dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetVectorTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -315,9 +327,6 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.capabilities)) {
         dotNetVectorTileLayer.capabilities = jsObject.capabilities;
-    }
-    if (hasValue(jsObject.currentStyleInfo)) {
-        dotNetVectorTileLayer.currentStyleInfo = jsObject.currentStyleInfo;
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetVectorTileLayer.customParameters = jsObject.customParameters;
