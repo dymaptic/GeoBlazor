@@ -5,10 +5,6 @@ import { buildDotNetFeatureType } from './featureType';
 
 export async function buildJsFeatureTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.templates)) {
-        let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
-    }
 
     if (hasValue(dotNetObject.domains)) {
         properties.domains = dotNetObject.domains;
@@ -18,6 +14,9 @@ export async function buildJsFeatureTypeGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.templates)) {
+        properties.templates = dotNetObject.templates;
     }
     let jsFeatureType = new FeatureType(properties);
     

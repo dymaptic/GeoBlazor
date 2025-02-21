@@ -27,7 +27,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record FeatureType(
     string Id,
     string Name,
-    IReadOnlyCollection<FeatureTemplate> Templates,
+    IReadOnlyCollection<IFeatureTemplate> Templates,
     Dictionary<string, Domain> Domains,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? FeatureTypeId = null);

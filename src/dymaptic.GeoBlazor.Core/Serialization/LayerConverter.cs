@@ -36,8 +36,6 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<VectorTileLayer>(ref cloneReader, newOptions);
                 case "open-street-map":
                     return JsonSerializer.Deserialize<OpenStreetMapLayer>(ref cloneReader, newOptions);
-                case "elevation":
-                    return JsonSerializer.Deserialize<ElevationLayer>(ref cloneReader, newOptions);
                 case "csv":
                     return JsonSerializer.Deserialize<CSVLayer>(ref cloneReader, newOptions);
                 case "kml":

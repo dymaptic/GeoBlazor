@@ -46,7 +46,7 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
     return jsFeatureLayerEditsEvent;
 }
 
-export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -57,7 +57,7 @@ export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any, 
     };
         if (hasValue(jsObject.editedFeatures)) {
             let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
-            dotNetFeatureLayerEditsEvent.editedFeatures = await buildDotNetEditedFeatureResult(jsObject.editedFeatures, layerId, viewId);
+            dotNetFeatureLayerEditsEvent.editedFeatures = await buildDotNetEditedFeatureResult(jsObject.editedFeatures);
         }
     if (hasValue(jsObject.addedAttachments)) {
         dotNetFeatureLayerEditsEvent.addedAttachments = jsObject.addedAttachments;

@@ -28,7 +28,7 @@ export async function buildJsEditedFeatureResultGenerated(dotNetObject: any, lay
     return jsEditedFeatureResult;
 }
 
-export async function buildDotNetEditedFeatureResultGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetEditedFeatureResultGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +39,7 @@ export async function buildDotNetEditedFeatureResultGenerated(jsObject: any, lay
     };
         if (hasValue(jsObject.editedFeatures)) {
             let { buildDotNetEditedFeatureResultEditedFeatures } = await import('./editedFeatureResultEditedFeatures');
-            dotNetEditedFeatureResult.editedFeatures = await buildDotNetEditedFeatureResultEditedFeatures(jsObject.editedFeatures, layerId, viewId);
+            dotNetEditedFeatureResult.editedFeatures = await buildDotNetEditedFeatureResultEditedFeatures(jsObject.editedFeatures);
         }
     if (hasValue(jsObject.layerId)) {
         dotNetEditedFeatureResult.layerId = jsObject.layerId;

@@ -30,8 +30,8 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let { buildDotNetSize } = await import('./size');
-        return await buildDotNetSize(this.component.type);
+        let { buildDotNetSizeRendererGenerator } = await import('./sizeRendererGenerator');
+        return await buildDotNetSizeRendererGenerator(this.component.type);
     }
     getProperty(prop: string): any {
         return this.component[prop];

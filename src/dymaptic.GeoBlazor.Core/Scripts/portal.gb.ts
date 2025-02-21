@@ -20,9 +20,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     }
     
     async createElevationLayers(): Promise<any> {
-        let result = await this.component.createElevationLayers();
-        let { buildDotNetElevationLayer } = await import('./elevationLayer');
-        return await Promise.all(result.map(async i => await buildDotNetElevationLayer(i)));
+        return await this.component.createElevationLayers();
     }
 
     async fetchBasemaps(basemapGalleryGroupQuery: any,

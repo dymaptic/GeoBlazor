@@ -46,7 +46,7 @@ export async function buildJsFeatureEditsResultGenerated(dotNetObject: any, laye
     return jsEditsResult;
 }
 
-export async function buildDotNetFeatureEditsResultGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureEditsResultGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -57,7 +57,7 @@ export async function buildDotNetFeatureEditsResultGenerated(jsObject: any, laye
     };
         if (hasValue(jsObject.editedFeatureResults)) {
             let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
-            dotNetFeatureEditsResult.editedFeatureResults = await Promise.all(jsObject.editedFeatureResults.map(async i => await buildDotNetEditedFeatureResult(i, layerId, viewId)));
+            dotNetFeatureEditsResult.editedFeatureResults = await Promise.all(jsObject.editedFeatureResults.map(async i => await buildDotNetEditedFeatureResult(i)));
         }
     if (hasValue(jsObject.addAttachmentResults)) {
         dotNetFeatureEditsResult.addAttachmentResults = jsObject.addAttachmentResults;

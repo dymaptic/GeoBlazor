@@ -227,7 +227,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.featureViewModels)) {
             let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, layerId, viewId)));
+            dotNetPopupViewModel.featureViewModels = await Promise.all(jsObject.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i)));
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');

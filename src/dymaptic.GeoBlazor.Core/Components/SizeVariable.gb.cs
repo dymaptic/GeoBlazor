@@ -7,8 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    The size visual variable defines the size of individual features in a layer based on a numeric (often thematic) value.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SizeVariable : IColorSizeSliderUpdateVisualVariables,
-    IColorSizeSliderVariables
+public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables,
+    IColorSizeSliderWidgetVariables
 {
 
     /// <summary>

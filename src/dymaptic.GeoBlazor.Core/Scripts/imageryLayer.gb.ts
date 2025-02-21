@@ -374,7 +374,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
+        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
@@ -611,7 +611,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     return jsImageryLayer;
 }
 
-export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -658,7 +658,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

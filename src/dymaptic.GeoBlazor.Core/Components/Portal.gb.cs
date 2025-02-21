@@ -4817,11 +4817,11 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#createElevationLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<ElevationLayer[]?> CreateElevationLayers()
+    public async Task<IElevationLayer[]?> CreateElevationLayers()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ElevationLayer[]?>(
+        return await JsComponentReference!.InvokeAsync<IElevationLayer[]?>(
             "createElevationLayers", 
             CancellationTokenSource.Token);
     }

@@ -244,7 +244,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         Renderer? renderer = null,
         bool? screenSizePerspectiveEnabled = null,
         SpatialReference? spatialReference = null,
-        IReadOnlyList<FeatureTemplate>? templates = null,
+        IReadOnlyList<IFeatureTemplate>? templates = null,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
@@ -589,7 +589,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<FeatureTemplate>? Templates { get; set; }
+    public IReadOnlyList<IFeatureTemplate>? Templates { get; set; }
     
     /// <summary>
     ///     The layer's time extent.
@@ -1582,7 +1582,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Templates property.
     /// </summary>
-    public async Task<IReadOnlyList<FeatureTemplate>?> GetTemplates()
+    public async Task<IReadOnlyList<IFeatureTemplate>?> GetTemplates()
     {
         if (CoreJsModule is null)
         {
@@ -1595,7 +1595,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             return Templates;
         }
 
-        IReadOnlyList<FeatureTemplate>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureTemplate>?>(
+        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<IFeatureTemplate>?>(
             "getTemplates", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -2554,7 +2554,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTemplates(IReadOnlyList<FeatureTemplate>? value)
+    public async Task SetTemplates(IReadOnlyList<IFeatureTemplate>? value)
     {
 #pragma warning disable BL0005
         Templates = value;
@@ -2794,9 +2794,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToTemplates(params FeatureTemplate[] values)
+    public async Task AddToTemplates(params IFeatureTemplate[] values)
     {
-        FeatureTemplate[] join = Templates is null
+        IFeatureTemplate[] join = Templates is null
             ? values
             : [..Templates, ..values];
         await SetTemplates(join);
@@ -2877,7 +2877,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromTemplates(params FeatureTemplate[] values)
+    public async Task RemoveFromTemplates(params IFeatureTemplate[] values)
     {
         if (Templates is null)
         {
@@ -3244,7 +3244,7 @@ public partial class GeoJSONLayer : IBlendLayer,
                 }
                 
                 return true;
-            case FeatureTemplate templates:
+            case IFeatureTemplate templates:
                 Templates ??= [];
                 if (!Templates.Contains(templates))
                 {
@@ -3335,7 +3335,7 @@ public partial class GeoJSONLayer : IBlendLayer,
                 LayerChanged = true;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
-            case FeatureTemplate templates:
+            case IFeatureTemplate templates:
                 Templates = Templates?.Where(t => t != templates).ToList();
                 LayerChanged = true;
                 ModifiedParameters[nameof(Templates)] = Templates;
@@ -3397,7 +3397,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         SpatialReference?.ValidateRequiredGeneratedChildren();
         if (Templates is not null)
         {
-            foreach (FeatureTemplate child in Templates)
+            foreach (IFeatureTemplate child in Templates)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

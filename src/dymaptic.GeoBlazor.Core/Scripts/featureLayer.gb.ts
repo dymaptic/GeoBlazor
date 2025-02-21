@@ -74,7 +74,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
-        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
+        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -519,7 +519,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     return jsFeatureLayer;
 }
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -570,7 +570,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i)));
+            dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
