@@ -132,72 +132,73 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchViewModel = new SearchViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.defaultSymbols)) {
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-        jsSearchViewModel.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
+        properties.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsSearchViewModel.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsSearchViewModel.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources)) {
         let { buildJsSearchSource } = await import('./searchSource');
-        jsSearchViewModel.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
+        properties.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.activeSourceIndex)) {
-        jsSearchViewModel.activeSourceIndex = dotNetObject.activeSourceIndex;
+        properties.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
     if (hasValue(dotNetObject.allPlaceholder)) {
-        jsSearchViewModel.allPlaceholder = dotNetObject.allPlaceholder;
+        properties.allPlaceholder = dotNetObject.allPlaceholder;
     }
     if (hasValue(dotNetObject.autoSelect)) {
-        jsSearchViewModel.autoSelect = dotNetObject.autoSelect;
+        properties.autoSelect = dotNetObject.autoSelect;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsSearchViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.includeDefaultSources)) {
-        jsSearchViewModel.includeDefaultSources = dotNetObject.includeDefaultSources;
+        properties.includeDefaultSources = dotNetObject.includeDefaultSources;
     }
     if (hasValue(dotNetObject.locationEnabled)) {
-        jsSearchViewModel.locationEnabled = dotNetObject.locationEnabled;
+        properties.locationEnabled = dotNetObject.locationEnabled;
     }
     if (hasValue(dotNetObject.maxInputLength)) {
-        jsSearchViewModel.maxInputLength = dotNetObject.maxInputLength;
+        properties.maxInputLength = dotNetObject.maxInputLength;
     }
     if (hasValue(dotNetObject.maxResults)) {
-        jsSearchViewModel.maxResults = dotNetObject.maxResults;
+        properties.maxResults = dotNetObject.maxResults;
     }
     if (hasValue(dotNetObject.maxSuggestions)) {
-        jsSearchViewModel.maxSuggestions = dotNetObject.maxSuggestions;
+        properties.maxSuggestions = dotNetObject.maxSuggestions;
     }
     if (hasValue(dotNetObject.minSuggestCharacters)) {
-        jsSearchViewModel.minSuggestCharacters = dotNetObject.minSuggestCharacters;
+        properties.minSuggestCharacters = dotNetObject.minSuggestCharacters;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsSearchViewModel.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.resultGraphicEnabled)) {
-        jsSearchViewModel.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
+        properties.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
     }
     if (hasValue(dotNetObject.searchAllEnabled)) {
-        jsSearchViewModel.searchAllEnabled = dotNetObject.searchAllEnabled;
+        properties.searchAllEnabled = dotNetObject.searchAllEnabled;
     }
     if (hasValue(dotNetObject.searchTerm)) {
-        jsSearchViewModel.searchTerm = dotNetObject.searchTerm;
+        properties.searchTerm = dotNetObject.searchTerm;
     }
     if (hasValue(dotNetObject.suggestionDelay)) {
-        jsSearchViewModel.suggestionDelay = dotNetObject.suggestionDelay;
+        properties.suggestionDelay = dotNetObject.suggestionDelay;
     }
     if (hasValue(dotNetObject.suggestionsEnabled)) {
-        jsSearchViewModel.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+        properties.suggestionsEnabled = dotNetObject.suggestionsEnabled;
     }
+    let jsSearchViewModel = new SearchViewModel(properties);
     jsSearchViewModel.on('search-clear', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', evt);
     });

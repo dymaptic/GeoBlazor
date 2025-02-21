@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteLayerSolveResult } from './routeLayerSolveResult';
 
 export async function buildJsRouteLayerSolveResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteLayerSolveResult: any = {}
+    let jsRouteLayerSolveResult: any = {};
     if (hasValue(dotNetObject.directionLines)) {
         let { buildJsDirectionLine } = await import('./directionLine');
         jsRouteLayerSolveResult.directionLines = await Promise.all(dotNetObject.directionLines.map(async i => await buildJsDirectionLine(i, layerId, viewId))) as any;
@@ -34,7 +34,6 @@ export async function buildJsRouteLayerSolveResultGenerated(dotNetObject: any, l
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteLayerSolveResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteLayerSolveResult;

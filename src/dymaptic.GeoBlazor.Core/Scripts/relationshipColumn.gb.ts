@@ -4,16 +4,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipColumn } from './relationshipColumn';
 
 export async function buildJsRelationshipColumnGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipColumn = new RelationshipColumn();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.collapsed)) {
-        jsRelationshipColumn.collapsed = dotNetObject.collapsed;
+        properties.collapsed = dotNetObject.collapsed;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsRelationshipColumn.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
+    let jsRelationshipColumn = new RelationshipColumn(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipColumn);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipColumn;

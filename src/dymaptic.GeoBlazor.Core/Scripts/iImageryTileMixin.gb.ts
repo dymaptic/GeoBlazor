@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIImageryTileMixin } from './iImageryTileMixin';
 
 export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageryTileMixin: any = {}
+    let jsImageryTileMixin: any = {};
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
         jsImageryTileMixin.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
@@ -48,7 +48,6 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
         jsImageryTileMixin.useViewTime = dotNetObject.useViewTime;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageryTileMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileMixin;

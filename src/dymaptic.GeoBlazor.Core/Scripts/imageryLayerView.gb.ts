@@ -72,16 +72,17 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageryLayerView = new ImageryLayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsImageryLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.pixelData)) {
         let { buildJsPixelData } = await import('./pixelData');
-        jsImageryLayerView.pixelData = await buildJsPixelData(dotNetObject.pixelData, layerId, viewId) as any;
+        properties.pixelData = await buildJsPixelData(dotNetObject.pixelData, layerId, viewId) as any;
     }
 
+    let jsImageryLayerView = new ImageryLayerView(properties);
 
     let { default: ImageryLayerViewWrapper } = await import('./imageryLayerView');
     let imageryLayerViewWrapper = new ImageryLayerViewWrapper(jsImageryLayerView);

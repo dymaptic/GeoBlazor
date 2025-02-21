@@ -38,7 +38,7 @@ export default class ClustersGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClustersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclusters: any = {}
+    let jsclusters: any = {};
 
 
     let { default: ClustersWrapper } = await import('./clusters');

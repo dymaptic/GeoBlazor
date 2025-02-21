@@ -148,187 +148,188 @@ export default class PortalGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortal = new Portal();
+    let properties: any = {};
     if (hasValue(dotNetObject.defaultExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsPortal.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
+        properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
-        jsPortal.access = dotNetObject.access;
+        properties.access = dotNetObject.access;
     }
     if (hasValue(dotNetObject.allSSL)) {
-        jsPortal.allSSL = dotNetObject.allSSL;
+        properties.allSSL = dotNetObject.allSSL;
     }
     if (hasValue(dotNetObject.authMode)) {
-        jsPortal.authMode = dotNetObject.authMode;
+        properties.authMode = dotNetObject.authMode;
     }
     if (hasValue(dotNetObject.authorizedCrossOriginDomains)) {
-        jsPortal.authorizedCrossOriginDomains = dotNetObject.authorizedCrossOriginDomains;
+        properties.authorizedCrossOriginDomains = dotNetObject.authorizedCrossOriginDomains;
     }
     if (hasValue(dotNetObject.basemapGalleryGroupQuery)) {
-        jsPortal.basemapGalleryGroupQuery = dotNetObject.basemapGalleryGroupQuery;
+        properties.basemapGalleryGroupQuery = dotNetObject.basemapGalleryGroupQuery;
     }
     if (hasValue(dotNetObject.basemapGalleryGroupQuery3D)) {
-        jsPortal.basemapGalleryGroupQuery3D = dotNetObject.basemapGalleryGroupQuery3D;
+        properties.basemapGalleryGroupQuery3D = dotNetObject.basemapGalleryGroupQuery3D;
     }
     if (hasValue(dotNetObject.bingKey)) {
-        jsPortal.bingKey = dotNetObject.bingKey;
+        properties.bingKey = dotNetObject.bingKey;
     }
     if (hasValue(dotNetObject.canListApps)) {
-        jsPortal.canListApps = dotNetObject.canListApps;
+        properties.canListApps = dotNetObject.canListApps;
     }
     if (hasValue(dotNetObject.canListData)) {
-        jsPortal.canListData = dotNetObject.canListData;
+        properties.canListData = dotNetObject.canListData;
     }
     if (hasValue(dotNetObject.canListPreProvisionedItems)) {
-        jsPortal.canListPreProvisionedItems = dotNetObject.canListPreProvisionedItems;
+        properties.canListPreProvisionedItems = dotNetObject.canListPreProvisionedItems;
     }
     if (hasValue(dotNetObject.canProvisionDirectPurchase)) {
-        jsPortal.canProvisionDirectPurchase = dotNetObject.canProvisionDirectPurchase;
+        properties.canProvisionDirectPurchase = dotNetObject.canProvisionDirectPurchase;
     }
     if (hasValue(dotNetObject.canSearchPublic)) {
-        jsPortal.canSearchPublic = dotNetObject.canSearchPublic;
+        properties.canSearchPublic = dotNetObject.canSearchPublic;
     }
     if (hasValue(dotNetObject.canShareBingPublic)) {
-        jsPortal.canShareBingPublic = dotNetObject.canShareBingPublic;
+        properties.canShareBingPublic = dotNetObject.canShareBingPublic;
     }
     if (hasValue(dotNetObject.canSharePublic)) {
-        jsPortal.canSharePublic = dotNetObject.canSharePublic;
+        properties.canSharePublic = dotNetObject.canSharePublic;
     }
     if (hasValue(dotNetObject.canSignInArcGIS)) {
-        jsPortal.canSignInArcGIS = dotNetObject.canSignInArcGIS;
+        properties.canSignInArcGIS = dotNetObject.canSignInArcGIS;
     }
     if (hasValue(dotNetObject.canSignInIDP)) {
-        jsPortal.canSignInIDP = dotNetObject.canSignInIDP;
+        properties.canSignInIDP = dotNetObject.canSignInIDP;
     }
     if (hasValue(dotNetObject.colorSetsGroupQuery)) {
-        jsPortal.colorSetsGroupQuery = dotNetObject.colorSetsGroupQuery;
+        properties.colorSetsGroupQuery = dotNetObject.colorSetsGroupQuery;
     }
     if (hasValue(dotNetObject.commentsEnabled)) {
-        jsPortal.commentsEnabled = dotNetObject.commentsEnabled;
+        properties.commentsEnabled = dotNetObject.commentsEnabled;
     }
     if (hasValue(dotNetObject.created)) {
-        jsPortal.created = dotNetObject.created;
+        properties.created = dotNetObject.created;
     }
     if (hasValue(dotNetObject.culture)) {
-        jsPortal.culture = dotNetObject.culture;
+        properties.culture = dotNetObject.culture;
     }
     if (hasValue(dotNetObject.customBaseUrl)) {
-        jsPortal.customBaseUrl = dotNetObject.customBaseUrl;
+        properties.customBaseUrl = dotNetObject.customBaseUrl;
     }
     if (hasValue(dotNetObject.description)) {
-        jsPortal.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.devBasemapGalleryGroupQuery)) {
-        jsPortal.devBasemapGalleryGroupQuery = dotNetObject.devBasemapGalleryGroupQuery;
+        properties.devBasemapGalleryGroupQuery = dotNetObject.devBasemapGalleryGroupQuery;
     }
     if (hasValue(dotNetObject.eueiEnabled)) {
-        jsPortal.eueiEnabled = dotNetObject.eueiEnabled;
+        properties.eueiEnabled = dotNetObject.eueiEnabled;
     }
     if (hasValue(dotNetObject.featuredGroups)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeaturedGroups } = dotNetObject.featuredGroups;
-        jsPortal.featuredGroups = sanitizedFeaturedGroups;
+        properties.featuredGroups = sanitizedFeaturedGroups;
     }
     if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
-        jsPortal.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
+        properties.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
     }
     if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
-        jsPortal.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
+        properties.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
     }
     if (hasValue(dotNetObject.hasCategorySchema)) {
-        jsPortal.hasCategorySchema = dotNetObject.hasCategorySchema;
+        properties.hasCategorySchema = dotNetObject.hasCategorySchema;
     }
     if (hasValue(dotNetObject.helperServices)) {
-        jsPortal.helperServices = dotNetObject.helperServices;
+        properties.helperServices = dotNetObject.helperServices;
     }
     if (hasValue(dotNetObject.homePageFeaturedContent)) {
-        jsPortal.homePageFeaturedContent = dotNetObject.homePageFeaturedContent;
+        properties.homePageFeaturedContent = dotNetObject.homePageFeaturedContent;
     }
     if (hasValue(dotNetObject.homePageFeaturedContentCount)) {
-        jsPortal.homePageFeaturedContentCount = dotNetObject.homePageFeaturedContentCount;
+        properties.homePageFeaturedContentCount = dotNetObject.homePageFeaturedContentCount;
     }
     if (hasValue(dotNetObject.httpPort)) {
-        jsPortal.httpPort = dotNetObject.httpPort;
+        properties.httpPort = dotNetObject.httpPort;
     }
     if (hasValue(dotNetObject.httpsPort)) {
-        jsPortal.httpsPort = dotNetObject.httpsPort;
+        properties.httpsPort = dotNetObject.httpsPort;
     }
     if (hasValue(dotNetObject.ipCntryCode)) {
-        jsPortal.ipCntryCode = dotNetObject.ipCntryCode;
+        properties.ipCntryCode = dotNetObject.ipCntryCode;
     }
     if (hasValue(dotNetObject.isPortal)) {
-        jsPortal.isPortal = dotNetObject.isPortal;
+        properties.isPortal = dotNetObject.isPortal;
     }
     if (hasValue(dotNetObject.isReadOnly)) {
-        jsPortal.isReadOnly = dotNetObject.isReadOnly;
+        properties.isReadOnly = dotNetObject.isReadOnly;
     }
     if (hasValue(dotNetObject.layerTemplatesGroupQuery)) {
-        jsPortal.layerTemplatesGroupQuery = dotNetObject.layerTemplatesGroupQuery;
+        properties.layerTemplatesGroupQuery = dotNetObject.layerTemplatesGroupQuery;
     }
     if (hasValue(dotNetObject.maxTokenExpirationMinutes)) {
-        jsPortal.maxTokenExpirationMinutes = dotNetObject.maxTokenExpirationMinutes;
+        properties.maxTokenExpirationMinutes = dotNetObject.maxTokenExpirationMinutes;
     }
     if (hasValue(dotNetObject.modified)) {
-        jsPortal.modified = dotNetObject.modified;
+        properties.modified = dotNetObject.modified;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPortal.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.portalHostname)) {
-        jsPortal.portalHostname = dotNetObject.portalHostname;
+        properties.portalHostname = dotNetObject.portalHostname;
     }
     if (hasValue(dotNetObject.portalId)) {
-        jsPortal.id = dotNetObject.portalId;
+        properties.id = dotNetObject.portalId;
     }
     if (hasValue(dotNetObject.portalMode)) {
-        jsPortal.portalMode = dotNetObject.portalMode;
+        properties.portalMode = dotNetObject.portalMode;
     }
     if (hasValue(dotNetObject.portalProperties)) {
-        jsPortal.portalProperties = dotNetObject.portalProperties;
+        properties.portalProperties = dotNetObject.portalProperties;
     }
     if (hasValue(dotNetObject.recycleBinEnabled)) {
-        jsPortal.recycleBinEnabled = dotNetObject.recycleBinEnabled;
+        properties.recycleBinEnabled = dotNetObject.recycleBinEnabled;
     }
     if (hasValue(dotNetObject.region)) {
-        jsPortal.region = dotNetObject.region;
+        properties.region = dotNetObject.region;
     }
     if (hasValue(dotNetObject.rotatorPanels)) {
-        jsPortal.rotatorPanels = dotNetObject.rotatorPanels;
+        properties.rotatorPanels = dotNetObject.rotatorPanels;
     }
     if (hasValue(dotNetObject.showHomePageDescription)) {
-        jsPortal.showHomePageDescription = dotNetObject.showHomePageDescription;
+        properties.showHomePageDescription = dotNetObject.showHomePageDescription;
     }
     if (hasValue(dotNetObject.supportsHostedServices)) {
-        jsPortal.supportsHostedServices = dotNetObject.supportsHostedServices;
+        properties.supportsHostedServices = dotNetObject.supportsHostedServices;
     }
     if (hasValue(dotNetObject.symbolSetsGroupQuery)) {
-        jsPortal.symbolSetsGroupQuery = dotNetObject.symbolSetsGroupQuery;
+        properties.symbolSetsGroupQuery = dotNetObject.symbolSetsGroupQuery;
     }
     if (hasValue(dotNetObject.templatesGroupQuery)) {
-        jsPortal.templatesGroupQuery = dotNetObject.templatesGroupQuery;
+        properties.templatesGroupQuery = dotNetObject.templatesGroupQuery;
     }
     if (hasValue(dotNetObject.units)) {
-        jsPortal.units = dotNetObject.units;
+        properties.units = dotNetObject.units;
     }
     if (hasValue(dotNetObject.url)) {
-        jsPortal.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.urlKey)) {
-        jsPortal.urlKey = dotNetObject.urlKey;
+        properties.urlKey = dotNetObject.urlKey;
     }
     if (hasValue(dotNetObject.use3dBasemaps)) {
-        jsPortal.use3dBasemaps = dotNetObject.use3dBasemaps;
+        properties.use3dBasemaps = dotNetObject.use3dBasemaps;
     }
     if (hasValue(dotNetObject.useStandardizedQuery)) {
-        jsPortal.useStandardizedQuery = dotNetObject.useStandardizedQuery;
+        properties.useStandardizedQuery = dotNetObject.useStandardizedQuery;
     }
     if (hasValue(dotNetObject.useVectorBasemaps)) {
-        jsPortal.useVectorBasemaps = dotNetObject.useVectorBasemaps;
+        properties.useVectorBasemaps = dotNetObject.useVectorBasemaps;
     }
     if (hasValue(dotNetObject.vectorBasemapGalleryGroupQuery)) {
-        jsPortal.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
+        properties.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
     }
+    let jsPortal = new Portal(properties);
 
     let { default: PortalWrapper } = await import('./portal');
     let portalWrapper = new PortalWrapper(jsPortal);

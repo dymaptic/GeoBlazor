@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeCreateVisualVariablesParams } from './sizeCreateVisualVariablesParams';
 
 export async function buildJsSizeCreateVisualVariablesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeCreateVisualVariablesParams: any = {}
+    let jssizeCreateVisualVariablesParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jssizeCreateVisualVariablesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -65,7 +65,6 @@ export async function buildJsSizeCreateVisualVariablesParamsGenerated(dotNetObje
         jssizeCreateVisualVariablesParams.worldScale = dotNetObject.worldScale;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeCreateVisualVariablesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeCreateVisualVariablesParams;

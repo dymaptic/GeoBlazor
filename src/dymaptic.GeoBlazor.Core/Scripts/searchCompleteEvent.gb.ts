@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchCompleteEvent } from './searchCompleteEvent';
 
 export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchSearchCompleteEvent: any = {}
+    let jsSearchSearchCompleteEvent: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsSearchCompleteEventResults } = await import('./searchCompleteEventResults');
         jsSearchSearchCompleteEvent.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchCompleteEventResults(i, layerId, viewId))) as any;
@@ -22,7 +22,6 @@ export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, lay
         jsSearchSearchCompleteEvent.searchTerm = dotNetObject.searchTerm;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchSearchCompleteEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSearchCompleteEvent;

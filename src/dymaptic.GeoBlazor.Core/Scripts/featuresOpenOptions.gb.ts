@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeaturesOpenOptions } from './featuresOpenOptions';
 
 export async function buildJsFeaturesOpenOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeaturesOpenOptions: any = {}
+    let jsFeaturesOpenOptions: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeaturesOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -38,7 +38,6 @@ export async function buildJsFeaturesOpenOptionsGenerated(dotNetObject: any, lay
         jsFeaturesOpenOptions.updateLocationEnabled = dotNetObject.updateLocationEnabled;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesOpenOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesOpenOptions;

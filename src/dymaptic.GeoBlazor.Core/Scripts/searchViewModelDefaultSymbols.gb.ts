@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchViewModelDefaultSymbols } from './searchViewModelDefaultSymbols';
 
 export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchViewModelDefaultSymbols: any = {}
+    let jsSearchViewModelDefaultSymbols: any = {};
 
     if (hasValue(dotNetObject.point)) {
         jsSearchViewModelDefaultSymbols.point = dotNetObject.point;
@@ -15,7 +15,6 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
         jsSearchViewModelDefaultSymbols.polyline = dotNetObject.polyline;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelDefaultSymbols);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;

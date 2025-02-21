@@ -62,12 +62,13 @@ export default class DrawGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDrawGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDraw = new Draw();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeAction)) {
         let { buildJsDrawAction } = await import('./drawAction');
-        jsDraw.activeAction = await buildJsDrawAction(dotNetObject.activeAction, layerId, viewId) as any;
+        properties.activeAction = await buildJsDrawAction(dotNetObject.activeAction, layerId, viewId) as any;
     }
 
+    let jsDraw = new Draw(properties);
 
     let { default: DrawWrapper } = await import('./draw');
     let drawWrapper = new DrawWrapper(jsDraw);

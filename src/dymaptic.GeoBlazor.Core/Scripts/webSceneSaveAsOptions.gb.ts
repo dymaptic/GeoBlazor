@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWebSceneSaveAsOptions } from './webSceneSaveAsOptions';
 
 export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWebSceneSaveAsOptions: any = {}
+    let jsWebSceneSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsWebSceneSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, l
         jsWebSceneSaveAsOptions.ignoreUnsupported = dotNetObject.ignoreUnsupported;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWebSceneSaveAsOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebSceneSaveAsOptions;

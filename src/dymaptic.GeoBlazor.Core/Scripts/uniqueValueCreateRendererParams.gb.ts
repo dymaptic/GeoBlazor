@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValueCreateRendererParams } from './uniqueValueCreateRendererParams';
 
 export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsuniqueValueCreateRendererParams: any = {}
+    let jsuniqueValueCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsuniqueValueCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -30,7 +30,6 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
         jsuniqueValueCreateRendererParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsuniqueValueCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValueCreateRendererParams;

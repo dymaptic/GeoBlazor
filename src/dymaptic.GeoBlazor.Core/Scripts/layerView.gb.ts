@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerView } from './layerView';
 
 export async function buildJsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerView = new LayerView();
+    let properties: any = {};
 
+    let jsLayerView = new LayerView(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerView;

@@ -154,103 +154,104 @@ export default class FeatureTableWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureTableWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTable = new FeatureTable();
+    let properties: any = {};
     if (hasValue(dotNetObject.filterGeometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsFeatureTable.filterGeometry = buildJsGeometry(dotNetObject.filterGeometry) as any;
+        properties.filterGeometry = buildJsGeometry(dotNetObject.filterGeometry) as any;
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsFeatureTable.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.menuConfig)) {
         let { buildJsTableMenuConfig } = await import('./tableMenuConfig');
-        jsFeatureTable.menuConfig = await buildJsTableMenuConfig(dotNetObject.menuConfig, layerId, viewId) as any;
+        properties.menuConfig = await buildJsTableMenuConfig(dotNetObject.menuConfig, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsFeatureTable.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsFeatureTableViewModel } = await import('./featureTableViewModel');
-        jsFeatureTable.viewModel = await buildJsFeatureTableViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsFeatureTableViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.actionColumnConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedActionColumnConfig } = dotNetObject.actionColumnConfig;
-        jsFeatureTable.actionColumnConfig = sanitizedActionColumnConfig;
+        properties.actionColumnConfig = sanitizedActionColumnConfig;
     }
     if (hasValue(dotNetObject.attachmentsEnabled)) {
-        jsFeatureTable.attachmentsEnabled = dotNetObject.attachmentsEnabled;
+        properties.attachmentsEnabled = dotNetObject.attachmentsEnabled;
     }
     if (hasValue(dotNetObject.autoRefreshEnabled)) {
-        jsFeatureTable.autoRefreshEnabled = dotNetObject.autoRefreshEnabled;
+        properties.autoRefreshEnabled = dotNetObject.autoRefreshEnabled;
     }
     if (hasValue(dotNetObject.columnReorderingEnabled)) {
-        jsFeatureTable.columnReorderingEnabled = dotNetObject.columnReorderingEnabled;
+        properties.columnReorderingEnabled = dotNetObject.columnReorderingEnabled;
     }
     if (hasValue(dotNetObject.description)) {
-        jsFeatureTable.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.disabled)) {
-        jsFeatureTable.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsFeatureTable.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.filterBySelectionEnabled)) {
-        jsFeatureTable.filterBySelectionEnabled = dotNetObject.filterBySelectionEnabled;
+        properties.filterBySelectionEnabled = dotNetObject.filterBySelectionEnabled;
     }
     if (hasValue(dotNetObject.hiddenFields)) {
-        jsFeatureTable.hiddenFields = dotNetObject.hiddenFields;
+        properties.hiddenFields = dotNetObject.hiddenFields;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
-        jsFeatureTable.highlightEnabled = dotNetObject.highlightEnabled;
+        properties.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.highlightIds)) {
-        jsFeatureTable.highlightIds = dotNetObject.highlightIds;
+        properties.highlightIds = dotNetObject.highlightIds;
     }
     if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        jsFeatureTable.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
+        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
     }
     if (hasValue(dotNetObject.multiSortEnabled)) {
-        jsFeatureTable.multiSortEnabled = dotNetObject.multiSortEnabled;
+        properties.multiSortEnabled = dotNetObject.multiSortEnabled;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsFeatureTable.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.pageSize)) {
-        jsFeatureTable.pageSize = dotNetObject.pageSize;
+        properties.pageSize = dotNetObject.pageSize;
     }
     if (hasValue(dotNetObject.relatedRecordsEnabled)) {
-        jsFeatureTable.relatedRecordsEnabled = dotNetObject.relatedRecordsEnabled;
+        properties.relatedRecordsEnabled = dotNetObject.relatedRecordsEnabled;
     }
     if (hasValue(dotNetObject.returnGeometryEnabled)) {
-        jsFeatureTable.returnGeometryEnabled = dotNetObject.returnGeometryEnabled;
+        properties.returnGeometryEnabled = dotNetObject.returnGeometryEnabled;
     }
     if (hasValue(dotNetObject.returnMEnabled)) {
-        jsFeatureTable.returnMEnabled = dotNetObject.returnMEnabled;
+        properties.returnMEnabled = dotNetObject.returnMEnabled;
     }
     if (hasValue(dotNetObject.returnZEnabled)) {
-        jsFeatureTable.returnZEnabled = dotNetObject.returnZEnabled;
+        properties.returnZEnabled = dotNetObject.returnZEnabled;
     }
     if (hasValue(dotNetObject.rowHighlightIds)) {
-        jsFeatureTable.rowHighlightIds = dotNetObject.rowHighlightIds;
+        properties.rowHighlightIds = dotNetObject.rowHighlightIds;
     }
     if (hasValue(dotNetObject.tableTemplate)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTableTemplate } = dotNetObject.tableTemplate;
-        jsFeatureTable.tableTemplate = sanitizedTableTemplate;
+        properties.tableTemplate = sanitizedTableTemplate;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeatureTable.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
     if (hasValue(dotNetObject.title)) {
-        jsFeatureTable.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsFeatureTable.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsFeatureTable = new FeatureTable(properties);
     jsFeatureTable.on('cell-click', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', evt);
     });

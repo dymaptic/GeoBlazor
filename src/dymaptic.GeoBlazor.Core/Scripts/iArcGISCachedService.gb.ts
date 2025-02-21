@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIArcGISCachedService } from './iArcGISCachedService';
 
 export async function buildJsIArcGISCachedServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsArcGISCachedService: any = {}
+    let jsArcGISCachedService: any = {};
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         jsArcGISCachedService.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsIArcGISCachedServiceGenerated(dotNetObject: any, la
         jsArcGISCachedService.copyright = dotNetObject.copyright;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsArcGISCachedService);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISCachedService;

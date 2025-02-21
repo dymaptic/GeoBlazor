@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSlicePlane } from './slicePlane';
 
 export async function buildJsSlicePlaneGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSlicePlane = new SlicePlane();
+    let properties: any = {};
     if (hasValue(dotNetObject.position)) {
         let { buildJsPoint } = await import('./point');
-        jsSlicePlane.position = buildJsPoint(dotNetObject.position) as any;
+        properties.position = buildJsPoint(dotNetObject.position) as any;
     }
 
     if (hasValue(dotNetObject.heading)) {
-        jsSlicePlane.heading = dotNetObject.heading;
+        properties.heading = dotNetObject.heading;
     }
     if (hasValue(dotNetObject.height)) {
-        jsSlicePlane.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.tilt)) {
-        jsSlicePlane.tilt = dotNetObject.tilt;
+        properties.tilt = dotNetObject.tilt;
     }
     if (hasValue(dotNetObject.width)) {
-        jsSlicePlane.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsSlicePlane = new SlicePlane(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSlicePlane);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSlicePlane;

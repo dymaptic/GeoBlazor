@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominanceRendererResult } from './predominanceRendererResult';
 
 export async function buildJsPredominanceRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspredominanceRendererResult: any = {}
+    let jspredominanceRendererResult: any = {};
     if (hasValue(dotNetObject.opacity)) {
         let { buildJsOpacityVisualVariableResult } = await import('./opacityVisualVariableResult');
         jspredominanceRendererResult.opacity = await buildJsOpacityVisualVariableResult(dotNetObject.opacity, layerId, viewId) as any;
@@ -34,7 +34,6 @@ export async function buildJsPredominanceRendererResultGenerated(dotNetObject: a
         jspredominanceRendererResult.predominanceScheme = dotNetObject.predominanceScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspredominanceRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspredominanceRendererResult;

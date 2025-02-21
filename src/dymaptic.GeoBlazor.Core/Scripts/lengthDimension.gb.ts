@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLengthDimension } from './lengthDimension';
 
 export async function buildJsLengthDimensionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLengthDimension = new LengthDimension();
+    let properties: any = {};
     if (hasValue(dotNetObject.endPoint)) {
         let { buildJsPoint } = await import('./point');
-        jsLengthDimension.endPoint = buildJsPoint(dotNetObject.endPoint) as any;
+        properties.endPoint = buildJsPoint(dotNetObject.endPoint) as any;
     }
     if (hasValue(dotNetObject.startPoint)) {
         let { buildJsPoint } = await import('./point');
-        jsLengthDimension.startPoint = buildJsPoint(dotNetObject.startPoint) as any;
+        properties.startPoint = buildJsPoint(dotNetObject.startPoint) as any;
     }
 
     if (hasValue(dotNetObject.measureType)) {
-        jsLengthDimension.measureType = dotNetObject.measureType;
+        properties.measureType = dotNetObject.measureType;
     }
     if (hasValue(dotNetObject.offset)) {
-        jsLengthDimension.offset = dotNetObject.offset;
+        properties.offset = dotNetObject.offset;
     }
     if (hasValue(dotNetObject.orientation)) {
-        jsLengthDimension.orientation = dotNetObject.orientation;
+        properties.orientation = dotNetObject.orientation;
     }
+    let jsLengthDimension = new LengthDimension(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLengthDimension);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLengthDimension;

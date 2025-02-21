@@ -38,7 +38,7 @@ export default class CimConversionUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCimConversionUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscimConversionUtils: any = {}
+    let jscimConversionUtils: any = {};
 
 
     let { default: CimConversionUtilsWrapper } = await import('./cimConversionUtils');

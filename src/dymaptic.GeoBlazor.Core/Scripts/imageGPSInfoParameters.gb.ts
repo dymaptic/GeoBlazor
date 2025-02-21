@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageGPSInfoParameters } from './imageGPSInfoParameters';
 
 export async function buildJsImageGPSInfoParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageGPSInfoParameters = new ImageGPSInfoParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageGPSInfoParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageGPSInfoParameters.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.objectIds)) {
-        jsImageGPSInfoParameters.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.spatialRelationship)) {
-        jsImageGPSInfoParameters.spatialRelationship = dotNetObject.spatialRelationship;
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
     }
     if (hasValue(dotNetObject.where)) {
-        jsImageGPSInfoParameters.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsImageGPSInfoParameters = new ImageGPSInfoParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageGPSInfoParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageGPSInfoParameters;

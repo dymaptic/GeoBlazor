@@ -65,15 +65,16 @@ export default class DimensionLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDimensionLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDimensionLayerView = new DimensionLayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.selectedDimension)) {
         let { buildJsLengthDimension } = await import('./lengthDimension');
-        jsDimensionLayerView.selectedDimension = await buildJsLengthDimension(dotNetObject.selectedDimension, layerId, viewId) as any;
+        properties.selectedDimension = await buildJsLengthDimension(dotNetObject.selectedDimension, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.interactive)) {
-        jsDimensionLayerView.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
+    let jsDimensionLayerView = new DimensionLayerView(properties);
 
     let { default: DimensionLayerViewWrapper } = await import('./dimensionLayerView');
     let dimensionLayerViewWrapper = new DimensionLayerViewWrapper(jsDimensionLayerView);

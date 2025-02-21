@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewshedAnalysis } from './viewshedAnalysis';
 
 export async function buildJsViewshedAnalysisGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewshedAnalysis = new ViewshedAnalysis();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewsheds)) {
         let { buildJsViewshed } = await import('./viewshed');
-        jsViewshedAnalysis.viewsheds = await Promise.all(dotNetObject.viewsheds.map(async i => await buildJsViewshed(i, layerId, viewId))) as any;
+        properties.viewsheds = await Promise.all(dotNetObject.viewsheds.map(async i => await buildJsViewshed(i, layerId, viewId))) as any;
     }
 
+    let jsViewshedAnalysis = new ViewshedAnalysis(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewshedAnalysis);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewshedAnalysis;

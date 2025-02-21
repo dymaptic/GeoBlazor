@@ -36,7 +36,7 @@ export default class ICIMSymbolLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsICIMSymbolLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMSymbolLayer: any = {}
+    let jsCIMSymbolLayer: any = {};
 
 
     let { default: ICIMSymbolLayerWrapper } = await import('./iCIMSymbolLayer');

@@ -78,9 +78,9 @@ export default class ClassedSizeSliderViewModelGenerated implements IPropertyWra
 
 
 export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassedSizeSliderViewModel = new ClassedSizeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsClassedSizeSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -92,7 +92,7 @@ export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: a
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsClassedSizeSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -104,7 +104,7 @@ export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: a
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsClassedSizeSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -118,35 +118,36 @@ export async function buildJsClassedSizeSliderViewModelGenerated(dotNetObject: a
 
     if (hasValue(dotNetObject.breaks)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBreaks } = dotNetObject.breaks;
-        jsClassedSizeSliderViewModel.breaks = sanitizedBreaks;
+        properties.breaks = sanitizedBreaks;
     }
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsClassedSizeSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsClassedSizeSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsClassedSizeSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsClassedSizeSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsClassedSizeSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsClassedSizeSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsClassedSizeSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsClassedSizeSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsClassedSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsClassedSizeSliderViewModel = new ClassedSizeSliderViewModel(properties);
 
     let { default: ClassedSizeSliderViewModelWrapper } = await import('./classedSizeSliderViewModel');
     let classedSizeSliderViewModelWrapper = new ClassedSizeSliderViewModelWrapper(jsClassedSizeSliderViewModel);

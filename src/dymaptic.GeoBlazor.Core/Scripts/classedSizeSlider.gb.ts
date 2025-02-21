@@ -62,9 +62,9 @@ export default class ClassedSizeSliderGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassedSizeSlider = new ClassedSizeSlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsClassedSizeSlider.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -76,7 +76,7 @@ export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layer
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsClassedSizeSlider.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -88,7 +88,7 @@ export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layer
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsClassedSizeSlider.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -101,40 +101,41 @@ export async function buildJsClassedSizeSliderGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsClassedSizeSliderStyle } = await import('./classedSizeSliderStyle');
-        jsClassedSizeSlider.style = await buildJsClassedSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsClassedSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsClassedSizeSliderViewModel } = await import('./classedSizeSliderViewModel');
-        jsClassedSizeSlider.viewModel = await buildJsClassedSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsClassedSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.breaks)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBreaks } = dotNetObject.breaks;
-        jsClassedSizeSlider.breaks = sanitizedBreaks;
+        properties.breaks = sanitizedBreaks;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
-        jsClassedSizeSlider.histogramConfig = sanitizedHistogramConfig;
+        properties.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
-        jsClassedSizeSlider.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsClassedSizeSlider.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsClassedSizeSlider.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
-        jsClassedSizeSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        properties.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsClassedSizeSlider.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsClassedSizeSlider.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsClassedSizeSlider = new ClassedSizeSlider(properties);
     jsClassedSizeSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTextSymbol3DLayerHalo } from './textSymbol3DLayerHalo';
 
 export async function buildJsTextSymbol3DLayerHaloGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTextSymbol3DLayerHalo: any = {}
+    let jsTextSymbol3DLayerHalo: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsTextSymbol3DLayerHalo.color = buildJsMapColor(dotNetObject.color) as any;
@@ -13,7 +13,6 @@ export async function buildJsTextSymbol3DLayerHaloGenerated(dotNetObject: any, l
         jsTextSymbol3DLayerHalo.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTextSymbol3DLayerHalo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol3DLayerHalo;

@@ -4,30 +4,30 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorVariable } from './colorVariable';
 
 export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorVariable = new ColorVariable();
+    let properties: any = {};
     if (hasValue(dotNetObject.stops)) {
         let { buildJsColorStop } = await import('./colorStop');
-        jsColorVariable.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
-        jsColorVariable.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        jsColorVariable.legendOptions = sanitizedLegendOptions;
+        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {
-        jsColorVariable.normalizationField = dotNetObject.normalizationField;
+        properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsColorVariable.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsColorVariable.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsColorVariable = new ColorVariable(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;

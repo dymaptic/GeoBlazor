@@ -4,30 +4,30 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTelemetryData } from './telemetryData';
 
 export async function buildJsTelemetryDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTelemetryData = new TelemetryData();
+    let properties: any = {};
     if (hasValue(dotNetObject.frameCenter)) {
         let { buildJsPoint } = await import('./point');
-        jsTelemetryData.frameCenter = buildJsPoint(dotNetObject.frameCenter) as any;
+        properties.frameCenter = buildJsPoint(dotNetObject.frameCenter) as any;
     }
     if (hasValue(dotNetObject.frameOutline)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsTelemetryData.frameOutline = buildJsPolygon(dotNetObject.frameOutline) as any;
+        properties.frameOutline = buildJsPolygon(dotNetObject.frameOutline) as any;
     }
     if (hasValue(dotNetObject.lineOfSight)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsTelemetryData.lineOfSight = buildJsPolyline(dotNetObject.lineOfSight) as any;
+        properties.lineOfSight = buildJsPolyline(dotNetObject.lineOfSight) as any;
     }
     if (hasValue(dotNetObject.sensorLocation)) {
         let { buildJsPoint } = await import('./point');
-        jsTelemetryData.sensorLocation = buildJsPoint(dotNetObject.sensorLocation) as any;
+        properties.sensorLocation = buildJsPoint(dotNetObject.sensorLocation) as any;
     }
     if (hasValue(dotNetObject.sensorTrail)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsTelemetryData.sensorTrail = buildJsPolyline(dotNetObject.sensorTrail) as any;
+        properties.sensorTrail = buildJsPolyline(dotNetObject.sensorTrail) as any;
     }
 
+    let jsTelemetryData = new TelemetryData(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTelemetryData);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTelemetryData;

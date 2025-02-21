@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineOfSightTarget } from './lineOfSightTarget';
 
 export async function buildJsLineOfSightTargetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightTarget = new LineOfSightTarget();
+    let properties: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsLineOfSightTarget.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
+    let jsLineOfSightTarget = new LineOfSightTarget(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineOfSightTarget);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightTarget;

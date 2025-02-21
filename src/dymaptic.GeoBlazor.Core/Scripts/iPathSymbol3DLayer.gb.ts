@@ -48,37 +48,38 @@ export default class IPathSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPathSymbol3DLayer = new PathSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.material)) {
         let { buildJsPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
-        jsPathSymbol3DLayer.material = await buildJsPathSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsPathSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.anchor)) {
-        jsPathSymbol3DLayer.anchor = dotNetObject.anchor;
+        properties.anchor = dotNetObject.anchor;
     }
     if (hasValue(dotNetObject.cap)) {
-        jsPathSymbol3DLayer.cap = dotNetObject.cap;
+        properties.cap = dotNetObject.cap;
     }
     if (hasValue(dotNetObject.castShadows)) {
-        jsPathSymbol3DLayer.castShadows = dotNetObject.castShadows;
+        properties.castShadows = dotNetObject.castShadows;
     }
     if (hasValue(dotNetObject.height)) {
-        jsPathSymbol3DLayer.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.join)) {
-        jsPathSymbol3DLayer.join = dotNetObject.join;
+        properties.join = dotNetObject.join;
     }
     if (hasValue(dotNetObject.profile)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedProfile } = dotNetObject.profile;
-        jsPathSymbol3DLayer.profile = sanitizedProfile;
+        properties.profile = sanitizedProfile;
     }
     if (hasValue(dotNetObject.profileRotation)) {
-        jsPathSymbol3DLayer.profileRotation = dotNetObject.profileRotation;
+        properties.profileRotation = dotNetObject.profileRotation;
     }
     if (hasValue(dotNetObject.width)) {
-        jsPathSymbol3DLayer.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsPathSymbol3DLayer = new PathSymbol3DLayer(properties);
 
     let { default: IPathSymbol3DLayerWrapper } = await import('./iPathSymbol3DLayer');
     let iPathSymbol3DLayerWrapper = new IPathSymbol3DLayerWrapper(jsPathSymbol3DLayer);

@@ -54,7 +54,7 @@ export default class LayerOriginUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLayerOriginUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jslayerOriginUtils: any = {}
+    let jslayerOriginUtils: any = {};
 
 
     let { default: LayerOriginUtilsWrapper } = await import('./layerOriginUtils');

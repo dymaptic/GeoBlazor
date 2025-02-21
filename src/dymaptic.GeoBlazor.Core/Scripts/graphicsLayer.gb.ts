@@ -112,54 +112,55 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGraphicsLayer = new GraphicsLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsGraphicsLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.graphics)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGraphicsLayer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
+        properties.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsGraphicsLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsGraphicsLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsGraphicsLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsGraphicsLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        jsGraphicsLayer.elevationInfo = sanitizedElevationInfo;
+        properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsGraphicsLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsGraphicsLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsGraphicsLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsGraphicsLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsGraphicsLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-        jsGraphicsLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
+        properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsGraphicsLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsGraphicsLayer = new GraphicsLayer(properties);
 
     let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
     let graphicsLayerWrapper = new GraphicsLayerWrapper(jsGraphicsLayer);

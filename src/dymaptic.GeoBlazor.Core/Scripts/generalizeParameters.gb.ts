@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGeneralizeParameters } from './generalizeParameters';
 
 export async function buildJsGeneralizeParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeneralizeParameters = new GeneralizeParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsGeneralizeParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
 
     if (hasValue(dotNetObject.deviationUnit)) {
-        jsGeneralizeParameters.deviationUnit = dotNetObject.deviationUnit;
+        properties.deviationUnit = dotNetObject.deviationUnit;
     }
     if (hasValue(dotNetObject.maxDeviation)) {
-        jsGeneralizeParameters.maxDeviation = dotNetObject.maxDeviation;
+        properties.maxDeviation = dotNetObject.maxDeviation;
     }
+    let jsGeneralizeParameters = new GeneralizeParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGeneralizeParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeneralizeParameters;

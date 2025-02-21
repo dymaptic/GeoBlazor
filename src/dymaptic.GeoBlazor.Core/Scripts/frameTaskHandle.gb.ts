@@ -44,7 +44,7 @@ export default class FrameTaskHandleGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFrameTaskHandleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFrameTaskHandle: any = {}
+    let jsFrameTaskHandle: any = {};
 
 
     let { default: FrameTaskHandleWrapper } = await import('./frameTaskHandle');

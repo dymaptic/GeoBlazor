@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeSchemeForPolygonBackground } from './sizeSchemeForPolygonBackground';
 
 export async function buildJsSizeSchemeForPolygonBackgroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSchemeForPolygonBackground: any = {}
+    let jsSizeSchemeForPolygonBackground: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsSizeSchemeForPolygonBackground.color = buildJsMapColor(dotNetObject.color) as any;
@@ -14,7 +14,6 @@ export async function buildJsSizeSchemeForPolygonBackgroundGenerated(dotNetObjec
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeSchemeForPolygonBackground);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeSchemeForPolygonBackground;

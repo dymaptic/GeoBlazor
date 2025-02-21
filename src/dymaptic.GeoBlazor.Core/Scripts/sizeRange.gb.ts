@@ -38,8 +38,9 @@ export default class SizeRangeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSizeRangeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeRange = new sizeRange();
+    let properties: any = {};
 
+    let jssizeRange = new sizeRange(properties);
 
     let { default: SizeRangeWrapper } = await import('./sizeRange');
     let sizeRangeWrapper = new SizeRangeWrapper(jssizeRange);

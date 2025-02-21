@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewHoldEvent } from './viewHoldEvent';
 
 export async function buildJsViewHoldEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewHoldEvent: any = {}
+    let jsViewHoldEvent: any = {};
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
         jsViewHoldEvent.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
@@ -31,7 +31,6 @@ export async function buildJsViewHoldEventGenerated(dotNetObject: any, layerId: 
         jsViewHoldEvent.y = dotNetObject.y;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewHoldEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewHoldEvent;

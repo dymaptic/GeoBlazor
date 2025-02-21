@@ -48,7 +48,7 @@ export default class SmartMappingSupportUtilsGenerated implements IPropertyWrapp
 
 
 export async function buildJsSmartMappingSupportUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssmartMappingSupportUtils: any = {}
+    let jssmartMappingSupportUtils: any = {};
 
 
     let { default: SmartMappingSupportUtilsWrapper } = await import('./smartMappingSupportUtils');

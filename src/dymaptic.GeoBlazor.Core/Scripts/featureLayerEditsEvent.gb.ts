@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureLayerEditsEvent } from './featureLayerEditsEvent';
 
 export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerEditsEvent: any = {}
+    let jsFeatureLayerEditsEvent: any = {};
     if (hasValue(dotNetObject.editedFeatures)) {
         let { buildJsEditedFeatureResult } = await import('./editedFeatureResult');
         jsFeatureLayerEditsEvent.editedFeatures = await buildJsEditedFeatureResult(dotNetObject.editedFeatures, layerId, viewId) as any;
@@ -31,7 +31,6 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
         jsFeatureLayerEditsEvent.updatedFeatures = dotNetObject.updatedFeatures;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerEditsEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerEditsEvent;
@@ -47,7 +46,7 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
     return jsFeatureLayerEditsEvent;
 }
 
-export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -58,7 +57,7 @@ export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any):
     };
         if (hasValue(jsObject.editedFeatures)) {
             let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
-            dotNetFeatureLayerEditsEvent.editedFeatures = await buildDotNetEditedFeatureResult(jsObject.editedFeatures);
+            dotNetFeatureLayerEditsEvent.editedFeatures = await buildDotNetEditedFeatureResult(jsObject.editedFeatures, layerId, viewId);
         }
     if (hasValue(jsObject.addedAttachments)) {
         dotNetFeatureLayerEditsEvent.addedAttachments = jsObject.addedAttachments;

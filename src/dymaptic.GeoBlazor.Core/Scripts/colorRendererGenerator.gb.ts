@@ -68,7 +68,7 @@ export default class ColorRendererGeneratorGenerated implements IPropertyWrapper
 
 
 export async function buildJsColorRendererGeneratorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolor: any = {}
+    let jscolor: any = {};
 
 
     let { default: ColorRendererGeneratorWrapper } = await import('./colorRendererGenerator');

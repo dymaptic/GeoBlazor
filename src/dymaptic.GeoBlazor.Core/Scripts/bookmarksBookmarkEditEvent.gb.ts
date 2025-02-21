@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBookmarksBookmarkEditEvent } from './bookmarksBookmarkEditEvent';
 
 export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBookmarksBookmarkEditEvent: any = {}
+    let jsBookmarksBookmarkEditEvent: any = {};
     if (hasValue(dotNetObject.bookmark)) {
         let { buildJsBookmark } = await import('./bookmark');
         jsBookmarksBookmarkEditEvent.bookmark = await buildJsBookmark(dotNetObject.bookmark) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBookmarksBookmarkEditEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksBookmarkEditEvent;

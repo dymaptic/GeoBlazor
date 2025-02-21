@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetITablesMixin } from './iTablesMixin';
 
 export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTablesMixin: any = {}
+    let jsTablesMixin: any = {};
     if (hasValue(dotNetObject.tables)) {
         let { buildJsLayer } = await import('./layer');
         jsTablesMixin.tables = await Promise.all(dotNetObject.tables.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTablesMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;

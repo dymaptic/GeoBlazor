@@ -38,7 +38,7 @@ export default class StretchGenerated implements IPropertyWrapper {
 
 
 export async function buildJsStretchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsstretch: any = {}
+    let jsstretch: any = {};
 
 
     let { default: StretchWrapper } = await import('./stretch');

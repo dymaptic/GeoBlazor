@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTypeCreatePCClassRendererParams } from './typeCreatePCClassRendererParams';
 
 export async function buildJsTypeCreatePCClassRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstypeCreatePCClassRendererParams: any = {}
+    let jstypeCreatePCClassRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsPointCloudLayer } = await import('./pointCloudLayer');
         jstypeCreatePCClassRendererParams.layer = await buildJsPointCloudLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -29,7 +29,6 @@ export async function buildJsTypeCreatePCClassRendererParamsGenerated(dotNetObje
         jstypeCreatePCClassRendererParams.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jstypeCreatePCClassRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jstypeCreatePCClassRendererParams;

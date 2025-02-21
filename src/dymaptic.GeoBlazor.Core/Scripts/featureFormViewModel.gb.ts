@@ -92,26 +92,27 @@ export default class FeatureFormViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureFormViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureFormViewModel = new FeatureFormViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureFormViewModel.feature = buildJsGraphic(dotNetObject.feature) as any;
+        properties.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
     if (hasValue(dotNetObject.formTemplate)) {
         let { buildJsFormTemplate } = await import('./formTemplate');
-        jsFeatureFormViewModel.formTemplate = await buildJsFormTemplate(dotNetObject.formTemplate, layerId, viewId) as any;
+        properties.formTemplate = await buildJsFormTemplate(dotNetObject.formTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsFeatureFormViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.submittable)) {
-        jsFeatureFormViewModel.submittable = dotNetObject.submittable;
+        properties.submittable = dotNetObject.submittable;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeatureFormViewModel.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
+    let jsFeatureFormViewModel = new FeatureFormViewModel(properties);
     jsFeatureFormViewModel.on('submit', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSubmit', evt);
     });

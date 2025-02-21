@@ -46,7 +46,7 @@ export default class DevEnvironmentUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDevEnvironmentUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsdevEnvironmentUtils: any = {}
+    let jsdevEnvironmentUtils: any = {};
 
 
     let { default: DevEnvironmentUtilsWrapper } = await import('./devEnvironmentUtils');

@@ -92,7 +92,7 @@ export default class KnowledgeGraphServiceGenerated implements IPropertyWrapper 
 
 
 export async function buildJsKnowledgeGraphServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsknowledgeGraphService: any = {}
+    let jsknowledgeGraphService: any = {};
 
 
     let { default: KnowledgeGraphServiceWrapper } = await import('./knowledgeGraphService');

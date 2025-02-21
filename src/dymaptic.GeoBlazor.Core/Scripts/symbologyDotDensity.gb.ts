@@ -50,7 +50,7 @@ export default class SymbologyDotDensityGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyDotDensityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyDotDensity: any = {}
+    let jssymbologyDotDensity: any = {};
 
 
     let { default: SymbologyDotDensityWrapper } = await import('./symbologyDotDensity');

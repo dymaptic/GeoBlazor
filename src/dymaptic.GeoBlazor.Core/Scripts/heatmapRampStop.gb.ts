@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapRampStop } from './heatmapRampStop';
 
 export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapRampStop: any = {}
+    let jsHeatmapRampStop: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsHeatmapRampStop.color = buildJsMapColor(dotNetObject.color) as any;
@@ -19,7 +19,6 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
         jsHeatmapRampStop.ratio = dotNetObject.ratio;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampStop;

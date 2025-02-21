@@ -124,63 +124,64 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWebTileLayer = new WebTileLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWebTileLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsWebTileLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsWebTileLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
+        properties.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsWebTileLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsWebTileLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsWebTileLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsWebTileLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsWebTileLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsWebTileLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsWebTileLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsWebTileLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsWebTileLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsWebTileLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsWebTileLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.subDomains)) {
-        jsWebTileLayer.subDomains = dotNetObject.subDomains;
+        properties.subDomains = dotNetObject.subDomains;
     }
     if (hasValue(dotNetObject.title)) {
-        jsWebTileLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.urlTemplate)) {
-        jsWebTileLayer.urlTemplate = dotNetObject.urlTemplate;
+        properties.urlTemplate = dotNetObject.urlTemplate;
     }
+    let jsWebTileLayer = new WebTileLayer(properties);
     jsWebTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });

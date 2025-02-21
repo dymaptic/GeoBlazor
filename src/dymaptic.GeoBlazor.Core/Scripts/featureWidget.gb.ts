@@ -82,33 +82,34 @@ export default class FeatureWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeature = new Feature();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeature.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeature.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsFeatureViewModel } = await import('./featureViewModel');
-        jsFeature.viewModel = await buildJsFeatureViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsFeatureViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
-        jsFeature.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
+        properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsFeature.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeature.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsFeature.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsFeature = new Feature(properties);
 
     let { default: FeatureWidgetWrapper } = await import('./featureWidget');
     let featureWidgetWrapper = new FeatureWidgetWrapper(jsFeature);

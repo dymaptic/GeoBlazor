@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGeotriggersInfoFeatureFilter } from './geotriggersInfoFeatureFilter';
 
 export async function buildJsGeotriggersInfoFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsgeotriggersInfoFeatureFilter = new geotriggersInfoFeatureFilter();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsgeotriggersInfoFeatureFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.where)) {
-        jsgeotriggersInfoFeatureFilter.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsgeotriggersInfoFeatureFilter = new geotriggersInfoFeatureFilter(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsgeotriggersInfoFeatureFilter);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgeotriggersInfoFeatureFilter;

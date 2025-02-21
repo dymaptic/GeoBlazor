@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFromScreenPointResult } from './fromScreenPointResult';
 
 export async function buildJsFromScreenPointResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFromScreenPointResult: any = {}
+    let jsFromScreenPointResult: any = {};
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
         jsFromScreenPointResult.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
@@ -13,7 +13,6 @@ export async function buildJsFromScreenPointResultGenerated(dotNetObject: any, l
         jsFromScreenPointResult.vertex = dotNetObject.vertex;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFromScreenPointResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFromScreenPointResult;

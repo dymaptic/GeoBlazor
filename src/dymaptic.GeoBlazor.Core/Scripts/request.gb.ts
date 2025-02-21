@@ -38,8 +38,9 @@ export default class RequestGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRequestGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrequest = new request();
+    let properties: any = {};
 
+    let jsrequest = new request(properties);
 
     let { default: RequestWrapper } = await import('./request');
     let requestWrapper = new RequestWrapper(jsrequest);

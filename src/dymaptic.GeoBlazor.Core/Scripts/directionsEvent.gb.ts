@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDirectionsEvent } from './directionsEvent';
 
 export async function buildJsDirectionsEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionsEvent = new DirectionsEvent();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPoint } = await import('./point');
-        jsDirectionsEvent.geometry = buildJsPoint(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.arriveTime)) {
-        jsDirectionsEvent.arriveTime = dotNetObject.arriveTime;
+        properties.arriveTime = dotNetObject.arriveTime;
     }
     if (hasValue(dotNetObject.arriveTimeOffset)) {
-        jsDirectionsEvent.arriveTimeOffset = dotNetObject.arriveTimeOffset;
+        properties.arriveTimeOffset = dotNetObject.arriveTimeOffset;
     }
     if (hasValue(dotNetObject.strings)) {
-        jsDirectionsEvent.strings = dotNetObject.strings;
+        properties.strings = dotNetObject.strings;
     }
+    let jsDirectionsEvent = new DirectionsEvent(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsEvent;

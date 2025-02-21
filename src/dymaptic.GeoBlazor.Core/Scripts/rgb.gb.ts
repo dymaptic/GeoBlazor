@@ -38,7 +38,7 @@ export default class RgbGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRgbGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrgb: any = {}
+    let jsrgb: any = {};
 
 
     let { default: RgbWrapper } = await import('./rgb');

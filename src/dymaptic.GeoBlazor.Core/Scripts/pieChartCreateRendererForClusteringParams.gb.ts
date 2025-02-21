@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPieChartCreateRendererForClusteringParams } from './pieChartCreateRendererForClusteringParams';
 
 export async function buildJsPieChartCreateRendererForClusteringParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspieChartCreateRendererForClusteringParams: any = {}
+    let jspieChartCreateRendererForClusteringParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jspieChartCreateRendererForClusteringParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -22,7 +22,6 @@ export async function buildJsPieChartCreateRendererForClusteringParamsGenerated(
         jspieChartCreateRendererForClusteringParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspieChartCreateRendererForClusteringParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspieChartCreateRendererForClusteringParams;

@@ -82,9 +82,9 @@ export default class OpacitySliderViewModelGenerated implements IPropertyWrapper
 
 
 export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacitySliderViewModel = new OpacitySliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsOpacitySliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -96,7 +96,7 @@ export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, 
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsOpacitySliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -108,7 +108,7 @@ export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, 
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsOpacitySliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -121,36 +121,37 @@ export async function buildJsOpacitySliderViewModelGenerated(dotNetObject: any, 
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsOpacitySliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsOpacitySliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsOpacitySliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsOpacitySliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsOpacitySliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsOpacitySliderViewModel.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsOpacitySliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsOpacitySliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsOpacitySliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsOpacitySliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsOpacitySliderViewModel = new OpacitySliderViewModel(properties);
 
     let { default: OpacitySliderViewModelWrapper } = await import('./opacitySliderViewModel');
     let opacitySliderViewModelWrapper = new OpacitySliderViewModelWrapper(jsOpacitySliderViewModel);

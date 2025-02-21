@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalQueryResult } from './portalQueryResult';
 
 export async function buildJsPortalQueryResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalQueryResult = new PortalQueryResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.nextQueryParams)) {
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        jsPortalQueryResult.nextQueryParams = await buildJsPortalQueryParams(dotNetObject.nextQueryParams, layerId, viewId) as any;
+        properties.nextQueryParams = await buildJsPortalQueryParams(dotNetObject.nextQueryParams, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.queryParams)) {
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        jsPortalQueryResult.queryParams = await buildJsPortalQueryParams(dotNetObject.queryParams, layerId, viewId) as any;
+        properties.queryParams = await buildJsPortalQueryParams(dotNetObject.queryParams, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.results)) {
-        jsPortalQueryResult.results = dotNetObject.results;
+        properties.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.total)) {
-        jsPortalQueryResult.total = dotNetObject.total;
+        properties.total = dotNetObject.total;
     }
+    let jsPortalQueryResult = new PortalQueryResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalQueryResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalQueryResult;

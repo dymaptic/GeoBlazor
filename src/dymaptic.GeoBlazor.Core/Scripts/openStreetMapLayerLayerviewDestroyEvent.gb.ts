@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpenStreetMapLayerLayerviewDestroyEvent } from './openStreetMapLayerLayerviewDestroyEvent';
 
 export async function buildJsOpenStreetMapLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpenStreetMapLayerLayerviewDestroyEvent: any = {}
+    let jsOpenStreetMapLayerLayerviewDestroyEvent: any = {};
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsOpenStreetMapLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpenStreetMapLayerLayerviewDestroyEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayerLayerviewDestroyEvent;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVersionAdapter } from './versionAdapter';
 
 export async function buildJsVersionAdapterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVersionAdapter: any = {}
+    let jsVersionAdapter: any = {};
 
     if (hasValue(dotNetObject.featureServiceUrl)) {
         jsVersionAdapter.featureServiceUrl = dotNetObject.featureServiceUrl;
@@ -18,7 +18,6 @@ export async function buildJsVersionAdapterGenerated(dotNetObject: any, layerId:
         jsVersionAdapter.versionableItem = dotNetObject.versionableItem;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVersionAdapter);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionAdapter;

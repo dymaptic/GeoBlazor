@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageAngleResult } from './imageAngleResult';
 
 export async function buildJsImageAngleResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageAngleResult = new ImageAngleResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsImageAngleResult.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.north)) {
-        jsImageAngleResult.north = dotNetObject.north;
+        properties.north = dotNetObject.north;
     }
     if (hasValue(dotNetObject.up)) {
-        jsImageAngleResult.up = dotNetObject.up;
+        properties.up = dotNetObject.up;
     }
+    let jsImageAngleResult = new ImageAngleResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageAngleResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageAngleResult;

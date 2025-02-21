@@ -118,76 +118,77 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
 
 
 export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTableViewModel = new FeatureTableViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.filterGeometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsFeatureTableViewModel.filterGeometry = buildJsGeometry(dotNetObject.filterGeometry) as any;
+        properties.filterGeometry = buildJsGeometry(dotNetObject.filterGeometry) as any;
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsFeatureTableViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsFeatureTableViewModel.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.actionColumnConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedActionColumnConfig } = dotNetObject.actionColumnConfig;
-        jsFeatureTableViewModel.actionColumnConfig = sanitizedActionColumnConfig;
+        properties.actionColumnConfig = sanitizedActionColumnConfig;
     }
     if (hasValue(dotNetObject.attachmentsEnabled)) {
-        jsFeatureTableViewModel.attachmentsEnabled = dotNetObject.attachmentsEnabled;
+        properties.attachmentsEnabled = dotNetObject.attachmentsEnabled;
     }
     if (hasValue(dotNetObject.autoRefreshEnabled)) {
-        jsFeatureTableViewModel.autoRefreshEnabled = dotNetObject.autoRefreshEnabled;
+        properties.autoRefreshEnabled = dotNetObject.autoRefreshEnabled;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsFeatureTableViewModel.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.filterBySelectionEnabled)) {
-        jsFeatureTableViewModel.filterBySelectionEnabled = dotNetObject.filterBySelectionEnabled;
+        properties.filterBySelectionEnabled = dotNetObject.filterBySelectionEnabled;
     }
     if (hasValue(dotNetObject.hiddenFields)) {
-        jsFeatureTableViewModel.hiddenFields = dotNetObject.hiddenFields;
+        properties.hiddenFields = dotNetObject.hiddenFields;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
-        jsFeatureTableViewModel.highlightEnabled = dotNetObject.highlightEnabled;
+        properties.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.highlightIds)) {
-        jsFeatureTableViewModel.highlightIds = dotNetObject.highlightIds;
+        properties.highlightIds = dotNetObject.highlightIds;
     }
     if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        jsFeatureTableViewModel.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
+        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
     }
     if (hasValue(dotNetObject.multiSortEnabled)) {
-        jsFeatureTableViewModel.multiSortEnabled = dotNetObject.multiSortEnabled;
+        properties.multiSortEnabled = dotNetObject.multiSortEnabled;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsFeatureTableViewModel.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.relatedRecordsEnabled)) {
-        jsFeatureTableViewModel.relatedRecordsEnabled = dotNetObject.relatedRecordsEnabled;
+        properties.relatedRecordsEnabled = dotNetObject.relatedRecordsEnabled;
     }
     if (hasValue(dotNetObject.returnGeometryEnabled)) {
-        jsFeatureTableViewModel.returnGeometryEnabled = dotNetObject.returnGeometryEnabled;
+        properties.returnGeometryEnabled = dotNetObject.returnGeometryEnabled;
     }
     if (hasValue(dotNetObject.returnMEnabled)) {
-        jsFeatureTableViewModel.returnMEnabled = dotNetObject.returnMEnabled;
+        properties.returnMEnabled = dotNetObject.returnMEnabled;
     }
     if (hasValue(dotNetObject.returnZEnabled)) {
-        jsFeatureTableViewModel.returnZEnabled = dotNetObject.returnZEnabled;
+        properties.returnZEnabled = dotNetObject.returnZEnabled;
     }
     if (hasValue(dotNetObject.rowHighlightIds)) {
-        jsFeatureTableViewModel.rowHighlightIds = dotNetObject.rowHighlightIds;
+        properties.rowHighlightIds = dotNetObject.rowHighlightIds;
     }
     if (hasValue(dotNetObject.tableTemplate)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTableTemplate } = dotNetObject.tableTemplate;
-        jsFeatureTableViewModel.tableTemplate = sanitizedTableTemplate;
+        properties.tableTemplate = sanitizedTableTemplate;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeatureTableViewModel.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
+    let jsFeatureTableViewModel = new FeatureTableViewModel(properties);
     jsFeatureTableViewModel.on('cell-click', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', evt);
     });

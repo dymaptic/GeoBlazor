@@ -232,49 +232,50 @@ export default class UtilityNetworkTraceViewModelGenerated implements IPropertyW
 
 
 export async function buildJsUtilityNetworkTraceViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUtilityNetworkTraceViewModel = new UtilityNetworkTraceViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.flags)) {
         let { buildJsFlagProperty } = await import('./flagProperty');
-        jsUtilityNetworkTraceViewModel.flags = await Promise.all(dotNetObject.flags.map(async i => await buildJsFlagProperty(i, layerId, viewId))) as any;
+        properties.flags = await Promise.all(dotNetObject.flags.map(async i => await buildJsFlagProperty(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.traceResults)) {
         let { buildJsTraceResultExtend } = await import('./traceResultExtend');
-        jsUtilityNetworkTraceViewModel.traceResults = await Promise.all(dotNetObject.traceResults.map(async i => await buildJsTraceResultExtend(i, layerId, viewId))) as any;
+        properties.traceResults = await Promise.all(dotNetObject.traceResults.map(async i => await buildJsTraceResultExtend(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.utilityNetwork)) {
         let { buildJsUtilityNetwork } = await import('./utilityNetwork');
-        jsUtilityNetworkTraceViewModel.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
+        properties.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.defaultGraphicColor)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDefaultGraphicColor } = dotNetObject.defaultGraphicColor;
-        jsUtilityNetworkTraceViewModel.defaultGraphicColor = sanitizedDefaultGraphicColor;
+        properties.defaultGraphicColor = sanitizedDefaultGraphicColor;
     }
     if (hasValue(dotNetObject.enableResultArea)) {
-        jsUtilityNetworkTraceViewModel.enableResultArea = dotNetObject.enableResultArea;
+        properties.enableResultArea = dotNetObject.enableResultArea;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsUtilityNetworkTraceViewModel.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsUtilityNetworkTraceViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.resultAreaProperties)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResultAreaProperties } = dotNetObject.resultAreaProperties;
-        jsUtilityNetworkTraceViewModel.resultAreaProperties = sanitizedResultAreaProperties;
+        properties.resultAreaProperties = sanitizedResultAreaProperties;
     }
     if (hasValue(dotNetObject.selectedTraces)) {
-        jsUtilityNetworkTraceViewModel.selectedTraces = dotNetObject.selectedTraces;
+        properties.selectedTraces = dotNetObject.selectedTraces;
     }
     if (hasValue(dotNetObject.selectOnComplete)) {
-        jsUtilityNetworkTraceViewModel.selectOnComplete = dotNetObject.selectOnComplete;
+        properties.selectOnComplete = dotNetObject.selectOnComplete;
     }
     if (hasValue(dotNetObject.showGraphicsOnComplete)) {
-        jsUtilityNetworkTraceViewModel.showGraphicsOnComplete = dotNetObject.showGraphicsOnComplete;
+        properties.showGraphicsOnComplete = dotNetObject.showGraphicsOnComplete;
     }
     if (hasValue(dotNetObject.showSelectionAttributes)) {
-        jsUtilityNetworkTraceViewModel.showSelectionAttributes = dotNetObject.showSelectionAttributes;
+        properties.showSelectionAttributes = dotNetObject.showSelectionAttributes;
     }
+    let jsUtilityNetworkTraceViewModel = new UtilityNetworkTraceViewModel(properties);
 
     let { default: UtilityNetworkTraceViewModelWrapper } = await import('./utilityNetworkTraceViewModel');
     let utilityNetworkTraceViewModelWrapper = new UtilityNetworkTraceViewModelWrapper(jsUtilityNetworkTraceViewModel);

@@ -38,8 +38,9 @@ export default class SummaryStatisticsForAgeGenerated implements IPropertyWrappe
 
 
 export async function buildJsSummaryStatisticsForAgeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssummaryStatisticsForAge = new summaryStatisticsForAge();
+    let properties: any = {};
 
+    let jssummaryStatisticsForAge = new summaryStatisticsForAge(properties);
 
     let { default: SummaryStatisticsForAgeWrapper } = await import('./summaryStatisticsForAge');
     let summaryStatisticsForAgeWrapper = new SummaryStatisticsForAgeWrapper(jssummaryStatisticsForAge);

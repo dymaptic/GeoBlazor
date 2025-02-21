@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureLayerBaseSaveAsOptions } from './featureLayerBaseSaveAsOptions';
 
 export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerBaseSaveAsOptions: any = {}
+    let jsFeatureLayerBaseSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsFeatureLayerBaseSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject
         jsFeatureLayerBaseSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseSaveAsOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseSaveAsOptions;

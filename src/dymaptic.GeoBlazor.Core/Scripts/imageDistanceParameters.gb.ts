@@ -4,34 +4,34 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageDistanceParameters } from './imageDistanceParameters';
 
 export async function buildJsImageDistanceParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageDistanceParameters = new ImageDistanceParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.fromGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsImageDistanceParameters.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
+        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageDistanceParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsImageDistanceParameters.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
+        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
     }
 
     if (hasValue(dotNetObject.angularUnit)) {
-        jsImageDistanceParameters.angularUnit = dotNetObject.angularUnit;
+        properties.angularUnit = dotNetObject.angularUnit;
     }
     if (hasValue(dotNetObject.is3D)) {
-        jsImageDistanceParameters.is3D = dotNetObject.is3D;
+        properties.is3D = dotNetObject.is3D;
     }
     if (hasValue(dotNetObject.linearUnit)) {
-        jsImageDistanceParameters.linearUnit = dotNetObject.linearUnit;
+        properties.linearUnit = dotNetObject.linearUnit;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageDistanceParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
+    let jsImageDistanceParameters = new ImageDistanceParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageDistanceParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageDistanceParameters;

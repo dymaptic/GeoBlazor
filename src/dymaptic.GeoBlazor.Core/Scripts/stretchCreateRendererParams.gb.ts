@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetStretchCreateRendererParams } from './stretchCreateRendererParams';
 
 export async function buildJsStretchCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsstretchCreateRendererParams: any = {}
+    let jsstretchCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsstretchCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -45,7 +45,6 @@ export async function buildJsStretchCreateRendererParamsGenerated(dotNetObject: 
         jsstretchCreateRendererParams.variableName = dotNetObject.variableName;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsstretchCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsstretchCreateRendererParams;

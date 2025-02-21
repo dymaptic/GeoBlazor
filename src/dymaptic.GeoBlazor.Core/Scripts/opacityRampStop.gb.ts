@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityRampStop } from './opacityRampStop';
 
 export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacityRampStop: any = {}
+    let jsOpacityRampStop: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsOpacityRampStop.color = buildJsMapColor(dotNetObject.color) as any;
@@ -19,7 +19,6 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
         jsOpacityRampStop.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpacityRampStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampStop;

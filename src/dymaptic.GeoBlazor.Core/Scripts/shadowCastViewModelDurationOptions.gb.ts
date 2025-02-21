@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetShadowCastViewModelDurationOptions } from './shadowCastViewModelDurationOptions';
 
 export async function buildJsShadowCastViewModelDurationOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsShadowCastViewModelDurationOptions: any = {}
+    let jsShadowCastViewModelDurationOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsShadowCastViewModelDurationOptions.color = buildJsMapColor(dotNetObject.color) as any;
@@ -13,7 +13,6 @@ export async function buildJsShadowCastViewModelDurationOptionsGenerated(dotNetO
         jsShadowCastViewModelDurationOptions.mode = dotNetObject.mode;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsShadowCastViewModelDurationOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsShadowCastViewModelDurationOptions;

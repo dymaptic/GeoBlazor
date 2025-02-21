@@ -74,9 +74,9 @@ export default class HistogramRangeSliderViewModelGenerated implements IProperty
 
 
 export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHistogramRangeSliderViewModel = new HistogramRangeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsHistogramRangeSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -88,7 +88,7 @@ export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsHistogramRangeSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -100,7 +100,7 @@ export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsHistogramRangeSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -113,39 +113,40 @@ export async function buildJsHistogramRangeSliderViewModelGenerated(dotNetObject
     }
 
     if (hasValue(dotNetObject.average)) {
-        jsHistogramRangeSliderViewModel.average = dotNetObject.average;
+        properties.average = dotNetObject.average;
     }
     if (hasValue(dotNetObject.bins)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBins } = dotNetObject.bins;
-        jsHistogramRangeSliderViewModel.bins = sanitizedBins;
+        properties.bins = sanitizedBins;
     }
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsHistogramRangeSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsHistogramRangeSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsHistogramRangeSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsHistogramRangeSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsHistogramRangeSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.rangeType)) {
-        jsHistogramRangeSliderViewModel.rangeType = dotNetObject.rangeType;
+        properties.rangeType = dotNetObject.rangeType;
     }
     if (hasValue(dotNetObject.standardDeviation)) {
-        jsHistogramRangeSliderViewModel.standardDeviation = dotNetObject.standardDeviation;
+        properties.standardDeviation = dotNetObject.standardDeviation;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsHistogramRangeSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsHistogramRangeSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
+    let jsHistogramRangeSliderViewModel = new HistogramRangeSliderViewModel(properties);
 
     let { default: HistogramRangeSliderViewModelWrapper } = await import('./histogramRangeSliderViewModel');
     let histogramRangeSliderViewModelWrapper = new HistogramRangeSliderViewModelWrapper(jsHistogramRangeSliderViewModel);

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPieChartRendererResult } from './pieChartRendererResult';
 
 export async function buildJsPieChartRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspieChartRendererResult: any = {}
+    let jspieChartRendererResult: any = {};
     if (hasValue(dotNetObject.pieChartScheme)) {
         let { buildJsPieChartScheme } = await import('./pieChartScheme');
         jspieChartRendererResult.pieChartScheme = await buildJsPieChartScheme(dotNetObject.pieChartScheme, layerId, viewId) as any;
@@ -27,7 +27,6 @@ export async function buildJsPieChartRendererResultGenerated(dotNetObject: any, 
         jspieChartRendererResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspieChartRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspieChartRendererResult;

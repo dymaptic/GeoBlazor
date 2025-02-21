@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorRampsColorRamp } from './colorRampsColorRamp';
 
 export async function buildJsColorRampsColorRampGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorRampsColorRamp: any = {}
+    let jscolorRampsColorRamp: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jscolorRampsColorRamp.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -13,7 +13,6 @@ export async function buildJsColorRampsColorRampGenerated(dotNetObject: any, lay
         jscolorRampsColorRamp.name = dotNetObject.name;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorRampsColorRamp);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorRampsColorRamp;

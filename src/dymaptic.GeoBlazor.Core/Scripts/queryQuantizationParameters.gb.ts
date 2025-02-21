@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetQueryQuantizationParameters } from './queryQuantizationParameters';
 
 export async function buildJsQueryQuantizationParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsQueryQuantizationParameters: any = {}
+    let jsQueryQuantizationParameters: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         jsQueryQuantizationParameters.extent = buildJsExtent(dotNetObject.extent) as any;
@@ -19,7 +19,6 @@ export async function buildJsQueryQuantizationParametersGenerated(dotNetObject: 
         jsQueryQuantizationParameters.tolerance = dotNetObject.tolerance;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsQueryQuantizationParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsQueryQuantizationParameters;

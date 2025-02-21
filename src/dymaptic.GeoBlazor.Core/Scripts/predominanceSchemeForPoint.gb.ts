@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominanceSchemeForPoint } from './predominanceSchemeForPoint';
 
 export async function buildJsPredominanceSchemeForPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPredominanceSchemeForPoint: any = {}
+    let jsPredominanceSchemeForPoint: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsPredominanceSchemeForPoint.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -31,7 +31,6 @@ export async function buildJsPredominanceSchemeForPointGenerated(dotNetObject: a
         jsPredominanceSchemeForPoint.tags = dotNetObject.tags;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPredominanceSchemeForPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPredominanceSchemeForPoint;

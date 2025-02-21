@@ -38,7 +38,7 @@ export default class PopupClustersGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPopupClustersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspopupClusters: any = {}
+    let jspopupClusters: any = {};
 
 
     let { default: PopupClustersWrapper } = await import('./popupClusters');

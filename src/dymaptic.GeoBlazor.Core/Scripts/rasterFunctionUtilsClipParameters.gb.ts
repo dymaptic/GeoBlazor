@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterFunctionUtilsClipParameters } from './rasterFunctionUtilsClipParameters';
 
 export async function buildJsRasterFunctionUtilsClipParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrasterFunctionUtilsClipParameters: any = {}
+    let jsrasterFunctionUtilsClipParameters: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
         jsrasterFunctionUtilsClipParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
@@ -16,7 +16,6 @@ export async function buildJsRasterFunctionUtilsClipParametersGenerated(dotNetOb
         jsrasterFunctionUtilsClipParameters.outputPixelType = dotNetObject.outputPixelType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsrasterFunctionUtilsClipParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrasterFunctionUtilsClipParameters;

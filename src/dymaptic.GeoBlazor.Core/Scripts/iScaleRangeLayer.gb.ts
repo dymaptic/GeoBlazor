@@ -36,7 +36,7 @@ export default class IScaleRangeLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIScaleRangeLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleRangeLayer: any = {}
+    let jsScaleRangeLayer: any = {};
 
     if (hasValue(dotNetObject.maxScale)) {
         jsScaleRangeLayer.maxScale = dotNetObject.maxScale;

@@ -44,7 +44,7 @@ export default class SymbologySizeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologySizeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologySize: any = {}
+    let jssymbologySize: any = {};
 
 
     let { default: SymbologySizeWrapper } = await import('./symbologySize');

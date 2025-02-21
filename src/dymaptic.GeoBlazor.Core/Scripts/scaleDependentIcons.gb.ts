@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetScaleDependentIcons } from './scaleDependentIcons';
 
 export async function buildJsScaleDependentIconsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleDependentIcons: any = {}
+    let jsScaleDependentIcons: any = {};
     if (hasValue(dotNetObject.maxSize)) {
         let { buildJsScaleDependentStops } = await import('./scaleDependentStops');
         jsScaleDependentIcons.maxSize = await buildJsScaleDependentStops(dotNetObject.maxSize, layerId, viewId) as any;
@@ -29,7 +29,6 @@ export async function buildJsScaleDependentIconsGenerated(dotNetObject: any, lay
         jsScaleDependentIcons.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsScaleDependentIcons);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentIcons;

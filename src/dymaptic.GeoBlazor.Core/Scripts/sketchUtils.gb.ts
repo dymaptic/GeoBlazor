@@ -38,7 +38,7 @@ export default class SketchUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSketchUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssketchUtils: any = {}
+    let jssketchUtils: any = {};
 
 
     let { default: SketchUtilsWrapper } = await import('./sketchUtils');

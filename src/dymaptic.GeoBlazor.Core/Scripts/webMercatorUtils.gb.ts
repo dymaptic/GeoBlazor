@@ -78,7 +78,7 @@ export default class WebMercatorUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWebMercatorUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jswebMercatorUtils: any = {}
+    let jswebMercatorUtils: any = {};
 
 
     let { default: WebMercatorUtilsWrapper } = await import('./webMercatorUtils');

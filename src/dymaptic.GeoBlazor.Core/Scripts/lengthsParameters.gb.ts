@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLengthsParameters } from './lengthsParameters';
 
 export async function buildJsLengthsParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLengthsParameters = new LengthsParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.polylines)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsLengthsParameters.polylines = dotNetObject.polylines.map(i => buildJsPolyline(i)) as any;
+        properties.polylines = dotNetObject.polylines.map(i => buildJsPolyline(i)) as any;
     }
 
     if (hasValue(dotNetObject.calculationType)) {
-        jsLengthsParameters.calculationType = dotNetObject.calculationType;
+        properties.calculationType = dotNetObject.calculationType;
     }
     if (hasValue(dotNetObject.geodesic)) {
-        jsLengthsParameters.geodesic = dotNetObject.geodesic;
+        properties.geodesic = dotNetObject.geodesic;
     }
     if (hasValue(dotNetObject.lengthUnit)) {
-        jsLengthsParameters.lengthUnit = dotNetObject.lengthUnit;
+        properties.lengthUnit = dotNetObject.lengthUnit;
     }
+    let jsLengthsParameters = new LengthsParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLengthsParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLengthsParameters;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityRampElement } from './opacityRampElement';
 
 export async function buildJsOpacityRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacityRampElement: any = {}
+    let jsOpacityRampElement: any = {};
     if (hasValue(dotNetObject.infos)) {
         let { buildJsOpacityRampStop } = await import('./opacityRampStop');
         jsOpacityRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsOpacityRampStop(i, layerId, viewId))) as any;
@@ -13,7 +13,6 @@ export async function buildJsOpacityRampElementGenerated(dotNetObject: any, laye
         jsOpacityRampElement.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpacityRampElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampElement;

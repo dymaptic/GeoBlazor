@@ -78,9 +78,9 @@ export default class SmartMappingPrimaryHandleSliderViewModelGenerated implement
 
 
 export async function buildJsSmartMappingPrimaryHandleSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSmartMappingPrimaryHandleSliderViewModel = new SmartMappingPrimaryHandleSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsSmartMappingPrimaryHandleSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -92,7 +92,7 @@ export async function buildJsSmartMappingPrimaryHandleSliderViewModelGenerated(d
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsSmartMappingPrimaryHandleSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -104,7 +104,7 @@ export async function buildJsSmartMappingPrimaryHandleSliderViewModelGenerated(d
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsSmartMappingPrimaryHandleSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -117,38 +117,39 @@ export async function buildJsSmartMappingPrimaryHandleSliderViewModelGenerated(d
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.max)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
+        properties.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsSmartMappingPrimaryHandleSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsSmartMappingPrimaryHandleSliderViewModel = new SmartMappingPrimaryHandleSliderViewModel(properties);
 
     let { default: SmartMappingPrimaryHandleSliderViewModelWrapper } = await import('./smartMappingPrimaryHandleSliderViewModel');
     let smartMappingPrimaryHandleSliderViewModelWrapper = new SmartMappingPrimaryHandleSliderViewModelWrapper(jsSmartMappingPrimaryHandleSliderViewModel);

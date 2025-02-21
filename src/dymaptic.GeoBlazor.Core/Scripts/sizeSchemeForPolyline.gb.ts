@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeSchemeForPolyline } from './sizeSchemeForPolyline';
 
 export async function buildJsSizeSchemeForPolylineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSchemeForPolyline: any = {}
+    let jsSizeSchemeForPolyline: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsSizeSchemeForPolyline.color = buildJsMapColor(dotNetObject.color) as any;
@@ -29,7 +29,6 @@ export async function buildJsSizeSchemeForPolylineGenerated(dotNetObject: any, l
         jsSizeSchemeForPolyline.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeSchemeForPolyline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeSchemeForPolyline;

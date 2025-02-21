@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetScheme } from './scheme';
 
 export async function buildJsSchemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScheme: any = {}
+    let jsScheme: any = {};
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
         jsScheme.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
@@ -16,7 +16,6 @@ export async function buildJsSchemeGenerated(dotNetObject: any, layerId: string 
         jsScheme.name = dotNetObject.name;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsScheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScheme;

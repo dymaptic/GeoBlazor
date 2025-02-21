@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValueClass } from './uniqueValueClass';
 
 export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUniqueValueClass = new UniqueValueClass();
+    let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsUniqueValueClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsUniqueValueClass.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.values)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedValues } = dotNetObject.values;
-        jsUniqueValueClass.values = sanitizedValues;
+        properties.values = sanitizedValues;
     }
+    let jsUniqueValueClass = new UniqueValueClass(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueClass);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;

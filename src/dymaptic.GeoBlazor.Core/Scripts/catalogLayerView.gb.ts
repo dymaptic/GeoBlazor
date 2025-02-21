@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCatalogLayerView } from './catalogLayerView';
 
 export async function buildJsCatalogLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCatalogLayerView = new CatalogLayerView();
+    let properties: any = {};
 
+    let jsCatalogLayerView = new CatalogLayerView(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCatalogLayerView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCatalogLayerView;

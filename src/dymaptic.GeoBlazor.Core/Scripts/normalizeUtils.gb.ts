@@ -48,7 +48,7 @@ export default class NormalizeUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsNormalizeUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsnormalizeUtils: any = {}
+    let jsnormalizeUtils: any = {};
 
 
     let { default: NormalizeUtilsWrapper } = await import('./normalizeUtils');

@@ -4,68 +4,68 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFieldColumnTemplate } from './fieldColumnTemplate';
 
 export async function buildJsFieldColumnTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFieldColumnTemplate = new FieldColumnTemplate();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasFormatFunction) && dotNetObject.hasFormatFunction) {
-        jsFieldColumnTemplate.formatFunction = (parameters) => {
+        properties.formatFunction = (parameters) => {
             let func = new Function('parameters', dotNetObject.formatFunction.javaScriptFunction);
             return func(parameters);
         };
     }
     if (hasValue(dotNetObject.menuConfig)) {
         let { buildJsColumnTableMenuConfig } = await import('./columnTableMenuConfig');
-        jsFieldColumnTemplate.menuConfig = await buildJsColumnTableMenuConfig(dotNetObject.menuConfig, layerId, viewId) as any;
+        properties.menuConfig = await buildJsColumnTableMenuConfig(dotNetObject.menuConfig, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.autoWidth)) {
-        jsFieldColumnTemplate.autoWidth = dotNetObject.autoWidth;
+        properties.autoWidth = dotNetObject.autoWidth;
     }
     if (hasValue(dotNetObject.direction)) {
-        jsFieldColumnTemplate.direction = dotNetObject.direction;
+        properties.direction = dotNetObject.direction;
     }
     if (hasValue(dotNetObject.domain)) {
-        jsFieldColumnTemplate.domain = dotNetObject.domain;
+        properties.domain = dotNetObject.domain;
     }
     if (hasValue(dotNetObject.editable)) {
-        jsFieldColumnTemplate.editable = dotNetObject.editable;
+        properties.editable = dotNetObject.editable;
     }
     if (hasValue(dotNetObject.fieldName)) {
-        jsFieldColumnTemplate.fieldName = dotNetObject.fieldName;
+        properties.fieldName = dotNetObject.fieldName;
     }
     if (hasValue(dotNetObject.flexGrow)) {
-        jsFieldColumnTemplate.flexGrow = dotNetObject.flexGrow;
+        properties.flexGrow = dotNetObject.flexGrow;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsFieldColumnTemplate.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.initialSortPriority)) {
-        jsFieldColumnTemplate.initialSortPriority = dotNetObject.initialSortPriority;
+        properties.initialSortPriority = dotNetObject.initialSortPriority;
     }
     if (hasValue(dotNetObject.invalid)) {
-        jsFieldColumnTemplate.invalid = dotNetObject.invalid;
+        properties.invalid = dotNetObject.invalid;
     }
     if (hasValue(dotNetObject.label)) {
-        jsFieldColumnTemplate.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.required)) {
-        jsFieldColumnTemplate.required = dotNetObject.required;
+        properties.required = dotNetObject.required;
     }
     if (hasValue(dotNetObject.resizable)) {
-        jsFieldColumnTemplate.resizable = dotNetObject.resizable;
+        properties.resizable = dotNetObject.resizable;
     }
     if (hasValue(dotNetObject.sortable)) {
-        jsFieldColumnTemplate.sortable = dotNetObject.sortable;
+        properties.sortable = dotNetObject.sortable;
     }
     if (hasValue(dotNetObject.textAlign)) {
-        jsFieldColumnTemplate.textAlign = dotNetObject.textAlign;
+        properties.textAlign = dotNetObject.textAlign;
     }
     if (hasValue(dotNetObject.textWrap)) {
-        jsFieldColumnTemplate.textWrap = dotNetObject.textWrap;
+        properties.textWrap = dotNetObject.textWrap;
     }
     if (hasValue(dotNetObject.width)) {
-        jsFieldColumnTemplate.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsFieldColumnTemplate = new FieldColumnTemplate(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFieldColumnTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldColumnTemplate;

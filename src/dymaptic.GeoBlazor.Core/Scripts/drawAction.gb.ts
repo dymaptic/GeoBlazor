@@ -60,11 +60,12 @@ export default class DrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDrawAction = new DrawAction();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.hasZ)) {
-        jsDrawAction.hasZ = dotNetObject.hasZ;
+        properties.hasZ = dotNetObject.hasZ;
     }
+    let jsDrawAction = new DrawAction(properties);
 
     let { default: DrawActionWrapper } = await import('./drawAction');
     let drawActionWrapper = new DrawActionWrapper(jsDrawAction);

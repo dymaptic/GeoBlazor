@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWFSLayerInfo } from './wFSLayerInfo';
 
 export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWFSLayerInfo: any = {}
+    let jsWFSLayerInfo: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         jsWFSLayerInfo.extent = buildJsExtent(dotNetObject.extent) as any;
@@ -43,7 +43,6 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
         jsWFSLayerInfo.url = dotNetObject.url;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSLayerInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerInfo;

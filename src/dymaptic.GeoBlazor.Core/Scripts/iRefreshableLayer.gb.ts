@@ -40,7 +40,7 @@ export default class IRefreshableLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIRefreshableLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRefreshableLayer: any = {}
+    let jsRefreshableLayer: any = {};
 
     if (hasValue(dotNetObject.refreshInterval)) {
         jsRefreshableLayer.refreshInterval = dotNetObject.refreshInterval;

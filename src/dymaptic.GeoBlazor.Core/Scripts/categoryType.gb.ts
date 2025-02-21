@@ -44,7 +44,7 @@ export default class CategoryTypeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCategoryTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstype: any = {}
+    let jstype: any = {};
 
 
     let { default: CategoryTypeWrapper } = await import('./categoryType');

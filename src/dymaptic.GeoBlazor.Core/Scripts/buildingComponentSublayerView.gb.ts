@@ -96,12 +96,13 @@ export default class BuildingComponentSublayerViewGenerated implements IProperty
 
 
 export async function buildJsBuildingComponentSublayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingComponentSublayerView = new BuildingComponentSublayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsBuildingComponentSublayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
+    let jsBuildingComponentSublayerView = new BuildingComponentSublayerView(properties);
 
     let { default: BuildingComponentSublayerViewWrapper } = await import('./buildingComponentSublayerView');
     let buildingComponentSublayerViewWrapper = new BuildingComponentSublayerViewWrapper(jsBuildingComponentSublayerView);

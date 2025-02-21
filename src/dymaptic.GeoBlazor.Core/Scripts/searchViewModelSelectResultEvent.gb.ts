@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchViewModelSelectResultEvent } from './searchViewModelSelectResultEvent';
 
 export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchViewModelSelectResultEvent: any = {}
+    let jsSearchViewModelSelectResultEvent: any = {};
     if (hasValue(dotNetObject.result)) {
         let { buildJsSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
         jsSearchViewModelSelectResultEvent.result = await buildJsSearchViewModelSelectResultEventResult(dotNetObject.result, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
         jsSearchViewModelSelectResultEvent.sourceIndex = dotNetObject.sourceIndex;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelSelectResultEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSelectResultEvent;
@@ -32,7 +31,7 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
     return jsSearchViewModelSelectResultEvent;
 }
 
-export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -43,7 +42,7 @@ export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObj
     };
         if (hasValue(jsObject.result)) {
             let { buildDotNetSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
-            dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result);
+            dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result, layerId, viewId);
         }
     if (hasValue(jsObject.source)) {
         dotNetSearchViewModelSelectResultEvent.source = jsObject.source;

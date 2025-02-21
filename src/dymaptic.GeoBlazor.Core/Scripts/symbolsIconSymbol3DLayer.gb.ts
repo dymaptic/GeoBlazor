@@ -36,7 +36,7 @@ export default class SymbolsIconSymbol3DLayerGenerated implements IPropertyWrapp
 
 
 export async function buildJsSymbolsIconSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolsIconSymbol3DLayer: any = {}
+    let jssymbolsIconSymbol3DLayer: any = {};
 
 
     let { default: SymbolsIconSymbol3DLayerWrapper } = await import('./symbolsIconSymbol3DLayer');

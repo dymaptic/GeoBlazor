@@ -48,33 +48,34 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPixelBlock = new PixelBlock();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.height)) {
-        jsPixelBlock.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.mask)) {
-        jsPixelBlock.mask = dotNetObject.mask;
+        properties.mask = dotNetObject.mask;
     }
     if (hasValue(dotNetObject.maskIsAlpha)) {
-        jsPixelBlock.maskIsAlpha = dotNetObject.maskIsAlpha;
+        properties.maskIsAlpha = dotNetObject.maskIsAlpha;
     }
     if (hasValue(dotNetObject.pixels)) {
-        jsPixelBlock.pixels = dotNetObject.pixels;
+        properties.pixels = dotNetObject.pixels;
     }
     if (hasValue(dotNetObject.pixelType)) {
-        jsPixelBlock.pixelType = dotNetObject.pixelType;
+        properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.statistics)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStatistics } = dotNetObject.statistics;
-        jsPixelBlock.statistics = sanitizedStatistics;
+        properties.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.validPixelCount)) {
-        jsPixelBlock.validPixelCount = dotNetObject.validPixelCount;
+        properties.validPixelCount = dotNetObject.validPixelCount;
     }
     if (hasValue(dotNetObject.width)) {
-        jsPixelBlock.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsPixelBlock = new PixelBlock(properties);
 
     let { default: PixelBlockWrapper } = await import('./pixelBlock');
     let pixelBlockWrapper = new PixelBlockWrapper(jsPixelBlock);

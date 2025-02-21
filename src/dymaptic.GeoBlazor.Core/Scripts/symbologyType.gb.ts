@@ -58,7 +58,7 @@ export default class SymbologyTypeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyType: any = {}
+    let jssymbologyType: any = {};
 
 
     let { default: SymbologyTypeWrapper } = await import('./symbologyType');

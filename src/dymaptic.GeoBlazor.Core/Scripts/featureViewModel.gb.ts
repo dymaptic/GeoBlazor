@@ -91,30 +91,31 @@ export default class FeatureViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureViewModel = new FeatureViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsFeatureViewModel.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeatureViewModel.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.abilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAbilities } = dotNetObject.abilities;
-        jsFeatureViewModel.abilities = sanitizedAbilities;
+        properties.abilities = sanitizedAbilities;
     }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
-        jsFeatureViewModel.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
+        properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeatureViewModel.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
+    let jsFeatureViewModel = new FeatureViewModel(properties);
 
     let { default: FeatureViewModelWrapper } = await import('./featureViewModel');
     let featureViewModelWrapper = new FeatureViewModelWrapper(jsFeatureViewModel);

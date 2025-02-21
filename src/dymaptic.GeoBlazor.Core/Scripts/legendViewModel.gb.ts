@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLegendViewModel } from './legendViewModel';
 
 export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLegendViewModel = new LegendViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeLayerInfos)) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
-        jsLegendViewModel.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
+        properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.layerInfos)) {
         let { buildJsLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-        jsLegendViewModel.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendViewModelLayerInfos(i, layerId, viewId))) as any;
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendViewModelLayerInfos(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.basemapLegendVisible)) {
-        jsLegendViewModel.basemapLegendVisible = dotNetObject.basemapLegendVisible;
+        properties.basemapLegendVisible = dotNetObject.basemapLegendVisible;
     }
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
-        jsLegendViewModel.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
+        properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
     }
     if (hasValue(dotNetObject.respectLayerVisibility)) {
-        jsLegendViewModel.respectLayerVisibility = dotNetObject.respectLayerVisibility;
+        properties.respectLayerVisibility = dotNetObject.respectLayerVisibility;
     }
+    let jsLegendViewModel = new LegendViewModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLegendViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModel;

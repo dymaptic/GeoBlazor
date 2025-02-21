@@ -4,34 +4,34 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBufferParameters } from './bufferParameters';
 
 export async function buildJsBufferParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBufferParameters = new BufferParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.bufferSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsBufferParameters.bufferSpatialReference = buildJsSpatialReference(dotNetObject.bufferSpatialReference) as any;
+        properties.bufferSpatialReference = buildJsSpatialReference(dotNetObject.bufferSpatialReference) as any;
     }
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsBufferParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsBufferParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.distances)) {
-        jsBufferParameters.distances = dotNetObject.distances;
+        properties.distances = dotNetObject.distances;
     }
     if (hasValue(dotNetObject.geodesic)) {
-        jsBufferParameters.geodesic = dotNetObject.geodesic;
+        properties.geodesic = dotNetObject.geodesic;
     }
     if (hasValue(dotNetObject.unionResults)) {
-        jsBufferParameters.unionResults = dotNetObject.unionResults;
+        properties.unionResults = dotNetObject.unionResults;
     }
     if (hasValue(dotNetObject.unit)) {
-        jsBufferParameters.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
+    let jsBufferParameters = new BufferParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBufferParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBufferParameters;

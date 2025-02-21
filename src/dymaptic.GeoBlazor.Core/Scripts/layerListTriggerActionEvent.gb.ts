@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerListTriggerActionEvent } from './layerListTriggerActionEvent';
 
 export async function buildJsLayerListTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerListTriggerActionEvent: any = {}
+    let jsLayerListTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');
         jsLayerListTriggerActionEvent.item = await buildJsListItem(dotNetObject.item, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsLayerListTriggerActionEventGenerated(dotNetObject: 
         jsLayerListTriggerActionEvent.action = dotNetObject.action;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerListTriggerActionEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListTriggerActionEvent;

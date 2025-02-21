@@ -70,31 +70,32 @@ export default class IUnknownLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIUnknownLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUnknownLayer = new UnknownLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsUnknownLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsUnknownLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsUnknownLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsUnknownLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsUnknownLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsUnknownLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsUnknownLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsUnknownLayer = new UnknownLayer(properties);
 
     let { default: IUnknownLayerWrapper } = await import('./iUnknownLayer');
     let iUnknownLayerWrapper = new IUnknownLayerWrapper(jsUnknownLayer);

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeVisualVariableResult } from './sizeVisualVariableResult';
 
 export async function buildJsSizeVisualVariableResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeVisualVariableResult: any = {}
+    let jssizeVisualVariableResult: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
         jssizeVisualVariableResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
@@ -32,7 +32,6 @@ export async function buildJsSizeVisualVariableResultGenerated(dotNetObject: any
         jssizeVisualVariableResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeVisualVariableResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeVisualVariableResult;

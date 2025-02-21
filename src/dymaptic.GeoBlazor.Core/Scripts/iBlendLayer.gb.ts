@@ -36,7 +36,7 @@ export default class IBlendLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIBlendLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBlendLayer: any = {}
+    let jsBlendLayer: any = {};
 
     if (hasValue(dotNetObject.blendMode)) {
         jsBlendLayer.blendMode = dotNetObject.blendMode;

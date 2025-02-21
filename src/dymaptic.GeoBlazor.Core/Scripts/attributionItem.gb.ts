@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAttributionItem } from './attributionItem';
 
 export async function buildJsAttributionItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAttributionItem: any = {}
+    let jsAttributionItem: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsAttributionItem.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsAttributionItemGenerated(dotNetObject: any, layerId
         jsAttributionItem.text = dotNetObject.text;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAttributionItem);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttributionItem;

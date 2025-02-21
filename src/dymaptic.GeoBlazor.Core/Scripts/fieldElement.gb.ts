@@ -4,40 +4,40 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFieldElement } from './fieldElement';
 
 export async function buildJsFieldElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFieldElement = new FieldElement();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
-        jsFieldElement.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.domain)) {
-        jsFieldElement.domain = dotNetObject.domain;
+        properties.domain = dotNetObject.domain;
     }
     if (hasValue(dotNetObject.editableExpression)) {
-        jsFieldElement.editableExpression = dotNetObject.editableExpression;
+        properties.editableExpression = dotNetObject.editableExpression;
     }
     if (hasValue(dotNetObject.fieldName)) {
-        jsFieldElement.fieldName = dotNetObject.fieldName;
+        properties.fieldName = dotNetObject.fieldName;
     }
     if (hasValue(dotNetObject.hint)) {
-        jsFieldElement.hint = dotNetObject.hint;
+        properties.hint = dotNetObject.hint;
     }
     if (hasValue(dotNetObject.input)) {
-        jsFieldElement.input = dotNetObject.input;
+        properties.input = dotNetObject.input;
     }
     if (hasValue(dotNetObject.label)) {
-        jsFieldElement.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.requiredExpression)) {
-        jsFieldElement.requiredExpression = dotNetObject.requiredExpression;
+        properties.requiredExpression = dotNetObject.requiredExpression;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsFieldElement.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.visibilityExpression)) {
-        jsFieldElement.visibilityExpression = dotNetObject.visibilityExpression;
+        properties.visibilityExpression = dotNetObject.visibilityExpression;
     }
+    let jsFieldElement = new FieldElement(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFieldElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldElement;

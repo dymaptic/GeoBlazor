@@ -32,18 +32,19 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleBar = new ScaleBar();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.style)) {
-        jsScaleBar.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
     if (hasValue(dotNetObject.unit)) {
-        jsScaleBar.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
-        jsScaleBar.viewModel = sanitizedViewModel;
+        properties.viewModel = sanitizedViewModel;
     }
+    let jsScaleBar = new ScaleBar(properties);
 
     let { default: ScaleBarWidgetWrapper } = await import('./scaleBarWidget');
     let scaleBarWidgetWrapper = new ScaleBarWidgetWrapper(jsScaleBar);

@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPrintParameters } from './printParameters';
 
 export async function buildJsPrintParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPrintParameters = new PrintParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsPrintParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
     if (hasValue(dotNetObject.template)) {
         let { buildJsPrintTemplate } = await import('./printTemplate');
-        jsPrintParameters.template = await buildJsPrintTemplate(dotNetObject.template, layerId, viewId) as any;
+        properties.template = await buildJsPrintTemplate(dotNetObject.template, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.extraParameters)) {
-        jsPrintParameters.extraParameters = dotNetObject.extraParameters;
+        properties.extraParameters = dotNetObject.extraParameters;
     }
+    let jsPrintParameters = new PrintParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPrintParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrintParameters;

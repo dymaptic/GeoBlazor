@@ -36,8 +36,9 @@ export default class BinLevelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBinLevelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsbinLevel = new binLevel();
+    let properties: any = {};
 
+    let jsbinLevel = new binLevel(properties);
 
     let { default: BinLevelWrapper } = await import('./binLevel');
     let binLevelWrapper = new BinLevelWrapper(jsbinLevel);

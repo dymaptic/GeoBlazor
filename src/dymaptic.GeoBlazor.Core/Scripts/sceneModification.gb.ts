@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneModification } from './sceneModification';
 
 export async function buildJsSceneModificationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneModification = new SceneModification();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsSceneModification.geometry = buildJsPolygon(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolygon(dotNetObject.geometry) as any;
     }
 
+    let jsSceneModification = new SceneModification(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneModification);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneModification;

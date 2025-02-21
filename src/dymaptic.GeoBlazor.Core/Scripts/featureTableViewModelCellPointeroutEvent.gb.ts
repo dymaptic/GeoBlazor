@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureTableViewModelCellPointeroutEvent } from './featureTableViewModelCellPointeroutEvent';
 
 export async function buildJsFeatureTableViewModelCellPointeroutEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTableViewModelCellPointeroutEvent: any = {}
+    let jsFeatureTableViewModelCellPointeroutEvent: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureTableViewModelCellPointeroutEvent.feature = buildJsGraphic(dotNetObject.feature) as any;
@@ -22,7 +22,6 @@ export async function buildJsFeatureTableViewModelCellPointeroutEventGenerated(d
         jsFeatureTableViewModelCellPointeroutEvent.objectId = dotNetObject.objectId;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureTableViewModelCellPointeroutEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModelCellPointeroutEvent;

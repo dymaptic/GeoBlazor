@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPopupTemplateCreatorEvent } from './popupTemplateCreatorEvent';
 
 export async function buildJsPopupTemplateCreatorEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPopupTemplateCreatorEvent: any = {}
+    let jsPopupTemplateCreatorEvent: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
         jsPopupTemplateCreatorEvent.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPopupTemplateCreatorEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTemplateCreatorEvent;

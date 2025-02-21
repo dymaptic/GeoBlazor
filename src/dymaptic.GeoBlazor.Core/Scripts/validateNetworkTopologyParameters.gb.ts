@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetValidateNetworkTopologyParameters } from './validateNetworkTopologyParameters';
 
 export async function buildJsValidateNetworkTopologyParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsValidateNetworkTopologyParameters = new ValidateNetworkTopologyParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.validateArea)) {
         let { buildJsExtent } = await import('./extent');
-        jsValidateNetworkTopologyParameters.validateArea = buildJsExtent(dotNetObject.validateArea) as any;
+        properties.validateArea = buildJsExtent(dotNetObject.validateArea) as any;
     }
 
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsValidateNetworkTopologyParameters.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
-        jsValidateNetworkTopologyParameters.outSpatialReference = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = dotNetObject.outSpatialReference;
     }
     if (hasValue(dotNetObject.sessionID)) {
-        jsValidateNetworkTopologyParameters.sessionID = dotNetObject.sessionID;
+        properties.sessionID = dotNetObject.sessionID;
     }
     if (hasValue(dotNetObject.validationSet)) {
-        jsValidateNetworkTopologyParameters.validationSet = dotNetObject.validationSet;
+        properties.validationSet = dotNetObject.validationSet;
     }
     if (hasValue(dotNetObject.validationType)) {
-        jsValidateNetworkTopologyParameters.validationType = dotNetObject.validationType;
+        properties.validationType = dotNetObject.validationType;
     }
+    let jsValidateNetworkTopologyParameters = new ValidateNetworkTopologyParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsValidateNetworkTopologyParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValidateNetworkTopologyParameters;

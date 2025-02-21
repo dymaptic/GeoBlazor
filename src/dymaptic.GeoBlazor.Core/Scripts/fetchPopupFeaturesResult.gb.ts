@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFetchPopupFeaturesResult } from './fetchPopupFeaturesResult';
 
 export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFetchPopupFeaturesResult: any = {}
+    let jsFetchPopupFeaturesResult: any = {};
     if (hasValue(dotNetObject.allGraphicsPromise)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFetchPopupFeaturesResult.allGraphicsPromise = dotNetObject.allGraphicsPromise.map(i => buildJsGraphic(i)) as any;
@@ -14,7 +14,6 @@ export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFetchPopupFeaturesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFetchPopupFeaturesResult;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFillSymbol3DLayerOutline } from './fillSymbol3DLayerOutline';
 
 export async function buildJsFillSymbol3DLayerOutlineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFillSymbol3DLayerOutline: any = {}
+    let jsFillSymbol3DLayerOutline: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsFillSymbol3DLayerOutline.color = buildJsMapColor(dotNetObject.color) as any;
@@ -20,7 +20,6 @@ export async function buildJsFillSymbol3DLayerOutlineGenerated(dotNetObject: any
         jsFillSymbol3DLayerOutline.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFillSymbol3DLayerOutline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFillSymbol3DLayerOutline;

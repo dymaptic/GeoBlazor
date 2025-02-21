@@ -4,44 +4,44 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOrientedImageryViewerViewModel } from './orientedImageryViewerViewModel';
 
 export async function buildJsOrientedImageryViewerViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOrientedImageryViewerViewModel = new OrientedImageryViewerViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsOrientedImageryLayer } = await import('./orientedImageryLayer');
-        jsOrientedImageryViewerViewModel.layer = await buildJsOrientedImageryLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsOrientedImageryLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.brightness)) {
-        jsOrientedImageryViewerViewModel.brightness = dotNetObject.brightness;
+        properties.brightness = dotNetObject.brightness;
     }
     if (hasValue(dotNetObject.contrast)) {
-        jsOrientedImageryViewerViewModel.contrast = dotNetObject.contrast;
+        properties.contrast = dotNetObject.contrast;
     }
     if (hasValue(dotNetObject.currentCoverageVisible)) {
-        jsOrientedImageryViewerViewModel.currentCoverageVisible = dotNetObject.currentCoverageVisible;
+        properties.currentCoverageVisible = dotNetObject.currentCoverageVisible;
     }
     if (hasValue(dotNetObject.disabled)) {
-        jsOrientedImageryViewerViewModel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.imageGalleryEnabled)) {
-        jsOrientedImageryViewerViewModel.imageGalleryEnabled = dotNetObject.imageGalleryEnabled;
+        properties.imageGalleryEnabled = dotNetObject.imageGalleryEnabled;
     }
     if (hasValue(dotNetObject.imageLoaded)) {
-        jsOrientedImageryViewerViewModel.imageLoaded = dotNetObject.imageLoaded;
+        properties.imageLoaded = dotNetObject.imageLoaded;
     }
     if (hasValue(dotNetObject.isAdditionalCoverageVisible)) {
-        jsOrientedImageryViewerViewModel.isAdditionalCoverageVisible = dotNetObject.isAdditionalCoverageVisible;
+        properties.isAdditionalCoverageVisible = dotNetObject.isAdditionalCoverageVisible;
     }
     if (hasValue(dotNetObject.isAdditionalPointSourcesVisible)) {
-        jsOrientedImageryViewerViewModel.isAdditionalPointSourcesVisible = dotNetObject.isAdditionalPointSourcesVisible;
+        properties.isAdditionalPointSourcesVisible = dotNetObject.isAdditionalPointSourcesVisible;
     }
     if (hasValue(dotNetObject.mapImageConversionToolState)) {
-        jsOrientedImageryViewerViewModel.mapImageConversionToolState = dotNetObject.mapImageConversionToolState;
+        properties.mapImageConversionToolState = dotNetObject.mapImageConversionToolState;
     }
     if (hasValue(dotNetObject.sharpness)) {
-        jsOrientedImageryViewerViewModel.sharpness = dotNetObject.sharpness;
+        properties.sharpness = dotNetObject.sharpness;
     }
+    let jsOrientedImageryViewerViewModel = new OrientedImageryViewerViewModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOrientedImageryViewerViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOrientedImageryViewerViewModel;

@@ -4,47 +4,47 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageSampleParameters } from './imageSampleParameters';
 
 export async function buildJsImageSampleParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageSampleParameters = new ImageSampleParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageSampleParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.locations)) {
         let { buildJsPoint } = await import('./point');
-        jsImageSampleParameters.locations = dotNetObject.locations.map(i => buildJsPoint(i)) as any;
+        properties.locations = dotNetObject.locations.map(i => buildJsPoint(i)) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageSampleParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageSampleParameters.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.interpolation)) {
-        jsImageSampleParameters.interpolation = dotNetObject.interpolation;
+        properties.interpolation = dotNetObject.interpolation;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsImageSampleParameters.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageSampleParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.returnFirstValueOnly)) {
-        jsImageSampleParameters.returnFirstValueOnly = dotNetObject.returnFirstValueOnly;
+        properties.returnFirstValueOnly = dotNetObject.returnFirstValueOnly;
     }
     if (hasValue(dotNetObject.sampleCount)) {
-        jsImageSampleParameters.sampleCount = dotNetObject.sampleCount;
+        properties.sampleCount = dotNetObject.sampleCount;
     }
     if (hasValue(dotNetObject.sampleDistance)) {
-        jsImageSampleParameters.sampleDistance = dotNetObject.sampleDistance;
+        properties.sampleDistance = dotNetObject.sampleDistance;
     }
     if (hasValue(dotNetObject.sliceId)) {
-        jsImageSampleParameters.sliceId = dotNetObject.sliceId;
+        properties.sliceId = dotNetObject.sliceId;
     }
+    let jsImageSampleParameters = new ImageSampleParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageSampleParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageSampleParameters;

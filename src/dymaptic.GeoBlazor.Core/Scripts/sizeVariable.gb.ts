@@ -44,55 +44,56 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeVariable = new SizeVariable();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.axis)) {
-        jsSizeVariable.axis = dotNetObject.axis;
+        properties.axis = dotNetObject.axis;
     }
     if (hasValue(dotNetObject.field)) {
-        jsSizeVariable.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        jsSizeVariable.legendOptions = sanitizedLegendOptions;
+        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.maxDataValue)) {
-        jsSizeVariable.maxDataValue = dotNetObject.maxDataValue;
+        properties.maxDataValue = dotNetObject.maxDataValue;
     }
     if (hasValue(dotNetObject.maxSize)) {
-        jsSizeVariable.maxSize = dotNetObject.maxSize;
+        properties.maxSize = dotNetObject.maxSize;
     }
     if (hasValue(dotNetObject.minDataValue)) {
-        jsSizeVariable.minDataValue = dotNetObject.minDataValue;
+        properties.minDataValue = dotNetObject.minDataValue;
     }
     if (hasValue(dotNetObject.minSize)) {
-        jsSizeVariable.minSize = dotNetObject.minSize;
+        properties.minSize = dotNetObject.minSize;
     }
     if (hasValue(dotNetObject.normalizationField)) {
-        jsSizeVariable.normalizationField = dotNetObject.normalizationField;
+        properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsSizeVariable.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.target)) {
-        jsSizeVariable.target = dotNetObject.target;
+        properties.target = dotNetObject.target;
     }
     if (hasValue(dotNetObject.useSymbolValue)) {
-        jsSizeVariable.useSymbolValue = dotNetObject.useSymbolValue;
+        properties.useSymbolValue = dotNetObject.useSymbolValue;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsSizeVariable.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsSizeVariable.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
     if (hasValue(dotNetObject.valueRepresentation)) {
-        jsSizeVariable.valueRepresentation = dotNetObject.valueRepresentation;
+        properties.valueRepresentation = dotNetObject.valueRepresentation;
     }
     if (hasValue(dotNetObject.valueUnit)) {
-        jsSizeVariable.valueUnit = dotNetObject.valueUnit;
+        properties.valueUnit = dotNetObject.valueUnit;
     }
+    let jsSizeVariable = new SizeVariable(properties);
 
     let { default: SizeVariableWrapper } = await import('./sizeVariable');
     let sizeVariableWrapper = new SizeVariableWrapper(jsSizeVariable);

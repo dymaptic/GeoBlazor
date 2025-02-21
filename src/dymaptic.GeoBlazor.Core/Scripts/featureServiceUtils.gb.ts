@@ -38,7 +38,7 @@ export default class FeatureServiceUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureServiceUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsfeatureServiceUtils: any = {}
+    let jsfeatureServiceUtils: any = {};
 
 
     let { default: FeatureServiceUtilsWrapper } = await import('./featureServiceUtils');

@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColormapInfo } from './colormapInfo';
 
 export async function buildJsColormapInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColormapInfo = new ColormapInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsColormapInfo.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsColormapInfo.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.value)) {
-        jsColormapInfo.value = dotNetObject.value;
+        properties.value = dotNetObject.value;
     }
+    let jsColormapInfo = new ColormapInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColormapInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColormapInfo;

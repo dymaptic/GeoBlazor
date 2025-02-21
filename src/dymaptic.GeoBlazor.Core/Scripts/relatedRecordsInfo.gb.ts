@@ -4,16 +4,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelatedRecordsInfo } from './relatedRecordsInfo';
 
 export async function buildJsRelatedRecordsInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelatedRecordsInfo = new RelatedRecordsInfo();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.orderByFields)) {
-        jsRelatedRecordsInfo.orderByFields = dotNetObject.orderByFields;
+        properties.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.showRelatedRecords)) {
-        jsRelatedRecordsInfo.showRelatedRecords = dotNetObject.showRelatedRecords;
+        properties.showRelatedRecords = dotNetObject.showRelatedRecords;
     }
+    let jsRelatedRecordsInfo = new RelatedRecordsInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelatedRecordsInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfo;

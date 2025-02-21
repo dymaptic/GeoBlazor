@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBasemapGalleryItem } from './basemapGalleryItem';
 
 export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapGalleryItem = new BasemapGalleryItem();
+    let properties: any = {};
     if (hasValue(dotNetObject.basemap)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsBasemapGalleryItem.basemap = await buildJsBasemap(dotNetObject.basemap, layerId, viewId) as any;
+        properties.basemap = await buildJsBasemap(dotNetObject.basemap, layerId, viewId) as any;
     }
 
+    let jsBasemapGalleryItem = new BasemapGalleryItem(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapGalleryItem);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryItem;

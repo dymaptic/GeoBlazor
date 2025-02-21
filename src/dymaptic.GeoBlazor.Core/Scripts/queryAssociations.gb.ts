@@ -40,7 +40,7 @@ export default class QueryAssociationsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsQueryAssociationsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsqueryAssociations: any = {}
+    let jsqueryAssociations: any = {};
 
 
     let { default: QueryAssociationsWrapper } = await import('./queryAssociations');

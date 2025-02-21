@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDeleteItemsResult } from './deleteItemsResult';
 
 export async function buildJsDeleteItemsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDeleteItemsResult: any = {}
+    let jsDeleteItemsResult: any = {};
     if (hasValue(dotNetObject.item)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsDeleteItemsResult.item = await buildJsPortalItem(dotNetObject.item, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsDeleteItemsResultGenerated(dotNetObject: any, layer
         jsDeleteItemsResult.success = dotNetObject.success;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDeleteItemsResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDeleteItemsResult;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPrintTemplateLayoutOptions } from './printTemplateLayoutOptions';
 
 export async function buildJsPrintTemplateLayoutOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPrintTemplateLayoutOptions: any = {}
+    let jsPrintTemplateLayoutOptions: any = {};
     if (hasValue(dotNetObject.legendLayers)) {
         let { buildJsILegendLayer } = await import('./iLegendLayer');
         jsPrintTemplateLayoutOptions.legendLayers = await Promise.all(dotNetObject.legendLayers.map(async i => await buildJsILegendLayer(i, layerId, viewId))) as any;
@@ -28,7 +28,6 @@ export async function buildJsPrintTemplateLayoutOptionsGenerated(dotNetObject: a
         jsPrintTemplateLayoutOptions.titleText = dotNetObject.titleText;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPrintTemplateLayoutOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrintTemplateLayoutOptions;

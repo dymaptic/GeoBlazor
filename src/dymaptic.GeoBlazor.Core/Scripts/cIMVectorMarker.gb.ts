@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMVectorMarker } from './cIMVectorMarker';
 
 export async function buildJsCIMVectorMarkerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMVectorMarker: any = {}
+    let jsCIMVectorMarker: any = {};
     if (hasValue(dotNetObject.markerGraphics)) {
         let { buildJsCIMMarkerGraphic } = await import('./cIMMarkerGraphic');
         jsCIMVectorMarker.markerGraphics = await Promise.all(dotNetObject.markerGraphics.map(async i => await buildJsCIMMarkerGraphic(i, layerId, viewId))) as any;
@@ -88,7 +88,6 @@ export async function buildJsCIMVectorMarkerGenerated(dotNetObject: any, layerId
         jsCIMVectorMarker.verticalOrientation3D = dotNetObject.verticalOrientation3D;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMVectorMarker);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMVectorMarker;

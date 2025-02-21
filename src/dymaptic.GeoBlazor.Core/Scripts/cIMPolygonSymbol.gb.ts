@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMPolygonSymbol } from './cIMPolygonSymbol';
 
 export async function buildJsCIMPolygonSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMPolygonSymbol: any = {}
+    let jsCIMPolygonSymbol: any = {};
     if (hasValue(dotNetObject.symbolLayers)) {
         let { buildJsICIMSymbolLayer } = await import('./iCIMSymbolLayer');
         jsCIMPolygonSymbol.symbolLayers = await Promise.all(dotNetObject.symbolLayers.map(async i => await buildJsICIMSymbolLayer(i, layerId, viewId))) as any;
@@ -19,7 +19,6 @@ export async function buildJsCIMPolygonSymbolGenerated(dotNetObject: any, layerI
         jsCIMPolygonSymbol.useRealWorldSymbolSizes = dotNetObject.useRealWorldSymbolSizes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMPolygonSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMPolygonSymbol;

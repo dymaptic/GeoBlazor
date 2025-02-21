@@ -44,18 +44,19 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
 
 
 export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDistanceMeasurement2D = new DistanceMeasurement2D();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        jsDistanceMeasurement2D.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.unit)) {
-        jsDistanceMeasurement2D.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.unitOptions)) {
-        jsDistanceMeasurement2D.unitOptions = dotNetObject.unitOptions;
+        properties.unitOptions = dotNetObject.unitOptions;
     }
+    let jsDistanceMeasurement2D = new DistanceMeasurement2D(properties);
 
     let { default: DistanceMeasurement2DWidgetWrapper } = await import('./distanceMeasurement2DWidget');
     let distanceMeasurement2DWidgetWrapper = new DistanceMeasurement2DWidgetWrapper(jsDistanceMeasurement2D);

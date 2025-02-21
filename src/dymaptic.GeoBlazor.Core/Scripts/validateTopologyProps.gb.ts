@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetValidateTopologyProps } from './validateTopologyProps';
 
 export async function buildJsValidateTopologyPropsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsValidateTopologyProps: any = {}
+    let jsValidateTopologyProps: any = {};
     if (hasValue(dotNetObject.validateArea)) {
         let { buildJsExtent } = await import('./extent');
         jsValidateTopologyProps.validateArea = buildJsExtent(dotNetObject.validateArea) as any;
@@ -22,7 +22,6 @@ export async function buildJsValidateTopologyPropsGenerated(dotNetObject: any, l
         jsValidateTopologyProps.validationType = dotNetObject.validationType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsValidateTopologyProps);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValidateTopologyProps;

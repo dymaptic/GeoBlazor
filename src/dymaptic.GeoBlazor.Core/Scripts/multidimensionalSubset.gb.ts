@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMultidimensionalSubset } from './multidimensionalSubset';
 
 export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMultidimensionalSubset = new MultidimensionalSubset();
+    let properties: any = {};
     if (hasValue(dotNetObject.areaOfInterest)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsMultidimensionalSubset.areaOfInterest = buildJsGeometry(dotNetObject.areaOfInterest) as any;
+        properties.areaOfInterest = buildJsGeometry(dotNetObject.areaOfInterest) as any;
     }
 
     if (hasValue(dotNetObject.subsetDefinitions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSubsetDefinitions } = dotNetObject.subsetDefinitions;
-        jsMultidimensionalSubset.subsetDefinitions = sanitizedSubsetDefinitions;
+        properties.subsetDefinitions = sanitizedSubsetDefinitions;
     }
+    let jsMultidimensionalSubset = new MultidimensionalSubset(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMultidimensionalSubset);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;

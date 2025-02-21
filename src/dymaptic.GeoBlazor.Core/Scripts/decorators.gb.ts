@@ -48,7 +48,7 @@ export default class DecoratorsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDecoratorsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsdecorators: any = {}
+    let jsdecorators: any = {};
 
 
     let { default: DecoratorsWrapper } = await import('./decorators');

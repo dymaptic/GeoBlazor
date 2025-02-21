@@ -4,30 +4,30 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityVariable } from './opacityVariable';
 
 export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacityVariable = new OpacityVariable();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
-        jsOpacityVariable.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        jsOpacityVariable.legendOptions = sanitizedLegendOptions;
+        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {
-        jsOpacityVariable.normalizationField = dotNetObject.normalizationField;
+        properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsOpacityVariable.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsOpacityVariable.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsOpacityVariable.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsOpacityVariable = new OpacityVariable(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpacityVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;

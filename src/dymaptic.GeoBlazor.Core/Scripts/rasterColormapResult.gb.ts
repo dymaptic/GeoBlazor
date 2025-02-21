@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterColormapResult } from './rasterColormapResult';
 
 export async function buildJsRasterColormapResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterColormapResult: any = {}
+    let jsRasterColormapResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRasterColormapRenderer } = await import('./rasterColormapRenderer');
         jsRasterColormapResult.renderer = await buildJsRasterColormapRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterColormapResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterColormapResult;

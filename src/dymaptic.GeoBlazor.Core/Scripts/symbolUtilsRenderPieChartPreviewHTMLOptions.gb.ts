@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSymbolUtilsRenderPieChartPreviewHTMLOptions } from './symbolUtilsRenderPieChartPreviewHTMLOptions';
 
 export async function buildJsSymbolUtilsRenderPieChartPreviewHTMLOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolUtilsRenderPieChartPreviewHTMLOptions: any = {}
+    let jssymbolUtilsRenderPieChartPreviewHTMLOptions: any = {};
     if (hasValue(dotNetObject.outline)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
         jssymbolUtilsRenderPieChartPreviewHTMLOptions.outline = buildJsSimpleLineSymbol(dotNetObject.outline) as any;
@@ -19,7 +19,6 @@ export async function buildJsSymbolUtilsRenderPieChartPreviewHTMLOptionsGenerate
         jssymbolUtilsRenderPieChartPreviewHTMLOptions.values = dotNetObject.values;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssymbolUtilsRenderPieChartPreviewHTMLOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssymbolUtilsRenderPieChartPreviewHTMLOptions;

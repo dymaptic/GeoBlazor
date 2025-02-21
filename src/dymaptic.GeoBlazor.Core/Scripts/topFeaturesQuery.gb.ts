@@ -4,70 +4,70 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTopFeaturesQuery } from './topFeaturesQuery';
 
 export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTopFeaturesQuery = new TopFeaturesQuery();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsTopFeaturesQuery.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTopFeaturesQuery.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTopFeaturesQuery.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.cacheHint)) {
-        jsTopFeaturesQuery.cacheHint = dotNetObject.cacheHint;
+        properties.cacheHint = dotNetObject.cacheHint;
     }
     if (hasValue(dotNetObject.distance)) {
-        jsTopFeaturesQuery.distance = dotNetObject.distance;
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.geometryPrecision)) {
-        jsTopFeaturesQuery.geometryPrecision = dotNetObject.geometryPrecision;
+        properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
     if (hasValue(dotNetObject.maxAllowableOffset)) {
-        jsTopFeaturesQuery.maxAllowableOffset = dotNetObject.maxAllowableOffset;
+        properties.maxAllowableOffset = dotNetObject.maxAllowableOffset;
     }
     if (hasValue(dotNetObject.num)) {
-        jsTopFeaturesQuery.num = dotNetObject.num;
+        properties.num = dotNetObject.num;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsTopFeaturesQuery.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.orderByFields)) {
-        jsTopFeaturesQuery.orderByFields = dotNetObject.orderByFields;
+        properties.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsTopFeaturesQuery.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsTopFeaturesQuery.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.returnM)) {
-        jsTopFeaturesQuery.returnM = dotNetObject.returnM;
+        properties.returnM = dotNetObject.returnM;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsTopFeaturesQuery.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
     if (hasValue(dotNetObject.spatialRelationship)) {
-        jsTopFeaturesQuery.spatialRelationship = dotNetObject.spatialRelationship;
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
     }
     if (hasValue(dotNetObject.start)) {
-        jsTopFeaturesQuery.start = dotNetObject.start;
+        properties.start = dotNetObject.start;
     }
     if (hasValue(dotNetObject.topFilter)) {
-        jsTopFeaturesQuery.topFilter = dotNetObject.topFilter;
+        properties.topFilter = dotNetObject.topFilter;
     }
     if (hasValue(dotNetObject.units)) {
-        jsTopFeaturesQuery.units = dotNetObject.units;
+        properties.units = dotNetObject.units;
     }
     if (hasValue(dotNetObject.where)) {
-        jsTopFeaturesQuery.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsTopFeaturesQuery = new TopFeaturesQuery(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTopFeaturesQuery);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTopFeaturesQuery;

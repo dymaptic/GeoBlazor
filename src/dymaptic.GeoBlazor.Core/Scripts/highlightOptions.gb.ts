@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHighlightOptions } from './highlightOptions';
 
 export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHighlightOptions: any = {}
+    let jsHighlightOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsHighlightOptions.color = buildJsMapColor(dotNetObject.color) as any;
@@ -30,7 +30,6 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
         jsHighlightOptions.shadowOpacity = dotNetObject.shadowOpacity;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHighlightOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;

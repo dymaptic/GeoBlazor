@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindResult } from './findResult';
 
 export async function buildJsFindResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFindResult = new FindResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFindResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        properties.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
 
     if (hasValue(dotNetObject.displayFieldName)) {
-        jsFindResult.displayFieldName = dotNetObject.displayFieldName;
+        properties.displayFieldName = dotNetObject.displayFieldName;
     }
     if (hasValue(dotNetObject.foundFieldName)) {
-        jsFindResult.foundFieldName = dotNetObject.foundFieldName;
+        properties.foundFieldName = dotNetObject.foundFieldName;
     }
     if (hasValue(dotNetObject.layerId)) {
-        jsFindResult.layerId = dotNetObject.layerId;
+        properties.layerId = dotNetObject.layerId;
     }
     if (hasValue(dotNetObject.layerName)) {
-        jsFindResult.layerName = dotNetObject.layerName;
+        properties.layerName = dotNetObject.layerName;
     }
     if (hasValue(dotNetObject.value)) {
-        jsFindResult.value = dotNetObject.value;
+        properties.value = dotNetObject.value;
     }
+    let jsFindResult = new FindResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFindResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFindResult;

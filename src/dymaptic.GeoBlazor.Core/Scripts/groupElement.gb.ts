@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGroupElement } from './groupElement';
 
 export async function buildJsGroupElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGroupElement = new GroupElement();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
-        jsGroupElement.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.elements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElements } = dotNetObject.elements;
-        jsGroupElement.elements = sanitizedElements;
+        properties.elements = sanitizedElements;
     }
     if (hasValue(dotNetObject.initialState)) {
-        jsGroupElement.initialState = dotNetObject.initialState;
+        properties.initialState = dotNetObject.initialState;
     }
     if (hasValue(dotNetObject.label)) {
-        jsGroupElement.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.visibilityExpression)) {
-        jsGroupElement.visibilityExpression = dotNetObject.visibilityExpression;
+        properties.visibilityExpression = dotNetObject.visibilityExpression;
     }
+    let jsGroupElement = new GroupElement(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGroupElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGroupElement;

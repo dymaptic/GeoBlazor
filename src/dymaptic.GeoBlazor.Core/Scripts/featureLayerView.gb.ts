@@ -76,26 +76,27 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerView = new FeatureLayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        jsFeatureLayerView.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+        properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsFeatureLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsFeatureLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
-        jsFeatureLayerView.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
+        properties.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
     }
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
-        jsFeatureLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
+        properties.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    let jsFeatureLayerView = new FeatureLayerView(properties);
 
     let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
     let featureLayerViewWrapper = new FeatureLayerViewWrapper(jsFeatureLayerView);

@@ -431,158 +431,159 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageryLayer = new ImageryLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
-        jsImageryLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+        properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsImageryLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageryLayer.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        jsImageryLayer.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
-        jsImageryLayer.pixelFilter = (pixelData) => {
+        properties.pixelFilter = (pixelData) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', pixelData);
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsImageryLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsImageryLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageryLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsImageryLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageryLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsImageryLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.bandIds)) {
-        jsImageryLayer.bandIds = dotNetObject.bandIds;
+        properties.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsImageryLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsImageryLayer.capabilities = sanitizedCapabilities;
+        properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.compressionQuality)) {
-        jsImageryLayer.compressionQuality = dotNetObject.compressionQuality;
+        properties.compressionQuality = dotNetObject.compressionQuality;
     }
     if (hasValue(dotNetObject.compressionTolerance)) {
-        jsImageryLayer.compressionTolerance = dotNetObject.compressionTolerance;
+        properties.compressionTolerance = dotNetObject.compressionTolerance;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsImageryLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customParameters)) {
-        jsImageryLayer.customParameters = dotNetObject.customParameters;
+        properties.customParameters = dotNetObject.customParameters;
     }
     if (hasValue(dotNetObject.definitionExpression)) {
-        jsImageryLayer.definitionExpression = dotNetObject.definitionExpression;
+        properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsImageryLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.format)) {
-        jsImageryLayer.format = dotNetObject.format;
+        properties.format = dotNetObject.format;
     }
     if (hasValue(dotNetObject.hasMultidimensions)) {
-        jsImageryLayer.hasMultidimensions = dotNetObject.hasMultidimensions;
+        properties.hasMultidimensions = dotNetObject.hasMultidimensions;
     }
     if (hasValue(dotNetObject.imageMaxHeight)) {
-        jsImageryLayer.imageMaxHeight = dotNetObject.imageMaxHeight;
+        properties.imageMaxHeight = dotNetObject.imageMaxHeight;
     }
     if (hasValue(dotNetObject.imageMaxWidth)) {
-        jsImageryLayer.imageMaxWidth = dotNetObject.imageMaxWidth;
+        properties.imageMaxWidth = dotNetObject.imageMaxWidth;
     }
     if (hasValue(dotNetObject.interpolation)) {
-        jsImageryLayer.interpolation = dotNetObject.interpolation;
+        properties.interpolation = dotNetObject.interpolation;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsImageryLayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsImageryLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsImageryLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsImageryLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.noData)) {
-        jsImageryLayer.noData = dotNetObject.noData;
+        properties.noData = dotNetObject.noData;
     }
     if (hasValue(dotNetObject.noDataInterpretation)) {
-        jsImageryLayer.noDataInterpretation = dotNetObject.noDataInterpretation;
+        properties.noDataInterpretation = dotNetObject.noDataInterpretation;
     }
     if (hasValue(dotNetObject.objectIdField)) {
-        jsImageryLayer.objectIdField = dotNetObject.objectIdField;
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsImageryLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsImageryLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.pixelType)) {
-        jsImageryLayer.pixelType = dotNetObject.pixelType;
+        properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsImageryLayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
-        jsImageryLayer.rasterFunction = sanitizedRasterFunction;
+        properties.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsImageryLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.renderer)) {
-        jsImageryLayer.renderer = dotNetObject.renderer;
+        properties.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
-        jsImageryLayer.renderingRule = sanitizedRenderingRule;
+        properties.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
-        jsImageryLayer.sourceJSON = dotNetObject.sourceJSON;
+        properties.sourceJSON = dotNetObject.sourceJSON;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        jsImageryLayer.timeOffset = sanitizedTimeOffset;
+        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
-        jsImageryLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsImageryLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.useViewTime)) {
-        jsImageryLayer.useViewTime = dotNetObject.useViewTime;
+        properties.useViewTime = dotNetObject.useViewTime;
     }
+    let jsImageryLayer = new ImageryLayer(properties);
     jsImageryLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });

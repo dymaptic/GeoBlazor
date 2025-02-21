@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSymbolOptions } from './univariateColorSizeCreateContinuousRendererParamsSymbolOptions';
 
 export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsSymbolOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions: any = {}
+    let jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions: any = {};
     if (hasValue(dotNetObject.symbols)) {
         let { buildJsUnivariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols } = await import('./univariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols');
         jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions.symbols = await buildJsUnivariateColorSizeCreateContinuousRendererParamsSymbolOptionsSymbols(dotNetObject.symbols, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsSy
         jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions.symbolStyle = dotNetObject.symbolStyle;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsunivariateColorSizeCreateContinuousRendererParamsSymbolOptions;

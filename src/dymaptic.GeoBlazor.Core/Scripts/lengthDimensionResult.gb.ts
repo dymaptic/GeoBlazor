@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLengthDimensionResult } from './lengthDimensionResult';
 
 export async function buildJsLengthDimensionResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLengthDimensionResult = new LengthDimensionResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.dimension)) {
         let { buildJsLengthDimension } = await import('./lengthDimension');
-        jsLengthDimensionResult.dimension = await buildJsLengthDimension(dotNetObject.dimension, layerId, viewId) as any;
+        properties.dimension = await buildJsLengthDimension(dotNetObject.dimension, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.length)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLength } = dotNetObject.length;
-        jsLengthDimensionResult.length = sanitizedLength;
+        properties.length = sanitizedLength;
     }
+    let jsLengthDimensionResult = new LengthDimensionResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLengthDimensionResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLengthDimensionResult;

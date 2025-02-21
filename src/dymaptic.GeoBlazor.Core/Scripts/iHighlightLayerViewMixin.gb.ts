@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIHighlightLayerViewMixin } from './iHighlightLayerViewMixin';
 
 export async function buildJsIHighlightLayerViewMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHighlightLayerViewMixin = new HighlightLayerViewMixin();
+    let properties: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsHighlightLayerViewMixin.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
 
+    let jsHighlightLayerViewMixin = new HighlightLayerViewMixin(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHighlightLayerViewMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightLayerViewMixin;

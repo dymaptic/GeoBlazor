@@ -46,7 +46,7 @@ export default class RelationshipRendererCreatorGenerated implements IPropertyWr
 
 
 export async function buildJsRelationshipRendererCreatorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrelationship: any = {}
+    let jsrelationship: any = {};
 
 
     let { default: RelationshipRendererCreatorWrapper } = await import('./relationshipRendererCreator');

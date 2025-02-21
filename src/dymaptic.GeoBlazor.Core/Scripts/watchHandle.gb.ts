@@ -36,7 +36,7 @@ export default class WatchHandleGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWatchHandleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWatchHandle: any = {}
+    let jsWatchHandle: any = {};
 
 
     let { default: WatchHandleWrapper } = await import('./watchHandle');

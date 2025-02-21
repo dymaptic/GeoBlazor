@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocalBasemapsSource } from './localBasemapsSource';
 
 export async function buildJsLocalBasemapsSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocalBasemapsSource = new LocalBasemapsSource();
+    let properties: any = {};
     if (hasValue(dotNetObject.basemaps)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsLocalBasemapsSource.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
+        properties.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
     }
 
+    let jsLocalBasemapsSource = new LocalBasemapsSource(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLocalBasemapsSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocalBasemapsSource;

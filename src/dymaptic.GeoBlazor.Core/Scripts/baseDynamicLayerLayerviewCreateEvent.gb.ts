@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBaseDynamicLayerLayerviewCreateEvent } from './baseDynamicLayerLayerviewCreateEvent';
 
 export async function buildJsBaseDynamicLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBaseDynamicLayerLayerviewCreateEvent: any = {}
+    let jsBaseDynamicLayerLayerviewCreateEvent: any = {};
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsBaseDynamicLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBaseDynamicLayerLayerviewCreateEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseDynamicLayerLayerviewCreateEvent;

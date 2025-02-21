@@ -4,60 +4,60 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClosestFacilitySolveResult } from './closestFacilitySolveResult';
 
 export async function buildJsClosestFacilitySolveResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClosestFacilitySolveResult = new ClosestFacilitySolveResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.directionLines)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.directionLines = buildJsFeatureSet(dotNetObject.directionLines) as any;
+        properties.directionLines = buildJsFeatureSet(dotNetObject.directionLines) as any;
     }
     if (hasValue(dotNetObject.directionPoints)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.directionPoints = buildJsFeatureSet(dotNetObject.directionPoints) as any;
+        properties.directionPoints = buildJsFeatureSet(dotNetObject.directionPoints) as any;
     }
     if (hasValue(dotNetObject.facilities)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.facilities = buildJsFeatureSet(dotNetObject.facilities) as any;
+        properties.facilities = buildJsFeatureSet(dotNetObject.facilities) as any;
     }
     if (hasValue(dotNetObject.incidents)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.incidents = buildJsFeatureSet(dotNetObject.incidents) as any;
+        properties.incidents = buildJsFeatureSet(dotNetObject.incidents) as any;
     }
     if (hasValue(dotNetObject.pointBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.pointBarriers = buildJsFeatureSet(dotNetObject.pointBarriers) as any;
+        properties.pointBarriers = buildJsFeatureSet(dotNetObject.pointBarriers) as any;
     }
     if (hasValue(dotNetObject.polygonBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.polygonBarriers = buildJsFeatureSet(dotNetObject.polygonBarriers) as any;
+        properties.polygonBarriers = buildJsFeatureSet(dotNetObject.polygonBarriers) as any;
     }
     if (hasValue(dotNetObject.polylineBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.polylineBarriers = buildJsFeatureSet(dotNetObject.polylineBarriers) as any;
+        properties.polylineBarriers = buildJsFeatureSet(dotNetObject.polylineBarriers) as any;
     }
     if (hasValue(dotNetObject.routes)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.routes = buildJsFeatureSet(dotNetObject.routes) as any;
+        properties.routes = buildJsFeatureSet(dotNetObject.routes) as any;
     }
     if (hasValue(dotNetObject.traversedEdges)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.traversedEdges = buildJsFeatureSet(dotNetObject.traversedEdges) as any;
+        properties.traversedEdges = buildJsFeatureSet(dotNetObject.traversedEdges) as any;
     }
     if (hasValue(dotNetObject.traversedJunctions)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.traversedJunctions = buildJsFeatureSet(dotNetObject.traversedJunctions) as any;
+        properties.traversedJunctions = buildJsFeatureSet(dotNetObject.traversedJunctions) as any;
     }
     if (hasValue(dotNetObject.traversedTurns)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsClosestFacilitySolveResult.traversedTurns = buildJsFeatureSet(dotNetObject.traversedTurns) as any;
+        properties.traversedTurns = buildJsFeatureSet(dotNetObject.traversedTurns) as any;
     }
 
     if (hasValue(dotNetObject.directions)) {
-        jsClosestFacilitySolveResult.directions = dotNetObject.directions;
+        properties.directions = dotNetObject.directions;
     }
     if (hasValue(dotNetObject.messages)) {
-        jsClosestFacilitySolveResult.messages = dotNetObject.messages;
+        properties.messages = dotNetObject.messages;
     }
+    let jsClosestFacilitySolveResult = new ClosestFacilitySolveResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsClosestFacilitySolveResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsClosestFacilitySolveResult;

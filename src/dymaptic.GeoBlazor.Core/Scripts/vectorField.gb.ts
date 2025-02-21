@@ -38,7 +38,7 @@ export default class VectorFieldGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVectorFieldGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsvectorField: any = {}
+    let jsvectorField: any = {};
 
 
     let { default: VectorFieldWrapper } = await import('./vectorField');

@@ -65,19 +65,20 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerListViewModel = new LayerListViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        jsLayerListViewModel.listItemCreatedFunction = (event) => {
+        properties.listItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
 
     if (hasValue(dotNetObject.checkPublishStatusEnabled)) {
-        jsLayerListViewModel.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
+        properties.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
     }
     if (hasValue(dotNetObject.listModeDisabled)) {
-        jsLayerListViewModel.listModeDisabled = dotNetObject.listModeDisabled;
+        properties.listModeDisabled = dotNetObject.listModeDisabled;
     }
+    let jsLayerListViewModel = new LayerListViewModel(properties);
     jsLayerListViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });

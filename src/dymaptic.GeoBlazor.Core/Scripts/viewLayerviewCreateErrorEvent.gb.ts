@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewLayerviewCreateErrorEvent } from './viewLayerviewCreateErrorEvent';
 
 export async function buildJsViewLayerviewCreateErrorEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewLayerviewCreateErrorEvent: any = {}
+    let jsViewLayerviewCreateErrorEvent: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsViewLayerviewCreateErrorEvent.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsViewLayerviewCreateErrorEventGenerated(dotNetObject
         jsViewLayerviewCreateErrorEvent.error = dotNetObject.error;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewLayerviewCreateErrorEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewLayerviewCreateErrorEvent;

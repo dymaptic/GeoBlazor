@@ -78,9 +78,9 @@ export default class BinaryColorSizeSliderViewModelGenerated implements IPropert
 
 
 export async function buildJsBinaryColorSizeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBinaryColorSizeSliderViewModel = new BinaryColorSizeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsBinaryColorSizeSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -92,7 +92,7 @@ export async function buildJsBinaryColorSizeSliderViewModelGenerated(dotNetObjec
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsBinaryColorSizeSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -104,7 +104,7 @@ export async function buildJsBinaryColorSizeSliderViewModelGenerated(dotNetObjec
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsBinaryColorSizeSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -117,45 +117,46 @@ export async function buildJsBinaryColorSizeSliderViewModelGenerated(dotNetObjec
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsBinaryColorSizeSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsBinaryColorSizeSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsBinaryColorSizeSliderViewModel.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.max)) {
-        jsBinaryColorSizeSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsBinaryColorSizeSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.persistSizeRangeEnabled)) {
-        jsBinaryColorSizeSliderViewModel.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
+        properties.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsBinaryColorSizeSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
-        jsBinaryColorSizeSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
+        properties.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsBinaryColorSizeSliderViewModel.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsBinaryColorSizeSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsBinaryColorSizeSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsBinaryColorSizeSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsBinaryColorSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsBinaryColorSizeSliderViewModel = new BinaryColorSizeSliderViewModel(properties);
 
     let { default: BinaryColorSizeSliderViewModelWrapper } = await import('./binaryColorSizeSliderViewModel');
     let binaryColorSizeSliderViewModelWrapper = new BinaryColorSizeSliderViewModelWrapper(jsBinaryColorSizeSliderViewModel);

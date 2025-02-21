@@ -36,7 +36,7 @@ export default class HighlightHandleGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHighlightHandleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHandle: any = {}
+    let jsHandle: any = {};
 
 
     let { default: HighlightHandleWrapper } = await import('./highlightHandle');

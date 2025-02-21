@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemeForPolygon } from './relationshipSchemeForPolygon';
 
 export async function buildJsRelationshipSchemeForPolygonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemeForPolygon: any = {}
+    let jsRelationshipSchemeForPolygon: any = {};
     if (hasValue(dotNetObject.colorsForClassBreaks)) {
         let { buildJsRelationshipSchemeForPolygonColorsForClassBreaks } = await import('./relationshipSchemeForPolygonColorsForClassBreaks');
         jsRelationshipSchemeForPolygon.colorsForClassBreaks = await Promise.all(dotNetObject.colorsForClassBreaks.map(async i => await buildJsRelationshipSchemeForPolygonColorsForClassBreaks(i, layerId, viewId))) as any;
@@ -30,7 +30,6 @@ export async function buildJsRelationshipSchemeForPolygonGenerated(dotNetObject:
         jsRelationshipSchemeForPolygon.tags = dotNetObject.tags;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemeForPolygon);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemeForPolygon;

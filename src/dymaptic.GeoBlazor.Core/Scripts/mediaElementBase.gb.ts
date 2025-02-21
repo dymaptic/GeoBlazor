@@ -4,16 +4,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMediaElementBase } from './mediaElementBase';
 
 export async function buildJsMediaElementBaseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMediaElementBase = new MediaElementBase();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.georeference)) {
-        jsMediaElementBase.georeference = dotNetObject.georeference;
+        properties.georeference = dotNetObject.georeference;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsMediaElementBase.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
+    let jsMediaElementBase = new MediaElementBase(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMediaElementBase);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMediaElementBase;

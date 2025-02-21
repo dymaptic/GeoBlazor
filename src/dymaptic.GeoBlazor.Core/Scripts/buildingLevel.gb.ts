@@ -52,11 +52,12 @@ export default class BuildingLevelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBuildingLevelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingLevel = new BuildingLevel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.allowedValues)) {
-        jsBuildingLevel.allowedValues = dotNetObject.allowedValues;
+        properties.allowedValues = dotNetObject.allowedValues;
     }
+    let jsBuildingLevel = new BuildingLevel(properties);
 
     let { default: BuildingLevelWrapper } = await import('./buildingLevel');
     let buildingLevelWrapper = new BuildingLevelWrapper(jsBuildingLevel);

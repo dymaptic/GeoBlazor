@@ -4,22 +4,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPlacesQueryResult } from './placesQueryResult';
 
 export async function buildJsPlacesQueryResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPlacesQueryResult = new PlacesQueryResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.nextQueryParams)) {
         let { buildJsPlacesQueryParameters } = await import('./placesQueryParameters');
-        jsPlacesQueryResult.nextQueryParams = await buildJsPlacesQueryParameters(dotNetObject.nextQueryParams, layerId, viewId) as any;
+        properties.nextQueryParams = await buildJsPlacesQueryParameters(dotNetObject.nextQueryParams, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.previousQueryParams)) {
         let { buildJsPlacesQueryParameters } = await import('./placesQueryParameters');
-        jsPlacesQueryResult.previousQueryParams = await buildJsPlacesQueryParameters(dotNetObject.previousQueryParams, layerId, viewId) as any;
+        properties.previousQueryParams = await buildJsPlacesQueryParameters(dotNetObject.previousQueryParams, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.results)) {
         let { buildJsPlaceResult } = await import('./placeResult');
-        jsPlacesQueryResult.results = await Promise.all(dotNetObject.results.map(async i => await buildJsPlaceResult(i, layerId, viewId))) as any;
+        properties.results = await Promise.all(dotNetObject.results.map(async i => await buildJsPlaceResult(i, layerId, viewId))) as any;
     }
 
+    let jsPlacesQueryResult = new PlacesQueryResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPlacesQueryResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPlacesQueryResult;

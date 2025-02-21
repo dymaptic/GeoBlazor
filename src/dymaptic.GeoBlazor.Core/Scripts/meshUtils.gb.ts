@@ -88,7 +88,7 @@ export default class MeshUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsMeshUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsmeshUtils: any = {}
+    let jsmeshUtils: any = {};
 
 
     let { default: MeshUtilsWrapper } = await import('./meshUtils');

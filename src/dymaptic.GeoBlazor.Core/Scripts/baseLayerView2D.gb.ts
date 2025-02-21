@@ -72,12 +72,13 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBaseLayerView2D = new BaseLayerView2D();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.tiles)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
-        jsBaseLayerView2D.tiles = sanitizedTiles;
+        properties.tiles = sanitizedTiles;
     }
+    let jsBaseLayerView2D = new BaseLayerView2D(properties);
 
     let { default: BaseLayerView2DWrapper } = await import('./baseLayerView2D');
     let baseLayerView2DWrapper = new BaseLayerView2DWrapper(jsBaseLayerView2D);

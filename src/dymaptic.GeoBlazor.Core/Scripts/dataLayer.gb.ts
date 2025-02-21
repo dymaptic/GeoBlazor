@@ -48,27 +48,28 @@ export default class DataLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDataLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDataLayer = new DataLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsDataLayer.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.doNotLocateOnRestrictedElements)) {
-        jsDataLayer.doNotLocateOnRestrictedElements = dotNetObject.doNotLocateOnRestrictedElements;
+        properties.doNotLocateOnRestrictedElements = dotNetObject.doNotLocateOnRestrictedElements;
     }
     if (hasValue(dotNetObject.geometryType)) {
-        jsDataLayer.geometryType = dotNetObject.geometryType;
+        properties.geometryType = dotNetObject.geometryType;
     }
     if (hasValue(dotNetObject.name)) {
-        jsDataLayer.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.spatialRelationship)) {
-        jsDataLayer.spatialRelationship = dotNetObject.spatialRelationship;
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
     }
     if (hasValue(dotNetObject.where)) {
-        jsDataLayer.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsDataLayer = new DataLayer(properties);
 
     let { default: DataLayerWrapper } = await import('./dataLayer');
     let dataLayerWrapper = new DataLayerWrapper(jsDataLayer);

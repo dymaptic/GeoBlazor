@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSymbolTableElementInfo } from './symbolTableElementInfo';
 
 export async function buildJsSymbolTableElementInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSymbolTableElementInfo: any = {}
+    let jsSymbolTableElementInfo: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsSymbolTableElementInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -22,7 +22,6 @@ export async function buildJsSymbolTableElementInfoGenerated(dotNetObject: any, 
         jsSymbolTableElementInfo.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSymbolTableElementInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSymbolTableElementInfo;

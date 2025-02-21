@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetScaleDependentStops } from './scaleDependentStops';
 
 export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleDependentStops: any = {}
+    let jsScaleDependentStops: any = {};
 
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
@@ -16,7 +16,6 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
         jsScaleDependentStops.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsScaleDependentStops);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentStops;

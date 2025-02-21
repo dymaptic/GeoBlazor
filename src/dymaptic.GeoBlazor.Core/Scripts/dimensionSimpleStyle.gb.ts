@@ -4,28 +4,28 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDimensionSimpleStyle } from './dimensionSimpleStyle';
 
 export async function buildJsDimensionSimpleStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDimensionSimpleStyle = new DimensionSimpleStyle();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsDimensionSimpleStyle.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
     if (hasValue(dotNetObject.textBackgroundColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsDimensionSimpleStyle.textBackgroundColor = buildJsMapColor(dotNetObject.textBackgroundColor) as any;
+        properties.textBackgroundColor = buildJsMapColor(dotNetObject.textBackgroundColor) as any;
     }
     if (hasValue(dotNetObject.textColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsDimensionSimpleStyle.textColor = buildJsMapColor(dotNetObject.textColor) as any;
+        properties.textColor = buildJsMapColor(dotNetObject.textColor) as any;
     }
 
     if (hasValue(dotNetObject.fontSize)) {
-        jsDimensionSimpleStyle.fontSize = dotNetObject.fontSize;
+        properties.fontSize = dotNetObject.fontSize;
     }
     if (hasValue(dotNetObject.lineSize)) {
-        jsDimensionSimpleStyle.lineSize = dotNetObject.lineSize;
+        properties.lineSize = dotNetObject.lineSize;
     }
+    let jsDimensionSimpleStyle = new DimensionSimpleStyle(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDimensionSimpleStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionSimpleStyle;

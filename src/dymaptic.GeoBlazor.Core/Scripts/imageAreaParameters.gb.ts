@@ -4,30 +4,30 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageAreaParameters } from './imageAreaParameters';
 
 export async function buildJsImageAreaParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageAreaParameters = new ImageAreaParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageAreaParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageAreaParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.areaUnit)) {
-        jsImageAreaParameters.areaUnit = dotNetObject.areaUnit;
+        properties.areaUnit = dotNetObject.areaUnit;
     }
     if (hasValue(dotNetObject.is3D)) {
-        jsImageAreaParameters.is3D = dotNetObject.is3D;
+        properties.is3D = dotNetObject.is3D;
     }
     if (hasValue(dotNetObject.linearUnit)) {
-        jsImageAreaParameters.linearUnit = dotNetObject.linearUnit;
+        properties.linearUnit = dotNetObject.linearUnit;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageAreaParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
+    let jsImageAreaParameters = new ImageAreaParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageAreaParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageAreaParameters;

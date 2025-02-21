@@ -64,7 +64,7 @@ export default class ExternalRenderersGenerated implements IPropertyWrapper {
 
 
 export async function buildJsExternalRenderersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsexternalRenderers: any = {}
+    let jsexternalRenderers: any = {};
 
 
     let { default: ExternalRenderersWrapper } = await import('./externalRenderers');

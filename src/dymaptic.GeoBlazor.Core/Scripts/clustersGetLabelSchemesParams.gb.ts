@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClustersGetLabelSchemesParams } from './clustersGetLabelSchemesParams';
 
 export async function buildJsClustersGetLabelSchemesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclustersGetLabelSchemesParams: any = {}
+    let jsclustersGetLabelSchemesParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsclustersGetLabelSchemesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -17,7 +17,6 @@ export async function buildJsClustersGetLabelSchemesParamsGenerated(dotNetObject
         jsclustersGetLabelSchemesParams.field = dotNetObject.field;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclustersGetLabelSchemesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsclustersGetLabelSchemesParams;

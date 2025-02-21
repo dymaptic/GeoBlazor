@@ -56,7 +56,7 @@ export default class ColorRampsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsColorRampsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorRamps: any = {}
+    let jscolorRamps: any = {};
 
 
     let { default: ColorRampsWrapper } = await import('./colorRamps');

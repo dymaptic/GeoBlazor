@@ -4,13 +4,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureSnappingLayerSource } from './featureSnappingLayerSource';
 
 export async function buildJsFeatureSnappingLayerSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureSnappingLayerSource = new FeatureSnappingLayerSource();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.enabled)) {
-        jsFeatureSnappingLayerSource.enabled = dotNetObject.enabled;
+        properties.enabled = dotNetObject.enabled;
     }
+    let jsFeatureSnappingLayerSource = new FeatureSnappingLayerSource(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureSnappingLayerSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureSnappingLayerSource;

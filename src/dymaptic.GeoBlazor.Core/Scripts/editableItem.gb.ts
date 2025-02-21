@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEditableItem } from './editableItem';
 
 export async function buildJsEditableItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEditableItem: any = {}
+    let jsEditableItem: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsEditableItem.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -31,7 +31,6 @@ export async function buildJsEditableItemGenerated(dotNetObject: any, layerId: s
         jsEditableItem.supports = dotNetObject.supports;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsEditableItem);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditableItem;

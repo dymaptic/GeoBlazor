@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageSample } from './imageSample';
 
 export async function buildJsImageSampleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageSample = new ImageSample();
+    let properties: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsImageSample.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
     if (hasValue(dotNetObject.attributes)) {
-        jsImageSample.attributes = dotNetObject.attributes;
+        properties.attributes = dotNetObject.attributes;
     }
     if (hasValue(dotNetObject.locationId)) {
-        jsImageSample.locationId = dotNetObject.locationId;
+        properties.locationId = dotNetObject.locationId;
     }
     if (hasValue(dotNetObject.pixelValue)) {
-        jsImageSample.pixelValue = dotNetObject.pixelValue;
+        properties.pixelValue = dotNetObject.pixelValue;
     }
     if (hasValue(dotNetObject.rasterId)) {
-        jsImageSample.rasterId = dotNetObject.rasterId;
+        properties.rasterId = dotNetObject.rasterId;
     }
     if (hasValue(dotNetObject.resolution)) {
-        jsImageSample.resolution = dotNetObject.resolution;
+        properties.resolution = dotNetObject.resolution;
     }
+    let jsImageSample = new ImageSample(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageSample);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageSample;

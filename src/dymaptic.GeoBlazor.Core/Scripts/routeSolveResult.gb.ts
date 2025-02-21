@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteSolveResult } from './routeSolveResult';
 
 export async function buildJsRouteSolveResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteSolveResult = new RouteSolveResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.pointBarriers)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsRouteSolveResult.pointBarriers = dotNetObject.pointBarriers.map(i => buildJsGraphic(i)) as any;
+        properties.pointBarriers = dotNetObject.pointBarriers.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.polygonBarriers)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsRouteSolveResult.polygonBarriers = dotNetObject.polygonBarriers.map(i => buildJsGraphic(i)) as any;
+        properties.polygonBarriers = dotNetObject.polygonBarriers.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.polylineBarriers)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsRouteSolveResult.polylineBarriers = dotNetObject.polylineBarriers.map(i => buildJsGraphic(i)) as any;
+        properties.polylineBarriers = dotNetObject.polylineBarriers.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.routeResults)) {
         let { buildJsRouteResult } = await import('./routeResult');
-        jsRouteSolveResult.routeResults = await Promise.all(dotNetObject.routeResults.map(async i => await buildJsRouteResult(i, layerId, viewId))) as any;
+        properties.routeResults = await Promise.all(dotNetObject.routeResults.map(async i => await buildJsRouteResult(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.messages)) {
-        jsRouteSolveResult.messages = dotNetObject.messages;
+        properties.messages = dotNetObject.messages;
     }
+    let jsRouteSolveResult = new RouteSolveResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteSolveResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSolveResult;

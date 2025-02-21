@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFlowScheme } from './flowScheme';
 
 export async function buildJsFlowSchemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFlowScheme: any = {}
+    let jsFlowScheme: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsFlowScheme.color = buildJsMapColor(dotNetObject.color) as any;
@@ -57,7 +57,6 @@ export async function buildJsFlowSchemeGenerated(dotNetObject: any, layerId: str
         jsFlowScheme.trailWidth = dotNetObject.trailWidth;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFlowScheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFlowScheme;

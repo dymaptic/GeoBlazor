@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureReference } from './featureReference';
 
 export async function buildJsFeatureReferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureReference: any = {}
+    let jsFeatureReference: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsFeatureReferenceLayer } = await import('./featureReferenceLayer');
         jsFeatureReference.layer = await buildJsFeatureReferenceLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsFeatureReferenceGenerated(dotNetObject: any, layerI
         jsFeatureReference.attributes = dotNetObject.attributes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureReference);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReference;

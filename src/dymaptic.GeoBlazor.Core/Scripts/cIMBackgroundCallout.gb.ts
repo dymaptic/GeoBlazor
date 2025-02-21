@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMBackgroundCallout } from './cIMBackgroundCallout';
 
 export async function buildJsCIMBackgroundCalloutGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMBackgroundCallout: any = {}
+    let jsCIMBackgroundCallout: any = {};
     if (hasValue(dotNetObject.backgroundSymbol)) {
         let { buildJsCIMPolygonSymbol } = await import('./cIMPolygonSymbol');
         jsCIMBackgroundCallout.backgroundSymbol = await buildJsCIMPolygonSymbol(dotNetObject.backgroundSymbol, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMBackgroundCallout);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMBackgroundCallout;

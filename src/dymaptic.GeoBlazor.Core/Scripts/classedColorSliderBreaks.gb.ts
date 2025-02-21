@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClassedColorSliderBreaks } from './classedColorSliderBreaks';
 
 export async function buildJsClassedColorSliderBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassedColorSliderBreaks: any = {}
+    let jsClassedColorSliderBreaks: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsClassedColorSliderBreaks.color = buildJsMapColor(dotNetObject.color) as any;
@@ -16,7 +16,6 @@ export async function buildJsClassedColorSliderBreaksGenerated(dotNetObject: any
         jsClassedColorSliderBreaks.min = dotNetObject.min;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsClassedColorSliderBreaks);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsClassedColorSliderBreaks;

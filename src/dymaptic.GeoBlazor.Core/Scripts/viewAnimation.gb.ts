@@ -52,12 +52,13 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
 
 
 export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewAnimation = new ViewAnimation();
+    let properties: any = {};
     if (hasValue(dotNetObject.target)) {
         let { buildJsViewpoint } = await import('./viewpoint');
-        jsViewAnimation.target = buildJsViewpoint(dotNetObject.target) as any;
+        properties.target = buildJsViewpoint(dotNetObject.target) as any;
     }
 
+    let jsViewAnimation = new ViewAnimation(properties);
 
     let { default: ViewAnimationWrapper } = await import('./viewAnimation');
     let viewAnimationWrapper = new ViewAnimationWrapper(jsViewAnimation);

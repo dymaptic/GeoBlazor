@@ -80,7 +80,7 @@ export default class WebglGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWebglGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jswebgl: any = {}
+    let jswebgl: any = {};
 
 
     let { default: WebglWrapper } = await import('./webgl');

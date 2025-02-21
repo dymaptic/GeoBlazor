@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSchemes } from './schemes';
 
 export async function buildJsSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSchemes: any = {}
+    let jsSchemes: any = {};
     if (hasValue(dotNetObject.primaryScheme)) {
         let { buildJsScheme } = await import('./scheme');
         jsSchemes.primaryScheme = await buildJsScheme(dotNetObject.primaryScheme, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsSchemesGenerated(dotNetObject: any, layerId: string
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSchemes;

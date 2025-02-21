@@ -4,50 +4,50 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMosaicRule } from './mosaicRule';
 
 export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMosaicRule = new MosaicRule();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsPoint } = await import('./point');
-        jsMosaicRule.viewpoint = buildJsPoint(dotNetObject.viewpoint) as any;
+        properties.viewpoint = buildJsPoint(dotNetObject.viewpoint) as any;
     }
 
     if (hasValue(dotNetObject.ascending)) {
-        jsMosaicRule.ascending = dotNetObject.ascending;
+        properties.ascending = dotNetObject.ascending;
     }
     if (hasValue(dotNetObject.itemRasterFunction)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItemRasterFunction } = dotNetObject.itemRasterFunction;
-        jsMosaicRule.itemRasterFunction = sanitizedItemRasterFunction;
+        properties.itemRasterFunction = sanitizedItemRasterFunction;
     }
     if (hasValue(dotNetObject.itemRenderingRule)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItemRenderingRule } = dotNetObject.itemRenderingRule;
-        jsMosaicRule.itemRenderingRule = sanitizedItemRenderingRule;
+        properties.itemRenderingRule = sanitizedItemRenderingRule;
     }
     if (hasValue(dotNetObject.lockRasterIds)) {
-        jsMosaicRule.lockRasterIds = dotNetObject.lockRasterIds;
+        properties.lockRasterIds = dotNetObject.lockRasterIds;
     }
     if (hasValue(dotNetObject.method)) {
-        jsMosaicRule.method = dotNetObject.method;
+        properties.method = dotNetObject.method;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
-        jsMosaicRule.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
+        properties.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsMosaicRule.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.operation)) {
-        jsMosaicRule.operation = dotNetObject.operation;
+        properties.operation = dotNetObject.operation;
     }
     if (hasValue(dotNetObject.sortField)) {
-        jsMosaicRule.sortField = dotNetObject.sortField;
+        properties.sortField = dotNetObject.sortField;
     }
     if (hasValue(dotNetObject.sortValue)) {
-        jsMosaicRule.sortValue = dotNetObject.sortValue;
+        properties.sortValue = dotNetObject.sortValue;
     }
     if (hasValue(dotNetObject.where)) {
-        jsMosaicRule.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsMosaicRule = new MosaicRule(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMosaicRule);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMosaicRule;

@@ -36,18 +36,19 @@ export default class ISearchLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchLayer = new SearchLayer();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedField } = dotNetObject.field;
-        jsSearchLayer.field = sanitizedField;
+        properties.field = sanitizedField;
     }
     if (hasValue(dotNetObject.iSearchLayerId)) {
-        jsSearchLayer.id = dotNetObject.iSearchLayerId;
+        properties.id = dotNetObject.iSearchLayerId;
     }
     if (hasValue(dotNetObject.subLayer)) {
-        jsSearchLayer.subLayer = dotNetObject.subLayer;
+        properties.subLayer = dotNetObject.subLayer;
     }
+    let jsSearchLayer = new SearchLayer(properties);
 
     let { default: ISearchLayerWrapper } = await import('./iSearchLayer');
     let iSearchLayerWrapper = new ISearchLayerWrapper(jsSearchLayer);

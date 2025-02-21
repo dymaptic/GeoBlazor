@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchViewModelSearchResponseResults } from './searchViewModelSearchResponseResults';
 
 export async function buildJsSearchViewModelSearchResponseResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchViewModelSearchResponseResults: any = {}
+    let jsSearchViewModelSearchResponseResults: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsSearchViewModelSearchResult } = await import('./searchViewModelSearchResult');
         jsSearchViewModelSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchViewModelSearchResult(i, layerId, viewId))) as any;
@@ -16,7 +16,6 @@ export async function buildJsSearchViewModelSearchResponseResultsGenerated(dotNe
         jsSearchViewModelSearchResponseResults.sourceIndex = dotNetObject.sourceIndex;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelSearchResponseResults);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSearchResponseResults;

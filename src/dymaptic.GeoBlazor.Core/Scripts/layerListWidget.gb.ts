@@ -75,64 +75,65 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerList = new LayerList();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        jsLayerList.listItemCreatedFunction = (event) => {
+        properties.listItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {
         let { buildJsListItem } = await import('./listItem');
-        jsLayerList.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
+        properties.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLayerListViewModel } = await import('./layerListViewModel');
-        jsLayerList.viewModel = await buildJsLayerListViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsLayerListViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.catalogOptions)) {
-        jsLayerList.catalogOptions = dotNetObject.catalogOptions;
+        properties.catalogOptions = dotNetObject.catalogOptions;
     }
     if (hasValue(dotNetObject.collapsed)) {
-        jsLayerList.collapsed = dotNetObject.collapsed;
+        properties.collapsed = dotNetObject.collapsed;
     }
     if (hasValue(dotNetObject.dragEnabled)) {
-        jsLayerList.dragEnabled = dotNetObject.dragEnabled;
+        properties.dragEnabled = dotNetObject.dragEnabled;
     }
     if (hasValue(dotNetObject.filterPlaceholder)) {
-        jsLayerList.filterPlaceholder = dotNetObject.filterPlaceholder;
+        properties.filterPlaceholder = dotNetObject.filterPlaceholder;
     }
     if (hasValue(dotNetObject.filterText)) {
-        jsLayerList.filterText = dotNetObject.filterText;
+        properties.filterText = dotNetObject.filterText;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsLayerList.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
-        jsLayerList.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
+        properties.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
     }
     if (hasValue(dotNetObject.minDragEnabledItems)) {
-        jsLayerList.minDragEnabledItems = dotNetObject.minDragEnabledItems;
+        properties.minDragEnabledItems = dotNetObject.minDragEnabledItems;
     }
     if (hasValue(dotNetObject.minFilterItems)) {
-        jsLayerList.minFilterItems = dotNetObject.minFilterItems;
+        properties.minFilterItems = dotNetObject.minFilterItems;
     }
     if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        jsLayerList.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
+        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
     }
     if (hasValue(dotNetObject.selectionEnabled)) {
-        jsLayerList.selectionEnabled = dotNetObject.selectionEnabled;
+        properties.selectionEnabled = dotNetObject.selectionEnabled;
     }
     if (hasValue(dotNetObject.selectionMode)) {
-        jsLayerList.selectionMode = dotNetObject.selectionMode;
+        properties.selectionMode = dotNetObject.selectionMode;
     }
     if (hasValue(dotNetObject.visibilityAppearance)) {
-        jsLayerList.visibilityAppearance = dotNetObject.visibilityAppearance;
+        properties.visibilityAppearance = dotNetObject.visibilityAppearance;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsLayerList.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsLayerList = new LayerList(properties);
     jsLayerList.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });

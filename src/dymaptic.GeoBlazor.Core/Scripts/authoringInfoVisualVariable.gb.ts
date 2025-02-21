@@ -4,48 +4,48 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
 export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable();
+    let properties: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
-        jsAuthoringInfoVisualVariable.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+        properties.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.endTime)) {
-        jsAuthoringInfoVisualVariable.endTime = dotNetObject.endTime;
+        properties.endTime = dotNetObject.endTime;
     }
     if (hasValue(dotNetObject.field)) {
-        jsAuthoringInfoVisualVariable.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.maxSliderValue)) {
-        jsAuthoringInfoVisualVariable.maxSliderValue = dotNetObject.maxSliderValue;
+        properties.maxSliderValue = dotNetObject.maxSliderValue;
     }
     if (hasValue(dotNetObject.minSliderValue)) {
-        jsAuthoringInfoVisualVariable.minSliderValue = dotNetObject.minSliderValue;
+        properties.minSliderValue = dotNetObject.minSliderValue;
     }
     if (hasValue(dotNetObject.normalizationField)) {
-        jsAuthoringInfoVisualVariable.normalizationField = dotNetObject.normalizationField;
+        properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.referenceSizeScale)) {
-        jsAuthoringInfoVisualVariable.referenceSizeScale = dotNetObject.referenceSizeScale;
+        properties.referenceSizeScale = dotNetObject.referenceSizeScale;
     }
     if (hasValue(dotNetObject.referenceSizeSymbolStyle)) {
-        jsAuthoringInfoVisualVariable.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
+        properties.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
     }
     if (hasValue(dotNetObject.sizeStops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSizeStops } = dotNetObject.sizeStops;
-        jsAuthoringInfoVisualVariable.sizeStops = sanitizedSizeStops;
+        properties.sizeStops = sanitizedSizeStops;
     }
     if (hasValue(dotNetObject.startTime)) {
-        jsAuthoringInfoVisualVariable.startTime = dotNetObject.startTime;
+        properties.startTime = dotNetObject.startTime;
     }
     if (hasValue(dotNetObject.style)) {
-        jsAuthoringInfoVisualVariable.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
     if (hasValue(dotNetObject.units)) {
-        jsAuthoringInfoVisualVariable.units = dotNetObject.units;
+        properties.units = dotNetObject.units;
     }
+    let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoVisualVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;

@@ -64,8 +64,9 @@ export default class UpdateWorkflowGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUpdateWorkflowGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUpdateWorkflow = new UpdateWorkflow();
+    let properties: any = {};
 
+    let jsUpdateWorkflow = new UpdateWorkflow(properties);
 
     let { default: UpdateWorkflowWrapper } = await import('./updateWorkflow');
     let updateWorkflowWrapper = new UpdateWorkflowWrapper(jsUpdateWorkflow);

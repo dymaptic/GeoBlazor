@@ -96,54 +96,55 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsKMLLayer = new KMLLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsKMLLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsKMLLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        jsKMLLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId))) as any;
+        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsKMLLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsKMLLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsKMLLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsKMLLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsKMLLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsKMLLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsKMLLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsKMLLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsKMLLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsKMLLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsKMLLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsKMLLayer = new KMLLayer(properties);
 
     let { default: KMLLayerWrapper } = await import('./kMLLayer');
     let kMLLayerWrapper = new KMLLayerWrapper(jsKMLLayer);

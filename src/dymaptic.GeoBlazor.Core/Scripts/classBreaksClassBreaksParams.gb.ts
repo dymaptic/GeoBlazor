@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClassBreaksClassBreaksParams } from './classBreaksClassBreaksParams';
 
 export async function buildJsClassBreaksClassBreaksParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclassBreaksClassBreaksParams: any = {}
+    let jsclassBreaksClassBreaksParams: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jsclassBreaksClassBreaksParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -57,7 +57,6 @@ export async function buildJsClassBreaksClassBreaksParamsGenerated(dotNetObject:
         jsclassBreaksClassBreaksParams.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclassBreaksClassBreaksParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsclassBreaksClassBreaksParams;

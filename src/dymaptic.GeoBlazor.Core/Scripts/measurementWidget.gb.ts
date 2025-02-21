@@ -60,21 +60,22 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasurement = new Measurement();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsMeasurementViewModel } = await import('./measurementViewModel');
-        jsMeasurement.viewModel = await buildJsMeasurementViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsMeasurementViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.activeTool)) {
-        jsMeasurement.activeTool = dotNetObject.activeTool;
+        properties.activeTool = dotNetObject.activeTool;
     }
     if (hasValue(dotNetObject.areaUnit)) {
-        jsMeasurement.areaUnit = dotNetObject.areaUnit;
+        properties.areaUnit = dotNetObject.areaUnit;
     }
     if (hasValue(dotNetObject.linearUnit)) {
-        jsMeasurement.linearUnit = dotNetObject.linearUnit;
+        properties.linearUnit = dotNetObject.linearUnit;
     }
+    let jsMeasurement = new Measurement(properties);
 
     let { default: MeasurementWidgetWrapper } = await import('./measurementWidget');
     let measurementWidgetWrapper = new MeasurementWidgetWrapper(jsMeasurement);

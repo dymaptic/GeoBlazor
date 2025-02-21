@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMHatchFill } from './cIMHatchFill';
 
 export async function buildJsCIMHatchFillGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMHatchFill: any = {}
+    let jsCIMHatchFill: any = {};
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsCIMLineSymbol } = await import('./cIMLineSymbol');
         jsCIMHatchFill.lineSymbol = await buildJsCIMLineSymbol(dotNetObject.lineSymbol, layerId, viewId) as any;
@@ -40,7 +40,6 @@ export async function buildJsCIMHatchFillGenerated(dotNetObject: any, layerId: s
         jsCIMHatchFill.separation = dotNetObject.separation;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMHatchFill);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMHatchFill;

@@ -4,47 +4,47 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWMSSublayer } from './wMSSublayer';
 
 export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWMSSublayer = new WMSSublayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWMSSublayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
-        jsWMSSublayer.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsWMSSublayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.legendUrl)) {
-        jsWMSSublayer.legendUrl = dotNetObject.legendUrl;
+        properties.legendUrl = dotNetObject.legendUrl;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsWMSSublayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsWMSSublayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.name)) {
-        jsWMSSublayer.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsWMSSublayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.queryable)) {
-        jsWMSSublayer.queryable = dotNetObject.queryable;
+        properties.queryable = dotNetObject.queryable;
     }
     if (hasValue(dotNetObject.spatialReferences)) {
-        jsWMSSublayer.spatialReferences = dotNetObject.spatialReferences;
+        properties.spatialReferences = dotNetObject.spatialReferences;
     }
     if (hasValue(dotNetObject.title)) {
-        jsWMSSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.wMSSublayerId)) {
-        jsWMSSublayer.id = dotNetObject.wMSSublayerId;
+        properties.id = dotNetObject.wMSSublayerId;
     }
+    let jsWMSSublayer = new WMSSublayer(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWMSSublayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWMSSublayer;

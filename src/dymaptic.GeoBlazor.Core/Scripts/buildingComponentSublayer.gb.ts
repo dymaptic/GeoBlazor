@@ -112,34 +112,35 @@ export default class BuildingComponentSublayerGenerated implements IPropertyWrap
 
 
 export async function buildJsBuildingComponentSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingComponentSublayer = new BuildingComponentSublayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsBuildingComponentSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
-        jsBuildingComponentSublayer.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.definitionExpression)) {
-        jsBuildingComponentSublayer.definitionExpression = dotNetObject.definitionExpression;
+        properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsBuildingComponentSublayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsBuildingComponentSublayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsBuildingComponentSublayer.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsBuildingComponentSublayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsBuildingComponentSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsBuildingComponentSublayer = new BuildingComponentSublayer(properties);
 
     let { default: BuildingComponentSublayerWrapper } = await import('./buildingComponentSublayer');
     let buildingComponentSublayerWrapper = new BuildingComponentSublayerWrapper(jsBuildingComponentSublayer);

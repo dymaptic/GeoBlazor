@@ -54,7 +54,7 @@ export default class SymbologyPieChartGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyPieChartGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyPieChart: any = {}
+    let jssymbologyPieChart: any = {};
 
 
     let { default: SymbologyPieChartWrapper } = await import('./symbologyPieChart');

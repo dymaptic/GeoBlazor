@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUnivariateColorSizeCreateVisualVariablesParamsColorOptions } from './univariateColorSizeCreateVisualVariablesParamsColorOptions';
 
 export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsColorOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsunivariateColorSizeCreateVisualVariablesParamsColorOptions: any = {}
+    let jsunivariateColorSizeCreateVisualVariablesParamsColorOptions: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
         jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsColor
         jsunivariateColorSizeCreateVisualVariablesParamsColorOptions.legendOptions = dotNetObject.legendOptions;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsunivariateColorSizeCreateVisualVariablesParamsColorOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsunivariateColorSizeCreateVisualVariablesParamsColorOptions;

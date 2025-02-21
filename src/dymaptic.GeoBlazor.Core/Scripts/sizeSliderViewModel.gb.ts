@@ -78,9 +78,9 @@ export default class SizeSliderViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSliderViewModel = new SizeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsSizeSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -92,7 +92,7 @@ export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, lay
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsSizeSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -104,7 +104,7 @@ export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, lay
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsSizeSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -117,45 +117,46 @@ export async function buildJsSizeSliderViewModelGenerated(dotNetObject: any, lay
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsSizeSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsSizeSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsSizeSliderViewModel.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.max)) {
-        jsSizeSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsSizeSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.persistSizeRangeEnabled)) {
-        jsSizeSliderViewModel.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
+        properties.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsSizeSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
-        jsSizeSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
+        properties.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsSizeSliderViewModel.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsSizeSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsSizeSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsSizeSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsSizeSliderViewModel = new SizeSliderViewModel(properties);
 
     let { default: SizeSliderViewModelWrapper } = await import('./sizeSliderViewModel');
     let sizeSliderViewModelWrapper = new SizeSliderViewModelWrapper(jsSizeSliderViewModel);

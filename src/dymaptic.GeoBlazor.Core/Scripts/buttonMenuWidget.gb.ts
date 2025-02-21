@@ -32,25 +32,26 @@ export default class ButtonMenuWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsButtonMenuWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsButtonMenu = new ButtonMenu();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.disabled)) {
-        jsButtonMenu.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.iconClass)) {
-        jsButtonMenu.iconClass = dotNetObject.iconClass;
+        properties.iconClass = dotNetObject.iconClass;
     }
     if (hasValue(dotNetObject.items)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItems } = dotNetObject.items;
-        jsButtonMenu.items = sanitizedItems;
+        properties.items = sanitizedItems;
     }
     if (hasValue(dotNetObject.open)) {
-        jsButtonMenu.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
-        jsButtonMenu.viewModel = sanitizedViewModel;
+        properties.viewModel = sanitizedViewModel;
     }
+    let jsButtonMenu = new ButtonMenu(properties);
 
     let { default: ButtonMenuWidgetWrapper } = await import('./buttonMenuWidget');
     let buttonMenuWidgetWrapper = new ButtonMenuWidgetWrapper(jsButtonMenu);

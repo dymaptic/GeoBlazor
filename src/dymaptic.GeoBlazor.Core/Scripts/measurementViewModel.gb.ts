@@ -4,22 +4,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMeasurementViewModel } from './measurementViewModel';
 
 export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasurementViewModel = new MeasurementViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.activeTool)) {
-        jsMeasurementViewModel.activeTool = dotNetObject.activeTool;
+        properties.activeTool = dotNetObject.activeTool;
     }
     if (hasValue(dotNetObject.activeViewModel)) {
-        jsMeasurementViewModel.activeViewModel = dotNetObject.activeViewModel;
+        properties.activeViewModel = dotNetObject.activeViewModel;
     }
     if (hasValue(dotNetObject.areaUnit)) {
-        jsMeasurementViewModel.areaUnit = dotNetObject.areaUnit;
+        properties.areaUnit = dotNetObject.areaUnit;
     }
     if (hasValue(dotNetObject.linearUnit)) {
-        jsMeasurementViewModel.linearUnit = dotNetObject.linearUnit;
+        properties.linearUnit = dotNetObject.linearUnit;
     }
+    let jsMeasurementViewModel = new MeasurementViewModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMeasurementViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;

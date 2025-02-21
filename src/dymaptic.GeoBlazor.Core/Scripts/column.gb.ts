@@ -52,45 +52,46 @@ export default class ColumnGenerated implements IPropertyWrapper {
 
 
 export async function buildJsColumnGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColumn = new Column();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.autoWidth)) {
-        jsColumn.autoWidth = dotNetObject.autoWidth;
+        properties.autoWidth = dotNetObject.autoWidth;
     }
     if (hasValue(dotNetObject.direction)) {
-        jsColumn.direction = dotNetObject.direction;
+        properties.direction = dotNetObject.direction;
     }
     if (hasValue(dotNetObject.effectiveLabel)) {
-        jsColumn.effectiveLabel = dotNetObject.effectiveLabel;
+        properties.effectiveLabel = dotNetObject.effectiveLabel;
     }
     if (hasValue(dotNetObject.flexGrow)) {
-        jsColumn.flexGrow = dotNetObject.flexGrow;
+        properties.flexGrow = dotNetObject.flexGrow;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsColumn.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.invalid)) {
-        jsColumn.invalid = dotNetObject.invalid;
+        properties.invalid = dotNetObject.invalid;
     }
     if (hasValue(dotNetObject.label)) {
-        jsColumn.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.sortable)) {
-        jsColumn.sortable = dotNetObject.sortable;
+        properties.sortable = dotNetObject.sortable;
     }
     if (hasValue(dotNetObject.textAlign)) {
-        jsColumn.textAlign = dotNetObject.textAlign;
+        properties.textAlign = dotNetObject.textAlign;
     }
     if (hasValue(dotNetObject.textWrap)) {
-        jsColumn.textWrap = dotNetObject.textWrap;
+        properties.textWrap = dotNetObject.textWrap;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsColumn.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.width)) {
-        jsColumn.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsColumn = new Column(properties);
 
     let { default: ColumnWrapper } = await import('./column');
     let columnWrapper = new ColumnWrapper(jsColumn);

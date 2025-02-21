@@ -56,15 +56,16 @@ export default class ViewshedAnalysisView3DGenerated implements IPropertyWrapper
 
 
 export async function buildJsViewshedAnalysisView3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewshedAnalysisView3D = new ViewshedAnalysisView3D();
+    let properties: any = {};
     if (hasValue(dotNetObject.selectedViewshed)) {
         let { buildJsViewshed } = await import('./viewshed');
-        jsViewshedAnalysisView3D.selectedViewshed = await buildJsViewshed(dotNetObject.selectedViewshed, layerId, viewId) as any;
+        properties.selectedViewshed = await buildJsViewshed(dotNetObject.selectedViewshed, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.interactive)) {
-        jsViewshedAnalysisView3D.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
+    let jsViewshedAnalysisView3D = new ViewshedAnalysisView3D(properties);
 
     let { default: ViewshedAnalysisView3DWrapper } = await import('./viewshedAnalysisView3D');
     let viewshedAnalysisView3DWrapper = new ViewshedAnalysisView3DWrapper(jsViewshedAnalysisView3D);

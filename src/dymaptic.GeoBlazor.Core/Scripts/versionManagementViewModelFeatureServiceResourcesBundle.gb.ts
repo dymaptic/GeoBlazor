@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVersionManagementViewModelFeatureServiceResourcesBundle } from './versionManagementViewModelFeatureServiceResourcesBundle';
 
 export async function buildJsVersionManagementViewModelFeatureServiceResourcesBundleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVersionManagementViewModelFeatureServiceResourcesBundle: any = {}
+    let jsVersionManagementViewModelFeatureServiceResourcesBundle: any = {};
     if (hasValue(dotNetObject.featureService)) {
         let { buildJsFeatureService } = await import('./featureService');
         jsVersionManagementViewModelFeatureServiceResourcesBundle.featureService = await buildJsFeatureService(dotNetObject.featureService, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsVersionManagementViewModelFeatureServiceResourcesBu
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVersionManagementViewModelFeatureServiceResourcesBundle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementViewModelFeatureServiceResourcesBundle;

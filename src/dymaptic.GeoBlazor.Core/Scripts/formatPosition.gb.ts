@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFormatPosition } from './formatPosition';
 
 export async function buildJsFormatPositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFormatPosition: any = {}
+    let jsFormatPosition: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         jsFormatPosition.location = buildJsPoint(dotNetObject.location) as any;
@@ -13,7 +13,6 @@ export async function buildJsFormatPositionGenerated(dotNetObject: any, layerId:
         jsFormatPosition.coordinate = dotNetObject.coordinate;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFormatPosition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFormatPosition;

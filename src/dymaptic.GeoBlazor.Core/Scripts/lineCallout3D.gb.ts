@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineCallout3D } from './lineCallout3D';
 
 export async function buildJsLineCallout3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineCallout3D = new LineCallout3D();
+    let properties: any = {};
     if (hasValue(dotNetObject.border)) {
         let { buildJsLineCallout3DBorder } = await import('./lineCallout3DBorder');
-        jsLineCallout3D.border = await buildJsLineCallout3DBorder(dotNetObject.border, layerId, viewId) as any;
+        properties.border = await buildJsLineCallout3DBorder(dotNetObject.border, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsLineCallout3D.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.size)) {
-        jsLineCallout3D.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
+    let jsLineCallout3D = new LineCallout3D(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineCallout3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineCallout3D;

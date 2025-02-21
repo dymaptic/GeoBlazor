@@ -98,64 +98,65 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeoRSSLayer = new GeoRSSLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsGeoRSSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.lineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        jsGeoRSSLayer.lineSymbol = buildJsSimpleLineSymbol(dotNetObject.lineSymbol) as any;
+        properties.lineSymbol = buildJsSimpleLineSymbol(dotNetObject.lineSymbol) as any;
     }
     if (hasValue(dotNetObject.pointSymbol)) {
         let { buildJsMarkerSymbol } = await import('./markerSymbol');
-        jsGeoRSSLayer.pointSymbol = await buildJsMarkerSymbol(dotNetObject.pointSymbol, layerId, viewId) as any;
+        properties.pointSymbol = await buildJsMarkerSymbol(dotNetObject.pointSymbol, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.polygonSymbol)) {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        jsGeoRSSLayer.polygonSymbol = buildJsSimpleFillSymbol(dotNetObject.polygonSymbol) as any;
+        properties.polygonSymbol = buildJsSimpleFillSymbol(dotNetObject.polygonSymbol) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsGeoRSSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsGeoRSSLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsGeoRSSLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsGeoRSSLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsGeoRSSLayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsGeoRSSLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsGeoRSSLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsGeoRSSLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsGeoRSSLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsGeoRSSLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsGeoRSSLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.title)) {
-        jsGeoRSSLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsGeoRSSLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsGeoRSSLayer = new GeoRSSLayer(properties);
     jsGeoRSSLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });

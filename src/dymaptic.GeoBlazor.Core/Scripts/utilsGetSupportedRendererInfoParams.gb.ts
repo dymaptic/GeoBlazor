@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUtilsGetSupportedRendererInfoParams } from './utilsGetSupportedRendererInfoParams';
 
 export async function buildJsUtilsGetSupportedRendererInfoParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsutilsGetSupportedRendererInfoParams: any = {}
+    let jsutilsGetSupportedRendererInfoParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsutilsGetSupportedRendererInfoParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -21,7 +21,6 @@ export async function buildJsUtilsGetSupportedRendererInfoParamsGenerated(dotNet
         jsutilsGetSupportedRendererInfoParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsutilsGetSupportedRendererInfoParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsutilsGetSupportedRendererInfoParams;

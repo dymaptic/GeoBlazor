@@ -4,30 +4,30 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPlaceResult } from './placeResult';
 
 export async function buildJsPlaceResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPlaceResult = new PlaceResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsPlaceResult.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
     if (hasValue(dotNetObject.categories)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCategories } = dotNetObject.categories;
-        jsPlaceResult.categories = sanitizedCategories;
+        properties.categories = sanitizedCategories;
     }
     if (hasValue(dotNetObject.distance)) {
-        jsPlaceResult.distance = dotNetObject.distance;
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsPlaceResult.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPlaceResult.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.placeId)) {
-        jsPlaceResult.placeId = dotNetObject.placeId;
+        properties.placeId = dotNetObject.placeId;
     }
+    let jsPlaceResult = new PlaceResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPlaceResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPlaceResult;

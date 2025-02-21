@@ -4,38 +4,38 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindParameters } from './findParameters';
 
 export async function buildJsFindParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFindParameters = new FindParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFindParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.contains)) {
-        jsFindParameters.contains = dotNetObject.contains;
+        properties.contains = dotNetObject.contains;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsFindParameters.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.geometryPrecision)) {
-        jsFindParameters.geometryPrecision = dotNetObject.geometryPrecision;
+        properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
     if (hasValue(dotNetObject.layerIds)) {
-        jsFindParameters.layerIds = dotNetObject.layerIds;
+        properties.layerIds = dotNetObject.layerIds;
     }
     if (hasValue(dotNetObject.maxAllowableOffset)) {
-        jsFindParameters.maxAllowableOffset = dotNetObject.maxAllowableOffset;
+        properties.maxAllowableOffset = dotNetObject.maxAllowableOffset;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsFindParameters.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.searchFields)) {
-        jsFindParameters.searchFields = dotNetObject.searchFields;
+        properties.searchFields = dotNetObject.searchFields;
     }
     if (hasValue(dotNetObject.searchText)) {
-        jsFindParameters.searchText = dotNetObject.searchText;
+        properties.searchText = dotNetObject.searchText;
     }
+    let jsFindParameters = new FindParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFindParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFindParameters;

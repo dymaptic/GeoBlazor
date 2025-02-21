@@ -48,26 +48,27 @@ export default class FeatureServiceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureService = new FeatureService();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsFeatureService.capabilities = sanitizedCapabilities;
+        properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.layerInfos)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLayerInfos } = dotNetObject.layerInfos;
-        jsFeatureService.layerInfos = sanitizedLayerInfos;
+        properties.layerInfos = sanitizedLayerInfos;
     }
     if (hasValue(dotNetObject.tableInfos)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTableInfos } = dotNetObject.tableInfos;
-        jsFeatureService.tableInfos = sanitizedTableInfos;
+        properties.tableInfos = sanitizedTableInfos;
     }
     if (hasValue(dotNetObject.url)) {
-        jsFeatureService.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.userTypeExtensions)) {
-        jsFeatureService.userTypeExtensions = dotNetObject.userTypeExtensions;
+        properties.userTypeExtensions = dotNetObject.userTypeExtensions;
     }
+    let jsFeatureService = new FeatureService(properties);
 
     let { default: FeatureServiceWrapper } = await import('./featureService');
     let featureServiceWrapper = new FeatureServiceWrapper(jsFeatureService);

@@ -60,25 +60,26 @@ export default class PointBarrierGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPointBarrierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPointBarrier = new PointBarrier();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPoint } = await import('./point');
-        jsPointBarrier.geometry = buildJsPoint(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsPointBarrier.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.barrierType)) {
-        jsPointBarrier.barrierType = dotNetObject.barrierType;
+        properties.barrierType = dotNetObject.barrierType;
     }
     if (hasValue(dotNetObject.fullEdge)) {
-        jsPointBarrier.fullEdge = dotNetObject.fullEdge;
+        properties.fullEdge = dotNetObject.fullEdge;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPointBarrier.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsPointBarrier = new PointBarrier(properties);
 
     let { default: PointBarrierWrapper } = await import('./pointBarrier');
     let pointBarrierWrapper = new PointBarrierWrapper(jsPointBarrier);

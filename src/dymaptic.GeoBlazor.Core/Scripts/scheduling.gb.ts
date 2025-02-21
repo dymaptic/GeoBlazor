@@ -42,7 +42,7 @@ export default class SchedulingGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSchedulingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsscheduling: any = {}
+    let jsscheduling: any = {};
 
 
     let { default: SchedulingWrapper } = await import('./scheduling');

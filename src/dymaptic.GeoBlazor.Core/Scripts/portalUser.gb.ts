@@ -108,53 +108,54 @@ export default class PortalUserGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalUser = new PortalUser();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.access)) {
-        jsPortalUser.access = dotNetObject.access;
+        properties.access = dotNetObject.access;
     }
     if (hasValue(dotNetObject.created)) {
-        jsPortalUser.created = dotNetObject.created;
+        properties.created = dotNetObject.created;
     }
     if (hasValue(dotNetObject.culture)) {
-        jsPortalUser.culture = dotNetObject.culture;
+        properties.culture = dotNetObject.culture;
     }
     if (hasValue(dotNetObject.description)) {
-        jsPortalUser.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.email)) {
-        jsPortalUser.email = dotNetObject.email;
+        properties.email = dotNetObject.email;
     }
     if (hasValue(dotNetObject.fullName)) {
-        jsPortalUser.fullName = dotNetObject.fullName;
+        properties.fullName = dotNetObject.fullName;
     }
     if (hasValue(dotNetObject.modified)) {
-        jsPortalUser.modified = dotNetObject.modified;
+        properties.modified = dotNetObject.modified;
     }
     if (hasValue(dotNetObject.orgId)) {
-        jsPortalUser.orgId = dotNetObject.orgId;
+        properties.orgId = dotNetObject.orgId;
     }
     if (hasValue(dotNetObject.preferredView)) {
-        jsPortalUser.preferredView = dotNetObject.preferredView;
+        properties.preferredView = dotNetObject.preferredView;
     }
     if (hasValue(dotNetObject.privileges)) {
-        jsPortalUser.privileges = dotNetObject.privileges;
+        properties.privileges = dotNetObject.privileges;
     }
     if (hasValue(dotNetObject.region)) {
-        jsPortalUser.region = dotNetObject.region;
+        properties.region = dotNetObject.region;
     }
     if (hasValue(dotNetObject.role)) {
-        jsPortalUser.role = dotNetObject.role;
+        properties.role = dotNetObject.role;
     }
     if (hasValue(dotNetObject.roleId)) {
-        jsPortalUser.roleId = dotNetObject.roleId;
+        properties.roleId = dotNetObject.roleId;
     }
     if (hasValue(dotNetObject.units)) {
-        jsPortalUser.units = dotNetObject.units;
+        properties.units = dotNetObject.units;
     }
     if (hasValue(dotNetObject.username)) {
-        jsPortalUser.username = dotNetObject.username;
+        properties.username = dotNetObject.username;
     }
+    let jsPortalUser = new PortalUser(properties);
 
     let { default: PortalUserWrapper } = await import('./portalUser');
     let portalUserWrapper = new PortalUserWrapper(jsPortalUser);

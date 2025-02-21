@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetConvertMeshOptions } from './convertMeshOptions';
 
 export async function buildJsConvertMeshOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsConvertMeshOptions: any = {}
+    let jsConvertMeshOptions: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         jsConvertMeshOptions.location = buildJsPoint(dotNetObject.location) as any;
@@ -13,7 +13,6 @@ export async function buildJsConvertMeshOptionsGenerated(dotNetObject: any, laye
         jsConvertMeshOptions.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsConvertMeshOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConvertMeshOptions;

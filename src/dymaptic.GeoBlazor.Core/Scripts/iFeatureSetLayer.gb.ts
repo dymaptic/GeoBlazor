@@ -36,7 +36,7 @@ export default class IFeatureSetLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIFeatureSetLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureSetLayer: any = {}
+    let jsFeatureSetLayer: any = {};
 
 
     let { default: IFeatureSetLayerWrapper } = await import('./iFeatureSetLayer');

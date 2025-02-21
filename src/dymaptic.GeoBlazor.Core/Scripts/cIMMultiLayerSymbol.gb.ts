@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMMultiLayerSymbol } from './cIMMultiLayerSymbol';
 
 export async function buildJsCIMMultiLayerSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMMultiLayerSymbol: any = {}
+    let jsCIMMultiLayerSymbol: any = {};
 
     if (hasValue(dotNetObject.effects)) {
         jsCIMMultiLayerSymbol.effects = dotNetObject.effects;
@@ -18,7 +18,6 @@ export async function buildJsCIMMultiLayerSymbolGenerated(dotNetObject: any, lay
         jsCIMMultiLayerSymbol.useRealWorldSymbolSizes = dotNetObject.useRealWorldSymbolSizes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMMultiLayerSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMMultiLayerSymbol;

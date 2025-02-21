@@ -44,7 +44,7 @@ export default class HeatmapGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHeatmapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsheatmap: any = {}
+    let jsheatmap: any = {};
 
 
     let { default: HeatmapWrapper } = await import('./heatmap');

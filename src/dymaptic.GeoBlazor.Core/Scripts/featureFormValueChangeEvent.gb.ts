@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureFormValueChangeEvent } from './featureFormValueChangeEvent';
 
 export async function buildJsFeatureFormValueChangeEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureFormValueChangeEvent: any = {}
+    let jsFeatureFormValueChangeEvent: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureFormValueChangeEvent.feature = buildJsGraphic(dotNetObject.feature) as any;
@@ -23,7 +23,6 @@ export async function buildJsFeatureFormValueChangeEventGenerated(dotNetObject: 
         jsFeatureFormValueChangeEvent.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureFormValueChangeEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFormValueChangeEvent;

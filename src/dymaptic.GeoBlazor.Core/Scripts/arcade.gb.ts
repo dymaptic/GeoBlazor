@@ -38,7 +38,7 @@ export default class ArcadeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsArcadeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsarcade: any = {}
+    let jsarcade: any = {};
 
 
     let { default: ArcadeWrapper } = await import('./arcade');

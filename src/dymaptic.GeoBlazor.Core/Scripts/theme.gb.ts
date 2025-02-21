@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTheme } from './theme';
 
 export async function buildJsThemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTheme = new Theme();
+    let properties: any = {};
     if (hasValue(dotNetObject.accentColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.accentColor = buildJsMapColor(dotNetObject.accentColor) as any;
+        properties.accentColor = buildJsMapColor(dotNetObject.accentColor) as any;
     }
     if (hasValue(dotNetObject.textColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsTheme.textColor = buildJsMapColor(dotNetObject.textColor) as any;
+        properties.textColor = buildJsMapColor(dotNetObject.textColor) as any;
     }
 
+    let jsTheme = new Theme(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTheme;

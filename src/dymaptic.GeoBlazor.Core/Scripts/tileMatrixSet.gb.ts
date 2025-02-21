@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTileMatrixSet } from './tileMatrixSet';
 
 export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTileMatrixSet = new TileMatrixSet();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsTileMatrixSet.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsTileMatrixSet.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
+        properties.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.tileMatrixSetId)) {
-        jsTileMatrixSet.id = dotNetObject.tileMatrixSetId;
+        properties.id = dotNetObject.tileMatrixSetId;
     }
+    let jsTileMatrixSet = new TileMatrixSet(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTileMatrixSet);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTileMatrixSet;

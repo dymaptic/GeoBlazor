@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV100DomainSet } from './coverageDescriptionV100DomainSet';
 
 export async function buildJsCoverageDescriptionV100DomainSetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoverageDescriptionV100DomainSet: any = {}
+    let jsCoverageDescriptionV100DomainSet: any = {};
     if (hasValue(dotNetObject.spatialDomain)) {
         let { buildJsCoverageDescriptionV100DomainSetSpatialDomain } = await import('./coverageDescriptionV100DomainSetSpatialDomain');
         jsCoverageDescriptionV100DomainSet.spatialDomain = await buildJsCoverageDescriptionV100DomainSetSpatialDomain(dotNetObject.spatialDomain, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsCoverageDescriptionV100DomainSetGenerated(dotNetObj
         jsCoverageDescriptionV100DomainSet.temporalDomain = dotNetObject.temporalDomain;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV100DomainSet);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV100DomainSet;

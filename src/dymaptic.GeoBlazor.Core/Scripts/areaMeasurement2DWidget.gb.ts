@@ -44,18 +44,19 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
 
 
 export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAreaMeasurement2D = new AreaMeasurement2D();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        jsAreaMeasurement2D.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.unit)) {
-        jsAreaMeasurement2D.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.unitOptions)) {
-        jsAreaMeasurement2D.unitOptions = dotNetObject.unitOptions;
+        properties.unitOptions = dotNetObject.unitOptions;
     }
+    let jsAreaMeasurement2D = new AreaMeasurement2D(properties);
 
     let { default: AreaMeasurement2DWidgetWrapper } = await import('./areaMeasurement2DWidget');
     let areaMeasurement2DWidgetWrapper = new AreaMeasurement2DWidgetWrapper(jsAreaMeasurement2D);

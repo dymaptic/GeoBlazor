@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemeForMeshColorsForClassBreaks } from './relationshipSchemeForMeshColorsForClassBreaks';
 
 export async function buildJsRelationshipSchemeForMeshColorsForClassBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemeForMeshColorsForClassBreaks: any = {}
+    let jsRelationshipSchemeForMeshColorsForClassBreaks: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsRelationshipSchemeForMeshColorsForClassBreaks.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -13,7 +13,6 @@ export async function buildJsRelationshipSchemeForMeshColorsForClassBreaksGenera
         jsRelationshipSchemeForMeshColorsForClassBreaks.numClasses = dotNetObject.numClasses;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemeForMeshColorsForClassBreaks);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemeForMeshColorsForClassBreaks;

@@ -36,20 +36,21 @@ export default class SunLightingGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSunLighting = new SunLighting();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.cameraTrackingEnabled)) {
-        jsSunLighting.cameraTrackingEnabled = dotNetObject.cameraTrackingEnabled;
+        properties.cameraTrackingEnabled = dotNetObject.cameraTrackingEnabled;
     }
     if (hasValue(dotNetObject.date)) {
-        jsSunLighting.date = dotNetObject.date;
+        properties.date = dotNetObject.date;
     }
     if (hasValue(dotNetObject.directShadowsEnabled)) {
-        jsSunLighting.directShadowsEnabled = dotNetObject.directShadowsEnabled;
+        properties.directShadowsEnabled = dotNetObject.directShadowsEnabled;
     }
     if (hasValue(dotNetObject.displayUTCOffset)) {
-        jsSunLighting.displayUTCOffset = dotNetObject.displayUTCOffset;
+        properties.displayUTCOffset = dotNetObject.displayUTCOffset;
     }
+    let jsSunLighting = new SunLighting(properties);
 
     let { default: SunLightingWrapper } = await import('./sunLighting');
     let sunLightingWrapper = new SunLightingWrapper(jsSunLighting);

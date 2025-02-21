@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetContinuousRendererResultSize } from './continuousRendererResultSize';
 
 export async function buildJsContinuousRendererResultSizeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsContinuousRendererResultSize: any = {}
+    let jsContinuousRendererResultSize: any = {};
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsSizeVariable } = await import('./sizeVariable');
         jsContinuousRendererResultSize.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsSizeVariable(i, layerId, viewId))) as any;
@@ -13,7 +13,6 @@ export async function buildJsContinuousRendererResultSizeGenerated(dotNetObject:
         jsContinuousRendererResultSize.sizeScheme = dotNetObject.sizeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsContinuousRendererResultSize);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsContinuousRendererResultSize;

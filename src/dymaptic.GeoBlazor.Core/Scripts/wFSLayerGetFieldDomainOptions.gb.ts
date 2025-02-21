@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWFSLayerGetFieldDomainOptions } from './wFSLayerGetFieldDomainOptions';
 
 export async function buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWFSLayerGetFieldDomainOptions: any = {}
+    let jsWFSLayerGetFieldDomainOptions: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
         jsWFSLayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSLayerGetFieldDomainOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerGetFieldDomainOptions;

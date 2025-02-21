@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMeasureFromImageParameters } from './measureFromImageParameters';
 
 export async function buildJsMeasureFromImageParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasureFromImageParameters = new MeasureFromImageParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsMeasureFromImageParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.rasterId)) {
-        jsMeasureFromImageParameters.rasterId = dotNetObject.rasterId;
+        properties.rasterId = dotNetObject.rasterId;
     }
+    let jsMeasureFromImageParameters = new MeasureFromImageParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMeasureFromImageParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeasureFromImageParameters;

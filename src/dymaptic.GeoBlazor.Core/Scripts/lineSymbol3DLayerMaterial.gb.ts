@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineSymbol3DLayerMaterial } from './lineSymbol3DLayerMaterial';
 
 export async function buildJsLineSymbol3DLayerMaterialGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineSymbol3DLayerMaterial: any = {}
+    let jsLineSymbol3DLayerMaterial: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsLineSymbol3DLayerMaterial.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineSymbol3DLayerMaterial);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbol3DLayerMaterial;

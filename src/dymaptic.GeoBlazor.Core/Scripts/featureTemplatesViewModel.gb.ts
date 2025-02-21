@@ -51,23 +51,24 @@ export default class FeatureTemplatesViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsFeatureTemplatesViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTemplatesViewModel = new FeatureTemplatesViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasFilterFunction) && dotNetObject.hasFilterFunction) {
-        jsFeatureTemplatesViewModel.filterFunction = (filterName) => {
+        properties.filterFunction = (filterName) => {
             let func = new Function('filterName', dotNetObject.filterFunction.javaScriptFunction);
             return func(filterName);
         };
     }
 
     if (hasValue(dotNetObject.disabled)) {
-        jsFeatureTemplatesViewModel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.groupBy)) {
-        jsFeatureTemplatesViewModel.groupBy = dotNetObject.groupBy;
+        properties.groupBy = dotNetObject.groupBy;
     }
     if (hasValue(dotNetObject.layers)) {
-        jsFeatureTemplatesViewModel.layers = dotNetObject.layers;
+        properties.layers = dotNetObject.layers;
     }
+    let jsFeatureTemplatesViewModel = new FeatureTemplatesViewModel(properties);
     jsFeatureTemplatesViewModel.on('select', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelect', evt);
     });
@@ -95,7 +96,7 @@ export async function buildJsFeatureTemplatesViewModelGenerated(dotNetObject: an
     return jsFeatureTemplatesViewModel;
 }
 
-export async function buildDotNetFeatureTemplatesViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureTemplatesViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -106,7 +107,7 @@ export async function buildDotNetFeatureTemplatesViewModelGenerated(jsObject: an
     };
         if (hasValue(jsObject.items)) {
             let { buildDotNetTemplateItem } = await import('./templateItem');
-            dotNetFeatureTemplatesViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTemplateItem(i)));
+            dotNetFeatureTemplatesViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetTemplateItem(i, layerId, viewId)));
         }
     if (hasValue(jsObject.disabled)) {
         dotNetFeatureTemplatesViewModel.disabled = jsObject.disabled;

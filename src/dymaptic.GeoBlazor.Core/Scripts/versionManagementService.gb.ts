@@ -148,22 +148,23 @@ export default class VersionManagementServiceGenerated implements IPropertyWrapp
 
 
 export async function buildJsVersionManagementServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVersionManagementService = new VersionManagementService();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsVersionManagementService.capabilities = sanitizedCapabilities;
+        properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.defaultVersionIdentifier)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDefaultVersionIdentifier } = dotNetObject.defaultVersionIdentifier;
-        jsVersionManagementService.defaultVersionIdentifier = sanitizedDefaultVersionIdentifier;
+        properties.defaultVersionIdentifier = sanitizedDefaultVersionIdentifier;
     }
     if (hasValue(dotNetObject.name)) {
-        jsVersionManagementService.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.url)) {
-        jsVersionManagementService.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsVersionManagementService = new VersionManagementService(properties);
 
     let { default: VersionManagementServiceWrapper } = await import('./versionManagementService');
     let versionManagementServiceWrapper = new VersionManagementServiceWrapper(jsVersionManagementService);

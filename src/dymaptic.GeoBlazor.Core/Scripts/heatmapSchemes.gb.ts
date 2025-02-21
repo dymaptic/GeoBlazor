@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapSchemes } from './heatmapSchemes';
 
 export async function buildJsHeatmapSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapSchemes: any = {}
+    let jsHeatmapSchemes: any = {};
     if (hasValue(dotNetObject.primaryScheme)) {
         let { buildJsHeatmapScheme } = await import('./heatmapScheme');
         jsHeatmapSchemes.primaryScheme = await buildJsHeatmapScheme(dotNetObject.primaryScheme, layerId, viewId) as any;
@@ -20,7 +20,6 @@ export async function buildJsHeatmapSchemesGenerated(dotNetObject: any, layerId:
         jsHeatmapSchemes.basemapTheme = dotNetObject.basemapTheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapSchemes;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDotDensityScheme } from './dotDensityScheme';
 
 export async function buildJsDotDensitySchemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDotDensityScheme: any = {}
+    let jsDotDensityScheme: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsDotDensityScheme.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -23,7 +23,6 @@ export async function buildJsDotDensitySchemeGenerated(dotNetObject: any, layerI
         jsDotDensityScheme.tags = dotNetObject.tags;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDotDensityScheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDotDensityScheme;

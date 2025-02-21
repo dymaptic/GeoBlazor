@@ -52,18 +52,19 @@ export default class DirectLineMeasurement3DWidgetGenerated implements IProperty
 
 
 export async function buildJsDirectLineMeasurement3DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectLineMeasurement3D = new DirectLineMeasurement3D();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsDirectLineMeasurement3DViewModel } = await import('./directLineMeasurement3DViewModel');
-        jsDirectLineMeasurement3D.viewModel = await buildJsDirectLineMeasurement3DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsDirectLineMeasurement3DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.unit)) {
-        jsDirectLineMeasurement3D.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.unitOptions)) {
-        jsDirectLineMeasurement3D.unitOptions = dotNetObject.unitOptions;
+        properties.unitOptions = dotNetObject.unitOptions;
     }
+    let jsDirectLineMeasurement3D = new DirectLineMeasurement3D(properties);
 
     let { default: DirectLineMeasurement3DWidgetWrapper } = await import('./directLineMeasurement3DWidget');
     let directLineMeasurement3DWidgetWrapper = new DirectLineMeasurement3DWidgetWrapper(jsDirectLineMeasurement3D);

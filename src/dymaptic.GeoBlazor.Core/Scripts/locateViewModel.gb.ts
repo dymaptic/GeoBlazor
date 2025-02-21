@@ -52,30 +52,31 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocateViewModel = new LocateViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsLocateViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.error)) {
-        jsLocateViewModel.error = dotNetObject.error;
+        properties.error = dotNetObject.error;
     }
     if (hasValue(dotNetObject.geolocationOptions)) {
-        jsLocateViewModel.geolocationOptions = dotNetObject.geolocationOptions;
+        properties.geolocationOptions = dotNetObject.geolocationOptions;
     }
     if (hasValue(dotNetObject.goToLocationEnabled)) {
-        jsLocateViewModel.goToLocationEnabled = dotNetObject.goToLocationEnabled;
+        properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsLocateViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsLocateViewModel.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsLocateViewModel.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
+    let jsLocateViewModel = new LocateViewModel(properties);
     jsLocateViewModel.on('locate', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', evt);
     });

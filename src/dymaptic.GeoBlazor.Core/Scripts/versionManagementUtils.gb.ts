@@ -48,7 +48,7 @@ export default class VersionManagementUtilsGenerated implements IPropertyWrapper
 
 
 export async function buildJsVersionManagementUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsversionManagementUtils: any = {}
+    let jsversionManagementUtils: any = {};
 
 
     let { default: VersionManagementUtilsWrapper } = await import('./versionManagementUtils');

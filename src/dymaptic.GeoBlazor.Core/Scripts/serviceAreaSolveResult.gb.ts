@@ -4,37 +4,37 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceAreaSolveResult } from './serviceAreaSolveResult';
 
 export async function buildJsServiceAreaSolveResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsServiceAreaSolveResult = new ServiceAreaSolveResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.facilities)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.facilities = buildJsFeatureSet(dotNetObject.facilities) as any;
+        properties.facilities = buildJsFeatureSet(dotNetObject.facilities) as any;
     }
     if (hasValue(dotNetObject.pointBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.pointBarriers = buildJsFeatureSet(dotNetObject.pointBarriers) as any;
+        properties.pointBarriers = buildJsFeatureSet(dotNetObject.pointBarriers) as any;
     }
     if (hasValue(dotNetObject.polygonBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.polygonBarriers = buildJsFeatureSet(dotNetObject.polygonBarriers) as any;
+        properties.polygonBarriers = buildJsFeatureSet(dotNetObject.polygonBarriers) as any;
     }
     if (hasValue(dotNetObject.polylineBarriers)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.polylineBarriers = buildJsFeatureSet(dotNetObject.polylineBarriers) as any;
+        properties.polylineBarriers = buildJsFeatureSet(dotNetObject.polylineBarriers) as any;
     }
     if (hasValue(dotNetObject.serviceAreaPolygons)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.serviceAreaPolygons = buildJsFeatureSet(dotNetObject.serviceAreaPolygons) as any;
+        properties.serviceAreaPolygons = buildJsFeatureSet(dotNetObject.serviceAreaPolygons) as any;
     }
     if (hasValue(dotNetObject.serviceAreaPolylines)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsServiceAreaSolveResult.serviceAreaPolylines = buildJsFeatureSet(dotNetObject.serviceAreaPolylines) as any;
+        properties.serviceAreaPolylines = buildJsFeatureSet(dotNetObject.serviceAreaPolylines) as any;
     }
 
     if (hasValue(dotNetObject.messages)) {
-        jsServiceAreaSolveResult.messages = dotNetObject.messages;
+        properties.messages = dotNetObject.messages;
     }
+    let jsServiceAreaSolveResult = new ServiceAreaSolveResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceAreaSolveResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceAreaSolveResult;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMCharacterMarker } from './cIMCharacterMarker';
 
 export async function buildJsCIMCharacterMarkerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMCharacterMarker: any = {}
+    let jsCIMCharacterMarker: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsCIMPolygonSymbol } = await import('./cIMPolygonSymbol');
         jsCIMCharacterMarker.symbol = await buildJsCIMPolygonSymbol(dotNetObject.symbol, layerId, viewId) as any;
@@ -95,7 +95,6 @@ export async function buildJsCIMCharacterMarkerGenerated(dotNetObject: any, laye
         jsCIMCharacterMarker.verticalOrientation3D = dotNetObject.verticalOrientation3D;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMCharacterMarker);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMCharacterMarker;

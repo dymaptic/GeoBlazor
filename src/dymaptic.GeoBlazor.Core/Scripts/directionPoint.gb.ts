@@ -60,31 +60,32 @@ export default class DirectionPointGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDirectionPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionPoint = new DirectionPoint();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPoint } = await import('./point');
-        jsDirectionPoint.geometry = buildJsPoint(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsDirectionPoint.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arrivalTime)) {
-        jsDirectionPoint.arrivalTime = dotNetObject.arrivalTime;
+        properties.arrivalTime = dotNetObject.arrivalTime;
     }
     if (hasValue(dotNetObject.arrivalTimeOffset)) {
-        jsDirectionPoint.arrivalTimeOffset = dotNetObject.arrivalTimeOffset;
+        properties.arrivalTimeOffset = dotNetObject.arrivalTimeOffset;
     }
     if (hasValue(dotNetObject.directionPointType)) {
-        jsDirectionPoint.directionPointType = dotNetObject.directionPointType;
+        properties.directionPointType = dotNetObject.directionPointType;
     }
     if (hasValue(dotNetObject.displayText)) {
-        jsDirectionPoint.displayText = dotNetObject.displayText;
+        properties.displayText = dotNetObject.displayText;
     }
     if (hasValue(dotNetObject.sequence)) {
-        jsDirectionPoint.sequence = dotNetObject.sequence;
+        properties.sequence = dotNetObject.sequence;
     }
+    let jsDirectionPoint = new DirectionPoint(properties);
 
     let { default: DirectionPointWrapper } = await import('./directionPoint');
     let directionPointWrapper = new DirectionPointWrapper(jsDirectionPoint);

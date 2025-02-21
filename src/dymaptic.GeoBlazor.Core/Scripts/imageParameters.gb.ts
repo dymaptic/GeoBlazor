@@ -4,43 +4,43 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageParameters } from './imageParameters';
 
 export async function buildJsImageParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageParameters = new ImageParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsImageParameters.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
-        jsImageParameters.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
+        properties.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.imageSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsImageParameters.imageSpatialReference = buildJsSpatialReference(dotNetObject.imageSpatialReference) as any;
+        properties.imageSpatialReference = buildJsSpatialReference(dotNetObject.imageSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {
-        jsImageParameters.dpi = dotNetObject.dpi;
+        properties.dpi = dotNetObject.dpi;
     }
     if (hasValue(dotNetObject.height)) {
-        jsImageParameters.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.layerDefinitions)) {
-        jsImageParameters.layerDefinitions = dotNetObject.layerDefinitions;
+        properties.layerDefinitions = dotNetObject.layerDefinitions;
     }
     if (hasValue(dotNetObject.layerIds)) {
-        jsImageParameters.layerIds = dotNetObject.layerIds;
+        properties.layerIds = dotNetObject.layerIds;
     }
     if (hasValue(dotNetObject.layerOption)) {
-        jsImageParameters.layerOption = dotNetObject.layerOption;
+        properties.layerOption = dotNetObject.layerOption;
     }
     if (hasValue(dotNetObject.transparent)) {
-        jsImageParameters.transparent = dotNetObject.transparent;
+        properties.transparent = dotNetObject.transparent;
     }
     if (hasValue(dotNetObject.width)) {
-        jsImageParameters.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsImageParameters = new ImageParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageParameters;

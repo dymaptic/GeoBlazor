@@ -4,16 +4,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGroupInput } from './groupInput';
 
 export async function buildJsGroupInputGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGroupInput = new GroupInput();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.open)) {
-        jsGroupInput.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.state)) {
-        jsGroupInput.state = dotNetObject.state;
+        properties.state = dotNetObject.state;
     }
+    let jsGroupInput = new GroupInput(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGroupInput);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGroupInput;

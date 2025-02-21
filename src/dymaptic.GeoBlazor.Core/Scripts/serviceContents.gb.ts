@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceContents } from './serviceContents';
 
 export async function buildJsServiceContentsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsServiceContents: any = {}
+    let jsServiceContents: any = {};
     if (hasValue(dotNetObject.layers)) {
         let { buildJsServiceContentsLayers } = await import('./serviceContentsLayers');
         jsServiceContents.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsServiceContentsLayers(i, layerId, viewId))) as any;
@@ -14,7 +14,6 @@ export async function buildJsServiceContentsGenerated(dotNetObject: any, layerId
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceContents);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceContents;

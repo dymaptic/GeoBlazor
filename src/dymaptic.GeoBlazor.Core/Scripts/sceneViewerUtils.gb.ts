@@ -114,7 +114,7 @@ export default class SceneViewerUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSceneViewerUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssceneViewerUtils: any = {}
+    let jssceneViewerUtils: any = {};
 
 
     let { default: SceneViewerUtilsWrapper } = await import('./sceneViewerUtils');

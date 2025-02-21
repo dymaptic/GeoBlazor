@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetElevationProfileLineQuery } from './elevationProfileLineQuery';
 
 export async function buildJsElevationProfileLineQueryGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsElevationProfileLineQuery = new ElevationProfileLineQuery();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsElevationProfileLineQuery.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.elevationProfileLineId)) {
-        jsElevationProfileLineQuery.id = dotNetObject.elevationProfileLineId;
+        properties.id = dotNetObject.elevationProfileLineId;
     }
     if (hasValue(dotNetObject.source)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSource } = dotNetObject.source;
-        jsElevationProfileLineQuery.source = sanitizedSource;
+        properties.source = sanitizedSource;
     }
     if (hasValue(dotNetObject.title)) {
-        jsElevationProfileLineQuery.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.viewVisualizationEnabled)) {
-        jsElevationProfileLineQuery.viewVisualizationEnabled = dotNetObject.viewVisualizationEnabled;
+        properties.viewVisualizationEnabled = dotNetObject.viewVisualizationEnabled;
     }
+    let jsElevationProfileLineQuery = new ElevationProfileLineQuery(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsElevationProfileLineQuery);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineQuery;

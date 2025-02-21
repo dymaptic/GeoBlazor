@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCamera } from './camera';
 
 export async function buildJsCameraGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCamera = new Camera();
+    let properties: any = {};
     if (hasValue(dotNetObject.position)) {
         let { buildJsPoint } = await import('./point');
-        jsCamera.position = buildJsPoint(dotNetObject.position) as any;
+        properties.position = buildJsPoint(dotNetObject.position) as any;
     }
 
     if (hasValue(dotNetObject.fov)) {
-        jsCamera.fov = dotNetObject.fov;
+        properties.fov = dotNetObject.fov;
     }
     if (hasValue(dotNetObject.heading)) {
-        jsCamera.heading = dotNetObject.heading;
+        properties.heading = dotNetObject.heading;
     }
     if (hasValue(dotNetObject.layout)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLayout } = dotNetObject.layout;
-        jsCamera.layout = sanitizedLayout;
+        properties.layout = sanitizedLayout;
     }
     if (hasValue(dotNetObject.tilt)) {
-        jsCamera.tilt = dotNetObject.tilt;
+        properties.tilt = dotNetObject.tilt;
     }
+    let jsCamera = new Camera(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCamera);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCamera;

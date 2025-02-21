@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeClassBreaksRendererResult } from './sizeClassBreaksRendererResult';
 
 export async function buildJsSizeClassBreaksRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeClassBreaksRendererResult: any = {}
+    let jssizeClassBreaksRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsClassBreaksRenderer } = await import('./classBreaksRenderer');
         jssizeClassBreaksRendererResult.renderer = await buildJsClassBreaksRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -25,7 +25,6 @@ export async function buildJsSizeClassBreaksRendererResultGenerated(dotNetObject
         jssizeClassBreaksRendererResult.sizeScheme = dotNetObject.sizeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeClassBreaksRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeClassBreaksRendererResult;

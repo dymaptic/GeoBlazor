@@ -52,8 +52,9 @@ export default class ConnectionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsConnectionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsConnection = new Connection();
+    let properties: any = {};
 
+    let jsConnection = new Connection(properties);
 
     let { default: ConnectionWrapper } = await import('./connection');
     let connectionWrapper = new ConnectionWrapper(jsConnection);

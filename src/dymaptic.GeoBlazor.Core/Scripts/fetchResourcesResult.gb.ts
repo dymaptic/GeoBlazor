@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFetchResourcesResult } from './fetchResourcesResult';
 
 export async function buildJsFetchResourcesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFetchResourcesResult: any = {}
+    let jsFetchResourcesResult: any = {};
     if (hasValue(dotNetObject.resources)) {
         let { buildJsFetchResource } = await import('./fetchResource');
         jsFetchResourcesResult.resources = await Promise.all(dotNetObject.resources.map(async i => await buildJsFetchResource(i, layerId, viewId))) as any;
@@ -16,7 +16,6 @@ export async function buildJsFetchResourcesResultGenerated(dotNetObject: any, la
         jsFetchResourcesResult.total = dotNetObject.total;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFetchResourcesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFetchResourcesResult;

@@ -42,7 +42,7 @@ export default class TraceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTraceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstrace: any = {}
+    let jstrace: any = {};
 
 
     let { default: TraceWrapper } = await import('./trace');

@@ -60,21 +60,22 @@ export default class SliceViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSliceViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSliceViewModel = new SliceViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.shape)) {
         let { buildJsSlicePlane } = await import('./slicePlane');
-        jsSliceViewModel.shape = await buildJsSlicePlane(dotNetObject.shape, layerId, viewId) as any;
+        properties.shape = await buildJsSlicePlane(dotNetObject.shape, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.excludedLayers)) {
-        jsSliceViewModel.excludedLayers = dotNetObject.excludedLayers;
+        properties.excludedLayers = dotNetObject.excludedLayers;
     }
     if (hasValue(dotNetObject.excludeGroundSurface)) {
-        jsSliceViewModel.excludeGroundSurface = dotNetObject.excludeGroundSurface;
+        properties.excludeGroundSurface = dotNetObject.excludeGroundSurface;
     }
     if (hasValue(dotNetObject.tiltEnabled)) {
-        jsSliceViewModel.tiltEnabled = dotNetObject.tiltEnabled;
+        properties.tiltEnabled = dotNetObject.tiltEnabled;
     }
+    let jsSliceViewModel = new SliceViewModel(properties);
 
     let { default: SliceViewModelWrapper } = await import('./sliceViewModel');
     let sliceViewModelWrapper = new SliceViewModelWrapper(jsSliceViewModel);

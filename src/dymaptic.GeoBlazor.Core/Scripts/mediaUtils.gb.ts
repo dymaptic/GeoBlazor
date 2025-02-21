@@ -48,7 +48,7 @@ export default class MediaUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsMediaUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsmediaUtils: any = {}
+    let jsmediaUtils: any = {};
 
 
     let { default: MediaUtilsWrapper } = await import('./mediaUtils');

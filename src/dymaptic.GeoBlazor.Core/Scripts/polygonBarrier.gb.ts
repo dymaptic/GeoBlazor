@@ -60,22 +60,23 @@ export default class PolygonBarrierGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPolygonBarrierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPolygonBarrier = new PolygonBarrier();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsPolygonBarrier.geometry = buildJsPolygon(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolygon(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsPolygonBarrier.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.barrierType)) {
-        jsPolygonBarrier.barrierType = dotNetObject.barrierType;
+        properties.barrierType = dotNetObject.barrierType;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPolygonBarrier.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsPolygonBarrier = new PolygonBarrier(properties);
 
     let { default: PolygonBarrierWrapper } = await import('./polygonBarrier');
     let polygonBarrierWrapper = new PolygonBarrierWrapper(jsPolygonBarrier);

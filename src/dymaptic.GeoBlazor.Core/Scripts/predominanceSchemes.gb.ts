@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominanceSchemes } from './predominanceSchemes';
 
 export async function buildJsPredominanceSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPredominanceSchemes: any = {}
+    let jsPredominanceSchemes: any = {};
 
     if (hasValue(dotNetObject.basemapId)) {
         jsPredominanceSchemes.basemapId = dotNetObject.basemapId;
@@ -18,7 +18,6 @@ export async function buildJsPredominanceSchemesGenerated(dotNetObject: any, lay
         jsPredominanceSchemes.secondarySchemes = dotNetObject.secondarySchemes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPredominanceSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPredominanceSchemes;

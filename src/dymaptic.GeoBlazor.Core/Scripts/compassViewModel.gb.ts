@@ -36,11 +36,12 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCompassViewModel = new CompassViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.goToOverride)) {
-        jsCompassViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
+    let jsCompassViewModel = new CompassViewModel(properties);
 
     let { default: CompassViewModelWrapper } = await import('./compassViewModel');
     let compassViewModelWrapper = new CompassViewModelWrapper(jsCompassViewModel);

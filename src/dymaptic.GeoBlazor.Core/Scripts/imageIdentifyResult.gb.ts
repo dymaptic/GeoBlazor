@@ -4,33 +4,33 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageIdentifyResult } from './imageIdentifyResult';
 
 export async function buildJsImageIdentifyResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageIdentifyResult = new ImageIdentifyResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.catalogItems)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsImageIdentifyResult.catalogItems = buildJsFeatureSet(dotNetObject.catalogItems) as any;
+        properties.catalogItems = buildJsFeatureSet(dotNetObject.catalogItems) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsImageIdentifyResult.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
     if (hasValue(dotNetObject.catalogItemVisibilities)) {
-        jsImageIdentifyResult.catalogItemVisibilities = dotNetObject.catalogItemVisibilities;
+        properties.catalogItemVisibilities = dotNetObject.catalogItemVisibilities;
     }
     if (hasValue(dotNetObject.name)) {
-        jsImageIdentifyResult.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.objectId)) {
-        jsImageIdentifyResult.objectId = dotNetObject.objectId;
+        properties.objectId = dotNetObject.objectId;
     }
     if (hasValue(dotNetObject.properties)) {
-        jsImageIdentifyResult.properties = dotNetObject.properties;
+        properties.properties = dotNetObject.properties;
     }
     if (hasValue(dotNetObject.value)) {
-        jsImageIdentifyResult.value = dotNetObject.value;
+        properties.value = dotNetObject.value;
     }
+    let jsImageIdentifyResult = new ImageIdentifyResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageIdentifyResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyResult;

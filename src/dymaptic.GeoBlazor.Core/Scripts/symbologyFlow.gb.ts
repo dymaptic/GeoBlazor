@@ -60,7 +60,7 @@ export default class SymbologyFlowGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyFlowGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyFlow: any = {}
+    let jssymbologyFlow: any = {};
 
 
     let { default: SymbologyFlowWrapper } = await import('./symbologyFlow');

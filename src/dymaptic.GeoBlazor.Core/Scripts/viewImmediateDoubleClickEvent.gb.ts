@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewImmediateDoubleClickEvent } from './viewImmediateDoubleClickEvent';
 
 export async function buildJsViewImmediateDoubleClickEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewImmediateDoubleClickEvent: any = {}
+    let jsViewImmediateDoubleClickEvent: any = {};
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
         jsViewImmediateDoubleClickEvent.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
@@ -31,7 +31,6 @@ export async function buildJsViewImmediateDoubleClickEventGenerated(dotNetObject
         jsViewImmediateDoubleClickEvent.y = dotNetObject.y;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewImmediateDoubleClickEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewImmediateDoubleClickEvent;

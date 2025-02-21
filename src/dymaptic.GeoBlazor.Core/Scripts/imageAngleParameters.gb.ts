@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageAngleParameters } from './imageAngleParameters';
 
 export async function buildJsImageAngleParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageAngleParameters = new ImageAngleParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.point)) {
         let { buildJsPoint } = await import('./point');
-        jsImageAngleParameters.point = buildJsPoint(dotNetObject.point) as any;
+        properties.point = buildJsPoint(dotNetObject.point) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsImageAngleParameters.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.angleNames)) {
-        jsImageAngleParameters.angleNames = dotNetObject.angleNames;
+        properties.angleNames = dotNetObject.angleNames;
     }
     if (hasValue(dotNetObject.rasterId)) {
-        jsImageAngleParameters.rasterId = dotNetObject.rasterId;
+        properties.rasterId = dotNetObject.rasterId;
     }
+    let jsImageAngleParameters = new ImageAngleParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageAngleParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageAngleParameters;

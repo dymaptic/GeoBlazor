@@ -54,7 +54,7 @@ export default class PlacesServiceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPlacesServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsplaces: any = {}
+    let jsplaces: any = {};
 
 
     let { default: PlacesServiceWrapper } = await import('./placesService');

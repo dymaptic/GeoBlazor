@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDistanceParameters } from './distanceParameters';
 
 export async function buildJsDistanceParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDistanceParameters = new DistanceParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry1)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsDistanceParameters.geometry1 = buildJsGeometry(dotNetObject.geometry1) as any;
+        properties.geometry1 = buildJsGeometry(dotNetObject.geometry1) as any;
     }
     if (hasValue(dotNetObject.geometry2)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsDistanceParameters.geometry2 = buildJsGeometry(dotNetObject.geometry2) as any;
+        properties.geometry2 = buildJsGeometry(dotNetObject.geometry2) as any;
     }
 
     if (hasValue(dotNetObject.distanceUnit)) {
-        jsDistanceParameters.distanceUnit = dotNetObject.distanceUnit;
+        properties.distanceUnit = dotNetObject.distanceUnit;
     }
     if (hasValue(dotNetObject.geodesic)) {
-        jsDistanceParameters.geodesic = dotNetObject.geodesic;
+        properties.geodesic = dotNetObject.geodesic;
     }
+    let jsDistanceParameters = new DistanceParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDistanceParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceParameters;

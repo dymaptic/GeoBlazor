@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetContinuousRendererResultColor } from './continuousRendererResultColor';
 
 export async function buildJsContinuousRendererResultColorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsContinuousRendererResultColor: any = {}
+    let jsContinuousRendererResultColor: any = {};
     if (hasValue(dotNetObject.visualVariable)) {
         let { buildJsColorVariable } = await import('./colorVariable');
         jsContinuousRendererResultColor.visualVariable = await buildJsColorVariable(dotNetObject.visualVariable, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsContinuousRendererResultColorGenerated(dotNetObject
         jsContinuousRendererResultColor.colorScheme = dotNetObject.colorScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsContinuousRendererResultColor);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsContinuousRendererResultColor;

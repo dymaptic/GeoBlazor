@@ -4,51 +4,51 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageInspectionInfo } from './imageInspectionInfo';
 
 export async function buildJsImageInspectionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageInspectionInfo = new ImageInspectionInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');
-        jsImageInspectionInfo.center = buildJsPoint(dotNetObject.center) as any;
+        properties.center = buildJsPoint(dotNetObject.center) as any;
     }
     if (hasValue(dotNetObject.perspectiveCenter)) {
         let { buildJsPoint } = await import('./point');
-        jsImageInspectionInfo.perspectiveCenter = buildJsPoint(dotNetObject.perspectiveCenter) as any;
+        properties.perspectiveCenter = buildJsPoint(dotNetObject.perspectiveCenter) as any;
     }
 
     if (hasValue(dotNetObject.acquisitionDate)) {
-        jsImageInspectionInfo.acquisitionDate = dotNetObject.acquisitionDate;
+        properties.acquisitionDate = dotNetObject.acquisitionDate;
     }
     if (hasValue(dotNetObject.cameraID)) {
-        jsImageInspectionInfo.cameraID = dotNetObject.cameraID;
+        properties.cameraID = dotNetObject.cameraID;
     }
     if (hasValue(dotNetObject.cols)) {
-        jsImageInspectionInfo.cols = dotNetObject.cols;
+        properties.cols = dotNetObject.cols;
     }
     if (hasValue(dotNetObject.focalLength)) {
-        jsImageInspectionInfo.focalLength = dotNetObject.focalLength;
+        properties.focalLength = dotNetObject.focalLength;
     }
     if (hasValue(dotNetObject.imageInspectionInfoId)) {
-        jsImageInspectionInfo.id = dotNetObject.imageInspectionInfoId;
+        properties.id = dotNetObject.imageInspectionInfoId;
     }
     if (hasValue(dotNetObject.make)) {
-        jsImageInspectionInfo.make = dotNetObject.make;
+        properties.make = dotNetObject.make;
     }
     if (hasValue(dotNetObject.model)) {
-        jsImageInspectionInfo.model = dotNetObject.model;
+        properties.model = dotNetObject.model;
     }
     if (hasValue(dotNetObject.orientation)) {
-        jsImageInspectionInfo.orientation = dotNetObject.orientation;
+        properties.orientation = dotNetObject.orientation;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageInspectionInfo.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.referenceUri)) {
-        jsImageInspectionInfo.referenceUri = dotNetObject.referenceUri;
+        properties.referenceUri = dotNetObject.referenceUri;
     }
     if (hasValue(dotNetObject.rows)) {
-        jsImageInspectionInfo.rows = dotNetObject.rows;
+        properties.rows = dotNetObject.rows;
     }
+    let jsImageInspectionInfo = new ImageInspectionInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageInspectionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageInspectionInfo;

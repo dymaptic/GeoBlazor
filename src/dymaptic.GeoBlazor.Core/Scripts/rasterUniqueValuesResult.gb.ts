@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterUniqueValuesResult } from './rasterUniqueValuesResult';
 
 export async function buildJsRasterUniqueValuesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterUniqueValuesResult: any = {}
+    let jsRasterUniqueValuesResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsUniqueValueRenderer } = await import('./uniqueValueRenderer');
         jsRasterUniqueValuesResult.renderer = await buildJsUniqueValueRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsRasterUniqueValuesResultGenerated(dotNetObject: any
         jsRasterUniqueValuesResult.classFieldName = dotNetObject.classFieldName;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterUniqueValuesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterUniqueValuesResult;

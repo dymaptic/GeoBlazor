@@ -126,76 +126,77 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWMTSLayer = new WMTSLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeLayer)) {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
-        jsWMTSLayer.activeLayer = await buildJsWMTSSublayer(dotNetObject.activeLayer, layerId, viewId) as any;
+        properties.activeLayer = await buildJsWMTSSublayer(dotNetObject.activeLayer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWMTSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsWMTSLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
-        jsWMTSLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMTSSublayer(i, layerId, viewId))) as any;
+        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMTSSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsWMTSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsWMTSLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsWMTSLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsWMTSLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customLayerParameters)) {
-        jsWMTSLayer.customLayerParameters = dotNetObject.customLayerParameters;
+        properties.customLayerParameters = dotNetObject.customLayerParameters;
     }
     if (hasValue(dotNetObject.customParameters)) {
-        jsWMTSLayer.customParameters = dotNetObject.customParameters;
+        properties.customParameters = dotNetObject.customParameters;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsWMTSLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsWMTSLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsWMTSLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsWMTSLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsWMTSLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsWMTSLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsWMTSLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.serviceMode)) {
-        jsWMTSLayer.serviceMode = dotNetObject.serviceMode;
+        properties.serviceMode = dotNetObject.serviceMode;
     }
     if (hasValue(dotNetObject.title)) {
-        jsWMTSLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsWMTSLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.version)) {
-        jsWMTSLayer.version = dotNetObject.version;
+        properties.version = dotNetObject.version;
     }
+    let jsWMTSLayer = new WMTSLayer(properties);
 
     let { default: WMTSLayerWrapper } = await import('./wMTSLayer');
     let wMTSLayerWrapper = new WMTSLayerWrapper(jsWMTSLayer);

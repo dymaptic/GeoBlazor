@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCustomTemplate } from './customTemplate';
 
 export async function buildJsCustomTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCustomTemplate = new CustomTemplate();
+    let properties: any = {};
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
-        jsCustomTemplate.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
+        properties.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
 
+    let jsCustomTemplate = new CustomTemplate(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCustomTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCustomTemplate;

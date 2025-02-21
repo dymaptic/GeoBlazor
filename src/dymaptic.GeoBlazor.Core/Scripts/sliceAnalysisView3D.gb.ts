@@ -4,16 +4,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSliceAnalysisView3D } from './sliceAnalysisView3D';
 
 export async function buildJsSliceAnalysisView3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSliceAnalysisView3D = new SliceAnalysisView3D();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.active)) {
-        jsSliceAnalysisView3D.active = dotNetObject.active;
+        properties.active = dotNetObject.active;
     }
     if (hasValue(dotNetObject.interactive)) {
-        jsSliceAnalysisView3D.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
+    let jsSliceAnalysisView3D = new SliceAnalysisView3D(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSliceAnalysisView3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSliceAnalysisView3D;

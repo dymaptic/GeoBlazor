@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearch } from './search';
 
 export async function buildJsSearchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearch = new Search();
+    let properties: any = {};
     if (hasValue(dotNetObject.layers)) {
         let { buildJsISearchLayer } = await import('./iSearchLayer');
-        jsSearch.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsISearchLayer(i, layerId, viewId))) as any;
+        properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsISearchLayer(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.addressSearchEnabled)) {
-        jsSearch.addressSearchEnabled = dotNetObject.addressSearchEnabled;
+        properties.addressSearchEnabled = dotNetObject.addressSearchEnabled;
     }
     if (hasValue(dotNetObject.enabled)) {
-        jsSearch.enabled = dotNetObject.enabled;
+        properties.enabled = dotNetObject.enabled;
     }
     if (hasValue(dotNetObject.hintText)) {
-        jsSearch.hintText = dotNetObject.hintText;
+        properties.hintText = dotNetObject.hintText;
     }
     if (hasValue(dotNetObject.tables)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTables } = dotNetObject.tables;
-        jsSearch.tables = sanitizedTables;
+        properties.tables = sanitizedTables;
     }
+    let jsSearch = new Search(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearch);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearch;

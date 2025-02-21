@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetContinuousRendererResult } from './continuousRendererResult';
 
 export async function buildJsContinuousRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsContinuousRendererResult: any = {}
+    let jsContinuousRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsClassBreaksRenderer } = await import('./classBreaksRenderer');
         jsContinuousRendererResult.renderer = await buildJsClassBreaksRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -29,7 +29,6 @@ export async function buildJsContinuousRendererResultGenerated(dotNetObject: any
         jsContinuousRendererResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsContinuousRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsContinuousRendererResult;

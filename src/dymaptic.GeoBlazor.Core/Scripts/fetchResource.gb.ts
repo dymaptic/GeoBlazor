@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFetchResource } from './fetchResource';
 
 export async function buildJsFetchResourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFetchResource: any = {}
+    let jsFetchResource: any = {};
     if (hasValue(dotNetObject.resource)) {
         let { buildJsPortalItemResource } = await import('./portalItemResource');
         jsFetchResource.resource = await buildJsPortalItemResource(dotNetObject.resource, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsFetchResourceGenerated(dotNetObject: any, layerId: 
         jsFetchResource.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFetchResource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFetchResource;

@@ -48,15 +48,16 @@ export default class NavigationToggleWidgetGenerated implements IPropertyWrapper
 
 
 export async function buildJsNavigationToggleWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsNavigationToggle = new NavigationToggle();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsNavigationToggleViewModel } = await import('./navigationToggleViewModel');
-        jsNavigationToggle.viewModel = await buildJsNavigationToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsNavigationToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.layout)) {
-        jsNavigationToggle.layout = dotNetObject.layout;
+        properties.layout = dotNetObject.layout;
     }
+    let jsNavigationToggle = new NavigationToggle(properties);
 
     let { default: NavigationToggleWidgetWrapper } = await import('./navigationToggleWidget');
     let navigationToggleWidgetWrapper = new NavigationToggleWidgetWrapper(jsNavigationToggle);

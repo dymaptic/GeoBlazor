@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUnivariateColorSizeCreateVisualVariablesParamsSizeOptions } from './univariateColorSizeCreateVisualVariablesParamsSizeOptions';
 
 export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsSizeOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions: any = {}
+    let jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions: any = {};
 
     if (hasValue(dotNetObject.axis)) {
         jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions.axis = dotNetObject.axis;
@@ -15,7 +15,6 @@ export async function buildJsUnivariateColorSizeCreateVisualVariablesParamsSizeO
         jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions.sizeScheme = dotNetObject.sizeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsunivariateColorSizeCreateVisualVariablesParamsSizeOptions;

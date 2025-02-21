@@ -4,19 +4,19 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMediaLayerView } from './mediaLayerView';
 
 export async function buildJsMediaLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMediaLayerView = new MediaLayerView();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.interactionOptions)) {
-        jsMediaLayerView.interactionOptions = dotNetObject.interactionOptions;
+        properties.interactionOptions = dotNetObject.interactionOptions;
     }
     if (hasValue(dotNetObject.interactive)) {
-        jsMediaLayerView.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
     if (hasValue(dotNetObject.selectedElement)) {
-        jsMediaLayerView.selectedElement = dotNetObject.selectedElement;
+        properties.selectedElement = dotNetObject.selectedElement;
     }
+    let jsMediaLayerView = new MediaLayerView(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMediaLayerView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMediaLayerView;

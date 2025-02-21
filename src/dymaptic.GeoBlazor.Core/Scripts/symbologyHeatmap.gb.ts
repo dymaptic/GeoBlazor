@@ -54,7 +54,7 @@ export default class SymbologyHeatmapGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyHeatmapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyHeatmap: any = {}
+    let jssymbologyHeatmap: any = {};
 
 
     let { default: SymbologyHeatmapWrapper } = await import('./symbologyHeatmap');

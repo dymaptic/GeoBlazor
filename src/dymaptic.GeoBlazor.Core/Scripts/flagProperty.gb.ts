@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFlagProperty } from './flagProperty';
 
 export async function buildJsFlagPropertyGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFlagProperty: any = {}
+    let jsFlagProperty: any = {};
     if (hasValue(dotNetObject.mapGraphic)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFlagProperty.mapGraphic = buildJsGraphic(dotNetObject.mapGraphic) as any;
@@ -30,7 +30,6 @@ export async function buildJsFlagPropertyGenerated(dotNetObject: any, layerId: s
         jsFlagProperty.selectedTerminals = dotNetObject.selectedTerminals;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFlagProperty);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFlagProperty;

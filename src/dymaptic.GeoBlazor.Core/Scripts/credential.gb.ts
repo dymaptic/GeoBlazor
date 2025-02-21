@@ -36,29 +36,30 @@ export default class CredentialGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCredentialGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCredential = new Credential();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.expires)) {
-        jsCredential.expires = dotNetObject.expires;
+        properties.expires = dotNetObject.expires;
     }
     if (hasValue(dotNetObject.isAdmin)) {
-        jsCredential.isAdmin = dotNetObject.isAdmin;
+        properties.isAdmin = dotNetObject.isAdmin;
     }
     if (hasValue(dotNetObject.oAuthState)) {
-        jsCredential.oAuthState = dotNetObject.oAuthState;
+        properties.oAuthState = dotNetObject.oAuthState;
     }
     if (hasValue(dotNetObject.server)) {
-        jsCredential.server = dotNetObject.server;
+        properties.server = dotNetObject.server;
     }
     if (hasValue(dotNetObject.ssl)) {
-        jsCredential.ssl = dotNetObject.ssl;
+        properties.ssl = dotNetObject.ssl;
     }
     if (hasValue(dotNetObject.token)) {
-        jsCredential.token = dotNetObject.token;
+        properties.token = dotNetObject.token;
     }
     if (hasValue(dotNetObject.userId)) {
-        jsCredential.userId = dotNetObject.userId;
+        properties.userId = dotNetObject.userId;
     }
+    let jsCredential = new Credential(properties);
     jsCredential.on('destroy', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', evt);
     });

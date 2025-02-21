@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGfxUtils } from './gfxUtils';
 
 export async function buildJsGfxUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsgfxUtils: any = {}
+    let jsgfxUtils: any = {};
     if (hasValue(dotNetObject.defaultThematicColor)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsgfxUtils.defaultThematicColor = buildJsMapColor(dotNetObject.defaultThematicColor) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsgfxUtils);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgfxUtils;

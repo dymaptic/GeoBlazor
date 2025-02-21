@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV110DomainSpatialDomain } from './coverageDescriptionV110DomainSpatialDomain';
 
 export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoverageDescriptionV110DomainSpatialDomain: any = {}
+    let jsCoverageDescriptionV110DomainSpatialDomain: any = {};
     if (hasValue(dotNetObject.envelope)) {
         let { buildJsExtent } = await import('./extent');
         jsCoverageDescriptionV110DomainSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope) as any;
@@ -28,7 +28,6 @@ export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated
         jsCoverageDescriptionV110DomainSpatialDomain.useEPSGAxis = dotNetObject.useEPSGAxis;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV110DomainSpatialDomain);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110DomainSpatialDomain;

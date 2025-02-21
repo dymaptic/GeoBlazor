@@ -58,27 +58,28 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapLayerListViewModel = new BasemapLayerListViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        jsBasemapLayerListViewModel.baseListItemCreatedFunction = (event) => {
+        properties.baseListItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        jsBasemapLayerListViewModel.referenceListItemCreatedFunction = (event) => {
+        properties.referenceListItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
 
     if (hasValue(dotNetObject.basemapTitle)) {
-        jsBasemapLayerListViewModel.basemapTitle = dotNetObject.basemapTitle;
+        properties.basemapTitle = dotNetObject.basemapTitle;
     }
     if (hasValue(dotNetObject.checkPublishStatusEnabled)) {
-        jsBasemapLayerListViewModel.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
+        properties.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
     }
     if (hasValue(dotNetObject.listModeDisabled)) {
-        jsBasemapLayerListViewModel.listModeDisabled = dotNetObject.listModeDisabled;
+        properties.listModeDisabled = dotNetObject.listModeDisabled;
     }
+    let jsBasemapLayerListViewModel = new BasemapLayerListViewModel(properties);
 
     let { default: BasemapLayerListViewModelWrapper } = await import('./basemapLayerListViewModel');
     let basemapLayerListViewModelWrapper = new BasemapLayerListViewModelWrapper(jsBasemapLayerListViewModel);

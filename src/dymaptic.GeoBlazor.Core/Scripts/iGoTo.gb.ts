@@ -3,13 +3,12 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIGoTo } from './iGoTo';
 
 export async function buildJsIGoToGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGoTo: any = {}
+    let jsGoTo: any = {};
 
     if (hasValue(dotNetObject.goToOverride)) {
         jsGoTo.goToOverride = dotNetObject.goToOverride;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGoTo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGoTo;

@@ -44,7 +44,7 @@ export default class SqlGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSqlGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssql: any = {}
+    let jssql: any = {};
 
 
     let { default: SqlWrapper } = await import('./sql');

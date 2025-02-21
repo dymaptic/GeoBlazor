@@ -4,25 +4,25 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetProjectParameters } from './projectParameters';
 
 export async function buildJsProjectParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsProjectParameters = new ProjectParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsProjectParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsProjectParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.transformation)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTransformation } = dotNetObject.transformation;
-        jsProjectParameters.transformation = sanitizedTransformation;
+        properties.transformation = sanitizedTransformation;
     }
     if (hasValue(dotNetObject.transformForward)) {
-        jsProjectParameters.transformForward = dotNetObject.transformForward;
+        properties.transformForward = dotNetObject.transformForward;
     }
+    let jsProjectParameters = new ProjectParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsProjectParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsProjectParameters;

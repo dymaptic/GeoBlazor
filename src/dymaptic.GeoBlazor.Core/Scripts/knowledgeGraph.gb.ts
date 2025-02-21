@@ -4,13 +4,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraph } from './knowledgeGraph';
 
 export async function buildJsKnowledgeGraphGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsKnowledgeGraph = new KnowledgeGraph();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.url)) {
-        jsKnowledgeGraph.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsKnowledgeGraph = new KnowledgeGraph(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsKnowledgeGraph);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraph;

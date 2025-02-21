@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFieldInput } from './fieldInput';
 
 export async function buildJsFieldInputGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFieldInput = new FieldInput();
+    let properties: any = {};
 
+    let jsFieldInput = new FieldInput(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFieldInput);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInput;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV201EoMetadataObservation } from './coverageDescriptionV201EoMetadataObservation';
 
 export async function buildJsCoverageDescriptionV201EoMetadataObservationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoverageDescriptionV201EoMetadataObservation: any = {}
+    let jsCoverageDescriptionV201EoMetadataObservation: any = {};
     if (hasValue(dotNetObject.footprint)) {
         let { buildJsPolygon } = await import('./polygon');
         jsCoverageDescriptionV201EoMetadataObservation.footprint = buildJsPolygon(dotNetObject.footprint) as any;
@@ -25,7 +25,6 @@ export async function buildJsCoverageDescriptionV201EoMetadataObservationGenerat
         jsCoverageDescriptionV201EoMetadataObservation.status = dotNetObject.status;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV201EoMetadataObservation);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201EoMetadataObservation;

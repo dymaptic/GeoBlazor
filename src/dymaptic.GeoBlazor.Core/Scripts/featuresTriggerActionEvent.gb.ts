@@ -3,13 +3,12 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeaturesTriggerActionEvent } from './featuresTriggerActionEvent';
 
 export async function buildJsFeaturesTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeaturesTriggerActionEvent: any = {}
+    let jsFeaturesTriggerActionEvent: any = {};
 
     if (hasValue(dotNetObject.action)) {
         jsFeaturesTriggerActionEvent.action = dotNetObject.action;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesTriggerActionEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesTriggerActionEvent;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterClassBreaksResult } from './rasterClassBreaksResult';
 
 export async function buildJsRasterClassBreaksResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterClassBreaksResult: any = {}
+    let jsRasterClassBreaksResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsClassBreaksRenderer } = await import('./classBreaksRenderer');
         jsRasterClassBreaksResult.renderer = await buildJsClassBreaksRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsRasterClassBreaksResultGenerated(dotNetObject: any,
         jsRasterClassBreaksResult.classBreaksResult = dotNetObject.classBreaksResult;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterClassBreaksResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterClassBreaksResult;

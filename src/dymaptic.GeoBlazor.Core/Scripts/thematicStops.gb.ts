@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetThematicStops } from './thematicStops';
 
 export async function buildJsThematicStopsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsThematicStops: any = {}
+    let jsThematicStops: any = {};
 
     if (hasValue(dotNetObject.field)) {
         jsThematicStops.field = dotNetObject.field;
@@ -19,7 +19,6 @@ export async function buildJsThematicStopsGenerated(dotNetObject: any, layerId: 
         jsThematicStops.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsThematicStops);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsThematicStops;

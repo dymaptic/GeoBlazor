@@ -64,7 +64,7 @@ export default class SegmentDrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSegmentDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSegmentDrawAction: any = {}
+    let jsSegmentDrawAction: any = {};
 
     if (hasValue(dotNetObject.hasZ)) {
         jsSegmentDrawAction.hasZ = dotNetObject.hasZ;

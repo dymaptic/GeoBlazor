@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureEdits } from './featureEdits';
 
 export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerBaseApplyEditsEdits: any = {}
+    let jsFeatureLayerBaseApplyEditsEdits: any = {};
     if (hasValue(dotNetObject.addFeatures)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
@@ -27,7 +27,6 @@ export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: s
         jsFeatureLayerBaseApplyEditsEdits.updateAttachments = dotNetObject.updateAttachments;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseApplyEditsEdits);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseApplyEditsEdits;

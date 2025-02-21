@@ -36,7 +36,7 @@ export default class IPublishableLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPublishableLayer: any = {}
+    let jsPublishableLayer: any = {};
 
 
     let { default: IPublishableLayerWrapper } = await import('./iPublishableLayer');

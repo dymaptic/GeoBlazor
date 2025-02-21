@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWebMapSaveAsOptions } from './webMapSaveAsOptions';
 
 export async function buildJsWebMapSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWebMapSaveAsOptions: any = {}
+    let jsWebMapSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsWebMapSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsWebMapSaveAsOptionsGenerated(dotNetObject: any, lay
         jsWebMapSaveAsOptions.ignoreUnsupported = dotNetObject.ignoreUnsupported;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWebMapSaveAsOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebMapSaveAsOptions;

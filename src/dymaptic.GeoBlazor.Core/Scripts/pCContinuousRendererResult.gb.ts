@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPCContinuousRendererResult } from './pCContinuousRendererResult';
 
 export async function buildJsPCContinuousRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPCContinuousRendererResult: any = {}
+    let jsPCContinuousRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsPointCloudStretchRenderer } = await import('./pointCloudStretchRenderer');
         jsPCContinuousRendererResult.renderer = await buildJsPointCloudStretchRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -25,7 +25,6 @@ export async function buildJsPCContinuousRendererResultGenerated(dotNetObject: a
         jsPCContinuousRendererResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPCContinuousRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPCContinuousRendererResult;

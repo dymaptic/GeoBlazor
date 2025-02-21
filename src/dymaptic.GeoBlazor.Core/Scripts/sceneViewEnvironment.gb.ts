@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneViewEnvironment } from './sceneViewEnvironment';
 
 export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewEnvironment: any = {}
+    let jsSceneViewEnvironment: any = {};
 
     if (hasValue(dotNetObject.atmosphere)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAtmosphere } = dotNetObject.atmosphere;
@@ -26,7 +26,6 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
         jsSceneViewEnvironment.weather = dotNetObject.weather;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewEnvironment);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewEnvironment;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemeForPointOutline } from './relationshipSchemeForPointOutline';
 
 export async function buildJsRelationshipSchemeForPointOutlineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemeForPointOutline: any = {}
+    let jsRelationshipSchemeForPointOutline: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsRelationshipSchemeForPointOutline.color = buildJsMapColor(dotNetObject.color) as any;
@@ -13,7 +13,6 @@ export async function buildJsRelationshipSchemeForPointOutlineGenerated(dotNetOb
         jsRelationshipSchemeForPointOutline.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemeForPointOutline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemeForPointOutline;

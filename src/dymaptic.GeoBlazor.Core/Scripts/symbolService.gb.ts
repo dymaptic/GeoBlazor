@@ -40,7 +40,7 @@ export default class SymbolServiceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbolServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolService: any = {}
+    let jssymbolService: any = {};
 
 
     let { default: SymbolServiceWrapper } = await import('./symbolService');

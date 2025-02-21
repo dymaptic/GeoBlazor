@@ -104,58 +104,59 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUniqueValueRenderer = new UniqueValueRenderer();
+    let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsUniqueValueRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
-        jsUniqueValueRenderer.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId))) as any;
+        properties.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.uniqueValueInfos)) {
         let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
-        jsUniqueValueRenderer.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, layerId, viewId))) as any;
+        properties.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        jsUniqueValueRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        jsUniqueValueRenderer.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
+        properties.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
     }
     if (hasValue(dotNetObject.defaultLabel)) {
-        jsUniqueValueRenderer.defaultLabel = dotNetObject.defaultLabel;
+        properties.defaultLabel = dotNetObject.defaultLabel;
     }
     if (hasValue(dotNetObject.defaultSymbol)) {
-        jsUniqueValueRenderer.defaultSymbol = dotNetObject.defaultSymbol;
+        properties.defaultSymbol = dotNetObject.defaultSymbol;
     }
     if (hasValue(dotNetObject.field)) {
-        jsUniqueValueRenderer.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.field2)) {
-        jsUniqueValueRenderer.field2 = dotNetObject.field2;
+        properties.field2 = dotNetObject.field2;
     }
     if (hasValue(dotNetObject.field3)) {
-        jsUniqueValueRenderer.field3 = dotNetObject.field3;
+        properties.field3 = dotNetObject.field3;
     }
     if (hasValue(dotNetObject.fieldDelimiter)) {
-        jsUniqueValueRenderer.fieldDelimiter = dotNetObject.fieldDelimiter;
+        properties.fieldDelimiter = dotNetObject.fieldDelimiter;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        jsUniqueValueRenderer.legendOptions = sanitizedLegendOptions;
+        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.orderByClassesEnabled)) {
-        jsUniqueValueRenderer.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
+        properties.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsUniqueValueRenderer.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsUniqueValueRenderer.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsUniqueValueRenderer = new UniqueValueRenderer(properties);
 
     let { default: UniqueValueRendererWrapper } = await import('./uniqueValueRenderer');
     let uniqueValueRendererWrapper = new UniqueValueRendererWrapper(jsUniqueValueRenderer);

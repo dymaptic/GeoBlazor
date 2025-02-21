@@ -120,59 +120,60 @@ export default class IOpenStreetMapLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIOpenStreetMapLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpenStreetMapLayer = new OpenStreetMapLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsOpenStreetMapLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
-        jsOpenStreetMapLayer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
+        properties.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsOpenStreetMapLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsOpenStreetMapLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsOpenStreetMapLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsOpenStreetMapLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsOpenStreetMapLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsOpenStreetMapLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsOpenStreetMapLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsOpenStreetMapLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsOpenStreetMapLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsOpenStreetMapLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsOpenStreetMapLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.subDomains)) {
-        jsOpenStreetMapLayer.subDomains = dotNetObject.subDomains;
+        properties.subDomains = dotNetObject.subDomains;
     }
     if (hasValue(dotNetObject.title)) {
-        jsOpenStreetMapLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.urlTemplate)) {
-        jsOpenStreetMapLayer.urlTemplate = dotNetObject.urlTemplate;
+        properties.urlTemplate = dotNetObject.urlTemplate;
     }
+    let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsayerviewCreate', evt);
     });

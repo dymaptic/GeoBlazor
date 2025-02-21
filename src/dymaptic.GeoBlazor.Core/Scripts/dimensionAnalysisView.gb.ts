@@ -65,15 +65,16 @@ export default class DimensionAnalysisViewGenerated implements IPropertyWrapper 
 
 
 export async function buildJsDimensionAnalysisViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDimensionAnalysisView = new DimensionAnalysisView();
+    let properties: any = {};
     if (hasValue(dotNetObject.selectedDimension)) {
         let { buildJsLengthDimension } = await import('./lengthDimension');
-        jsDimensionAnalysisView.selectedDimension = await buildJsLengthDimension(dotNetObject.selectedDimension, layerId, viewId) as any;
+        properties.selectedDimension = await buildJsLengthDimension(dotNetObject.selectedDimension, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.interactive)) {
-        jsDimensionAnalysisView.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
+    let jsDimensionAnalysisView = new DimensionAnalysisView(properties);
 
     let { default: DimensionAnalysisViewWrapper } = await import('./dimensionAnalysisView');
     let dimensionAnalysisViewWrapper = new DimensionAnalysisViewWrapper(jsDimensionAnalysisView);

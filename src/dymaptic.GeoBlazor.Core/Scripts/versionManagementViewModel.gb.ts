@@ -110,43 +110,44 @@ export default class VersionManagementViewModelGenerated implements IPropertyWra
 
 
 export async function buildJsVersionManagementViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVersionManagementViewModel = new VersionManagementViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureServiceLookup)) {
         let { buildJsVersionManagementViewModelFeatureServiceResourcesBundle } = await import('./versionManagementViewModelFeatureServiceResourcesBundle');
-        jsVersionManagementViewModel.featureServiceLookup = await buildJsVersionManagementViewModelFeatureServiceResourcesBundle(dotNetObject.featureServiceLookup, layerId, viewId) as any;
+        properties.featureServiceLookup = await buildJsVersionManagementViewModelFeatureServiceResourcesBundle(dotNetObject.featureServiceLookup, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.versioningStateLookup)) {
         let { buildJsVersioningState } = await import('./versioningState');
-        jsVersionManagementViewModel.versioningStateLookup = await buildJsVersioningState(dotNetObject.versioningStateLookup, layerId, viewId) as any;
+        properties.versioningStateLookup = await buildJsVersioningState(dotNetObject.versioningStateLookup, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.versioningStates)) {
         let { buildJsVersioningState } = await import('./versioningState');
-        jsVersionManagementViewModel.versioningStates = await Promise.all(dotNetObject.versioningStates.map(async i => await buildJsVersioningState(i, layerId, viewId))) as any;
+        properties.versioningStates = await Promise.all(dotNetObject.versioningStates.map(async i => await buildJsVersioningState(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.versionManagementServiceLookup)) {
         let { buildJsVersionManagementService } = await import('./versionManagementService');
-        jsVersionManagementViewModel.versionManagementServiceLookup = await buildJsVersionManagementService(dotNetObject.versionManagementServiceLookup, layerId, viewId) as any;
+        properties.versionManagementServiceLookup = await buildJsVersionManagementService(dotNetObject.versionManagementServiceLookup, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.advancedEditingUserTypeExtensionLookup)) {
-        jsVersionManagementViewModel.advancedEditingUserTypeExtensionLookup = dotNetObject.advancedEditingUserTypeExtensionLookup;
+        properties.advancedEditingUserTypeExtensionLookup = dotNetObject.advancedEditingUserTypeExtensionLookup;
     }
     if (hasValue(dotNetObject.serverVersionLookup)) {
-        jsVersionManagementViewModel.serverVersionLookup = dotNetObject.serverVersionLookup;
+        properties.serverVersionLookup = dotNetObject.serverVersionLookup;
     }
     if (hasValue(dotNetObject.serviceNameLookup)) {
-        jsVersionManagementViewModel.serviceNameLookup = dotNetObject.serviceNameLookup;
+        properties.serviceNameLookup = dotNetObject.serviceNameLookup;
     }
     if (hasValue(dotNetObject.userLookup)) {
-        jsVersionManagementViewModel.userLookup = dotNetObject.userLookup;
+        properties.userLookup = dotNetObject.userLookup;
     }
     if (hasValue(dotNetObject.versionIdentifierLookup)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVersionIdentifierLookup } = dotNetObject.versionIdentifierLookup;
-        jsVersionManagementViewModel.versionIdentifierLookup = sanitizedVersionIdentifierLookup;
+        properties.versionIdentifierLookup = sanitizedVersionIdentifierLookup;
     }
     if (hasValue(dotNetObject.versionInfoLookup)) {
-        jsVersionManagementViewModel.versionInfoLookup = dotNetObject.versionInfoLookup;
+        properties.versionInfoLookup = dotNetObject.versionInfoLookup;
     }
+    let jsVersionManagementViewModel = new VersionManagementViewModel(properties);
 
     let { default: VersionManagementViewModelWrapper } = await import('./versionManagementViewModel');
     let versionManagementViewModelWrapper = new VersionManagementViewModelWrapper(jsVersionManagementViewModel);

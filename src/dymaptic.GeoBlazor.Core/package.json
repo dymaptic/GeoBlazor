@@ -2,22 +2,24 @@
   "name": "dymaptic.GeoBlazor.Core",
   "description": "https://www.geoblazor.com",
   "main": "arcGisInterop.js",
+  "type": "module",
   "scripts": {
-    "debugBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --splitting",
-    "watchBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --sourcemap --outdir=wwwroot/js --watch --splitting",
-    "releaseBuild": "esbuild ./Scripts/arcGisJsInterop.ts --format=esm --bundle --minify --sourcemap --outdir=wwwroot/js --splitting"
+    "debugBuild": "node ./esbuild.js --debug",
+    "watchBuild": "node ./esbuild.js --watch",
+    "releaseBuild": "node ./esbuild.js --release"
   },
   "keywords": [],
   "author": "dymaptic",
   "license": "ISC",
   "dependencies": {
     "@arcgis/core": "4.30.9",
-    "esbuild": "0.23.0",
-    "protobufjs": "7.3.2"
+    "esbuild": "0.25.0",
+    "protobufjs": "7.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
     "@types/node": "^20.14.11",
+    "esbuild-plugin-eslint": "^0.3.12",
     "eslint": "^9.20.1",
     "globals": "^15.15.0",
     "typescript-eslint": "^8.24.0"

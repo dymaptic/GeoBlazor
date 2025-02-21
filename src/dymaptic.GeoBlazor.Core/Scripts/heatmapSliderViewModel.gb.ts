@@ -96,9 +96,9 @@ export default class HeatmapSliderViewModelGenerated implements IPropertyWrapper
 
 
 export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapSliderViewModel = new HeatmapSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsHeatmapSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -110,7 +110,7 @@ export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, 
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsHeatmapSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -122,7 +122,7 @@ export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, 
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsHeatmapSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -135,36 +135,37 @@ export async function buildJsHeatmapSliderViewModelGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsHeatmapColorStop } = await import('./heatmapColorStop');
-        jsHeatmapSliderViewModel.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsHeatmapColorStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsHeatmapColorStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsHeatmapSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsHeatmapSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsHeatmapSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsHeatmapSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsHeatmapSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsHeatmapSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsHeatmapSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsHeatmapSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsHeatmapSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsHeatmapSliderViewModel = new HeatmapSliderViewModel(properties);
 
     let { default: HeatmapSliderViewModelWrapper } = await import('./heatmapSliderViewModel');
     let heatmapSliderViewModelWrapper = new HeatmapSliderViewModelWrapper(jsHeatmapSliderViewModel);

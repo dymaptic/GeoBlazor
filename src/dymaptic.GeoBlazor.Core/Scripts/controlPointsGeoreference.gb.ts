@@ -56,18 +56,19 @@ export default class ControlPointsGeoreferenceGenerated implements IPropertyWrap
 
 
 export async function buildJsControlPointsGeoreferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsControlPointsGeoreference = new ControlPointsGeoreference();
+    let properties: any = {};
     if (hasValue(dotNetObject.controlPoints)) {
         let { buildJsControlPoint } = await import('./controlPoint');
-        jsControlPointsGeoreference.controlPoints = await Promise.all(dotNetObject.controlPoints.map(async i => await buildJsControlPoint(i, layerId, viewId))) as any;
+        properties.controlPoints = await Promise.all(dotNetObject.controlPoints.map(async i => await buildJsControlPoint(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.height)) {
-        jsControlPointsGeoreference.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.width)) {
-        jsControlPointsGeoreference.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsControlPointsGeoreference = new ControlPointsGeoreference(properties);
 
     let { default: ControlPointsGeoreferenceWrapper } = await import('./controlPointsGeoreference');
     let controlPointsGeoreferenceWrapper = new ControlPointsGeoreferenceWrapper(jsControlPointsGeoreference);

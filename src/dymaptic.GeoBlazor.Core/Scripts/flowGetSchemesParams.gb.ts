@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFlowGetSchemesParams } from './flowGetSchemesParams';
 
 export async function buildJsFlowGetSchemesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsflowGetSchemesParams: any = {}
+    let jsflowGetSchemesParams: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
         jsflowGetSchemesParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsFlowGetSchemesParamsGenerated(dotNetObject: any, la
         jsflowGetSchemesParams.basemapTheme = dotNetObject.basemapTheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsflowGetSchemesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsflowGetSchemesParams;

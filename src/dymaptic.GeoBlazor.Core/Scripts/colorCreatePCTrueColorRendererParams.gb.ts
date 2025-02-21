@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorCreatePCTrueColorRendererParams } from './colorCreatePCTrueColorRendererParams';
 
 export async function buildJsColorCreatePCTrueColorRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorCreatePCTrueColorRendererParams: any = {}
+    let jscolorCreatePCTrueColorRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsPointCloudLayer } = await import('./pointCloudLayer');
         jscolorCreatePCTrueColorRendererParams.layer = await buildJsPointCloudLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsColorCreatePCTrueColorRendererParamsGenerated(dotNe
         jscolorCreatePCTrueColorRendererParams.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreatePCTrueColorRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorCreatePCTrueColorRendererParams;

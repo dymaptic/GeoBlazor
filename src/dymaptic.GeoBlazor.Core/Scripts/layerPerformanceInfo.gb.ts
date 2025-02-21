@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerPerformanceInfo } from './layerPerformanceInfo';
 
 export async function buildJsLayerPerformanceInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerPerformanceInfo = new LayerPerformanceInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsLayerPerformanceInfo.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.displayedNumberOfFeatures)) {
-        jsLayerPerformanceInfo.displayedNumberOfFeatures = dotNetObject.displayedNumberOfFeatures;
+        properties.displayedNumberOfFeatures = dotNetObject.displayedNumberOfFeatures;
     }
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
-        jsLayerPerformanceInfo.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
+        properties.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
     }
     if (hasValue(dotNetObject.memory)) {
-        jsLayerPerformanceInfo.memory = dotNetObject.memory;
+        properties.memory = dotNetObject.memory;
     }
     if (hasValue(dotNetObject.totalNumberOfFeatures)) {
-        jsLayerPerformanceInfo.totalNumberOfFeatures = dotNetObject.totalNumberOfFeatures;
+        properties.totalNumberOfFeatures = dotNetObject.totalNumberOfFeatures;
     }
+    let jsLayerPerformanceInfo = new LayerPerformanceInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerPerformanceInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerPerformanceInfo;

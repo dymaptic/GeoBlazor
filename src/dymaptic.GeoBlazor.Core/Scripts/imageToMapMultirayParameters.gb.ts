@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageToMapMultirayParameters } from './imageToMapMultirayParameters';
 
 export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageToMapMultirayParameters = new ImageToMapMultirayParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageToMapMultirayParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsImageToMapMultirayParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.rasterIds)) {
-        jsImageToMapMultirayParameters.rasterIds = dotNetObject.rasterIds;
+        properties.rasterIds = dotNetObject.rasterIds;
     }
+    let jsImageToMapMultirayParameters = new ImageToMapMultirayParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageToMapMultirayParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageToMapMultirayParameters;

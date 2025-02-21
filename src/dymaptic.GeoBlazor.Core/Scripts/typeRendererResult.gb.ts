@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTypeRendererResult } from './typeRendererResult';
 
 export async function buildJsTypeRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstypeRendererResult: any = {}
+    let jstypeRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsUniqueValueRenderer } = await import('./uniqueValueRenderer');
         jstypeRendererResult.renderer = await buildJsUniqueValueRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -26,7 +26,6 @@ export async function buildJsTypeRendererResultGenerated(dotNetObject: any, laye
         jstypeRendererResult.typeScheme = dotNetObject.typeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jstypeRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jstypeRendererResult;

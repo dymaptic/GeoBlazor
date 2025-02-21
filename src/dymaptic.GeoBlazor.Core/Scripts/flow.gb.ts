@@ -38,7 +38,7 @@ export default class FlowGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFlowGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsflow: any = {}
+    let jsflow: any = {};
 
 
     let { default: FlowWrapper } = await import('./flow');

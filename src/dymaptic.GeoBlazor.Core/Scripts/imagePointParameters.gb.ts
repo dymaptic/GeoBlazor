@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImagePointParameters } from './imagePointParameters';
 
 export async function buildJsImagePointParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImagePointParameters = new ImagePointParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImagePointParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImagePointParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.is3D)) {
-        jsImagePointParameters.is3D = dotNetObject.is3D;
+        properties.is3D = dotNetObject.is3D;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImagePointParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
+    let jsImagePointParameters = new ImagePointParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImagePointParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImagePointParameters;

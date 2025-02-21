@@ -44,7 +44,7 @@ export default class UrlUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUrlUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsurlUtils: any = {}
+    let jsurlUtils: any = {};
 
 
     let { default: UrlUtilsWrapper } = await import('./urlUtils');

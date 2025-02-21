@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSummaryStatisticsSummaryStatisticsParams } from './summaryStatisticsSummaryStatisticsParams';
 
 export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssummaryStatisticsSummaryStatisticsParams: any = {}
+    let jssummaryStatisticsSummaryStatisticsParams: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jssummaryStatisticsSummaryStatisticsParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -54,7 +54,6 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
         jssummaryStatisticsSummaryStatisticsParams.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssummaryStatisticsSummaryStatisticsParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatisticsSummaryStatisticsParams;

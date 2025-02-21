@@ -70,7 +70,7 @@ export default class GeodesicUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGeodesicUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsgeodesicUtils: any = {}
+    let jsgeodesicUtils: any = {};
 
 
     let { default: GeodesicUtilsWrapper } = await import('./geodesicUtils');

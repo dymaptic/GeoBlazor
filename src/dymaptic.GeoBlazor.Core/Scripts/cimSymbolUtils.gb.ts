@@ -84,7 +84,7 @@ export default class CimSymbolUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCimSymbolUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscimSymbolUtils: any = {}
+    let jscimSymbolUtils: any = {};
 
 
     let { default: CimSymbolUtilsWrapper } = await import('./cimSymbolUtils');

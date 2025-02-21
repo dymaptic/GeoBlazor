@@ -42,7 +42,7 @@ export default class VersionAdaptersUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVersionAdaptersUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsversionAdaptersUtils: any = {}
+    let jsversionAdaptersUtils: any = {};
 
 
     let { default: VersionAdaptersUtilsWrapper } = await import('./versionAdaptersUtils');

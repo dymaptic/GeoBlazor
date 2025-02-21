@@ -4,25 +4,25 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSimpleRenderer } from './simpleRenderer';
 
 export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSimpleRenderer = new SimpleRenderer();
+    let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsSimpleRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsSimpleRenderer.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        jsSimpleRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsSimpleRenderer.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
+    let jsSimpleRenderer = new SimpleRenderer(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSimpleRenderer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;

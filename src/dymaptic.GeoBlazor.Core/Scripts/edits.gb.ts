@@ -3,10 +3,9 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEdits } from './edits';
 
 export async function buildJsEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEdits: any = {}
+    let jsEdits: any = {};
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsEdits);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEdits;

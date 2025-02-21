@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterRGBResult } from './rasterRGBResult';
 
 export async function buildJsRasterRGBResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterRGBResult: any = {}
+    let jsRasterRGBResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRasterStretchRenderer } = await import('./rasterStretchRenderer');
         jsRasterRGBResult.renderer = await buildJsRasterStretchRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsRasterRGBResultGenerated(dotNetObject: any, layerId
         jsRasterRGBResult.rgbBandIds = dotNetObject.rgbBandIds;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterRGBResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterRGBResult;

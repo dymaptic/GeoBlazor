@@ -60,26 +60,27 @@ export default class RenderNodeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRenderNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRenderNode = new RenderNode();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.camera)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera } = dotNetObject.camera;
-        jsRenderNode.camera = sanitizedCamera;
+        properties.camera = sanitizedCamera;
     }
     if (hasValue(dotNetObject.consumes)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedConsumes } = dotNetObject.consumes;
-        jsRenderNode.consumes = sanitizedConsumes;
+        properties.consumes = sanitizedConsumes;
     }
     if (hasValue(dotNetObject.gl)) {
-        jsRenderNode.gl = dotNetObject.gl;
+        properties.gl = dotNetObject.gl;
     }
     if (hasValue(dotNetObject.produces)) {
-        jsRenderNode.produces = dotNetObject.produces;
+        properties.produces = dotNetObject.produces;
     }
     if (hasValue(dotNetObject.sunLight)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSunLight } = dotNetObject.sunLight;
-        jsRenderNode.sunLight = sanitizedSunLight;
+        properties.sunLight = sanitizedSunLight;
     }
+    let jsRenderNode = new RenderNode(properties);
 
     let { default: RenderNodeWrapper } = await import('./renderNode');
     let renderNodeWrapper = new RenderNodeWrapper(jsRenderNode);

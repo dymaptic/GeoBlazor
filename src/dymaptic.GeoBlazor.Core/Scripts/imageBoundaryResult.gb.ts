@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageBoundaryResult } from './imageBoundaryResult';
 
 export async function buildJsImageBoundaryResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageBoundaryResult = new ImageBoundaryResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageBoundaryResult.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.area)) {
-        jsImageBoundaryResult.area = dotNetObject.area;
+        properties.area = dotNetObject.area;
     }
+    let jsImageBoundaryResult = new ImageBoundaryResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageBoundaryResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageBoundaryResult;

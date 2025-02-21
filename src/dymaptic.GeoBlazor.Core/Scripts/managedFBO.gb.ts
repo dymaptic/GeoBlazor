@@ -78,8 +78,9 @@ export default class ManagedFBOGenerated implements IPropertyWrapper {
 
 
 export async function buildJsManagedFBOGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsManagedFBO = new ManagedFBO();
+    let properties: any = {};
 
+    let jsManagedFBO = new ManagedFBO(properties);
 
     let { default: ManagedFBOWrapper } = await import('./managedFBO');
     let managedFBOWrapper = new ManagedFBOWrapper(jsManagedFBO);

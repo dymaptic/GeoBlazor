@@ -4,32 +4,32 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteSymbols } from './routeSymbols';
 
 export async function buildJsRouteSymbolsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteSymbols = new RouteSymbols();
+    let properties: any = {};
     if (hasValue(dotNetObject.stops)) {
         let { buildJsRouteStopSymbols } = await import('./routeStopSymbols');
-        jsRouteSymbols.stops = await buildJsRouteStopSymbols(dotNetObject.stops, layerId, viewId) as any;
+        properties.stops = await buildJsRouteStopSymbols(dotNetObject.stops, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.directionLines)) {
-        jsRouteSymbols.directionLines = dotNetObject.directionLines;
+        properties.directionLines = dotNetObject.directionLines;
     }
     if (hasValue(dotNetObject.directionPoints)) {
-        jsRouteSymbols.directionPoints = dotNetObject.directionPoints;
+        properties.directionPoints = dotNetObject.directionPoints;
     }
     if (hasValue(dotNetObject.pointBarriers)) {
-        jsRouteSymbols.pointBarriers = dotNetObject.pointBarriers;
+        properties.pointBarriers = dotNetObject.pointBarriers;
     }
     if (hasValue(dotNetObject.polygonBarriers)) {
-        jsRouteSymbols.polygonBarriers = dotNetObject.polygonBarriers;
+        properties.polygonBarriers = dotNetObject.polygonBarriers;
     }
     if (hasValue(dotNetObject.polylineBarriers)) {
-        jsRouteSymbols.polylineBarriers = dotNetObject.polylineBarriers;
+        properties.polylineBarriers = dotNetObject.polylineBarriers;
     }
     if (hasValue(dotNetObject.routeInfo)) {
-        jsRouteSymbols.routeInfo = dotNetObject.routeInfo;
+        properties.routeInfo = dotNetObject.routeInfo;
     }
+    let jsRouteSymbols = new RouteSymbols(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteSymbols);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbols;

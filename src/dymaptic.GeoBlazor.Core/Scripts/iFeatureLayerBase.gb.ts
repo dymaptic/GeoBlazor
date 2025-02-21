@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIFeatureLayerBase } from './iFeatureLayerBase';
 
 export async function buildJsIFeatureLayerBaseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerBase: any = {}
+    let jsFeatureLayerBase: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         jsFeatureLayerBase.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -67,7 +67,6 @@ export async function buildJsIFeatureLayerBaseGenerated(dotNetObject: any, layer
         jsFeatureLayerBase.url = dotNetObject.url;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBase);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBase;

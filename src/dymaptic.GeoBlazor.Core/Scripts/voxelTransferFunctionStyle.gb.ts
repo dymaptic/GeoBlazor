@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelTransferFunctionStyle } from './voxelTransferFunctionStyle';
 
 export async function buildJsVoxelTransferFunctionStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVoxelTransferFunctionStyle = new VoxelTransferFunctionStyle();
+    let properties: any = {};
     if (hasValue(dotNetObject.colorStops)) {
         let { buildJsVoxelColorStop } = await import('./voxelColorStop');
-        jsVoxelTransferFunctionStyle.colorStops = await Promise.all(dotNetObject.colorStops.map(async i => await buildJsVoxelColorStop(i, layerId, viewId))) as any;
+        properties.colorStops = await Promise.all(dotNetObject.colorStops.map(async i => await buildJsVoxelColorStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.opacityStops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOpacityStops } = dotNetObject.opacityStops;
-        jsVoxelTransferFunctionStyle.opacityStops = sanitizedOpacityStops;
+        properties.opacityStops = sanitizedOpacityStops;
     }
     if (hasValue(dotNetObject.rangeFilter)) {
-        jsVoxelTransferFunctionStyle.rangeFilter = dotNetObject.rangeFilter;
+        properties.rangeFilter = dotNetObject.rangeFilter;
     }
     if (hasValue(dotNetObject.stretchRange)) {
-        jsVoxelTransferFunctionStyle.stretchRange = dotNetObject.stretchRange;
+        properties.stretchRange = dotNetObject.stretchRange;
     }
+    let jsVoxelTransferFunctionStyle = new VoxelTransferFunctionStyle(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelTransferFunctionStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelTransferFunctionStyle;

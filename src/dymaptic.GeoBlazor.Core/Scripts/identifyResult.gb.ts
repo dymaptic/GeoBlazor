@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIdentifyResult } from './identifyResult';
 
 export async function buildJsIdentifyResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsIdentifyResult = new IdentifyResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsIdentifyResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        properties.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
 
     if (hasValue(dotNetObject.displayFieldName)) {
-        jsIdentifyResult.displayFieldName = dotNetObject.displayFieldName;
+        properties.displayFieldName = dotNetObject.displayFieldName;
     }
     if (hasValue(dotNetObject.layerId)) {
-        jsIdentifyResult.layerId = dotNetObject.layerId;
+        properties.layerId = dotNetObject.layerId;
     }
     if (hasValue(dotNetObject.layerName)) {
-        jsIdentifyResult.layerName = dotNetObject.layerName;
+        properties.layerName = dotNetObject.layerName;
     }
+    let jsIdentifyResult = new IdentifyResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsIdentifyResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIdentifyResult;

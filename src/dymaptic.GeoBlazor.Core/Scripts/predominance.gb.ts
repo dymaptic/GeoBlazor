@@ -38,7 +38,7 @@ export default class PredominanceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPredominanceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspredominance: any = {}
+    let jspredominance: any = {};
 
 
     let { default: PredominanceWrapper } = await import('./predominance');

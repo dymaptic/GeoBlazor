@@ -102,7 +102,7 @@ export default class CoordinateFormatterGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCoordinateFormatterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscoordinateFormatter: any = {}
+    let jscoordinateFormatter: any = {};
 
 
     let { default: CoordinateFormatterWrapper } = await import('./coordinateFormatter');

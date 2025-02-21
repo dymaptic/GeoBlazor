@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemeForPolygonOutline } from './relationshipSchemeForPolygonOutline';
 
 export async function buildJsRelationshipSchemeForPolygonOutlineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemeForPolygonOutline: any = {}
+    let jsRelationshipSchemeForPolygonOutline: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsRelationshipSchemeForPolygonOutline.color = buildJsMapColor(dotNetObject.color) as any;
@@ -13,7 +13,6 @@ export async function buildJsRelationshipSchemeForPolygonOutlineGenerated(dotNet
         jsRelationshipSchemeForPolygonOutline.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemeForPolygonOutline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemeForPolygonOutline;

@@ -40,14 +40,15 @@ export default class ZoomViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsZoomViewModel = new ZoomViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.canZoomIn)) {
-        jsZoomViewModel.canZoomIn = dotNetObject.canZoomIn;
+        properties.canZoomIn = dotNetObject.canZoomIn;
     }
     if (hasValue(dotNetObject.canZoomOut)) {
-        jsZoomViewModel.canZoomOut = dotNetObject.canZoomOut;
+        properties.canZoomOut = dotNetObject.canZoomOut;
     }
+    let jsZoomViewModel = new ZoomViewModel(properties);
 
     let { default: ZoomViewModelWrapper } = await import('./zoomViewModel');
     let zoomViewModelWrapper = new ZoomViewModelWrapper(jsZoomViewModel);

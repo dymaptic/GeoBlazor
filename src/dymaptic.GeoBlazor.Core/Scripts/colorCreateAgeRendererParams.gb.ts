@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorCreateAgeRendererParams } from './colorCreateAgeRendererParams';
 
 export async function buildJsColorCreateAgeRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorCreateAgeRendererParams: any = {}
+    let jscolorCreateAgeRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jscolorCreateAgeRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -56,7 +56,6 @@ export async function buildJsColorCreateAgeRendererParamsGenerated(dotNetObject:
         jscolorCreateAgeRendererParams.unit = dotNetObject.unit;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreateAgeRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorCreateAgeRendererParams;

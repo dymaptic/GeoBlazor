@@ -98,7 +98,7 @@ export default class SymbolUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbolUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolUtils: any = {}
+    let jssymbolUtils: any = {};
 
 
     let { default: SymbolUtilsWrapper } = await import('./symbolUtils');

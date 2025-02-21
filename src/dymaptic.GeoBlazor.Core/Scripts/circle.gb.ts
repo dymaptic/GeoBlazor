@@ -130,44 +130,45 @@ export default class CircleGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCircleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCircle = new Circle();
+    let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');
-        jsCircle.center = buildJsPoint(dotNetObject.center) as any;
+        properties.center = buildJsPoint(dotNetObject.center) as any;
     }
     if (hasValue(dotNetObject.centroid)) {
         let { buildJsPoint } = await import('./point');
-        jsCircle.centroid = buildJsPoint(dotNetObject.centroid) as any;
+        properties.centroid = buildJsPoint(dotNetObject.centroid) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsCircle.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.geodesic)) {
-        jsCircle.geodesic = dotNetObject.geodesic;
+        properties.geodesic = dotNetObject.geodesic;
     }
     if (hasValue(dotNetObject.hasM)) {
-        jsCircle.hasM = dotNetObject.hasM;
+        properties.hasM = dotNetObject.hasM;
     }
     if (hasValue(dotNetObject.hasZ)) {
-        jsCircle.hasZ = dotNetObject.hasZ;
+        properties.hasZ = dotNetObject.hasZ;
     }
     if (hasValue(dotNetObject.isSelfIntersecting)) {
-        jsCircle.isSelfIntersecting = dotNetObject.isSelfIntersecting;
+        properties.isSelfIntersecting = dotNetObject.isSelfIntersecting;
     }
     if (hasValue(dotNetObject.numberOfPoints)) {
-        jsCircle.numberOfPoints = dotNetObject.numberOfPoints;
+        properties.numberOfPoints = dotNetObject.numberOfPoints;
     }
     if (hasValue(dotNetObject.radius)) {
-        jsCircle.radius = dotNetObject.radius;
+        properties.radius = dotNetObject.radius;
     }
     if (hasValue(dotNetObject.radiusUnit)) {
-        jsCircle.radiusUnit = dotNetObject.radiusUnit;
+        properties.radiusUnit = dotNetObject.radiusUnit;
     }
     if (hasValue(dotNetObject.rings)) {
-        jsCircle.rings = dotNetObject.rings;
+        properties.rings = dotNetObject.rings;
     }
+    let jsCircle = new Circle(properties);
 
     let { default: CircleWrapper } = await import('./circle');
     let circleWrapper = new CircleWrapper(jsCircle);

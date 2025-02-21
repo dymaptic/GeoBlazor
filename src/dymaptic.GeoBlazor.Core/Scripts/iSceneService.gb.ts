@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetISceneService } from './iSceneService';
 
 export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneService: any = {}
+    let jsSceneService: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jsSceneService.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
@@ -19,7 +19,6 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
         jsSceneService.url = dotNetObject.url;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneService);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneService;

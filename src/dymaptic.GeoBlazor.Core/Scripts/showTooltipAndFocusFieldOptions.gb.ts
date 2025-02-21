@@ -40,7 +40,7 @@ export default class ShowTooltipAndFocusFieldOptionsGenerated implements IProper
 
 
 export async function buildJsShowTooltipAndFocusFieldOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsShowTooltipAndFocusFieldOptions: any = {}
+    let jsShowTooltipAndFocusFieldOptions: any = {};
 
     if (hasValue(dotNetObject.hideOnBlur)) {
         jsShowTooltipAndFocusFieldOptions.hideOnBlur = dotNetObject.hideOnBlur;

@@ -4,22 +4,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKMLSublayer } from './kMLSublayer';
 
 export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsKMLSublayer = new KMLSublayer();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
-        jsKMLSublayer.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.kMLSublayerId)) {
-        jsKMLSublayer.id = dotNetObject.kMLSublayerId;
+        properties.id = dotNetObject.kMLSublayerId;
     }
     if (hasValue(dotNetObject.networkLink)) {
-        jsKMLSublayer.networkLink = dotNetObject.networkLink;
+        properties.networkLink = dotNetObject.networkLink;
     }
     if (hasValue(dotNetObject.title)) {
-        jsKMLSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsKMLSublayer = new KMLSublayer(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsKMLSublayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;

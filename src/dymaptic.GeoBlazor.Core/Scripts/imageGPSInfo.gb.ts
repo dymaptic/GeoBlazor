@@ -4,32 +4,32 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageGPSInfo } from './imageGPSInfo';
 
 export async function buildJsImageGPSInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageGPSInfo = new ImageGPSInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');
-        jsImageGPSInfo.center = buildJsPoint(dotNetObject.center) as any;
+        properties.center = buildJsPoint(dotNetObject.center) as any;
     }
 
     if (hasValue(dotNetObject.acquisitionDate)) {
-        jsImageGPSInfo.acquisitionDate = dotNetObject.acquisitionDate;
+        properties.acquisitionDate = dotNetObject.acquisitionDate;
     }
     if (hasValue(dotNetObject.cameraID)) {
-        jsImageGPSInfo.cameraID = dotNetObject.cameraID;
+        properties.cameraID = dotNetObject.cameraID;
     }
     if (hasValue(dotNetObject.gps)) {
-        jsImageGPSInfo.gps = dotNetObject.gps;
+        properties.gps = dotNetObject.gps;
     }
     if (hasValue(dotNetObject.imageGPSInfoId)) {
-        jsImageGPSInfo.id = dotNetObject.imageGPSInfoId;
+        properties.id = dotNetObject.imageGPSInfoId;
     }
     if (hasValue(dotNetObject.name)) {
-        jsImageGPSInfo.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.orientation)) {
-        jsImageGPSInfo.orientation = dotNetObject.orientation;
+        properties.orientation = dotNetObject.orientation;
     }
+    let jsImageGPSInfo = new ImageGPSInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageGPSInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageGPSInfo;

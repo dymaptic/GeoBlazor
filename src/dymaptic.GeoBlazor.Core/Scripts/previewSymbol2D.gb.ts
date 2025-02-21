@@ -38,7 +38,7 @@ export default class PreviewSymbol2DGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPreviewSymbol2DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspreviewSymbol2D: any = {}
+    let jspreviewSymbol2D: any = {};
 
 
     let { default: PreviewSymbol2DWrapper } = await import('./previewSymbol2D');

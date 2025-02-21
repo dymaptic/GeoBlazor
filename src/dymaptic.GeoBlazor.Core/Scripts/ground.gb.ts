@@ -82,23 +82,24 @@ export default class GroundGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGround = new Ground();
+    let properties: any = {};
     if (hasValue(dotNetObject.layers)) {
         let { buildJsLayer } = await import('./layer');
-        jsGround.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.surfaceColor)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsGround.surfaceColor = buildJsMapColor(dotNetObject.surfaceColor) as any;
+        properties.surfaceColor = buildJsMapColor(dotNetObject.surfaceColor) as any;
     }
 
     if (hasValue(dotNetObject.navigationConstraint)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedNavigationConstraint } = dotNetObject.navigationConstraint;
-        jsGround.navigationConstraint = sanitizedNavigationConstraint;
+        properties.navigationConstraint = sanitizedNavigationConstraint;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsGround.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
+    let jsGround = new Ground(properties);
 
     let { default: GroundWrapper } = await import('./ground');
     let groundWrapper = new GroundWrapper(jsGround);

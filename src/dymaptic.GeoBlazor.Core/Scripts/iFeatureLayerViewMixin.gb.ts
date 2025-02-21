@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIFeatureLayerViewMixin } from './iFeatureLayerViewMixin';
 
 export async function buildJsIFeatureLayerViewMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayerViewMixin = new FeatureLayerViewMixin();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        jsFeatureLayerViewMixin.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+        properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsFeatureLayerViewMixin.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
-        jsFeatureLayerViewMixin.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
+        properties.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
     }
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
-        jsFeatureLayerViewMixin.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
+        properties.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    let jsFeatureLayerViewMixin = new FeatureLayerViewMixin(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerViewMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerViewMixin;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureTableCellClickEvent } from './featureTableCellClickEvent';
 
 export async function buildJsFeatureTableCellClickEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTableCellClickEvent: any = {}
+    let jsFeatureTableCellClickEvent: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureTableCellClickEvent.feature = buildJsGraphic(dotNetObject.feature) as any;
@@ -22,7 +22,6 @@ export async function buildJsFeatureTableCellClickEventGenerated(dotNetObject: a
         jsFeatureTableCellClickEvent.objectId = dotNetObject.objectId;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureTableCellClickEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableCellClickEvent;

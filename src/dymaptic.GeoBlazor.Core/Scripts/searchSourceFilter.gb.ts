@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchSourceFilter } from './searchSourceFilter';
 
 export async function buildJsSearchSourceFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSearchSourceFilter: any = {}
+    let jsSearchSourceFilter: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
         jsSearchSourceFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
@@ -13,7 +13,6 @@ export async function buildJsSearchSourceFilterGenerated(dotNetObject: any, laye
         jsSearchSourceFilter.where = dotNetObject.where;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchSourceFilter);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSourceFilter;

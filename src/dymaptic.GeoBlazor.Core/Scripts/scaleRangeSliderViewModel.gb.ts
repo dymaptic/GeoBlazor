@@ -72,28 +72,29 @@ export default class ScaleRangeSliderViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsScaleRangeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleRangeSliderViewModel = new ScaleRangeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsScaleRangeSliderViewModel.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sliderViewModel)) {
         let { buildJsSliderViewModel } = await import('./sliderViewModel');
-        jsScaleRangeSliderViewModel.sliderViewModel = await buildJsSliderViewModel(dotNetObject.sliderViewModel, layerId, viewId) as any;
+        properties.sliderViewModel = await buildJsSliderViewModel(dotNetObject.sliderViewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maxScale)) {
-        jsScaleRangeSliderViewModel.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.maxScaleLimit)) {
-        jsScaleRangeSliderViewModel.maxScaleLimit = dotNetObject.maxScaleLimit;
+        properties.maxScaleLimit = dotNetObject.maxScaleLimit;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsScaleRangeSliderViewModel.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.minScaleLimit)) {
-        jsScaleRangeSliderViewModel.minScaleLimit = dotNetObject.minScaleLimit;
+        properties.minScaleLimit = dotNetObject.minScaleLimit;
     }
+    let jsScaleRangeSliderViewModel = new ScaleRangeSliderViewModel(properties);
 
     let { default: ScaleRangeSliderViewModelWrapper } = await import('./scaleRangeSliderViewModel');
     let scaleRangeSliderViewModelWrapper = new ScaleRangeSliderViewModelWrapper(jsScaleRangeSliderViewModel);

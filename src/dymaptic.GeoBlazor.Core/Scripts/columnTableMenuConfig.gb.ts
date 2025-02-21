@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColumnTableMenuConfig } from './columnTableMenuConfig';
 
 export async function buildJsColumnTableMenuConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColumnTableMenuConfig: any = {}
+    let jsColumnTableMenuConfig: any = {};
     if (hasValue(dotNetObject.items)) {
         let { buildJsTableMenuItemConfig } = await import('./tableMenuItemConfig');
         jsColumnTableMenuConfig.items = await Promise.all(dotNetObject.items.map(async i => await buildJsTableMenuItemConfig(i, layerId, viewId))) as any;
@@ -22,7 +22,6 @@ export async function buildJsColumnTableMenuConfigGenerated(dotNetObject: any, l
         jsColumnTableMenuConfig.selectionMode = dotNetObject.selectionMode;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColumnTableMenuConfig);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColumnTableMenuConfig;

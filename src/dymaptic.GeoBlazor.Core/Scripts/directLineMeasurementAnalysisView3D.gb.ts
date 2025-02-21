@@ -4,13 +4,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDirectLineMeasurementAnalysisView3D } from './directLineMeasurementAnalysisView3D';
 
 export async function buildJsDirectLineMeasurementAnalysisView3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectLineMeasurementAnalysisView3D = new DirectLineMeasurementAnalysisView3D();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.result)) {
-        jsDirectLineMeasurementAnalysisView3D.result = dotNetObject.result;
+        properties.result = dotNetObject.result;
     }
+    let jsDirectLineMeasurementAnalysisView3D = new DirectLineMeasurementAnalysisView3D(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectLineMeasurementAnalysisView3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectLineMeasurementAnalysisView3D;

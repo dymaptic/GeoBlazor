@@ -40,7 +40,7 @@ export default class StyleUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsStyleUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsstyleUtils: any = {}
+    let jsstyleUtils: any = {};
 
 
     let { default: StyleUtilsWrapper } = await import('./styleUtils');

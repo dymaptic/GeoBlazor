@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMediaHit } from './mediaHit';
 
 export async function buildJsMediaHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMediaHit: any = {}
+    let jsMediaHit: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsMediaLayer } = await import('./mediaLayer');
         jsMediaHit.layer = await buildJsMediaLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -21,7 +21,6 @@ export async function buildJsMediaHitGenerated(dotNetObject: any, layerId: strin
         jsMediaHit.sourcePoint = sanitizedSourcePoint;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMediaHit);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMediaHit;

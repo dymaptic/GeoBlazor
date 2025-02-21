@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDirectionsViewModelLastRoute } from './directionsViewModelLastRoute';
 
 export async function buildJsDirectionsViewModelLastRouteGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionsViewModelLastRoute: any = {}
+    let jsDirectionsViewModelLastRoute: any = {};
     if (hasValue(dotNetObject.directionLines)) {
         let { buildJsDirectionLine } = await import('./directionLine');
         jsDirectionsViewModelLastRoute.directionLines = await Promise.all(dotNetObject.directionLines.map(async i => await buildJsDirectionLine(i, layerId, viewId))) as any;
@@ -34,7 +34,6 @@ export async function buildJsDirectionsViewModelLastRouteGenerated(dotNetObject:
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsViewModelLastRoute);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsViewModelLastRoute;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeSchemeForPolygon } from './sizeSchemeForPolygon';
 
 export async function buildJsSizeSchemeForPolygonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSchemeForPolygon: any = {}
+    let jsSizeSchemeForPolygon: any = {};
     if (hasValue(dotNetObject.background)) {
         let { buildJsSizeSchemeForPolygonBackground } = await import('./sizeSchemeForPolygonBackground');
         jsSizeSchemeForPolygon.background = await buildJsSizeSchemeForPolygonBackground(dotNetObject.background, layerId, viewId) as any;
@@ -17,7 +17,6 @@ export async function buildJsSizeSchemeForPolygonGenerated(dotNetObject: any, la
         jsSizeSchemeForPolygon.opacity = dotNetObject.opacity;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeSchemeForPolygon);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeSchemeForPolygon;

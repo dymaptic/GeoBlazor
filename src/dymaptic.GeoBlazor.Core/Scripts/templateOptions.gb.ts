@@ -4,66 +4,66 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTemplateOptions } from './templateOptions';
 
 export async function buildJsTemplateOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTemplateOptions = new TemplateOptions();
+    let properties: any = {};
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
-        jsTemplateOptions.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
+        properties.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layoutItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsTemplateOptions.layoutItem = await buildJsPortalItem(dotNetObject.layoutItem, layerId, viewId) as any;
+        properties.layoutItem = await buildJsPortalItem(dotNetObject.layoutItem, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.attributionEnabled)) {
-        jsTemplateOptions.attributionEnabled = dotNetObject.attributionEnabled;
+        properties.attributionEnabled = dotNetObject.attributionEnabled;
     }
     if (hasValue(dotNetObject.author)) {
-        jsTemplateOptions.author = dotNetObject.author;
+        properties.author = dotNetObject.author;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsTemplateOptions.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customTextElements)) {
-        jsTemplateOptions.customTextElements = dotNetObject.customTextElements;
+        properties.customTextElements = dotNetObject.customTextElements;
     }
     if (hasValue(dotNetObject.dpi)) {
-        jsTemplateOptions.dpi = dotNetObject.dpi;
+        properties.dpi = dotNetObject.dpi;
     }
     if (hasValue(dotNetObject.fileName)) {
-        jsTemplateOptions.fileName = dotNetObject.fileName;
+        properties.fileName = dotNetObject.fileName;
     }
     if (hasValue(dotNetObject.forceFeatureAttributes)) {
-        jsTemplateOptions.forceFeatureAttributes = dotNetObject.forceFeatureAttributes;
+        properties.forceFeatureAttributes = dotNetObject.forceFeatureAttributes;
     }
     if (hasValue(dotNetObject.height)) {
-        jsTemplateOptions.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.includeTables)) {
-        jsTemplateOptions.includeTables = dotNetObject.includeTables;
+        properties.includeTables = dotNetObject.includeTables;
     }
     if (hasValue(dotNetObject.layout)) {
-        jsTemplateOptions.layout = dotNetObject.layout;
+        properties.layout = dotNetObject.layout;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsTemplateOptions.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.northArrowEnabled)) {
-        jsTemplateOptions.northArrowEnabled = dotNetObject.northArrowEnabled;
+        properties.northArrowEnabled = dotNetObject.northArrowEnabled;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsTemplateOptions.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
     if (hasValue(dotNetObject.scaleEnabled)) {
-        jsTemplateOptions.scaleEnabled = dotNetObject.scaleEnabled;
+        properties.scaleEnabled = dotNetObject.scaleEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsTemplateOptions.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.width)) {
-        jsTemplateOptions.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsTemplateOptions = new TemplateOptions(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTemplateOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTemplateOptions;

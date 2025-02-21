@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeSliderStyle } from './sizeSliderStyle';
 
 export async function buildJsSizeSliderStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSliderStyle: any = {}
+    let jsSizeSliderStyle: any = {};
     if (hasValue(dotNetObject.trackBackgroundColor)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsSizeSliderStyle.trackBackgroundColor = buildJsMapColor(dotNetObject.trackBackgroundColor) as any;
@@ -14,7 +14,6 @@ export async function buildJsSizeSliderStyleGenerated(dotNetObject: any, layerId
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeSliderStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeSliderStyle;

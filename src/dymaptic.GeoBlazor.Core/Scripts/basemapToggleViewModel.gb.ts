@@ -62,12 +62,13 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
 
 
 export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapToggleViewModel = new BasemapToggleViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.nextBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsBasemapToggleViewModel.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;
+        properties.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;
     }
 
+    let jsBasemapToggleViewModel = new BasemapToggleViewModel(properties);
 
     let { default: BasemapToggleViewModelWrapper } = await import('./basemapToggleViewModel');
     let basemapToggleViewModelWrapper = new BasemapToggleViewModelWrapper(jsBasemapToggleViewModel);

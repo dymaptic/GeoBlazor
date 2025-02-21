@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneViewPerformanceInfo } from './sceneViewPerformanceInfo';
 
 export async function buildJsSceneViewPerformanceInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewPerformanceInfo = new SceneViewPerformanceInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.layerPerformanceInfos)) {
         let { buildJsLayerPerformanceInfo } = await import('./layerPerformanceInfo');
-        jsSceneViewPerformanceInfo.layerPerformanceInfos = await Promise.all(dotNetObject.layerPerformanceInfos.map(async i => await buildJsLayerPerformanceInfo(i, layerId, viewId))) as any;
+        properties.layerPerformanceInfos = await Promise.all(dotNetObject.layerPerformanceInfos.map(async i => await buildJsLayerPerformanceInfo(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.edgesMemory)) {
-        jsSceneViewPerformanceInfo.edgesMemory = dotNetObject.edgesMemory;
+        properties.edgesMemory = dotNetObject.edgesMemory;
     }
     if (hasValue(dotNetObject.quality)) {
-        jsSceneViewPerformanceInfo.quality = dotNetObject.quality;
+        properties.quality = dotNetObject.quality;
     }
     if (hasValue(dotNetObject.terrainMemory)) {
-        jsSceneViewPerformanceInfo.terrainMemory = dotNetObject.terrainMemory;
+        properties.terrainMemory = dotNetObject.terrainMemory;
     }
     if (hasValue(dotNetObject.totalMemory)) {
-        jsSceneViewPerformanceInfo.totalMemory = dotNetObject.totalMemory;
+        properties.totalMemory = dotNetObject.totalMemory;
     }
     if (hasValue(dotNetObject.usedMemory)) {
-        jsSceneViewPerformanceInfo.usedMemory = dotNetObject.usedMemory;
+        properties.usedMemory = dotNetObject.usedMemory;
     }
+    let jsSceneViewPerformanceInfo = new SceneViewPerformanceInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewPerformanceInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewPerformanceInfo;

@@ -60,7 +60,7 @@ export default class SvgUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSvgUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssvgUtils: any = {}
+    let jssvgUtils: any = {};
 
 
     let { default: SvgUtilsWrapper } = await import('./svgUtils');

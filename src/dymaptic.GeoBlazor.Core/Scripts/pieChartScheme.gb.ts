@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPieChartScheme } from './pieChartScheme';
 
 export async function buildJsPieChartSchemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPieChartScheme: any = {}
+    let jsPieChartScheme: any = {};
     if (hasValue(dotNetObject.colorForOthersCategory)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsPieChartScheme.colorForOthersCategory = buildJsMapColor(dotNetObject.colorForOthersCategory) as any;
@@ -30,7 +30,6 @@ export async function buildJsPieChartSchemeGenerated(dotNetObject: any, layerId:
         jsPieChartScheme.tags = dotNetObject.tags;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPieChartScheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPieChartScheme;

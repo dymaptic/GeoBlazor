@@ -50,7 +50,7 @@ export default class WfsUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWfsUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jswfsUtils: any = {}
+    let jswfsUtils: any = {};
 
 
     let { default: WfsUtilsWrapper } = await import('./wfsUtils');

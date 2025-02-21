@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMoveEventInfo } from './moveEventInfo';
 
 export async function buildJsMoveEventInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMoveEventInfo: any = {}
+    let jsMoveEventInfo: any = {};
     if (hasValue(dotNetObject.mover)) {
         let { buildJsGraphic } = await import('./graphic');
         jsMoveEventInfo.mover = buildJsGraphic(dotNetObject.mover) as any;
@@ -16,7 +16,6 @@ export async function buildJsMoveEventInfoGenerated(dotNetObject: any, layerId: 
         jsMoveEventInfo.dy = dotNetObject.dy;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMoveEventInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMoveEventInfo;

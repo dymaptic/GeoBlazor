@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipRampElement } from './relationshipRampElement';
 
 export async function buildJsRelationshipRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipRampElement: any = {}
+    let jsRelationshipRampElement: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsRelationshipRampElement.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -29,7 +29,6 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
         jsRelationshipRampElement.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipRampElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipRampElement;

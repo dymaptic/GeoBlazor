@@ -38,7 +38,7 @@ export default class UtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsutils: any = {}
+    let jsutils: any = {};
 
 
     let { default: UtilsWrapper } = await import('./utils');

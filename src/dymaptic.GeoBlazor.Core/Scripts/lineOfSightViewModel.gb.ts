@@ -82,16 +82,17 @@ export default class LineOfSightViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLineOfSightViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightViewModel = new LineOfSightViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.observer)) {
         let { buildJsPoint } = await import('./point');
-        jsLineOfSightViewModel.observer = buildJsPoint(dotNetObject.observer) as any;
+        properties.observer = buildJsPoint(dotNetObject.observer) as any;
     }
     if (hasValue(dotNetObject.targets)) {
         let { buildJsLineOfSightTarget } = await import('./lineOfSightTarget');
-        jsLineOfSightViewModel.targets = await Promise.all(dotNetObject.targets.map(async i => await buildJsLineOfSightTarget(i, layerId, viewId))) as any;
+        properties.targets = await Promise.all(dotNetObject.targets.map(async i => await buildJsLineOfSightTarget(i, layerId, viewId))) as any;
     }
 
+    let jsLineOfSightViewModel = new LineOfSightViewModel(properties);
 
     let { default: LineOfSightViewModelWrapper } = await import('./lineOfSightViewModel');
     let lineOfSightViewModelWrapper = new LineOfSightViewModelWrapper(jsLineOfSightViewModel);

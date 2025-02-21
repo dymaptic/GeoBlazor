@@ -40,7 +40,7 @@ export default class WorkersGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWorkersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsworkers: any = {}
+    let jsworkers: any = {};
 
 
     let { default: WorkersWrapper } = await import('./workers');

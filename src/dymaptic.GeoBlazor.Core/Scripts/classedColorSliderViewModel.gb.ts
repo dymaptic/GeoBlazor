@@ -96,13 +96,13 @@ export default class ClassedColorSliderViewModelGenerated implements IPropertyWr
 
 
 export async function buildJsClassedColorSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassedColorSliderViewModel = new ClassedColorSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.breaks)) {
         let { buildJsClassedColorSliderViewModelBreaks } = await import('./classedColorSliderViewModelBreaks');
-        jsClassedColorSliderViewModel.breaks = await Promise.all(dotNetObject.breaks.map(async i => await buildJsClassedColorSliderViewModelBreaks(i, layerId, viewId))) as any;
+        properties.breaks = await Promise.all(dotNetObject.breaks.map(async i => await buildJsClassedColorSliderViewModelBreaks(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsClassedColorSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -114,7 +114,7 @@ export async function buildJsClassedColorSliderViewModelGenerated(dotNetObject: 
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsClassedColorSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -126,7 +126,7 @@ export async function buildJsClassedColorSliderViewModelGenerated(dotNetObject: 
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsClassedColorSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -139,32 +139,33 @@ export async function buildJsClassedColorSliderViewModelGenerated(dotNetObject: 
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsClassedColorSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsClassedColorSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsClassedColorSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsClassedColorSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsClassedColorSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsClassedColorSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsClassedColorSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsClassedColorSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsClassedColorSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsClassedColorSliderViewModel = new ClassedColorSliderViewModel(properties);
 
     let { default: ClassedColorSliderViewModelWrapper } = await import('./classedColorSliderViewModel');
     let classedColorSliderViewModelWrapper = new ClassedColorSliderViewModelWrapper(jsClassedColorSliderViewModel);

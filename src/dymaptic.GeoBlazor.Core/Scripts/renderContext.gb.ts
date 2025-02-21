@@ -40,7 +40,7 @@ export default class RenderContextGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRenderContextGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRenderContext: any = {}
+    let jsRenderContext: any = {};
 
     if (hasValue(dotNetObject.camera)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCamera } = dotNetObject.camera;

@@ -47,7 +47,7 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-        return await buildDotNetLocateViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetLocateViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
@@ -64,34 +64,35 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocate = new Locate();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsLocate.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
-        jsLocate.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.geolocationOptions)) {
-        jsLocate.geolocationOptions = dotNetObject.geolocationOptions;
+        properties.geolocationOptions = dotNetObject.geolocationOptions;
     }
     if (hasValue(dotNetObject.goToLocationEnabled)) {
-        jsLocate.goToLocationEnabled = dotNetObject.goToLocationEnabled;
+        properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsLocate.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsLocate.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.rotationEnabled)) {
-        jsLocate.rotationEnabled = dotNetObject.rotationEnabled;
+        properties.rotationEnabled = dotNetObject.rotationEnabled;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsLocate.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
+    let jsLocate = new Locate(properties);
     jsLocate.on('locate', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', evt);
     });
@@ -138,7 +139,7 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-            dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel);
         }
     if (hasValue(jsObject.geolocationOptions)) {
         dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;

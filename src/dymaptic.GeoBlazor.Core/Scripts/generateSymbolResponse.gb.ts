@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGenerateSymbolResponse } from './generateSymbolResponse';
 
 export async function buildJsGenerateSymbolResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGenerateSymbolResponse: any = {}
+    let jsGenerateSymbolResponse: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsCIMSymbol } = await import('./cIMSymbol');
         jsGenerateSymbolResponse.symbol = await buildJsCIMSymbol(dotNetObject.symbol, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGenerateSymbolResponse);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGenerateSymbolResponse;

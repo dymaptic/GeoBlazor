@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKMLLayerViewMapImage } from './kMLLayerViewMapImage';
 
 export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsKMLLayerViewMapImage: any = {}
+    let jsKMLLayerViewMapImage: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         jsKMLLayerViewMapImage.Extent = buildJsExtent(dotNetObject.extent) as any;
@@ -19,7 +19,6 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, la
         jsKMLLayerViewMapImage.rotation = dotNetObject.rotation;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsKMLLayerViewMapImage);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;

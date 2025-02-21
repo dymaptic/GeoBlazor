@@ -4,13 +4,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGeotriggersInfo } from './geotriggersInfo';
 
 export async function buildJsGeotriggersInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeotriggersInfo = new GeotriggersInfo();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.geotriggers)) {
-        jsGeotriggersInfo.geotriggers = dotNetObject.geotriggers;
+        properties.geotriggers = dotNetObject.geotriggers;
     }
+    let jsGeotriggersInfo = new GeotriggersInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGeotriggersInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeotriggersInfo;

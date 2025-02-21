@@ -38,7 +38,7 @@ export default class OpacityGenerated implements IPropertyWrapper {
 
 
 export async function buildJsOpacityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsopacity: any = {}
+    let jsopacity: any = {};
 
 
     let { default: OpacityWrapper } = await import('./opacity');

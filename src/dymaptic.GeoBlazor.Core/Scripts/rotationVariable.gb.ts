@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRotationVariable } from './rotationVariable';
 
 export async function buildJsRotationVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRotationVariable = new RotationVariable();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.axis)) {
-        jsRotationVariable.axis = dotNetObject.axis;
+        properties.axis = dotNetObject.axis;
     }
     if (hasValue(dotNetObject.field)) {
-        jsRotationVariable.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        jsRotationVariable.legendOptions = sanitizedLegendOptions;
+        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.rotationType)) {
-        jsRotationVariable.rotationType = dotNetObject.rotationType;
+        properties.rotationType = dotNetObject.rotationType;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsRotationVariable.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsRotationVariable.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsRotationVariable = new RotationVariable(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRotationVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;

@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCatalogDynamicGroupLayerView } from './catalogDynamicGroupLayerView';
 
 export async function buildJsCatalogDynamicGroupLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCatalogDynamicGroupLayerView = new CatalogDynamicGroupLayerView();
+    let properties: any = {};
 
+    let jsCatalogDynamicGroupLayerView = new CatalogDynamicGroupLayerView(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCatalogDynamicGroupLayerView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCatalogDynamicGroupLayerView;

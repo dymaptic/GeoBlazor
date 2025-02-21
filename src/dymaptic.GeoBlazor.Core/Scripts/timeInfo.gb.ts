@@ -4,33 +4,33 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTimeInfo } from './timeInfo';
 
 export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTimeInfo = new TimeInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTimeInfo.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
+        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.endField)) {
-        jsTimeInfo.endField = dotNetObject.endField;
+        properties.endField = dotNetObject.endField;
     }
     if (hasValue(dotNetObject.interval)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedInterval } = dotNetObject.interval;
-        jsTimeInfo.interval = sanitizedInterval;
+        properties.interval = sanitizedInterval;
     }
     if (hasValue(dotNetObject.startField)) {
-        jsTimeInfo.startField = dotNetObject.startField;
+        properties.startField = dotNetObject.startField;
     }
     if (hasValue(dotNetObject.stops)) {
-        jsTimeInfo.stops = dotNetObject.stops;
+        properties.stops = dotNetObject.stops;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsTimeInfo.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
     if (hasValue(dotNetObject.trackIdField)) {
-        jsTimeInfo.trackIdField = dotNetObject.trackIdField;
+        properties.trackIdField = dotNetObject.trackIdField;
     }
+    let jsTimeInfo = new TimeInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTimeInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;

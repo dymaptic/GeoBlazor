@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHitTestResultGround } from './hitTestResultGround';
 
 export async function buildJsHitTestResultGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHitTestResultGround: any = {}
+    let jsHitTestResultGround: any = {};
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
         jsHitTestResultGround.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
@@ -13,7 +13,6 @@ export async function buildJsHitTestResultGroundGenerated(dotNetObject: any, lay
         jsHitTestResultGround.distance = dotNetObject.distance;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHitTestResultGround);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHitTestResultGround;

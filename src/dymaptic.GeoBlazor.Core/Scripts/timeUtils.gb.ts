@@ -54,7 +54,7 @@ export default class TimeUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTimeUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstimeUtils: any = {}
+    let jstimeUtils: any = {};
 
 
     let { default: TimeUtilsWrapper } = await import('./timeUtils');

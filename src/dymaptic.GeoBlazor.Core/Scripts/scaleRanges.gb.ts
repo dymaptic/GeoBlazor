@@ -60,8 +60,9 @@ export default class ScaleRangesGenerated implements IPropertyWrapper {
 
 
 export async function buildJsScaleRangesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsScaleRanges = new ScaleRanges();
+    let properties: any = {};
 
+    let jsScaleRanges = new ScaleRanges(properties);
 
     let { default: ScaleRangesWrapper } = await import('./scaleRanges');
     let scaleRangesWrapper = new ScaleRangesWrapper(jsScaleRanges);

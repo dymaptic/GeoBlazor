@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetShadowCastViewModelThresholdOptions } from './shadowCastViewModelThresholdOptions';
 
 export async function buildJsShadowCastViewModelThresholdOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsShadowCastViewModelThresholdOptions: any = {}
+    let jsShadowCastViewModelThresholdOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsShadowCastViewModelThresholdOptions.color = buildJsMapColor(dotNetObject.color) as any;
@@ -19,7 +19,6 @@ export async function buildJsShadowCastViewModelThresholdOptionsGenerated(dotNet
         jsShadowCastViewModelThresholdOptions.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsShadowCastViewModelThresholdOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsShadowCastViewModelThresholdOptions;

@@ -53,7 +53,7 @@ export default class ClassBreaksRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
     async getClassBreakInfos(): Promise<any> {
         if (!hasValue(this.component.classBreakInfos)) {
@@ -106,51 +106,52 @@ export default class ClassBreaksRendererGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClassBreaksRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassBreaksRenderer = new ClassBreaksRenderer();
+    let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsClassBreaksRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.classBreakInfos)) {
         let { buildJsClassBreakInfo } = await import('./classBreakInfo');
-        jsClassBreaksRenderer.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsClassBreakInfo(i, layerId, viewId))) as any;
+        properties.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsClassBreakInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.defaultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsClassBreaksRenderer.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+        properties.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        jsClassBreaksRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        jsClassBreaksRenderer.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
+        properties.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
     }
     if (hasValue(dotNetObject.defaultLabel)) {
-        jsClassBreaksRenderer.defaultLabel = dotNetObject.defaultLabel;
+        properties.defaultLabel = dotNetObject.defaultLabel;
     }
     if (hasValue(dotNetObject.field)) {
-        jsClassBreaksRenderer.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        jsClassBreaksRenderer.legendOptions = dotNetObject.legendOptions;
+        properties.legendOptions = dotNetObject.legendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {
-        jsClassBreaksRenderer.normalizationField = dotNetObject.normalizationField;
+        properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.normalizationTotal)) {
-        jsClassBreaksRenderer.normalizationTotal = dotNetObject.normalizationTotal;
+        properties.normalizationTotal = dotNetObject.normalizationTotal;
     }
     if (hasValue(dotNetObject.normalizationType)) {
-        jsClassBreaksRenderer.normalizationType = dotNetObject.normalizationType;
+        properties.normalizationType = dotNetObject.normalizationType;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsClassBreaksRenderer.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsClassBreaksRenderer.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsClassBreaksRenderer = new ClassBreaksRenderer(properties);
 
     let { default: ClassBreaksRendererWrapper } = await import('./classBreaksRenderer');
     let classBreaksRendererWrapper = new ClassBreaksRendererWrapper(jsClassBreaksRenderer);

@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIdentityManagerCredentialCreateEvent } from './identityManagerCredentialCreateEvent';
 
 export async function buildJsIdentityManagerCredentialCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsIdentityManagerCredentialCreateEvent: any = {}
+    let jsIdentityManagerCredentialCreateEvent: any = {};
     if (hasValue(dotNetObject.credential)) {
         let { buildJsCredential } = await import('./credential');
         jsIdentityManagerCredentialCreateEvent.credential = await buildJsCredential(dotNetObject.credential, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsIdentityManagerCredentialCreateEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManagerCredentialCreateEvent;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUtilsGetDefaultBandCombinationParams } from './utilsGetDefaultBandCombinationParams';
 
 export async function buildJsUtilsGetDefaultBandCombinationParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsutilsGetDefaultBandCombinationParams: any = {}
+    let jsutilsGetDefaultBandCombinationParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsutilsGetDefaultBandCombinationParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -21,7 +21,6 @@ export async function buildJsUtilsGetDefaultBandCombinationParamsGenerated(dotNe
         jsutilsGetDefaultBandCombinationParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsutilsGetDefaultBandCombinationParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsutilsGetDefaultBandCombinationParams;

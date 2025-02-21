@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorGetSchemesByTagParams } from './colorGetSchemesByTagParams';
 
 export async function buildJsColorGetSchemesByTagParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorGetSchemesByTagParams: any = {}
+    let jscolorGetSchemesByTagParams: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
         jscolorGetSchemesByTagParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
@@ -28,7 +28,6 @@ export async function buildJsColorGetSchemesByTagParamsGenerated(dotNetObject: a
         jscolorGetSchemesByTagParams.worldScale = dotNetObject.worldScale;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorGetSchemesByTagParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorGetSchemesByTagParams;

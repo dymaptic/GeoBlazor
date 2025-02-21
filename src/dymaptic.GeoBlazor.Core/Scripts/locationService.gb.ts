@@ -72,7 +72,7 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jslocator: any = {}
+    let jslocator: any = {};
 
 
     let { default: LocationServiceWrapper } = await import('./locationService');

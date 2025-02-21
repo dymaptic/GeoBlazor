@@ -42,14 +42,15 @@ export default class DirectionalPadViewModelGenerated implements IPropertyWrappe
 
 
 export async function buildJsDirectionalPadViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionalPadViewModel = new DirectionalPadViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.disabled)) {
-        jsDirectionalPadViewModel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.rotation)) {
-        jsDirectionalPadViewModel.rotation = dotNetObject.rotation;
+        properties.rotation = dotNetObject.rotation;
     }
+    let jsDirectionalPadViewModel = new DirectionalPadViewModel(properties);
 
     let { default: DirectionalPadViewModelWrapper } = await import('./directionalPadViewModel');
     let directionalPadViewModelWrapper = new DirectionalPadViewModelWrapper(jsDirectionalPadViewModel);

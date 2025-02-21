@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorSliderViewModelStopInfo } from './colorSliderViewModelStopInfo';
 
 export async function buildJsColorSliderViewModelStopInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorSliderViewModelStopInfo: any = {}
+    let jsColorSliderViewModelStopInfo: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsColorSliderViewModelStopInfo.color = buildJsMapColor(dotNetObject.color) as any;
@@ -13,7 +13,6 @@ export async function buildJsColorSliderViewModelStopInfoGenerated(dotNetObject:
         jsColorSliderViewModelStopInfo.offset = dotNetObject.offset;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorSliderViewModelStopInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorSliderViewModelStopInfo;

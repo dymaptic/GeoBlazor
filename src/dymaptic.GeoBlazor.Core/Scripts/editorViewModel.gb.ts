@@ -69,7 +69,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel);
+        return await buildDotNetAttachmentsViewModel(this.component.attachmentsViewModel, this.layerId, this.viewId);
     }
     async setAttachmentsViewModel(value: any): Promise<void> {
         let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
@@ -99,7 +99,7 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel, this.layerId, this.viewId);
+        return await buildDotNetFeatureFormViewModel(this.component.featureFormViewModel);
     }
     async setFeatureFormViewModel(value: any): Promise<void> {
         let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
@@ -166,44 +166,45 @@ export default class EditorViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsEditorViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEditorViewModel = new EditorViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.attachmentsViewModel)) {
         let { buildJsAttachmentsViewModel } = await import('./attachmentsViewModel');
-        jsEditorViewModel.attachmentsViewModel = await buildJsAttachmentsViewModel(dotNetObject.attachmentsViewModel, layerId, viewId) as any;
+        properties.attachmentsViewModel = await buildJsAttachmentsViewModel(dotNetObject.attachmentsViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureFormViewModel)) {
         let { buildJsFeatureFormViewModel } = await import('./featureFormViewModel');
-        jsEditorViewModel.featureFormViewModel = await buildJsFeatureFormViewModel(dotNetObject.featureFormViewModel, layerId, viewId) as any;
+        properties.featureFormViewModel = await buildJsFeatureFormViewModel(dotNetObject.featureFormViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureTemplatesViewModel)) {
         let { buildJsFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');
-        jsEditorViewModel.featureTemplatesViewModel = await buildJsFeatureTemplatesViewModel(dotNetObject.featureTemplatesViewModel, layerId, viewId) as any;
+        properties.featureTemplatesViewModel = await buildJsFeatureTemplatesViewModel(dotNetObject.featureTemplatesViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layerInfos)) {
         let { buildJsEditorLayerInfo } = await import('./editorLayerInfo');
-        jsEditorViewModel.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsEditorLayerInfo(i, layerId, viewId))) as any;
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsEditorLayerInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.sketchViewModel)) {
         let { buildJsSketchViewModel } = await import('./sketchViewModel');
-        jsEditorViewModel.sketchViewModel = await buildJsSketchViewModel(dotNetObject.sketchViewModel, layerId, viewId) as any;
+        properties.sketchViewModel = await buildJsSketchViewModel(dotNetObject.sketchViewModel, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.snappingOptions)) {
         let { buildJsSnappingOptions } = await import('./snappingOptions');
-        jsEditorViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
+        properties.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.allowedWorkflows)) {
-        jsEditorViewModel.allowedWorkflows = dotNetObject.allowedWorkflows;
+        properties.allowedWorkflows = dotNetObject.allowedWorkflows;
     }
     if (hasValue(dotNetObject.labelOptions)) {
-        jsEditorViewModel.labelOptions = dotNetObject.labelOptions;
+        properties.labelOptions = dotNetObject.labelOptions;
     }
     if (hasValue(dotNetObject.tooltipOptions)) {
-        jsEditorViewModel.tooltipOptions = dotNetObject.tooltipOptions;
+        properties.tooltipOptions = dotNetObject.tooltipOptions;
     }
     if (hasValue(dotNetObject.valueOptions)) {
-        jsEditorViewModel.valueOptions = dotNetObject.valueOptions;
+        properties.valueOptions = dotNetObject.valueOptions;
     }
+    let jsEditorViewModel = new EditorViewModel(properties);
     jsEditorViewModel.on('sketch-create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSketchCreate', evt);
     });
@@ -246,7 +247,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
     };
         if (hasValue(jsObject.attachmentsViewModel)) {
             let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel);
+            dotNetEditorViewModel.attachmentsViewModel = await buildDotNetAttachmentsViewModel(jsObject.attachmentsViewModel, layerId, viewId);
         }
         if (hasValue(jsObject.editableItems)) {
             let { buildDotNetEditableItem } = await import('./editableItem');
@@ -258,7 +259,7 @@ export async function buildDotNetEditorViewModelGenerated(jsObject: any, layerId
         }
         if (hasValue(jsObject.featureFormViewModel)) {
             let { buildDotNetFeatureFormViewModel } = await import('./featureFormViewModel');
-            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel, layerId, viewId);
+            dotNetEditorViewModel.featureFormViewModel = await buildDotNetFeatureFormViewModel(jsObject.featureFormViewModel);
         }
         if (hasValue(jsObject.featureTemplatesViewModel)) {
             let { buildDotNetFeatureTemplatesViewModel } = await import('./featureTemplatesViewModel');

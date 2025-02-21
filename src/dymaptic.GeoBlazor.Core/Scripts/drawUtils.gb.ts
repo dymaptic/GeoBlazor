@@ -36,7 +36,7 @@ export default class DrawUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDrawUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsdrawUtils: any = {}
+    let jsdrawUtils: any = {};
 
 
     let { default: DrawUtilsWrapper } = await import('./drawUtils');

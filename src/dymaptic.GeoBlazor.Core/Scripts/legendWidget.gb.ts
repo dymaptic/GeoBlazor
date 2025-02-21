@@ -72,38 +72,39 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLegend = new Legend();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeLayerInfos)) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
-        jsLegend.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
+        properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.layerInfos)) {
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        jsLegend.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, layerId, viewId))) as any;
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLegendViewModel } = await import('./legendViewModel');
-        jsLegend.viewModel = await buildJsLegendViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsLegendViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.basemapLegendVisible)) {
-        jsLegend.basemapLegendVisible = dotNetObject.basemapLegendVisible;
+        properties.basemapLegendVisible = dotNetObject.basemapLegendVisible;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsLegend.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
-        jsLegend.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
+        properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
     }
     if (hasValue(dotNetObject.respectLayerDefinitionExpression)) {
-        jsLegend.respectLayerDefinitionExpression = dotNetObject.respectLayerDefinitionExpression;
+        properties.respectLayerDefinitionExpression = dotNetObject.respectLayerDefinitionExpression;
     }
     if (hasValue(dotNetObject.respectLayerVisibility)) {
-        jsLegend.respectLayerVisibility = dotNetObject.respectLayerVisibility;
+        properties.respectLayerVisibility = dotNetObject.respectLayerVisibility;
     }
     if (hasValue(dotNetObject.style)) {
-        jsLegend.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
+    let jsLegend = new Legend(properties);
 
     let { default: LegendWidgetWrapper } = await import('./legendWidget');
     let legendWidgetWrapper = new LegendWidgetWrapper(jsLegend);

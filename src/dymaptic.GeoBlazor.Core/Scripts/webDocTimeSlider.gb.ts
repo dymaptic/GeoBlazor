@@ -4,37 +4,37 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWebDocTimeSlider } from './webDocTimeSlider';
 
 export async function buildJsWebDocTimeSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTimeSlider = new TimeSlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.currentTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTimeSlider.currentTimeExtent = await buildJsTimeExtent(dotNetObject.currentTimeExtent, layerId, viewId) as any;
+        properties.currentTimeExtent = await buildJsTimeExtent(dotNetObject.currentTimeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTimeSlider.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
+        properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.loop)) {
-        jsTimeSlider.loop = dotNetObject.loop;
+        properties.loop = dotNetObject.loop;
     }
     if (hasValue(dotNetObject.numStops)) {
-        jsTimeSlider.numStops = dotNetObject.numStops;
+        properties.numStops = dotNetObject.numStops;
     }
     if (hasValue(dotNetObject.numThumbs)) {
-        jsTimeSlider.numThumbs = dotNetObject.numThumbs;
+        properties.numThumbs = dotNetObject.numThumbs;
     }
     if (hasValue(dotNetObject.stopDelay)) {
-        jsTimeSlider.stopDelay = dotNetObject.stopDelay;
+        properties.stopDelay = dotNetObject.stopDelay;
     }
     if (hasValue(dotNetObject.stopInterval)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStopInterval } = dotNetObject.stopInterval;
-        jsTimeSlider.stopInterval = sanitizedStopInterval;
+        properties.stopInterval = sanitizedStopInterval;
     }
     if (hasValue(dotNetObject.stops)) {
-        jsTimeSlider.stops = dotNetObject.stops;
+        properties.stops = dotNetObject.stops;
     }
+    let jsTimeSlider = new TimeSlider(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTimeSlider);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeSlider;

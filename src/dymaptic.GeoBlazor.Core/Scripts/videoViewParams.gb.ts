@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVideoViewParams } from './videoViewParams';
 
 export async function buildJsVideoViewParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVideoViewParams: any = {}
+    let jsVideoViewParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsVideoLayer } = await import('./videoLayer');
         jsVideoViewParams.layer = await buildJsVideoLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsVideoViewParamsGenerated(dotNetObject: any, layerId
         jsVideoViewParams.container = dotNetObject.container;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVideoViewParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVideoViewParams;

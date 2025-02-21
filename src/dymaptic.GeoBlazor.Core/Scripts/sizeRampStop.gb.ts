@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeRampStop } from './sizeRampStop';
 
 export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeRampStop: any = {}
+    let jsSizeRampStop: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsSizeRampStop.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -25,7 +25,6 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
         jsSizeRampStop.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeRampStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampStop;

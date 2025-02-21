@@ -64,9 +64,9 @@ export default class OpacitySliderGenerated implements IPropertyWrapper {
 
 
 export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacitySlider = new OpacitySlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsOpacitySlider.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -78,7 +78,7 @@ export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: 
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsOpacitySlider.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -90,7 +90,7 @@ export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: 
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsOpacitySlider.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -103,40 +103,41 @@ export async function buildJsOpacitySliderGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsOpacitySliderStyle } = await import('./opacitySliderStyle');
-        jsOpacitySlider.style = await buildJsOpacitySliderStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsOpacitySliderStyle(dotNetObject.style, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsOpacitySliderViewModel } = await import('./opacitySliderViewModel');
-        jsOpacitySlider.viewModel = await buildJsOpacitySliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsOpacitySliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
-        jsOpacitySlider.histogramConfig = sanitizedHistogramConfig;
+        properties.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
-        jsOpacitySlider.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsOpacitySlider.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsOpacitySlider.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsOpacitySlider.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
-        jsOpacitySlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        properties.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsOpacitySlider.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsOpacitySlider.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsOpacitySlider = new OpacitySlider(properties);
     jsOpacitySlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });

@@ -38,7 +38,7 @@ export default class DotDensityGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDotDensityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsdotDensity: any = {}
+    let jsdotDensity: any = {};
 
 
     let { default: DotDensityWrapper } = await import('./dotDensity');

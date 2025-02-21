@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTypeUniqueValueInfo } from './typeUniqueValueInfo';
 
 export async function buildJsTypeUniqueValueInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstypeUniqueValueInfo: any = {}
+    let jstypeUniqueValueInfo: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jstypeUniqueValueInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -19,7 +19,6 @@ export async function buildJsTypeUniqueValueInfoGenerated(dotNetObject: any, lay
         jstypeUniqueValueInfo.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jstypeUniqueValueInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jstypeUniqueValueInfo;

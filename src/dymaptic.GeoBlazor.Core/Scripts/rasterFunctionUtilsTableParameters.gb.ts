@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterFunctionUtilsTableParameters } from './rasterFunctionUtilsTableParameters';
 
 export async function buildJsRasterFunctionUtilsTableParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrasterFunctionUtilsTableParameters: any = {}
+    let jsrasterFunctionUtilsTableParameters: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
         jsrasterFunctionUtilsTableParameters.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
@@ -16,7 +16,6 @@ export async function buildJsRasterFunctionUtilsTableParametersGenerated(dotNetO
         jsrasterFunctionUtilsTableParameters.raster = dotNetObject.raster;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsrasterFunctionUtilsTableParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrasterFunctionUtilsTableParameters;

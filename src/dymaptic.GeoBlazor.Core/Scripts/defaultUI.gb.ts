@@ -62,17 +62,18 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDefaultUI = new DefaultUI();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.components)) {
-        jsDefaultUI.components = dotNetObject.components;
+        properties.components = dotNetObject.components;
     }
     if (hasValue(dotNetObject.container)) {
-        jsDefaultUI.container = dotNetObject.container;
+        properties.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.padding)) {
-        jsDefaultUI.padding = dotNetObject.padding;
+        properties.padding = dotNetObject.padding;
     }
+    let jsDefaultUI = new DefaultUI(properties);
 
     let { default: DefaultUIWrapper } = await import('./defaultUI');
     let defaultUIWrapper = new DefaultUIWrapper(jsDefaultUI);

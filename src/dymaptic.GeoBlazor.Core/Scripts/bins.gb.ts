@@ -38,7 +38,7 @@ export default class BinsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBinsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsbins: any = {}
+    let jsbins: any = {};
 
 
     let { default: BinsWrapper } = await import('./bins');

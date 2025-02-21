@@ -184,128 +184,129 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWMSLayer = new WMSLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.allSublayers)) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        jsWMSLayer.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
+        properties.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.hasFetchFeatureInfoFunction) && dotNetObject.hasFetchFeatureInfoFunction) {
-        jsWMSLayer.fetchFeatureInfoFunction = async (query) => {
+        properties.fetchFeatureInfoFunction = async (query) => {
             return await dotNetObject.invokeMethodAsync('OnJsFetchFeatureInfoFunction', query);
         };
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWMSLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.fullExtents)) {
         let { buildJsExtent } = await import('./extent');
-        jsWMSLayer.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
+        properties.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsWMSLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsWMSLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        jsWMSLayer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
+        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsWMSLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsWMSLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsWMSLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsWMSLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsWMSLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsWMSLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customLayerParameters)) {
-        jsWMSLayer.customLayerParameters = dotNetObject.customLayerParameters;
+        properties.customLayerParameters = dotNetObject.customLayerParameters;
     }
     if (hasValue(dotNetObject.customParameters)) {
-        jsWMSLayer.customParameters = dotNetObject.customParameters;
+        properties.customParameters = dotNetObject.customParameters;
     }
     if (hasValue(dotNetObject.description)) {
-        jsWMSLayer.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsWMSLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.featureInfoFormat)) {
-        jsWMSLayer.featureInfoFormat = dotNetObject.featureInfoFormat;
+        properties.featureInfoFormat = dotNetObject.featureInfoFormat;
     }
     if (hasValue(dotNetObject.featureInfoUrl)) {
-        jsWMSLayer.featureInfoUrl = dotNetObject.featureInfoUrl;
+        properties.featureInfoUrl = dotNetObject.featureInfoUrl;
     }
     if (hasValue(dotNetObject.imageFormat)) {
-        jsWMSLayer.imageFormat = dotNetObject.imageFormat;
+        properties.imageFormat = dotNetObject.imageFormat;
     }
     if (hasValue(dotNetObject.imageMaxHeight)) {
-        jsWMSLayer.imageMaxHeight = dotNetObject.imageMaxHeight;
+        properties.imageMaxHeight = dotNetObject.imageMaxHeight;
     }
     if (hasValue(dotNetObject.imageMaxWidth)) {
-        jsWMSLayer.imageMaxWidth = dotNetObject.imageMaxWidth;
+        properties.imageMaxWidth = dotNetObject.imageMaxWidth;
     }
     if (hasValue(dotNetObject.imageTransparency)) {
-        jsWMSLayer.imageTransparency = dotNetObject.imageTransparency;
+        properties.imageTransparency = dotNetObject.imageTransparency;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsWMSLayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsWMSLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsWMSLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsWMSLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsWMSLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsWMSLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsWMSLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.spatialReferences)) {
-        jsWMSLayer.spatialReferences = dotNetObject.spatialReferences;
+        properties.spatialReferences = dotNetObject.spatialReferences;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        jsWMSLayer.timeOffset = sanitizedTimeOffset;
+        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
-        jsWMSLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsWMSLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.useViewTime)) {
-        jsWMSLayer.useViewTime = dotNetObject.useViewTime;
+        properties.useViewTime = dotNetObject.useViewTime;
     }
     if (hasValue(dotNetObject.version)) {
-        jsWMSLayer.version = dotNetObject.version;
+        properties.version = dotNetObject.version;
     }
+    let jsWMSLayer = new WMSLayer(properties);
     jsWMSLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });

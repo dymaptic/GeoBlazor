@@ -52,12 +52,13 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
 
 
 export async function buildJsGeographicTransformationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeographicTransformation = new GeographicTransformation();
+    let properties: any = {};
     if (hasValue(dotNetObject.steps)) {
         let { buildJsGeographicTransformationStep } = await import('./geographicTransformationStep');
-        jsGeographicTransformation.steps = await Promise.all(dotNetObject.steps.map(async i => await buildJsGeographicTransformationStep(i, layerId, viewId))) as any;
+        properties.steps = await Promise.all(dotNetObject.steps.map(async i => await buildJsGeographicTransformationStep(i, layerId, viewId))) as any;
     }
 
+    let jsGeographicTransformation = new GeographicTransformation(properties);
 
     let { default: GeographicTransformationWrapper } = await import('./geographicTransformation');
     let geographicTransformationWrapper = new GeographicTransformationWrapper(jsGeographicTransformation);

@@ -266,143 +266,144 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeoJSONLayer = new GeoJSONLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        jsGeoJSONLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+        properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
-        jsGeoJSONLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+        properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsGeoJSONLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
-        jsGeoJSONLayer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsGeoJSONLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsGeoJSONLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
-        jsGeoJSONLayer.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsGeoJSONLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        jsGeoJSONLayer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsGeoJSONLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsGeoJSONLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsGeoJSONLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsGeoJSONLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsGeoJSONLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsGeoJSONLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customParameters)) {
-        jsGeoJSONLayer.customParameters = dotNetObject.customParameters;
+        properties.customParameters = dotNetObject.customParameters;
     }
     if (hasValue(dotNetObject.definitionExpression)) {
-        jsGeoJSONLayer.definitionExpression = dotNetObject.definitionExpression;
+        properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.displayField)) {
-        jsGeoJSONLayer.displayField = dotNetObject.displayField;
+        properties.displayField = dotNetObject.displayField;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsGeoJSONLayer.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsGeoJSONLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        jsGeoJSONLayer.elevationInfo = sanitizedElevationInfo;
+        properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.featureReduction)) {
-        jsGeoJSONLayer.featureReduction = dotNetObject.featureReduction;
+        properties.featureReduction = dotNetObject.featureReduction;
     }
     if (hasValue(dotNetObject.geometryType)) {
-        jsGeoJSONLayer.geometryType = dotNetObject.geometryType;
+        properties.geometryType = dotNetObject.geometryType;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
-        jsGeoJSONLayer.labelsVisible = dotNetObject.labelsVisible;
+        properties.labelsVisible = dotNetObject.labelsVisible;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsGeoJSONLayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsGeoJSONLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsGeoJSONLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsGeoJSONLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.objectIdField)) {
-        jsGeoJSONLayer.objectIdField = dotNetObject.objectIdField;
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsGeoJSONLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.orderBy)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
-        jsGeoJSONLayer.orderBy = sanitizedOrderBy;
+        properties.orderBy = sanitizedOrderBy;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsGeoJSONLayer.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsGeoJSONLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsGeoJSONLayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsGeoJSONLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-        jsGeoJSONLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
+        properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        jsGeoJSONLayer.timeOffset = sanitizedTimeOffset;
+        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
-        jsGeoJSONLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsGeoJSONLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.useViewTime)) {
-        jsGeoJSONLayer.useViewTime = dotNetObject.useViewTime;
+        properties.useViewTime = dotNetObject.useViewTime;
     }
+    let jsGeoJSONLayer = new GeoJSONLayer(properties);
     jsGeoJSONLayer.on('edits', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', evt);
     });
@@ -434,7 +435,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     return jsGeoJSONLayer;
 }
 
-export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -481,7 +482,7 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i)));
+            dotNetGeoJSONLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

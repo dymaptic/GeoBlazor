@@ -36,7 +36,7 @@ export default class FeatureReferenceLayerGenerated implements IPropertyWrapper 
 
 
 export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureReferenceLayer: any = {}
+    let jsFeatureReferenceLayer: any = {};
 
     if (hasValue(dotNetObject.featureReferenceLayerId)) {
         jsFeatureReferenceLayer.id = dotNetObject.featureReferenceLayerId;

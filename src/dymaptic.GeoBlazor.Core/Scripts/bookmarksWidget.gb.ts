@@ -88,49 +88,50 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBookmarks = new Bookmarks();
+    let properties: any = {};
     if (hasValue(dotNetObject.bookmarks)) {
         let { buildJsBookmark } = await import('./bookmark');
-        jsBookmarks.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.defaultCreateOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        jsBookmarks.defaultCreateOptions = await buildJsBookmarkOptions(dotNetObject.defaultCreateOptions, layerId, viewId) as any;
+        properties.defaultCreateOptions = await buildJsBookmarkOptions(dotNetObject.defaultCreateOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.defaultEditOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        jsBookmarks.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
+        properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBookmarksViewModel } = await import('./bookmarksViewModel');
-        jsBookmarks.viewModel = await buildJsBookmarksViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsBookmarksViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.disabled)) {
-        jsBookmarks.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.dragEnabled)) {
-        jsBookmarks.dragEnabled = dotNetObject.dragEnabled;
+        properties.dragEnabled = dotNetObject.dragEnabled;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsBookmarks.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.filterPlaceholder)) {
-        jsBookmarks.filterPlaceholder = dotNetObject.filterPlaceholder;
+        properties.filterPlaceholder = dotNetObject.filterPlaceholder;
     }
     if (hasValue(dotNetObject.filterText)) {
-        jsBookmarks.filterText = dotNetObject.filterText;
+        properties.filterText = dotNetObject.filterText;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsBookmarks.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsBookmarks.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsBookmarks.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsBookmarks = new Bookmarks(properties);
     jsBookmarks.on('bookmark-edit', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkEdit', evt);
     });

@@ -40,7 +40,7 @@ export default class TableMenuItemConfigGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTableMenuItemConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTableMenuItemConfig: any = {}
+    let jsTableMenuItemConfig: any = {};
 
     if (hasValue(dotNetObject.disabled)) {
         jsTableMenuItemConfig.disabled = dotNetObject.disabled;

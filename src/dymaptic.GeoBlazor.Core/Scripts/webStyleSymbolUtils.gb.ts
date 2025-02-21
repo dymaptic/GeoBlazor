@@ -46,7 +46,7 @@ export default class WebStyleSymbolUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWebStyleSymbolUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jswebStyleSymbolUtils: any = {}
+    let jswebStyleSymbolUtils: any = {};
 
 
     let { default: WebStyleSymbolUtilsWrapper } = await import('./webStyleSymbolUtils');

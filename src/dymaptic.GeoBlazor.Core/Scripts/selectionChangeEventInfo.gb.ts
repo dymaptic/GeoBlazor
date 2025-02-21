@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSelectionChangeEventInfo } from './selectionChangeEventInfo';
 
 export async function buildJsSelectionChangeEventInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSelectionChangeEventInfo: any = {}
+    let jsSelectionChangeEventInfo: any = {};
     if (hasValue(dotNetObject.added)) {
         let { buildJsGraphic } = await import('./graphic');
         jsSelectionChangeEventInfo.added = dotNetObject.added.map(i => buildJsGraphic(i)) as any;
@@ -14,7 +14,6 @@ export async function buildJsSelectionChangeEventInfoGenerated(dotNetObject: any
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSelectionChangeEventInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSelectionChangeEventInfo;

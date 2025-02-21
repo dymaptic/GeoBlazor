@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetStyleOrigin } from './styleOrigin';
 
 export async function buildJsStyleOriginGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsStyleOrigin = new StyleOrigin();
+    let properties: any = {};
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsStyleOrigin.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.name)) {
-        jsStyleOrigin.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.styleName)) {
-        jsStyleOrigin.styleName = dotNetObject.styleName;
+        properties.styleName = dotNetObject.styleName;
     }
     if (hasValue(dotNetObject.styleUrl)) {
-        jsStyleOrigin.styleUrl = dotNetObject.styleUrl;
+        properties.styleUrl = dotNetObject.styleUrl;
     }
+    let jsStyleOrigin = new StyleOrigin(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsStyleOrigin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStyleOrigin;

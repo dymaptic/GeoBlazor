@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetExecuteContext } from './executeContext';
 
 export async function buildJsExecuteContextGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsExecuteContext: any = {}
+    let jsExecuteContext: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jsExecuteContext.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
@@ -13,7 +13,6 @@ export async function buildJsExecuteContextGenerated(dotNetObject: any, layerId:
         jsExecuteContext.timeZone = dotNetObject.timeZone;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsExecuteContext);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExecuteContext;

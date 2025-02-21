@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorSchemes } from './colorSchemes';
 
 export async function buildJsColorSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorSchemes: any = {}
+    let jsColorSchemes: any = {};
 
     if (hasValue(dotNetObject.basemapId)) {
         jsColorSchemes.basemapId = dotNetObject.basemapId;
@@ -18,7 +18,6 @@ export async function buildJsColorSchemesGenerated(dotNetObject: any, layerId: s
         jsColorSchemes.secondarySchemes = dotNetObject.secondarySchemes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorSchemes;

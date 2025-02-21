@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCornersGeoreference } from './cornersGeoreference';
 
 export async function buildJsCornersGeoreferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCornersGeoreference = new CornersGeoreference();
+    let properties: any = {};
     if (hasValue(dotNetObject.bottomLeft)) {
         let { buildJsPoint } = await import('./point');
-        jsCornersGeoreference.bottomLeft = buildJsPoint(dotNetObject.bottomLeft) as any;
+        properties.bottomLeft = buildJsPoint(dotNetObject.bottomLeft) as any;
     }
     if (hasValue(dotNetObject.bottomRight)) {
         let { buildJsPoint } = await import('./point');
-        jsCornersGeoreference.bottomRight = buildJsPoint(dotNetObject.bottomRight) as any;
+        properties.bottomRight = buildJsPoint(dotNetObject.bottomRight) as any;
     }
     if (hasValue(dotNetObject.topLeft)) {
         let { buildJsPoint } = await import('./point');
-        jsCornersGeoreference.topLeft = buildJsPoint(dotNetObject.topLeft) as any;
+        properties.topLeft = buildJsPoint(dotNetObject.topLeft) as any;
     }
     if (hasValue(dotNetObject.topRight)) {
         let { buildJsPoint } = await import('./point');
-        jsCornersGeoreference.topRight = buildJsPoint(dotNetObject.topRight) as any;
+        properties.topRight = buildJsPoint(dotNetObject.topRight) as any;
     }
 
+    let jsCornersGeoreference = new CornersGeoreference(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCornersGeoreference);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCornersGeoreference;

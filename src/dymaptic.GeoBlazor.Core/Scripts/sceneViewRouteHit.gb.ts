@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneViewRouteHit } from './sceneViewRouteHit';
 
 export async function buildJsSceneViewRouteHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewRouteHit: any = {}
+    let jsSceneViewRouteHit: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsRouteLayer } = await import('./routeLayer');
         jsSceneViewRouteHit.layer = await buildJsRouteLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -17,7 +17,6 @@ export async function buildJsSceneViewRouteHitGenerated(dotNetObject: any, layer
         jsSceneViewRouteHit.networkFeature = dotNetObject.networkFeature;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewRouteHit);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewRouteHit;

@@ -64,7 +64,7 @@ export default class PolygonDrawActionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPolygonDrawActionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPolygonDrawAction: any = {}
+    let jsPolygonDrawAction: any = {};
 
     if (hasValue(dotNetObject.hasZ)) {
         jsPolygonDrawAction.hasZ = dotNetObject.hasZ;

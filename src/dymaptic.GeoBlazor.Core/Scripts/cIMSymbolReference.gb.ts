@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMSymbolReference } from './cIMSymbolReference';
 
 export async function buildJsCIMSymbolReferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMSymbolReference: any = {}
+    let jsCIMSymbolReference: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsCIMSymbolReference.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -36,7 +36,6 @@ export async function buildJsCIMSymbolReferenceGenerated(dotNetObject: any, laye
         jsCIMSymbolReference.symbolName = dotNetObject.symbolName;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMSymbolReference);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMSymbolReference;

@@ -38,7 +38,7 @@ export default class ShadedReliefGenerated implements IPropertyWrapper {
 
 
 export async function buildJsShadedReliefGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsshadedRelief: any = {}
+    let jsshadedRelief: any = {};
 
 
     let { default: ShadedReliefWrapper } = await import('./shadedRelief');

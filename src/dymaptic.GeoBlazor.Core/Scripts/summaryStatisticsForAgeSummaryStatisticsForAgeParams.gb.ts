@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams } from './summaryStatisticsForAgeSummaryStatisticsForAgeParams';
 
 export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssummaryStatisticsForAgeSummaryStatisticsForAgeParams: any = {}
+    let jssummaryStatisticsForAgeSummaryStatisticsForAgeParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -22,7 +22,6 @@ export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParam
         jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = dotNetObject.unit;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssummaryStatisticsForAgeSummaryStatisticsForAgeParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatisticsForAgeSummaryStatisticsForAgeParams;

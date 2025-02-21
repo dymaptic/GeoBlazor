@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDataModel } from './dataModel';
 
 export async function buildJsDataModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDataModel = new DataModel();
+    let properties: any = {};
 
+    let jsDataModel = new DataModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDataModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDataModel;

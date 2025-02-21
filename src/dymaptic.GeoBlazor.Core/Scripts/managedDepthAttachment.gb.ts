@@ -40,7 +40,7 @@ export default class ManagedDepthAttachmentGenerated implements IPropertyWrapper
 
 
 export async function buildJsManagedDepthAttachmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsManagedDepthAttachment: any = {}
+    let jsManagedDepthAttachment: any = {};
 
 
     let { default: ManagedDepthAttachmentWrapper } = await import('./managedDepthAttachment');

@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTextSymbol3DLayerBackground } from './textSymbol3DLayerBackground';
 
 export async function buildJsTextSymbol3DLayerBackgroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTextSymbol3DLayerBackground: any = {}
+    let jsTextSymbol3DLayerBackground: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsTextSymbol3DLayerBackground.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTextSymbol3DLayerBackground);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol3DLayerBackground;

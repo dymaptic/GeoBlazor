@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindImagesResult } from './findImagesResult';
 
 export async function buildJsFindImagesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFindImagesResult = new FindImagesResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.images)) {
         let { buildJsImageInspectionInfo } = await import('./imageInspectionInfo');
-        jsFindImagesResult.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageInspectionInfo(i, layerId, viewId))) as any;
+        properties.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageInspectionInfo(i, layerId, viewId))) as any;
     }
 
+    let jsFindImagesResult = new FindImagesResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFindImagesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFindImagesResult;

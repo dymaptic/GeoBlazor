@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAttributionViewModel } from './attributionViewModel';
 
 export async function buildJsAttributionViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAttributionViewModel = new AttributionViewModel();
+    let properties: any = {};
 
+    let jsAttributionViewModel = new AttributionViewModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAttributionViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttributionViewModel;

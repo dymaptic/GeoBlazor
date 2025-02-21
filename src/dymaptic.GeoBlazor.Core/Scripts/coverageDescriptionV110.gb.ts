@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV110 } from './coverageDescriptionV110';
 
 export async function buildJsCoverageDescriptionV110Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoverageDescriptionV110: any = {}
+    let jsCoverageDescriptionV110: any = {};
     if (hasValue(dotNetObject.domain)) {
         let { buildJsCoverageDescriptionV110Domain } = await import('./coverageDescriptionV110Domain');
         jsCoverageDescriptionV110.domain = await buildJsCoverageDescriptionV110Domain(dotNetObject.domain, layerId, viewId) as any;
@@ -37,7 +37,6 @@ export async function buildJsCoverageDescriptionV110Generated(dotNetObject: any,
         jsCoverageDescriptionV110.version = dotNetObject.version;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV110);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110;

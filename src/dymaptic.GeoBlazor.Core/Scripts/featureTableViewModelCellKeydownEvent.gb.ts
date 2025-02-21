@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureTableViewModelCellKeydownEvent } from './featureTableViewModelCellKeydownEvent';
 
 export async function buildJsFeatureTableViewModelCellKeydownEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTableViewModelCellKeydownEvent: any = {}
+    let jsFeatureTableViewModelCellKeydownEvent: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureTableViewModelCellKeydownEvent.feature = buildJsGraphic(dotNetObject.feature) as any;
@@ -22,7 +22,6 @@ export async function buildJsFeatureTableViewModelCellKeydownEventGenerated(dotN
         jsFeatureTableViewModelCellKeydownEvent.objectId = dotNetObject.objectId;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureTableViewModelCellKeydownEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModelCellKeydownEvent;

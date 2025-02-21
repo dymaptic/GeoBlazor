@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClassBreakInfo } from './classBreakInfo';
 
 export async function buildJsClassBreakInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassBreakInfo = new ClassBreakInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsClassBreakInfo.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsClassBreakInfo.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.maxValue)) {
-        jsClassBreakInfo.maxValue = dotNetObject.maxValue;
+        properties.maxValue = dotNetObject.maxValue;
     }
     if (hasValue(dotNetObject.minValue)) {
-        jsClassBreakInfo.minValue = dotNetObject.minValue;
+        properties.minValue = dotNetObject.minValue;
     }
+    let jsClassBreakInfo = new ClassBreakInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsClassBreakInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsClassBreakInfo;

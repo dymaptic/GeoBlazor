@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorSchemeForPolygon } from './colorSchemeForPolygon';
 
 export async function buildJsColorSchemeForPolygonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorSchemeForPolygon: any = {}
+    let jsColorSchemeForPolygon: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsColorSchemeForPolygon.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -37,7 +37,6 @@ export async function buildJsColorSchemeForPolygonGenerated(dotNetObject: any, l
         jsColorSchemeForPolygon.theme = dotNetObject.theme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorSchemeForPolygon);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorSchemeForPolygon;

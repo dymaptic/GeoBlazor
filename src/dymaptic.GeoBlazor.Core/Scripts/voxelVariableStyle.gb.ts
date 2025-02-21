@@ -4,28 +4,28 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelVariableStyle } from './voxelVariableStyle';
 
 export async function buildJsVoxelVariableStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVoxelVariableStyle = new VoxelVariableStyle();
+    let properties: any = {};
     if (hasValue(dotNetObject.isosurfaces)) {
         let { buildJsVoxelIsosurface } = await import('./voxelIsosurface');
-        jsVoxelVariableStyle.isosurfaces = await Promise.all(dotNetObject.isosurfaces.map(async i => await buildJsVoxelIsosurface(i, layerId, viewId))) as any;
+        properties.isosurfaces = await Promise.all(dotNetObject.isosurfaces.map(async i => await buildJsVoxelIsosurface(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.transferFunction)) {
         let { buildJsVoxelTransferFunctionStyle } = await import('./voxelTransferFunctionStyle');
-        jsVoxelVariableStyle.transferFunction = await buildJsVoxelTransferFunctionStyle(dotNetObject.transferFunction, layerId, viewId) as any;
+        properties.transferFunction = await buildJsVoxelTransferFunctionStyle(dotNetObject.transferFunction, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.uniqueValues)) {
         let { buildJsVoxelUniqueValue } = await import('./voxelUniqueValue');
-        jsVoxelVariableStyle.uniqueValues = await Promise.all(dotNetObject.uniqueValues.map(async i => await buildJsVoxelUniqueValue(i, layerId, viewId))) as any;
+        properties.uniqueValues = await Promise.all(dotNetObject.uniqueValues.map(async i => await buildJsVoxelUniqueValue(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsVoxelVariableStyle.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.variableId)) {
-        jsVoxelVariableStyle.variableId = dotNetObject.variableId;
+        properties.variableId = dotNetObject.variableId;
     }
+    let jsVoxelVariableStyle = new VoxelVariableStyle(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelVariableStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelVariableStyle;

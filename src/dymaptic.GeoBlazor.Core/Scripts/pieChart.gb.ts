@@ -44,7 +44,7 @@ export default class PieChartGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPieChartGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspieChart: any = {}
+    let jspieChart: any = {};
 
 
     let { default: PieChartWrapper } = await import('./pieChart');

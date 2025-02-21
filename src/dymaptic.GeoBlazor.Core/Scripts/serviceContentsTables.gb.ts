@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceContentsTables } from './serviceContentsTables';
 
 export async function buildJsServiceContentsTablesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsServiceContentsTables: any = {}
+    let jsServiceContentsTables: any = {};
 
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
@@ -14,7 +14,6 @@ export async function buildJsServiceContentsTablesGenerated(dotNetObject: any, l
         jsServiceContentsTables.tableInfos = sanitizedTableInfos;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceContentsTables);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceContentsTables;

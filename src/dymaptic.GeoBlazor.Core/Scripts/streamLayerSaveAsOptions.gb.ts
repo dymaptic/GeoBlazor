@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetStreamLayerSaveAsOptions } from './streamLayerSaveAsOptions';
 
 export async function buildJsStreamLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsStreamLayerSaveAsOptions: any = {}
+    let jsStreamLayerSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsStreamLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsStreamLayerSaveAsOptionsGenerated(dotNetObject: any
         jsStreamLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsStreamLayerSaveAsOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerSaveAsOptions;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV201BoundedBy } from './coverageDescriptionV201BoundedBy';
 
 export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoverageDescriptionV201BoundedBy: any = {}
+    let jsCoverageDescriptionV201BoundedBy: any = {};
     if (hasValue(dotNetObject.envelope)) {
         let { buildJsExtent } = await import('./extent');
         jsCoverageDescriptionV201BoundedBy.envelope = buildJsExtent(dotNetObject.envelope) as any;
@@ -28,7 +28,6 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
         jsCoverageDescriptionV201BoundedBy.uomLabels = dotNetObject.uomLabels;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV201BoundedBy);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201BoundedBy;

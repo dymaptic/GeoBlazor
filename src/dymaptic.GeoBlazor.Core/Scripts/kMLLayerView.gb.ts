@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKMLLayerView } from './kMLLayerView';
 
 export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsKMLLayerView = new KMLLayerView();
+    let properties: any = {};
 
+    let jsKMLLayerView = new KMLLayerView(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsKMLLayerView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;

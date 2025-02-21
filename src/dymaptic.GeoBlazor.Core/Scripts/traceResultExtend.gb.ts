@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTraceResultExtend } from './traceResultExtend';
 
 export async function buildJsTraceResultExtendGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTraceResultExtend: any = {}
+    let jsTraceResultExtend: any = {};
     if (hasValue(dotNetObject.traceResult)) {
         let { buildJsTraceResult } = await import('./traceResult');
         jsTraceResultExtend.TraceResult = await buildJsTraceResult(dotNetObject.traceResult, layerId, viewId) as any;
@@ -27,7 +27,6 @@ export async function buildJsTraceResultExtendGenerated(dotNetObject: any, layer
         jsTraceResultExtend.TraceItem = sanitizedTraceItem;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTraceResultExtend);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTraceResultExtend;

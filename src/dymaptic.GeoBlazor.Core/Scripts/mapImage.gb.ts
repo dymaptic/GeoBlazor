@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapImage } from './mapImage';
 
 export async function buildJsMapImageGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMapImage = new MapImage();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsMapImage.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.height)) {
-        jsMapImage.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.href)) {
-        jsMapImage.href = dotNetObject.href;
+        properties.href = dotNetObject.href;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsMapImage.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsMapImage.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
     if (hasValue(dotNetObject.width)) {
-        jsMapImage.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsMapImage = new MapImage(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapImage);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapImage;

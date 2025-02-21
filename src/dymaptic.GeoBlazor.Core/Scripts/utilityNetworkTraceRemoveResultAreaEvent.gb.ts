@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUtilityNetworkTraceRemoveResultAreaEvent } from './utilityNetworkTraceRemoveResultAreaEvent';
 
 export async function buildJsUtilityNetworkTraceRemoveResultAreaEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUtilityNetworkTraceRemoveResultAreaEvent: any = {}
+    let jsUtilityNetworkTraceRemoveResultAreaEvent: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
         jsUtilityNetworkTraceRemoveResultAreaEvent.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsUtilityNetworkTraceRemoveResultAreaEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUtilityNetworkTraceRemoveResultAreaEvent;

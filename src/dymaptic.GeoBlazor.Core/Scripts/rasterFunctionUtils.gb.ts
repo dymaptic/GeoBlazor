@@ -436,7 +436,7 @@ export default class RasterFunctionUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRasterFunctionUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrasterFunctionUtils: any = {}
+    let jsrasterFunctionUtils: any = {};
 
 
     let { default: RasterFunctionUtilsWrapper } = await import('./rasterFunctionUtils');

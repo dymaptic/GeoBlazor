@@ -4,13 +4,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineOfSightAnalysisView3D } from './lineOfSightAnalysisView3D';
 
 export async function buildJsLineOfSightAnalysisView3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightAnalysisView3D = new LineOfSightAnalysisView3D();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.interactive)) {
-        jsLineOfSightAnalysisView3D.interactive = dotNetObject.interactive;
+        properties.interactive = dotNetObject.interactive;
     }
+    let jsLineOfSightAnalysisView3D = new LineOfSightAnalysisView3D(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineOfSightAnalysisView3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisView3D;

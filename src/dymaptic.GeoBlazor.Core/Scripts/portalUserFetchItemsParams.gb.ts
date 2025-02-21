@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalUserFetchItemsParams } from './portalUserFetchItemsParams';
 
 export async function buildJsPortalUserFetchItemsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalUserFetchItemsParams: any = {}
+    let jsPortalUserFetchItemsParams: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsPortalUserFetchItemsParams.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -28,7 +28,6 @@ export async function buildJsPortalUserFetchItemsParamsGenerated(dotNetObject: a
         jsPortalUserFetchItemsParams.start = dotNetObject.start;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalUserFetchItemsParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUserFetchItemsParams;

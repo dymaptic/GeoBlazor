@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBookmarkOptionsScreenshotSettings } from './bookmarkOptionsScreenshotSettings';
 
 export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBookmarkOptionsScreenshotSettings: any = {}
+    let jsBookmarkOptionsScreenshotSettings: any = {};
     if (hasValue(dotNetObject.layers)) {
         let { buildJsLayer } = await import('./layer');
         jsBookmarkOptionsScreenshotSettings.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
@@ -20,7 +20,6 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
         jsBookmarkOptionsScreenshotSettings.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBookmarkOptionsScreenshotSettings);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;

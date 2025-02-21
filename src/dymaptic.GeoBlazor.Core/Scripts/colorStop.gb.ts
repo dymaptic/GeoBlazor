@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorStop } from './colorStop';
 
 export async function buildJsColorStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorStop = new ColorStop();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsColorStop.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        jsColorStop.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.value)) {
-        jsColorStop.value = dotNetObject.value;
+        properties.value = dotNetObject.value;
     }
+    let jsColorStop = new ColorStop(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;

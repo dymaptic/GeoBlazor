@@ -38,8 +38,9 @@ export default class UniqueValuesGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUniqueValuesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsuniqueValues = new uniqueValues();
+    let properties: any = {};
 
+    let jsuniqueValues = new uniqueValues(properties);
 
     let { default: UniqueValuesWrapper } = await import('./uniqueValues');
     let uniqueValuesWrapper = new UniqueValuesWrapper(jsuniqueValues);

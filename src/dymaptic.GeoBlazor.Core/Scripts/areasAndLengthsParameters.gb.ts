@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAreasAndLengthsParameters } from './areasAndLengthsParameters';
 
 export async function buildJsAreasAndLengthsParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAreasAndLengthsParameters = new AreasAndLengthsParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.polygons)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsAreasAndLengthsParameters.polygons = dotNetObject.polygons.map(i => buildJsPolygon(i)) as any;
+        properties.polygons = dotNetObject.polygons.map(i => buildJsPolygon(i)) as any;
     }
 
     if (hasValue(dotNetObject.areaUnit)) {
-        jsAreasAndLengthsParameters.areaUnit = dotNetObject.areaUnit;
+        properties.areaUnit = dotNetObject.areaUnit;
     }
     if (hasValue(dotNetObject.calculationType)) {
-        jsAreasAndLengthsParameters.calculationType = dotNetObject.calculationType;
+        properties.calculationType = dotNetObject.calculationType;
     }
     if (hasValue(dotNetObject.lengthUnit)) {
-        jsAreasAndLengthsParameters.lengthUnit = dotNetObject.lengthUnit;
+        properties.lengthUnit = dotNetObject.lengthUnit;
     }
+    let jsAreasAndLengthsParameters = new AreasAndLengthsParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAreasAndLengthsParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAreasAndLengthsParameters;

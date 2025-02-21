@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSnappingControlsViewModel } from './snappingControlsViewModel';
 
 export async function buildJsSnappingControlsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSnappingControlsViewModel = new SnappingControlsViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.snappingOptions)) {
         let { buildJsSnappingOptions } = await import('./snappingOptions');
-        jsSnappingControlsViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
+        properties.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
+    let jsSnappingControlsViewModel = new SnappingControlsViewModel(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSnappingControlsViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSnappingControlsViewModel;

@@ -48,44 +48,45 @@ export default class IObjectSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIObjectSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsObjectSymbol3DLayer = new ObjectSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.material)) {
         let { buildJsObjectSymbol3DLayerMaterial } = await import('./objectSymbol3DLayerMaterial');
-        jsObjectSymbol3DLayer.material = await buildJsObjectSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsObjectSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.anchor)) {
-        jsObjectSymbol3DLayer.anchor = dotNetObject.anchor;
+        properties.anchor = dotNetObject.anchor;
     }
     if (hasValue(dotNetObject.anchorPosition)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
-        jsObjectSymbol3DLayer.anchorPosition = sanitizedAnchorPosition;
+        properties.anchorPosition = sanitizedAnchorPosition;
     }
     if (hasValue(dotNetObject.castShadows)) {
-        jsObjectSymbol3DLayer.castShadows = dotNetObject.castShadows;
+        properties.castShadows = dotNetObject.castShadows;
     }
     if (hasValue(dotNetObject.depth)) {
-        jsObjectSymbol3DLayer.depth = dotNetObject.depth;
+        properties.depth = dotNetObject.depth;
     }
     if (hasValue(dotNetObject.heading)) {
-        jsObjectSymbol3DLayer.heading = dotNetObject.heading;
+        properties.heading = dotNetObject.heading;
     }
     if (hasValue(dotNetObject.height)) {
-        jsObjectSymbol3DLayer.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.resource)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResource } = dotNetObject.resource;
-        jsObjectSymbol3DLayer.resource = sanitizedResource;
+        properties.resource = sanitizedResource;
     }
     if (hasValue(dotNetObject.roll)) {
-        jsObjectSymbol3DLayer.roll = dotNetObject.roll;
+        properties.roll = dotNetObject.roll;
     }
     if (hasValue(dotNetObject.tilt)) {
-        jsObjectSymbol3DLayer.tilt = dotNetObject.tilt;
+        properties.tilt = dotNetObject.tilt;
     }
     if (hasValue(dotNetObject.width)) {
-        jsObjectSymbol3DLayer.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsObjectSymbol3DLayer = new ObjectSymbol3DLayer(properties);
 
     let { default: IObjectSymbol3DLayerWrapper } = await import('./iObjectSymbol3DLayer');
     let iObjectSymbol3DLayerWrapper = new IObjectSymbol3DLayerWrapper(jsObjectSymbol3DLayer);

@@ -4,47 +4,47 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWMTSSublayer } from './wMTSSublayer';
 
 export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWMTSSublayer = new WMTSSublayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsWMTSSublayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.tileMatrixSet)) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
-        jsWMTSSublayer.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
+        properties.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.tileMatrixSets)) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
-        jsWMTSSublayer.tileMatrixSets = await Promise.all(dotNetObject.tileMatrixSets.map(async i => await buildJsTileMatrixSet(i, layerId, viewId))) as any;
+        properties.tileMatrixSets = await Promise.all(dotNetObject.tileMatrixSets.map(async i => await buildJsTileMatrixSet(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
-        jsWMTSSublayer.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.imageFormat)) {
-        jsWMTSSublayer.imageFormat = dotNetObject.imageFormat;
+        properties.imageFormat = dotNetObject.imageFormat;
     }
     if (hasValue(dotNetObject.imageFormats)) {
-        jsWMTSSublayer.imageFormats = dotNetObject.imageFormats;
+        properties.imageFormats = dotNetObject.imageFormats;
     }
     if (hasValue(dotNetObject.styleId)) {
-        jsWMTSSublayer.styleId = dotNetObject.styleId;
+        properties.styleId = dotNetObject.styleId;
     }
     if (hasValue(dotNetObject.styles)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStyles } = dotNetObject.styles;
-        jsWMTSSublayer.styles = sanitizedStyles;
+        properties.styles = sanitizedStyles;
     }
     if (hasValue(dotNetObject.tileMatrixSetId)) {
-        jsWMTSSublayer.tileMatrixSetId = dotNetObject.tileMatrixSetId;
+        properties.tileMatrixSetId = dotNetObject.tileMatrixSetId;
     }
     if (hasValue(dotNetObject.title)) {
-        jsWMTSSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.wMTSSublayerId)) {
-        jsWMTSSublayer.id = dotNetObject.wMTSSublayerId;
+        properties.id = dotNetObject.wMTSSublayerId;
     }
+    let jsWMTSSublayer = new WMTSSublayer(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWMTSSublayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSSublayer;

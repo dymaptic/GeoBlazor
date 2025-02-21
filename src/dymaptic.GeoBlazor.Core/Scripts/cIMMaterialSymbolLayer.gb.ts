@@ -36,7 +36,7 @@ export default class CIMMaterialSymbolLayerGenerated implements IPropertyWrapper
 
 
 export async function buildJsCIMMaterialSymbolLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMMaterialSymbolLayer: any = {}
+    let jsCIMMaterialSymbolLayer: any = {};
 
     if (hasValue(dotNetObject.color)) {
         jsCIMMaterialSymbolLayer.color = dotNetObject.color;

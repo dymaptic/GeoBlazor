@@ -42,7 +42,7 @@ export default class SynthesizeAssociationGeometriesGenerated implements IProper
 
 
 export async function buildJsSynthesizeAssociationGeometriesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssynthesizeAssociationGeometries: any = {}
+    let jssynthesizeAssociationGeometries: any = {};
 
 
     let { default: SynthesizeAssociationGeometriesWrapper } = await import('./synthesizeAssociationGeometries');

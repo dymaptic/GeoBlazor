@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetILayersMixin } from './iLayersMixin';
 
 export async function buildJsILayersMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayersMixin: any = {}
+    let jsLayersMixin: any = {};
     if (hasValue(dotNetObject.layers)) {
         let { buildJsLayer } = await import('./layer');
         jsLayersMixin.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayersMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayersMixin;

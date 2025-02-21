@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeRangeSizeRangeParams } from './sizeRangeSizeRangeParams';
 
 export async function buildJsSizeRangeSizeRangeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeRangeSizeRangeParams: any = {}
+    let jssizeRangeSizeRangeParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jssizeRangeSizeRangeParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsSizeRangeSizeRangeParamsGenerated(dotNetObject: any
         jssizeRangeSizeRangeParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeRangeSizeRangeParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeRangeSizeRangeParams;

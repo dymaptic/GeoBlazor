@@ -137,47 +137,48 @@ export default class SketchViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSketchViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSketchViewModel = new SketchViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeFillSymbol)) {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
-        jsSketchViewModel.activeFillSymbol = buildJsSimpleFillSymbol(dotNetObject.activeFillSymbol) as any;
+        properties.activeFillSymbol = buildJsSimpleFillSymbol(dotNetObject.activeFillSymbol) as any;
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsGraphicsLayer } = await import('./graphicsLayer');
-        jsSketchViewModel.layer = await buildJsGraphicsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsGraphicsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.snappingOptions)) {
         let { buildJsSnappingOptions } = await import('./snappingOptions');
-        jsSketchViewModel.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
+        properties.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.defaultCreateOptions)) {
-        jsSketchViewModel.defaultCreateOptions = dotNetObject.defaultCreateOptions;
+        properties.defaultCreateOptions = dotNetObject.defaultCreateOptions;
     }
     if (hasValue(dotNetObject.defaultUpdateOptions)) {
-        jsSketchViewModel.defaultUpdateOptions = dotNetObject.defaultUpdateOptions;
+        properties.defaultUpdateOptions = dotNetObject.defaultUpdateOptions;
     }
     if (hasValue(dotNetObject.labelOptions)) {
-        jsSketchViewModel.labelOptions = dotNetObject.labelOptions;
+        properties.labelOptions = dotNetObject.labelOptions;
     }
     if (hasValue(dotNetObject.pointSymbol)) {
-        jsSketchViewModel.pointSymbol = dotNetObject.pointSymbol;
+        properties.pointSymbol = dotNetObject.pointSymbol;
     }
     if (hasValue(dotNetObject.polygonSymbol)) {
-        jsSketchViewModel.polygonSymbol = dotNetObject.polygonSymbol;
+        properties.polygonSymbol = dotNetObject.polygonSymbol;
     }
     if (hasValue(dotNetObject.polylineSymbol)) {
-        jsSketchViewModel.polylineSymbol = dotNetObject.polylineSymbol;
+        properties.polylineSymbol = dotNetObject.polylineSymbol;
     }
     if (hasValue(dotNetObject.tooltipOptions)) {
-        jsSketchViewModel.tooltipOptions = dotNetObject.tooltipOptions;
+        properties.tooltipOptions = dotNetObject.tooltipOptions;
     }
     if (hasValue(dotNetObject.updateOnGraphicClick)) {
-        jsSketchViewModel.updateOnGraphicClick = dotNetObject.updateOnGraphicClick;
+        properties.updateOnGraphicClick = dotNetObject.updateOnGraphicClick;
     }
     if (hasValue(dotNetObject.valueOptions)) {
-        jsSketchViewModel.valueOptions = dotNetObject.valueOptions;
+        properties.valueOptions = dotNetObject.valueOptions;
     }
+    let jsSketchViewModel = new SketchViewModel(properties);
     jsSketchViewModel.on('create', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', evt);
     });

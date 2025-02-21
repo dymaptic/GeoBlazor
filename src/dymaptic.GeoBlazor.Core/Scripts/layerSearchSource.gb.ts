@@ -4,96 +4,96 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerSearchSource } from './layerSearchSource';
 
 export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerSearchSource = new LayerSearchSource();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
-        jsLayerSearchSource.filter = await buildJsSearchSourceFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
-        jsLayerSearchSource.getResults = async (parameters) => {
+        properties.getResults = async (parameters) => {
             return await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
         };
     }
     if (hasValue(dotNetObject.hasGetSuggestionsHandler) && dotNetObject.hasGetSuggestionsHandler) {
-        jsLayerSearchSource.getSuggestions = async (parameters) => {
+        properties.getSuggestions = async (parameters) => {
             return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
         };
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsLayerSearchSource.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsLayerSearchSource.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLayerSearchSource.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
+        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.autoNavigate)) {
-        jsLayerSearchSource.autoNavigate = dotNetObject.autoNavigate;
+        properties.autoNavigate = dotNetObject.autoNavigate;
     }
     if (hasValue(dotNetObject.displayField)) {
-        jsLayerSearchSource.displayField = dotNetObject.displayField;
+        properties.displayField = dotNetObject.displayField;
     }
     if (hasValue(dotNetObject.exactMatch)) {
-        jsLayerSearchSource.exactMatch = dotNetObject.exactMatch;
+        properties.exactMatch = dotNetObject.exactMatch;
     }
     if (hasValue(dotNetObject.maxResults)) {
-        jsLayerSearchSource.maxResults = dotNetObject.maxResults;
+        properties.maxResults = dotNetObject.maxResults;
     }
     if (hasValue(dotNetObject.maxSuggestions)) {
-        jsLayerSearchSource.maxSuggestions = dotNetObject.maxSuggestions;
+        properties.maxSuggestions = dotNetObject.maxSuggestions;
     }
     if (hasValue(dotNetObject.minSuggestCharacters)) {
-        jsLayerSearchSource.minSuggestCharacters = dotNetObject.minSuggestCharacters;
+        properties.minSuggestCharacters = dotNetObject.minSuggestCharacters;
     }
     if (hasValue(dotNetObject.name)) {
-        jsLayerSearchSource.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.orderByFields)) {
-        jsLayerSearchSource.orderByFields = dotNetObject.orderByFields;
+        properties.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsLayerSearchSource.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.placeholder)) {
-        jsLayerSearchSource.placeholder = dotNetObject.placeholder;
+        properties.placeholder = dotNetObject.placeholder;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsLayerSearchSource.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.prefix)) {
-        jsLayerSearchSource.prefix = dotNetObject.prefix;
+        properties.prefix = dotNetObject.prefix;
     }
     if (hasValue(dotNetObject.resultGraphicEnabled)) {
-        jsLayerSearchSource.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
+        properties.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
     }
     if (hasValue(dotNetObject.searchFields)) {
-        jsLayerSearchSource.searchFields = dotNetObject.searchFields;
+        properties.searchFields = dotNetObject.searchFields;
     }
     if (hasValue(dotNetObject.searchTemplate)) {
-        jsLayerSearchSource.searchTemplate = dotNetObject.searchTemplate;
+        properties.searchTemplate = dotNetObject.searchTemplate;
     }
     if (hasValue(dotNetObject.suffix)) {
-        jsLayerSearchSource.suffix = dotNetObject.suffix;
+        properties.suffix = dotNetObject.suffix;
     }
     if (hasValue(dotNetObject.suggestionsEnabled)) {
-        jsLayerSearchSource.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+        properties.suggestionsEnabled = dotNetObject.suggestionsEnabled;
     }
     if (hasValue(dotNetObject.suggestionTemplate)) {
-        jsLayerSearchSource.suggestionTemplate = dotNetObject.suggestionTemplate;
+        properties.suggestionTemplate = dotNetObject.suggestionTemplate;
     }
     if (hasValue(dotNetObject.withinViewEnabled)) {
-        jsLayerSearchSource.withinViewEnabled = dotNetObject.withinViewEnabled;
+        properties.withinViewEnabled = dotNetObject.withinViewEnabled;
     }
     if (hasValue(dotNetObject.zoomScale)) {
-        jsLayerSearchSource.zoomScale = dotNetObject.zoomScale;
+        properties.zoomScale = dotNetObject.zoomScale;
     }
+    let jsLayerSearchSource = new LayerSearchSource(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerSearchSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerSearchSource;

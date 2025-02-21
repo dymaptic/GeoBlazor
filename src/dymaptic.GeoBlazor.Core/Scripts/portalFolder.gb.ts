@@ -4,19 +4,19 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalFolder } from './portalFolder';
 
 export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalFolder = new PortalFolder();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.created)) {
-        jsPortalFolder.created = dotNetObject.created;
+        properties.created = dotNetObject.created;
     }
     if (hasValue(dotNetObject.portalFolderId)) {
-        jsPortalFolder.id = dotNetObject.portalFolderId;
+        properties.id = dotNetObject.portalFolderId;
     }
     if (hasValue(dotNetObject.title)) {
-        jsPortalFolder.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsPortalFolder = new PortalFolder(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalFolder);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;

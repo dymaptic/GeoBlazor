@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDimensionAnalysis } from './dimensionAnalysis';
 
 export async function buildJsDimensionAnalysisGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDimensionAnalysis = new DimensionAnalysis();
+    let properties: any = {};
     if (hasValue(dotNetObject.dimensions)) {
         let { buildJsLengthDimension } = await import('./lengthDimension');
-        jsDimensionAnalysis.dimensions = await Promise.all(dotNetObject.dimensions.map(async i => await buildJsLengthDimension(i, layerId, viewId))) as any;
+        properties.dimensions = await Promise.all(dotNetObject.dimensions.map(async i => await buildJsLengthDimension(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsDimensionSimpleStyle } = await import('./dimensionSimpleStyle');
-        jsDimensionAnalysis.style = await buildJsDimensionSimpleStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsDimensionSimpleStyle(dotNetObject.style, layerId, viewId) as any;
     }
 
+    let jsDimensionAnalysis = new DimensionAnalysis(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDimensionAnalysis);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionAnalysis;

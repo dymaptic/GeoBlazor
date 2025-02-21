@@ -88,69 +88,70 @@ export default class FieldColumnGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFieldColumnGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFieldColumn = new FieldColumn();
+    let properties: any = {};
     if (hasValue(dotNetObject.field)) {
         let { buildJsField } = await import('./field');
-        jsFieldColumn.field = buildJsField(dotNetObject.field) as any;
+        properties.field = buildJsField(dotNetObject.field) as any;
     }
     if (hasValue(dotNetObject.hasFormatFunction) && dotNetObject.hasFormatFunction) {
-        jsFieldColumn.formatFunction = (parameters) => {
+        properties.formatFunction = (parameters) => {
             let func = new Function('parameters', dotNetObject.formatFunction.javaScriptFunction);
             return func(parameters);
         };
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsFieldColumn.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.template)) {
         let { buildJsFieldColumnTemplate } = await import('./fieldColumnTemplate');
-        jsFieldColumn.template = await buildJsFieldColumnTemplate(dotNetObject.template, layerId, viewId) as any;
+        properties.template = await buildJsFieldColumnTemplate(dotNetObject.template, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.autoWidth)) {
-        jsFieldColumn.autoWidth = dotNetObject.autoWidth;
+        properties.autoWidth = dotNetObject.autoWidth;
     }
     if (hasValue(dotNetObject.direction)) {
-        jsFieldColumn.direction = dotNetObject.direction;
+        properties.direction = dotNetObject.direction;
     }
     if (hasValue(dotNetObject.editable)) {
-        jsFieldColumn.editable = dotNetObject.editable;
+        properties.editable = dotNetObject.editable;
     }
     if (hasValue(dotNetObject.effectiveLabel)) {
-        jsFieldColumn.effectiveLabel = dotNetObject.effectiveLabel;
+        properties.effectiveLabel = dotNetObject.effectiveLabel;
     }
     if (hasValue(dotNetObject.flexGrow)) {
-        jsFieldColumn.flexGrow = dotNetObject.flexGrow;
+        properties.flexGrow = dotNetObject.flexGrow;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsFieldColumn.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.invalid)) {
-        jsFieldColumn.invalid = dotNetObject.invalid;
+        properties.invalid = dotNetObject.invalid;
     }
     if (hasValue(dotNetObject.label)) {
-        jsFieldColumn.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.required)) {
-        jsFieldColumn.required = dotNetObject.required;
+        properties.required = dotNetObject.required;
     }
     if (hasValue(dotNetObject.sortable)) {
-        jsFieldColumn.sortable = dotNetObject.sortable;
+        properties.sortable = dotNetObject.sortable;
     }
     if (hasValue(dotNetObject.textAlign)) {
-        jsFieldColumn.textAlign = dotNetObject.textAlign;
+        properties.textAlign = dotNetObject.textAlign;
     }
     if (hasValue(dotNetObject.textWrap)) {
-        jsFieldColumn.textWrap = dotNetObject.textWrap;
+        properties.textWrap = dotNetObject.textWrap;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsFieldColumn.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.width)) {
-        jsFieldColumn.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsFieldColumn = new FieldColumn(properties);
 
     let { default: FieldColumnWrapper } = await import('./fieldColumn');
     let fieldColumnWrapper = new FieldColumnWrapper(jsFieldColumn);

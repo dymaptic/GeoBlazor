@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBaseLayerView2DRenderRenderParameters } from './baseLayerView2DRenderRenderParameters';
 
 export async function buildJsBaseLayerView2DRenderRenderParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBaseLayerView2DRenderRenderParameters: any = {}
+    let jsBaseLayerView2DRenderRenderParameters: any = {};
     if (hasValue(dotNetObject.state)) {
         let { buildJsViewState } = await import('./viewState');
         jsBaseLayerView2DRenderRenderParameters.state = await buildJsViewState(dotNetObject.state, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsBaseLayerView2DRenderRenderParametersGenerated(dotN
         jsBaseLayerView2DRenderRenderParameters.stationary = dotNetObject.stationary;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBaseLayerView2DRenderRenderParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerView2DRenderRenderParameters;

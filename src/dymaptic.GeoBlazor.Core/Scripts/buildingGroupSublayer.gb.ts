@@ -38,17 +38,18 @@ export default class BuildingGroupSublayerGenerated implements IPropertyWrapper 
 
 
 export async function buildJsBuildingGroupSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingGroupSublayer = new BuildingGroupSublayer();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.listMode)) {
-        jsBuildingGroupSublayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsBuildingGroupSublayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.title)) {
-        jsBuildingGroupSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsBuildingGroupSublayer = new BuildingGroupSublayer(properties);
 
     let { default: BuildingGroupSublayerWrapper } = await import('./buildingGroupSublayer');
     let buildingGroupSublayerWrapper = new BuildingGroupSublayerWrapper(jsBuildingGroupSublayer);

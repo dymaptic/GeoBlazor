@@ -4,22 +4,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineOfSightAnalysisTarget } from './lineOfSightAnalysisTarget';
 
 export async function buildJsLineOfSightAnalysisTargetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightAnalysisTarget = new LineOfSightAnalysisTarget();
+    let properties: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsFeatureReference } = await import('./featureReference');
-        jsLineOfSightAnalysisTarget.feature = await buildJsFeatureReference(dotNetObject.feature, layerId, viewId) as any;
+        properties.feature = await buildJsFeatureReference(dotNetObject.feature, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.position)) {
         let { buildJsPoint } = await import('./point');
-        jsLineOfSightAnalysisTarget.position = buildJsPoint(dotNetObject.position) as any;
+        properties.position = buildJsPoint(dotNetObject.position) as any;
     }
 
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        jsLineOfSightAnalysisTarget.elevationInfo = sanitizedElevationInfo;
+        properties.elevationInfo = sanitizedElevationInfo;
     }
+    let jsLineOfSightAnalysisTarget = new LineOfSightAnalysisTarget(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineOfSightAnalysisTarget);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisTarget;

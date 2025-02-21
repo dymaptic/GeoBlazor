@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEnvironment } from './environment';
 
 export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEnvironment = new Environment();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.atmosphereEnabled)) {
-        jsEnvironment.atmosphereEnabled = dotNetObject.atmosphereEnabled;
+        properties.atmosphereEnabled = dotNetObject.atmosphereEnabled;
     }
     if (hasValue(dotNetObject.background)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBackground } = dotNetObject.background;
-        jsEnvironment.background = sanitizedBackground;
+        properties.background = sanitizedBackground;
     }
     if (hasValue(dotNetObject.lighting)) {
-        jsEnvironment.lighting = dotNetObject.lighting;
+        properties.lighting = dotNetObject.lighting;
     }
     if (hasValue(dotNetObject.starsEnabled)) {
-        jsEnvironment.starsEnabled = dotNetObject.starsEnabled;
+        properties.starsEnabled = dotNetObject.starsEnabled;
     }
     if (hasValue(dotNetObject.weather)) {
-        jsEnvironment.weather = dotNetObject.weather;
+        properties.weather = dotNetObject.weather;
     }
+    let jsEnvironment = new Environment(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsEnvironment);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEnvironment;

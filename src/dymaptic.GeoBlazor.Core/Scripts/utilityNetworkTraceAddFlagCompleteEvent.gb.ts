@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUtilityNetworkTraceAddFlagCompleteEvent } from './utilityNetworkTraceAddFlagCompleteEvent';
 
 export async function buildJsUtilityNetworkTraceAddFlagCompleteEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUtilityNetworkTraceAddFlagCompleteEvent: any = {}
+    let jsUtilityNetworkTraceAddFlagCompleteEvent: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsUtilityNetworkTraceAddFlagCompleteEvent.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsUtilityNetworkTraceAddFlagCompleteEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUtilityNetworkTraceAddFlagCompleteEvent;

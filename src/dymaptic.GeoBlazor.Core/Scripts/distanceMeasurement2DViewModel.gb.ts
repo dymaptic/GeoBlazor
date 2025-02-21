@@ -40,17 +40,18 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
 
 
 export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDistanceMeasurement2DViewModel = new DistanceMeasurement2DViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-        jsDistanceMeasurement2DViewModel.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+        properties.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
     }
     if (hasValue(dotNetObject.unit)) {
-        jsDistanceMeasurement2DViewModel.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.unitOptions)) {
-        jsDistanceMeasurement2DViewModel.unitOptions = dotNetObject.unitOptions;
+        properties.unitOptions = dotNetObject.unitOptions;
     }
+    let jsDistanceMeasurement2DViewModel = new DistanceMeasurement2DViewModel(properties);
 
     let { default: DistanceMeasurement2DViewModelWrapper } = await import('./distanceMeasurement2DViewModel');
     let distanceMeasurement2DViewModelWrapper = new DistanceMeasurement2DViewModelWrapper(jsDistanceMeasurement2DViewModel);

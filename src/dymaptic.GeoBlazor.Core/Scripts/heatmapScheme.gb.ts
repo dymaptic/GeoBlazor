@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapScheme } from './heatmapScheme';
 
 export async function buildJsHeatmapSchemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapScheme: any = {}
+    let jsHeatmapScheme: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsHeatmapScheme.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -22,7 +22,6 @@ export async function buildJsHeatmapSchemeGenerated(dotNetObject: any, layerId: 
         jsHeatmapScheme.tags = dotNetObject.tags;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapScheme);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapScheme;

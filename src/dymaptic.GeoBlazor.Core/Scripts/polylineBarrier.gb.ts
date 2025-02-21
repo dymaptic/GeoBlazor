@@ -60,22 +60,23 @@ export default class PolylineBarrierGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPolylineBarrierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPolylineBarrier = new PolylineBarrier();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPoint } = await import('./point');
-        jsPolylineBarrier.geometry = buildJsPoint(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsPolylineBarrier.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.barrierType)) {
-        jsPolylineBarrier.barrierType = dotNetObject.barrierType;
+        properties.barrierType = dotNetObject.barrierType;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPolylineBarrier.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsPolylineBarrier = new PolylineBarrier(properties);
 
     let { default: PolylineBarrierWrapper } = await import('./polylineBarrier');
     let polylineBarrierWrapper = new PolylineBarrierWrapper(jsPolylineBarrier);

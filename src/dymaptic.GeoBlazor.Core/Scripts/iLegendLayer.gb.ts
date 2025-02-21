@@ -36,17 +36,18 @@ export default class ILegendLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsILegendLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLegendLayer = new LegendLayer();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.layerId)) {
-        jsLegendLayer.layerId = dotNetObject.layerId;
+        properties.layerId = dotNetObject.layerId;
     }
     if (hasValue(dotNetObject.subLayerIds)) {
-        jsLegendLayer.subLayerIds = dotNetObject.subLayerIds;
+        properties.subLayerIds = dotNetObject.subLayerIds;
     }
     if (hasValue(dotNetObject.title)) {
-        jsLegendLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsLegendLayer = new LegendLayer(properties);
 
     let { default: ILegendLayerWrapper } = await import('./iLegendLayer');
     let iLegendLayerWrapper = new ILegendLayerWrapper(jsLegendLayer);

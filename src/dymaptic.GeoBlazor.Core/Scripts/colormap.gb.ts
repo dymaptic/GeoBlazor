@@ -38,7 +38,7 @@ export default class ColormapGenerated implements IPropertyWrapper {
 
 
 export async function buildJsColormapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolormap: any = {}
+    let jscolormap: any = {};
 
 
     let { default: ColormapWrapper } = await import('./colormap');

@@ -48,7 +48,7 @@ export default class SupportColorRampsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSupportColorRampsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssupportColorRamps: any = {}
+    let jssupportColorRamps: any = {};
 
 
     let { default: SupportColorRampsWrapper } = await import('./supportColorRamps');

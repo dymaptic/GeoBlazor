@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetConnectionParameters } from './connectionParameters';
 
 export async function buildJsConnectionParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsConnectionParameters: any = {}
+    let jsConnectionParameters: any = {};
     if (hasValue(dotNetObject.geometryDefinition)) {
         let { buildJsExtent } = await import('./extent');
         jsConnectionParameters.geometryDefinition = buildJsExtent(dotNetObject.geometryDefinition) as any;
@@ -25,7 +25,6 @@ export async function buildJsConnectionParametersGenerated(dotNetObject: any, la
         jsConnectionParameters.spatialReference = dotNetObject.spatialReference;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsConnectionParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConnectionParameters;

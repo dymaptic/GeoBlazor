@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSymbolUtilsGetLegendLabelOptions } from './symbolUtilsGetLegendLabelOptions';
 
 export async function buildJsSymbolUtilsGetLegendLabelOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolUtilsGetLegendLabelOptions: any = {}
+    let jssymbolUtilsGetLegendLabelOptions: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
         jssymbolUtilsGetLegendLabelOptions.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -23,7 +23,6 @@ export async function buildJsSymbolUtilsGetLegendLabelOptionsGenerated(dotNetObj
         jssymbolUtilsGetLegendLabelOptions.viewingMode = dotNetObject.viewingMode;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssymbolUtilsGetLegendLabelOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssymbolUtilsGetLegendLabelOptions;

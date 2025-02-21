@@ -4,38 +4,38 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetListItem } from './listItem';
 
 export async function buildJsListItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsListItem = new ListItem();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsListItem.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.actionsOpen)) {
-        jsListItem.actionsOpen = dotNetObject.actionsOpen;
+        properties.actionsOpen = dotNetObject.actionsOpen;
     }
     if (hasValue(dotNetObject.actionsSections)) {
-        jsListItem.actionsSections = dotNetObject.actionsSections;
+        properties.actionsSections = dotNetObject.actionsSections;
     }
     if (hasValue(dotNetObject.childrenSortable)) {
-        jsListItem.childrenSortable = dotNetObject.childrenSortable;
+        properties.childrenSortable = dotNetObject.childrenSortable;
     }
     if (hasValue(dotNetObject.hidden)) {
-        jsListItem.hidden = dotNetObject.hidden;
+        properties.hidden = dotNetObject.hidden;
     }
     if (hasValue(dotNetObject.listModeDisabled)) {
-        jsListItem.listModeDisabled = dotNetObject.listModeDisabled;
+        properties.listModeDisabled = dotNetObject.listModeDisabled;
     }
     if (hasValue(dotNetObject.open)) {
-        jsListItem.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.sortable)) {
-        jsListItem.sortable = dotNetObject.sortable;
+        properties.sortable = dotNetObject.sortable;
     }
     if (hasValue(dotNetObject.title)) {
-        jsListItem.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsListItem = new ListItem(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsListItem);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsListItem;

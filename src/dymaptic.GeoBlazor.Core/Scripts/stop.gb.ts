@@ -60,49 +60,50 @@ export default class StopGenerated implements IPropertyWrapper {
 
 
 export async function buildJsStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsStop = new Stop();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPoint } = await import('./point');
-        jsStop.geometry = buildJsPoint(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPoint(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsStop.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arriveTime)) {
-        jsStop.arriveTime = dotNetObject.arriveTime;
+        properties.arriveTime = dotNetObject.arriveTime;
     }
     if (hasValue(dotNetObject.arriveTimeOffset)) {
-        jsStop.arriveTimeOffset = dotNetObject.arriveTimeOffset;
+        properties.arriveTimeOffset = dotNetObject.arriveTimeOffset;
     }
     if (hasValue(dotNetObject.curbApproach)) {
-        jsStop.curbApproach = dotNetObject.curbApproach;
+        properties.curbApproach = dotNetObject.curbApproach;
     }
     if (hasValue(dotNetObject.departTime)) {
-        jsStop.departTime = dotNetObject.departTime;
+        properties.departTime = dotNetObject.departTime;
     }
     if (hasValue(dotNetObject.departTimeOffset)) {
-        jsStop.departTimeOffset = dotNetObject.departTimeOffset;
+        properties.departTimeOffset = dotNetObject.departTimeOffset;
     }
     if (hasValue(dotNetObject.locationType)) {
-        jsStop.locationType = dotNetObject.locationType;
+        properties.locationType = dotNetObject.locationType;
     }
     if (hasValue(dotNetObject.name)) {
-        jsStop.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.sequence)) {
-        jsStop.sequence = dotNetObject.sequence;
+        properties.sequence = dotNetObject.sequence;
     }
     if (hasValue(dotNetObject.status)) {
-        jsStop.status = dotNetObject.status;
+        properties.status = dotNetObject.status;
     }
     if (hasValue(dotNetObject.timeWindowEnd)) {
-        jsStop.timeWindowEnd = dotNetObject.timeWindowEnd;
+        properties.timeWindowEnd = dotNetObject.timeWindowEnd;
     }
     if (hasValue(dotNetObject.timeWindowStart)) {
-        jsStop.timeWindowStart = dotNetObject.timeWindowStart;
+        properties.timeWindowStart = dotNetObject.timeWindowStart;
     }
+    let jsStop = new Stop(properties);
 
     let { default: StopWrapper } = await import('./stop');
     let stopWrapper = new StopWrapper(jsStop);

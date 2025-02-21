@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPosition } from './position';
 
 export async function buildJsPositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPosition: any = {}
+    let jsPosition: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         jsPosition.location = buildJsPoint(dotNetObject.location) as any;
@@ -13,7 +13,6 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
         jsPosition.coordinate = dotNetObject.coordinate;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPosition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPosition;

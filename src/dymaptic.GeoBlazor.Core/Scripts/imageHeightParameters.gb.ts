@@ -4,31 +4,31 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageHeightParameters } from './imageHeightParameters';
 
 export async function buildJsImageHeightParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageHeightParameters = new ImageHeightParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.fromGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsImageHeightParameters.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
+        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageHeightParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsImageHeightParameters.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
+        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
     }
 
     if (hasValue(dotNetObject.linearUnit)) {
-        jsImageHeightParameters.linearUnit = dotNetObject.linearUnit;
+        properties.linearUnit = dotNetObject.linearUnit;
     }
     if (hasValue(dotNetObject.operationType)) {
-        jsImageHeightParameters.operationType = dotNetObject.operationType;
+        properties.operationType = dotNetObject.operationType;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageHeightParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
+    let jsImageHeightParameters = new ImageHeightParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageHeightParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageHeightParameters;

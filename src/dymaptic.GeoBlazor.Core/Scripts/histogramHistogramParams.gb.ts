@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHistogramHistogramParams } from './histogramHistogramParams';
 
 export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jshistogramHistogramParams: any = {}
+    let jshistogramHistogramParams: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jshistogramHistogramParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -63,7 +63,6 @@ export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any
         jshistogramHistogramParams.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jshistogramHistogramParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jshistogramHistogramParams;

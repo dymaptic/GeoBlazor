@@ -36,7 +36,7 @@ export default class SymbolsWaterSymbol3DLayerGenerated implements IPropertyWrap
 
 
 export async function buildJsSymbolsWaterSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolsWaterSymbol3DLayer: any = {}
+    let jssymbolsWaterSymbol3DLayer: any = {};
 
 
     let { default: SymbolsWaterSymbol3DLayerWrapper } = await import('./symbolsWaterSymbol3DLayer');

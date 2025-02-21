@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEdges3D } from './edges3D';
 
 export async function buildJsEdges3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEdges3D = new Edges3D();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsEdges3D.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.extensionLength)) {
-        jsEdges3D.extensionLength = dotNetObject.extensionLength;
+        properties.extensionLength = dotNetObject.extensionLength;
     }
     if (hasValue(dotNetObject.size)) {
-        jsEdges3D.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
+    let jsEdges3D = new Edges3D(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsEdges3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEdges3D;

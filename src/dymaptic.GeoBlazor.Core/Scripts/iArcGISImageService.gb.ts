@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIArcGISImageService } from './iArcGISImageService';
 
 export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsArcGISImageService: any = {}
+    let jsArcGISImageService: any = {};
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsArcGISImageService.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -86,7 +86,6 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.url = dotNetObject.url;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageService);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageService;
@@ -102,7 +101,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     return jsArcGISImageService;
 }
 
-export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -137,7 +136,7 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Pr
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

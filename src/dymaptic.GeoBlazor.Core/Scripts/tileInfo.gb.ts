@@ -64,32 +64,33 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTileInfo = new TileInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./point');
-        jsTileInfo.origin = buildJsPoint(dotNetObject.origin) as any;
+        properties.origin = buildJsPoint(dotNetObject.origin) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTileInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {
-        jsTileInfo.dpi = dotNetObject.dpi;
+        properties.dpi = dotNetObject.dpi;
     }
     if (hasValue(dotNetObject.format)) {
-        jsTileInfo.format = dotNetObject.format;
+        properties.format = dotNetObject.format;
     }
     if (hasValue(dotNetObject.isWrappable)) {
-        jsTileInfo.isWrappable = dotNetObject.isWrappable;
+        properties.isWrappable = dotNetObject.isWrappable;
     }
     if (hasValue(dotNetObject.lods)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLods } = dotNetObject.lods;
-        jsTileInfo.lods = sanitizedLods;
+        properties.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.size)) {
-        jsTileInfo.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
+    let jsTileInfo = new TileInfo(properties);
 
     let { default: TileInfoWrapper } = await import('./tileInfo');
     let tileInfoWrapper = new TileInfoWrapper(jsTileInfo);

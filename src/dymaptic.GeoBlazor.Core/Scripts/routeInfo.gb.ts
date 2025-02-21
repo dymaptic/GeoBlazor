@@ -60,37 +60,38 @@ export default class RouteInfoGenerated implements IPropertyWrapper {
 
 
 export async function buildJsRouteInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteInfo = new RouteInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsRouteInfo.geometry = buildJsPolyline(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsRouteInfo.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.endTime)) {
-        jsRouteInfo.endTime = dotNetObject.endTime;
+        properties.endTime = dotNetObject.endTime;
     }
     if (hasValue(dotNetObject.endTimeOffset)) {
-        jsRouteInfo.endTimeOffset = dotNetObject.endTimeOffset;
+        properties.endTimeOffset = dotNetObject.endTimeOffset;
     }
     if (hasValue(dotNetObject.name)) {
-        jsRouteInfo.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.startTime)) {
-        jsRouteInfo.startTime = dotNetObject.startTime;
+        properties.startTime = dotNetObject.startTime;
     }
     if (hasValue(dotNetObject.startTimeOffset)) {
-        jsRouteInfo.startTimeOffset = dotNetObject.startTimeOffset;
+        properties.startTimeOffset = dotNetObject.startTimeOffset;
     }
     if (hasValue(dotNetObject.totalDistance)) {
-        jsRouteInfo.totalDistance = dotNetObject.totalDistance;
+        properties.totalDistance = dotNetObject.totalDistance;
     }
     if (hasValue(dotNetObject.totalDuration)) {
-        jsRouteInfo.totalDuration = dotNetObject.totalDuration;
+        properties.totalDuration = dotNetObject.totalDuration;
     }
+    let jsRouteInfo = new RouteInfo(properties);
 
     let { default: RouteInfoWrapper } = await import('./routeInfo');
     let routeInfoWrapper = new RouteInfoWrapper(jsRouteInfo);

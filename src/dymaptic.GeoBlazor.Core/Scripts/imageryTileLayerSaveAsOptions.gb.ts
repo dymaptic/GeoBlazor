@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageryTileLayerSaveAsOptions } from './imageryTileLayerSaveAsOptions';
 
 export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageryTileLayerSaveAsOptions: any = {}
+    let jsImageryTileLayerSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
         jsImageryTileLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject
         jsImageryTileLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageryTileLayerSaveAsOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayerSaveAsOptions;

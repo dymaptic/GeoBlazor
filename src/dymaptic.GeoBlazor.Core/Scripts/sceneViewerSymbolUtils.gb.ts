@@ -38,7 +38,7 @@ export default class SceneViewerSymbolUtilsGenerated implements IPropertyWrapper
 
 
 export async function buildJsSceneViewerSymbolUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewerSymbolUtils: any = {}
+    let jsSceneViewerSymbolUtils: any = {};
 
 
     let { default: SceneViewerSymbolUtilsWrapper } = await import('./sceneViewerSymbolUtils');

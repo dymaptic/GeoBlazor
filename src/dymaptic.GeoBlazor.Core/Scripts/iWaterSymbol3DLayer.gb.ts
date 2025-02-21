@@ -48,21 +48,22 @@ export default class IWaterSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIWaterSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWaterSymbol3DLayer = new WaterSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsWaterSymbol3DLayer.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.waterbodySize)) {
-        jsWaterSymbol3DLayer.waterbodySize = dotNetObject.waterbodySize;
+        properties.waterbodySize = dotNetObject.waterbodySize;
     }
     if (hasValue(dotNetObject.waveDirection)) {
-        jsWaterSymbol3DLayer.waveDirection = dotNetObject.waveDirection;
+        properties.waveDirection = dotNetObject.waveDirection;
     }
     if (hasValue(dotNetObject.waveStrength)) {
-        jsWaterSymbol3DLayer.waveStrength = dotNetObject.waveStrength;
+        properties.waveStrength = dotNetObject.waveStrength;
     }
+    let jsWaterSymbol3DLayer = new WaterSymbol3DLayer(properties);
 
     let { default: IWaterSymbol3DLayerWrapper } = await import('./iWaterSymbol3DLayer');
     let iWaterSymbol3DLayerWrapper = new IWaterSymbol3DLayerWrapper(jsWaterSymbol3DLayer);

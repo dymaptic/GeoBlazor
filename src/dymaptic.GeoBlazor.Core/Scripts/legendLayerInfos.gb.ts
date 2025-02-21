@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLegendLayerInfos } from './legendLayerInfos';
 
 export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLegendLayerInfos: any = {}
+    let jsLegendLayerInfos: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsLegendLayerInfos.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerI
         jsLegendLayerInfos.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLegendLayerInfos);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendLayerInfos;

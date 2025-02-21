@@ -84,71 +84,72 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 
 
 export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapLayerList = new BasemapLayerList();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        jsBasemapLayerList.baseListItemCreatedFunction = (event) => {
+        properties.baseListItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        jsBasemapLayerList.referenceListItemCreatedFunction = (event) => {
+        properties.referenceListItemCreatedFunction = (event) => {
             dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {
         let { buildJsListItem } = await import('./listItem');
-        jsBasemapLayerList.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
+        properties.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        jsBasemapLayerList.viewModel = await buildJsBasemapLayerListViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsBasemapLayerListViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.baseFilterText)) {
-        jsBasemapLayerList.baseFilterText = dotNetObject.baseFilterText;
+        properties.baseFilterText = dotNetObject.baseFilterText;
     }
     if (hasValue(dotNetObject.basemapTitle)) {
-        jsBasemapLayerList.basemapTitle = dotNetObject.basemapTitle;
+        properties.basemapTitle = dotNetObject.basemapTitle;
     }
     if (hasValue(dotNetObject.catalogOptions)) {
-        jsBasemapLayerList.catalogOptions = dotNetObject.catalogOptions;
+        properties.catalogOptions = dotNetObject.catalogOptions;
     }
     if (hasValue(dotNetObject.collapsed)) {
-        jsBasemapLayerList.collapsed = dotNetObject.collapsed;
+        properties.collapsed = dotNetObject.collapsed;
     }
     if (hasValue(dotNetObject.dragEnabled)) {
-        jsBasemapLayerList.dragEnabled = dotNetObject.dragEnabled;
+        properties.dragEnabled = dotNetObject.dragEnabled;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsBasemapLayerList.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.editingTitle)) {
-        jsBasemapLayerList.editingTitle = dotNetObject.editingTitle;
+        properties.editingTitle = dotNetObject.editingTitle;
     }
     if (hasValue(dotNetObject.filterPlaceholder)) {
-        jsBasemapLayerList.filterPlaceholder = dotNetObject.filterPlaceholder;
+        properties.filterPlaceholder = dotNetObject.filterPlaceholder;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsBasemapLayerList.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.minFilterItems)) {
-        jsBasemapLayerList.minFilterItems = dotNetObject.minFilterItems;
+        properties.minFilterItems = dotNetObject.minFilterItems;
     }
     if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        jsBasemapLayerList.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
+        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
     }
     if (hasValue(dotNetObject.referenceFilterText)) {
-        jsBasemapLayerList.referenceFilterText = dotNetObject.referenceFilterText;
+        properties.referenceFilterText = dotNetObject.referenceFilterText;
     }
     if (hasValue(dotNetObject.selectionMode)) {
-        jsBasemapLayerList.selectionMode = dotNetObject.selectionMode;
+        properties.selectionMode = dotNetObject.selectionMode;
     }
     if (hasValue(dotNetObject.visibilityAppearance)) {
-        jsBasemapLayerList.visibilityAppearance = dotNetObject.visibilityAppearance;
+        properties.visibilityAppearance = dotNetObject.visibilityAppearance;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        jsBasemapLayerList.visibleElements = dotNetObject.visibleElements;
+        properties.visibleElements = dotNetObject.visibleElements;
     }
+    let jsBasemapLayerList = new BasemapLayerList(properties);
     jsBasemapLayerList.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });

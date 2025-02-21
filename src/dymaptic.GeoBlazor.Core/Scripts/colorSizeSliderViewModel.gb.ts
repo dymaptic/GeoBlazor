@@ -96,9 +96,9 @@ export default class ColorSizeSliderViewModelGenerated implements IPropertyWrapp
 
 
 export async function buildJsColorSizeSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorSizeSliderViewModel = new ColorSizeSliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsColorSizeSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -110,7 +110,7 @@ export async function buildJsColorSizeSliderViewModelGenerated(dotNetObject: any
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsColorSizeSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -122,7 +122,7 @@ export async function buildJsColorSizeSliderViewModelGenerated(dotNetObject: any
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsColorSizeSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -135,45 +135,46 @@ export async function buildJsColorSizeSliderViewModelGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsColorSizeStop } = await import('./colorSizeStop');
-        jsColorSizeSliderViewModel.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorSizeStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorSizeStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsColorSizeSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsColorSizeSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsColorSizeSliderViewModel.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.max)) {
-        jsColorSizeSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsColorSizeSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.persistSizeRangeEnabled)) {
-        jsColorSizeSliderViewModel.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
+        properties.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsColorSizeSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
-        jsColorSizeSliderViewModel.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
+        properties.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsColorSizeSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsColorSizeSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.zoomingEnabled)) {
-        jsColorSizeSliderViewModel.zoomingEnabled = dotNetObject.zoomingEnabled;
+        properties.zoomingEnabled = dotNetObject.zoomingEnabled;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsColorSizeSliderViewModel.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsColorSizeSliderViewModel = new ColorSizeSliderViewModel(properties);
 
     let { default: ColorSizeSliderViewModelWrapper } = await import('./colorSizeSliderViewModel');
     let colorSizeSliderViewModelWrapper = new ColorSizeSliderViewModelWrapper(jsColorSizeSliderViewModel);

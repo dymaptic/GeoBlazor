@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetStopsByCount } from './stopsByCount';
 
 export async function buildJsStopsByCountGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsStopsByCount: any = {}
+    let jsStopsByCount: any = {};
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsStopsByCount.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsStopsByCountGenerated(dotNetObject: any, layerId: s
         jsStopsByCount.count = dotNetObject.count;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsStopsByCount);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStopsByCount;

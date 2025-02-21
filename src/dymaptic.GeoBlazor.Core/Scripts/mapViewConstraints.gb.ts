@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapViewConstraints } from './mapViewConstraints';
 
 export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMapViewConstraints: any = {}
+    let jsMapViewConstraints: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
         jsMapViewConstraints.geometry = buildJsGeometry(dotNetObject.geometry) as any;
@@ -48,7 +48,6 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
         jsMapViewConstraints.snapToZoom = dotNetObject.snapToZoom;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapViewConstraints);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewConstraints;

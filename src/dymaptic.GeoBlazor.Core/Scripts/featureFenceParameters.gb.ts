@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureFenceParameters } from './featureFenceParameters';
 
 export async function buildJsFeatureFenceParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureFenceParameters = new FeatureFenceParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsGeotriggersInfoFeatureFilter } = await import('./geotriggersInfoFeatureFilter');
-        jsFeatureFenceParameters.filter = await buildJsGeotriggersInfoFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsGeotriggersInfoFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.bufferDistance)) {
-        jsFeatureFenceParameters.bufferDistance = dotNetObject.bufferDistance;
+        properties.bufferDistance = dotNetObject.bufferDistance;
     }
     if (hasValue(dotNetObject.fenceSource)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFenceSource } = dotNetObject.fenceSource;
-        jsFeatureFenceParameters.fenceSource = sanitizedFenceSource;
+        properties.fenceSource = sanitizedFenceSource;
     }
+    let jsFeatureFenceParameters = new FeatureFenceParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureFenceParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFenceParameters;

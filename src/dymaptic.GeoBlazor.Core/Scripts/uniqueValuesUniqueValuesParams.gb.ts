@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValuesUniqueValuesParams } from './uniqueValuesUniqueValuesParams';
 
 export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsuniqueValuesUniqueValuesParams: any = {}
+    let jsuniqueValuesUniqueValuesParams: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jsuniqueValuesUniqueValuesParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -42,7 +42,6 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
         jsuniqueValuesUniqueValuesParams.valueExpression = dotNetObject.valueExpression;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsuniqueValuesUniqueValuesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValuesUniqueValuesParams;

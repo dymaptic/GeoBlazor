@@ -4,10 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceDefinition } from './serviceDefinition';
 
 export async function buildJsServiceDefinitionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsServiceDefinition = new ServiceDefinition();
+    let properties: any = {};
 
+    let jsServiceDefinition = new ServiceDefinition(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceDefinition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinition;

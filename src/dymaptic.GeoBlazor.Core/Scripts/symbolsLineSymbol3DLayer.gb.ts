@@ -36,7 +36,7 @@ export default class SymbolsLineSymbol3DLayerGenerated implements IPropertyWrapp
 
 
 export async function buildJsSymbolsLineSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolsLineSymbol3DLayer: any = {}
+    let jssymbolsLineSymbol3DLayer: any = {};
 
 
     let { default: SymbolsLineSymbol3DLayerWrapper } = await import('./symbolsLineSymbol3DLayer');

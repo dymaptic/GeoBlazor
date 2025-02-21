@@ -72,27 +72,28 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFillSymbol3DLayer = new FillSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsEdges3D } = await import('./edges3D');
-        jsFillSymbol3DLayer.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
+        properties.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.material)) {
         let { buildJsFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
-        jsFillSymbol3DLayer.material = await buildJsFillSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsFillSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.outline)) {
         let { buildJsFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
-        jsFillSymbol3DLayer.outline = await buildJsFillSymbol3DLayerOutline(dotNetObject.outline, layerId, viewId) as any;
+        properties.outline = await buildJsFillSymbol3DLayerOutline(dotNetObject.outline, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.castShadows)) {
-        jsFillSymbol3DLayer.castShadows = dotNetObject.castShadows;
+        properties.castShadows = dotNetObject.castShadows;
     }
     if (hasValue(dotNetObject.pattern)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPattern } = dotNetObject.pattern;
-        jsFillSymbol3DLayer.pattern = sanitizedPattern;
+        properties.pattern = sanitizedPattern;
     }
+    let jsFillSymbol3DLayer = new FillSymbol3DLayer(properties);
 
     let { default: IFillSymbol3DLayerWrapper } = await import('./iFillSymbol3DLayer');
     let iFillSymbol3DLayerWrapper = new IFillSymbol3DLayerWrapper(jsFillSymbol3DLayer);

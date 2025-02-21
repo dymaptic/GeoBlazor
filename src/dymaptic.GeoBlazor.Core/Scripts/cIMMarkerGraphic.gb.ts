@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMMarkerGraphic } from './cIMMarkerGraphic';
 
 export async function buildJsCIMMarkerGraphicGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMMarkerGraphic: any = {}
+    let jsCIMMarkerGraphic: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsCIMMarkerGraphic.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -19,7 +19,6 @@ export async function buildJsCIMMarkerGraphicGenerated(dotNetObject: any, layerI
         jsCIMMarkerGraphic.textString = dotNetObject.textString;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMMarkerGraphic);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMMarkerGraphic;

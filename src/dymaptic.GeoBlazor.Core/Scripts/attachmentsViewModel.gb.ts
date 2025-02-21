@@ -48,25 +48,26 @@ export default class AttachmentsViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAttachmentsViewModel = new AttachmentsViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsAttachmentsViewModel.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.activeAttachmentInfo)) {
-        jsAttachmentsViewModel.activeAttachmentInfo = dotNetObject.activeAttachmentInfo;
+        properties.activeAttachmentInfo = dotNetObject.activeAttachmentInfo;
     }
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsAttachmentsViewModel.capabilities = sanitizedCapabilities;
+        properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.mode)) {
-        jsAttachmentsViewModel.mode = dotNetObject.mode;
+        properties.mode = dotNetObject.mode;
     }
     if (hasValue(dotNetObject.supportsResizeAttachments)) {
-        jsAttachmentsViewModel.supportsResizeAttachments = dotNetObject.supportsResizeAttachments;
+        properties.supportsResizeAttachments = dotNetObject.supportsResizeAttachments;
     }
+    let jsAttachmentsViewModel = new AttachmentsViewModel(properties);
 
     let { default: AttachmentsViewModelWrapper } = await import('./attachmentsViewModel');
     let attachmentsViewModelWrapper = new AttachmentsViewModelWrapper(jsAttachmentsViewModel);

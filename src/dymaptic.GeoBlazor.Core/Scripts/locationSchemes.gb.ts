@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocationSchemes } from './locationSchemes';
 
 export async function buildJsLocationSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocationSchemes: any = {}
+    let jsLocationSchemes: any = {};
 
     if (hasValue(dotNetObject.basemapId)) {
         jsLocationSchemes.basemapId = dotNetObject.basemapId;
@@ -18,7 +18,6 @@ export async function buildJsLocationSchemesGenerated(dotNetObject: any, layerId
         jsLocationSchemes.secondarySchemes = dotNetObject.secondarySchemes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLocationSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocationSchemes;

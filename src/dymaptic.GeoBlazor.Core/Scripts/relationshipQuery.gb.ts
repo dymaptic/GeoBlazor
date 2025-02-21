@@ -4,59 +4,59 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipQuery } from './relationshipQuery';
 
 export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Promise<any> {
-    let jsRelationshipQuery = new RelationshipQuery();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsRelationshipQuery.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.cacheHint)) {
-        jsRelationshipQuery.cacheHint = dotNetObject.cacheHint;
+        properties.cacheHint = dotNetObject.cacheHint;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsRelationshipQuery.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.geometryPrecision)) {
-        jsRelationshipQuery.geometryPrecision = dotNetObject.geometryPrecision;
+        properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
     if (hasValue(dotNetObject.historicMoment)) {
-        jsRelationshipQuery.historicMoment = dotNetObject.historicMoment;
+        properties.historicMoment = dotNetObject.historicMoment;
     }
     if (hasValue(dotNetObject.maxAllowableOffset)) {
-        jsRelationshipQuery.maxAllowableOffset = dotNetObject.maxAllowableOffset;
+        properties.maxAllowableOffset = dotNetObject.maxAllowableOffset;
     }
     if (hasValue(dotNetObject.num)) {
-        jsRelationshipQuery.num = dotNetObject.num;
+        properties.num = dotNetObject.num;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsRelationshipQuery.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.orderByFields)) {
-        jsRelationshipQuery.orderByFields = dotNetObject.orderByFields;
+        properties.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsRelationshipQuery.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.relationshipId)) {
-        jsRelationshipQuery.relationshipId = dotNetObject.relationshipId;
+        properties.relationshipId = dotNetObject.relationshipId;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsRelationshipQuery.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.returnM)) {
-        jsRelationshipQuery.returnM = dotNetObject.returnM;
+        properties.returnM = dotNetObject.returnM;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsRelationshipQuery.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
     if (hasValue(dotNetObject.start)) {
-        jsRelationshipQuery.start = dotNetObject.start;
+        properties.start = dotNetObject.start;
     }
     if (hasValue(dotNetObject.where)) {
-        jsRelationshipQuery.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsRelationshipQuery = new RelationshipQuery(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipQuery);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipQuery;

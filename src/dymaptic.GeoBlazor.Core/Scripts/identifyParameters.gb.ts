@@ -4,75 +4,75 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIdentifyParameters } from './identifyParameters';
 
 export async function buildJsIdentifyParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsIdentifyParameters = new IdentifyParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsIdentifyParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.mapExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsIdentifyParameters.mapExtent = buildJsExtent(dotNetObject.mapExtent) as any;
+        properties.mapExtent = buildJsExtent(dotNetObject.mapExtent) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsIdentifyParameters.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsSublayer } = await import('./sublayer');
-        jsIdentifyParameters.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
+        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsIdentifyParameters.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {
-        jsIdentifyParameters.dpi = dotNetObject.dpi;
+        properties.dpi = dotNetObject.dpi;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsIdentifyParameters.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.geometryPrecision)) {
-        jsIdentifyParameters.geometryPrecision = dotNetObject.geometryPrecision;
+        properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
     if (hasValue(dotNetObject.height)) {
-        jsIdentifyParameters.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.historicMoment)) {
-        jsIdentifyParameters.historicMoment = dotNetObject.historicMoment;
+        properties.historicMoment = dotNetObject.historicMoment;
     }
     if (hasValue(dotNetObject.layerIds)) {
-        jsIdentifyParameters.layerIds = dotNetObject.layerIds;
+        properties.layerIds = dotNetObject.layerIds;
     }
     if (hasValue(dotNetObject.layerOption)) {
-        jsIdentifyParameters.layerOption = dotNetObject.layerOption;
+        properties.layerOption = dotNetObject.layerOption;
     }
     if (hasValue(dotNetObject.maxAllowableOffset)) {
-        jsIdentifyParameters.maxAllowableOffset = dotNetObject.maxAllowableOffset;
+        properties.maxAllowableOffset = dotNetObject.maxAllowableOffset;
     }
     if (hasValue(dotNetObject.returnFieldName)) {
-        jsIdentifyParameters.returnFieldName = dotNetObject.returnFieldName;
+        properties.returnFieldName = dotNetObject.returnFieldName;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsIdentifyParameters.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.returnM)) {
-        jsIdentifyParameters.returnM = dotNetObject.returnM;
+        properties.returnM = dotNetObject.returnM;
     }
     if (hasValue(dotNetObject.returnUnformattedValues)) {
-        jsIdentifyParameters.returnUnformattedValues = dotNetObject.returnUnformattedValues;
+        properties.returnUnformattedValues = dotNetObject.returnUnformattedValues;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsIdentifyParameters.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
     if (hasValue(dotNetObject.tolerance)) {
-        jsIdentifyParameters.tolerance = dotNetObject.tolerance;
+        properties.tolerance = dotNetObject.tolerance;
     }
     if (hasValue(dotNetObject.width)) {
-        jsIdentifyParameters.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsIdentifyParameters = new IdentifyParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsIdentifyParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIdentifyParameters;

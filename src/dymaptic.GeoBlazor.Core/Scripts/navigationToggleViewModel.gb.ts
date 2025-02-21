@@ -36,11 +36,12 @@ export default class NavigationToggleViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsNavigationToggleViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsNavigationToggleViewModel = new NavigationToggleViewModel();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.navigationMode)) {
-        jsNavigationToggleViewModel.navigationMode = dotNetObject.navigationMode;
+        properties.navigationMode = dotNetObject.navigationMode;
     }
+    let jsNavigationToggleViewModel = new NavigationToggleViewModel(properties);
 
     let { default: NavigationToggleViewModelWrapper } = await import('./navigationToggleViewModel');
     let navigationToggleViewModelWrapper = new NavigationToggleViewModelWrapper(jsNavigationToggleViewModel);

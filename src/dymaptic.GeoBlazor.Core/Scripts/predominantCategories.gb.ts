@@ -38,8 +38,9 @@ export default class PredominantCategoriesGenerated implements IPropertyWrapper 
 
 
 export async function buildJsPredominantCategoriesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspredominantCategories = new predominantCategories();
+    let properties: any = {};
 
+    let jspredominantCategories = new predominantCategories(properties);
 
     let { default: PredominantCategoriesWrapper } = await import('./predominantCategories');
     let predominantCategoriesWrapper = new PredominantCategoriesWrapper(jspredominantCategories);

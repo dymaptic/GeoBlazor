@@ -72,9 +72,9 @@ export default class SizeSliderGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSizeSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeSlider = new SizeSlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsSizeSlider.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -86,7 +86,7 @@ export async function buildJsSizeSliderGenerated(dotNetObject: any, layerId: str
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsSizeSlider.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -98,7 +98,7 @@ export async function buildJsSizeSliderGenerated(dotNetObject: any, layerId: str
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsSizeSlider.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -111,49 +111,50 @@ export async function buildJsSizeSliderGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsSizeSliderStyle } = await import('./sizeSliderStyle');
-        jsSizeSlider.style = await buildJsSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsSizeSliderViewModel } = await import('./sizeSliderViewModel');
-        jsSizeSlider.viewModel = await buildJsSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsSizeSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
-        jsSizeSlider.histogramConfig = sanitizedHistogramConfig;
+        properties.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
-        jsSizeSlider.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsSizeSlider.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.persistSizeRangeEnabled)) {
-        jsSizeSlider.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
+        properties.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsSizeSlider.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.primaryHandleEnabled)) {
-        jsSizeSlider.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
+        properties.primaryHandleEnabled = dotNetObject.primaryHandleEnabled;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsSizeSlider.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
-        jsSizeSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        properties.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsSizeSlider.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsSizeSlider.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsSizeSlider = new SizeSlider(properties);
     jsSizeSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });

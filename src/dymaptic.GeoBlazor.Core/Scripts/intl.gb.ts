@@ -108,7 +108,7 @@ export default class IntlGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIntlGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsintl: any = {}
+    let jsintl: any = {};
 
 
     let { default: IntlWrapper } = await import('./intl');

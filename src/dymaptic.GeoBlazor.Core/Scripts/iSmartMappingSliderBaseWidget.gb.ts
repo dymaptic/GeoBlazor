@@ -32,7 +32,7 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
 
 
 export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSmartMappingSliderBase: any = {}
+    let jsSmartMappingSliderBase: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
         jsSmartMappingSliderBase.inputFormatFunction = (value,
         type,

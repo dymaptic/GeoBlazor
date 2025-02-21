@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationParameters } from './relationParameters';
 
 export async function buildJsRelationParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationParameters = new RelationParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries1)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsRelationParameters.geometries1 = dotNetObject.geometries1.map(i => buildJsGeometry(i)) as any;
+        properties.geometries1 = dotNetObject.geometries1.map(i => buildJsGeometry(i)) as any;
     }
     if (hasValue(dotNetObject.geometries2)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsRelationParameters.geometries2 = dotNetObject.geometries2.map(i => buildJsGeometry(i)) as any;
+        properties.geometries2 = dotNetObject.geometries2.map(i => buildJsGeometry(i)) as any;
     }
 
     if (hasValue(dotNetObject.relation)) {
-        jsRelationParameters.relation = dotNetObject.relation;
+        properties.relation = dotNetObject.relation;
     }
     if (hasValue(dotNetObject.relationParameter)) {
-        jsRelationParameters.relationParameter = dotNetObject.relationParameter;
+        properties.relationParameter = dotNetObject.relationParameter;
     }
+    let jsRelationParameters = new RelationParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationParameters;

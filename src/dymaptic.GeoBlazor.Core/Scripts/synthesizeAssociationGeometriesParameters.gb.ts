@@ -4,35 +4,35 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSynthesizeAssociationGeometriesParameters } from './synthesizeAssociationGeometriesParameters';
 
 export async function buildJsSynthesizeAssociationGeometriesParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSynthesizeAssociationGeometriesParameters = new SynthesizeAssociationGeometriesParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsSynthesizeAssociationGeometriesParameters.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsSynthesizeAssociationGeometriesParameters.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.maxGeometryCount)) {
-        jsSynthesizeAssociationGeometriesParameters.maxGeometryCount = dotNetObject.maxGeometryCount;
+        properties.maxGeometryCount = dotNetObject.maxGeometryCount;
     }
     if (hasValue(dotNetObject.moment)) {
-        jsSynthesizeAssociationGeometriesParameters.moment = dotNetObject.moment;
+        properties.moment = dotNetObject.moment;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
-        jsSynthesizeAssociationGeometriesParameters.outSpatialReference = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = dotNetObject.outSpatialReference;
     }
     if (hasValue(dotNetObject.returnAttachmentAssociations)) {
-        jsSynthesizeAssociationGeometriesParameters.returnAttachmentAssociations = dotNetObject.returnAttachmentAssociations;
+        properties.returnAttachmentAssociations = dotNetObject.returnAttachmentAssociations;
     }
     if (hasValue(dotNetObject.returnConnectivityAssociations)) {
-        jsSynthesizeAssociationGeometriesParameters.returnConnectivityAssociations = dotNetObject.returnConnectivityAssociations;
+        properties.returnConnectivityAssociations = dotNetObject.returnConnectivityAssociations;
     }
     if (hasValue(dotNetObject.returnContainmentAssociations)) {
-        jsSynthesizeAssociationGeometriesParameters.returnContainmentAssociations = dotNetObject.returnContainmentAssociations;
+        properties.returnContainmentAssociations = dotNetObject.returnContainmentAssociations;
     }
+    let jsSynthesizeAssociationGeometriesParameters = new SynthesizeAssociationGeometriesParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSynthesizeAssociationGeometriesParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSynthesizeAssociationGeometriesParameters;

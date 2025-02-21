@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocationCreateRendererParams } from './locationCreateRendererParams';
 
 export async function buildJsLocationCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jslocationCreateRendererParams: any = {}
+    let jslocationCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jslocationCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -31,7 +31,6 @@ export async function buildJsLocationCreateRendererParamsGenerated(dotNetObject:
         jslocationCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jslocationCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jslocationCreateRendererParams;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemes } from './relationshipSchemes';
 
 export async function buildJsRelationshipSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemes: any = {}
+    let jsRelationshipSchemes: any = {};
 
     if (hasValue(dotNetObject.basemapId)) {
         jsRelationshipSchemes.basemapId = dotNetObject.basemapId;
@@ -18,7 +18,6 @@ export async function buildJsRelationshipSchemesGenerated(dotNetObject: any, lay
         jsRelationshipSchemes.secondarySchemes = dotNetObject.secondarySchemes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemes;

@@ -44,48 +44,49 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsExpand = new Expand();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.autoCollapse)) {
-        jsExpand.autoCollapse = dotNetObject.autoCollapse;
+        properties.autoCollapse = dotNetObject.autoCollapse;
     }
     if (hasValue(dotNetObject.closeOnEsc)) {
-        jsExpand.closeOnEsc = dotNetObject.closeOnEsc;
+        properties.closeOnEsc = dotNetObject.closeOnEsc;
     }
     if (hasValue(dotNetObject.collapseIcon)) {
-        jsExpand.collapseIcon = dotNetObject.collapseIcon;
+        properties.collapseIcon = dotNetObject.collapseIcon;
     }
     if (hasValue(dotNetObject.collapseTooltip)) {
-        jsExpand.collapseTooltip = dotNetObject.collapseTooltip;
+        properties.collapseTooltip = dotNetObject.collapseTooltip;
     }
     if (hasValue(dotNetObject.content)) {
-        jsExpand.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.expanded)) {
-        jsExpand.expanded = dotNetObject.expanded;
+        properties.expanded = dotNetObject.expanded;
     }
     if (hasValue(dotNetObject.expandIcon)) {
-        jsExpand.expandIcon = dotNetObject.expandIcon;
+        properties.expandIcon = dotNetObject.expandIcon;
     }
     if (hasValue(dotNetObject.expandTooltip)) {
-        jsExpand.expandTooltip = dotNetObject.expandTooltip;
+        properties.expandTooltip = dotNetObject.expandTooltip;
     }
     if (hasValue(dotNetObject.group)) {
-        jsExpand.group = dotNetObject.group;
+        properties.group = dotNetObject.group;
     }
     if (hasValue(dotNetObject.iconNumber)) {
-        jsExpand.iconNumber = dotNetObject.iconNumber;
+        properties.iconNumber = dotNetObject.iconNumber;
     }
     if (hasValue(dotNetObject.mode)) {
-        jsExpand.mode = dotNetObject.mode;
+        properties.mode = dotNetObject.mode;
     }
     if (hasValue(dotNetObject.placement)) {
-        jsExpand.placement = dotNetObject.placement;
+        properties.placement = dotNetObject.placement;
     }
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
-        jsExpand.viewModel = sanitizedViewModel;
+        properties.viewModel = sanitizedViewModel;
     }
+    let jsExpand = new Expand(properties);
 
     let { default: ExpandWidgetWrapper } = await import('./expandWidget');
     let expandWidgetWrapper = new ExpandWidgetWrapper(jsExpand);

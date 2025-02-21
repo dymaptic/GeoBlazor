@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIArcGISMapService } from './iArcGISMapService';
 
 export async function buildJsIArcGISMapServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsArcGISMapService: any = {}
+    let jsArcGISMapService: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         jsArcGISMapService.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -16,7 +16,6 @@ export async function buildJsIArcGISMapServiceGenerated(dotNetObject: any, layer
         jsArcGISMapService.legendEnabled = dotNetObject.legendEnabled;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsArcGISMapService);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISMapService;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPixelData } from './pixelData';
 
 export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPixelData: any = {}
+    let jsPixelData: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         jsPixelData.extent = buildJsExtent(dotNetObject.extent) as any;
@@ -14,7 +14,6 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPixelData);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;

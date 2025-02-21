@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureType } from './featureType';
 
 export async function buildJsFeatureTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureType = new FeatureType();
+    let properties: any = {};
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        jsFeatureType.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.domains)) {
-        jsFeatureType.domains = dotNetObject.domains;
+        properties.domains = dotNetObject.domains;
     }
     if (hasValue(dotNetObject.featureTypeId)) {
-        jsFeatureType.id = dotNetObject.featureTypeId;
+        properties.id = dotNetObject.featureTypeId;
     }
     if (hasValue(dotNetObject.name)) {
-        jsFeatureType.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsFeatureType = new FeatureType(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureType);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureType;

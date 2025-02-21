@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageSampleResult } from './imageSampleResult';
 
 export async function buildJsImageSampleResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageSampleResult = new ImageSampleResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.samples)) {
         let { buildJsImageSample } = await import('./imageSample');
-        jsImageSampleResult.samples = await Promise.all(dotNetObject.samples.map(async i => await buildJsImageSample(i, layerId, viewId))) as any;
+        properties.samples = await Promise.all(dotNetObject.samples.map(async i => await buildJsImageSample(i, layerId, viewId))) as any;
     }
 
+    let jsImageSampleResult = new ImageSampleResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageSampleResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageSampleResult;

@@ -40,7 +40,7 @@ export default class ManagedColorAttachmentGenerated implements IPropertyWrapper
 
 
 export async function buildJsManagedColorAttachmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsManagedColorAttachment: any = {}
+    let jsManagedColorAttachment: any = {};
 
 
     let { default: ManagedColorAttachmentWrapper } = await import('./managedColorAttachment');

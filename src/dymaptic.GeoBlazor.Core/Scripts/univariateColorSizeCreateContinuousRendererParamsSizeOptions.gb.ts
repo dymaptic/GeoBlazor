@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUnivariateColorSizeCreateContinuousRendererParamsSizeOptions } from './univariateColorSizeCreateContinuousRendererParamsSizeOptions';
 
 export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsSizeOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions: any = {}
+    let jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions: any = {};
 
     if (hasValue(dotNetObject.sizeOptimizationEnabled)) {
         jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions.sizeOptimizationEnabled = dotNetObject.sizeOptimizationEnabled;
@@ -12,7 +12,6 @@ export async function buildJsUnivariateColorSizeCreateContinuousRendererParamsSi
         jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions.sizeScheme = dotNetObject.sizeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsunivariateColorSizeCreateContinuousRendererParamsSizeOptions;

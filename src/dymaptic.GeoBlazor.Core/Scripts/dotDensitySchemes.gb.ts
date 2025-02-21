@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDotDensitySchemes } from './dotDensitySchemes';
 
 export async function buildJsDotDensitySchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDotDensitySchemes: any = {}
+    let jsDotDensitySchemes: any = {};
     if (hasValue(dotNetObject.primaryScheme)) {
         let { buildJsDotDensityScheme } = await import('./dotDensityScheme');
         jsDotDensitySchemes.primaryScheme = await buildJsDotDensityScheme(dotNetObject.primaryScheme, layerId, viewId) as any;
@@ -20,7 +20,6 @@ export async function buildJsDotDensitySchemesGenerated(dotNetObject: any, layer
         jsDotDensitySchemes.basemapTheme = dotNetObject.basemapTheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDotDensitySchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDotDensitySchemes;

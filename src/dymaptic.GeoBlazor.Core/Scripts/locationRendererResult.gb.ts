@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocationRendererResult } from './locationRendererResult';
 
 export async function buildJsLocationRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jslocationRendererResult: any = {}
+    let jslocationRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsSimpleRenderer } = await import('./simpleRenderer');
         jslocationRendererResult.renderer = await buildJsSimpleRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsLocationRendererResultGenerated(dotNetObject: any, 
         jslocationRendererResult.locationScheme = dotNetObject.locationScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jslocationRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jslocationRendererResult;

@@ -4,45 +4,45 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetActiveLayerInfo } from './activeLayerInfo';
 
 export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsActiveLayerInfo = new ActiveLayerInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsActiveLayerInfo.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
-        jsActiveLayerInfo.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
+        properties.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
-        jsActiveLayerInfo.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
+        properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
     }
     if (hasValue(dotNetObject.isScaleDriven)) {
-        jsActiveLayerInfo.isScaleDriven = dotNetObject.isScaleDriven;
+        properties.isScaleDriven = dotNetObject.isScaleDriven;
     }
     if (hasValue(dotNetObject.legendElements)) {
-        jsActiveLayerInfo.legendElements = dotNetObject.legendElements;
+        properties.legendElements = dotNetObject.legendElements;
     }
     if (hasValue(dotNetObject.ready)) {
-        jsActiveLayerInfo.ready = dotNetObject.ready;
+        properties.ready = dotNetObject.ready;
     }
     if (hasValue(dotNetObject.respectLayerVisibility)) {
-        jsActiveLayerInfo.respectLayerVisibility = dotNetObject.respectLayerVisibility;
+        properties.respectLayerVisibility = dotNetObject.respectLayerVisibility;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsActiveLayerInfo.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
     if (hasValue(dotNetObject.sublayerIds)) {
-        jsActiveLayerInfo.sublayerIds = dotNetObject.sublayerIds;
+        properties.sublayerIds = dotNetObject.sublayerIds;
     }
     if (hasValue(dotNetObject.title)) {
-        jsActiveLayerInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.version)) {
-        jsActiveLayerInfo.version = dotNetObject.version;
+        properties.version = dotNetObject.version;
     }
+    let jsActiveLayerInfo = new ActiveLayerInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsActiveLayerInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;

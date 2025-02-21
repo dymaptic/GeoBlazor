@@ -63,39 +63,40 @@ export default class PrintViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPrintViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPrintViewModel = new PrintViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsPrintViewModel.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.allowedFormats)) {
-        jsPrintViewModel.allowedFormats = dotNetObject.allowedFormats;
+        properties.allowedFormats = dotNetObject.allowedFormats;
     }
     if (hasValue(dotNetObject.allowedLayouts)) {
-        jsPrintViewModel.allowedLayouts = dotNetObject.allowedLayouts;
+        properties.allowedLayouts = dotNetObject.allowedLayouts;
     }
     if (hasValue(dotNetObject.extraParameters)) {
-        jsPrintViewModel.extraParameters = dotNetObject.extraParameters;
+        properties.extraParameters = dotNetObject.extraParameters;
     }
     if (hasValue(dotNetObject.includeDefaultTemplates)) {
-        jsPrintViewModel.includeDefaultTemplates = dotNetObject.includeDefaultTemplates;
+        properties.includeDefaultTemplates = dotNetObject.includeDefaultTemplates;
     }
     if (hasValue(dotNetObject.printServiceUrl)) {
-        jsPrintViewModel.printServiceUrl = dotNetObject.printServiceUrl;
+        properties.printServiceUrl = dotNetObject.printServiceUrl;
     }
     if (hasValue(dotNetObject.printTimeout)) {
-        jsPrintViewModel.printTimeout = dotNetObject.printTimeout;
+        properties.printTimeout = dotNetObject.printTimeout;
     }
     if (hasValue(dotNetObject.showPrintAreaEnabled)) {
-        jsPrintViewModel.showPrintAreaEnabled = dotNetObject.showPrintAreaEnabled;
+        properties.showPrintAreaEnabled = dotNetObject.showPrintAreaEnabled;
     }
     if (hasValue(dotNetObject.templateCustomTextElements)) {
-        jsPrintViewModel.templateCustomTextElements = dotNetObject.templateCustomTextElements;
+        properties.templateCustomTextElements = dotNetObject.templateCustomTextElements;
     }
     if (hasValue(dotNetObject.updateDelay)) {
-        jsPrintViewModel.updateDelay = dotNetObject.updateDelay;
+        properties.updateDelay = dotNetObject.updateDelay;
     }
+    let jsPrintViewModel = new PrintViewModel(properties);
 
     let { default: PrintViewModelWrapper } = await import('./printViewModel');
     let printViewModelWrapper = new PrintViewModelWrapper(jsPrintViewModel);

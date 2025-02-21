@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetExtentAndRotationGeoreference } from './extentAndRotationGeoreference';
 
 export async function buildJsExtentAndRotationGeoreferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsExtentAndRotationGeoreference = new ExtentAndRotationGeoreference();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsExtentAndRotationGeoreference.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.rotation)) {
-        jsExtentAndRotationGeoreference.rotation = dotNetObject.rotation;
+        properties.rotation = dotNetObject.rotation;
     }
+    let jsExtentAndRotationGeoreference = new ExtentAndRotationGeoreference(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsExtentAndRotationGeoreference);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExtentAndRotationGeoreference;

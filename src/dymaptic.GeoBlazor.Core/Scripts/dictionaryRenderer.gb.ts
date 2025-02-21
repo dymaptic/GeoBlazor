@@ -64,31 +64,32 @@ export default class DictionaryRendererGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDictionaryRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDictionaryRenderer = new DictionaryRenderer();
+    let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsDictionaryRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsVisualVariable } = await import('./visualVariable');
-        jsDictionaryRenderer.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.config)) {
-        jsDictionaryRenderer.config = dotNetObject.config;
+        properties.config = dotNetObject.config;
     }
     if (hasValue(dotNetObject.fieldMap)) {
-        jsDictionaryRenderer.fieldMap = dotNetObject.fieldMap;
+        properties.fieldMap = dotNetObject.fieldMap;
     }
     if (hasValue(dotNetObject.scaleExpression)) {
-        jsDictionaryRenderer.scaleExpression = dotNetObject.scaleExpression;
+        properties.scaleExpression = dotNetObject.scaleExpression;
     }
     if (hasValue(dotNetObject.scaleExpressionTitle)) {
-        jsDictionaryRenderer.scaleExpressionTitle = dotNetObject.scaleExpressionTitle;
+        properties.scaleExpressionTitle = dotNetObject.scaleExpressionTitle;
     }
     if (hasValue(dotNetObject.url)) {
-        jsDictionaryRenderer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsDictionaryRenderer = new DictionaryRenderer(properties);
 
     let { default: DictionaryRendererWrapper } = await import('./dictionaryRenderer');
     let dictionaryRendererWrapper = new DictionaryRendererWrapper(jsDictionaryRenderer);

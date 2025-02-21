@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLegendViewModelLayerInfos } from './legendViewModelLayerInfos';
 
 export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLegendViewModelLayerInfos: any = {}
+    let jsLegendViewModelLayerInfos: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsLegendViewModelLayerInfos.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
         jsLegendViewModelLayerInfos.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLegendViewModelLayerInfos);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModelLayerInfos;

@@ -4,38 +4,38 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureReductionBinning } from './featureReductionBinning';
 
 export async function buildJsFeatureReductionBinningGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureReductionBinning = new FeatureReductionBinning();
+    let properties: any = {};
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
-        jsFeatureReductionBinning.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsFeatureReductionBinning.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
-        jsFeatureReductionBinning.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.fields)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFields } = dotNetObject.fields;
-        jsFeatureReductionBinning.fields = sanitizedFields;
+        properties.fields = sanitizedFields;
     }
     if (hasValue(dotNetObject.fixedBinLevel)) {
-        jsFeatureReductionBinning.fixedBinLevel = dotNetObject.fixedBinLevel;
+        properties.fixedBinLevel = dotNetObject.fixedBinLevel;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
-        jsFeatureReductionBinning.labelsVisible = dotNetObject.labelsVisible;
+        properties.labelsVisible = dotNetObject.labelsVisible;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsFeatureReductionBinning.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsFeatureReductionBinning.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
+    let jsFeatureReductionBinning = new FeatureReductionBinning(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureReductionBinning);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReductionBinning;

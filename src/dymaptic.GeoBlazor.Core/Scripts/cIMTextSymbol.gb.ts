@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMTextSymbol } from './cIMTextSymbol';
 
 export async function buildJsCIMTextSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMTextSymbol: any = {}
+    let jsCIMTextSymbol: any = {};
     if (hasValue(dotNetObject.callout)) {
         let { buildJsCIMBackgroundCallout } = await import('./cIMBackgroundCallout');
         jsCIMTextSymbol.callout = await buildJsCIMBackgroundCallout(dotNetObject.callout, layerId, viewId) as any;
@@ -162,7 +162,6 @@ export async function buildJsCIMTextSymbolGenerated(dotNetObject: any, layerId: 
         jsCIMTextSymbol.wordSpacing = dotNetObject.wordSpacing;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMTextSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMTextSymbol;

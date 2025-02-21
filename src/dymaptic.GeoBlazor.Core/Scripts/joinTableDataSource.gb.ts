@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetJoinTableDataSource } from './joinTableDataSource';
 
 export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsJoinTableDataSource: any = {}
+    let jsJoinTableDataSource: any = {};
 
     if (hasValue(dotNetObject.joinType)) {
         jsJoinTableDataSource.joinType = dotNetObject.joinType;
@@ -21,7 +21,6 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
         jsJoinTableDataSource.rightTableSource = dotNetObject.rightTableSource;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsJoinTableDataSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsJoinTableDataSource;

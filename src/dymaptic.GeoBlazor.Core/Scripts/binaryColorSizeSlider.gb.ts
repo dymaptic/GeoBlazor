@@ -72,9 +72,9 @@ export default class BinaryColorSizeSliderGenerated implements IPropertyWrapper 
 
 
 export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBinaryColorSizeSlider = new BinaryColorSizeSlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsBinaryColorSizeSlider.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -86,7 +86,7 @@ export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, l
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsBinaryColorSizeSlider.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -98,7 +98,7 @@ export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, l
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsBinaryColorSizeSlider.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -111,46 +111,47 @@ export async function buildJsBinaryColorSizeSliderGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBinaryColorSizeSliderStyle } = await import('./binaryColorSizeSliderStyle');
-        jsBinaryColorSizeSlider.style = await buildJsBinaryColorSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsBinaryColorSizeSliderStyle(dotNetObject.style, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBinaryColorSizeSliderViewModel } = await import('./binaryColorSizeSliderViewModel');
-        jsBinaryColorSizeSlider.viewModel = await buildJsBinaryColorSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsBinaryColorSizeSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.handlesSyncedToPrimary)) {
-        jsBinaryColorSizeSlider.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
+        properties.handlesSyncedToPrimary = dotNetObject.handlesSyncedToPrimary;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
-        jsBinaryColorSizeSlider.histogramConfig = sanitizedHistogramConfig;
+        properties.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
-        jsBinaryColorSizeSlider.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsBinaryColorSizeSlider.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.persistSizeRangeEnabled)) {
-        jsBinaryColorSizeSlider.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
+        properties.persistSizeRangeEnabled = dotNetObject.persistSizeRangeEnabled;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsBinaryColorSizeSlider.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.stops)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
-        jsBinaryColorSizeSlider.stops = sanitizedStops;
+        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
-        jsBinaryColorSizeSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        properties.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsBinaryColorSizeSlider.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsBinaryColorSizeSlider.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsBinaryColorSizeSlider = new BinaryColorSizeSlider(properties);
     jsBinaryColorSizeSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });

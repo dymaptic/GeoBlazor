@@ -100,50 +100,51 @@ export default class CoordinateConversionWidgetGenerated implements IPropertyWra
 
 
 export async function buildJsCoordinateConversionWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCoordinateConversion = new CoordinateConversion();
+    let properties: any = {};
     if (hasValue(dotNetObject.conversions)) {
         let { buildJsConversion } = await import('./conversion');
-        jsCoordinateConversion.conversions = await Promise.all(dotNetObject.conversions.map(async i => await buildJsConversion(i, layerId, viewId))) as any;
+        properties.conversions = await Promise.all(dotNetObject.conversions.map(async i => await buildJsConversion(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.formats)) {
         let { buildJsFormat } = await import('./format');
-        jsCoordinateConversion.formats = await Promise.all(dotNetObject.formats.map(async i => await buildJsFormat(i, layerId, viewId))) as any;
+        properties.formats = await Promise.all(dotNetObject.formats.map(async i => await buildJsFormat(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.locationSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsCoordinateConversion.locationSymbol = buildJsSymbol(dotNetObject.locationSymbol) as any;
+        properties.locationSymbol = buildJsSymbol(dotNetObject.locationSymbol) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
-        jsCoordinateConversion.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.goToOverride)) {
-        jsCoordinateConversion.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsCoordinateConversion.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.mode)) {
-        jsCoordinateConversion.mode = dotNetObject.mode;
+        properties.mode = dotNetObject.mode;
     }
     if (hasValue(dotNetObject.multipleConversions)) {
-        jsCoordinateConversion.multipleConversions = dotNetObject.multipleConversions;
+        properties.multipleConversions = dotNetObject.multipleConversions;
     }
     if (hasValue(dotNetObject.orientation)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrientation } = dotNetObject.orientation;
-        jsCoordinateConversion.orientation = sanitizedOrientation;
+        properties.orientation = sanitizedOrientation;
     }
     if (hasValue(dotNetObject.storageEnabled)) {
-        jsCoordinateConversion.storageEnabled = dotNetObject.storageEnabled;
+        properties.storageEnabled = dotNetObject.storageEnabled;
     }
     if (hasValue(dotNetObject.storageType)) {
-        jsCoordinateConversion.storageType = dotNetObject.storageType;
+        properties.storageType = dotNetObject.storageType;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsCoordinateConversion.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsCoordinateConversion = new CoordinateConversion(properties);
 
     let { default: CoordinateConversionWidgetWrapper } = await import('./coordinateConversionWidget');
     let coordinateConversionWidgetWrapper = new CoordinateConversionWidgetWrapper(jsCoordinateConversion);

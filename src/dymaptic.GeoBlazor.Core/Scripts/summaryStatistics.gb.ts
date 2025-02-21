@@ -38,8 +38,9 @@ export default class SummaryStatisticsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSummaryStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssummaryStatistics = new summaryStatistics();
+    let properties: any = {};
 
+    let jssummaryStatistics = new summaryStatistics(properties);
 
     let { default: SummaryStatisticsWrapper } = await import('./summaryStatistics');
     let summaryStatisticsWrapper = new SummaryStatisticsWrapper(jssummaryStatistics);

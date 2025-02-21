@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSupportedRendererInfo } from './supportedRendererInfo';
 
 export async function buildJsSupportedRendererInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSupportedRendererInfo: any = {}
+    let jsSupportedRendererInfo: any = {};
     if (hasValue(dotNetObject.defaultRenderer)) {
         let { buildJsRenderer } = await import('./renderer');
         jsSupportedRendererInfo.defaultRenderer = await buildJsRenderer(dotNetObject.defaultRenderer, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsSupportedRendererInfoGenerated(dotNetObject: any, l
         jsSupportedRendererInfo.supportedTypes = dotNetObject.supportedTypes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSupportedRendererInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportedRendererInfo;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelUniqueValue } from './voxelUniqueValue';
 
 export async function buildJsVoxelUniqueValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVoxelUniqueValue: any = {}
+    let jsVoxelUniqueValue: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsVoxelUniqueValue.color = buildJsMapColor(dotNetObject.color) as any;
@@ -19,7 +19,6 @@ export async function buildJsVoxelUniqueValueGenerated(dotNetObject: any, layerI
         jsVoxelUniqueValue.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelUniqueValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelUniqueValue;

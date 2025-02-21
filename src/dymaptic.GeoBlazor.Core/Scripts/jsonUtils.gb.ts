@@ -38,7 +38,7 @@ export default class JsonUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsJsonUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsjsonUtils: any = {}
+    let jsjsonUtils: any = {};
 
 
     let { default: JsonUtilsWrapper } = await import('./jsonUtils');

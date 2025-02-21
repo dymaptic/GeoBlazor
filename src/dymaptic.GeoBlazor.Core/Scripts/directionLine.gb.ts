@@ -60,25 +60,26 @@ export default class DirectionLineGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDirectionLineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionLine = new DirectionLine();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsDirectionLine.geometry = buildJsPolyline(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsDirectionLine.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.directionLineType)) {
-        jsDirectionLine.directionLineType = dotNetObject.directionLineType;
+        properties.directionLineType = dotNetObject.directionLineType;
     }
     if (hasValue(dotNetObject.distance)) {
-        jsDirectionLine.distance = dotNetObject.distance;
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.duration)) {
-        jsDirectionLine.duration = dotNetObject.duration;
+        properties.duration = dotNetObject.duration;
     }
+    let jsDirectionLine = new DirectionLine(properties);
 
     let { default: DirectionLineWrapper } = await import('./directionLine');
     let directionLineWrapper = new DirectionLineWrapper(jsDirectionLine);

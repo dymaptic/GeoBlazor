@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIChartMediaInfo } from './iChartMediaInfo';
 
 export async function buildJsIChartMediaInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsChartMediaInfo = new ChartMediaInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.value)) {
         let { buildJsChartMediaInfoValue } = await import('./chartMediaInfoValue');
-        jsChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
+    let jsChartMediaInfo = new ChartMediaInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfo;

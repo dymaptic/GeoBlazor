@@ -70,9 +70,9 @@ export default class SliderViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSliderViewModel = new SliderViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsSliderViewModel.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -84,7 +84,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsSliderViewModel.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -96,7 +96,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsSliderViewModel.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -109,26 +109,27 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     }
 
     if (hasValue(dotNetObject.effectiveMax)) {
-        jsSliderViewModel.effectiveMax = dotNetObject.effectiveMax;
+        properties.effectiveMax = dotNetObject.effectiveMax;
     }
     if (hasValue(dotNetObject.effectiveMin)) {
-        jsSliderViewModel.effectiveMin = dotNetObject.effectiveMin;
+        properties.effectiveMin = dotNetObject.effectiveMin;
     }
     if (hasValue(dotNetObject.max)) {
-        jsSliderViewModel.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsSliderViewModel.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsSliderViewModel.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
-        jsSliderViewModel.thumbsConstrained = dotNetObject.thumbsConstrained;
+        properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
     if (hasValue(dotNetObject.values)) {
-        jsSliderViewModel.values = dotNetObject.values;
+        properties.values = dotNetObject.values;
     }
+    let jsSliderViewModel = new SliderViewModel(properties);
 
     let { default: SliderViewModelWrapper } = await import('./sliderViewModel');
     let sliderViewModelWrapper = new SliderViewModelWrapper(jsSliderViewModel);

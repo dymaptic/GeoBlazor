@@ -100,37 +100,38 @@ export default class VersioningStateGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVersioningStateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVersioningState = new VersioningState();
+    let properties: any = {};
     if (hasValue(dotNetObject.versionableItems)) {
         let { buildJsVersionAdapter } = await import('./versionAdapter');
-        jsVersioningState.versionableItems = await Promise.all(dotNetObject.versionableItems.map(async i => await buildJsVersionAdapter(i, layerId, viewId))) as any;
+        properties.versionableItems = await Promise.all(dotNetObject.versionableItems.map(async i => await buildJsVersionAdapter(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.versionManagementService)) {
         let { buildJsVersionManagementService } = await import('./versionManagementService');
-        jsVersioningState.versionManagementService = await buildJsVersionManagementService(dotNetObject.versionManagementService, layerId, viewId) as any;
+        properties.versionManagementService = await buildJsVersionManagementService(dotNetObject.versionManagementService, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.currentVersion)) {
-        jsVersioningState.currentVersion = dotNetObject.currentVersion;
+        properties.currentVersion = dotNetObject.currentVersion;
     }
     if (hasValue(dotNetObject.currentVersionInfo)) {
-        jsVersioningState.currentVersionInfo = dotNetObject.currentVersionInfo;
+        properties.currentVersionInfo = dotNetObject.currentVersionInfo;
     }
     if (hasValue(dotNetObject.featureServiceUrl)) {
-        jsVersioningState.featureServiceUrl = dotNetObject.featureServiceUrl;
+        properties.featureServiceUrl = dotNetObject.featureServiceUrl;
     }
     if (hasValue(dotNetObject.state)) {
-        jsVersioningState.state = dotNetObject.state;
+        properties.state = dotNetObject.state;
     }
     if (hasValue(dotNetObject.url)) {
-        jsVersioningState.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.usePersistentReadSessions)) {
-        jsVersioningState.usePersistentReadSessions = dotNetObject.usePersistentReadSessions;
+        properties.usePersistentReadSessions = dotNetObject.usePersistentReadSessions;
     }
     if (hasValue(dotNetObject.versionInfos)) {
-        jsVersioningState.versionInfos = dotNetObject.versionInfos;
+        properties.versionInfos = dotNetObject.versionInfos;
     }
+    let jsVersioningState = new VersioningState(properties);
 
     let { default: VersioningStateWrapper } = await import('./versioningState');
     let versioningStateWrapper = new VersioningStateWrapper(jsVersioningState);

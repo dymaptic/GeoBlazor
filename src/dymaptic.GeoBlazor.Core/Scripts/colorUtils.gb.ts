@@ -40,7 +40,7 @@ export default class ColorUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsColorUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorUtils: any = {}
+    let jscolorUtils: any = {};
 
 
     let { default: ColorUtilsWrapper } = await import('./colorUtils');

@@ -96,18 +96,19 @@ export default class SceneLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSceneLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneLayerView = new SceneLayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsSceneLayerView.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
-        jsSceneLayerView.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
+        properties.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
     }
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
-        jsSceneLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
+        properties.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    let jsSceneLayerView = new SceneLayerView(properties);
 
     let { default: SceneLayerViewWrapper } = await import('./sceneLayerView');
     let sceneLayerViewWrapper = new SceneLayerViewWrapper(jsSceneLayerView);

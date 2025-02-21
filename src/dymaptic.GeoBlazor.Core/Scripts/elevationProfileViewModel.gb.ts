@@ -60,33 +60,34 @@ export default class ElevationProfileViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsElevationProfileViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsElevationProfileViewModel = new ElevationProfileViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.input)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsElevationProfileViewModel.input = buildJsGraphic(dotNetObject.input) as any;
+        properties.input = buildJsGraphic(dotNetObject.input) as any;
     }
 
     if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-        jsElevationProfileViewModel.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+        properties.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
-        jsElevationProfileViewModel.highlightEnabled = dotNetObject.highlightEnabled;
+        properties.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.hoveredChartPosition)) {
-        jsElevationProfileViewModel.hoveredChartPosition = dotNetObject.hoveredChartPosition;
+        properties.hoveredChartPosition = dotNetObject.hoveredChartPosition;
     }
     if (hasValue(dotNetObject.profiles)) {
-        jsElevationProfileViewModel.profiles = dotNetObject.profiles;
+        properties.profiles = dotNetObject.profiles;
     }
     if (hasValue(dotNetObject.uniformChartScaling)) {
-        jsElevationProfileViewModel.uniformChartScaling = dotNetObject.uniformChartScaling;
+        properties.uniformChartScaling = dotNetObject.uniformChartScaling;
     }
     if (hasValue(dotNetObject.unit)) {
-        jsElevationProfileViewModel.unit = dotNetObject.unit;
+        properties.unit = dotNetObject.unit;
     }
     if (hasValue(dotNetObject.unitOptions)) {
-        jsElevationProfileViewModel.unitOptions = dotNetObject.unitOptions;
+        properties.unitOptions = dotNetObject.unitOptions;
     }
+    let jsElevationProfileViewModel = new ElevationProfileViewModel(properties);
 
     let { default: ElevationProfileViewModelWrapper } = await import('./elevationProfileViewModel');
     let elevationProfileViewModelWrapper = new ElevationProfileViewModelWrapper(jsElevationProfileViewModel);

@@ -38,7 +38,7 @@ export default class AgeUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsAgeUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsageUtils: any = {}
+    let jsageUtils: any = {};
 
 
     let { default: AgeUtilsWrapper } = await import('./ageUtils');

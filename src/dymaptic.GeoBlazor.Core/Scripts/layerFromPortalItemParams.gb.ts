@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerFromPortalItemParams } from './layerFromPortalItemParams';
 
 export async function buildJsLayerFromPortalItemParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLayerFromPortalItemParams: any = {}
+    let jsLayerFromPortalItemParams: any = {};
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsLayerFromPortalItemParams.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerFromPortalItemParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerFromPortalItemParams;

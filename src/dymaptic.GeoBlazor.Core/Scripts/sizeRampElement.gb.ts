@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeRampElement } from './sizeRampElement';
 
 export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeRampElement: any = {}
+    let jsSizeRampElement: any = {};
     if (hasValue(dotNetObject.infos)) {
         let { buildJsSizeRampStop } = await import('./sizeRampStop');
         jsSizeRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsSizeRampStop(i, layerId, viewId))) as any;
@@ -13,7 +13,6 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
         jsSizeRampElement.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeRampElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampElement;

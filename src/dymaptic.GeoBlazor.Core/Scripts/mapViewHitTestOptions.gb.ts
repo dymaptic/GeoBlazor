@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapViewHitTestOptions } from './mapViewHitTestOptions';
 
 export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMapViewHitTestOptions: any = {}
+    let jsMapViewHitTestOptions: any = {};
 
     if (hasValue(dotNetObject.exclude)) {
         jsMapViewHitTestOptions.exclude = dotNetObject.exclude;
@@ -12,7 +12,6 @@ export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, l
         jsMapViewHitTestOptions.include = dotNetObject.include;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapViewHitTestOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewHitTestOptions;

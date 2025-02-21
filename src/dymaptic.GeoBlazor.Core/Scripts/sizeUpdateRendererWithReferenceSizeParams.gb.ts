@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeUpdateRendererWithReferenceSizeParams } from './sizeUpdateRendererWithReferenceSizeParams';
 
 export async function buildJsSizeUpdateRendererWithReferenceSizeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeUpdateRendererWithReferenceSizeParams: any = {}
+    let jssizeUpdateRendererWithReferenceSizeParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jssizeUpdateRendererWithReferenceSizeParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -39,7 +39,6 @@ export async function buildJsSizeUpdateRendererWithReferenceSizeParamsGenerated(
         jssizeUpdateRendererWithReferenceSizeParams.typeScheme = dotNetObject.typeScheme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeUpdateRendererWithReferenceSizeParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeUpdateRendererWithReferenceSizeParams;

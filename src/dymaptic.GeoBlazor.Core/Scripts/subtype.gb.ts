@@ -4,22 +4,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSubtype } from './subtype';
 
 export async function buildJsSubtypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSubtype = new Subtype();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.code)) {
-        jsSubtype.code = dotNetObject.code;
+        properties.code = dotNetObject.code;
     }
     if (hasValue(dotNetObject.defaultValues)) {
-        jsSubtype.defaultValues = dotNetObject.defaultValues;
+        properties.defaultValues = dotNetObject.defaultValues;
     }
     if (hasValue(dotNetObject.domains)) {
-        jsSubtype.domains = dotNetObject.domains;
+        properties.domains = dotNetObject.domains;
     }
     if (hasValue(dotNetObject.name)) {
-        jsSubtype.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsSubtype = new Subtype(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSubtype);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSubtype;

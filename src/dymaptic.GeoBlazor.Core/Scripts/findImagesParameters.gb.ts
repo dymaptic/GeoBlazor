@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindImagesParameters } from './findImagesParameters';
 
 export async function buildJsFindImagesParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFindImagesParameters = new FindImagesParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.fromGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsFindImagesParameters.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
+        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
-        jsFindImagesParameters.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
+        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
     }
 
     if (hasValue(dotNetObject.maxCount)) {
-        jsFindImagesParameters.maxCount = dotNetObject.maxCount;
+        properties.maxCount = dotNetObject.maxCount;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsFindImagesParameters.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.where)) {
-        jsFindImagesParameters.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsFindImagesParameters = new FindImagesParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFindImagesParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFindImagesParameters;

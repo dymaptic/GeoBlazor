@@ -4,101 +4,101 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocatorSearchSource } from './locatorSearchSource';
 
 export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocatorSearchSource = new LocatorSearchSource();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
-        jsLocatorSearchSource.filter = await buildJsSearchSourceFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
-        jsLocatorSearchSource.getResults = async (parameters) => {
+        properties.getResults = async (parameters) => {
             return await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
         };
     }
     if (hasValue(dotNetObject.hasGetSuggestionsHandler) && dotNetObject.hasGetSuggestionsHandler) {
-        jsLocatorSearchSource.getSuggestions = async (parameters) => {
+        properties.getSuggestions = async (parameters) => {
             return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsLocatorSearchSource.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLocatorSearchSource.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
+        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
-        jsLocatorSearchSource.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.autoNavigate)) {
-        jsLocatorSearchSource.autoNavigate = dotNetObject.autoNavigate;
+        properties.autoNavigate = dotNetObject.autoNavigate;
     }
     if (hasValue(dotNetObject.categories)) {
-        jsLocatorSearchSource.categories = dotNetObject.categories;
+        properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.countryCode)) {
-        jsLocatorSearchSource.countryCode = dotNetObject.countryCode;
+        properties.countryCode = dotNetObject.countryCode;
     }
     if (hasValue(dotNetObject.defaultZoomScale)) {
-        jsLocatorSearchSource.defaultZoomScale = dotNetObject.defaultZoomScale;
+        properties.defaultZoomScale = dotNetObject.defaultZoomScale;
     }
     if (hasValue(dotNetObject.localSearchDisabled)) {
-        jsLocatorSearchSource.localSearchDisabled = dotNetObject.localSearchDisabled;
+        properties.localSearchDisabled = dotNetObject.localSearchDisabled;
     }
     if (hasValue(dotNetObject.locationType)) {
-        jsLocatorSearchSource.locationType = dotNetObject.locationType;
+        properties.locationType = dotNetObject.locationType;
     }
     if (hasValue(dotNetObject.maxResults)) {
-        jsLocatorSearchSource.maxResults = dotNetObject.maxResults;
+        properties.maxResults = dotNetObject.maxResults;
     }
     if (hasValue(dotNetObject.maxSuggestions)) {
-        jsLocatorSearchSource.maxSuggestions = dotNetObject.maxSuggestions;
+        properties.maxSuggestions = dotNetObject.maxSuggestions;
     }
     if (hasValue(dotNetObject.minSuggestCharacters)) {
-        jsLocatorSearchSource.minSuggestCharacters = dotNetObject.minSuggestCharacters;
+        properties.minSuggestCharacters = dotNetObject.minSuggestCharacters;
     }
     if (hasValue(dotNetObject.name)) {
-        jsLocatorSearchSource.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsLocatorSearchSource.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.placeholder)) {
-        jsLocatorSearchSource.placeholder = dotNetObject.placeholder;
+        properties.placeholder = dotNetObject.placeholder;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsLocatorSearchSource.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.prefix)) {
-        jsLocatorSearchSource.prefix = dotNetObject.prefix;
+        properties.prefix = dotNetObject.prefix;
     }
     if (hasValue(dotNetObject.resultGraphicEnabled)) {
-        jsLocatorSearchSource.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
+        properties.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
     }
     if (hasValue(dotNetObject.searchTemplate)) {
-        jsLocatorSearchSource.searchTemplate = dotNetObject.searchTemplate;
+        properties.searchTemplate = dotNetObject.searchTemplate;
     }
     if (hasValue(dotNetObject.singleLineFieldName)) {
-        jsLocatorSearchSource.singleLineFieldName = dotNetObject.singleLineFieldName;
+        properties.singleLineFieldName = dotNetObject.singleLineFieldName;
     }
     if (hasValue(dotNetObject.suffix)) {
-        jsLocatorSearchSource.suffix = dotNetObject.suffix;
+        properties.suffix = dotNetObject.suffix;
     }
     if (hasValue(dotNetObject.suggestionsEnabled)) {
-        jsLocatorSearchSource.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+        properties.suggestionsEnabled = dotNetObject.suggestionsEnabled;
     }
     if (hasValue(dotNetObject.url)) {
-        jsLocatorSearchSource.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.withinViewEnabled)) {
-        jsLocatorSearchSource.withinViewEnabled = dotNetObject.withinViewEnabled;
+        properties.withinViewEnabled = dotNetObject.withinViewEnabled;
     }
     if (hasValue(dotNetObject.zoomScale)) {
-        jsLocatorSearchSource.zoomScale = dotNetObject.zoomScale;
+        properties.zoomScale = dotNetObject.zoomScale;
     }
+    let jsLocatorSearchSource = new LocatorSearchSource(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLocatorSearchSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;

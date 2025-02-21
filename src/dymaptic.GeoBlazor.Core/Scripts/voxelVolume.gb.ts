@@ -42,14 +42,15 @@ export default class VoxelVolumeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVoxelVolumeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVoxelVolume = new VoxelVolume();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.sizeInVoxels)) {
-        jsVoxelVolume.sizeInVoxels = dotNetObject.sizeInVoxels;
+        properties.sizeInVoxels = dotNetObject.sizeInVoxels;
     }
     if (hasValue(dotNetObject.volumeType)) {
-        jsVoxelVolume.volumeType = dotNetObject.volumeType;
+        properties.volumeType = dotNetObject.volumeType;
     }
+    let jsVoxelVolume = new VoxelVolume(properties);
 
     let { default: VoxelVolumeWrapper } = await import('./voxelVolume');
     let voxelVolumeWrapper = new VoxelVolumeWrapper(jsVoxelVolume);

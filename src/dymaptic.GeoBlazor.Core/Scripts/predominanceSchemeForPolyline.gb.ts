@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominanceSchemeForPolyline } from './predominanceSchemeForPolyline';
 
 export async function buildJsPredominanceSchemeForPolylineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPredominanceSchemeForPolyline: any = {}
+    let jsPredominanceSchemeForPolyline: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsPredominanceSchemeForPolyline.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -30,7 +30,6 @@ export async function buildJsPredominanceSchemeForPolylineGenerated(dotNetObject
         jsPredominanceSchemeForPolyline.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPredominanceSchemeForPolyline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPredominanceSchemeForPolyline;

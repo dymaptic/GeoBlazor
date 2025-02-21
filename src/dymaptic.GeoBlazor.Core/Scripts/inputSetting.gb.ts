@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetInputSetting } from './inputSetting';
 
 export async function buildJsInputSettingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsInputSetting: any = {}
+    let jsInputSetting: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         jsInputSetting.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -16,7 +16,6 @@ export async function buildJsInputSettingGenerated(dotNetObject: any, layerId: s
         jsInputSetting.label = dotNetObject.label;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsInputSetting);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsInputSetting;

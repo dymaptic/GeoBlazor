@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSnappingOptions } from './snappingOptions';
 
 export async function buildJsSnappingOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSnappingOptions = new SnappingOptions();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureSources)) {
         let { buildJsFeatureSnappingLayerSource } = await import('./featureSnappingLayerSource');
-        jsSnappingOptions.featureSources = await Promise.all(dotNetObject.featureSources.map(async i => await buildJsFeatureSnappingLayerSource(i, layerId, viewId))) as any;
+        properties.featureSources = await Promise.all(dotNetObject.featureSources.map(async i => await buildJsFeatureSnappingLayerSource(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.attributeRulesEnabled)) {
-        jsSnappingOptions.attributeRulesEnabled = dotNetObject.attributeRulesEnabled;
+        properties.attributeRulesEnabled = dotNetObject.attributeRulesEnabled;
     }
     if (hasValue(dotNetObject.distance)) {
-        jsSnappingOptions.distance = dotNetObject.distance;
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.enabled)) {
-        jsSnappingOptions.enabled = dotNetObject.enabled;
+        properties.enabled = dotNetObject.enabled;
     }
     if (hasValue(dotNetObject.featureEnabled)) {
-        jsSnappingOptions.featureEnabled = dotNetObject.featureEnabled;
+        properties.featureEnabled = dotNetObject.featureEnabled;
     }
     if (hasValue(dotNetObject.selfEnabled)) {
-        jsSnappingOptions.selfEnabled = dotNetObject.selfEnabled;
+        properties.selfEnabled = dotNetObject.selfEnabled;
     }
+    let jsSnappingOptions = new SnappingOptions(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSnappingOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSnappingOptions;

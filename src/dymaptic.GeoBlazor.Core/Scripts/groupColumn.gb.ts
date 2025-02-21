@@ -61,45 +61,46 @@ export default class GroupColumnGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGroupColumnGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGroupColumn = new GroupColumn();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.autoWidth)) {
-        jsGroupColumn.autoWidth = dotNetObject.autoWidth;
+        properties.autoWidth = dotNetObject.autoWidth;
     }
     if (hasValue(dotNetObject.direction)) {
-        jsGroupColumn.direction = dotNetObject.direction;
+        properties.direction = dotNetObject.direction;
     }
     if (hasValue(dotNetObject.effectiveLabel)) {
-        jsGroupColumn.effectiveLabel = dotNetObject.effectiveLabel;
+        properties.effectiveLabel = dotNetObject.effectiveLabel;
     }
     if (hasValue(dotNetObject.flexGrow)) {
-        jsGroupColumn.flexGrow = dotNetObject.flexGrow;
+        properties.flexGrow = dotNetObject.flexGrow;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsGroupColumn.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.invalid)) {
-        jsGroupColumn.invalid = dotNetObject.invalid;
+        properties.invalid = dotNetObject.invalid;
     }
     if (hasValue(dotNetObject.label)) {
-        jsGroupColumn.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.sortable)) {
-        jsGroupColumn.sortable = dotNetObject.sortable;
+        properties.sortable = dotNetObject.sortable;
     }
     if (hasValue(dotNetObject.textAlign)) {
-        jsGroupColumn.textAlign = dotNetObject.textAlign;
+        properties.textAlign = dotNetObject.textAlign;
     }
     if (hasValue(dotNetObject.textWrap)) {
-        jsGroupColumn.textWrap = dotNetObject.textWrap;
+        properties.textWrap = dotNetObject.textWrap;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsGroupColumn.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.width)) {
-        jsGroupColumn.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsGroupColumn = new GroupColumn(properties);
 
     let { default: GroupColumnWrapper } = await import('./groupColumn');
     let groupColumnWrapper = new GroupColumnWrapper(jsGroupColumn);

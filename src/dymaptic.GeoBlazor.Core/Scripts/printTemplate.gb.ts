@@ -4,59 +4,59 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPrintTemplate } from './printTemplate';
 
 export async function buildJsPrintTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPrintTemplate = new PrintTemplate();
+    let properties: any = {};
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
-        jsPrintTemplate.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
+        properties.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layoutItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsPrintTemplate.layoutItem = await buildJsPortalItem(dotNetObject.layoutItem, layerId, viewId) as any;
+        properties.layoutItem = await buildJsPortalItem(dotNetObject.layoutItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.layoutOptions)) {
         let { buildJsPrintTemplateLayoutOptions } = await import('./printTemplateLayoutOptions');
-        jsPrintTemplate.layoutOptions = await buildJsPrintTemplateLayoutOptions(dotNetObject.layoutOptions, layerId, viewId) as any;
+        properties.layoutOptions = await buildJsPrintTemplateLayoutOptions(dotNetObject.layoutOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.reportItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsPrintTemplate.reportItem = await buildJsPortalItem(dotNetObject.reportItem, layerId, viewId) as any;
+        properties.reportItem = await buildJsPortalItem(dotNetObject.reportItem, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.attributionVisible)) {
-        jsPrintTemplate.attributionVisible = dotNetObject.attributionVisible;
+        properties.attributionVisible = dotNetObject.attributionVisible;
     }
     if (hasValue(dotNetObject.exportOptions)) {
-        jsPrintTemplate.exportOptions = dotNetObject.exportOptions;
+        properties.exportOptions = dotNetObject.exportOptions;
     }
     if (hasValue(dotNetObject.forceFeatureAttributes)) {
-        jsPrintTemplate.forceFeatureAttributes = dotNetObject.forceFeatureAttributes;
+        properties.forceFeatureAttributes = dotNetObject.forceFeatureAttributes;
     }
     if (hasValue(dotNetObject.includeCharts)) {
-        jsPrintTemplate.includeCharts = dotNetObject.includeCharts;
+        properties.includeCharts = dotNetObject.includeCharts;
     }
     if (hasValue(dotNetObject.includeTables)) {
-        jsPrintTemplate.includeTables = dotNetObject.includeTables;
+        properties.includeTables = dotNetObject.includeTables;
     }
     if (hasValue(dotNetObject.layout)) {
-        jsPrintTemplate.layout = dotNetObject.layout;
+        properties.layout = dotNetObject.layout;
     }
     if (hasValue(dotNetObject.outScale)) {
-        jsPrintTemplate.outScale = dotNetObject.outScale;
+        properties.outScale = dotNetObject.outScale;
     }
     if (hasValue(dotNetObject.report)) {
-        jsPrintTemplate.report = dotNetObject.report;
+        properties.report = dotNetObject.report;
     }
     if (hasValue(dotNetObject.reportOptions)) {
-        jsPrintTemplate.reportOptions = dotNetObject.reportOptions;
+        properties.reportOptions = dotNetObject.reportOptions;
     }
     if (hasValue(dotNetObject.scalePreserved)) {
-        jsPrintTemplate.scalePreserved = dotNetObject.scalePreserved;
+        properties.scalePreserved = dotNetObject.scalePreserved;
     }
     if (hasValue(dotNetObject.showLabels)) {
-        jsPrintTemplate.showLabels = dotNetObject.showLabels;
+        properties.showLabels = dotNetObject.showLabels;
     }
+    let jsPrintTemplate = new PrintTemplate(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPrintTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrintTemplate;

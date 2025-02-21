@@ -36,7 +36,7 @@ export default class CollectionEventGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCollectionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCollectionEvent: any = {}
+    let jsCollectionEvent: any = {};
 
     if (hasValue(dotNetObject.cancellable)) {
         jsCollectionEvent.cancellable = dotNetObject.cancellable;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetNearestPointResult } from './nearestPointResult';
 
 export async function buildJsNearestPointResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsNearestPointResult: any = {}
+    let jsNearestPointResult: any = {};
     if (hasValue(dotNetObject.coordinate)) {
         let { buildJsPoint } = await import('./point');
         jsNearestPointResult.coordinate = buildJsPoint(dotNetObject.coordinate) as any;
@@ -19,7 +19,6 @@ export async function buildJsNearestPointResultGenerated(dotNetObject: any, laye
         jsNearestPointResult.vertexIndex = dotNetObject.vertexIndex;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsNearestPointResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsNearestPointResult;

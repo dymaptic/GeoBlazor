@@ -4,50 +4,50 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLabel } from './label';
 
 export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
-    let jsLabelClass = new LabelClass();
+    let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
-        jsLabelClass.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.allowOverrun)) {
-        jsLabelClass.allowOverrun = dotNetObject.allowOverrun;
+        properties.allowOverrun = dotNetObject.allowOverrun;
     }
     if (hasValue(dotNetObject.deconflictionStrategy)) {
-        jsLabelClass.deconflictionStrategy = dotNetObject.deconflictionStrategy;
+        properties.deconflictionStrategy = dotNetObject.deconflictionStrategy;
     }
     if (hasValue(dotNetObject.labelExpression)) {
-        jsLabelClass.labelExpression = dotNetObject.labelExpression;
+        properties.labelExpression = dotNetObject.labelExpression;
     }
     if (hasValue(dotNetObject.labelExpressionInfo)) {
-        jsLabelClass.labelExpressionInfo = dotNetObject.labelExpressionInfo;
+        properties.labelExpressionInfo = dotNetObject.labelExpressionInfo;
     }
     if (hasValue(dotNetObject.labelPlacement)) {
-        jsLabelClass.labelPlacement = dotNetObject.labelPlacement;
+        properties.labelPlacement = dotNetObject.labelPlacement;
     }
     if (hasValue(dotNetObject.labelPosition)) {
-        jsLabelClass.labelPosition = dotNetObject.labelPosition;
+        properties.labelPosition = dotNetObject.labelPosition;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsLabelClass.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsLabelClass.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.repeatLabel)) {
-        jsLabelClass.repeatLabel = dotNetObject.repeatLabel;
+        properties.repeatLabel = dotNetObject.repeatLabel;
     }
     if (hasValue(dotNetObject.repeatLabelDistance)) {
-        jsLabelClass.repeatLabelDistance = dotNetObject.repeatLabelDistance;
+        properties.repeatLabelDistance = dotNetObject.repeatLabelDistance;
     }
     if (hasValue(dotNetObject.useCodedValues)) {
-        jsLabelClass.useCodedValues = dotNetObject.useCodedValues;
+        properties.useCodedValues = dotNetObject.useCodedValues;
     }
     if (hasValue(dotNetObject.where)) {
-        jsLabelClass.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsLabelClass = new LabelClass(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLabelClass);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;

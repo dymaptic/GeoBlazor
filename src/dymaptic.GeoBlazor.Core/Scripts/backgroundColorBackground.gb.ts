@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBackgroundColorBackground } from './backgroundColorBackground';
 
 export async function buildJsBackgroundColorBackgroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsbackgroundColorBackground = new backgroundColorBackground();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
-        jsbackgroundColorBackground.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
+    let jsbackgroundColorBackground = new backgroundColorBackground(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsbackgroundColorBackground);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsbackgroundColorBackground;

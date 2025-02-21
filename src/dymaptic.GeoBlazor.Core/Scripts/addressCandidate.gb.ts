@@ -4,27 +4,27 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAddressCandidate } from './addressCandidate';
 
 export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promise<any> {
-    let jsAddressCandidate = new AddressCandidate();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsAddressCandidate.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsAddressCandidate.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
     if (hasValue(dotNetObject.address)) {
-        jsAddressCandidate.address = dotNetObject.address;
+        properties.address = dotNetObject.address;
     }
     if (hasValue(dotNetObject.attributes)) {
-        jsAddressCandidate.attributes = dotNetObject.attributes;
+        properties.attributes = dotNetObject.attributes;
     }
     if (hasValue(dotNetObject.score)) {
-        jsAddressCandidate.score = dotNetObject.score;
+        properties.score = dotNetObject.score;
     }
+    let jsAddressCandidate = new AddressCandidate(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAddressCandidate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAddressCandidate;

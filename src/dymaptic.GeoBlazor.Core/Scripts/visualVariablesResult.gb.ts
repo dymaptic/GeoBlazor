@@ -3,10 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVisualVariablesResult } from './visualVariablesResult';
 
 export async function buildJsVisualVariablesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVisualVariablesResult: any = {}
+    let jsVisualVariablesResult: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        jsVisualVariablesResult.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.color)) {
         let { buildJsVisualVariablesResultColor } = await import('./visualVariablesResultColor');
@@ -30,7 +30,6 @@ export async function buildJsVisualVariablesResultGenerated(dotNetObject: any, l
         jsVisualVariablesResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVisualVariablesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariablesResult;

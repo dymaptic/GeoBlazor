@@ -62,7 +62,7 @@ export default class SizeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSizeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssize: any = {}
+    let jssize: any = {};
 
 
     let { default: SizeWrapper } = await import('./size');

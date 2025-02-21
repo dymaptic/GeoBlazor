@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelIsosurface } from './voxelIsosurface';
 
 export async function buildJsVoxelIsosurfaceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVoxelIsosurface: any = {}
+    let jsVoxelIsosurface: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsVoxelIsosurface.color = buildJsMapColor(dotNetObject.color) as any;
@@ -22,7 +22,6 @@ export async function buildJsVoxelIsosurfaceGenerated(dotNetObject: any, layerId
         jsVoxelIsosurface.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelIsosurface);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelIsosurface;

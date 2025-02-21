@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapRampElement } from './heatmapRampElement';
 
 export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapRampElement: any = {}
+    let jsHeatmapRampElement: any = {};
     if (hasValue(dotNetObject.infos)) {
         let { buildJsHeatmapRampStop } = await import('./heatmapRampStop');
         jsHeatmapRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsHeatmapRampStop(i, layerId, viewId))) as any;
@@ -13,7 +13,6 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
         jsHeatmapRampElement.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampElement;

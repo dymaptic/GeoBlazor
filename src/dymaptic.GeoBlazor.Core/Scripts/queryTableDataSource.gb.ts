@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetQueryTableDataSource } from './queryTableDataSource';
 
 export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsQueryTableDataSource: any = {}
+    let jsQueryTableDataSource: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jsQueryTableDataSource.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
@@ -22,7 +22,6 @@ export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, la
         jsQueryTableDataSource.workspaceId = dotNetObject.workspaceId;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsQueryTableDataSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsQueryTableDataSource;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetControlPoint } from './controlPoint';
 
 export async function buildJsControlPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsControlPoint: any = {}
+    let jsControlPoint: any = {};
     if (hasValue(dotNetObject.mapPoint)) {
         let { buildJsPoint } = await import('./point');
         jsControlPoint.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
@@ -14,7 +14,6 @@ export async function buildJsControlPointGenerated(dotNetObject: any, layerId: s
         jsControlPoint.sourcePoint = sanitizedSourcePoint;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsControlPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsControlPoint;

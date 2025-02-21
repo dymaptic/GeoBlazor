@@ -90,37 +90,38 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemap = new Basemap();
+    let properties: any = {};
     if (hasValue(dotNetObject.baseLayers)) {
         let { buildJsLayer } = await import('./layer');
-        jsBasemap.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        properties.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsBasemap.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.referenceLayers)) {
         let { buildJsLayer } = await import('./layer');
-        jsBasemap.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsBasemap.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.basemapId)) {
-        jsBasemap.id = dotNetObject.basemapId;
+        properties.id = dotNetObject.basemapId;
     }
     if (hasValue(dotNetObject.style)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStyle } = dotNetObject.style;
-        jsBasemap.style = sanitizedStyle;
+        properties.style = sanitizedStyle;
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {
-        jsBasemap.thumbnailUrl = dotNetObject.thumbnailUrl;
+        properties.thumbnailUrl = dotNetObject.thumbnailUrl;
     }
     if (hasValue(dotNetObject.title)) {
-        jsBasemap.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsBasemap = new Basemap(properties);
 
     let { default: BasemapWrapper } = await import('./basemap');
     let basemapWrapper = new BasemapWrapper(jsBasemap);

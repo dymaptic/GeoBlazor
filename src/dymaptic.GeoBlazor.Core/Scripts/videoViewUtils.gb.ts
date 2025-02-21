@@ -38,7 +38,7 @@ export default class VideoViewUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVideoViewUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsvideoViewUtils: any = {}
+    let jsvideoViewUtils: any = {};
 
 
     let { default: VideoViewUtilsWrapper } = await import('./videoViewUtils');

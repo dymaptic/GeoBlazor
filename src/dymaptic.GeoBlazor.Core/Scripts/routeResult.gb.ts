@@ -4,44 +4,44 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteResult } from './routeResult';
 
 export async function buildJsRouteResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteResult = new RouteResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.directionLines)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRouteResult.directionLines = buildJsFeatureSet(dotNetObject.directionLines) as any;
+        properties.directionLines = buildJsFeatureSet(dotNetObject.directionLines) as any;
     }
     if (hasValue(dotNetObject.directionPoints)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRouteResult.directionPoints = buildJsFeatureSet(dotNetObject.directionPoints) as any;
+        properties.directionPoints = buildJsFeatureSet(dotNetObject.directionPoints) as any;
     }
     if (hasValue(dotNetObject.route)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsRouteResult.route = buildJsGraphic(dotNetObject.route) as any;
+        properties.route = buildJsGraphic(dotNetObject.route) as any;
     }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsRouteResult.stops = dotNetObject.stops.map(i => buildJsGraphic(i)) as any;
+        properties.stops = dotNetObject.stops.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.traversedEdges)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRouteResult.traversedEdges = buildJsFeatureSet(dotNetObject.traversedEdges) as any;
+        properties.traversedEdges = buildJsFeatureSet(dotNetObject.traversedEdges) as any;
     }
     if (hasValue(dotNetObject.traversedJunctions)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRouteResult.traversedJunctions = buildJsFeatureSet(dotNetObject.traversedJunctions) as any;
+        properties.traversedJunctions = buildJsFeatureSet(dotNetObject.traversedJunctions) as any;
     }
     if (hasValue(dotNetObject.traversedTurns)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRouteResult.traversedTurns = buildJsFeatureSet(dotNetObject.traversedTurns) as any;
+        properties.traversedTurns = buildJsFeatureSet(dotNetObject.traversedTurns) as any;
     }
 
     if (hasValue(dotNetObject.directions)) {
-        jsRouteResult.directions = dotNetObject.directions;
+        properties.directions = dotNetObject.directions;
     }
     if (hasValue(dotNetObject.routeName)) {
-        jsRouteResult.routeName = dotNetObject.routeName;
+        properties.routeName = dotNetObject.routeName;
     }
+    let jsRouteResult = new RouteResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteResult;

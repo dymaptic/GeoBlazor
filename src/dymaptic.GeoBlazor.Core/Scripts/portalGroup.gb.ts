@@ -64,42 +64,43 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalGroup = new PortalGroup();
+    let properties: any = {};
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsPortalGroup.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
-        jsPortalGroup.access = dotNetObject.access;
+        properties.access = dotNetObject.access;
     }
     if (hasValue(dotNetObject.created)) {
-        jsPortalGroup.created = dotNetObject.created;
+        properties.created = dotNetObject.created;
     }
     if (hasValue(dotNetObject.description)) {
-        jsPortalGroup.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.isInvitationOnly)) {
-        jsPortalGroup.isInvitationOnly = dotNetObject.isInvitationOnly;
+        properties.isInvitationOnly = dotNetObject.isInvitationOnly;
     }
     if (hasValue(dotNetObject.modified)) {
-        jsPortalGroup.modified = dotNetObject.modified;
+        properties.modified = dotNetObject.modified;
     }
     if (hasValue(dotNetObject.owner)) {
-        jsPortalGroup.owner = dotNetObject.owner;
+        properties.owner = dotNetObject.owner;
     }
     if (hasValue(dotNetObject.portalGroupId)) {
-        jsPortalGroup.id = dotNetObject.portalGroupId;
+        properties.id = dotNetObject.portalGroupId;
     }
     if (hasValue(dotNetObject.snippet)) {
-        jsPortalGroup.snippet = dotNetObject.snippet;
+        properties.snippet = dotNetObject.snippet;
     }
     if (hasValue(dotNetObject.tags)) {
-        jsPortalGroup.tags = dotNetObject.tags;
+        properties.tags = dotNetObject.tags;
     }
     if (hasValue(dotNetObject.title)) {
-        jsPortalGroup.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsPortalGroup = new PortalGroup(properties);
 
     let { default: PortalGroupWrapper } = await import('./portalGroup');
     let portalGroupWrapper = new PortalGroupWrapper(jsPortalGroup);

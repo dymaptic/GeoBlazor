@@ -40,7 +40,7 @@ export default class ProjectionGenerated implements IPropertyWrapper {
 
 
 export async function buildJsProjectionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsprojection: any = {}
+    let jsprojection: any = {};
 
 
     let { default: ProjectionWrapper } = await import('./projection');

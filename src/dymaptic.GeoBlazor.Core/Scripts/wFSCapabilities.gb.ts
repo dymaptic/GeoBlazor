@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWFSCapabilities } from './wFSCapabilities';
 
 export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWFSCapabilities: any = {}
+    let jsWFSCapabilities: any = {};
     if (hasValue(dotNetObject.featureTypes)) {
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
         jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i, layerId, viewId))) as any;
@@ -14,7 +14,6 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId
         jsWFSCapabilities.operations = sanitizedOperations;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSCapabilities;

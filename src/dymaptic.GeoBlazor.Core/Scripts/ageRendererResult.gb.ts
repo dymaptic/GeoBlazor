@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAgeRendererResult } from './ageRendererResult';
 
 export async function buildJsAgeRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsAgeRendererResult: any = {}
+    let jsAgeRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsClassBreaksRenderer } = await import('./classBreaksRenderer');
         jsAgeRendererResult.renderer = await buildJsClassBreaksRenderer(dotNetObject.renderer, layerId, viewId) as any;
@@ -32,7 +32,6 @@ export async function buildJsAgeRendererResultGenerated(dotNetObject: any, layer
         jsAgeRendererResult.unit = dotNetObject.unit;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsAgeRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAgeRendererResult;

@@ -76,35 +76,36 @@ export default class UtilityNetworkAssociationsViewModelGenerated implements IPr
 
 
 export async function buildJsUtilityNetworkAssociationsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUtilityNetworkAssociationsViewModel = new UtilityNetworkAssociationsViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.connectivityAssociationsLineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        jsUtilityNetworkAssociationsViewModel.connectivityAssociationsLineSymbol = buildJsSimpleLineSymbol(dotNetObject.connectivityAssociationsLineSymbol) as any;
+        properties.connectivityAssociationsLineSymbol = buildJsSimpleLineSymbol(dotNetObject.connectivityAssociationsLineSymbol) as any;
     }
     if (hasValue(dotNetObject.structuralAttachmentAssociationsLineSymbol)) {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
-        jsUtilityNetworkAssociationsViewModel.structuralAttachmentAssociationsLineSymbol = buildJsSimpleLineSymbol(dotNetObject.structuralAttachmentAssociationsLineSymbol) as any;
+        properties.structuralAttachmentAssociationsLineSymbol = buildJsSimpleLineSymbol(dotNetObject.structuralAttachmentAssociationsLineSymbol) as any;
     }
     if (hasValue(dotNetObject.utilityNetwork)) {
         let { buildJsUtilityNetwork } = await import('./utilityNetwork');
-        jsUtilityNetworkAssociationsViewModel.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
+        properties.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.includeConnectivityAssociations)) {
-        jsUtilityNetworkAssociationsViewModel.includeConnectivityAssociations = dotNetObject.includeConnectivityAssociations;
+        properties.includeConnectivityAssociations = dotNetObject.includeConnectivityAssociations;
     }
     if (hasValue(dotNetObject.includeStructuralAttachmentAssociations)) {
-        jsUtilityNetworkAssociationsViewModel.includeStructuralAttachmentAssociations = dotNetObject.includeStructuralAttachmentAssociations;
+        properties.includeStructuralAttachmentAssociations = dotNetObject.includeStructuralAttachmentAssociations;
     }
     if (hasValue(dotNetObject.maxAllowableAssociations)) {
-        jsUtilityNetworkAssociationsViewModel.maxAllowableAssociations = dotNetObject.maxAllowableAssociations;
+        properties.maxAllowableAssociations = dotNetObject.maxAllowableAssociations;
     }
     if (hasValue(dotNetObject.showArrowsConnectivity)) {
-        jsUtilityNetworkAssociationsViewModel.showArrowsConnectivity = dotNetObject.showArrowsConnectivity;
+        properties.showArrowsConnectivity = dotNetObject.showArrowsConnectivity;
     }
     if (hasValue(dotNetObject.showArrowsStructuralAttachment)) {
-        jsUtilityNetworkAssociationsViewModel.showArrowsStructuralAttachment = dotNetObject.showArrowsStructuralAttachment;
+        properties.showArrowsStructuralAttachment = dotNetObject.showArrowsStructuralAttachment;
     }
+    let jsUtilityNetworkAssociationsViewModel = new UtilityNetworkAssociationsViewModel(properties);
 
     let { default: UtilityNetworkAssociationsViewModelWrapper } = await import('./utilityNetworkAssociationsViewModel');
     let utilityNetworkAssociationsViewModelWrapper = new UtilityNetworkAssociationsViewModelWrapper(jsUtilityNetworkAssociationsViewModel);

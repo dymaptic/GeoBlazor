@@ -56,25 +56,26 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapGallery = new BasemapGallery();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsBasemapGallery.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
+        properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-        jsBasemapGallery.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.disabled)) {
-        jsBasemapGallery.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsBasemapGallery.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.source)) {
-        jsBasemapGallery.source = dotNetObject.source;
+        properties.source = dotNetObject.source;
     }
+    let jsBasemapGallery = new BasemapGallery(properties);
 
     let { default: BasemapGalleryWidgetWrapper } = await import('./basemapGalleryWidget');
     let basemapGalleryWidgetWrapper = new BasemapGalleryWidgetWrapper(jsBasemapGallery);

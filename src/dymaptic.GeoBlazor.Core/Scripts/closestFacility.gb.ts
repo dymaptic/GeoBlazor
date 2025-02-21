@@ -42,7 +42,7 @@ export default class ClosestFacilityGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClosestFacilityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclosestFacility: any = {}
+    let jsclosestFacility: any = {};
 
 
     let { default: ClosestFacilityWrapper } = await import('./closestFacility');

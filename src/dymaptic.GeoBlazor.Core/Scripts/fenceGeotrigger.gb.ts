@@ -4,33 +4,33 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFenceGeotrigger } from './fenceGeotrigger';
 
 export async function buildJsFenceGeotriggerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFenceGeotrigger = new FenceGeotrigger();
+    let properties: any = {};
     if (hasValue(dotNetObject.fenceParameters)) {
         let { buildJsFeatureFenceParameters } = await import('./featureFenceParameters');
-        jsFenceGeotrigger.fenceParameters = await buildJsFeatureFenceParameters(dotNetObject.fenceParameters, layerId, viewId) as any;
+        properties.fenceParameters = await buildJsFeatureFenceParameters(dotNetObject.fenceParameters, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.enterExitRule)) {
-        jsFenceGeotrigger.enterExitRule = dotNetObject.enterExitRule;
+        properties.enterExitRule = dotNetObject.enterExitRule;
     }
     if (hasValue(dotNetObject.feed)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeed } = dotNetObject.feed;
-        jsFenceGeotrigger.feed = sanitizedFeed;
+        properties.feed = sanitizedFeed;
     }
     if (hasValue(dotNetObject.feedAccuracyMode)) {
-        jsFenceGeotrigger.feedAccuracyMode = dotNetObject.feedAccuracyMode;
+        properties.feedAccuracyMode = dotNetObject.feedAccuracyMode;
     }
     if (hasValue(dotNetObject.fenceNotificationRule)) {
-        jsFenceGeotrigger.fenceNotificationRule = dotNetObject.fenceNotificationRule;
+        properties.fenceNotificationRule = dotNetObject.fenceNotificationRule;
     }
     if (hasValue(dotNetObject.name)) {
-        jsFenceGeotrigger.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.notificationOptions)) {
-        jsFenceGeotrigger.notificationOptions = dotNetObject.notificationOptions;
+        properties.notificationOptions = dotNetObject.notificationOptions;
     }
+    let jsFenceGeotrigger = new FenceGeotrigger(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFenceGeotrigger);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFenceGeotrigger;

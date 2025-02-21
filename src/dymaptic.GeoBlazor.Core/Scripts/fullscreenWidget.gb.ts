@@ -44,15 +44,16 @@ export default class FullscreenWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFullscreenWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFullscreen = new Fullscreen();
+    let properties: any = {};
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsFullscreenViewModel } = await import('./fullscreenViewModel');
-        jsFullscreen.viewModel = await buildJsFullscreenViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsFullscreenViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.element)) {
-        jsFullscreen.element = dotNetObject.element;
+        properties.element = dotNetObject.element;
     }
+    let jsFullscreen = new Fullscreen(properties);
 
     let { default: FullscreenWidgetWrapper } = await import('./fullscreenWidget');
     let fullscreenWidgetWrapper = new FullscreenWidgetWrapper(jsFullscreen);

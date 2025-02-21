@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTemplates } from './templates';
 
 export async function buildJsTemplatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTemplates: any = {}
+    let jsTemplates: any = {};
     if (hasValue(dotNetObject.primaryTemplate)) {
         let { buildJsTemplate } = await import('./template');
         jsTemplates.primaryTemplate = await buildJsTemplate(dotNetObject.primaryTemplate, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsTemplatesGenerated(dotNetObject: any, layerId: stri
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTemplates);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTemplates;

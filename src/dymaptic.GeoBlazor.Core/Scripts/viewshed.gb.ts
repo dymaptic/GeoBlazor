@@ -4,29 +4,29 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewshed } from './viewshed';
 
 export async function buildJsViewshedGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewshed = new Viewshed();
+    let properties: any = {};
     if (hasValue(dotNetObject.observer)) {
         let { buildJsPoint } = await import('./point');
-        jsViewshed.observer = buildJsPoint(dotNetObject.observer) as any;
+        properties.observer = buildJsPoint(dotNetObject.observer) as any;
     }
 
     if (hasValue(dotNetObject.farDistance)) {
-        jsViewshed.farDistance = dotNetObject.farDistance;
+        properties.farDistance = dotNetObject.farDistance;
     }
     if (hasValue(dotNetObject.heading)) {
-        jsViewshed.heading = dotNetObject.heading;
+        properties.heading = dotNetObject.heading;
     }
     if (hasValue(dotNetObject.horizontalFieldOfView)) {
-        jsViewshed.horizontalFieldOfView = dotNetObject.horizontalFieldOfView;
+        properties.horizontalFieldOfView = dotNetObject.horizontalFieldOfView;
     }
     if (hasValue(dotNetObject.tilt)) {
-        jsViewshed.tilt = dotNetObject.tilt;
+        properties.tilt = dotNetObject.tilt;
     }
     if (hasValue(dotNetObject.verticalFieldOfView)) {
-        jsViewshed.verticalFieldOfView = dotNetObject.verticalFieldOfView;
+        properties.verticalFieldOfView = dotNetObject.verticalFieldOfView;
     }
+    let jsViewshed = new Viewshed(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewshed);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewshed;

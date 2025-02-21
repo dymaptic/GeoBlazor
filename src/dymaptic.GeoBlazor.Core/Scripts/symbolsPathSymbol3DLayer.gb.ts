@@ -36,7 +36,7 @@ export default class SymbolsPathSymbol3DLayerGenerated implements IPropertyWrapp
 
 
 export async function buildJsSymbolsPathSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbolsPathSymbol3DLayer: any = {}
+    let jssymbolsPathSymbol3DLayer: any = {};
 
 
     let { default: SymbolsPathSymbol3DLayerWrapper } = await import('./symbolsPathSymbol3DLayer');

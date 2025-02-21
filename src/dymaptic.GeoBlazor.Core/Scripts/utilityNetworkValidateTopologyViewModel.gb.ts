@@ -48,18 +48,19 @@ export default class UtilityNetworkValidateTopologyViewModelGenerated implements
 
 
 export async function buildJsUtilityNetworkValidateTopologyViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUtilityNetworkValidateTopologyViewModel = new UtilityNetworkValidateTopologyViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.utilityNetwork)) {
         let { buildJsUtilityNetwork } = await import('./utilityNetwork');
-        jsUtilityNetworkValidateTopologyViewModel.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
+        properties.utilityNetwork = await buildJsUtilityNetwork(dotNetObject.utilityNetwork, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.extentToValidate)) {
-        jsUtilityNetworkValidateTopologyViewModel.extentToValidate = dotNetObject.extentToValidate;
+        properties.extentToValidate = dotNetObject.extentToValidate;
     }
     if (hasValue(dotNetObject.loadErrors)) {
-        jsUtilityNetworkValidateTopologyViewModel.loadErrors = dotNetObject.loadErrors;
+        properties.loadErrors = dotNetObject.loadErrors;
     }
+    let jsUtilityNetworkValidateTopologyViewModel = new UtilityNetworkValidateTopologyViewModel(properties);
 
     let { default: UtilityNetworkValidateTopologyViewModelWrapper } = await import('./utilityNetworkValidateTopologyViewModel');
     let utilityNetworkValidateTopologyViewModelWrapper = new UtilityNetworkValidateTopologyViewModelWrapper(jsUtilityNetworkValidateTopologyViewModel);

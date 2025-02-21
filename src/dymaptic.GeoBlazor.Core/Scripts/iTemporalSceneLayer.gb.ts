@@ -60,7 +60,7 @@ export default class ITemporalSceneLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTemporalSceneLayer: any = {}
+    let jsTemporalSceneLayer: any = {};
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         jsTemporalSceneLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;

@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureEffect } from './featureEffect';
 
 export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureEffect = new FeatureEffect();
+    let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsFeatureEffect.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.excludedEffect)) {
-        jsFeatureEffect.excludedEffect = dotNetObject.excludedEffect;
+        properties.excludedEffect = dotNetObject.excludedEffect;
     }
     if (hasValue(dotNetObject.excludedLabelsVisible)) {
-        jsFeatureEffect.excludedLabelsVisible = dotNetObject.excludedLabelsVisible;
+        properties.excludedLabelsVisible = dotNetObject.excludedLabelsVisible;
     }
     if (hasValue(dotNetObject.includedEffect)) {
-        jsFeatureEffect.includedEffect = dotNetObject.includedEffect;
+        properties.includedEffect = dotNetObject.includedEffect;
     }
+    let jsFeatureEffect = new FeatureEffect(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureEffect);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;

@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValueGroup } from './uniqueValueGroup';
 
 export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUniqueValueGroup = new UniqueValueGroup();
+    let properties: any = {};
     if (hasValue(dotNetObject.classes)) {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        jsUniqueValueGroup.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId))) as any;
+        properties.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.heading)) {
-        jsUniqueValueGroup.heading = dotNetObject.heading;
+        properties.heading = dotNetObject.heading;
     }
+    let jsUniqueValueGroup = new UniqueValueGroup(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueGroup);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;

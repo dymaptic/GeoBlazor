@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipCreateRendererParams } from './relationshipCreateRendererParams';
 
 export async function buildJsRelationshipCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrelationshipCreateRendererParams: any = {}
+    let jsrelationshipCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsrelationshipCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -54,7 +54,6 @@ export async function buildJsRelationshipCreateRendererParamsGenerated(dotNetObj
         jsrelationshipCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsrelationshipCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipCreateRendererParams;

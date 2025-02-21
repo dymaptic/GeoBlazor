@@ -4,31 +4,31 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGPOptions } from './gPOptions';
 
 export async function buildJsGPOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGPOptions = new GPOptions();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsGPOptions.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
     if (hasValue(dotNetObject.processExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsGPOptions.processExtent = buildJsExtent(dotNetObject.processExtent) as any;
+        properties.processExtent = buildJsExtent(dotNetObject.processExtent) as any;
     }
     if (hasValue(dotNetObject.processSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsGPOptions.processSpatialReference = buildJsSpatialReference(dotNetObject.processSpatialReference) as any;
+        properties.processSpatialReference = buildJsSpatialReference(dotNetObject.processSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.returnColumnName)) {
-        jsGPOptions.returnColumnName = dotNetObject.returnColumnName;
+        properties.returnColumnName = dotNetObject.returnColumnName;
     }
     if (hasValue(dotNetObject.returnM)) {
-        jsGPOptions.returnM = dotNetObject.returnM;
+        properties.returnM = dotNetObject.returnM;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsGPOptions.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
+    let jsGPOptions = new GPOptions(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGPOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGPOptions;

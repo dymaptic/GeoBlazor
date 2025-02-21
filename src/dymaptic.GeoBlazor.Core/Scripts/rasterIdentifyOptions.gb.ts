@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterIdentifyOptions } from './rasterIdentifyOptions';
 
 export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterIdentifyOptions: any = {}
+    let jsRasterIdentifyOptions: any = {};
 
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
@@ -16,7 +16,6 @@ export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, l
         jsRasterIdentifyOptions.transposedVariableName = dotNetObject.transposedVariableName;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterIdentifyOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterIdentifyOptions;

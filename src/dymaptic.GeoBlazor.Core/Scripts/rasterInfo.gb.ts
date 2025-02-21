@@ -4,68 +4,68 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
 export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterInfo = new RasterInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
-        jsRasterInfo.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
+        properties.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
     }
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsRasterInfo.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsRasterInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {
-        jsRasterInfo.bandCount = dotNetObject.bandCount;
+        properties.bandCount = dotNetObject.bandCount;
     }
     if (hasValue(dotNetObject.bandInfos)) {
-        jsRasterInfo.bandInfos = dotNetObject.bandInfos;
+        properties.bandInfos = dotNetObject.bandInfos;
     }
     if (hasValue(dotNetObject.colormap)) {
-        jsRasterInfo.colormap = dotNetObject.colormap;
+        properties.colormap = dotNetObject.colormap;
     }
     if (hasValue(dotNetObject.dataType)) {
-        jsRasterInfo.dataType = dotNetObject.dataType;
+        properties.dataType = dotNetObject.dataType;
     }
     if (hasValue(dotNetObject.hasMultidimensionalTranspose)) {
-        jsRasterInfo.hasMultidimensionalTranspose = dotNetObject.hasMultidimensionalTranspose;
+        properties.hasMultidimensionalTranspose = dotNetObject.hasMultidimensionalTranspose;
     }
     if (hasValue(dotNetObject.height)) {
-        jsRasterInfo.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.histograms)) {
-        jsRasterInfo.histograms = dotNetObject.histograms;
+        properties.histograms = dotNetObject.histograms;
     }
     if (hasValue(dotNetObject.keyProperties)) {
-        jsRasterInfo.keyProperties = dotNetObject.keyProperties;
+        properties.keyProperties = dotNetObject.keyProperties;
     }
     if (hasValue(dotNetObject.multidimensionalInfo)) {
-        jsRasterInfo.multidimensionalInfo = dotNetObject.multidimensionalInfo;
+        properties.multidimensionalInfo = dotNetObject.multidimensionalInfo;
     }
     if (hasValue(dotNetObject.noDataValue)) {
-        jsRasterInfo.noDataValue = dotNetObject.noDataValue;
+        properties.noDataValue = dotNetObject.noDataValue;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsRasterInfo.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.pixelType)) {
-        jsRasterInfo.pixelType = dotNetObject.pixelType;
+        properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.sensorInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSensorInfo } = dotNetObject.sensorInfo;
-        jsRasterInfo.sensorInfo = sanitizedSensorInfo;
+        properties.sensorInfo = sanitizedSensorInfo;
     }
     if (hasValue(dotNetObject.statistics)) {
-        jsRasterInfo.statistics = dotNetObject.statistics;
+        properties.statistics = dotNetObject.statistics;
     }
     if (hasValue(dotNetObject.width)) {
-        jsRasterInfo.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
+    let jsRasterInfo = new RasterInfo(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterInfo;

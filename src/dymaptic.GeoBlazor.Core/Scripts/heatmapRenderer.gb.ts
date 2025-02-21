@@ -4,42 +4,42 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapRenderer } from './heatmapRenderer';
 
 export async function buildJsHeatmapRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHeatmapRenderer = new HeatmapRenderer();
+    let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        jsHeatmapRenderer.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.colorStops)) {
         let { buildJsHeatmapColorStop } = await import('./heatmapColorStop');
-        jsHeatmapRenderer.colorStops = await Promise.all(dotNetObject.colorStops.map(async i => await buildJsHeatmapColorStop(i, layerId, viewId))) as any;
+        properties.colorStops = await Promise.all(dotNetObject.colorStops.map(async i => await buildJsHeatmapColorStop(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
-        jsHeatmapRenderer.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        jsHeatmapRenderer.legendOptions = dotNetObject.legendOptions;
+        properties.legendOptions = dotNetObject.legendOptions;
     }
     if (hasValue(dotNetObject.maxDensity)) {
-        jsHeatmapRenderer.maxDensity = dotNetObject.maxDensity;
+        properties.maxDensity = dotNetObject.maxDensity;
     }
     if (hasValue(dotNetObject.minDensity)) {
-        jsHeatmapRenderer.minDensity = dotNetObject.minDensity;
+        properties.minDensity = dotNetObject.minDensity;
     }
     if (hasValue(dotNetObject.radius)) {
-        jsHeatmapRenderer.radius = dotNetObject.radius;
+        properties.radius = dotNetObject.radius;
     }
     if (hasValue(dotNetObject.referenceScale)) {
-        jsHeatmapRenderer.referenceScale = dotNetObject.referenceScale;
+        properties.referenceScale = dotNetObject.referenceScale;
     }
     if (hasValue(dotNetObject.valueExpression)) {
-        jsHeatmapRenderer.valueExpression = dotNetObject.valueExpression;
+        properties.valueExpression = dotNetObject.valueExpression;
     }
     if (hasValue(dotNetObject.valueExpressionTitle)) {
-        jsHeatmapRenderer.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        properties.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
+    let jsHeatmapRenderer = new HeatmapRenderer(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRenderer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRenderer;

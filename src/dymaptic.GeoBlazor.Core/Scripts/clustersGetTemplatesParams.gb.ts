@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClustersGetTemplatesParams } from './clustersGetTemplatesParams';
 
 export async function buildJsClustersGetTemplatesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclustersGetTemplatesParams: any = {}
+    let jsclustersGetTemplatesParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsclustersGetTemplatesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsClustersGetTemplatesParamsGenerated(dotNetObject: a
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclustersGetTemplatesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsclustersGetTemplatesParams;

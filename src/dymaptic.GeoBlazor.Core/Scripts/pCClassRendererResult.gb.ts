@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPCClassRendererResult } from './pCClassRendererResult';
 
 export async function buildJsPCClassRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPCClassRendererResult: any = {}
+    let jsPCClassRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsPointCloudUniqueValueRenderer } = await import('./pointCloudUniqueValueRenderer');
         jsPCClassRendererResult.renderer = await buildJsPointCloudUniqueValueRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPCClassRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPCClassRendererResult;

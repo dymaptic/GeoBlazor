@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTemplate } from './template';
 
 export async function buildJsTemplateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTemplate: any = {}
+    let jsTemplate: any = {};
     if (hasValue(dotNetObject.value)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         jsTemplate.value = buildJsPopupTemplate(dotNetObject.value, layerId, viewId) as any;
@@ -16,7 +16,6 @@ export async function buildJsTemplateGenerated(dotNetObject: any, layerId: strin
         jsTemplate.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTemplate;

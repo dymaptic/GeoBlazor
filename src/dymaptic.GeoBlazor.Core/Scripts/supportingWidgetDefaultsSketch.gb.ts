@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSupportingWidgetDefaultsSketch } from './supportingWidgetDefaultsSketch';
 
 export async function buildJsSupportingWidgetDefaultsSketchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSupportingWidgetDefaultsSketch: any = {}
+    let jsSupportingWidgetDefaultsSketch: any = {};
     if (hasValue(dotNetObject.markerSymbol)) {
         let { buildJsSimpleMarkerSymbol } = await import('./simpleMarkerSymbol');
         jsSupportingWidgetDefaultsSketch.markerSymbol = buildJsSimpleMarkerSymbol(dotNetObject.markerSymbol) as any;
@@ -21,7 +21,6 @@ export async function buildJsSupportingWidgetDefaultsSketchGenerated(dotNetObjec
         jsSupportingWidgetDefaultsSketch.defaultUpdateOptions = dotNetObject.defaultUpdateOptions;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSupportingWidgetDefaultsSketch);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsSketch;

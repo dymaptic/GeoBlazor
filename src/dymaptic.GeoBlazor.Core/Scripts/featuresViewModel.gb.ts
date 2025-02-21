@@ -127,63 +127,64 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeaturesViewModel = new FeaturesViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeaturesViewModel.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+        properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
-        jsFeaturesViewModel.location = buildJsPoint(dotNetObject.location) as any;
+        properties.location = buildJsPoint(dotNetObject.location) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeaturesViewModel.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.actions)) {
-        jsFeaturesViewModel.actions = dotNetObject.actions;
+        properties.actions = dotNetObject.actions;
     }
     if (hasValue(dotNetObject.autoCloseEnabled)) {
-        jsFeaturesViewModel.autoCloseEnabled = dotNetObject.autoCloseEnabled;
+        properties.autoCloseEnabled = dotNetObject.autoCloseEnabled;
     }
     if (hasValue(dotNetObject.browseClusterEnabled)) {
-        jsFeaturesViewModel.browseClusterEnabled = dotNetObject.browseClusterEnabled;
+        properties.browseClusterEnabled = dotNetObject.browseClusterEnabled;
     }
     if (hasValue(dotNetObject.content)) {
-        jsFeaturesViewModel.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
-        jsFeaturesViewModel.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
+        properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
     if (hasValue(dotNetObject.featuresPerPage)) {
-        jsFeaturesViewModel.featuresPerPage = dotNetObject.featuresPerPage;
+        properties.featuresPerPage = dotNetObject.featuresPerPage;
     }
     if (hasValue(dotNetObject.featureViewModelAbilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
-        jsFeaturesViewModel.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
+        properties.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsFeaturesViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
-        jsFeaturesViewModel.highlightEnabled = dotNetObject.highlightEnabled;
+        properties.highlightEnabled = dotNetObject.highlightEnabled;
     }
     if (hasValue(dotNetObject.includeDefaultActions)) {
-        jsFeaturesViewModel.includeDefaultActions = dotNetObject.includeDefaultActions;
+        properties.includeDefaultActions = dotNetObject.includeDefaultActions;
     }
     if (hasValue(dotNetObject.promises)) {
-        jsFeaturesViewModel.promises = dotNetObject.promises;
+        properties.promises = dotNetObject.promises;
     }
     if (hasValue(dotNetObject.selectedFeatureIndex)) {
-        jsFeaturesViewModel.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
+        properties.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeaturesViewModel.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
     if (hasValue(dotNetObject.title)) {
-        jsFeaturesViewModel.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsFeaturesViewModel = new FeaturesViewModel(properties);
     jsFeaturesViewModel.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });

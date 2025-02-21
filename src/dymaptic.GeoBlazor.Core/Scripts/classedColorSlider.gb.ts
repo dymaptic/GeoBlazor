@@ -72,13 +72,13 @@ export default class ClassedColorSliderGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClassedColorSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsClassedColorSlider = new ClassedColorSlider();
+    let properties: any = {};
     if (hasValue(dotNetObject.breaks)) {
         let { buildJsClassedColorSliderBreaks } = await import('./classedColorSliderBreaks');
-        jsClassedColorSlider.breaks = await Promise.all(dotNetObject.breaks.map(async i => await buildJsClassedColorSliderBreaks(i, layerId, viewId))) as any;
+        properties.breaks = await Promise.all(dotNetObject.breaks.map(async i => await buildJsClassedColorSliderBreaks(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        jsClassedColorSlider.inputFormatFunction = (value,
+        properties.inputFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -90,7 +90,7 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        jsClassedColorSlider.inputParseFunction = (value,
+        properties.inputParseFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -102,7 +102,7 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        jsClassedColorSlider.labelFormatFunction = (value,
+        properties.labelFormatFunction = (value,
         type,
         index) => {
             let func = new Function('value',
@@ -115,32 +115,33 @@ export async function buildJsClassedColorSliderGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsClassedColorSliderViewModel } = await import('./classedColorSliderViewModel');
-        jsClassedColorSlider.viewModel = await buildJsClassedColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsClassedColorSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.histogramConfig)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
-        jsClassedColorSlider.histogramConfig = sanitizedHistogramConfig;
+        properties.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.max)) {
-        jsClassedColorSlider.max = dotNetObject.max;
+        properties.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        jsClassedColorSlider.min = dotNetObject.min;
+        properties.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.precision)) {
-        jsClassedColorSlider.precision = dotNetObject.precision;
+        properties.precision = dotNetObject.precision;
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
-        jsClassedColorSlider.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        properties.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsClassedColorSlider.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.zoomOptions)) {
-        jsClassedColorSlider.zoomOptions = dotNetObject.zoomOptions;
+        properties.zoomOptions = dotNetObject.zoomOptions;
     }
+    let jsClassedColorSlider = new ClassedColorSlider(properties);
     jsClassedColorSlider.on('max-change', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsaxChange', evt);
     });

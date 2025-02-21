@@ -102,18 +102,19 @@ export default class VideoPlayerViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVideoPlayerViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsVideoPlayerViewModel = new VideoPlayerViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsVideoLayer } = await import('./videoLayer');
-        jsVideoPlayerViewModel.layer = await buildJsVideoLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsVideoLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.followingMode)) {
-        jsVideoPlayerViewModel.followingMode = dotNetObject.followingMode;
+        properties.followingMode = dotNetObject.followingMode;
     }
     if (hasValue(dotNetObject.seekLength)) {
-        jsVideoPlayerViewModel.seekLength = dotNetObject.seekLength;
+        properties.seekLength = dotNetObject.seekLength;
     }
+    let jsVideoPlayerViewModel = new VideoPlayerViewModel(properties);
 
     let { default: VideoPlayerViewModelWrapper } = await import('./videoPlayerViewModel');
     let videoPlayerViewModelWrapper = new VideoPlayerViewModelWrapper(jsVideoPlayerViewModel);

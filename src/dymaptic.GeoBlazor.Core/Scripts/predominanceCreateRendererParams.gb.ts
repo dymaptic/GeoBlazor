@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominanceCreateRendererParams } from './predominanceCreateRendererParams';
 
 export async function buildJsPredominanceCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspredominanceCreateRendererParams: any = {}
+    let jspredominanceCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jspredominanceCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -53,7 +53,6 @@ export async function buildJsPredominanceCreateRendererParamsGenerated(dotNetObj
         jspredominanceCreateRendererParams.symbolType = dotNetObject.symbolType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspredominanceCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspredominanceCreateRendererParams;

@@ -52,7 +52,7 @@ export default class SymbologyRelationshipGenerated implements IPropertyWrapper 
 
 
 export async function buildJsSymbologyRelationshipGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyRelationship: any = {}
+    let jssymbologyRelationship: any = {};
 
 
     let { default: SymbologyRelationshipWrapper } = await import('./symbologyRelationship');

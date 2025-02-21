@@ -62,13 +62,13 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalBasemapsSource = new PortalBasemapsSource();
+    let properties: any = {};
     if (hasValue(dotNetObject.basemaps)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsPortalBasemapsSource.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
+        properties.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.hasFilterFunction) && dotNetObject.hasFilterFunction) {
-        jsPortalBasemapsSource.filterFunction = async (item,
+        properties.filterFunction = async (item,
         index,
         array) => {
             return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', item,
@@ -78,17 +78,18 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsPortalBasemapsSource.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasUpdateBasemapsCallback) && dotNetObject.hasUpdateBasemapsCallback) {
-        jsPortalBasemapsSource.updateBasemapsCallback = async (items) => {
+        properties.updateBasemapsCallback = async (items) => {
             return await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', items);
         };
     }
 
     if (hasValue(dotNetObject.query)) {
-        jsPortalBasemapsSource.query = dotNetObject.query;
+        properties.query = dotNetObject.query;
     }
+    let jsPortalBasemapsSource = new PortalBasemapsSource(properties);
 
     let { default: PortalBasemapsSourceWrapper } = await import('./portalBasemapsSource');
     let portalBasemapsSourceWrapper = new PortalBasemapsSourceWrapper(jsPortalBasemapsSource);

@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMeasureAreaFromImageResult } from './measureAreaFromImageResult';
 
 export async function buildJsMeasureAreaFromImageResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasureAreaFromImageResult = new MeasureAreaFromImageResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');
-        jsMeasureAreaFromImageResult.center = buildJsPoint(dotNetObject.center) as any;
+        properties.center = buildJsPoint(dotNetObject.center) as any;
     }
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolygon } = await import('./polygon');
-        jsMeasureAreaFromImageResult.geometry = buildJsPolygon(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolygon(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.area)) {
-        jsMeasureAreaFromImageResult.area = dotNetObject.area;
+        properties.area = dotNetObject.area;
     }
     if (hasValue(dotNetObject.length)) {
-        jsMeasureAreaFromImageResult.length = dotNetObject.length;
+        properties.length = dotNetObject.length;
     }
+    let jsMeasureAreaFromImageResult = new MeasureAreaFromImageResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMeasureAreaFromImageResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeasureAreaFromImageResult;

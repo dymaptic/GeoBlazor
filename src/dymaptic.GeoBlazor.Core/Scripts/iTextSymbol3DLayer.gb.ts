@@ -84,39 +84,40 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsITextSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTextSymbol3DLayer = new TextSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.background)) {
         let { buildJsTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
-        jsTextSymbol3DLayer.background = await buildJsTextSymbol3DLayerBackground(dotNetObject.background, layerId, viewId) as any;
+        properties.background = await buildJsTextSymbol3DLayerBackground(dotNetObject.background, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.font)) {
         let { buildJsMapFont } = await import('./mapFont');
-        jsTextSymbol3DLayer.font = buildJsMapFont(dotNetObject.font) as any;
+        properties.font = buildJsMapFont(dotNetObject.font) as any;
     }
     if (hasValue(dotNetObject.halo)) {
         let { buildJsTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
-        jsTextSymbol3DLayer.halo = await buildJsTextSymbol3DLayerHalo(dotNetObject.halo, layerId, viewId) as any;
+        properties.halo = await buildJsTextSymbol3DLayerHalo(dotNetObject.halo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.material)) {
         let { buildJsTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
-        jsTextSymbol3DLayer.material = await buildJsTextSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsTextSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.horizontalAlignment)) {
-        jsTextSymbol3DLayer.horizontalAlignment = dotNetObject.horizontalAlignment;
+        properties.horizontalAlignment = dotNetObject.horizontalAlignment;
     }
     if (hasValue(dotNetObject.lineHeight)) {
-        jsTextSymbol3DLayer.lineHeight = dotNetObject.lineHeight;
+        properties.lineHeight = dotNetObject.lineHeight;
     }
     if (hasValue(dotNetObject.size)) {
-        jsTextSymbol3DLayer.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.text)) {
-        jsTextSymbol3DLayer.text = dotNetObject.text;
+        properties.text = dotNetObject.text;
     }
     if (hasValue(dotNetObject.verticalAlignment)) {
-        jsTextSymbol3DLayer.verticalAlignment = dotNetObject.verticalAlignment;
+        properties.verticalAlignment = dotNetObject.verticalAlignment;
     }
+    let jsTextSymbol3DLayer = new TextSymbol3DLayer(properties);
 
     let { default: ITextSymbol3DLayerWrapper } = await import('./iTextSymbol3DLayer');
     let iTextSymbol3DLayerWrapper = new ITextSymbol3DLayerWrapper(jsTextSymbol3DLayer);

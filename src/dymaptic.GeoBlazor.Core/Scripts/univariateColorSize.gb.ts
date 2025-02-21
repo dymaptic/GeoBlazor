@@ -44,7 +44,7 @@ export default class UnivariateColorSizeGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUnivariateColorSizeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsunivariateColorSize: any = {}
+    let jsunivariateColorSize: any = {};
 
 
     let { default: UnivariateColorSizeWrapper } = await import('./univariateColorSize');

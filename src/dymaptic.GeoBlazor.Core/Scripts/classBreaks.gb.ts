@@ -38,7 +38,7 @@ export default class ClassBreaksGenerated implements IPropertyWrapper {
 
 
 export async function buildJsClassBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclassBreaks: any = {}
+    let jsclassBreaks: any = {};
 
 
     let { default: ClassBreaksWrapper } = await import('./classBreaks');

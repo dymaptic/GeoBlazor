@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClustersSchemes } from './clustersSchemes';
 
 export async function buildJsClustersSchemesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsclustersSchemes: any = {}
+    let jsclustersSchemes: any = {};
     if (hasValue(dotNetObject.primaryScheme)) {
         let { buildJsClustersScheme } = await import('./clustersScheme');
         jsclustersSchemes.primaryScheme = await buildJsClustersScheme(dotNetObject.primaryScheme, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsClustersSchemesGenerated(dotNetObject: any, layerId
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsclustersSchemes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsclustersSchemes;

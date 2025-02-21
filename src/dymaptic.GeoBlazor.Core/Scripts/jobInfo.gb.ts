@@ -80,24 +80,25 @@ export default class JobInfoGenerated implements IPropertyWrapper {
 
 
 export async function buildJsJobInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsJobInfo = new JobInfo();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.jobId)) {
-        jsJobInfo.jobId = dotNetObject.jobId;
+        properties.jobId = dotNetObject.jobId;
     }
     if (hasValue(dotNetObject.jobStatus)) {
-        jsJobInfo.jobStatus = dotNetObject.jobStatus;
+        properties.jobStatus = dotNetObject.jobStatus;
     }
     if (hasValue(dotNetObject.messages)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMessages } = dotNetObject.messages;
-        jsJobInfo.messages = sanitizedMessages;
+        properties.messages = sanitizedMessages;
     }
     if (hasValue(dotNetObject.requestOptions)) {
-        jsJobInfo.requestOptions = dotNetObject.requestOptions;
+        properties.requestOptions = dotNetObject.requestOptions;
     }
     if (hasValue(dotNetObject.sourceUrl)) {
-        jsJobInfo.sourceUrl = dotNetObject.sourceUrl;
+        properties.sourceUrl = dotNetObject.sourceUrl;
     }
+    let jsJobInfo = new JobInfo(properties);
 
     let { default: JobInfoWrapper } = await import('./jobInfo');
     let jobInfoWrapper = new JobInfoWrapper(jsJobInfo);

@@ -44,33 +44,34 @@ export default class TableListItemPanelWidgetGenerated implements IPropertyWrapp
 
 
 export async function buildJsTableListItemPanelWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTableListListItemPanel = new TableListListItemPanel();
+    let properties: any = {};
     if (hasValue(dotNetObject.listItem)) {
         let { buildJsTableListListItem } = await import('./tableListListItem');
-        jsTableListListItemPanel.listItem = await buildJsTableListListItem(dotNetObject.listItem, layerId, viewId) as any;
+        properties.listItem = await buildJsTableListListItem(dotNetObject.listItem, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.className)) {
-        jsTableListListItemPanel.className = dotNetObject.className;
+        properties.className = dotNetObject.className;
     }
     if (hasValue(dotNetObject.content)) {
-        jsTableListListItemPanel.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.disabled)) {
-        jsTableListListItemPanel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.flowEnabled)) {
-        jsTableListListItemPanel.flowEnabled = dotNetObject.flowEnabled;
+        properties.flowEnabled = dotNetObject.flowEnabled;
     }
     if (hasValue(dotNetObject.image)) {
-        jsTableListListItemPanel.image = dotNetObject.image;
+        properties.image = dotNetObject.image;
     }
     if (hasValue(dotNetObject.open)) {
-        jsTableListListItemPanel.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.title)) {
-        jsTableListListItemPanel.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsTableListListItemPanel = new TableListListItemPanel(properties);
 
     let { default: TableListItemPanelWidgetWrapper } = await import('./tableListItemPanelWidget');
     let tableListItemPanelWidgetWrapper = new TableListItemPanelWidgetWrapper(jsTableListListItemPanel);

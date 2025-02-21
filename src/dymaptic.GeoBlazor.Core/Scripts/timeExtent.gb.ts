@@ -48,14 +48,15 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTimeExtent = new TimeExtent();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.end)) {
-        jsTimeExtent.end = dotNetObject.end;
+        properties.end = dotNetObject.end;
     }
     if (hasValue(dotNetObject.start)) {
-        jsTimeExtent.start = dotNetObject.start;
+        properties.start = dotNetObject.start;
     }
+    let jsTimeExtent = new TimeExtent(properties);
 
     let { default: TimeExtentWrapper } = await import('./timeExtent');
     let timeExtentWrapper = new TimeExtentWrapper(jsTimeExtent);

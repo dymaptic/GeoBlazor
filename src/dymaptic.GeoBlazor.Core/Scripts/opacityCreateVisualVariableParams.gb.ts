@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityCreateVisualVariableParams } from './opacityCreateVisualVariableParams';
 
 export async function buildJsOpacityCreateVisualVariableParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsopacityCreateVisualVariableParams: any = {}
+    let jsopacityCreateVisualVariableParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsopacityCreateVisualVariableParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -46,7 +46,6 @@ export async function buildJsOpacityCreateVisualVariableParamsGenerated(dotNetOb
         jsopacityCreateVisualVariableParams.valueExpressionTitle = dotNetObject.valueExpressionTitle;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsopacityCreateVisualVariableParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsopacityCreateVisualVariableParams;

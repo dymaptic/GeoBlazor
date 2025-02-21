@@ -3,13 +3,12 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSlideEnvironment } from './slideEnvironment';
 
 export async function buildJsSlideEnvironmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSlideEnvironment: any = {}
+    let jsSlideEnvironment: any = {};
 
     if (hasValue(dotNetObject.lighting)) {
         jsSlideEnvironment.lighting = dotNetObject.lighting;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSlideEnvironment);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSlideEnvironment;

@@ -32,7 +32,7 @@ export default class IMeasurementWidgetActiveWidgetGenerated implements IPropert
 
 
 export async function buildJsIMeasurementWidgetActiveWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasurementWidgetActiveWidget: any = {}
+    let jsMeasurementWidgetActiveWidget: any = {};
 
 
     let { default: IMeasurementWidgetActiveWidgetWrapper } = await import('./iMeasurementWidgetActiveWidget');

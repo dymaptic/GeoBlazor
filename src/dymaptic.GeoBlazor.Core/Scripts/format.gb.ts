@@ -4,38 +4,38 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFormat } from './format';
 
 export async function buildJsFormatGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFormat = new Format();
+    let properties: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFormat.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsCoordinateConversionViewModel } = await import('./coordinateConversionViewModel');
-        jsFormat.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsCoordinateConversionViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.conversionInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedConversionInfo } = dotNetObject.conversionInfo;
-        jsFormat.conversionInfo = sanitizedConversionInfo;
+        properties.conversionInfo = sanitizedConversionInfo;
     }
     if (hasValue(dotNetObject.coordinateSegments)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCoordinateSegments } = dotNetObject.coordinateSegments;
-        jsFormat.coordinateSegments = sanitizedCoordinateSegments;
+        properties.coordinateSegments = sanitizedCoordinateSegments;
     }
     if (hasValue(dotNetObject.currentPattern)) {
-        jsFormat.currentPattern = dotNetObject.currentPattern;
+        properties.currentPattern = dotNetObject.currentPattern;
     }
     if (hasValue(dotNetObject.defaultPattern)) {
-        jsFormat.defaultPattern = dotNetObject.defaultPattern;
+        properties.defaultPattern = dotNetObject.defaultPattern;
     }
     if (hasValue(dotNetObject.label)) {
-        jsFormat.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.name)) {
-        jsFormat.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
+    let jsFormat = new Format(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFormat);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFormat;

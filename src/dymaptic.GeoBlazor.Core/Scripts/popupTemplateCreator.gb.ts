@@ -38,7 +38,7 @@ export default class PopupTemplateCreatorGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPopupTemplateCreatorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jstemplates: any = {}
+    let jstemplates: any = {};
 
 
     let { default: PopupTemplateCreatorWrapper } = await import('./popupTemplateCreator');

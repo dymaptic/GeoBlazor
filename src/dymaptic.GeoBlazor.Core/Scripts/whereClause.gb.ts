@@ -40,7 +40,7 @@ export default class WhereClauseGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWhereClauseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWhereClause: any = {}
+    let jsWhereClause: any = {};
 
     if (hasValue(dotNetObject.fieldNames)) {
         jsWhereClause.fieldNames = dotNetObject.fieldNames;

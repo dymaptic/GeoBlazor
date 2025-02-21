@@ -116,28 +116,29 @@ export default class DirectionsViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDirectionsViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionsViewModel = new DirectionsViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsRouteLayer } = await import('./routeLayer');
-        jsDirectionsViewModel.layer = await buildJsRouteLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsRouteLayer(dotNetObject.layer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.routeParameters)) {
         let { buildJsRouteParameters } = await import('./routeParameters');
-        jsDirectionsViewModel.routeParameters = await buildJsRouteParameters(dotNetObject.routeParameters, layerId, viewId) as any;
+        properties.routeParameters = await buildJsRouteParameters(dotNetObject.routeParameters, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
-        jsDirectionsViewModel.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsDirectionsViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.maxStops)) {
-        jsDirectionsViewModel.maxStops = dotNetObject.maxStops;
+        properties.maxStops = dotNetObject.maxStops;
     }
     if (hasValue(dotNetObject.selectedTravelMode)) {
-        jsDirectionsViewModel.selectedTravelMode = dotNetObject.selectedTravelMode;
+        properties.selectedTravelMode = dotNetObject.selectedTravelMode;
     }
+    let jsDirectionsViewModel = new DirectionsViewModel(properties);
 
     let { default: DirectionsViewModelWrapper } = await import('./directionsViewModel');
     let directionsViewModelWrapper = new DirectionsViewModelWrapper(jsDirectionsViewModel);

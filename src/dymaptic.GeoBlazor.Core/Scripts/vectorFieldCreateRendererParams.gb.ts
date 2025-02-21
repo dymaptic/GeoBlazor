@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVectorFieldCreateRendererParams } from './vectorFieldCreateRendererParams';
 
 export async function buildJsVectorFieldCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsvectorFieldCreateRendererParams: any = {}
+    let jsvectorFieldCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsvectorFieldCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -30,7 +30,6 @@ export async function buildJsVectorFieldCreateRendererParamsGenerated(dotNetObje
         jsvectorFieldCreateRendererParams.style = dotNetObject.style;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsvectorFieldCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsvectorFieldCreateRendererParams;

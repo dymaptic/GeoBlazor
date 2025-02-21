@@ -46,7 +46,7 @@ export default class CatalogUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCatalogUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscatalogUtils: any = {}
+    let jscatalogUtils: any = {};
 
 
     let { default: CatalogUtilsWrapper } = await import('./catalogUtils');

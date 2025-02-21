@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterShadedReliefResult } from './rasterShadedReliefResult';
 
 export async function buildJsRasterShadedReliefResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterShadedReliefResult: any = {}
+    let jsRasterShadedReliefResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRasterShadedReliefRenderer } = await import('./rasterShadedReliefRenderer');
         jsRasterShadedReliefResult.renderer = await buildJsRasterShadedReliefRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterShadedReliefResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterShadedReliefResult;

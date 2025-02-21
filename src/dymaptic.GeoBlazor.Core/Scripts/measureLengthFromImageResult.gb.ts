@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMeasureLengthFromImageResult } from './measureLengthFromImageResult';
 
 export async function buildJsMeasureLengthFromImageResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMeasureLengthFromImageResult = new MeasureLengthFromImageResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsMeasureLengthFromImageResult.geometry = buildJsPolyline(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.length)) {
-        jsMeasureLengthFromImageResult.length = dotNetObject.length;
+        properties.length = dotNetObject.length;
     }
+    let jsMeasureLengthFromImageResult = new MeasureLengthFromImageResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMeasureLengthFromImageResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeasureLengthFromImageResult;

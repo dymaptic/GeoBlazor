@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFlowRendererResult } from './flowRendererResult';
 
 export async function buildJsFlowRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFlowRendererResult: any = {}
+    let jsFlowRendererResult: any = {};
     if (hasValue(dotNetObject.flowScheme)) {
         let { buildJsFlowScheme } = await import('./flowScheme');
         jsFlowRendererResult.flowScheme = await buildJsFlowScheme(dotNetObject.flowScheme, layerId, viewId) as any;
@@ -30,7 +30,6 @@ export async function buildJsFlowRendererResultGenerated(dotNetObject: any, laye
         jsFlowRendererResult.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFlowRendererResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFlowRendererResult;

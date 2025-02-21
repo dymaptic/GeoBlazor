@@ -44,33 +44,34 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsListItemPanel = new ListItemPanel();
+    let properties: any = {};
     if (hasValue(dotNetObject.listItem)) {
         let { buildJsListItem } = await import('./listItem');
-        jsListItemPanel.listItem = await buildJsListItem(dotNetObject.listItem, layerId, viewId) as any;
+        properties.listItem = await buildJsListItem(dotNetObject.listItem, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.className)) {
-        jsListItemPanel.className = dotNetObject.className;
+        properties.className = dotNetObject.className;
     }
     if (hasValue(dotNetObject.content)) {
-        jsListItemPanel.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.disabled)) {
-        jsListItemPanel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.flowEnabled)) {
-        jsListItemPanel.flowEnabled = dotNetObject.flowEnabled;
+        properties.flowEnabled = dotNetObject.flowEnabled;
     }
     if (hasValue(dotNetObject.image)) {
-        jsListItemPanel.image = dotNetObject.image;
+        properties.image = dotNetObject.image;
     }
     if (hasValue(dotNetObject.open)) {
-        jsListItemPanel.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.title)) {
-        jsListItemPanel.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsListItemPanel = new ListItemPanel(properties);
 
     let { default: ListItemPanelWidgetWrapper } = await import('./listItemPanelWidget');
     let listItemPanelWidgetWrapper = new ListItemPanelWidgetWrapper(jsListItemPanel);

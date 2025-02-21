@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLineOfSightAnalysisResult } from './lineOfSightAnalysisResult';
 
 export async function buildJsLineOfSightAnalysisResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLineOfSightAnalysisResult: any = {}
+    let jsLineOfSightAnalysisResult: any = {};
     if (hasValue(dotNetObject.target)) {
         let { buildJsLineOfSightAnalysisTarget } = await import('./lineOfSightAnalysisTarget');
         jsLineOfSightAnalysisResult.target = await buildJsLineOfSightAnalysisTarget(dotNetObject.target, layerId, viewId) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLineOfSightAnalysisResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisResult;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHitTestResult } from './hitTestResult';
 
 export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsHitTestResult: any = {}
+    let jsHitTestResult: any = {};
 
     if (hasValue(dotNetObject.results)) {
         jsHitTestResult.results = dotNetObject.results;
@@ -13,7 +13,6 @@ export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: 
         jsHitTestResult.screenPoint = sanitizedScreenPoint;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsHitTestResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHitTestResult;

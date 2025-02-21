@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetConfig } from './config';
 
 export async function buildJsConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsConfig: any = {}
+    let jsConfig: any = {};
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsConfig.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -22,7 +22,6 @@ export async function buildJsConfigGenerated(dotNetObject: any, layerId: string 
         jsConfig.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsConfig);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConfig;

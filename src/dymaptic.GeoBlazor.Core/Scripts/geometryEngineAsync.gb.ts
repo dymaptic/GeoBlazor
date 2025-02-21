@@ -388,7 +388,7 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGeometryEngineAsyncGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsgeometryEngineAsync: any = {}
+    let jsgeometryEngineAsync: any = {};
 
 
     let { default: GeometryEngineAsyncWrapper } = await import('./geometryEngineAsync');

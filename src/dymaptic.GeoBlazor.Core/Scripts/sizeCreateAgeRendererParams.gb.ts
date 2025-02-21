@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeCreateAgeRendererParams } from './sizeCreateAgeRendererParams';
 
 export async function buildJsSizeCreateAgeRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssizeCreateAgeRendererParams: any = {}
+    let jssizeCreateAgeRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jssizeCreateAgeRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -53,7 +53,6 @@ export async function buildJsSizeCreateAgeRendererParamsGenerated(dotNetObject: 
         jssizeCreateAgeRendererParams.unit = dotNetObject.unit;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jssizeCreateAgeRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssizeCreateAgeRendererParams;

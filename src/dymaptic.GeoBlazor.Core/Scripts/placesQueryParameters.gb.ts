@@ -4,42 +4,42 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPlacesQueryParameters } from './placesQueryParameters';
 
 export async function buildJsPlacesQueryParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPlacesQueryParameters = new PlacesQueryParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsPlacesQueryParameters.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.point)) {
         let { buildJsPoint } = await import('./point');
-        jsPlacesQueryParameters.point = buildJsPoint(dotNetObject.point) as any;
+        properties.point = buildJsPoint(dotNetObject.point) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
-        jsPlacesQueryParameters.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.categoryIds)) {
-        jsPlacesQueryParameters.categoryIds = dotNetObject.categoryIds;
+        properties.categoryIds = dotNetObject.categoryIds;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsPlacesQueryParameters.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.offset)) {
-        jsPlacesQueryParameters.offset = dotNetObject.offset;
+        properties.offset = dotNetObject.offset;
     }
     if (hasValue(dotNetObject.pageSize)) {
-        jsPlacesQueryParameters.pageSize = dotNetObject.pageSize;
+        properties.pageSize = dotNetObject.pageSize;
     }
     if (hasValue(dotNetObject.radius)) {
-        jsPlacesQueryParameters.radius = dotNetObject.radius;
+        properties.radius = dotNetObject.radius;
     }
     if (hasValue(dotNetObject.searchText)) {
-        jsPlacesQueryParameters.searchText = dotNetObject.searchText;
+        properties.searchText = dotNetObject.searchText;
     }
     if (hasValue(dotNetObject.url)) {
-        jsPlacesQueryParameters.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsPlacesQueryParameters = new PlacesQueryParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPlacesQueryParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPlacesQueryParameters;

@@ -100,27 +100,28 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBookmarksViewModel = new BookmarksViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.bookmarks)) {
         let { buildJsBookmark } = await import('./bookmark');
-        jsBookmarksViewModel.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.defaultCreateOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        jsBookmarksViewModel.defaultCreateOptions = await buildJsBookmarkOptions(dotNetObject.defaultCreateOptions, layerId, viewId) as any;
+        properties.defaultCreateOptions = await buildJsBookmarkOptions(dotNetObject.defaultCreateOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.defaultEditOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        jsBookmarksViewModel.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
+        properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.capabilities)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsBookmarksViewModel.capabilities = sanitizedCapabilities;
+        properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsBookmarksViewModel.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
+    let jsBookmarksViewModel = new BookmarksViewModel(properties);
 
     let { default: BookmarksViewModelWrapper } = await import('./bookmarksViewModel');
     let bookmarksViewModelWrapper = new BookmarksViewModelWrapper(jsBookmarksViewModel);

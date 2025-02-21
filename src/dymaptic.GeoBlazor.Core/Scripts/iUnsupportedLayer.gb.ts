@@ -70,31 +70,32 @@ export default class IUnsupportedLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIUnsupportedLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUnsupportedLayer = new UnsupportedLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsUnsupportedLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsUnsupportedLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsUnsupportedLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsUnsupportedLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsUnsupportedLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsUnsupportedLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.title)) {
-        jsUnsupportedLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsUnsupportedLayer = new UnsupportedLayer(properties);
 
     let { default: IUnsupportedLayerWrapper } = await import('./iUnsupportedLayer');
     let iUnsupportedLayerWrapper = new IUnsupportedLayerWrapper(jsUnsupportedLayer);

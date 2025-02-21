@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipSchemeForPolyline } from './relationshipSchemeForPolyline';
 
 export async function buildJsRelationshipSchemeForPolylineGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipSchemeForPolyline: any = {}
+    let jsRelationshipSchemeForPolyline: any = {};
     if (hasValue(dotNetObject.colorsForClassBreaks)) {
         let { buildJsRelationshipSchemeForPolylineColorsForClassBreaks } = await import('./relationshipSchemeForPolylineColorsForClassBreaks');
         jsRelationshipSchemeForPolyline.colorsForClassBreaks = await Promise.all(dotNetObject.colorsForClassBreaks.map(async i => await buildJsRelationshipSchemeForPolylineColorsForClassBreaks(i, layerId, viewId))) as any;
@@ -29,7 +29,6 @@ export async function buildJsRelationshipSchemeForPolylineGenerated(dotNetObject
         jsRelationshipSchemeForPolyline.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipSchemeForPolyline);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipSchemeForPolyline;

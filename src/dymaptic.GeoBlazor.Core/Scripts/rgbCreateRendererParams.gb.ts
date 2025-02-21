@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRgbCreateRendererParams } from './rgbCreateRendererParams';
 
 export async function buildJsRgbCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsrgbCreateRendererParams: any = {}
+    let jsrgbCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsrgbCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -39,7 +39,6 @@ export async function buildJsRgbCreateRendererParamsGenerated(dotNetObject: any,
         jsrgbCreateRendererParams.useGamma = dotNetObject.useGamma;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsrgbCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrgbCreateRendererParams;

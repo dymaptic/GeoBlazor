@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterColormapByRampParameters } from './rasterColormapByRampParameters';
 
 export async function buildJsRasterColormapByRampParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterColormapByRampParameters: any = {}
+    let jsRasterColormapByRampParameters: any = {};
 
     if (hasValue(dotNetObject.colorRamp)) {
         jsRasterColormapByRampParameters.colorRamp = dotNetObject.colorRamp;
@@ -15,7 +15,6 @@ export async function buildJsRasterColormapByRampParametersGenerated(dotNetObjec
         jsRasterColormapByRampParameters.raster = dotNetObject.raster;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterColormapByRampParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterColormapByRampParameters;

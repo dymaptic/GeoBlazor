@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapViewTakeScreenshotOptions } from './mapViewTakeScreenshotOptions';
 
 export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMapViewTakeScreenshotOptions: any = {}
+    let jsMapViewTakeScreenshotOptions: any = {};
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
         jsMapViewTakeScreenshotOptions.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
@@ -33,7 +33,6 @@ export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject:
         jsMapViewTakeScreenshotOptions.width = dotNetObject.width;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapViewTakeScreenshotOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewTakeScreenshotOptions;

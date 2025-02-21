@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPopupUtilsCreatePopupTemplateForFeatureReductionParams } from './popupUtilsCreatePopupTemplateForFeatureReductionParams';
 
 export async function buildJsPopupUtilsCreatePopupTemplateForFeatureReductionParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspopupUtilsCreatePopupTemplateForFeatureReductionParams: any = {}
+    let jspopupUtilsCreatePopupTemplateForFeatureReductionParams: any = {};
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jspopupUtilsCreatePopupTemplateForFeatureReductionParams.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -16,7 +16,6 @@ export async function buildJsPopupUtilsCreatePopupTemplateForFeatureReductionPar
         jspopupUtilsCreatePopupTemplateForFeatureReductionParams.title = dotNetObject.title;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspopupUtilsCreatePopupTemplateForFeatureReductionParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspopupUtilsCreatePopupTemplateForFeatureReductionParams;

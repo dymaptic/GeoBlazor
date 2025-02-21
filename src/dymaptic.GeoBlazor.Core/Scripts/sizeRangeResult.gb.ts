@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSizeRangeResult } from './sizeRangeResult';
 
 export async function buildJsSizeRangeResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSizeRangeResult: any = {}
+    let jsSizeRangeResult: any = {};
     if (hasValue(dotNetObject.maxSize)) {
         let { buildJsScaleDependentStops } = await import('./scaleDependentStops');
         jsSizeRangeResult.maxSize = await buildJsScaleDependentStops(dotNetObject.maxSize, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsSizeRangeResultGenerated(dotNetObject: any, layerId
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSizeRangeResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRangeResult;

@@ -4,191 +4,191 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteParameters } from './routeParameters';
 
 export async function buildJsRouteParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteParameters = new RouteParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsRouteParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
     if (hasValue(dotNetObject.pointBarrierCollectionPointBarriers)) {
         let { buildJsPointBarrier } = await import('./pointBarrier');
-        jsRouteParameters.pointBarriers = await Promise.all(dotNetObject.pointBarrierCollectionPointBarriers.map(async i => await buildJsPointBarrier(i, layerId, viewId))) as any;
+        properties.pointBarriers = await Promise.all(dotNetObject.pointBarrierCollectionPointBarriers.map(async i => await buildJsPointBarrier(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.dataLayerPointBarriers)) {
         let { buildJsDataLayer } = await import('./pointBarrier');
-        jsRouteParameters.pointBarriers = await Promise.all(dotNetObject.dataLayerPointBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
+        properties.pointBarriers = await Promise.all(dotNetObject.dataLayerPointBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.featureSetPointBarriers)) {
         let { buildJsFeatureSet } = await import('./pointBarrier');
-        jsRouteParameters.pointBarriers = dotNetObject.featureSetPointBarriers.map(i => buildJsFeatureSet(i)) as any;
+        properties.pointBarriers = dotNetObject.featureSetPointBarriers.map(i => buildJsFeatureSet(i)) as any;
     }
     else if (hasValue(dotNetObject.networkFeatureSetPointBarriers)) {
-        jsRouteParameters.pointBarriers = dotNetObject.pointBarrier;
+        properties.pointBarriers = dotNetObject.pointBarrier;
     }
     if (hasValue(dotNetObject.polygonBarrierCollectionPolygonBarriers)) {
         let { buildJsPolygonBarrier } = await import('./polygonBarrier');
-        jsRouteParameters.polygonBarriers = await Promise.all(dotNetObject.polygonBarrierCollectionPolygonBarriers.map(async i => await buildJsPolygonBarrier(i, layerId, viewId))) as any;
+        properties.polygonBarriers = await Promise.all(dotNetObject.polygonBarrierCollectionPolygonBarriers.map(async i => await buildJsPolygonBarrier(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.dataLayerPolygonBarriers)) {
         let { buildJsDataLayer } = await import('./polygonBarrier');
-        jsRouteParameters.polygonBarriers = await Promise.all(dotNetObject.dataLayerPolygonBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
+        properties.polygonBarriers = await Promise.all(dotNetObject.dataLayerPolygonBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.featureSetPolygonBarriers)) {
         let { buildJsFeatureSet } = await import('./polygonBarrier');
-        jsRouteParameters.polygonBarriers = dotNetObject.featureSetPolygonBarriers.map(i => buildJsFeatureSet(i)) as any;
+        properties.polygonBarriers = dotNetObject.featureSetPolygonBarriers.map(i => buildJsFeatureSet(i)) as any;
     }
     else if (hasValue(dotNetObject.networkFeatureSetPolygonBarriers)) {
-        jsRouteParameters.polygonBarriers = dotNetObject.polygonBarrier;
+        properties.polygonBarriers = dotNetObject.polygonBarrier;
     }
     if (hasValue(dotNetObject.polylineBarrierCollectionPolylineBarriers)) {
         let { buildJsPolylineBarrier } = await import('./polylineBarrier');
-        jsRouteParameters.polylineBarriers = await Promise.all(dotNetObject.polylineBarrierCollectionPolylineBarriers.map(async i => await buildJsPolylineBarrier(i, layerId, viewId))) as any;
+        properties.polylineBarriers = await Promise.all(dotNetObject.polylineBarrierCollectionPolylineBarriers.map(async i => await buildJsPolylineBarrier(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.dataLayerPolylineBarriers)) {
         let { buildJsDataLayer } = await import('./polylineBarrier');
-        jsRouteParameters.polylineBarriers = await Promise.all(dotNetObject.dataLayerPolylineBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
+        properties.polylineBarriers = await Promise.all(dotNetObject.dataLayerPolylineBarriers.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.featureSetPolylineBarriers)) {
         let { buildJsFeatureSet } = await import('./polylineBarrier');
-        jsRouteParameters.polylineBarriers = dotNetObject.featureSetPolylineBarriers.map(i => buildJsFeatureSet(i)) as any;
+        properties.polylineBarriers = dotNetObject.featureSetPolylineBarriers.map(i => buildJsFeatureSet(i)) as any;
     }
     else if (hasValue(dotNetObject.networkFeatureSetPolylineBarriers)) {
-        jsRouteParameters.polylineBarriers = dotNetObject.polylineBarrier;
+        properties.polylineBarriers = dotNetObject.polylineBarrier;
     }
     if (hasValue(dotNetObject.stopCollectionStops)) {
         let { buildJsStop } = await import('./stop');
-        jsRouteParameters.stops = await Promise.all(dotNetObject.stopCollectionStops.map(async i => await buildJsStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stopCollectionStops.map(async i => await buildJsStop(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.dataLayerStops)) {
         let { buildJsDataLayer } = await import('./stop');
-        jsRouteParameters.stops = await Promise.all(dotNetObject.dataLayerStops.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.dataLayerStops.map(async i => await buildJsDataLayer(i, layerId, viewId))) as any;
     }
     else if (hasValue(dotNetObject.featureSetStops)) {
         let { buildJsFeatureSet } = await import('./stop');
-        jsRouteParameters.stops = dotNetObject.featureSetStops.map(i => buildJsFeatureSet(i)) as any;
+        properties.stops = dotNetObject.featureSetStops.map(i => buildJsFeatureSet(i)) as any;
     }
     else if (hasValue(dotNetObject.networkFeatureSetStops)) {
-        jsRouteParameters.stops = dotNetObject.stop;
+        properties.stops = dotNetObject.stop;
     }
 
     if (hasValue(dotNetObject.accumulateAttributes)) {
-        jsRouteParameters.accumulateAttributes = dotNetObject.accumulateAttributes;
+        properties.accumulateAttributes = dotNetObject.accumulateAttributes;
     }
     if (hasValue(dotNetObject.apiKey)) {
-        jsRouteParameters.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.attributeParameterValues)) {
-        jsRouteParameters.attributeParameterValues = dotNetObject.attributeParameterValues;
+        properties.attributeParameterValues = dotNetObject.attributeParameterValues;
     }
     if (hasValue(dotNetObject.directionsLanguage)) {
-        jsRouteParameters.directionsLanguage = dotNetObject.directionsLanguage;
+        properties.directionsLanguage = dotNetObject.directionsLanguage;
     }
     if (hasValue(dotNetObject.directionsLengthUnits)) {
-        jsRouteParameters.directionsLengthUnits = dotNetObject.directionsLengthUnits;
+        properties.directionsLengthUnits = dotNetObject.directionsLengthUnits;
     }
     if (hasValue(dotNetObject.directionsOutputType)) {
-        jsRouteParameters.directionsOutputType = dotNetObject.directionsOutputType;
+        properties.directionsOutputType = dotNetObject.directionsOutputType;
     }
     if (hasValue(dotNetObject.directionsStyleName)) {
-        jsRouteParameters.directionsStyleName = dotNetObject.directionsStyleName;
+        properties.directionsStyleName = dotNetObject.directionsStyleName;
     }
     if (hasValue(dotNetObject.directionsTimeAttribute)) {
-        jsRouteParameters.directionsTimeAttribute = dotNetObject.directionsTimeAttribute;
+        properties.directionsTimeAttribute = dotNetObject.directionsTimeAttribute;
     }
     if (hasValue(dotNetObject.findBestSequence)) {
-        jsRouteParameters.findBestSequence = dotNetObject.findBestSequence;
+        properties.findBestSequence = dotNetObject.findBestSequence;
     }
     if (hasValue(dotNetObject.geometryPrecision)) {
-        jsRouteParameters.geometryPrecision = dotNetObject.geometryPrecision;
+        properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
     if (hasValue(dotNetObject.geometryPrecisionM)) {
-        jsRouteParameters.geometryPrecisionM = dotNetObject.geometryPrecisionM;
+        properties.geometryPrecisionM = dotNetObject.geometryPrecisionM;
     }
     if (hasValue(dotNetObject.geometryPrecisionZ)) {
-        jsRouteParameters.geometryPrecisionZ = dotNetObject.geometryPrecisionZ;
+        properties.geometryPrecisionZ = dotNetObject.geometryPrecisionZ;
     }
     if (hasValue(dotNetObject.ignoreInvalidLocations)) {
-        jsRouteParameters.ignoreInvalidLocations = dotNetObject.ignoreInvalidLocations;
+        properties.ignoreInvalidLocations = dotNetObject.ignoreInvalidLocations;
     }
     if (hasValue(dotNetObject.impedanceAttribute)) {
-        jsRouteParameters.impedanceAttribute = dotNetObject.impedanceAttribute;
+        properties.impedanceAttribute = dotNetObject.impedanceAttribute;
     }
     if (hasValue(dotNetObject.outputGeometryPrecision)) {
-        jsRouteParameters.outputGeometryPrecision = dotNetObject.outputGeometryPrecision;
+        properties.outputGeometryPrecision = dotNetObject.outputGeometryPrecision;
     }
     if (hasValue(dotNetObject.outputGeometryPrecisionUnits)) {
-        jsRouteParameters.outputGeometryPrecisionUnits = dotNetObject.outputGeometryPrecisionUnits;
+        properties.outputGeometryPrecisionUnits = dotNetObject.outputGeometryPrecisionUnits;
     }
     if (hasValue(dotNetObject.outputLines)) {
-        jsRouteParameters.outputLines = dotNetObject.outputLines;
+        properties.outputLines = dotNetObject.outputLines;
     }
     if (hasValue(dotNetObject.overrides)) {
-        jsRouteParameters.overrides = dotNetObject.overrides;
+        properties.overrides = dotNetObject.overrides;
     }
     if (hasValue(dotNetObject.preserveFirstStop)) {
-        jsRouteParameters.preserveFirstStop = dotNetObject.preserveFirstStop;
+        properties.preserveFirstStop = dotNetObject.preserveFirstStop;
     }
     if (hasValue(dotNetObject.preserveLastStop)) {
-        jsRouteParameters.preserveLastStop = dotNetObject.preserveLastStop;
+        properties.preserveLastStop = dotNetObject.preserveLastStop;
     }
     if (hasValue(dotNetObject.preserveObjectID)) {
-        jsRouteParameters.preserveObjectID = dotNetObject.preserveObjectID;
+        properties.preserveObjectID = dotNetObject.preserveObjectID;
     }
     if (hasValue(dotNetObject.restrictionAttributes)) {
-        jsRouteParameters.restrictionAttributes = dotNetObject.restrictionAttributes;
+        properties.restrictionAttributes = dotNetObject.restrictionAttributes;
     }
     if (hasValue(dotNetObject.restrictUTurns)) {
-        jsRouteParameters.restrictUTurns = dotNetObject.restrictUTurns;
+        properties.restrictUTurns = dotNetObject.restrictUTurns;
     }
     if (hasValue(dotNetObject.returnBarriers)) {
-        jsRouteParameters.returnBarriers = dotNetObject.returnBarriers;
+        properties.returnBarriers = dotNetObject.returnBarriers;
     }
     if (hasValue(dotNetObject.returnDirections)) {
-        jsRouteParameters.returnDirections = dotNetObject.returnDirections;
+        properties.returnDirections = dotNetObject.returnDirections;
     }
     if (hasValue(dotNetObject.returnPolygonBarriers)) {
-        jsRouteParameters.returnPolygonBarriers = dotNetObject.returnPolygonBarriers;
+        properties.returnPolygonBarriers = dotNetObject.returnPolygonBarriers;
     }
     if (hasValue(dotNetObject.returnPolylineBarriers)) {
-        jsRouteParameters.returnPolylineBarriers = dotNetObject.returnPolylineBarriers;
+        properties.returnPolylineBarriers = dotNetObject.returnPolylineBarriers;
     }
     if (hasValue(dotNetObject.returnRoutes)) {
-        jsRouteParameters.returnRoutes = dotNetObject.returnRoutes;
+        properties.returnRoutes = dotNetObject.returnRoutes;
     }
     if (hasValue(dotNetObject.returnStops)) {
-        jsRouteParameters.returnStops = dotNetObject.returnStops;
+        properties.returnStops = dotNetObject.returnStops;
     }
     if (hasValue(dotNetObject.returnTraversedEdges)) {
-        jsRouteParameters.returnTraversedEdges = dotNetObject.returnTraversedEdges;
+        properties.returnTraversedEdges = dotNetObject.returnTraversedEdges;
     }
     if (hasValue(dotNetObject.returnTraversedJunctions)) {
-        jsRouteParameters.returnTraversedJunctions = dotNetObject.returnTraversedJunctions;
+        properties.returnTraversedJunctions = dotNetObject.returnTraversedJunctions;
     }
     if (hasValue(dotNetObject.returnTraversedTurns)) {
-        jsRouteParameters.returnTraversedTurns = dotNetObject.returnTraversedTurns;
+        properties.returnTraversedTurns = dotNetObject.returnTraversedTurns;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsRouteParameters.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
     if (hasValue(dotNetObject.startTime)) {
-        jsRouteParameters.startTime = dotNetObject.startTime;
+        properties.startTime = dotNetObject.startTime;
     }
     if (hasValue(dotNetObject.startTimeIsUTC)) {
-        jsRouteParameters.startTimeIsUTC = dotNetObject.startTimeIsUTC;
+        properties.startTimeIsUTC = dotNetObject.startTimeIsUTC;
     }
     if (hasValue(dotNetObject.timeWindowsAreUTC)) {
-        jsRouteParameters.timeWindowsAreUTC = dotNetObject.timeWindowsAreUTC;
+        properties.timeWindowsAreUTC = dotNetObject.timeWindowsAreUTC;
     }
     if (hasValue(dotNetObject.travelMode)) {
-        jsRouteParameters.travelMode = dotNetObject.travelMode;
+        properties.travelMode = dotNetObject.travelMode;
     }
     if (hasValue(dotNetObject.useHierarchy)) {
-        jsRouteParameters.useHierarchy = dotNetObject.useHierarchy;
+        properties.useHierarchy = dotNetObject.useHierarchy;
     }
     if (hasValue(dotNetObject.useTimeWindows)) {
-        jsRouteParameters.useTimeWindows = dotNetObject.useTimeWindows;
+        properties.useTimeWindows = dotNetObject.useTimeWindows;
     }
+    let jsRouteParameters = new RouteParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteParameters;

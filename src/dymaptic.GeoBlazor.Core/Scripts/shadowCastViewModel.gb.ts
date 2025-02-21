@@ -80,35 +80,36 @@ export default class ShadowCastViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsShadowCastViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsShadowCastViewModel = new ShadowCastViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.discreteOptions)) {
         let { buildJsShadowCastViewModelDiscreteOptions } = await import('./shadowCastViewModelDiscreteOptions');
-        jsShadowCastViewModel.discreteOptions = await buildJsShadowCastViewModelDiscreteOptions(dotNetObject.discreteOptions, layerId, viewId) as any;
+        properties.discreteOptions = await buildJsShadowCastViewModelDiscreteOptions(dotNetObject.discreteOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.durationOptions)) {
         let { buildJsShadowCastViewModelDurationOptions } = await import('./shadowCastViewModelDurationOptions');
-        jsShadowCastViewModel.durationOptions = await buildJsShadowCastViewModelDurationOptions(dotNetObject.durationOptions, layerId, viewId) as any;
+        properties.durationOptions = await buildJsShadowCastViewModelDurationOptions(dotNetObject.durationOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.thresholdOptions)) {
         let { buildJsShadowCastViewModelThresholdOptions } = await import('./shadowCastViewModelThresholdOptions');
-        jsShadowCastViewModel.thresholdOptions = await buildJsShadowCastViewModelThresholdOptions(dotNetObject.thresholdOptions, layerId, viewId) as any;
+        properties.thresholdOptions = await buildJsShadowCastViewModelThresholdOptions(dotNetObject.thresholdOptions, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.date)) {
-        jsShadowCastViewModel.date = dotNetObject.date;
+        properties.date = dotNetObject.date;
     }
     if (hasValue(dotNetObject.endTimeOfDay)) {
-        jsShadowCastViewModel.endTimeOfDay = dotNetObject.endTimeOfDay;
+        properties.endTimeOfDay = dotNetObject.endTimeOfDay;
     }
     if (hasValue(dotNetObject.startTimeOfDay)) {
-        jsShadowCastViewModel.startTimeOfDay = dotNetObject.startTimeOfDay;
+        properties.startTimeOfDay = dotNetObject.startTimeOfDay;
     }
     if (hasValue(dotNetObject.utcOffset)) {
-        jsShadowCastViewModel.utcOffset = dotNetObject.utcOffset;
+        properties.utcOffset = dotNetObject.utcOffset;
     }
     if (hasValue(dotNetObject.visualizationType)) {
-        jsShadowCastViewModel.visualizationType = dotNetObject.visualizationType;
+        properties.visualizationType = dotNetObject.visualizationType;
     }
+    let jsShadowCastViewModel = new ShadowCastViewModel(properties);
 
     let { default: ShadowCastViewModelWrapper } = await import('./shadowCastViewModel');
     let shadowCastViewModelWrapper = new ShadowCastViewModelWrapper(jsShadowCastViewModel);

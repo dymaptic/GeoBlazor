@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUpdateWorkflowData } from './updateWorkflowData';
 
 export async function buildJsUpdateWorkflowDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsUpdateWorkflowData = new UpdateWorkflowData();
+    let properties: any = {};
     if (hasValue(dotNetObject.candidates)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsUpdateWorkflowData.candidates = dotNetObject.candidates.map(i => buildJsGraphic(i)) as any;
+        properties.candidates = dotNetObject.candidates.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsEditorViewModel } = await import('./editorViewModel');
-        jsUpdateWorkflowData.viewModel = await buildJsEditorViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsEditorViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    let jsUpdateWorkflowData = new UpdateWorkflowData(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsUpdateWorkflowData);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUpdateWorkflowData;

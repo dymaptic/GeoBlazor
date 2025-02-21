@@ -68,19 +68,20 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
 
 
 export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapGalleryViewModel = new BasemapGalleryViewModel();
+    let properties: any = {};
     if (hasValue(dotNetObject.activeBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsBasemapGalleryViewModel.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
+        properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.items)) {
         let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
-        jsBasemapGalleryViewModel.items = await Promise.all(dotNetObject.items.map(async i => await buildJsBasemapGalleryItem(i, layerId, viewId))) as any;
+        properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsBasemapGalleryItem(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.source)) {
-        jsBasemapGalleryViewModel.source = dotNetObject.source;
+        properties.source = dotNetObject.source;
     }
+    let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);
 
     let { default: BasemapGalleryViewModelWrapper } = await import('./basemapGalleryViewModel');
     let basemapGalleryViewModelWrapper = new BasemapGalleryViewModelWrapper(jsBasemapGalleryViewModel);

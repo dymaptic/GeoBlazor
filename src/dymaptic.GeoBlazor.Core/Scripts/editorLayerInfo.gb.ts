@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEditorLayerInfo } from './editorLayerInfo';
 
 export async function buildJsEditorLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsEditorLayerInfo: any = {}
+    let jsEditorLayerInfo: any = {};
     if (hasValue(dotNetObject.formTemplate)) {
         let { buildJsFormTemplate } = await import('./formTemplate');
         jsEditorLayerInfo.formTemplate = await buildJsFormTemplate(dotNetObject.formTemplate, layerId, viewId) as any;
@@ -38,7 +38,6 @@ export async function buildJsEditorLayerInfoGenerated(dotNetObject: any, layerId
         jsEditorLayerInfo.updateEnabled = dotNetObject.updateEnabled;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsEditorLayerInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditorLayerInfo;

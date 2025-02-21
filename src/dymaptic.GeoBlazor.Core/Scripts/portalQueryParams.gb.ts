@@ -4,35 +4,35 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalQueryParams } from './portalQueryParams';
 
 export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalQueryParams = new PortalQueryParams();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsPortalQueryParams.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.categories)) {
-        jsPortalQueryParams.categories = dotNetObject.categories;
+        properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.filter)) {
-        jsPortalQueryParams.filter = dotNetObject.filter;
+        properties.filter = dotNetObject.filter;
     }
     if (hasValue(dotNetObject.num)) {
-        jsPortalQueryParams.num = dotNetObject.num;
+        properties.num = dotNetObject.num;
     }
     if (hasValue(dotNetObject.query)) {
-        jsPortalQueryParams.query = dotNetObject.query;
+        properties.query = dotNetObject.query;
     }
     if (hasValue(dotNetObject.sortField)) {
-        jsPortalQueryParams.sortField = dotNetObject.sortField;
+        properties.sortField = dotNetObject.sortField;
     }
     if (hasValue(dotNetObject.sortOrder)) {
-        jsPortalQueryParams.sortOrder = dotNetObject.sortOrder;
+        properties.sortOrder = dotNetObject.sortOrder;
     }
     if (hasValue(dotNetObject.start)) {
-        jsPortalQueryParams.start = dotNetObject.start;
+        properties.start = dotNetObject.start;
     }
+    let jsPortalQueryParams = new PortalQueryParams(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalQueryParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalQueryParams;

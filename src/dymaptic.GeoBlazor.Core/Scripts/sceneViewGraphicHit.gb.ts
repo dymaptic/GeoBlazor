@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneViewGraphicHit } from './sceneViewGraphicHit';
 
 export async function buildJsSceneViewGraphicHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewGraphicHit: any = {}
+    let jsSceneViewGraphicHit: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
         jsSceneViewGraphicHit.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -21,7 +21,6 @@ export async function buildJsSceneViewGraphicHitGenerated(dotNetObject: any, lay
         jsSceneViewGraphicHit.distance = dotNetObject.distance;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewGraphicHit);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewGraphicHit;

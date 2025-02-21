@@ -36,8 +36,9 @@ export default class WeatherViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWeatherViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsWeatherViewModel = new WeatherViewModel();
+    let properties: any = {};
 
+    let jsWeatherViewModel = new WeatherViewModel(properties);
 
     let { default: WeatherViewModelWrapper } = await import('./weatherViewModel');
     let weatherViewModelWrapper = new WeatherViewModelWrapper(jsWeatherViewModel);

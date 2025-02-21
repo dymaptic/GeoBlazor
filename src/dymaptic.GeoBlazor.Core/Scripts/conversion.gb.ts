@@ -4,18 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetConversion } from './conversion';
 
 export async function buildJsConversionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsConversion = new Conversion();
+    let properties: any = {};
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
-        jsConversion.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
+        properties.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.position)) {
         let { buildJsConversionPosition } = await import('./conversionPosition');
-        jsConversion.position = await buildJsConversionPosition(dotNetObject.position, layerId, viewId) as any;
+        properties.position = await buildJsConversionPosition(dotNetObject.position, layerId, viewId) as any;
     }
 
+    let jsConversion = new Conversion(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsConversion);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConversion;

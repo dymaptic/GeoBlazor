@@ -68,20 +68,21 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBasemapToggle = new BasemapToggle();
+    let properties: any = {};
     if (hasValue(dotNetObject.nextBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
-        jsBasemapToggle.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;
+        properties.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        jsBasemapToggle.viewModel = await buildJsBasemapToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsBasemapToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsBasemapToggle.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsBasemapToggle = new BasemapToggle(properties);
 
     let { default: BasemapToggleWidgetWrapper } = await import('./basemapToggleWidget');
     let basemapToggleWidgetWrapper = new BasemapToggleWidgetWrapper(jsBasemapToggle);

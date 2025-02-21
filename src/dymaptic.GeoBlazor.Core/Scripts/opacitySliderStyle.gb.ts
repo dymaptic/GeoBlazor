@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacitySliderStyle } from './opacitySliderStyle';
 
 export async function buildJsOpacitySliderStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOpacitySliderStyle: any = {}
+    let jsOpacitySliderStyle: any = {};
     if (hasValue(dotNetObject.trackFillColor)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsOpacitySliderStyle.trackFillColor = buildJsMapColor(dotNetObject.trackFillColor) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOpacitySliderStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacitySliderStyle;

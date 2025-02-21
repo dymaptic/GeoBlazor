@@ -60,31 +60,32 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureFilter = new FeatureFilter();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsFeatureFilter.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsFeatureFilter.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {
-        jsFeatureFilter.distance = dotNetObject.distance;
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.objectIds)) {
-        jsFeatureFilter.objectIds = dotNetObject.objectIds;
+        properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.spatialRelationship)) {
-        jsFeatureFilter.spatialRelationship = dotNetObject.spatialRelationship;
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
     }
     if (hasValue(dotNetObject.units)) {
-        jsFeatureFilter.units = dotNetObject.units;
+        properties.units = dotNetObject.units;
     }
     if (hasValue(dotNetObject.where)) {
-        jsFeatureFilter.where = dotNetObject.where;
+        properties.where = dotNetObject.where;
     }
+    let jsFeatureFilter = new FeatureFilter(properties);
 
     let { default: FeatureFilterWrapper } = await import('./featureFilter');
     let featureFilterWrapper = new FeatureFilterWrapper(jsFeatureFilter);

@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewing } from './viewing';
 
 export async function buildJsViewingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewing = new Viewing();
+    let properties: any = {};
     if (hasValue(dotNetObject.search)) {
         let { buildJsSearch } = await import('./search');
-        jsViewing.search = await buildJsSearch(dotNetObject.search, layerId, viewId) as any;
+        properties.search = await buildJsSearch(dotNetObject.search, layerId, viewId) as any;
     }
 
+    let jsViewing = new Viewing(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewing);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewing;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterIdentifyResult } from './rasterIdentifyResult';
 
 export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterIdentifyResult: any = {}
+    let jsRasterIdentifyResult: any = {};
     if (hasValue(dotNetObject.dataSeries)) {
         let { buildJsRasterSliceValue } = await import('./rasterSliceValue');
         jsRasterIdentifyResult.dataSeries = await Promise.all(dotNetObject.dataSeries.map(async i => await buildJsRasterSliceValue(i, layerId, viewId))) as any;
@@ -20,7 +20,6 @@ export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, la
         jsRasterIdentifyResult.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterIdentifyResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterIdentifyResult;

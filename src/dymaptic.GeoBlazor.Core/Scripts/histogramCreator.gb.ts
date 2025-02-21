@@ -38,8 +38,9 @@ export default class HistogramCreatorGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHistogramCreatorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jshistogram = new histogram();
+    let properties: any = {};
 
+    let jshistogram = new histogram(properties);
 
     let { default: HistogramCreatorWrapper } = await import('./histogramCreator');
     let histogramCreatorWrapper = new HistogramCreatorWrapper(jshistogram);

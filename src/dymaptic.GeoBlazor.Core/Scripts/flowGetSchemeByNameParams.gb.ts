@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFlowGetSchemeByNameParams } from './flowGetSchemeByNameParams';
 
 export async function buildJsFlowGetSchemeByNameParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsflowGetSchemeByNameParams: any = {}
+    let jsflowGetSchemeByNameParams: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
         jsflowGetSchemeByNameParams.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsFlowGetSchemeByNameParamsGenerated(dotNetObject: an
         jsflowGetSchemeByNameParams.name = dotNetObject.name;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsflowGetSchemeByNameParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsflowGetSchemeByNameParams;

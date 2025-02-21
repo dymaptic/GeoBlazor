@@ -38,7 +38,7 @@ export default class SceneViewerColorUtilsGenerated implements IPropertyWrapper 
 
 
 export async function buildJsSceneViewerColorUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSceneViewerColorUtils: any = {}
+    let jsSceneViewerColorUtils: any = {};
 
 
     let { default: SceneViewerColorUtilsWrapper } = await import('./sceneViewerColorUtils');

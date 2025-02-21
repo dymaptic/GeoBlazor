@@ -4,14 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetQueryAssociationsResult } from './queryAssociationsResult';
 
 export async function buildJsQueryAssociationsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsQueryAssociationsResult = new QueryAssociationsResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.associations)) {
         let { buildJsAssociation } = await import('./association');
-        jsQueryAssociationsResult.associations = await Promise.all(dotNetObject.associations.map(async i => await buildJsAssociation(i, layerId, viewId))) as any;
+        properties.associations = await Promise.all(dotNetObject.associations.map(async i => await buildJsAssociation(i, layerId, viewId))) as any;
     }
 
+    let jsQueryAssociationsResult = new QueryAssociationsResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsQueryAssociationsResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsQueryAssociationsResult;

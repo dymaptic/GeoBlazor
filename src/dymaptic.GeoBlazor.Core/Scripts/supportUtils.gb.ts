@@ -44,7 +44,7 @@ export default class SupportUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSupportUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssupportUtils: any = {}
+    let jssupportUtils: any = {};
 
 
     let { default: SupportUtilsWrapper } = await import('./supportUtils');

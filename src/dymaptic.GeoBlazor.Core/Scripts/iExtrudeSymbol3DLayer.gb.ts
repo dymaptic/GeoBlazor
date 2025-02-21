@@ -60,22 +60,23 @@ export default class IExtrudeSymbol3DLayerGenerated implements IPropertyWrapper 
 
 
 export async function buildJsIExtrudeSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsExtrudeSymbol3DLayer = new ExtrudeSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsEdges3D } = await import('./edges3D');
-        jsExtrudeSymbol3DLayer.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
+        properties.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.material)) {
         let { buildJsExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
-        jsExtrudeSymbol3DLayer.material = await buildJsExtrudeSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsExtrudeSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.castShadows)) {
-        jsExtrudeSymbol3DLayer.castShadows = dotNetObject.castShadows;
+        properties.castShadows = dotNetObject.castShadows;
     }
     if (hasValue(dotNetObject.size)) {
-        jsExtrudeSymbol3DLayer.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
+    let jsExtrudeSymbol3DLayer = new ExtrudeSymbol3DLayer(properties);
 
     let { default: IExtrudeSymbol3DLayerWrapper } = await import('./iExtrudeSymbol3DLayer');
     let iExtrudeSymbol3DLayerWrapper = new IExtrudeSymbol3DLayerWrapper(jsExtrudeSymbol3DLayer);

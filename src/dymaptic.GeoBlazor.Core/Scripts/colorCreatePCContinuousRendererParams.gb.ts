@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorCreatePCContinuousRendererParams } from './colorCreatePCContinuousRendererParams';
 
 export async function buildJsColorCreatePCContinuousRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorCreatePCContinuousRendererParams: any = {}
+    let jscolorCreatePCContinuousRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsPointCloudLayer } = await import('./pointCloudLayer');
         jscolorCreatePCContinuousRendererParams.layer = await buildJsPointCloudLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -31,7 +31,6 @@ export async function buildJsColorCreatePCContinuousRendererParamsGenerated(dotN
         jscolorCreatePCContinuousRendererParams.statistics = dotNetObject.statistics;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreatePCContinuousRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorCreatePCContinuousRendererParams;

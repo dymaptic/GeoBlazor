@@ -3,14 +3,13 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetISublayersOwner } from './iSublayersOwner';
 
 export async function buildJsISublayersOwnerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSublayersOwner: any = {}
+    let jsSublayersOwner: any = {};
     if (hasValue(dotNetObject.subtables)) {
         let { buildJsSublayer } = await import('./sublayer');
         jsSublayersOwner.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsSublayersOwner);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSublayersOwner;

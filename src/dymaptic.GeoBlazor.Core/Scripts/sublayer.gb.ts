@@ -208,60 +208,61 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsSublayer = new Sublayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
-        jsSublayer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsSublayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
-        jsSublayer.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.definitionExpression)) {
-        jsSublayer.definitionExpression = dotNetObject.definitionExpression;
+        properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.floorInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
-        jsSublayer.floorInfo = sanitizedFloorInfo;
+        properties.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
-        jsSublayer.labelsVisible = dotNetObject.labelsVisible;
+        properties.labelsVisible = dotNetObject.labelsVisible;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsSublayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsSublayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsSublayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsSublayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsSublayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsSublayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.source)) {
-        jsSublayer.source = dotNetObject.source;
+        properties.source = dotNetObject.source;
     }
     if (hasValue(dotNetObject.sublayerId)) {
-        jsSublayer.id = dotNetObject.sublayerId;
+        properties.id = dotNetObject.sublayerId;
     }
     if (hasValue(dotNetObject.title)) {
-        jsSublayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.url)) {
-        jsSublayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsSublayer = new Sublayer(properties);
 
     let { default: SublayerWrapper } = await import('./sublayer');
     let sublayerWrapper = new SublayerWrapper(jsSublayer);

@@ -132,91 +132,92 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsPortalItem = new PortalItem();
+    let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
-        jsPortalItem.extent = buildJsExtent(dotNetObject.extent) as any;
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
-        jsPortalItem.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
+        properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
-        jsPortalItem.access = dotNetObject.access;
+        properties.access = dotNetObject.access;
     }
     if (hasValue(dotNetObject.accessInformation)) {
-        jsPortalItem.accessInformation = dotNetObject.accessInformation;
+        properties.accessInformation = dotNetObject.accessInformation;
     }
     if (hasValue(dotNetObject.apiKey)) {
-        jsPortalItem.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.avgRating)) {
-        jsPortalItem.avgRating = dotNetObject.avgRating;
+        properties.avgRating = dotNetObject.avgRating;
     }
     if (hasValue(dotNetObject.categories)) {
-        jsPortalItem.categories = dotNetObject.categories;
+        properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.created)) {
-        jsPortalItem.created = dotNetObject.created;
+        properties.created = dotNetObject.created;
     }
     if (hasValue(dotNetObject.culture)) {
-        jsPortalItem.culture = dotNetObject.culture;
+        properties.culture = dotNetObject.culture;
     }
     if (hasValue(dotNetObject.description)) {
-        jsPortalItem.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.groupCategories)) {
-        jsPortalItem.groupCategories = dotNetObject.groupCategories;
+        properties.groupCategories = dotNetObject.groupCategories;
     }
     if (hasValue(dotNetObject.licenseInfo)) {
-        jsPortalItem.licenseInfo = dotNetObject.licenseInfo;
+        properties.licenseInfo = dotNetObject.licenseInfo;
     }
     if (hasValue(dotNetObject.modified)) {
-        jsPortalItem.modified = dotNetObject.modified;
+        properties.modified = dotNetObject.modified;
     }
     if (hasValue(dotNetObject.name)) {
-        jsPortalItem.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.numComments)) {
-        jsPortalItem.numComments = dotNetObject.numComments;
+        properties.numComments = dotNetObject.numComments;
     }
     if (hasValue(dotNetObject.numRatings)) {
-        jsPortalItem.numRatings = dotNetObject.numRatings;
+        properties.numRatings = dotNetObject.numRatings;
     }
     if (hasValue(dotNetObject.numViews)) {
-        jsPortalItem.numViews = dotNetObject.numViews;
+        properties.numViews = dotNetObject.numViews;
     }
     if (hasValue(dotNetObject.owner)) {
-        jsPortalItem.owner = dotNetObject.owner;
+        properties.owner = dotNetObject.owner;
     }
     if (hasValue(dotNetObject.ownerFolder)) {
-        jsPortalItem.ownerFolder = dotNetObject.ownerFolder;
+        properties.ownerFolder = dotNetObject.ownerFolder;
     }
     if (hasValue(dotNetObject.portalItemId)) {
-        jsPortalItem.id = dotNetObject.portalItemId;
+        properties.id = dotNetObject.portalItemId;
     }
     if (hasValue(dotNetObject.screenshots)) {
-        jsPortalItem.screenshots = dotNetObject.screenshots;
+        properties.screenshots = dotNetObject.screenshots;
     }
     if (hasValue(dotNetObject.size)) {
-        jsPortalItem.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.snippet)) {
-        jsPortalItem.snippet = dotNetObject.snippet;
+        properties.snippet = dotNetObject.snippet;
     }
     if (hasValue(dotNetObject.tags)) {
-        jsPortalItem.tags = dotNetObject.tags;
+        properties.tags = dotNetObject.tags;
     }
     if (hasValue(dotNetObject.title)) {
-        jsPortalItem.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.typeKeywords)) {
-        jsPortalItem.typeKeywords = dotNetObject.typeKeywords;
+        properties.typeKeywords = dotNetObject.typeKeywords;
     }
     if (hasValue(dotNetObject.url)) {
-        jsPortalItem.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
+    let jsPortalItem = new PortalItem(properties);
 
     let { default: PortalItemWrapper } = await import('./portalItem');
     let portalItemWrapper = new PortalItemWrapper(jsPortalItem);

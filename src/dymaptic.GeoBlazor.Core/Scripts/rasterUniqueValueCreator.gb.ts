@@ -38,7 +38,7 @@ export default class RasterUniqueValueCreatorGenerated implements IPropertyWrapp
 
 
 export async function buildJsRasterUniqueValueCreatorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsuniqueValue: any = {}
+    let jsuniqueValue: any = {};
 
 
     let { default: RasterUniqueValueCreatorWrapper } = await import('./rasterUniqueValueCreator');

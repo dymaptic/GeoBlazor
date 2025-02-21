@@ -68,7 +68,7 @@ export default class SymbologyColorGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyColorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jssymbologyColor: any = {}
+    let jssymbologyColor: any = {};
 
 
     let { default: SymbologyColorWrapper } = await import('./symbologyColor');

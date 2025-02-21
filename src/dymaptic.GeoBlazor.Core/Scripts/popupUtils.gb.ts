@@ -62,7 +62,7 @@ export default class PopupUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPopupUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspopupUtils: any = {}
+    let jspopupUtils: any = {};
 
 
     let { default: PopupUtilsWrapper } = await import('./popupUtils');

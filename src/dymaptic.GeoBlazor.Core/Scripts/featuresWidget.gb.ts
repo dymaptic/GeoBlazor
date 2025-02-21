@@ -44,7 +44,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetFeaturesViewModel(result);
     }
 
     async open(options: any): Promise<void> {
@@ -56,7 +56,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetFeaturesViewModel(result);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -93,7 +93,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget);
     }
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.widget.spatialReference)) {
@@ -113,7 +113,7 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetFeaturesViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsFeaturesViewModel } = await import('./featuresViewModel');
@@ -130,45 +130,46 @@ export default class FeaturesWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeaturesWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatures = new Features();
+    let properties: any = {};
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatures.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+        properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeatures.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsFeaturesViewModel } = await import('./featuresViewModel');
-        jsFeatures.viewModel = await buildJsFeaturesViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsFeaturesViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.content)) {
-        jsFeatures.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.goToOverride)) {
-        jsFeatures.goToOverride = dotNetObject.goToOverride;
+        properties.goToOverride = dotNetObject.goToOverride;
     }
     if (hasValue(dotNetObject.headingLevel)) {
-        jsFeatures.headingLevel = dotNetObject.headingLevel;
+        properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.promises)) {
-        jsFeatures.promises = dotNetObject.promises;
+        properties.promises = dotNetObject.promises;
     }
     if (hasValue(dotNetObject.selectedFeatureIndex)) {
-        jsFeatures.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
+        properties.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
     }
     if (hasValue(dotNetObject.timeZone)) {
-        jsFeatures.timeZone = dotNetObject.timeZone;
+        properties.timeZone = dotNetObject.timeZone;
     }
     if (hasValue(dotNetObject.title)) {
-        jsFeatures.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        jsFeatures.visibleElements = sanitizedVisibleElements;
+        properties.visibleElements = sanitizedVisibleElements;
     }
+    let jsFeatures = new Features(properties);
     jsFeatures.on('trigger-action', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
     });
@@ -215,7 +216,7 @@ export async function buildDotNetFeaturesWidgetGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.selectedFeatureWidget)) {
             let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
+            dotNetFeaturesWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');
@@ -223,7 +224,7 @@ export async function buildDotNetFeaturesWidgetGenerated(jsObject: any, layerId:
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-            dotNetFeaturesWidget.viewModel = await buildDotNetFeaturesViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetFeaturesWidget.viewModel = await buildDotNetFeaturesViewModel(jsObject.viewModel);
         }
     if (hasValue(jsObject.active)) {
         dotNetFeaturesWidget.active = jsObject.active;

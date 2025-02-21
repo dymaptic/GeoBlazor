@@ -4,34 +4,34 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipElement } from './relationshipElement';
 
 export async function buildJsRelationshipElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRelationshipElement = new RelationshipElement();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
-        jsRelationshipElement.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.displayCount)) {
-        jsRelationshipElement.displayCount = dotNetObject.displayCount;
+        properties.displayCount = dotNetObject.displayCount;
     }
     if (hasValue(dotNetObject.displayType)) {
-        jsRelationshipElement.displayType = dotNetObject.displayType;
+        properties.displayType = dotNetObject.displayType;
     }
     if (hasValue(dotNetObject.editableExpression)) {
-        jsRelationshipElement.editableExpression = dotNetObject.editableExpression;
+        properties.editableExpression = dotNetObject.editableExpression;
     }
     if (hasValue(dotNetObject.label)) {
-        jsRelationshipElement.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.orderByFields)) {
-        jsRelationshipElement.orderByFields = dotNetObject.orderByFields;
+        properties.orderByFields = dotNetObject.orderByFields;
     }
     if (hasValue(dotNetObject.relationshipId)) {
-        jsRelationshipElement.relationshipId = dotNetObject.relationshipId;
+        properties.relationshipId = dotNetObject.relationshipId;
     }
     if (hasValue(dotNetObject.visibilityExpression)) {
-        jsRelationshipElement.visibilityExpression = dotNetObject.visibilityExpression;
+        properties.visibilityExpression = dotNetObject.visibilityExpression;
     }
+    let jsRelationshipElement = new RelationshipElement(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipElement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipElement;

@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDensifyParameters } from './densifyParameters';
 
 export async function buildJsDensifyParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDensifyParameters = new DensifyParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsDensifyParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
 
     if (hasValue(dotNetObject.geodesic)) {
-        jsDensifyParameters.geodesic = dotNetObject.geodesic;
+        properties.geodesic = dotNetObject.geodesic;
     }
     if (hasValue(dotNetObject.lengthUnit)) {
-        jsDensifyParameters.lengthUnit = dotNetObject.lengthUnit;
+        properties.lengthUnit = dotNetObject.lengthUnit;
     }
     if (hasValue(dotNetObject.maxSegmentLength)) {
-        jsDensifyParameters.maxSegmentLength = dotNetObject.maxSegmentLength;
+        properties.maxSegmentLength = dotNetObject.maxSegmentLength;
     }
+    let jsDensifyParameters = new DensifyParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDensifyParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDensifyParameters;

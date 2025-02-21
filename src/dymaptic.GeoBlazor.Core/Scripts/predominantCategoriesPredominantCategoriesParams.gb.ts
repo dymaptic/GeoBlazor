@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominantCategoriesPredominantCategoriesParams } from './predominantCategoriesPredominantCategoriesParams';
 
 export async function buildJsPredominantCategoriesPredominantCategoriesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jspredominantCategoriesPredominantCategoriesParams: any = {}
+    let jspredominantCategoriesPredominantCategoriesParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jspredominantCategoriesPredominantCategoriesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsPredominantCategoriesPredominantCategoriesParamsGen
         jspredominantCategoriesPredominantCategoriesParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jspredominantCategoriesPredominantCategoriesParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspredominantCategoriesPredominantCategoriesParams;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterSliceValue } from './rasterSliceValue';
 
 export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRasterSliceValue: any = {}
+    let jsRasterSliceValue: any = {};
 
     if (hasValue(dotNetObject.magdirValue)) {
         jsRasterSliceValue.magdirValue = dotNetObject.magdirValue;
@@ -16,7 +16,6 @@ export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerI
         jsRasterSliceValue.value = dotNetObject.value;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterSliceValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSliceValue;

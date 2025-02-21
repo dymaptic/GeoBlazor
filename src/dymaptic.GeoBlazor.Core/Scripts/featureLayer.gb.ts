@@ -74,7 +74,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
-        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options, this.layerId, this.viewId) as any;
+        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -299,194 +299,195 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureLayer = new FeatureLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
-        jsFeatureLayer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
+        properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
-        jsFeatureLayer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
+        properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
-        jsFeatureLayer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
-        jsFeatureLayer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
-        jsFeatureLayer.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
-        jsFeatureLayer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
+        properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
-        jsFeatureLayer.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.source)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsFeatureLayer.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
+        properties.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsFeatureLayer.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.templates)) {
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        jsFeatureLayer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsFeatureLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsFeatureLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.types)) {
         let { buildJsFeatureType } = await import('./featureType');
-        jsFeatureLayer.types = await Promise.all(dotNetObject.types.map(async i => await buildJsFeatureType(i, layerId, viewId))) as any;
+        properties.types = await Promise.all(dotNetObject.types.map(async i => await buildJsFeatureType(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsFeatureLayer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
+        properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
-        jsFeatureLayer.apiKey = dotNetObject.apiKey;
+        properties.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.arcGISLayerId)) {
-        jsFeatureLayer.id = dotNetObject.arcGISLayerId;
+        properties.id = dotNetObject.arcGISLayerId;
     }
     if (hasValue(dotNetObject.blendMode)) {
-        jsFeatureLayer.blendMode = dotNetObject.blendMode;
+        properties.blendMode = dotNetObject.blendMode;
     }
     if (hasValue(dotNetObject.charts)) {
-        jsFeatureLayer.charts = dotNetObject.charts;
+        properties.charts = dotNetObject.charts;
     }
     if (hasValue(dotNetObject.copyright)) {
-        jsFeatureLayer.copyright = dotNetObject.copyright;
+        properties.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.customParameters)) {
-        jsFeatureLayer.customParameters = dotNetObject.customParameters;
+        properties.customParameters = dotNetObject.customParameters;
     }
     if (hasValue(dotNetObject.dateFieldsTimeZone)) {
-        jsFeatureLayer.dateFieldsTimeZone = dotNetObject.dateFieldsTimeZone;
+        properties.dateFieldsTimeZone = dotNetObject.dateFieldsTimeZone;
     }
     if (hasValue(dotNetObject.definitionExpression)) {
-        jsFeatureLayer.definitionExpression = dotNetObject.definitionExpression;
+        properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.displayField)) {
-        jsFeatureLayer.displayField = dotNetObject.displayField;
+        properties.displayField = dotNetObject.displayField;
     }
     if (hasValue(dotNetObject.dynamicDataSource)) {
-        jsFeatureLayer.dynamicDataSource = dotNetObject.dynamicDataSource;
+        properties.dynamicDataSource = dotNetObject.dynamicDataSource;
     }
     if (hasValue(dotNetObject.editingEnabled)) {
-        jsFeatureLayer.editingEnabled = dotNetObject.editingEnabled;
+        properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.effect)) {
-        jsFeatureLayer.effect = dotNetObject.effect;
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        jsFeatureLayer.elevationInfo = sanitizedElevationInfo;
+        properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.featureReduction)) {
-        jsFeatureLayer.featureReduction = dotNetObject.featureReduction;
+        properties.featureReduction = dotNetObject.featureReduction;
     }
     if (hasValue(dotNetObject.floorInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
-        jsFeatureLayer.floorInfo = sanitizedFloorInfo;
+        properties.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.formTemplate)) {
-        jsFeatureLayer.formTemplate = dotNetObject.formTemplate;
+        properties.formTemplate = dotNetObject.formTemplate;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsFeatureLayer.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.hasM)) {
-        jsFeatureLayer.hasM = dotNetObject.hasM;
+        properties.hasM = dotNetObject.hasM;
     }
     if (hasValue(dotNetObject.hasZ)) {
-        jsFeatureLayer.hasZ = dotNetObject.hasZ;
+        properties.hasZ = dotNetObject.hasZ;
     }
     if (hasValue(dotNetObject.historicMoment)) {
-        jsFeatureLayer.historicMoment = dotNetObject.historicMoment;
+        properties.historicMoment = dotNetObject.historicMoment;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
-        jsFeatureLayer.labelsVisible = dotNetObject.labelsVisible;
+        properties.labelsVisible = dotNetObject.labelsVisible;
     }
     if (hasValue(dotNetObject.layerIndex)) {
-        jsFeatureLayer.layerId = dotNetObject.layerIndex;
+        properties.layerId = dotNetObject.layerIndex;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
-        jsFeatureLayer.legendEnabled = dotNetObject.legendEnabled;
+        properties.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.listMode)) {
-        jsFeatureLayer.listMode = dotNetObject.listMode;
+        properties.listMode = dotNetObject.listMode;
     }
     if (hasValue(dotNetObject.maxScale)) {
-        jsFeatureLayer.maxScale = dotNetObject.maxScale;
+        properties.maxScale = dotNetObject.maxScale;
     }
     if (hasValue(dotNetObject.minScale)) {
-        jsFeatureLayer.minScale = dotNetObject.minScale;
+        properties.minScale = dotNetObject.minScale;
     }
     if (hasValue(dotNetObject.objectIdField)) {
-        jsFeatureLayer.objectIdField = dotNetObject.objectIdField;
+        properties.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.opacity)) {
-        jsFeatureLayer.opacity = dotNetObject.opacity;
+        properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.orderBy)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
-        jsFeatureLayer.orderBy = sanitizedOrderBy;
+        properties.orderBy = sanitizedOrderBy;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsFeatureLayer.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
-        jsFeatureLayer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
-        jsFeatureLayer.popupEnabled = dotNetObject.popupEnabled;
+        properties.popupEnabled = dotNetObject.popupEnabled;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsFeatureLayer.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.returnM)) {
-        jsFeatureLayer.returnM = dotNetObject.returnM;
+        properties.returnM = dotNetObject.returnM;
     }
     if (hasValue(dotNetObject.returnZ)) {
-        jsFeatureLayer.returnZ = dotNetObject.returnZ;
+        properties.returnZ = dotNetObject.returnZ;
     }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
-        jsFeatureLayer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
+        properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
-        jsFeatureLayer.sourceJSON = dotNetObject.sourceJSON;
+        properties.sourceJSON = dotNetObject.sourceJSON;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        jsFeatureLayer.timeOffset = sanitizedTimeOffset;
+        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
-        jsFeatureLayer.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.typeIdField)) {
-        jsFeatureLayer.typeIdField = dotNetObject.typeIdField;
+        properties.typeIdField = dotNetObject.typeIdField;
     }
     if (hasValue(dotNetObject.url)) {
-        jsFeatureLayer.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.useViewTime)) {
-        jsFeatureLayer.useViewTime = dotNetObject.useViewTime;
+        properties.useViewTime = dotNetObject.useViewTime;
     }
+    let jsFeatureLayer = new FeatureLayer(properties);
     jsFeatureLayer.on('edits', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', evt);
     });
@@ -518,7 +519,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     return jsFeatureLayer;
 }
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -569,7 +570,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.templates)) {
             let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
+            dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorSchemeForMesh } from './colorSchemeForMesh';
 
 export async function buildJsColorSchemeForMeshGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsColorSchemeForMesh: any = {}
+    let jsColorSchemeForMesh: any = {};
     if (hasValue(dotNetObject.colors)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsColorSchemeForMesh.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
@@ -33,7 +33,6 @@ export async function buildJsColorSchemeForMeshGenerated(dotNetObject: any, laye
         jsColorSchemeForMesh.theme = dotNetObject.theme;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsColorSchemeForMesh);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorSchemeForMesh;

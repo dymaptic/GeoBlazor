@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTileInfoCreateOptions } from './tileInfoCreateOptions';
 
 export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTileInfoCreateOptions: any = {}
+    let jsTileInfoCreateOptions: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jsTileInfoCreateOptions.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
@@ -19,7 +19,6 @@ export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, l
         jsTileInfoCreateOptions.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTileInfoCreateOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfoCreateOptions;

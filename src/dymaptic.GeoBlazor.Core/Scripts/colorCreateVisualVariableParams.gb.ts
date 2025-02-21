@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorCreateVisualVariableParams } from './colorCreateVisualVariableParams';
 
 export async function buildJsColorCreateVisualVariableParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jscolorCreateVisualVariableParams: any = {}
+    let jscolorCreateVisualVariableParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jscolorCreateVisualVariableParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -56,7 +56,6 @@ export async function buildJsColorCreateVisualVariableParamsGenerated(dotNetObje
         jscolorCreateVisualVariableParams.worldScale = dotNetObject.worldScale;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jscolorCreateVisualVariableParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jscolorCreateVisualVariableParams;

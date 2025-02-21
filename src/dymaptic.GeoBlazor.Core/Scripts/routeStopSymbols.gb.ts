@@ -4,28 +4,28 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRouteStopSymbols } from './routeStopSymbols';
 
 export async function buildJsRouteStopSymbolsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsRouteStopSymbols = new RouteStopSymbols();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.break)) {
-        jsRouteStopSymbols.break = dotNetObject.break;
+        properties.break = dotNetObject.break;
     }
     if (hasValue(dotNetObject.first)) {
-        jsRouteStopSymbols.first = dotNetObject.first;
+        properties.first = dotNetObject.first;
     }
     if (hasValue(dotNetObject.last)) {
-        jsRouteStopSymbols.last = dotNetObject.last;
+        properties.last = dotNetObject.last;
     }
     if (hasValue(dotNetObject.middle)) {
-        jsRouteStopSymbols.middle = dotNetObject.middle;
+        properties.middle = dotNetObject.middle;
     }
     if (hasValue(dotNetObject.unlocated)) {
-        jsRouteStopSymbols.unlocated = dotNetObject.unlocated;
+        properties.unlocated = dotNetObject.unlocated;
     }
     if (hasValue(dotNetObject.waypoint)) {
-        jsRouteStopSymbols.waypoint = dotNetObject.waypoint;
+        properties.waypoint = dotNetObject.waypoint;
     }
+    let jsRouteStopSymbols = new RouteStopSymbols(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsRouteStopSymbols);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteStopSymbols;

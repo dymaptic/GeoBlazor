@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetShadedReliefCreateRendererParams } from './shadedReliefCreateRendererParams';
 
 export async function buildJsShadedReliefCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsshadedReliefCreateRendererParams: any = {}
+    let jsshadedReliefCreateRendererParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsshadedReliefCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -30,7 +30,6 @@ export async function buildJsShadedReliefCreateRendererParamsGenerated(dotNetObj
         jsshadedReliefCreateRendererParams.signal = dotNetObject.signal;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsshadedReliefCreateRendererParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsshadedReliefCreateRendererParams;

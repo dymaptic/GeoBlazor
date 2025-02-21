@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImagePixelLocationParameters } from './imagePixelLocationParameters';
 
 export async function buildJsImagePixelLocationParametersGenerated(dotNetObject: any): Promise<any> {
-    let jsImagePixelLocationParameters = new ImagePixelLocationParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.point)) {
         let { buildJsPoint } = await import('./point');
-        jsImagePixelLocationParameters.point = dotNetObject.point.map(i => buildJsPoint(i)) as any;
+        properties.point = dotNetObject.point.map(i => buildJsPoint(i)) as any;
     }
 
     if (hasValue(dotNetObject.rasterId)) {
-        jsImagePixelLocationParameters.rasterId = dotNetObject.rasterId;
+        properties.rasterId = dotNetObject.rasterId;
     }
+    let jsImagePixelLocationParameters = new ImagePixelLocationParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImagePixelLocationParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImagePixelLocationParameters;

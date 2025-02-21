@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBaseImageMeasureParameters } from './baseImageMeasureParameters';
 
 export async function buildJsBaseImageMeasureParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBaseImageMeasureParameters: any = {}
+    let jsBaseImageMeasureParameters: any = {};
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
         jsBaseImageMeasureParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
@@ -13,7 +13,6 @@ export async function buildJsBaseImageMeasureParametersGenerated(dotNetObject: a
         jsBaseImageMeasureParameters.pixelSize = dotNetObject.pixelSize;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsBaseImageMeasureParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseImageMeasureParameters;

@@ -86,7 +86,7 @@ export default class FieldUtilsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFieldUtilsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsfieldUtils: any = {}
+    let jsfieldUtils: any = {};
 
 
     let { default: FieldUtilsWrapper } = await import('./fieldUtils');

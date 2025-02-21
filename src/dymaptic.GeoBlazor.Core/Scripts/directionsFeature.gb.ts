@@ -4,24 +4,24 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDirectionsFeature } from './directionsFeature';
 
 export async function buildJsDirectionsFeatureGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDirectionsFeature = new DirectionsFeature();
+    let properties: any = {};
     if (hasValue(dotNetObject.events)) {
         let { buildJsDirectionsEvent } = await import('./directionsEvent');
-        jsDirectionsFeature.events = await Promise.all(dotNetObject.events.map(async i => await buildJsDirectionsEvent(i, layerId, viewId))) as any;
+        properties.events = await Promise.all(dotNetObject.events.map(async i => await buildJsDirectionsEvent(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsDirectionsFeature.geometry = buildJsPolyline(dotNetObject.geometry) as any;
+        properties.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.attributes)) {
-        jsDirectionsFeature.attributes = dotNetObject.attributes;
+        properties.attributes = dotNetObject.attributes;
     }
     if (hasValue(dotNetObject.strings)) {
-        jsDirectionsFeature.strings = dotNetObject.strings;
+        properties.strings = dotNetObject.strings;
     }
+    let jsDirectionsFeature = new DirectionsFeature(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsFeature);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsFeature;

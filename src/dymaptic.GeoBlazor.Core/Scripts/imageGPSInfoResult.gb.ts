@@ -4,17 +4,17 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageGPSInfoResult } from './imageGPSInfoResult';
 
 export async function buildJsImageGPSInfoResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageGPSInfoResult = new ImageGPSInfoResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.images)) {
         let { buildJsImageGPSInfo } = await import('./imageGPSInfo');
-        jsImageGPSInfoResult.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageGPSInfo(i, layerId, viewId))) as any;
+        properties.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageGPSInfo(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.cameras)) {
-        jsImageGPSInfoResult.cameras = dotNetObject.cameras;
+        properties.cameras = dotNetObject.cameras;
     }
+    let jsImageGPSInfoResult = new ImageGPSInfoResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageGPSInfoResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageGPSInfoResult;

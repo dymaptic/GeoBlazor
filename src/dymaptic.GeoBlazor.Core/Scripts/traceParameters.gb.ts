@@ -4,35 +4,35 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTraceParameters } from './traceParameters';
 
 export async function buildJsTraceParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTraceParameters = new TraceParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTraceParameters.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
+        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
     }
 
     if (hasValue(dotNetObject.gdbVersion)) {
-        jsTraceParameters.gdbVersion = dotNetObject.gdbVersion;
+        properties.gdbVersion = dotNetObject.gdbVersion;
     }
     if (hasValue(dotNetObject.moment)) {
-        jsTraceParameters.moment = dotNetObject.moment;
+        properties.moment = dotNetObject.moment;
     }
     if (hasValue(dotNetObject.namedTraceConfigurationGlobalId)) {
-        jsTraceParameters.namedTraceConfigurationGlobalId = dotNetObject.namedTraceConfigurationGlobalId;
+        properties.namedTraceConfigurationGlobalId = dotNetObject.namedTraceConfigurationGlobalId;
     }
     if (hasValue(dotNetObject.resultTypes)) {
-        jsTraceParameters.resultTypes = dotNetObject.resultTypes;
+        properties.resultTypes = dotNetObject.resultTypes;
     }
     if (hasValue(dotNetObject.traceConfiguration)) {
-        jsTraceParameters.traceConfiguration = dotNetObject.traceConfiguration;
+        properties.traceConfiguration = dotNetObject.traceConfiguration;
     }
     if (hasValue(dotNetObject.traceLocations)) {
-        jsTraceParameters.traceLocations = dotNetObject.traceLocations;
+        properties.traceLocations = dotNetObject.traceLocations;
     }
     if (hasValue(dotNetObject.traceType)) {
-        jsTraceParameters.traceType = dotNetObject.traceType;
+        properties.traceType = dotNetObject.traceType;
     }
+    let jsTraceParameters = new TraceParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTraceParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTraceParameters;

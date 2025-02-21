@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMLineCallout } from './cIMLineCallout';
 
 export async function buildJsCIMLineCalloutGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMLineCallout: any = {}
+    let jsCIMLineCallout: any = {};
     if (hasValue(dotNetObject.leaderLineSymbol)) {
         let { buildJsCIMLineSymbol } = await import('./cIMLineSymbol');
         jsCIMLineCallout.leaderLineSymbol = await buildJsCIMLineSymbol(dotNetObject.leaderLineSymbol, layerId, viewId) as any;
@@ -22,7 +22,6 @@ export async function buildJsCIMLineCalloutGenerated(dotNetObject: any, layerId:
         jsCIMLineCallout.lineStyle = dotNetObject.lineStyle;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMLineCallout);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMLineCallout;

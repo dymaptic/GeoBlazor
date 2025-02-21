@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGeometryServiceToGeoCoordinateStringParams } from './geometryServiceToGeoCoordinateStringParams';
 
 export async function buildJsGeometryServiceToGeoCoordinateStringParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsgeometryServiceToGeoCoordinateStringParams: any = {}
+    let jsgeometryServiceToGeoCoordinateStringParams: any = {};
     if (hasValue(dotNetObject.spatialReferenceSr)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jsgeometryServiceToGeoCoordinateStringParams.sr = buildJsSpatialReference(dotNetObject.spatialReferenceSr) as any;
@@ -31,7 +31,6 @@ export async function buildJsGeometryServiceToGeoCoordinateStringParamsGenerated
         jsgeometryServiceToGeoCoordinateStringParams.rounding = dotNetObject.rounding;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsgeometryServiceToGeoCoordinateStringParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgeometryServiceToGeoCoordinateStringParams;

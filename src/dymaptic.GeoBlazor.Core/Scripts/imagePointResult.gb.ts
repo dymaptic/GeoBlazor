@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImagePointResult } from './imagePointResult';
 
 export async function buildJsImagePointResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImagePointResult = new ImagePointResult();
+    let properties: any = {};
     if (hasValue(dotNetObject.point)) {
         let { buildJsPoint } = await import('./point');
-        jsImagePointResult.point = buildJsPoint(dotNetObject.point) as any;
+        properties.point = buildJsPoint(dotNetObject.point) as any;
     }
 
     if (hasValue(dotNetObject.name)) {
-        jsImagePointResult.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.sensorName)) {
-        jsImagePointResult.sensorName = dotNetObject.sensorName;
+        properties.sensorName = dotNetObject.sensorName;
     }
+    let jsImagePointResult = new ImagePointResult(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImagePointResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImagePointResult;

@@ -38,8 +38,9 @@ export default class StatisticsClassBreaksGenerated implements IPropertyWrapper 
 
 
 export async function buildJsStatisticsClassBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsstatisticsClassBreaks = new statisticsClassBreaks();
+    let properties: any = {};
 
+    let jsstatisticsClassBreaks = new statisticsClassBreaks(properties);
 
     let { default: StatisticsClassBreaksWrapper } = await import('./statisticsClassBreaks');
     let statisticsClassBreaksWrapper = new StatisticsClassBreaksWrapper(jsstatisticsClassBreaks);

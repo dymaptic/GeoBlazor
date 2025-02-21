@@ -4,55 +4,55 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageIdentifyParameters } from './imageIdentifyParameters';
 
 export async function buildJsImageIdentifyParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsImageIdentifyParameters = new ImageIdentifyParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsImageIdentifyParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsImageIdentifyParameters.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsImageIdentifyParameters.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.maxItemCount)) {
-        jsImageIdentifyParameters.maxItemCount = dotNetObject.maxItemCount;
+        properties.maxItemCount = dotNetObject.maxItemCount;
     }
     if (hasValue(dotNetObject.pixelSize)) {
-        jsImageIdentifyParameters.pixelSize = dotNetObject.pixelSize;
+        properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.processAsMultidimensional)) {
-        jsImageIdentifyParameters.processAsMultidimensional = dotNetObject.processAsMultidimensional;
+        properties.processAsMultidimensional = dotNetObject.processAsMultidimensional;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
-        jsImageIdentifyParameters.rasterFunction = sanitizedRasterFunction;
+        properties.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.rasterFunctions)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunctions } = dotNetObject.rasterFunctions;
-        jsImageIdentifyParameters.rasterFunctions = sanitizedRasterFunctions;
+        properties.rasterFunctions = sanitizedRasterFunctions;
     }
     if (hasValue(dotNetObject.renderingRule)) {
-        jsImageIdentifyParameters.renderingRule = dotNetObject.renderingRule;
+        properties.renderingRule = dotNetObject.renderingRule;
     }
     if (hasValue(dotNetObject.renderingRules)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRules } = dotNetObject.renderingRules;
-        jsImageIdentifyParameters.renderingRules = sanitizedRenderingRules;
+        properties.renderingRules = sanitizedRenderingRules;
     }
     if (hasValue(dotNetObject.returnCatalogItems)) {
-        jsImageIdentifyParameters.returnCatalogItems = dotNetObject.returnCatalogItems;
+        properties.returnCatalogItems = dotNetObject.returnCatalogItems;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsImageIdentifyParameters.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.returnPixelValues)) {
-        jsImageIdentifyParameters.returnPixelValues = dotNetObject.returnPixelValues;
+        properties.returnPixelValues = dotNetObject.returnPixelValues;
     }
+    let jsImageIdentifyParameters = new ImageIdentifyParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsImageIdentifyParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyParameters;

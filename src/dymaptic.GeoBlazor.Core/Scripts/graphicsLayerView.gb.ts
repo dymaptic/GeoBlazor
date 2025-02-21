@@ -64,12 +64,13 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGraphicsLayerView = new GraphicsLayerView();
+    let properties: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
 
+    let jsGraphicsLayerView = new GraphicsLayerView(properties);
 
     let { default: GraphicsLayerViewWrapper } = await import('./graphicsLayerView');
     let graphicsLayerViewWrapper = new GraphicsLayerViewWrapper(jsGraphicsLayerView);

@@ -4,20 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapToImageParameters } from './mapToImageParameters';
 
 export async function buildJsMapToImageParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsMapToImageParameters = new MapToImageParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsMapToImageParameters.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
 
     if (hasValue(dotNetObject.rasterId)) {
-        jsMapToImageParameters.rasterId = dotNetObject.rasterId;
+        properties.rasterId = dotNetObject.rasterId;
     }
     if (hasValue(dotNetObject.visibleOnly)) {
-        jsMapToImageParameters.visibleOnly = dotNetObject.visibleOnly;
+        properties.visibleOnly = dotNetObject.visibleOnly;
     }
+    let jsMapToImageParameters = new MapToImageParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsMapToImageParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapToImageParameters;

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCIMLineSymbol } from './cIMLineSymbol';
 
 export async function buildJsCIMLineSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsCIMLineSymbol: any = {}
+    let jsCIMLineSymbol: any = {};
     if (hasValue(dotNetObject.symbolLayers)) {
         let { buildJsICIMSymbolLayer } = await import('./iCIMSymbolLayer');
         jsCIMLineSymbol.symbolLayers = await Promise.all(dotNetObject.symbolLayers.map(async i => await buildJsICIMSymbolLayer(i, layerId, viewId))) as any;
@@ -19,7 +19,6 @@ export async function buildJsCIMLineSymbolGenerated(dotNetObject: any, layerId: 
         jsCIMLineSymbol.useRealWorldSymbolSizes = dotNetObject.useRealWorldSymbolSizes;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsCIMLineSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCIMLineSymbol;

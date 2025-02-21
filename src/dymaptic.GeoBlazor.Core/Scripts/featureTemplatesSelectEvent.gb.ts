@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureTemplatesSelectEvent } from './featureTemplatesSelectEvent';
 
 export async function buildJsFeatureTemplatesSelectEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsFeatureTemplatesSelectEvent: any = {}
+    let jsFeatureTemplatesSelectEvent: any = {};
     if (hasValue(dotNetObject.item)) {
         let { buildJsTemplateItem } = await import('./templateItem');
         jsFeatureTemplatesSelectEvent.item = await buildJsTemplateItem(dotNetObject.item, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsFeatureTemplatesSelectEventGenerated(dotNetObject: 
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureTemplatesSelectEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTemplatesSelectEvent;

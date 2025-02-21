@@ -4,23 +4,23 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIGeolocationPositioning } from './iGeolocationPositioning';
 
 export async function buildJsIGeolocationPositioningGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsGeolocationPositioning = new GeolocationPositioning();
+    let properties: any = {};
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
-        jsGeolocationPositioning.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.geolocationOptions)) {
-        jsGeolocationPositioning.geolocationOptions = dotNetObject.geolocationOptions;
+        properties.geolocationOptions = dotNetObject.geolocationOptions;
     }
     if (hasValue(dotNetObject.goToLocationEnabled)) {
-        jsGeolocationPositioning.goToLocationEnabled = dotNetObject.goToLocationEnabled;
+        properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
     }
     if (hasValue(dotNetObject.scale)) {
-        jsGeolocationPositioning.scale = dotNetObject.scale;
+        properties.scale = dotNetObject.scale;
     }
+    let jsGeolocationPositioning = new GeolocationPositioning(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsGeolocationPositioning);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeolocationPositioning;

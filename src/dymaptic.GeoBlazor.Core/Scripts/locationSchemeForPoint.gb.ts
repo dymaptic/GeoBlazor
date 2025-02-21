@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocationSchemeForPoint } from './locationSchemeForPoint';
 
 export async function buildJsLocationSchemeForPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsLocationSchemeForPoint: any = {}
+    let jsLocationSchemeForPoint: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
         jsLocationSchemeForPoint.color = buildJsMapColor(dotNetObject.color) as any;
@@ -20,7 +20,6 @@ export async function buildJsLocationSchemeForPointGenerated(dotNetObject: any, 
         jsLocationSchemeForPoint.size = dotNetObject.size;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsLocationSchemeForPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocationSchemeForPoint;

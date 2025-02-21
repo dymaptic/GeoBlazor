@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocatorAddressesToLocationsParams } from './locatorAddressesToLocationsParams';
 
 export async function buildJsLocatorAddressesToLocationsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jslocatorAddressesToLocationsParams: any = {}
+    let jslocatorAddressesToLocationsParams: any = {};
     if (hasValue(dotNetObject.outSpatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         jslocatorAddressesToLocationsParams.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
@@ -22,7 +22,6 @@ export async function buildJsLocatorAddressesToLocationsParamsGenerated(dotNetOb
         jslocatorAddressesToLocationsParams.locationType = dotNetObject.locationType;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jslocatorAddressesToLocationsParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jslocatorAddressesToLocationsParams;

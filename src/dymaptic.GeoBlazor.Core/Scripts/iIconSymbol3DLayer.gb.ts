@@ -60,30 +60,31 @@ export default class IIconSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIIconSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsIconSymbol3DLayer = new IconSymbol3DLayer();
+    let properties: any = {};
     if (hasValue(dotNetObject.material)) {
         let { buildJsIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
-        jsIconSymbol3DLayer.material = await buildJsIconSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
+        properties.material = await buildJsIconSymbol3DLayerMaterial(dotNetObject.material, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.outline)) {
         let { buildJsIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
-        jsIconSymbol3DLayer.outline = await buildJsIconSymbol3DLayerOutline(dotNetObject.outline, layerId, viewId) as any;
+        properties.outline = await buildJsIconSymbol3DLayerOutline(dotNetObject.outline, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.anchor)) {
-        jsIconSymbol3DLayer.anchor = dotNetObject.anchor;
+        properties.anchor = dotNetObject.anchor;
     }
     if (hasValue(dotNetObject.anchorPosition)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
-        jsIconSymbol3DLayer.anchorPosition = sanitizedAnchorPosition;
+        properties.anchorPosition = sanitizedAnchorPosition;
     }
     if (hasValue(dotNetObject.resource)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResource } = dotNetObject.resource;
-        jsIconSymbol3DLayer.resource = sanitizedResource;
+        properties.resource = sanitizedResource;
     }
     if (hasValue(dotNetObject.size)) {
-        jsIconSymbol3DLayer.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
+    let jsIconSymbol3DLayer = new IconSymbol3DLayer(properties);
 
     let { default: IIconSymbol3DLayerWrapper } = await import('./iIconSymbol3DLayer');
     let iIconSymbol3DLayerWrapper = new IIconSymbol3DLayerWrapper(jsIconSymbol3DLayer);

@@ -4,26 +4,26 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOffsetParameters } from './offsetParameters';
 
 export async function buildJsOffsetParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsOffsetParameters = new OffsetParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.geometries)) {
         let { buildJsGeometry } = await import('./geometry');
-        jsOffsetParameters.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
+        properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
 
     if (hasValue(dotNetObject.bevelRatio)) {
-        jsOffsetParameters.bevelRatio = dotNetObject.bevelRatio;
+        properties.bevelRatio = dotNetObject.bevelRatio;
     }
     if (hasValue(dotNetObject.offsetDistance)) {
-        jsOffsetParameters.offsetDistance = dotNetObject.offsetDistance;
+        properties.offsetDistance = dotNetObject.offsetDistance;
     }
     if (hasValue(dotNetObject.offsetHow)) {
-        jsOffsetParameters.offsetHow = dotNetObject.offsetHow;
+        properties.offsetHow = dotNetObject.offsetHow;
     }
     if (hasValue(dotNetObject.offsetUnit)) {
-        jsOffsetParameters.offsetUnit = dotNetObject.offsetUnit;
+        properties.offsetUnit = dotNetObject.offsetUnit;
     }
+    let jsOffsetParameters = new OffsetParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsOffsetParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOffsetParameters;

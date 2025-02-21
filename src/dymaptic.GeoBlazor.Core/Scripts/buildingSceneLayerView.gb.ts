@@ -57,8 +57,9 @@ export default class BuildingSceneLayerViewGenerated implements IPropertyWrapper
 
 
 export async function buildJsBuildingSceneLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingSceneLayerView = new BuildingSceneLayerView();
+    let properties: any = {};
 
+    let jsBuildingSceneLayerView = new BuildingSceneLayerView(properties);
 
     let { default: BuildingSceneLayerViewWrapper } = await import('./buildingSceneLayerView');
     let buildingSceneLayerViewWrapper = new BuildingSceneLayerViewWrapper(jsBuildingSceneLayerView);

@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAgeUtilsGetAgeExpressionsParams } from './ageUtilsGetAgeExpressionsParams';
 
 export async function buildJsAgeUtilsGetAgeExpressionsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsageUtilsGetAgeExpressionsParams: any = {}
+    let jsageUtilsGetAgeExpressionsParams: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsageUtilsGetAgeExpressionsParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -19,7 +19,6 @@ export async function buildJsAgeUtilsGetAgeExpressionsParamsGenerated(dotNetObje
         jsageUtilsGetAgeExpressionsParams.unit = dotNetObject.unit;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsageUtilsGetAgeExpressionsParams);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsageUtilsGetAgeExpressionsParams;

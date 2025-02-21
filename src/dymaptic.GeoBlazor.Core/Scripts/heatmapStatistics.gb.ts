@@ -38,8 +38,9 @@ export default class HeatmapStatisticsGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHeatmapStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsheatmapStatistics = new heatmapStatistics();
+    let properties: any = {};
 
+    let jsheatmapStatistics = new heatmapStatistics(properties);
 
     let { default: HeatmapStatisticsWrapper } = await import('./heatmapStatistics');
     let heatmapStatisticsWrapper = new HeatmapStatisticsWrapper(jsheatmapStatistics);

@@ -4,21 +4,21 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTrimExtendParameters } from './trimExtendParameters';
 
 export async function buildJsTrimExtendParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTrimExtendParameters = new TrimExtendParameters();
+    let properties: any = {};
     if (hasValue(dotNetObject.polylines)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsTrimExtendParameters.polylines = dotNetObject.polylines.map(i => buildJsPolyline(i)) as any;
+        properties.polylines = dotNetObject.polylines.map(i => buildJsPolyline(i)) as any;
     }
     if (hasValue(dotNetObject.trimExtendTo)) {
         let { buildJsPolyline } = await import('./polyline');
-        jsTrimExtendParameters.trimExtendTo = buildJsPolyline(dotNetObject.trimExtendTo) as any;
+        properties.trimExtendTo = buildJsPolyline(dotNetObject.trimExtendTo) as any;
     }
 
     if (hasValue(dotNetObject.extendHow)) {
-        jsTrimExtendParameters.extendHow = dotNetObject.extendHow;
+        properties.extendHow = dotNetObject.extendHow;
     }
+    let jsTrimExtendParameters = new TrimExtendParameters(properties);
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsTrimExtendParameters);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTrimExtendParameters;

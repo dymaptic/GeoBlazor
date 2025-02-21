@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetViewLayerviewDestroyEvent } from './viewLayerviewDestroyEvent';
 
 export async function buildJsViewLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsViewLayerviewDestroyEvent: any = {}
+    let jsViewLayerviewDestroyEvent: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsViewLayerviewDestroyEvent.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -14,7 +14,6 @@ export async function buildJsViewLayerviewDestroyEventGenerated(dotNetObject: an
     }
 
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsViewLayerviewDestroyEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewLayerviewDestroyEvent;

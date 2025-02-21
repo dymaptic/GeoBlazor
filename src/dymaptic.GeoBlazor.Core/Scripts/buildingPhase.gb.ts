@@ -52,11 +52,12 @@ export default class BuildingPhaseGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBuildingPhaseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsBuildingPhase = new BuildingPhase();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.allowedValues)) {
-        jsBuildingPhase.allowedValues = dotNetObject.allowedValues;
+        properties.allowedValues = dotNetObject.allowedValues;
     }
+    let jsBuildingPhase = new BuildingPhase(properties);
 
     let { default: BuildingPhaseWrapper } = await import('./buildingPhase');
     let buildingPhaseWrapper = new BuildingPhaseWrapper(jsBuildingPhase);
