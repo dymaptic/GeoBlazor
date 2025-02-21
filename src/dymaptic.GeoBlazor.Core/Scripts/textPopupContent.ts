@@ -3,22 +3,17 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import TextContent from "@arcgis/core/popup/content/TextContent";
 
 export function buildJsTextPopupContent(dotNetObject: any): any {
-    let jsTextContent = new TextContent();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.text)) {
-        jsTextContent.text = dotNetObject.text;
+        properties.text = dotNetObject.text;
     }
-        let jsObjectRef = DotNet.createJSObjectReference(jsTextContent);
+
+    let jsTextContent = new TextContent(properties);
+    
+    let jsObjectRef = DotNet.createJSObjectReference(jsTextContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextContent;
-
-    let dnInstantiatedObject = buildDotNetTextPopupContent(jsTextContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TextPopupContent', e);
-    }
 
     return jsTextContent;
 }

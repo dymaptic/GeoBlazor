@@ -5,41 +5,34 @@ import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetLineSymbolMarker, buildJsLineSymbolMarker} from "./lineSymbolMarker";
 
 export function buildJsSimpleLineSymbol(dotNetObject: any): any {
-    let jsSimpleLineSymbol = new SimpleLineSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
-        jsSimpleLineSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
     if (hasValue(dotNetObject.marker)) {
-        jsSimpleLineSymbol.marker = buildJsLineSymbolMarker(dotNetObject.marker) as any;
+        properties.marker = buildJsLineSymbolMarker(dotNetObject.marker) as any;
     }
 
     if (hasValue(dotNetObject.cap)) {
-        jsSimpleLineSymbol.cap = dotNetObject.cap;
+        properties.cap = dotNetObject.cap;
     }
     if (hasValue(dotNetObject.join)) {
-        jsSimpleLineSymbol.join = dotNetObject.join;
+        properties.join = dotNetObject.join;
     }
     if (hasValue(dotNetObject.miterLimit)) {
-        jsSimpleLineSymbol.miterLimit = dotNetObject.miterLimit;
+        properties.miterLimit = dotNetObject.miterLimit;
     }
     if (hasValue(dotNetObject.style)) {
-        jsSimpleLineSymbol.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
     if (hasValue(dotNetObject.width)) {
-        jsSimpleLineSymbol.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleLineSymbol);
+    let jsSimpleLineSymbol = new SimpleLineSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsSimpleLineSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleLineSymbol;
-
-    let dnInstantiatedObject = buildDotNetSimpleLineSymbol(jsSimpleLineSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SimpleLineSymbol', e);
-    }
 
     return jsSimpleLineSymbol;
 }

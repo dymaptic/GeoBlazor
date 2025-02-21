@@ -9,38 +9,30 @@ import {
 } from "./relatedRecordsInfoFieldOrder";
 
 export function buildJsRelationshipPopupContent(dotNetObject: any): any {
-    let jsRelationshipContent = new RelationshipContent();
+    let properties: any = {};
     if (hasValue(dotNetObject.orderByFields)) {
-        jsRelationshipContent.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
+        properties.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
     }
-
     if (hasValue(dotNetObject.description)) {
-        jsRelationshipContent.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.displayCount)) {
-        jsRelationshipContent.displayCount = dotNetObject.displayCount;
+        properties.displayCount = dotNetObject.displayCount;
     }
     if (hasValue(dotNetObject.displayType)) {
-        jsRelationshipContent.displayType = dotNetObject.displayType;
+        properties.displayType = dotNetObject.displayType;
     }
     if (hasValue(dotNetObject.relationshipId)) {
-        jsRelationshipContent.relationshipId = dotNetObject.relationshipId;
+        properties.relationshipId = dotNetObject.relationshipId;
     }
     if (hasValue(dotNetObject.title)) {
-        jsRelationshipContent.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipContent);
+    let jsRelationshipContent = new RelationshipContent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipContent;
-
-    let dnInstantiatedObject = buildDotNetRelationshipPopupContent(jsRelationshipContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RelationshipPopupContent', e);
-    }
 
     return jsRelationshipContent;
 }

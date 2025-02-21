@@ -4,35 +4,29 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetImageMediaInfoValue, buildJsImageMediaInfoValue} from './imageMediaInfoValue';
 
 export function buildJsImageMediaInfo(dotNetObject: any): any {
-    let jsImageMediaInfo = new ImageMediaInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.value)) {
-        jsImageMediaInfo.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsImageMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
-        jsImageMediaInfo.altText = dotNetObject.altText;
+        properties.altText = dotNetObject.altText;
     }
     if (hasValue(dotNetObject.caption)) {
-        jsImageMediaInfo.caption = dotNetObject.caption;
+        properties.caption = dotNetObject.caption;
     }
     if (hasValue(dotNetObject.refreshInterval)) {
-        jsImageMediaInfo.refreshInterval = dotNetObject.refreshInterval;
+        properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.title)) {
-        jsImageMediaInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfo);
+    let jsImageMediaInfo = new ImageMediaInfo(properties);
+    
+    let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfo;
-
-    let dnInstantiatedObject = buildDotNetImageMediaInfo(jsImageMediaInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageMediaInfo', e);
-    }
 
     return jsImageMediaInfo;
 }

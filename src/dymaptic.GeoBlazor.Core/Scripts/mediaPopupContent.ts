@@ -5,32 +5,25 @@ import {buildDotNetMediaInfo, buildJsMediaInfo} from './mediaInfo';
 
 
 export function buildJsMediaPopupContent(dotNetObject: any): any {
-    let jsMediaContent = new MediaContent();
+    let properties: any = {};
     if (hasValue(dotNetObject.mediaInfos)) {
-        jsMediaContent.mediaInfos = dotNetObject.mediaInfos.map(i => buildJsMediaInfo(i)) as any;
+        properties.mediaInfos = dotNetObject.mediaInfos.map(i => buildJsMediaInfo(i)) as any;
     }
 
     if (hasValue(dotNetObject.activeMediaInfoIndex)) {
-        jsMediaContent.activeMediaInfoIndex = dotNetObject.activeMediaInfoIndex;
+        properties.activeMediaInfoIndex = dotNetObject.activeMediaInfoIndex;
     }
     if (hasValue(dotNetObject.description)) {
-        jsMediaContent.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.title)) {
-        jsMediaContent.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsMediaContent);
+    let jsMediaContent = new MediaContent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsMediaContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMediaContent;
-
-    let dnInstantiatedObject = buildDotNetMediaPopupContent(jsMediaContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MediaPopupContent', e);
-    }
 
     return jsMediaContent;
 }

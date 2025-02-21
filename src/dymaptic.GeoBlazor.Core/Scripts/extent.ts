@@ -1,19 +1,22 @@
 import {DotNetExtent} from "./definitions";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 import Extent from "@arcgis/core/geometry/Extent";
-import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 
-export function buildJsExtent(dotNetExtent: DotNetExtent, currentSpatialReference: SpatialReference | null = null): Extent {
-    let extent = new Extent();
-    copyValuesIfExists(dotNetExtent, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
+export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null = null): any {
+    let properties: any = {};
+    copyValuesIfExists(dotNetExtent, properties, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
 
     if (hasValue(dotNetExtent.spatialReference)) {
-        extent.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
+        properties.spatialReference = buildJsSpatialReference(dotNetExtent.spatialReference)
     } else if (currentSpatialReference !== null) {
-        extent.spatialReference = currentSpatialReference;
+        properties.spatialReference = currentSpatialReference;
     }
-
+    let extent = new Extent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(extent);
+    jsObjectRefs[dotNetExtent.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetExtent.id] = extent;
     return extent;
 }
 
@@ -33,15 +36,4 @@ export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
         hasZ: extent.hasZ,
         spatialReference: buildDotNetSpatialReference(extent.spatialReference)
     } as DotNetExtent;
-}
-
-export function buildJsExtentFromJson(json: any): Extent {
-    let extent = new Extent();
-    copyValuesIfExists(json, extent, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
-
-    if (hasValue(json.spatialReference)) {
-        extent.spatialReference = buildJsSpatialReference(json.spatialReference)
-    }
-
-    return extent;
 }

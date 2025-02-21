@@ -3,7 +3,7 @@ import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialRef
 import {DotNetPolyline} from "./definitions";
 import Polyline from "@arcgis/core/geometry/Polyline";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildDotNetPolyline(polyline: any): any {
     return {
@@ -16,18 +16,28 @@ export function buildDotNetPolyline(polyline: any): any {
     };
 }
 
-export function buildJsPolyline(dnPolyline: DotNetPolyline): Polyline | null {
+export function buildJsPolyline(dnPolyline): any {
     if (dnPolyline === undefined || dnPolyline === null) return null;
-    let polyline = new Polyline({
-        paths: buildJsPathsOrRings(dnPolyline.paths) ?? undefined
-    });
-    if (hasValue(dnPolyline.spatialReference)) {
-        polyline.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
-    } else {
-        polyline.spatialReference = new SpatialReference({wkid: 4326});
+    let properties: any = {};
+    if (hasValue(dnPolyline.paths)) {
+        properties.paths = buildJsPathsOrRings(dnPolyline.paths);
     }
-
-    copyValuesIfExists(dnPolyline, polyline, 'hasZ', 'hasM');
+    if (hasValue(dnPolyline.hasZ)) {
+        properties.hasZ = dnPolyline.hasZ;
+    }
+    if (hasValue(dnPolyline.hasM)) {
+        properties.hasM = dnPolyline.hasM;
+    }
+    if (hasValue(dnPolyline.spatialReference)) {
+        properties.spatialReference = buildJsSpatialReference(dnPolyline.spatialReference);
+    } else {
+        properties.spatialReference = new SpatialReference({wkid: 4326});
+    }
+    let polyline = new Polyline(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(polyline);
+    jsObjectRefs[dnPolyline.id] = jsObjectRef;
+    arcGisObjectRefs[dnPolyline.id] = polyline;
+    
     return polyline;
 }
 

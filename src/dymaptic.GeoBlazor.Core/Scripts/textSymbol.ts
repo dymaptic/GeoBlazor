@@ -5,71 +5,64 @@ import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 import {buildDotNetMapFont, buildJsMapFont} from "./mapFont";
 
 export function buildJsTextSymbol(dotNetObject: any): any {
-    let jsTextSymbol = new TextSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.backgroundColor)) {
-        jsTextSymbol.backgroundColor = buildJsMapColor(dotNetObject.backgroundColor) as any;
+        properties.backgroundColor = buildJsMapColor(dotNetObject.backgroundColor) as any;
     }
     if (hasValue(dotNetObject.borderLineColor)) {
-        jsTextSymbol.borderLineColor = buildJsMapColor(dotNetObject.borderLineColor) as any;
+        properties.borderLineColor = buildJsMapColor(dotNetObject.borderLineColor) as any;
     }
     if (hasValue(dotNetObject.color)) {
-        jsTextSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
     if (hasValue(dotNetObject.font)) {
-        jsTextSymbol.font = buildJsMapFont(dotNetObject.font) as any;
+        properties.font = buildJsMapFont(dotNetObject.font) as any;
     }
     if (hasValue(dotNetObject.haloColor)) {
-        jsTextSymbol.haloColor = buildJsMapColor(dotNetObject.haloColor) as any;
+        properties.haloColor = buildJsMapColor(dotNetObject.haloColor) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {
-        jsTextSymbol.angle = dotNetObject.angle;
+        properties.angle = dotNetObject.angle;
     }
     if (hasValue(dotNetObject.borderLineSize)) {
-        jsTextSymbol.borderLineSize = dotNetObject.borderLineSize;
+        properties.borderLineSize = dotNetObject.borderLineSize;
     }
     if (hasValue(dotNetObject.haloSize)) {
-        jsTextSymbol.haloSize = dotNetObject.haloSize;
+        properties.haloSize = dotNetObject.haloSize;
     }
     if (hasValue(dotNetObject.horizontalAlignment)) {
-        jsTextSymbol.horizontalAlignment = dotNetObject.horizontalAlignment;
+        properties.horizontalAlignment = dotNetObject.horizontalAlignment;
     }
     if (hasValue(dotNetObject.kerning)) {
-        jsTextSymbol.kerning = dotNetObject.kerning;
+        properties.kerning = dotNetObject.kerning;
     }
     if (hasValue(dotNetObject.lineHeight)) {
-        jsTextSymbol.lineHeight = dotNetObject.lineHeight;
+        properties.lineHeight = dotNetObject.lineHeight;
     }
     if (hasValue(dotNetObject.lineWidth)) {
-        jsTextSymbol.lineWidth = dotNetObject.lineWidth;
+        properties.lineWidth = dotNetObject.lineWidth;
     }
     if (hasValue(dotNetObject.rotated)) {
-        jsTextSymbol.rotated = dotNetObject.rotated;
+        properties.rotated = dotNetObject.rotated;
     }
     if (hasValue(dotNetObject.text)) {
-        jsTextSymbol.text = dotNetObject.text;
+        properties.text = dotNetObject.text;
     }
     if (hasValue(dotNetObject.verticalAlignment)) {
-        jsTextSymbol.verticalAlignment = dotNetObject.verticalAlignment;
+        properties.verticalAlignment = dotNetObject.verticalAlignment;
     }
     if (hasValue(dotNetObject.xoffset)) {
-        jsTextSymbol.xoffset = dotNetObject.xoffset;
+        properties.xoffset = dotNetObject.xoffset;
     }
     if (hasValue(dotNetObject.yoffset)) {
-        jsTextSymbol.yoffset = dotNetObject.yoffset;
+        properties.yoffset = dotNetObject.yoffset;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsTextSymbol);
+    let jsTextSymbol = new TextSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsTextSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextSymbol;
-
-    let dnInstantiatedObject = buildDotNetTextSymbol(jsTextSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TextSymbol', e);
-    }
 
     return jsTextSymbol;
 }

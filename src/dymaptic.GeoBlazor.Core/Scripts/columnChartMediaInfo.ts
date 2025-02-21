@@ -5,32 +5,26 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from "./chartMediaInfoValue";
 
 export function buildJsColumnChartMediaInfo(dotNetObject: any): any {
-    let jsColumnChartMediaInfo = new ColumnChartMediaInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.value)) {
-        jsColumnChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
-        jsColumnChartMediaInfo.altText = dotNetObject.altText;
+        properties.altText = dotNetObject.altText;
     }
     if (hasValue(dotNetObject.caption)) {
-        jsColumnChartMediaInfo.caption = dotNetObject.caption;
+        properties.caption = dotNetObject.caption;
     }
     if (hasValue(dotNetObject.title)) {
-        jsColumnChartMediaInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsColumnChartMediaInfo);
+    let jsColumnChartMediaInfo = new ColumnChartMediaInfo(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsColumnChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColumnChartMediaInfo;
-
-    let dnInstantiatedObject = buildDotNetColumnChartMediaInfo(jsColumnChartMediaInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ColumnChartMediaInfo', e);
-    }
 
     return jsColumnChartMediaInfo;
 }

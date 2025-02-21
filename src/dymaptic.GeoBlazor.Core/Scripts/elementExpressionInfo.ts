@@ -15,17 +15,9 @@ export function buildJsElementExpressionInfo(dotNetObject: any): any {
         jsElementExpressionInfo.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsElementExpressionInfo);
+    let jsObjectRef = DotNet.createJSObjectReference(jsElementExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElementExpressionInfo;
-
-    let dnInstantiatedObject = buildDotNetElementExpressionInfo(jsElementExpressionInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ElementExpressionInfo', e);
-    }
 
     return jsElementExpressionInfo;
 }

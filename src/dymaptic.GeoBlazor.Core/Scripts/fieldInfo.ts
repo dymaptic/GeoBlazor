@@ -4,41 +4,34 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetFieldInfoFormat, buildJsFieldInfoFormat} from './fieldInfoFormat';
 
 export function buildJsFieldInfo(dotNetObject: any): any {
-    let jsFieldInfo = new FieldInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.format)) {
-        jsFieldInfo.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
+        properties.format = buildJsFieldInfoFormat(dotNetObject.format) as any;
     }
 
     if (hasValue(dotNetObject.fieldName)) {
-        jsFieldInfo.fieldName = dotNetObject.fieldName;
+        properties.fieldName = dotNetObject.fieldName;
     }
     if (hasValue(dotNetObject.isEditable)) {
-        jsFieldInfo.isEditable = dotNetObject.isEditable;
+        properties.isEditable = dotNetObject.isEditable;
     }
     if (hasValue(dotNetObject.label)) {
-        jsFieldInfo.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.statisticType)) {
-        jsFieldInfo.statisticType = dotNetObject.statisticType;
+        properties.statisticType = dotNetObject.statisticType;
     }
     if (hasValue(dotNetObject.stringFieldOption)) {
-        jsFieldInfo.stringFieldOption = dotNetObject.stringFieldOption;
+        properties.stringFieldOption = dotNetObject.stringFieldOption;
     }
     if (hasValue(dotNetObject.tooltip)) {
-        jsFieldInfo.tooltip = dotNetObject.tooltip;
+        properties.tooltip = dotNetObject.tooltip;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfo);
+    let jsFieldInfo = new FieldInfo(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfo;
-
-    let dnInstantiatedObject = buildDotNetFieldInfo(jsFieldInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FieldInfo', e);
-    }
 
     return jsFieldInfo;
 }
@@ -49,7 +42,7 @@ export function buildDotNetFieldInfo(jsObject: any): any {
     }
 
     let dotNetFieldInfo: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.format)) {
         dotNetFieldInfo.format = buildDotNetFieldInfoFormat(jsObject.format);

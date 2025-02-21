@@ -11,7 +11,9 @@ export default [
             globals: {
                 ...globals.browser,
                 "__esri": "readonly",
-                "DotNet": "readonly"
+                "DotNet": "readonly",
+                "IHandle": "readonly",
+                "HTMLCollectionOf": "readonly"
             }
       }
   },

@@ -4,32 +4,25 @@ import ExpressionInfo from "@arcgis/core/form/ExpressionInfo";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsExpressionInfo(dotNetObject: any): any {
-    let jsExpressionInfo = new ExpressionInfo();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.expression)) {
-        jsExpressionInfo.expression = dotNetObject.expression;
+        properties.expression = dotNetObject.expression;
     }
     if (hasValue(dotNetObject.name)) {
-        jsExpressionInfo.name = dotNetObject.name;
+        properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.returnType)) {
-        jsExpressionInfo.returnType = dotNetObject.returnType;
+        properties.returnType = dotNetObject.returnType;
     }
     if (hasValue(dotNetObject.title)) {
-        jsExpressionInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsExpressionInfo);
+    let jsExpressionInfo = new ExpressionInfo(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionInfo;
-
-    let dnInstantiatedObject = buildDotNetExpressionInfo(jsExpressionInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExpressionInfo', e);
-    }
 
     return jsExpressionInfo;
 }

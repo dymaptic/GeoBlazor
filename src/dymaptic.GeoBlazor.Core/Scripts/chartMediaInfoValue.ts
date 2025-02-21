@@ -5,35 +5,29 @@ import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 import {buildDotNetChartMediaInfoValueSeries, buildJsChartMediaInfoValueSeries} from './chartMediaInfoValueSeries';
 
 export function buildJsChartMediaInfoValue(dotNetObject: any): any {
-    let jsChartMediaInfoValue = new ChartMediaInfoValue();
+    let properties: any = {};
     if (hasValue(dotNetObject.colors)) {
-        jsChartMediaInfoValue.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
+        properties.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
     if (hasValue(dotNetObject.series)) {
-        jsChartMediaInfoValue.series = dotNetObject.series.map(i => buildJsChartMediaInfoValueSeries(i)) as any;
+        properties.series = dotNetObject.series.map(i => buildJsChartMediaInfoValueSeries(i)) as any;
     }
 
     if (hasValue(dotNetObject.fields)) {
-        jsChartMediaInfoValue.fields = dotNetObject.fields;
+        properties.fields = dotNetObject.fields;
     }
     if (hasValue(dotNetObject.normalizeField)) {
-        jsChartMediaInfoValue.normalizeField = dotNetObject.normalizeField;
+        properties.normalizeField = dotNetObject.normalizeField;
     }
     if (hasValue(dotNetObject.tooltipField)) {
-        jsChartMediaInfoValue.tooltipField = dotNetObject.tooltipField;
+        properties.tooltipField = dotNetObject.tooltipField;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsChartMediaInfoValue);
+    let jsChartMediaInfoValue = new ChartMediaInfoValue(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsChartMediaInfoValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsChartMediaInfoValue;
-
-    let dnInstantiatedObject = buildDotNetChartMediaInfoValue(jsChartMediaInfoValue);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ChartMediaInfoValue', e);
-    }
 
     return jsChartMediaInfoValue;
 }

@@ -5,32 +5,27 @@ import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './char
 
 
 export function buildJsBarChartMediaInfo(dotNetObject: any): any {
-    let jsBarChartMediaInfo = new BarChartMediaInfo();
+    let properties: any = {};
+    
     if (hasValue(dotNetObject.value)) {
-        jsBarChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
-        jsBarChartMediaInfo.altText = dotNetObject.altText;
+        properties.altText = dotNetObject.altText;
     }
     if (hasValue(dotNetObject.caption)) {
-        jsBarChartMediaInfo.caption = dotNetObject.caption;
+        properties.caption = dotNetObject.caption;
     }
     if (hasValue(dotNetObject.title)) {
-        jsBarChartMediaInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    
+    let jsBarChartMediaInfo = new BarChartMediaInfo(properties);
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsBarChartMediaInfo);
+    let jsObjectRef = DotNet.createJSObjectReference(jsBarChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBarChartMediaInfo;
-
-    let dnInstantiatedObject = buildDotNetBarChartMediaInfo(jsBarChartMediaInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BarChartMediaInfo', e);
-    }
 
     return jsBarChartMediaInfo;
 }

@@ -6,41 +6,34 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from "./mapColor";
 
 export function buildJsPictureMarkerSymbol(dotNetObject: any): any {
-    let jsPictureMarkerSymbol = new PictureMarkerSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
-        jsPictureMarkerSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {
-        jsPictureMarkerSymbol.angle = dotNetObject.angle;
+        properties.angle = dotNetObject.angle;
     }
     if (hasValue(dotNetObject.height)) {
-        jsPictureMarkerSymbol.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.url)) {
-        jsPictureMarkerSymbol.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.width)) {
-        jsPictureMarkerSymbol.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
     if (hasValue(dotNetObject.xoffset)) {
-        jsPictureMarkerSymbol.xoffset = dotNetObject.xoffset;
+        properties.xoffset = dotNetObject.xoffset;
     }
     if (hasValue(dotNetObject.yoffset)) {
-        jsPictureMarkerSymbol.yoffset = dotNetObject.yoffset;
+        properties.yoffset = dotNetObject.yoffset;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsPictureMarkerSymbol);
+    let jsPictureMarkerSymbol = new PictureMarkerSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsPictureMarkerSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPictureMarkerSymbol;
-
-    let dnInstantiatedObject = buildDotNetPictureMarkerSymbol(jsPictureMarkerSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PictureMarkerSymbol', e);
-    }
 
     return jsPictureMarkerSymbol;
 }

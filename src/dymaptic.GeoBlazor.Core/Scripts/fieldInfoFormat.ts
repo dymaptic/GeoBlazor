@@ -4,29 +4,22 @@ import FieldInfoFormat from "@arcgis/core/popup/support/FieldInfoFormat";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsFieldInfoFormat(dotNetObject: any): any {
-    let jsFieldInfoFormat = new FieldInfoFormat();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.dateFormat)) {
-        jsFieldInfoFormat.dateFormat = dotNetObject.dateFormat;
+        properties.dateFormat = dotNetObject.dateFormat;
     }
     if (hasValue(dotNetObject.digitSeparator)) {
-        jsFieldInfoFormat.digitSeparator = dotNetObject.digitSeparator;
+        properties.digitSeparator = dotNetObject.digitSeparator;
     }
     if (hasValue(dotNetObject.places)) {
-        jsFieldInfoFormat.places = dotNetObject.places;
+        properties.places = dotNetObject.places;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfoFormat);
+    let jsFieldInfoFormat = new FieldInfoFormat(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsFieldInfoFormat);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldInfoFormat;
-
-    let dnInstantiatedObject = buildDotNetFieldInfoFormat(jsFieldInfoFormat);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FieldInfoFormat', e);
-    }
 
     return jsFieldInfoFormat;
 }

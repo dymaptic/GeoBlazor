@@ -4,29 +4,22 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 export function buildJsSimpleFillSymbol(dotNetObject: any): any {
-    let jsSimpleFillSymbol = new SimpleFillSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
-        jsSimpleFillSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.outline)) {
-        jsSimpleFillSymbol.outline = dotNetObject.outline;
+        properties.outline = dotNetObject.outline;
     }
     if (hasValue(dotNetObject.style)) {
-        jsSimpleFillSymbol.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleFillSymbol);
+    let jsSimpleFillSymbol = new SimpleFillSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsSimpleFillSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleFillSymbol;
-
-    let dnInstantiatedObject = buildDotNetSimpleFillSymbol(jsSimpleFillSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SimpleFillSymbol', e);
-    }
 
     return jsSimpleFillSymbol;
 }

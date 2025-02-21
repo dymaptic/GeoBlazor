@@ -5,32 +5,25 @@ import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './char
 
 
 export function buildJsLineChartMediaInfo(dotNetObject: any): any {
-    let jsLineChartMediaInfo = new LineChartMediaInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.value)) {
-        jsLineChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
-        jsLineChartMediaInfo.altText = dotNetObject.altText;
+        properties.altText = dotNetObject.altText;
     }
     if (hasValue(dotNetObject.caption)) {
-        jsLineChartMediaInfo.caption = dotNetObject.caption;
+        properties.caption = dotNetObject.caption;
     }
     if (hasValue(dotNetObject.title)) {
-        jsLineChartMediaInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsLineChartMediaInfo);
+    let jsLineChartMediaInfo = new LineChartMediaInfo(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsLineChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineChartMediaInfo;
-
-    let dnInstantiatedObject = buildDotNetLineChartMediaInfo(jsLineChartMediaInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LineChartMediaInfo', e);
-    }
 
     return jsLineChartMediaInfo;
 }

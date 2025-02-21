@@ -3,7 +3,7 @@ import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialRef
 import {DotNetPolygon} from "./definitions";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildDotNetPolygon(polygon: any): any {
     if (polygon === undefined || polygon === null) return null;
@@ -17,18 +17,27 @@ export function buildDotNetPolygon(polygon: any): any {
     };
 }
 
-export function buildJsPolygon(dnPolygon: DotNetPolygon): Polygon | null {
+export function buildJsPolygon(dnPolygon): any {
     if (dnPolygon === undefined || dnPolygon === null) return null;
-    let polygon = new Polygon({
-        rings: buildJsPathsOrRings(dnPolygon.rings) ?? undefined
-    });
-    if (hasValue(dnPolygon.spatialReference)) {
-        polygon.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
-    } else {
-        polygon.spatialReference = new SpatialReference({wkid: 4326});
+    let properties : any = {};
+    if (hasValue(dnPolygon.rings)) {
+        properties.rings = buildJsPathsOrRings(dnPolygon.rings);
     }
-
-    copyValuesIfExists(dnPolygon, polygon, 'hasZ', 'hasM');
+    if (hasValue(dnPolygon.spatialReference)) {
+        properties.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
+    } else {
+        properties.spatialReference = new SpatialReference({wkid: 4326});
+    }
+    if (hasValue(dnPolygon.hasM)) {
+        properties.hasM = dnPolygon.hasM;
+    }
+    if (hasValue(dnPolygon.hasZ)) {
+        properties.hasZ = dnPolygon.hasZ;
+    }
+    let polygon = new Polygon(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(polygon);
+    jsObjectRefs[dnPolygon.id] = jsObjectRef;
+    arcGisObjectRefs[dnPolygon.id] = polygon;
     return polygon;
 }
 

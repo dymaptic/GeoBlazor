@@ -6,47 +6,40 @@ import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 
 export function buildJsPictureFillSymbol(dotNetObject: any): any {
-    let jsPictureFillSymbol = new PictureFillSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
-        jsPictureFillSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.height)) {
-        jsPictureFillSymbol.height = dotNetObject.height;
+        properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.outline)) {
-        jsPictureFillSymbol.outline = dotNetObject.outline;
+        properties.outline = dotNetObject.outline;
     }
     if (hasValue(dotNetObject.url)) {
-        jsPictureFillSymbol.url = dotNetObject.url;
+        properties.url = dotNetObject.url;
     }
     if (hasValue(dotNetObject.width)) {
-        jsPictureFillSymbol.width = dotNetObject.width;
+        properties.width = dotNetObject.width;
     }
     if (hasValue(dotNetObject.xoffset)) {
-        jsPictureFillSymbol.xoffset = dotNetObject.xoffset;
+        properties.xoffset = dotNetObject.xoffset;
     }
     if (hasValue(dotNetObject.xscale)) {
-        jsPictureFillSymbol.xscale = dotNetObject.xscale;
+        properties.xscale = dotNetObject.xscale;
     }
     if (hasValue(dotNetObject.yoffset)) {
-        jsPictureFillSymbol.yoffset = dotNetObject.yoffset;
+        properties.yoffset = dotNetObject.yoffset;
     }
     if (hasValue(dotNetObject.yscale)) {
-        jsPictureFillSymbol.yscale = dotNetObject.yscale;
+        properties.yscale = dotNetObject.yscale;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsPictureFillSymbol);
+    let jsPictureFillSymbol = new PictureFillSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsPictureFillSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPictureFillSymbol;
-
-    let dnInstantiatedObject = buildDotNetPictureFillSymbol(jsPictureFillSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PictureFillSymbol', e);
-    }
 
     return jsPictureFillSymbol;
 }

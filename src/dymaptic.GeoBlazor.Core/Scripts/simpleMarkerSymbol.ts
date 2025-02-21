@@ -5,44 +5,37 @@ import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
 
 
 export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {
-    let jsSimpleMarkerSymbol = new SimpleMarkerSymbol();
+    let properties: any = {};
     if (hasValue(dotNetObject.color)) {
-        jsSimpleMarkerSymbol.color = buildJsMapColor(dotNetObject.color) as any;
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
 
     if (hasValue(dotNetObject.angle)) {
-        jsSimpleMarkerSymbol.angle = dotNetObject.angle;
+        properties.angle = dotNetObject.angle;
     }
     if (hasValue(dotNetObject.outline)) {
-        jsSimpleMarkerSymbol.outline = dotNetObject.outline;
+        properties.outline = dotNetObject.outline;
     }
     if (hasValue(dotNetObject.path)) {
-        jsSimpleMarkerSymbol.path = dotNetObject.path;
+        properties.path = dotNetObject.path;
     }
     if (hasValue(dotNetObject.size)) {
-        jsSimpleMarkerSymbol.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.style)) {
-        jsSimpleMarkerSymbol.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
     if (hasValue(dotNetObject.xoffset)) {
-        jsSimpleMarkerSymbol.xoffset = dotNetObject.xoffset;
+        properties.xoffset = dotNetObject.xoffset;
     }
     if (hasValue(dotNetObject.yoffset)) {
-        jsSimpleMarkerSymbol.yoffset = dotNetObject.yoffset;
+        properties.yoffset = dotNetObject.yoffset;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsSimpleMarkerSymbol);
+    let jsSimpleMarkerSymbol = new SimpleMarkerSymbol(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsSimpleMarkerSymbol);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleMarkerSymbol;
-
-    let dnInstantiatedObject = buildDotNetSimpleMarkerSymbol(jsSimpleMarkerSymbol);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SimpleMarkerSymbol', e);
-    }
 
     return jsSimpleMarkerSymbol;
 }

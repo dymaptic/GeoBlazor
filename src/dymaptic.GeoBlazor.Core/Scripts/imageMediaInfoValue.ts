@@ -4,26 +4,19 @@ import ImageMediaInfoValue from "@arcgis/core/popup/content/support/ImageMediaIn
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsImageMediaInfoValue(dotNetObject: any): any {
-    let jsImageMediaInfoValue = new ImageMediaInfoValue();
-
+    let properties: any = {};
     if (hasValue(dotNetObject.linkURL)) {
-        jsImageMediaInfoValue.linkURL = dotNetObject.linkURL;
+        properties.linkURL = dotNetObject.linkURL;
     }
     if (hasValue(dotNetObject.sourceURL)) {
-        jsImageMediaInfoValue.sourceURL = dotNetObject.sourceURL;
+        properties.sourceURL = dotNetObject.sourceURL;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfoValue);
+    let jsImageMediaInfoValue = new ImageMediaInfoValue(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsImageMediaInfoValue);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageMediaInfoValue;
-
-    let dnInstantiatedObject = buildDotNetImageMediaInfoValue(jsImageMediaInfoValue);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageMediaInfoValue', e);
-    }
 
     return jsImageMediaInfoValue;
 }

@@ -16,7 +16,7 @@ export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
         jsAlgorithmicColorRamp.algorithm = dotNetObject.algorithm;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(algorithmicColorRampWrapper);
+    let jsObjectRef = DotNet.createJSObjectReference(jsAlgorithmicColorRamp);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
 

@@ -3,34 +3,26 @@ import PieChartMediaInfo from '@arcgis/core/popup/content/PieChartMediaInfo';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetChartMediaInfoValue, buildJsChartMediaInfoValue} from './chartMediaInfoValue';
 
-
 export function buildJsPieChartMediaInfo(dotNetObject: any): any {
-    let jsPieChartMediaInfo = new PieChartMediaInfo();
+    let properties: any = {};
     if (hasValue(dotNetObject.value)) {
-        jsPieChartMediaInfo.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
+        properties.value = buildJsChartMediaInfoValue(dotNetObject.value) as any;
     }
 
     if (hasValue(dotNetObject.altText)) {
-        jsPieChartMediaInfo.altText = dotNetObject.altText;
+        properties.altText = dotNetObject.altText;
     }
     if (hasValue(dotNetObject.caption)) {
-        jsPieChartMediaInfo.caption = dotNetObject.caption;
+        properties.caption = dotNetObject.caption;
     }
     if (hasValue(dotNetObject.title)) {
-        jsPieChartMediaInfo.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsPieChartMediaInfo);
+    let jsPieChartMediaInfo = new PieChartMediaInfo(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsPieChartMediaInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPieChartMediaInfo;
-
-    let dnInstantiatedObject = buildDotNetPieChartMediaInfo(jsPieChartMediaInfo);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PieChartMediaInfo', e);
-    }
 
     return jsPieChartMediaInfo;
 }

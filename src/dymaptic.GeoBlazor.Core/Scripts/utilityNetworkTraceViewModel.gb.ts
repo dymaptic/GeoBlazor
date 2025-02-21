@@ -309,7 +309,7 @@ export async function buildDotNetUtilityNetworkTraceViewModelGenerated(jsObject:
     };
         if (hasValue(jsObject.flags)) {
             let { buildDotNetFlagProperty } = await import('./flagProperty');
-            dotNetUtilityNetworkTraceViewModel.flags = await Promise.all(jsObject.flags.map(async i => await buildDotNetFlagProperty(i, layerId, viewId)));
+            dotNetUtilityNetworkTraceViewModel.flags = await Promise.all(jsObject.flags.map(async i => await buildDotNetFlagProperty(i)));
         }
         if (hasValue(jsObject.traceResults)) {
             let { buildDotNetTraceResultExtend } = await import('./traceResultExtend');

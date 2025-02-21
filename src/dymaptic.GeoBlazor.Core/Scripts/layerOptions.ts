@@ -4,26 +4,20 @@ import LayerOptions from "@arcgis/core/popup/LayerOptions";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsLayerOptions(dotNetObject: any): any {
-    let jsLayerOptions = new LayerOptions();
+    let properties:any = {};
 
     if (hasValue(dotNetObject.returnTopmostRaster)) {
-        jsLayerOptions.returnTopmostRaster = dotNetObject.returnTopmostRaster;
+        properties.returnTopmostRaster = dotNetObject.returnTopmostRaster;
     }
     if (hasValue(dotNetObject.showNoDataRecords)) {
-        jsLayerOptions.showNoDataRecords = dotNetObject.showNoDataRecords;
+        properties.showNoDataRecords = dotNetObject.showNoDataRecords;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsLayerOptions);
+    let jsLayerOptions = new LayerOptions(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsLayerOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerOptions;
-
-    let dnInstantiatedObject = buildDotNetLayerOptions(jsLayerOptions);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerOptions', e);
-    }
 
     return jsLayerOptions;
 }

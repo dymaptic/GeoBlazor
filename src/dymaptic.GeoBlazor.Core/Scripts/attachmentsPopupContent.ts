@@ -3,29 +3,22 @@ import AttachmentsContent from "@arcgis/core/popup/content/AttachmentsContent";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsAttachmentsPopupContent(dotNetObject: any): any {
-    let jsAttachmentsContent = new AttachmentsContent();
+    let properties: any = {};    
 
     if (hasValue(dotNetObject.description)) {
-        jsAttachmentsContent.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.displayType)) {
-        jsAttachmentsContent.displayType = dotNetObject.displayType;
+        properties.displayType = dotNetObject.displayType;
     }
     if (hasValue(dotNetObject.title)) {
-        jsAttachmentsContent.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsContent);
+    let jsAttachmentsContent = new AttachmentsContent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsContent;
-
-    let dnInstantiatedObject = buildDotNetAttachmentsPopupContent(jsAttachmentsContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AttachmentsPopupContent', e);
-    }
 
     return jsAttachmentsContent;
 }

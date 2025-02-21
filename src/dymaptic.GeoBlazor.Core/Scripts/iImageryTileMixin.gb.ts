@@ -64,7 +64,7 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
     return jsImageryTileMixin;
 }
 
-export async function buildDotNetIImageryTileMixinGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIImageryTileMixinGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -83,11 +83,11 @@ export async function buildDotNetIImageryTileMixinGenerated(jsObject: any, layer
         }
         if (hasValue(jsObject.rasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIImageryTileMixin.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
+            dotNetIImageryTileMixin.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIImageryTileMixin.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+            dotNetIImageryTileMixin.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');

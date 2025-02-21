@@ -5,29 +5,22 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetFieldInfo, buildJsFieldInfo} from "./fieldInfo";
 
 export function buildJsFieldsPopupContent(dotNetObject: any): any {
-    let jsFieldsContent = new FieldsContent();
+    let properties: any = {};
     if (hasValue(dotNetObject.fieldInfos)) {
-        jsFieldsContent.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
+        properties.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
-        jsFieldsContent.description = dotNetObject.description;
+        properties.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.title)) {
-        jsFieldsContent.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsFieldsContent);
+    let jsFieldsContent = new FieldsContent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsFieldsContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsContent;
-
-    let dnInstantiatedObject = buildDotNetFieldsPopupContent(jsFieldsContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FieldsPopupContent', e);
-    }
 
     return jsFieldsContent;
 }

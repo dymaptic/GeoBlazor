@@ -3,26 +3,19 @@ import RelatedRecordsInfoFieldOrder from '@arcgis/core/popup/support/RelatedReco
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsRelatedRecordsInfoFieldOrder(dotNetObject: any): any {
-    let jsRelatedRecordsInfoFieldOrder = new RelatedRecordsInfoFieldOrder();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
-        jsRelatedRecordsInfoFieldOrder.field = dotNetObject.field;
+        properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.order)) {
-        jsRelatedRecordsInfoFieldOrder.order = dotNetObject.order;
+        properties.order = dotNetObject.order;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsRelatedRecordsInfoFieldOrder);
+    let jsRelatedRecordsInfoFieldOrder = new RelatedRecordsInfoFieldOrder(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsRelatedRecordsInfoFieldOrder);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelatedRecordsInfoFieldOrder;
-
-    let dnInstantiatedObject = buildDotNetRelatedRecordsInfoFieldOrder(jsRelatedRecordsInfoFieldOrder);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RelatedRecordsInfoFieldOrder', e);
-    }
 
     return jsRelatedRecordsInfoFieldOrder;
 }

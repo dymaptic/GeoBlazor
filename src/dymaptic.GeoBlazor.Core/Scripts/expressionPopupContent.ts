@@ -5,22 +5,15 @@ import {arcGisObjectRefs, hasValue, jsObjectRefs} from './arcGisJsInterop';
 import {buildDotNetElementExpressionInfo, buildJsElementExpressionInfo} from './elementExpressionInfo';
 
 export function buildJsExpressionPopupContent(dotNetObject: any): any {
-    let jsExpressionContent = new ExpressionContent();
+    let properties: any = {};
     if (hasValue(dotNetObject.expressionInfo)) {
-        jsExpressionContent.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
+        properties.expressionInfo = buildJsElementExpressionInfo(dotNetObject.expressionInfo) as any;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsExpressionContent);
+    let jsExpressionContent = new ExpressionContent(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsExpressionContent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExpressionContent;
-
-    let dnInstantiatedObject = buildDotNetExpressionPopupContent(jsExpressionContent);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExpressionPopupContent', e);
-    }
 
     return jsExpressionContent;
 }

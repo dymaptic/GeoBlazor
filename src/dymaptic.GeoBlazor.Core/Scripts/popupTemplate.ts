@@ -8,13 +8,13 @@ import {buildJsFieldInfo} from './fieldInfo';
 import {buildJsLayerOptions} from './layerOptions';
 
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
-    let jsPopupTemplate = new PopupTemplate();
+    let properties: any = {};
     if (hasValue(dotNetObject.content)) {
-        jsPopupTemplate.content = dotNetObject.content.map(buildJsPopupContent) as any;
+        properties.content = dotNetObject.content.map(buildJsPopupContent) as any;
     } else if (hasValue(dotNetObject.stringContent)) {
-        jsPopupTemplate.content = dotNetObject.stringContent;
+        properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.hasContentFunction) && dotNetObject.hasContentFunction) {
-        jsPopupTemplate.content = async (featureSelection) => {
+        properties.content = async (featureSelection) => {
             try {
                 if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
                     return;
@@ -39,46 +39,38 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
         }
     }
     if (hasValue(dotNetObject.expressionInfos)) {
-        jsPopupTemplate.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
+        properties.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
     }
     if (hasValue(dotNetObject.fieldInfos)) {
-        jsPopupTemplate.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
+        properties.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;
     }
     if (hasValue(dotNetObject.layerOptions)) {
-        jsPopupTemplate.layerOptions = buildJsLayerOptions(dotNetObject.layerOptions) as any;
+        properties.layerOptions = buildJsLayerOptions(dotNetObject.layerOptions) as any;
     }
 
     if (hasValue(dotNetObject.actions)) {
-        jsPopupTemplate.actions = dotNetObject.actions;
+        properties.actions = dotNetObject.actions;
     }
     if (hasValue(dotNetObject.lastEditInfoEnabled)) {
-        jsPopupTemplate.lastEditInfoEnabled = dotNetObject.lastEditInfoEnabled;
+        properties.lastEditInfoEnabled = dotNetObject.lastEditInfoEnabled;
     }
     if (hasValue(dotNetObject.outFields)) {
-        jsPopupTemplate.outFields = dotNetObject.outFields;
+        properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.overwriteActions)) {
-        jsPopupTemplate.overwriteActions = dotNetObject.overwriteActions;
+        properties.overwriteActions = dotNetObject.overwriteActions;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
-        jsPopupTemplate.returnGeometry = dotNetObject.returnGeometry;
+        properties.returnGeometry = dotNetObject.returnGeometry;
     }
     if (hasValue(dotNetObject.title)) {
-        jsPopupTemplate.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsPopupTemplate);
+    let jsPopupTemplate = new PopupTemplate(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsPopupTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTemplate;
-
-    let dnInstantiatedObject = buildDotNetPopupTemplate(jsPopupTemplate);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PopupTemplate', e);
-    }
-
     popupTemplateRefs[dotNetObject.id] = jsPopupTemplate;
 
     return jsPopupTemplate;

@@ -2,7 +2,7 @@ import {buildDotNetExtent} from "./extent";
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 import {DotNetPoint} from "./definitions";
 import Point from "@arcgis/core/geometry/Point";
-import {copyValuesIfExists, hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 
 export function buildDotNetPoint(point): any {
@@ -22,21 +22,20 @@ export function buildDotNetPoint(point): any {
     };
 }
 
-export function buildJsPoint(dnPoint: DotNetPoint): Point | null {
-    if (dnPoint === undefined || dnPoint === null) return null;
-    let point = new Point({
-        latitude: dnPoint.latitude ?? undefined,
-        longitude: dnPoint.longitude ?? undefined,
-        x: dnPoint.x ?? undefined,
-        y: dnPoint.y ?? undefined
-    });
-
-    copyValuesIfExists(dnPoint, point, 'z', 'm', 'hasZ', 'hasM');
-    if (hasValue(dnPoint.spatialReference)) {
-        point.spatialReference = buildJsSpatialReference(dnPoint.spatialReference);
+export function buildJsPoint(dotNetObject: any): any {
+    if (dotNetObject === undefined || dotNetObject === null) return null;
+    let properties: any = {};
+    if (hasValue(dotNetObject.spatialReference)) {
+        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference);
     } else {
-        point.spatialReference = new SpatialReference({wkid: 4326});
+        properties.spatialReference = new SpatialReference({wkid: 4326});
     }
+    copyValuesIfExists(dotNetObject, properties, 'latitude', 'longitude', 'x', 'y',
+        'hasZ', 'hasM');
+    let point = new Point(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(point);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = point;
 
     return point;
 }
