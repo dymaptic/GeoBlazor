@@ -20,7 +20,8 @@ export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: st
         properties.starsEnabled = dotNetObject.starsEnabled;
     }
     if (hasValue(dotNetObject.weather)) {
-        properties.weather = dotNetObject.weather;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedWeather } = dotNetObject.weather;
+        properties.weather = sanitizedWeather;
     }
     let jsEnvironment = new Environment(properties);
     

@@ -252,17 +252,22 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return BackgroundFillSymbol;
         }
 
-        // get the property value
-        IUniqueValueRendererBackgroundFillSymbol? result = await JsComponentReference!.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>("getProperty",
-            CancellationTokenSource.Token, "backgroundFillSymbol");
+        IUniqueValueRendererBackgroundFillSymbol? result = await JsComponentReference.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>(
+            "getBackgroundFillSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (BackgroundFillSymbol is not null)
+            {
+                result.Id = BackgroundFillSymbol.Id;
+            }
+            
 #pragma warning disable BL0005
-             BackgroundFillSymbol = result;
+            BackgroundFillSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+            ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
         }
-         
+        
         return BackgroundFillSymbol;
     }
     
@@ -642,17 +647,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return VisualVariables;
         }
 
-        // get the property value
-        IReadOnlyList<VisualVariable>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
-            CancellationTokenSource.Token, "visualVariables");
+        IReadOnlyList<VisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<VisualVariable>?>(
+            "getVisualVariables", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisualVariables = result;
+            VisualVariables = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+            ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
         }
-         
+        
         return VisualVariables;
     }
     
@@ -1250,6 +1255,15 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
         switch (child)
         {
+            case IUniqueValueRendererBackgroundFillSymbol backgroundFillSymbol:
+                if (backgroundFillSymbol != BackgroundFillSymbol)
+                {
+                    BackgroundFillSymbol = backgroundFillSymbol;
+                    
+                    ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+                }
+                
+                return true;
             case UniqueValueRendererLegendOptions legendOptions:
                 if (legendOptions != LegendOptions)
                 {
@@ -1298,6 +1312,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
         switch (child)
         {
+            case IUniqueValueRendererBackgroundFillSymbol _:
+                BackgroundFillSymbol = null;
+                
+                ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+                return true;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
                 
@@ -1327,6 +1346,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        BackgroundFillSymbol?.ValidateRequiredGeneratedChildren();
         LegendOptions?.ValidateRequiredGeneratedChildren();
         if (UniqueValueGroups is not null)
         {

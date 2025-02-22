@@ -10,7 +10,8 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
         properties.activeTool = dotNetObject.activeTool;
     }
     if (hasValue(dotNetObject.activeViewModel)) {
-        properties.activeViewModel = dotNetObject.activeViewModel;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedActiveViewModel } = dotNetObject.activeViewModel;
+        properties.activeViewModel = sanitizedActiveViewModel;
     }
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;

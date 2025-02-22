@@ -79,7 +79,8 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     }
 
     if (hasValue(dotNetObject.source)) {
-        properties.source = dotNetObject.source;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSource } = dotNetObject.source;
+        properties.source = sanitizedSource;
     }
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);
 

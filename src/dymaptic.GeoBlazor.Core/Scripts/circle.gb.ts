@@ -21,7 +21,7 @@ export default class CircleGenerated implements IPropertyWrapper {
     
     async addRing(points: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
-        let jsPoints = buildJsPoint(points) as any;
+        let jsPoints = points.map(i => buildJsPoint(i)) as any;
         return this.component.addRing(jsPoints);
     }
 
@@ -49,7 +49,7 @@ export default class CircleGenerated implements IPropertyWrapper {
 
     async isClockwise(ring: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
-        let jsRing = buildJsPoint(ring) as any;
+        let jsRing = ring.map(i => buildJsPoint(i)) as any;
         return this.component.isClockwise(jsRing);
     }
 

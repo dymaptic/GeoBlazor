@@ -1509,17 +1509,17 @@ public partial class CSVLayer : IBlendLayer,
             return Renderer;
         }
 
-        // get the property value
-        Renderer? result = await JsComponentReference!.InvokeAsync<Renderer?>("getProperty",
-            CancellationTokenSource.Token, "renderer");
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Renderer = result;
+            Renderer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
+            ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-         
+        
         return Renderer;
     }
     

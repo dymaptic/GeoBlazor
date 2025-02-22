@@ -361,7 +361,7 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async union(geometries: any): Promise<any> {
         let { buildJsGeometry } = await import('./geometry');
-        let jsGeometries = buildJsGeometry(geometries) as any;
+        let jsGeometries = geometries.map(i => buildJsGeometry(i)) as any;
         return await this.component.union(jsGeometries);
     }
 

@@ -30,13 +30,13 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async reposition(): Promise<void> {
@@ -89,7 +89,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
@@ -221,7 +221,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel);
         }
     if (hasValue(jsObject.actions)) {
         dotNetPopupWidget.actions = jsObject.actions;

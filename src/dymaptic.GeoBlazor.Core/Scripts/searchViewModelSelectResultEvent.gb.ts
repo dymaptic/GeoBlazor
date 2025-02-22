@@ -31,7 +31,7 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
     return jsSearchViewModelSelectResultEvent;
 }
 
-export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -42,7 +42,7 @@ export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObj
     };
         if (hasValue(jsObject.result)) {
             let { buildDotNetSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
-            dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result, layerId, viewId);
+            dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result);
         }
     if (hasValue(jsObject.source)) {
         dotNetSearchViewModelSelectResultEvent.source = jsObject.source;

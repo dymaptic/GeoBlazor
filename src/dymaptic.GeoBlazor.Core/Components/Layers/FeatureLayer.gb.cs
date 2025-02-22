@@ -2290,17 +2290,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Renderer;
         }
 
-        // get the property value
-        Renderer? result = await JsComponentReference!.InvokeAsync<Renderer?>("getProperty",
-            CancellationTokenSource.Token, "renderer");
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Renderer = result;
+            Renderer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
+            ModifiedParameters[nameof(Renderer)] = Renderer;
         }
-         
+        
         return Renderer;
     }
     
@@ -2590,17 +2590,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return Templates;
         }
 
-        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<IFeatureTemplate>?>(
-            "getTemplates", CancellationTokenSource.Token);
-        
+        // get the property value
+        IReadOnlyList<IFeatureTemplate>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureTemplate>?>("getProperty",
+            CancellationTokenSource.Token, "templates");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Templates = result;
+             Templates = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Templates)] = Templates;
+             ModifiedParameters[nameof(Templates)] = Templates;
         }
-        
+         
         return Templates;
     }
     
@@ -4773,16 +4773,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case IFeatureTemplate templates:
-                Templates ??= [];
-                if (!Templates.Contains(templates))
-                {
-                    Templates = [..Templates, templates];
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(Templates)] = Templates;
-                }
-                
-                return true;
             case TimeExtent timeExtent:
                 if (timeExtent != TimeExtent)
                 {
@@ -4879,11 +4869,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
-            case IFeatureTemplate templates:
-                Templates = Templates?.Where(t => t != templates).ToList();
-                LayerChanged = true;
-                ModifiedParameters[nameof(Templates)] = Templates;
-                return true;
             case TimeExtent _:
                 TimeExtent = null;
                 LayerChanged = true;
@@ -4940,13 +4925,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
-        if (Templates is not null)
-        {
-            foreach (IFeatureTemplate child in Templates)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();

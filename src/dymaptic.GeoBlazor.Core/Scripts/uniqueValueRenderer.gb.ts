@@ -49,7 +49,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
     async getUniqueValueGroups(): Promise<any> {
         if (!hasValue(this.component.uniqueValueGroups)) {
@@ -107,7 +107,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
@@ -123,7 +123,8 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     }
 
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        properties.backgroundFillSymbol = dotNetObject.backgroundFillSymbol;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBackgroundFillSymbol } = dotNetObject.backgroundFillSymbol;
+        properties.backgroundFillSymbol = sanitizedBackgroundFillSymbol;
     }
     if (hasValue(dotNetObject.defaultLabel)) {
         properties.defaultLabel = dotNetObject.defaultLabel;

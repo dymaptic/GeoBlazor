@@ -4813,20 +4813,6 @@ public partial class Portal
 #region Public Methods
 
     /// <summary>
-    ///     A helper function that returns an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationsLayers</a> derived from the Portal's <a target="_blank" href="https://enterprise.arcgis.com/en/portal/latest/administer/windows/about-utility-services.htm">Limited Error Raster Compression (LERC) elevation helper service</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#createElevationLayers">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<IElevationLayer[]?> CreateElevationLayers()
-    {
-        if (JsComponentReference is null) return null;
-        
-        return await JsComponentReference!.InvokeAsync<IElevationLayer[]?>(
-            "createElevationLayers", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
     ///     Fetches the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">basemaps</a> that are displayed in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

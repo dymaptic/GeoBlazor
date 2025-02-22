@@ -13,7 +13,8 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
         jsuniqueValueCreateRendererParams.classFieldName = dotNetObject.classFieldName;
     }
     if (hasValue(dotNetObject.colorRamp)) {
-        jsuniqueValueCreateRendererParams.colorRamp = dotNetObject.colorRamp;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedColorRamp } = dotNetObject.colorRamp;
+        jsuniqueValueCreateRendererParams.colorRamp = sanitizedColorRamp;
     }
     if (hasValue(dotNetObject.colors)) {
         jsuniqueValueCreateRendererParams.colors = dotNetObject.colors;

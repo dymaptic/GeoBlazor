@@ -224,20 +224,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.subtypes.map(async i => await buildDotNetSubtype(i)));
     }
     
-    async getTemplates(): Promise<any> {
-        if (!hasValue(this.layer.templates)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i)));
-    }
-    
-    async setTemplates(value: any): Promise<void> {
-        let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        this.layer.templates = await Promise.all(value.map(async i => await buildJsFeatureTemplate(i, this.layerId, this.viewId))) as any;
-    }
-    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
@@ -335,10 +321,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsSpatialReference } = await import('./spatialReference');
         properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
-    if (hasValue(dotNetObject.templates)) {
-        let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsFeatureTemplate(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -471,6 +453,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.sourceJSON)) {
         properties.sourceJSON = dotNetObject.sourceJSON;
     }
+    if (hasValue(dotNetObject.templates)) {
+        properties.templates = dotNetObject.templates;
+    }
     if (hasValue(dotNetObject.timeOffset)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         properties.timeOffset = sanitizedTimeOffset;
@@ -519,7 +504,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     return jsFeatureLayer;
 }
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -567,10 +552,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         if (hasValue(jsObject.subtypes)) {
             let { buildDotNetSubtype } = await import('./subtype');
             dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i)));
-        }
-        if (hasValue(jsObject.templates)) {
-            let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-            dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetFeatureTemplate(i, layerId, viewId)));
         }
         if (hasValue(jsObject.timeExtent)) {
             let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -743,6 +724,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.subtypeField)) {
         dotNetFeatureLayer.subtypeField = jsObject.subtypeField;
+    }
+    if (hasValue(jsObject.templates)) {
+        dotNetFeatureLayer.templates = jsObject.templates;
     }
     if (hasValue(jsObject.timeOffset)) {
         dotNetFeatureLayer.timeOffset = jsObject.timeOffset;

@@ -13,7 +13,8 @@ export async function buildJsSceneViewHitTestResultGenerated(dotNetObject: any, 
         jsSceneViewHitTestResult.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.screenPoint)) {
-        jsSceneViewHitTestResult.screenPoint = dotNetObject.screenPoint;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedScreenPoint } = dotNetObject.screenPoint;
+        jsSceneViewHitTestResult.screenPoint = sanitizedScreenPoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewHitTestResult);

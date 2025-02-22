@@ -21,7 +21,8 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
         properties.isScaleDriven = dotNetObject.isScaleDriven;
     }
     if (hasValue(dotNetObject.legendElements)) {
-        properties.legendElements = dotNetObject.legendElements;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendElements } = dotNetObject.legendElements;
+        properties.legendElements = sanitizedLegendElements;
     }
     if (hasValue(dotNetObject.ready)) {
         properties.ready = dotNetObject.ready;

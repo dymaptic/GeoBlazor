@@ -196,6 +196,12 @@ public partial interface IFeatureLayerBase
     string? SourceJSON { get; set; }
     
     /// <summary>
+    ///     The spatial reference of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    SpatialReference? SpatialReference { get; set; }
+    
+    /// <summary>
     ///     The name of the field which holds the id of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">subtypes</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypeField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -206,6 +212,18 @@ public partial interface IFeatureLayerBase
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#subtypes">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<Subtype>? Subtypes { get; }
+    
+    /// <summary>
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? Title { get; set; }
+    
+    /// <summary>
+    ///     The absolute URL of the REST endpoint of the layer, non-spatial table or service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#url">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    string? Url { get; set; }
     
     /// <summary>
     ///     The version of ArcGIS Server in which the layer is published.

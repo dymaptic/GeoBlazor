@@ -6,10 +6,12 @@ export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, l
     let jsMapViewHitTestOptions: any = {};
 
     if (hasValue(dotNetObject.exclude)) {
-        jsMapViewHitTestOptions.exclude = dotNetObject.exclude;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedExclude } = dotNetObject.exclude;
+        jsMapViewHitTestOptions.exclude = sanitizedExclude;
     }
     if (hasValue(dotNetObject.include)) {
-        jsMapViewHitTestOptions.include = dotNetObject.include;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedInclude } = dotNetObject.include;
+        jsMapViewHitTestOptions.include = sanitizedInclude;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsMapViewHitTestOptions);

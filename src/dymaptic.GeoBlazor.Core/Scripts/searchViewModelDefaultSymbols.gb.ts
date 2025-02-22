@@ -6,13 +6,16 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     let jsSearchViewModelDefaultSymbols: any = {};
 
     if (hasValue(dotNetObject.point)) {
-        jsSearchViewModelDefaultSymbols.point = dotNetObject.point;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPoint } = dotNetObject.point;
+        jsSearchViewModelDefaultSymbols.point = sanitizedPoint;
     }
     if (hasValue(dotNetObject.polygon)) {
-        jsSearchViewModelDefaultSymbols.polygon = dotNetObject.polygon;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPolygon } = dotNetObject.polygon;
+        jsSearchViewModelDefaultSymbols.polygon = sanitizedPolygon;
     }
     if (hasValue(dotNetObject.polyline)) {
-        jsSearchViewModelDefaultSymbols.polyline = dotNetObject.polyline;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPolyline } = dotNetObject.polyline;
+        jsSearchViewModelDefaultSymbols.polyline = sanitizedPolyline;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelDefaultSymbols);

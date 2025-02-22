@@ -124,17 +124,17 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
             return VisualVariables;
         }
 
-        // get the property value
-        IReadOnlyList<VisualVariable>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<VisualVariable>?>("getProperty",
-            CancellationTokenSource.Token, "visualVariables");
+        IReadOnlyList<VisualVariable>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<VisualVariable>?>(
+            "getVisualVariables", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisualVariables = result;
+            VisualVariables = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
+            ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
         }
-         
+        
         return VisualVariables;
     }
     

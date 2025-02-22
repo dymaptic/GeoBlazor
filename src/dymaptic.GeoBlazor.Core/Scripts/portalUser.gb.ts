@@ -38,7 +38,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async deleteItems(items: any,
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
-        let jsItems = await buildJsPortalItem(items, this.layerId, this.viewId) as any;
+        let jsItems = await Promise.all(await items.map(async i => await buildJsPortalItem(i, this.layerId, this.viewId))) as any;
         return await this.component.deleteItems(jsItems,
             permanentDelete);
     }

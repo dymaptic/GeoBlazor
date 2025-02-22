@@ -23,7 +23,8 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
         jsSceneViewEnvironment.starsEnabled = dotNetObject.starsEnabled;
     }
     if (hasValue(dotNetObject.weather)) {
-        jsSceneViewEnvironment.weather = dotNetObject.weather;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedWeather } = dotNetObject.weather;
+        jsSceneViewEnvironment.weather = sanitizedWeather;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewEnvironment);
