@@ -4,6 +4,9 @@ import { buildDotNetBaseTileLayerLayerviewDestroyEvent } from './baseTileLayerLa
 
 export async function buildJsBaseTileLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseTileLayerLayerviewDestroyEvent: any = {};
+    if (hasValue(viewId)) {
+        jsBaseTileLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsBaseTileLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

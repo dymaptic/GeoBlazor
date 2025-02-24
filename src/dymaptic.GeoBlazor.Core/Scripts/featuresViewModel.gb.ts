@@ -163,6 +163,9 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.actions)) {
         let { buildJsActionBase } = await import('./actionBase');
         properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;

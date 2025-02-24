@@ -68,6 +68,9 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         properties.listItemCreatedFunction = async (event) => {
 

@@ -89,6 +89,9 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
 
 export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
         properties.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;

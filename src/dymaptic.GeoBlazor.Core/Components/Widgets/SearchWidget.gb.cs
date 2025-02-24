@@ -46,6 +46,24 @@ public partial class SearchWidget : IGoTo
     public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
+    ///     A customized <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> for the selected feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public PopupTemplate? PopupTemplate { get; set; }
+    
+    /// <summary>
+    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a> Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Portal? Portal { get; set; }
+    
+    /// <summary>
     ///     The graphic used to highlight the resulting feature or location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -660,17 +678,22 @@ public partial class SearchWidget : IGoTo
             return ViewModel;
         }
 
-        // get the property value
-        SearchViewModel? result = await JsComponentReference!.InvokeAsync<SearchViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        SearchViewModel? result = await JsComponentReference.InvokeAsync<SearchViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -1433,6 +1456,24 @@ public partial class SearchWidget : IGoTo
     {
         switch (child)
         {
+            case PopupTemplate popupTemplate:
+                if (popupTemplate != PopupTemplate)
+                {
+                    PopupTemplate = popupTemplate;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                }
+                
+                return true;
+            case Portal portal:
+                if (portal != Portal)
+                {
+                    Portal = portal;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(Portal)] = Portal;
+                }
+                
+                return true;
             case SearchSource sources:
                 Sources ??= [];
                 if (!Sources.Contains(sources))
@@ -1440,6 +1481,15 @@ public partial class SearchWidget : IGoTo
                     Sources = [..Sources, sources];
                     WidgetChanged = true;
                     ModifiedParameters[nameof(Sources)] = Sources;
+                }
+                
+                return true;
+            case SearchViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
                 return true;
@@ -1452,10 +1502,25 @@ public partial class SearchWidget : IGoTo
     {
         switch (child)
         {
+            case PopupTemplate _:
+                PopupTemplate = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                return true;
+            case Portal _:
+                Portal = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(Portal)] = Portal;
+                return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
                 WidgetChanged = true;
                 ModifiedParameters[nameof(Sources)] = Sources;
+                return true;
+            case SearchViewModel _:
+                ViewModel = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -1466,6 +1531,8 @@ public partial class SearchWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        Portal?.ValidateRequiredGeneratedChildren();
         if (Sources is not null)
         {
             foreach (SearchSource child in Sources)
@@ -1473,6 +1540,7 @@ public partial class SearchWidget : IGoTo
                 child.ValidateRequiredGeneratedChildren();
             }
         }
+        ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

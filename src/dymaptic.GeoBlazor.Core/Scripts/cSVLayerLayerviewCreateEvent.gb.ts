@@ -4,6 +4,9 @@ import { buildDotNetCSVLayerLayerviewCreateEvent } from './cSVLayerLayerviewCrea
 
 export async function buildJsCSVLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayerLayerviewCreateEvent: any = {};
+    if (hasValue(viewId)) {
+        jsCSVLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsCSVLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

@@ -4,6 +4,9 @@ import { buildDotNetWebTileLayerLayerviewCreateEvent } from './webTileLayerLayer
 
 export async function buildJsWebTileLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebTileLayerLayerviewCreateEvent: any = {};
+    if (hasValue(viewId)) {
+        jsWebTileLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsWebTileLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

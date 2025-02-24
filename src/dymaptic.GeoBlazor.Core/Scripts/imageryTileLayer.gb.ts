@@ -366,7 +366,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
     let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
-    let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
+    let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

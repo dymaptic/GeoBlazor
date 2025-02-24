@@ -13,7 +13,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// </param>
 public partial record SearchSelectResultEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    SearchSelectResultEventResult? Result = null,
+    SearchResult? Result = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

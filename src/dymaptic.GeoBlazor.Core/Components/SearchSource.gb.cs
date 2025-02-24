@@ -1121,7 +1121,6 @@ public abstract partial class SearchSource
         {
             throw new MissingRequiredOptionsChildElementException(nameof(SearchSource), [nameof(Layer), nameof(LayerId)]);
         }
-        
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         ResultSymbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

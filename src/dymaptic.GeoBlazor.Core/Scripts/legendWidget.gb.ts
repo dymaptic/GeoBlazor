@@ -117,6 +117,9 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.activeLayerInfos)) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
         properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;

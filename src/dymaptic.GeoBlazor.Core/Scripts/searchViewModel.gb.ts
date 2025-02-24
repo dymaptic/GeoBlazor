@@ -145,6 +145,9 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.defaultSymbols)) {
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         properties.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
@@ -252,7 +255,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = searchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModel;
     let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-    let dnInstantiatedObject = await buildDotNetSearchViewModel(jsSearchViewModel);
+    let dnInstantiatedObject = await buildDotNetSearchViewModel(jsSearchViewModel, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

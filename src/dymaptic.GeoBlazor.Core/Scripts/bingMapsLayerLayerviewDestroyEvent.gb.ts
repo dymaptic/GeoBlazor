@@ -4,6 +4,9 @@ import { buildDotNetBingMapsLayerLayerviewDestroyEvent } from './bingMapsLayerLa
 
 export async function buildJsBingMapsLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBingMapsLayerLayerviewDestroyEvent: any = {};
+    if (hasValue(viewId)) {
+        jsBingMapsLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsBingMapsLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

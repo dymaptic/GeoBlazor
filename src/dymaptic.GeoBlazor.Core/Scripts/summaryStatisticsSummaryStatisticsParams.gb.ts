@@ -4,6 +4,9 @@ import { buildDotNetSummaryStatisticsSummaryStatisticsParams } from './summarySt
 
 export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jssummaryStatisticsSummaryStatisticsParams: any = {};
+    if (hasValue(viewId)) {
+        jssummaryStatisticsSummaryStatisticsParams.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jssummaryStatisticsSummaryStatisticsParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;

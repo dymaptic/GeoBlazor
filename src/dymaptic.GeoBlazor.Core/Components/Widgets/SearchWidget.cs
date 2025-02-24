@@ -132,20 +132,9 @@ public partial class SearchWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [Obsolete("Use OnSelectResult instead")]
     public EventCallback<SearchResult> OnSearchSelectResultEvent { get; set; }
 
-    
-    /// <summary>
-    ///     A customized PopupTemplate for the selected feature. Note that any templates defined on allSources take precedence over those defined directly on the template.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplate? PopupTemplate { get; set; }
-    
-    /// <summary>
-    ///     It is possible to search a specified portal instance's locator services Use this property to set this ArcGIS Portal instance to search.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
     
     /// <summary>
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
@@ -206,7 +195,7 @@ public partial class SearchWidget : Widget
     ///     The term to search for.
     /// </param>
     [ArcGISMethod]
-public async Task<SearchResponse> Search(string searchTerm)
+    public async Task<SearchResponse> Search(string searchTerm)
     {
         return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
     }
@@ -254,7 +243,7 @@ public async Task<SearchResponse> Search(string searchTerm)
     ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     /// </param>
     [ArcGISMethod]
-public async Task<SuggestResponse> Suggest(string? value = null)
+    public async Task<SuggestResponse> Suggest(string? value = null)
     {
         return await JsComponentReference!.InvokeAsync<SuggestResponse>("suggest", value);
     }
@@ -292,7 +281,7 @@ public async Task<SuggestResponse> Suggest(string? value = null)
     ///     Retrieves an array of objects, each containing a SearchResult from the search.
     /// </summary>
     [CodeGenerationIgnore]
-public async Task<SearchResultResponse[]> GetResults()
+    public async Task<SearchResultResponse[]> GetResults()
     {
         return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults", View?.Id);
     }
@@ -310,7 +299,7 @@ public async Task<SearchResultResponse[]> GetResults()
     ///     This is available if working with a 10.3 or greater geocoding service that has suggest capability loaded or a 10.3 or greater feature layer that supports pagination, i.e. supportsPagination = true.
     /// </summary>
     [CodeGenerationIgnore]
-public async Task<SuggestResult[]> GetSuggestions()
+    public async Task<SuggestResult[]> GetSuggestions()
     {
         return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getProperty", "suggestions");
     }
@@ -324,7 +313,9 @@ public async Task<SuggestResult[]> GetSuggestions()
     [JSInvokable]
     public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         await OnSearchSelectResultEvent.InvokeAsync(searchResult);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
     
     /// <summary>
@@ -346,22 +337,7 @@ public async Task<SuggestResult[]> GetSuggestions()
                 Sources = [..Sources, source];
                 WidgetChanged = true;
                 break;
-            case PopupTemplate popupTemplate:
-                if (!popupTemplate.Equals(PopupTemplate))
-                {
-                    PopupTemplate = popupTemplate;
-                    WidgetChanged = true;
-                }
 
-                break;
-            case Portal portal:
-                if (!portal.Equals(Portal))
-                {
-                    Portal = portal;
-                    WidgetChanged = true;
-                }
-
-                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -377,14 +353,7 @@ public async Task<SuggestResult[]> GetSuggestions()
             case SearchSource source:
                 Sources = Sources?.Except([source]).ToList();
                 break;
-            case PopupTemplate _:
-                PopupTemplate = null;
 
-                break;
-            case Portal _:
-                Portal = null;
-
-                break;
             default:
                 await base.UnregisterChildComponent(child);
 
@@ -392,11 +361,4 @@ public async Task<SuggestResult[]> GetSuggestions()
         }
     }
 
-    public override void ValidateRequiredChildren()
-    {
-
-        PopupTemplate?.ValidateRequiredChildren();
-        Portal?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
 }

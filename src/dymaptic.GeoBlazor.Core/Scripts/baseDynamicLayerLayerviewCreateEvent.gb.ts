@@ -4,6 +4,9 @@ import { buildDotNetBaseDynamicLayerLayerviewCreateEvent } from './baseDynamicLa
 
 export async function buildJsBaseDynamicLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseDynamicLayerLayerviewCreateEvent: any = {};
+    if (hasValue(viewId)) {
+        jsBaseDynamicLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsBaseDynamicLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

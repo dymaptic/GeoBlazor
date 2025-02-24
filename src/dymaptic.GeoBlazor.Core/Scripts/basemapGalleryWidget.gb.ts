@@ -101,6 +101,9 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.activeBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
         properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;

@@ -4,6 +4,9 @@ import { buildDotNetLayerViewDestroyEvent } from './layerViewDestroyEvent';
 
 export async function buildJsLayerViewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerLayerviewDestroyEvent: any = {};
+    if (hasValue(viewId)) {
+        jsFeatureLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsFeatureLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

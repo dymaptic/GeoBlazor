@@ -46,7 +46,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async own(handleOrHandles: any): Promise<void> {
@@ -62,7 +62,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(result);
     }
 
     async render(): Promise<any> {
@@ -151,7 +151,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetPopupViewModel(this.widget.viewModel);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
@@ -169,6 +169,9 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.actions)) {
         let { buildJsActionBase } = await import('./actionBase');
         properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
@@ -307,7 +310,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
+            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel);
         }
     if (hasValue(jsObject.active)) {
         dotNetPopupWidget.active = jsObject.active;

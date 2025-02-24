@@ -1,4 +1,3 @@
-import LayerSearchSource from "@arcgis/core/widgets/Search/LayerSearchSource";
 import LocatorSearchSource from "@arcgis/core/widgets/Search/LocatorSearchSource";
 import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
 import {buildDotNetPoint} from "./point";
@@ -6,7 +5,7 @@ import {buildDotNetSpatialReference} from "./spatialReference";
 import {buildJsExtent} from "./extent";
 import {buildJsGraphic} from "./graphic";
 
-export async function buildDotNetSearchSource(jsSource: LayerSearchSource | LocatorSearchSource): Promise<any> {
+export async function buildDotNetSearchSource(jsSource: any): Promise<any> {
     if (jsSource instanceof LocatorSearchSource) {
         let {buildDotNetLocatorSearchSource} = await import('./locatorSearchSource');
         return await buildDotNetLocatorSearchSource(jsSource);
@@ -16,7 +15,7 @@ export async function buildDotNetSearchSource(jsSource: LayerSearchSource | Loca
     return await buildDotNetLayerSearchSource(jsSource);
 }
 
-export async function buildJsSearchSource(dotNetSource: any, viewId: string): Promise<any> {
+export async function buildJsSearchSource(dotNetSource: any, viewId: string | null): Promise<any> {
     let jsSource: any;
 
     if (hasValue(dotNetSource.url)) {

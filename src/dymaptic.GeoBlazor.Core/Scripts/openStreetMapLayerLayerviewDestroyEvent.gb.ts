@@ -4,6 +4,9 @@ import { buildDotNetOpenStreetMapLayerLayerviewDestroyEvent } from './openStreet
 
 export async function buildJsOpenStreetMapLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOpenStreetMapLayerLayerviewDestroyEvent: any = {};
+    if (hasValue(viewId)) {
+        jsOpenStreetMapLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsOpenStreetMapLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

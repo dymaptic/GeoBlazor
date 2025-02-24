@@ -119,6 +119,9 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
 
 export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.filterGeometry)) {
         let { buildJsGeometry } = await import('./geometry');
         properties.filterGeometry = buildJsGeometry(dotNetObject.filterGeometry) as any;

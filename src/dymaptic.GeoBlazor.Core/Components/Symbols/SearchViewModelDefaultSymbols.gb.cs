@@ -96,22 +96,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Point;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPoint", CancellationTokenSource.Token);
-        
+        // get the property value
+        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
+            CancellationTokenSource.Token, "point");
         if (result is not null)
         {
-            if (Point is not null)
-            {
-                result.Id = Point.Id;
-            }
-            
 #pragma warning disable BL0005
-            Point = result;
+             Point = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Point)] = Point;
+             ModifiedParameters[nameof(Point)] = Point;
         }
-        
+         
         return Point;
     }
     
@@ -131,22 +126,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polygon;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPolygon", CancellationTokenSource.Token);
-        
+        // get the property value
+        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
+            CancellationTokenSource.Token, "polygon");
         if (result is not null)
         {
-            if (Polygon is not null)
-            {
-                result.Id = Polygon.Id;
-            }
-            
 #pragma warning disable BL0005
-            Polygon = result;
+             Polygon = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Polygon)] = Polygon;
+             ModifiedParameters[nameof(Polygon)] = Polygon;
         }
-        
+         
         return Polygon;
     }
     
@@ -166,22 +156,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polyline;
         }
 
-        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
-            "getPolyline", CancellationTokenSource.Token);
-        
+        // get the property value
+        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
+            CancellationTokenSource.Token, "polyline");
         if (result is not null)
         {
-            if (Polyline is not null)
-            {
-                result.Id = Polyline.Id;
-            }
-            
 #pragma warning disable BL0005
-            Polyline = result;
+             Polyline = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Polyline)] = Polyline;
+             ModifiedParameters[nameof(Polyline)] = Polyline;
         }
-        
+         
         return Polyline;
     }
     
@@ -280,15 +265,5 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     }
     
 #endregion
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Point?.ValidateRequiredGeneratedChildren();
-        Polygon?.ValidateRequiredGeneratedChildren();
-        Polyline?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
+
 }

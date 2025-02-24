@@ -110,7 +110,7 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = locateViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocateViewModel;
     let { buildDotNetLocateViewModel } = await import('./locateViewModel');
-    let dnInstantiatedObject = await buildDotNetLocateViewModel(jsLocateViewModel);
+    let dnInstantiatedObject = await buildDotNetLocateViewModel(jsLocateViewModel, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

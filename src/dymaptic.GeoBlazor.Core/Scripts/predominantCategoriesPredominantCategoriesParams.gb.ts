@@ -4,6 +4,9 @@ import { buildDotNetPredominantCategoriesPredominantCategoriesParams } from './p
 
 export async function buildJsPredominantCategoriesPredominantCategoriesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jspredominantCategoriesPredominantCategoriesParams: any = {};
+    if (hasValue(viewId)) {
+        jspredominantCategoriesPredominantCategoriesParams.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jspredominantCategoriesPredominantCategoriesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;

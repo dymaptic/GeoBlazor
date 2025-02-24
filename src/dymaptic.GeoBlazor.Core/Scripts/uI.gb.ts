@@ -73,6 +73,9 @@ export default class UIGenerated implements IPropertyWrapper {
 
 export async function buildJsUIGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
 
     if (hasValue(dotNetObject.container)) {
         properties.container = dotNetObject.container;

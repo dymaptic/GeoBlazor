@@ -4,6 +4,9 @@ import { buildDotNetBasemapView } from './basemapView';
 
 export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBasemapView: any = {};
+    if (hasValue(viewId)) {
+        jsBasemapView.view = arcGisObjectRefs[viewId];
+    }
 
     
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapView);

@@ -4,6 +4,9 @@ import { buildDotNetWFSLayerLayerviewCreateEvent } from './wFSLayerLayerviewCrea
 
 export async function buildJsWFSLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSLayerLayerviewCreateEvent: any = {};
+    if (hasValue(viewId)) {
+        jsWFSLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsWFSLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

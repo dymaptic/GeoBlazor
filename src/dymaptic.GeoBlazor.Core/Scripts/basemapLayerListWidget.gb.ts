@@ -131,6 +131,9 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 
 export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
         properties.baseListItemCreatedFunction = async (event) => {
 

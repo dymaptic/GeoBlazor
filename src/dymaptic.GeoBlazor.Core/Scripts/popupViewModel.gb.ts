@@ -32,7 +32,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async open(options: any): Promise<void> {
@@ -44,7 +44,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return await buildDotNetFeaturesViewModel(result, this.layerId, this.viewId);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {

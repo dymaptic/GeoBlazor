@@ -105,6 +105,9 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsMeasurementViewModel } = await import('./measurementViewModel');
         properties.viewModel = await buildJsMeasurementViewModel(dotNetObject.viewModel, layerId, viewId) as any;

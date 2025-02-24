@@ -4,6 +4,9 @@ import { buildDotNetOpenStreetMapLayerLayerviewCreateEvent } from './openStreetM
 
 export async function buildJsOpenStreetMapLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsOpenStreetMapLayerLayerviewCreateEvent: any = {};
+    if (hasValue(viewId)) {
+        jsOpenStreetMapLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
         jsOpenStreetMapLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;

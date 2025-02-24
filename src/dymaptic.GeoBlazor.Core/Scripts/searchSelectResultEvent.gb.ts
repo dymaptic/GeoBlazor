@@ -5,8 +5,8 @@ import { buildDotNetSearchSelectResultEvent } from './searchSelectResultEvent';
 export async function buildJsSearchSelectResultEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchSelectResultEvent: any = {};
     if (hasValue(dotNetObject.result)) {
-        let { buildJsSearchSelectResultEventResult } = await import('./searchSelectResultEventResult');
-        jsSearchSelectResultEvent.result = await buildJsSearchSelectResultEventResult(dotNetObject.result, layerId, viewId) as any;
+        let { buildJsSearchResult } = await import('./searchResult');
+        jsSearchSelectResultEvent.result = await buildJsSearchResult(dotNetObject.result, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.source)) {
@@ -41,8 +41,8 @@ export async function buildDotNetSearchSelectResultEventGenerated(jsObject: any)
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.result)) {
-            let { buildDotNetSearchSelectResultEventResult } = await import('./searchSelectResultEventResult');
-            dotNetSearchSelectResultEvent.result = await buildDotNetSearchSelectResultEventResult(jsObject.result);
+            let { buildDotNetSearchResult } = await import('./searchResult');
+            dotNetSearchSelectResultEvent.result = buildDotNetSearchResult(jsObject.result);
         }
     if (hasValue(jsObject.source)) {
         dotNetSearchSelectResultEvent.source = jsObject.source;

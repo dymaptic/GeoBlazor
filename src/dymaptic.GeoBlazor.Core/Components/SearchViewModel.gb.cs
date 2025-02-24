@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget, which performs search operations on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator service(s)</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table(s)</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SearchViewModel : IViewModel
+public partial class SearchViewModel : IGoTo
 {
 
     /// <summary>
@@ -380,7 +380,7 @@ public partial class SearchViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchViewModelSelectedSuggestion? SelectedSuggestion { get; protected set; }
+    public SuggestResult? SelectedSuggestion { get; protected set; }
     
     /// <summary>
     ///     The Search widget may be used to search features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>, or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
@@ -417,7 +417,7 @@ public partial class SearchViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<SearchViewModelSuggestResult>? Suggestions { get; protected set; }
+    public IReadOnlyList<SuggestResult>? Suggestions { get; protected set; }
     
     /// <summary>
     ///     Enable suggestions for the widget.
@@ -468,17 +468,17 @@ public partial class SearchViewModel : IViewModel
             return ActiveSource;
         }
 
-        // get the property value
-        SearchSource? result = await JsComponentReference!.InvokeAsync<SearchSource?>("getProperty",
-            CancellationTokenSource.Token, "activeSource");
+        SearchSource? result = await JsComponentReference.InvokeAsync<SearchSource?>(
+            "getActiveSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveSource = result;
+            ActiveSource = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+            ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
         }
-         
+        
         return ActiveSource;
     }
     
@@ -558,17 +558,17 @@ public partial class SearchViewModel : IViewModel
             return AllSources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "allSources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getAllSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AllSources = result;
+            AllSources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllSources)] = AllSources;
+            ModifiedParameters[nameof(AllSources)] = AllSources;
         }
-         
+        
         return AllSources;
     }
     
@@ -648,17 +648,17 @@ public partial class SearchViewModel : IViewModel
             return DefaultSources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "defaultSources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getDefaultSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultSources = result;
+            DefaultSources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultSources)] = DefaultSources;
+            ModifiedParameters[nameof(DefaultSources)] = DefaultSources;
         }
-         
+        
         return DefaultSources;
     }
     
@@ -678,17 +678,17 @@ public partial class SearchViewModel : IViewModel
             return DefaultSymbols;
         }
 
-        // get the property value
-        SearchViewModelDefaultSymbols? result = await JsComponentReference!.InvokeAsync<SearchViewModelDefaultSymbols?>("getProperty",
-            CancellationTokenSource.Token, "defaultSymbols");
+        SearchViewModelDefaultSymbols? result = await JsComponentReference.InvokeAsync<SearchViewModelDefaultSymbols?>(
+            "getDefaultSymbols", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultSymbols = result;
+            DefaultSymbols = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
+            ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
         }
-         
+        
         return DefaultSymbols;
     }
     
@@ -1155,7 +1155,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedSuggestion property.
     /// </summary>
-    public async Task<ISearchViewModelSelectedSuggestion?> GetSelectedSuggestion()
+    public async Task<SuggestResult?> GetSelectedSuggestion()
     {
         if (CoreJsModule is null)
         {
@@ -1169,7 +1169,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        ISearchViewModelSelectedSuggestion? result = await JsComponentReference!.InvokeAsync<ISearchViewModelSelectedSuggestion?>("getProperty",
+        SuggestResult? result = await JsComponentReference!.InvokeAsync<SuggestResult?>("getProperty",
             CancellationTokenSource.Token, "selectedSuggestion");
         if (result is not null)
         {
@@ -1198,17 +1198,17 @@ public partial class SearchViewModel : IViewModel
             return Sources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "sources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Sources = result;
+            Sources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Sources)] = Sources;
+            ModifiedParameters[nameof(Sources)] = Sources;
         }
-         
+        
         return Sources;
     }
     
@@ -1275,7 +1275,7 @@ public partial class SearchViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suggestions property.
     /// </summary>
-    public async Task<IReadOnlyList<SearchViewModelSuggestResult>?> GetSuggestions()
+    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
     {
         if (CoreJsModule is null)
         {
@@ -1289,7 +1289,7 @@ public partial class SearchViewModel : IViewModel
         }
 
         // get the property value
-        IReadOnlyList<SearchViewModelSuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchViewModelSuggestResult>?>("getProperty",
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SuggestResult>?>("getProperty",
             CancellationTokenSource.Token, "suggestions");
         if (result is not null)
         {
@@ -1390,36 +1390,6 @@ public partial class SearchViewModel : IViewModel
         }
          
         return Updating;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -2026,36 +1996,6 @@ public partial class SearchViewModel : IViewModel
             JsComponentReference, "taskCollectionIncludeDefaultSources", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
 #endregion
 
 #region Add to Collection Methods
@@ -2294,12 +2234,13 @@ public partial class SearchViewModel : IViewModel
                 }
                 
                 return true;
-            case Graphic resultGraphic:
-                if (resultGraphic != ResultGraphic)
+            case SearchSource sources:
+                Sources ??= [];
+                if (!Sources.Contains(sources))
                 {
-                    ResultGraphic = resultGraphic;
+                    Sources = [..Sources, sources];
                     
-                    ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
+                    ModifiedParameters[nameof(Sources)] = Sources;
                 }
                 
                 return true;
@@ -2327,10 +2268,10 @@ public partial class SearchViewModel : IViewModel
                 
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
-            case Graphic _:
-                ResultGraphic = null;
+            case SearchSource sources:
+                Sources = Sources?.Where(s => s != sources).ToList();
                 
-                ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
+                ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -2344,7 +2285,13 @@ public partial class SearchViewModel : IViewModel
         DefaultSymbols?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Portal?.ValidateRequiredGeneratedChildren();
-        ResultGraphic?.ValidateRequiredGeneratedChildren();
+        if (Sources is not null)
+        {
+            foreach (SearchSource child in Sources)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         base.ValidateRequiredGeneratedChildren();
     }
       

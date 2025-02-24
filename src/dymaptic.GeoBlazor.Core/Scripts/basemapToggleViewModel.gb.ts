@@ -63,6 +63,9 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
 
 export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.nextBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
         properties.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, layerId, viewId) as any;

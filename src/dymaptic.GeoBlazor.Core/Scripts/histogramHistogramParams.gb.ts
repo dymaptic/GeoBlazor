@@ -4,6 +4,9 @@ import { buildDotNetHistogramHistogramParams } from './histogramHistogramParams'
 
 export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jshistogramHistogramParams: any = {};
+    if (hasValue(viewId)) {
+        jshistogramHistogramParams.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jshistogramHistogramParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;

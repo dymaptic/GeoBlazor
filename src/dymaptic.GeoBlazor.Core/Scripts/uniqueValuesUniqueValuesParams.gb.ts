@@ -4,6 +4,9 @@ import { buildDotNetUniqueValuesUniqueValuesParams } from './uniqueValuesUniqueV
 
 export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsuniqueValuesUniqueValuesParams: any = {};
+    if (hasValue(viewId)) {
+        jsuniqueValuesUniqueValuesParams.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         jsuniqueValuesUniqueValuesParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;

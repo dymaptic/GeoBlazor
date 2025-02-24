@@ -65,6 +65,9 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
         properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;

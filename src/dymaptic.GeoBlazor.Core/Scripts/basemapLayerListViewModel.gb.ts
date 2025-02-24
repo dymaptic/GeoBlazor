@@ -61,6 +61,9 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
 
 export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
         properties.baseListItemCreatedFunction = async (event) => {
 

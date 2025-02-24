@@ -97,6 +97,9 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsZoomViewModel } = await import('./zoomViewModel');
         properties.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, layerId, viewId) as any;

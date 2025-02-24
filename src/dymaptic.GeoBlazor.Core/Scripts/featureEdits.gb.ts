@@ -55,7 +55,7 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
     };
         if (hasValue(jsObject.addAttachments)) {
             let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
-            dotNetFeatureEdits.addAttachments = await Promise.all(jsObject.addAttachments.map(async i => await buildDotNetAttachmentEdit(i)));
+            dotNetFeatureEdits.addAttachments = await Promise.all(jsObject.addAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
         }
         if (hasValue(jsObject.addFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');
@@ -67,7 +67,7 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
         }
         if (hasValue(jsObject.updateAttachments)) {
             let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
-            dotNetFeatureEdits.updateAttachments = await Promise.all(jsObject.updateAttachments.map(async i => await buildDotNetAttachmentEdit(i)));
+            dotNetFeatureEdits.updateAttachments = await Promise.all(jsObject.updateAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
         }
         if (hasValue(jsObject.updateFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');

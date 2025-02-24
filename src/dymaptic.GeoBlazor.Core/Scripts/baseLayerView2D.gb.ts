@@ -73,6 +73,9 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
 
 export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(viewId)) {
+        properties.view = arcGisObjectRefs[viewId];
+    }
 
     if (hasValue(dotNetObject.tiles)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
