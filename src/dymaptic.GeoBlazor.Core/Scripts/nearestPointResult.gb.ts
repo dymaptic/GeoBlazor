@@ -40,13 +40,12 @@ export async function buildDotNetNearestPointResultGenerated(jsObject: any): Pro
     }
     
     let dotNetNearestPointResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.coordinate)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetNearestPointResult.coordinate = buildDotNetPoint(jsObject.coordinate);
-        }
+    if (hasValue(jsObject.coordinate)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetNearestPointResult.coordinate = buildDotNetPoint(jsObject.coordinate);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetNearestPointResult.distance = jsObject.distance;
     }

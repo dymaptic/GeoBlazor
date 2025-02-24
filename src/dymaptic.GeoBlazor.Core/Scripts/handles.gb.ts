@@ -21,8 +21,8 @@ export default class HandlesGenerated implements IPropertyWrapper {
     
     async add(handles: any,
         groupKey: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandles = await buildJsWatchHandle(handles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandles = await buildJsWatchHandle(handles, this.layerId, this.viewId) as any;
         this.component.add(jsHandles,
             groupKey);
     }
@@ -62,7 +62,6 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
     handlesWrapper.viewId = viewId;
     handlesWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(handlesWrapper);
     jsObjectRefs[dotNetObject.id] = handlesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandles;
@@ -84,7 +83,6 @@ export async function buildDotNetHandlesGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetHandles: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

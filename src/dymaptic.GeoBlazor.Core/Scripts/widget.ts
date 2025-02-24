@@ -1,3 +1,4 @@
+import WidgetGenerated from './widget.gb';
 // override generated code in this file
 import Widget from '@arcgis/core/widgets/Widget';
 import {hasValue} from "./arcGisJsInterop";
@@ -113,8 +114,8 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
             let { buildJsTrackWidget } = await import('./trackWidget');
             return await buildJsTrackWidget(dotNetObject, layerId, viewId);
         default:
-            let { buildJsWidgetGenerated } = await import('./widget.gb');
-            return await buildJsWidgetGenerated(dotNetObject, layerId, viewId);
+            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            return sanitizedDotNetObject;
     }
 }     
 

@@ -49,7 +49,6 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
     }
     
     let dotNetOpacityVariable: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.field)) {

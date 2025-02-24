@@ -46,7 +46,6 @@ export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeP
     }
     
     let dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.endTime)) {

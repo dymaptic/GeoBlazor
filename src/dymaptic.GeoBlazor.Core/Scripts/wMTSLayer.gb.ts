@@ -243,7 +243,6 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     wMTSLayerWrapper.viewId = viewId;
     wMTSLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wMTSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wMTSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSLayer;
@@ -265,33 +264,32 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetWMTSLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeLayer)) {
-            let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-            dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer);
-        }
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetWMTSLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMTSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.sublayers)) {
-            let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-            dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWMTSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.activeLayer)) {
+        let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
+        dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer);
+    }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetWMTSLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMTSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.sublayers)) {
+        let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
+        dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetWMTSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetWMTSLayer.arcGISLayerId = jsObject.id;
     }

@@ -26,14 +26,12 @@ export default class WebglGenerated implements IPropertyWrapper {
         destStart: any,
         destSpatialReference: any,
         count: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        let jsDestSpatialReference = buildJsSpatialReference(destSpatialReference) as any;
         return this.component.fromRenderCoordinates(__0,
             srcCoordinates,
             srcStart,
             destCoordinates,
             destStart,
-            jsDestSpatialReference,
+            destSpatialReference,
             count);
     }
 
@@ -41,11 +39,9 @@ export default class WebglGenerated implements IPropertyWrapper {
         origin: any,
         srcSpatialReference: any,
         dest: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        let jsSrcSpatialReference = buildJsSpatialReference(srcSpatialReference) as any;
         return this.component.renderCoordinateTransformAt(__0,
             origin,
-            jsSrcSpatialReference,
+            srcSpatialReference,
             dest);
     }
 
@@ -56,12 +52,10 @@ export default class WebglGenerated implements IPropertyWrapper {
         destCoordinates: any,
         destStart: any,
         count: any): Promise<any> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        let jsSrcSpatialReference = buildJsSpatialReference(srcSpatialReference) as any;
         return this.component.toRenderCoordinates(__0,
             srcCoordinates,
             srcStart,
-            jsSrcSpatialReference,
+            srcSpatialReference,
             destCoordinates,
             destStart,
             count);
@@ -89,7 +83,6 @@ export async function buildJsWebglGenerated(dotNetObject: any, layerId: string |
     webglWrapper.viewId = viewId;
     webglWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webglWrapper);
     jsObjectRefs[dotNetObject.id] = webglWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswebgl;
@@ -111,7 +104,6 @@ export async function buildDotNetWebglGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetWebgl: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

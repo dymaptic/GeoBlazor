@@ -48,13 +48,12 @@ export async function buildDotNetImageSampleGenerated(jsObject: any): Promise<an
     }
     
     let dotNetImageSample: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageSample.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageSample.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.attributes)) {
         dotNetImageSample.attributes = jsObject.attributes;
     }

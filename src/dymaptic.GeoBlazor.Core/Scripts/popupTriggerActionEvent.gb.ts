@@ -31,13 +31,12 @@ export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any)
     }
     
     let dotNetPopupTriggerActionEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.action)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
-        }
+    if (hasValue(jsObject.action)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetPopupTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

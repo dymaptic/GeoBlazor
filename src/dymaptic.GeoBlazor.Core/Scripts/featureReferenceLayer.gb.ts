@@ -51,7 +51,6 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
     featureReferenceLayerWrapper.viewId = viewId;
     featureReferenceLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureReferenceLayerWrapper);
     jsObjectRefs[dotNetObject.id] = featureReferenceLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReferenceLayer;
@@ -73,7 +72,6 @@ export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): 
     }
     
     let dotNetFeatureReferenceLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {

@@ -37,10 +37,10 @@ export default class WebSceneGenerated implements IPropertyWrapper {
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsWebSceneSaveAsOptions } = await import('./webSceneSaveAsOptions');
-        let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsPortalItem } = await import('./portalItem');
+let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+                let { buildJsWebSceneSaveAsOptions } = await import('./webSceneSaveAsOptions');
+let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -157,7 +157,6 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     webSceneWrapper.viewId = viewId;
     webSceneWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webSceneWrapper);
     jsObjectRefs[dotNetObject.id] = webSceneWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
@@ -179,21 +178,20 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetWebScene: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.clippingArea)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.presentation)) {
-            let { buildDotNetPresentation } = await import('./presentation');
-            dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation);
-        }
+    if (hasValue(jsObject.clippingArea)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.presentation)) {
+        let { buildDotNetPresentation } = await import('./presentation');
+        dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation);
+    }
     if (hasValue(jsObject.applicationProperties)) {
         dotNetWebScene.applicationProperties = jsObject.applicationProperties;
     }

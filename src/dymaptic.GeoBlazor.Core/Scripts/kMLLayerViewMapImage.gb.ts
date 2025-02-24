@@ -40,13 +40,12 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): P
     }
     
     let dotNetKMLLayerViewMapImage: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.Extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetKMLLayerViewMapImage.extent = buildDotNetExtent(jsObject.Extent);
-        }
+    if (hasValue(jsObject.Extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetKMLLayerViewMapImage.extent = buildDotNetExtent(jsObject.Extent);
+    }
     if (hasValue(jsObject.href)) {
         dotNetKMLLayerViewMapImage.href = jsObject.href;
     }

@@ -36,13 +36,12 @@ export async function buildDotNetMeasureFromImageParametersGenerated(jsObject: a
     }
     
     let dotNetMeasureFromImageParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetMeasureFromImageParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetMeasureFromImageParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
     if (hasValue(jsObject.rasterId)) {
         dotNetMeasureFromImageParameters.rasterId = jsObject.rasterId;
     }

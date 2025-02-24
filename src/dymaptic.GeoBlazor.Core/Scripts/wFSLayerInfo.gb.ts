@@ -12,10 +12,6 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
         let { buildJsField } = await import('./field');
         jsWFSLayerInfo.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        jsWFSLayerInfo.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
     if (hasValue(dotNetObject.wfsCapabilities)) {
         let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
         jsWFSLayerInfo.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities, layerId, viewId) as any;
@@ -35,6 +31,10 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.objectIdField)) {
         jsWFSLayerInfo.objectIdField = dotNetObject.objectIdField;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        jsWFSLayerInfo.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.swapXY)) {
         jsWFSLayerInfo.swapXY = dotNetObject.swapXY;
@@ -64,25 +64,20 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     }
     
     let dotNetWFSLayerInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWFSLayerInfo.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetWFSLayerInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.wfsCapabilities)) {
-            let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-            dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWFSLayerInfo.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.wfsCapabilities)) {
+        let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
+        dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
+    }
     if (hasValue(jsObject.customParameters)) {
         dotNetWFSLayerInfo.customParameters = jsObject.customParameters;
     }
@@ -97,6 +92,9 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.objectIdField)) {
         dotNetWFSLayerInfo.objectIdField = jsObject.objectIdField;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetWFSLayerInfo.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.swapXY)) {
         dotNetWFSLayerInfo.swapXY = jsObject.swapXY;

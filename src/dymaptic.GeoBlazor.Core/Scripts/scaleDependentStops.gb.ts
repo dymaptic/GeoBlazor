@@ -37,7 +37,6 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Pr
     }
     
     let dotNetScaleDependentStops: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.stops)) {

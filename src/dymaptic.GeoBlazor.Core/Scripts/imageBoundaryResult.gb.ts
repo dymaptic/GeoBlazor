@@ -36,13 +36,12 @@ export async function buildDotNetImageBoundaryResultGenerated(jsObject: any): Pr
     }
     
     let dotNetImageBoundaryResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageBoundaryResult.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageBoundaryResult.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
     if (hasValue(jsObject.area)) {
         dotNetImageBoundaryResult.area = jsObject.area;
     }

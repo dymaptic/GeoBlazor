@@ -124,21 +124,20 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     }
     
     let dotNetLocatorSearchSource: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
-            dotNetLocatorSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.resultSymbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
-        }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
+        dotNetLocatorSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.resultSymbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
+    }
     if (hasValue(jsObject.apiKey)) {
         dotNetLocatorSearchSource.apiKey = jsObject.apiKey;
     }

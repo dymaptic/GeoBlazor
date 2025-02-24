@@ -10,9 +10,9 @@ export default class ITemporalLayerWrapper extends ITemporalLayerGenerated {
 
 }
 
-export async function buildJsITemporalLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsITemporalLayer(dotNetObject: any): Promise<any> {
     let {buildJsITemporalLayerGenerated} = await import('./iTemporalLayer.gb');
-    return await buildJsITemporalLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsITemporalLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetITemporalLayer(jsObject: any): Promise<any> {

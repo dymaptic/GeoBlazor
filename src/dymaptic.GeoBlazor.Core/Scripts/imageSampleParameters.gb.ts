@@ -15,7 +15,7 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -66,25 +66,24 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any): 
     }
     
     let dotNetImageSampleParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageSampleParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.locations)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageSampleParameters.locations = jsObject.locations.map(i => buildDotNetPoint(i));
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageSampleParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageSampleParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageSampleParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.locations)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageSampleParameters.locations = jsObject.locations.map(i => buildDotNetPoint(i));
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageSampleParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetImageSampleParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.interpolation)) {
         dotNetImageSampleParameters.interpolation = jsObject.interpolation;
     }

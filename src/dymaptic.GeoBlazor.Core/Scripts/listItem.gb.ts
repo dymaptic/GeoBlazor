@@ -61,17 +61,16 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetListItem: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.actionsSections)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
-        }
-        if (hasValue(jsObject.layerView)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView);
-        }
+    if (hasValue(jsObject.actionsSections)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
+    }
+    if (hasValue(jsObject.layerView)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetListItem.layerView = buildDotNetLayerView(jsObject.layerView);
+    }
     if (hasValue(jsObject.actionsOpen)) {
         dotNetListItem.actionsOpen = jsObject.actionsOpen;
     }

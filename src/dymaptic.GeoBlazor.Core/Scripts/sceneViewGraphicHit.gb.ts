@@ -25,7 +25,7 @@ export async function buildJsSceneViewGraphicHitGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewGraphicHit;
     
-    let dnInstantiatedObject = await buildDotNetSceneViewGraphicHit(jsSceneViewGraphicHit);
+    let dnInstantiatedObject = await buildDotNetSceneViewGraphicHit(jsSceneViewGraphicHit, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -42,17 +42,16 @@ export async function buildDotNetSceneViewGraphicHitGenerated(jsObject: any, lay
     }
     
     let dotNetSceneViewGraphicHit: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSceneViewGraphicHit.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetSceneViewGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.graphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSceneViewGraphicHit.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetSceneViewGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetSceneViewGraphicHit.distance = jsObject.distance;
     }

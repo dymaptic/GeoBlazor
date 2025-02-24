@@ -35,17 +35,16 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
     }
     
     let dotNetBasemapLayerListTriggerActionEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.action)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetBasemapLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
-        }
-        if (hasValue(jsObject.item)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
-        }
+    if (hasValue(jsObject.action)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetBasemapLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+    }
+    if (hasValue(jsObject.item)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

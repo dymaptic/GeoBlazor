@@ -46,7 +46,6 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<an
     }
     
     let dotNetEnvironment: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.atmosphereEnabled)) {

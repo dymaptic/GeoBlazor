@@ -49,7 +49,7 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValuesUniqueValuesParams;
     
-    let dnInstantiatedObject = await buildDotNetUniqueValuesUniqueValuesParams(jsuniqueValuesUniqueValuesParams);
+    let dnInstantiatedObject = await buildDotNetUniqueValuesUniqueValuesParams(jsuniqueValuesUniqueValuesParams, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -66,17 +66,16 @@ export async function buildDotNetUniqueValuesUniqueValuesParamsGenerated(jsObjec
     }
     
     let dotNetUniqueValuesUniqueValuesParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetUniqueValuesUniqueValuesParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetUniqueValuesUniqueValuesParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
     if (hasValue(jsObject.field)) {
         dotNetUniqueValuesUniqueValuesParams.field = jsObject.field;
     }

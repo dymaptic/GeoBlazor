@@ -33,13 +33,12 @@ export async function buildDotNetImageSampleResultGenerated(jsObject: any): Prom
     }
     
     let dotNetImageSampleResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.samples)) {
-            let { buildDotNetImageSample } = await import('./imageSample');
-            dotNetImageSampleResult.samples = await Promise.all(jsObject.samples.map(async i => await buildDotNetImageSample(i)));
-        }
+    if (hasValue(jsObject.samples)) {
+        let { buildDotNetImageSample } = await import('./imageSample');
+        dotNetImageSampleResult.samples = await Promise.all(jsObject.samples.map(async i => await buildDotNetImageSample(i)));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

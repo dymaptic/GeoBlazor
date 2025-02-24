@@ -61,7 +61,6 @@ export async function buildJsSymbologyPredominanceGenerated(dotNetObject: any, l
     symbologyPredominanceWrapper.viewId = viewId;
     symbologyPredominanceWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyPredominanceWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyPredominanceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyPredominance;
@@ -83,7 +82,6 @@ export async function buildDotNetSymbologyPredominanceGenerated(jsObject: any): 
     }
     
     let dotNetSymbologyPredominance: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

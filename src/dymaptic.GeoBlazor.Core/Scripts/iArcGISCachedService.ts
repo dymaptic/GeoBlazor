@@ -1,6 +1,6 @@
-export async function buildJsIArcGISCachedService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIArcGISCachedService(dotNetObject: any): Promise<any> {
     let {buildJsIArcGISCachedServiceGenerated} = await import('./iArcGISCachedService.gb');
-    return await buildJsIArcGISCachedServiceGenerated(dotNetObject, layerId, viewId);
+    return buildJsIArcGISCachedServiceGenerated(dotNetObject);
 }
 
 export async function buildDotNetIArcGISCachedService(jsObject: any): Promise<any> {

@@ -10,9 +10,9 @@ export default class IFeatureReductionLayerWrapper extends IFeatureReductionLaye
 
 }
 
-export async function buildJsIFeatureReductionLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIFeatureReductionLayer(dotNetObject: any): Promise<any> {
     let {buildJsIFeatureReductionLayerGenerated} = await import('./iFeatureReductionLayer.gb');
-    return await buildJsIFeatureReductionLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIFeatureReductionLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIFeatureReductionLayer(jsObject: any): Promise<any> {

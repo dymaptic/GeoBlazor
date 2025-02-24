@@ -52,13 +52,12 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetTimeInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
-        }
+    if (hasValue(jsObject.fullTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
+    }
     if (hasValue(jsObject.endField)) {
         dotNetTimeInfo.endField = jsObject.endField;
     }

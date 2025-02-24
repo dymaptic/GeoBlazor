@@ -39,13 +39,12 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetColorStop: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetColorStop.color = buildDotNetMapColor(jsObject.color);
-        }
+    if (hasValue(jsObject.color)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetColorStop.color = buildDotNetMapColor(jsObject.color);
+    }
     if (hasValue(jsObject.label)) {
         dotNetColorStop.label = jsObject.label;
     }

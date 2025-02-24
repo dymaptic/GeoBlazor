@@ -59,17 +59,16 @@ export async function buildDotNetCoverageDescriptionV201Generated(jsObject: any)
     }
     
     let dotNetCoverageDescriptionV201: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.boundedBy)) {
-            let { buildDotNetCoverageDescriptionV201BoundedBy } = await import('./coverageDescriptionV201BoundedBy');
-            dotNetCoverageDescriptionV201.boundedBy = await buildDotNetCoverageDescriptionV201BoundedBy(jsObject.boundedBy);
-        }
-        if (hasValue(jsObject.eoMetadata)) {
-            let { buildDotNetCoverageDescriptionV201EoMetadata } = await import('./coverageDescriptionV201EoMetadata');
-            dotNetCoverageDescriptionV201.eoMetadata = await buildDotNetCoverageDescriptionV201EoMetadata(jsObject.eoMetadata);
-        }
+    if (hasValue(jsObject.boundedBy)) {
+        let { buildDotNetCoverageDescriptionV201BoundedBy } = await import('./coverageDescriptionV201BoundedBy');
+        dotNetCoverageDescriptionV201.boundedBy = await buildDotNetCoverageDescriptionV201BoundedBy(jsObject.boundedBy);
+    }
+    if (hasValue(jsObject.eoMetadata)) {
+        let { buildDotNetCoverageDescriptionV201EoMetadata } = await import('./coverageDescriptionV201EoMetadata');
+        dotNetCoverageDescriptionV201.eoMetadata = await buildDotNetCoverageDescriptionV201EoMetadata(jsObject.eoMetadata);
+    }
     if (hasValue(jsObject.coverageFunction)) {
         dotNetCoverageDescriptionV201.coverageFunction = jsObject.coverageFunction;
     }

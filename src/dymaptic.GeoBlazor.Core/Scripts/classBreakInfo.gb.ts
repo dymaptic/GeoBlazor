@@ -42,13 +42,12 @@ export async function buildDotNetClassBreakInfoGenerated(jsObject: any): Promise
     }
     
     let dotNetClassBreakInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetClassBreakInfo.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetClassBreakInfo.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
     if (hasValue(jsObject.label)) {
         dotNetClassBreakInfo.label = jsObject.label;
     }

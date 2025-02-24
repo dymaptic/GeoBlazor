@@ -20,8 +20,8 @@ export default class NormalizeUtilsGenerated implements IPropertyWrapper {
     }
     
     async getDenormalizedExtent(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+                let { buildJsGeometry } = await import('./geometry');
+let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.getDenormalizedExtent(jsGeometry);
     }
 
@@ -57,7 +57,6 @@ export async function buildJsNormalizeUtilsGenerated(dotNetObject: any, layerId:
     normalizeUtilsWrapper.viewId = viewId;
     normalizeUtilsWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(normalizeUtilsWrapper);
     jsObjectRefs[dotNetObject.id] = normalizeUtilsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsnormalizeUtils;
@@ -79,7 +78,6 @@ export async function buildDotNetNormalizeUtilsGenerated(jsObject: any): Promise
     }
     
     let dotNetNormalizeUtils: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

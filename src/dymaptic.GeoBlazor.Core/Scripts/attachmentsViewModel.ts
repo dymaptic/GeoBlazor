@@ -14,7 +14,7 @@ export async function buildJsAttachmentsViewModel(dotNetObject: any, layerId: st
     return await buildJsAttachmentsViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetAttachmentsViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetAttachmentsViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetAttachmentsViewModelGenerated} = await import('./attachmentsViewModel.gb');
-    return await buildDotNetAttachmentsViewModelGenerated(jsObject);
+    return await buildDotNetAttachmentsViewModelGenerated(jsObject, layerId, viewId);
 }

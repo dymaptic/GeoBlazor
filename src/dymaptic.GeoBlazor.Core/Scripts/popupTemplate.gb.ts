@@ -8,29 +8,28 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
     }
     
     let dotNetPopupTemplate: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.actions)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
-        }
-        if (hasValue(jsObject.content)) {
-            let { buildDotNetPopupContent } = await import('./popupContent');
-            dotNetPopupTemplate.content = jsObject.content.map(i => buildDotNetPopupContent(i));
-        }
-        if (hasValue(jsObject.expressionInfos)) {
-            let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-            dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
-        }
-        if (hasValue(jsObject.fieldInfos)) {
-            let { buildDotNetFieldInfo } = await import('./fieldInfo');
-            dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
-        }
-        if (hasValue(jsObject.layerOptions)) {
-            let { buildDotNetLayerOptions } = await import('./layerOptions');
-            dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions);
-        }
+    if (hasValue(jsObject.actions)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
+    }
+    if (hasValue(jsObject.content)) {
+        let { buildDotNetPopupContent } = await import('./popupContent');
+        dotNetPopupTemplate.content = jsObject.content.map(i => buildDotNetPopupContent(i));
+    }
+    if (hasValue(jsObject.expressionInfos)) {
+        let { buildDotNetExpressionInfo } = await import('./expressionInfo');
+        dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
+    }
+    if (hasValue(jsObject.fieldInfos)) {
+        let { buildDotNetFieldInfo } = await import('./fieldInfo');
+        dotNetPopupTemplate.fieldInfos = jsObject.fieldInfos.map(i => buildDotNetFieldInfo(i));
+    }
+    if (hasValue(jsObject.layerOptions)) {
+        let { buildDotNetLayerOptions } = await import('./layerOptions');
+        dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions);
+    }
     if (hasValue(jsObject.lastEditInfoEnabled)) {
         dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
     }

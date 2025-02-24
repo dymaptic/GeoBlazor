@@ -42,7 +42,7 @@ export async function buildJsPopupViewOpenPopupOptionsGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupViewOpenPopupOptions;
     
-    let dnInstantiatedObject = await buildDotNetPopupViewOpenPopupOptions(jsPopupViewOpenPopupOptions);
+    let dnInstantiatedObject = await buildDotNetPopupViewOpenPopupOptions(jsPopupViewOpenPopupOptions, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -59,17 +59,16 @@ export async function buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject: an
     }
     
     let dotNetPopupViewOpenPopupOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewOpenPopupOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetPopupViewOpenPopupOptions.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupViewOpenPopupOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetPopupViewOpenPopupOptions.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupViewOpenPopupOptions.collapsed = jsObject.collapsed;
     }

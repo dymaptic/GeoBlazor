@@ -1,7 +1,7 @@
 
-export async function buildJsIGoTo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIGoTo(dotNetObject: any): Promise<any> {
     let { buildJsIGoToGenerated } = await import('./iGoTo.gb');
-    return await buildJsIGoToGenerated(dotNetObject, layerId, viewId);
+    return buildJsIGoToGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIGoTo(jsObject: any): Promise<any> {

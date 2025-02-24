@@ -26,7 +26,7 @@ export async function buildJsFeatureTableViewModelCellClickEventGenerated(dotNet
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModelCellClickEvent;
     
-    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellClickEvent(jsFeatureTableViewModelCellClickEvent);
+    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellClickEvent(jsFeatureTableViewModelCellClickEvent, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -43,13 +43,12 @@ export async function buildDotNetFeatureTableViewModelCellClickEventGenerated(js
     }
     
     let dotNetFeatureTableViewModelCellClickEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureTableViewModelCellClickEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureTableViewModelCellClickEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.fieldName)) {
         dotNetFeatureTableViewModelCellClickEvent.fieldName = jsObject.fieldName;
     }

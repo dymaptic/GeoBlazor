@@ -77,12 +77,11 @@ export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, la
     attachmentsViewModelWrapper.viewId = viewId;
     attachmentsViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(attachmentsViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = attachmentsViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsViewModel;
     let { buildDotNetAttachmentsViewModel } = await import('./attachmentsViewModel');
-    let dnInstantiatedObject = await buildDotNetAttachmentsViewModel(jsAttachmentsViewModel);
+    let dnInstantiatedObject = await buildDotNetAttachmentsViewModel(jsAttachmentsViewModel, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -99,13 +98,12 @@ export async function buildDotNetAttachmentsViewModelGenerated(jsObject: any, la
     }
     
     let dotNetAttachmentsViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetAttachmentsViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
+    if (hasValue(jsObject.graphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetAttachmentsViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
     if (hasValue(jsObject.activeAttachmentInfo)) {
         dotNetAttachmentsViewModel.activeAttachmentInfo = jsObject.activeAttachmentInfo;
     }

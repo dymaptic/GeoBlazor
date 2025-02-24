@@ -37,13 +37,12 @@ export async function buildDotNetFetchResourcesResultGenerated(jsObject: any): P
     }
     
     let dotNetFetchResourcesResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.resources)) {
-            let { buildDotNetFetchResource } = await import('./fetchResource');
-            dotNetFetchResourcesResult.resources = await Promise.all(jsObject.resources.map(async i => await buildDotNetFetchResource(i)));
-        }
+    if (hasValue(jsObject.resources)) {
+        let { buildDotNetFetchResource } = await import('./fetchResource');
+        dotNetFetchResourcesResult.resources = await Promise.all(jsObject.resources.map(async i => await buildDotNetFetchResource(i)));
+    }
     if (hasValue(jsObject.nextStart)) {
         dotNetFetchResourcesResult.nextStart = jsObject.nextStart;
     }

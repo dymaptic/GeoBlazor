@@ -24,8 +24,8 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async add(graphic: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsGraphic = buildJsGraphic(graphic) as any;
         this.layer.add(jsGraphic);
     }
 
@@ -46,8 +46,8 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async remove(graphic: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsGraphic = buildJsGraphic(graphic) as any;
         this.layer.remove(jsGraphic);
     }
 
@@ -97,7 +97,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
+        return this.layer.graphics!.map(i => buildDotNetGraphic(i));
     }
     
     async setGraphics(value: any): Promise<void> {
@@ -203,7 +203,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     graphicsLayerWrapper.viewId = viewId;
     graphicsLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
@@ -225,21 +224,20 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     }
     
     let dotNetGraphicsLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
     }

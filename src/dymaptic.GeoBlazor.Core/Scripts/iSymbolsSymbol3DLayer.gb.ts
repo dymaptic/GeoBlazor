@@ -45,7 +45,6 @@ export async function buildJsISymbolsSymbol3DLayerGenerated(dotNetObject: any, l
     iSymbolsSymbol3DLayerWrapper.viewId = viewId;
     iSymbolsSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSymbolsSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iSymbolsSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsSymbol3DLayer;
@@ -67,7 +66,6 @@ export async function buildDotNetISymbolsSymbol3DLayerGenerated(jsObject: any): 
     }
     
     let dotNetISymbolsSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

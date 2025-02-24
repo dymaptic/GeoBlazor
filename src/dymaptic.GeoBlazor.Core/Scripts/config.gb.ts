@@ -43,13 +43,12 @@ export async function buildDotNetConfigGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetConfig: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
     if (hasValue(jsObject.displayField)) {
         dotNetConfig.displayField = jsObject.displayField;
     }

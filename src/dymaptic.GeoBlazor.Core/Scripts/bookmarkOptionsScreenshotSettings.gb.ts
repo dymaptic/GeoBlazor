@@ -41,7 +41,6 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
     }
     
     let dotNetBookmarkOptionsScreenshotSettings: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.area)) {

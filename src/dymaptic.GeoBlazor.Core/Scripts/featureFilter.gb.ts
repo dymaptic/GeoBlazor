@@ -97,7 +97,6 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     featureFilterWrapper.viewId = viewId;
     featureFilterWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
@@ -119,17 +118,16 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
     }
     
     let dotNetFeatureFilter: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetFeatureFilter.distance = jsObject.distance;
     }

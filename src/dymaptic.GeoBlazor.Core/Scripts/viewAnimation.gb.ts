@@ -68,7 +68,6 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
     viewAnimationWrapper.viewId = viewId;
     viewAnimationWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(viewAnimationWrapper);
     jsObjectRefs[dotNetObject.id] = viewAnimationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewAnimation;
@@ -90,13 +89,12 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<
     }
     
     let dotNetViewAnimation: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.target)) {
-            let { buildDotNetViewpoint } = await import('./viewpoint');
-            dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
-        }
+    if (hasValue(jsObject.target)) {
+        let { buildDotNetViewpoint } = await import('./viewpoint');
+        dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
+    }
     if (hasValue(jsObject.state)) {
         dotNetViewAnimation.state = jsObject.state;
     }

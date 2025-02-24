@@ -11,7 +11,7 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -52,21 +52,20 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
     }
     
     let dotNetImageHistogramParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageHistogramParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageHistogramParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageHistogramParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageHistogramParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageHistogramParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetImageHistogramParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.pixelSize)) {
         dotNetImageHistogramParameters.pixelSize = jsObject.pixelSize;
     }

@@ -1,6 +1,6 @@
-export async function buildJsLocalBasemapsSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLocalBasemapsSource(dotNetObject: any): Promise<any> {
     let {buildJsLocalBasemapsSourceGenerated} = await import('./localBasemapsSource.gb');
-    return await buildJsLocalBasemapsSourceGenerated(dotNetObject, layerId, viewId);
+    return buildJsLocalBasemapsSourceGenerated(dotNetObject);
 }
 
 export async function buildDotNetLocalBasemapsSource(jsObject: any): Promise<any> {

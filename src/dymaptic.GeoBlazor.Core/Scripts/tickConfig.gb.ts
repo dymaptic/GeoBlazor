@@ -7,7 +7,6 @@ export async function buildDotNetTickConfigGenerated(jsObject: any): Promise<any
     }
     
     let dotNetTickConfig: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.labelFormatFunction)) {

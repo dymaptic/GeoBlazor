@@ -34,13 +34,12 @@ export async function buildDotNetColorRampsColorRampGenerated(jsObject: any): Pr
     }
     
     let dotNetColorRampsColorRamp: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colors)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetColorRampsColorRamp.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
-        }
+    if (hasValue(jsObject.colors)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetColorRampsColorRamp.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
+    }
     if (hasValue(jsObject.name)) {
         dotNetColorRampsColorRamp.name = jsObject.name;
     }

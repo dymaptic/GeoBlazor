@@ -61,7 +61,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatisticsSummaryStatisticsParams;
     
-    let dnInstantiatedObject = await buildDotNetSummaryStatisticsSummaryStatisticsParams(jssummaryStatisticsSummaryStatisticsParams);
+    let dnInstantiatedObject = await buildDotNetSummaryStatisticsSummaryStatisticsParams(jssummaryStatisticsSummaryStatisticsParams, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -78,17 +78,16 @@ export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerat
     }
     
     let dotNetSummaryStatisticsSummaryStatisticsParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSummaryStatisticsSummaryStatisticsParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSummaryStatisticsSummaryStatisticsParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
     if (hasValue(jsObject.field)) {
         dotNetSummaryStatisticsSummaryStatisticsParams.field = jsObject.field;
     }

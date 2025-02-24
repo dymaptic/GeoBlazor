@@ -52,7 +52,6 @@ export async function buildJsCodedValueDomainGenerated(dotNetObject: any, layerI
     codedValueDomainWrapper.viewId = viewId;
     codedValueDomainWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(codedValueDomainWrapper);
     jsObjectRefs[dotNetObject.id] = codedValueDomainWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCodedValueDomain;
@@ -74,7 +73,6 @@ export async function buildDotNetCodedValueDomainGenerated(jsObject: any): Promi
     }
     
     let dotNetCodedValueDomain: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.codedValues)) {

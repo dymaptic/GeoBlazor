@@ -21,7 +21,7 @@ export async function buildJsSearchViewModelSearchResultGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSearchResult;
     
-    let dnInstantiatedObject = await buildDotNetSearchViewModelSearchResult(jsSearchViewModelSearchResult);
+    let dnInstantiatedObject = await buildDotNetSearchViewModelSearchResult(jsSearchViewModelSearchResult, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -38,17 +38,16 @@ export async function buildDotNetSearchViewModelSearchResultGenerated(jsObject: 
     }
     
     let dotNetSearchViewModelSearchResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetSearchViewModelSearchResult.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSearchViewModelSearchResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetSearchViewModelSearchResult.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSearchViewModelSearchResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.name)) {
         dotNetSearchViewModelSearchResult.name = jsObject.name;
     }

@@ -6,7 +6,7 @@ export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject
     let jsImageryTileLayerSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
-        jsImageryTileLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
+        jsImageryTileLayerSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder) as any;
     }
 
     if (hasValue(dotNetObject.validationOptions)) {
@@ -34,13 +34,12 @@ export async function buildDotNetImageryTileLayerSaveAsOptionsGenerated(jsObject
     }
     
     let dotNetImageryTileLayerSaveAsOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            let { buildDotNetPortalFolder } = await import('./portalFolder');
-            dotNetImageryTileLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
-        }
+    if (hasValue(jsObject.folder)) {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        dotNetImageryTileLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+    }
     if (hasValue(jsObject.validationOptions)) {
         dotNetImageryTileLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

@@ -3,7 +3,7 @@ export async function buildJsWFSLayerGetFieldDomainOptions(dotNetObject: any, la
     return await buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWFSLayerGetFieldDomainOptions(jsObject: any): Promise<any> {
+export async function buildDotNetWFSLayerGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWFSLayerGetFieldDomainOptionsGenerated} = await import('./wFSLayerGetFieldDomainOptions.gb');
-    return await buildDotNetWFSLayerGetFieldDomainOptionsGenerated(jsObject);
+    return await buildDotNetWFSLayerGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
 }

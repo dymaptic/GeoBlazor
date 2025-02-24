@@ -37,13 +37,12 @@ export async function buildDotNetLocatorSuggestLocationsParamsGenerated(jsObject
     }
     
     let dotNetLocatorSuggestLocationsParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetLocatorSuggestLocationsParams.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetLocatorSuggestLocationsParams.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.categories)) {
         dotNetLocatorSuggestLocationsParams.categories = jsObject.categories;
     }

@@ -44,8 +44,8 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -170,7 +170,6 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     homeWidgetWrapper.viewId = viewId;
     homeWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHome;
@@ -192,21 +191,20 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
     }
     
     let dotNetHomeWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetHomeWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-            dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel);
-        }
-        if (hasValue(jsObject.viewpoint)) {
-            let { buildDotNetViewpoint } = await import('./viewpoint');
-            dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetHomeWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetHomeViewModel } = await import('./homeViewModel');
+        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel);
+    }
+    if (hasValue(jsObject.viewpoint)) {
+        let { buildDotNetViewpoint } = await import('./viewpoint');
+        dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
+    }
     if (hasValue(jsObject.container)) {
         dotNetHomeWidget.container = jsObject.container;
     }

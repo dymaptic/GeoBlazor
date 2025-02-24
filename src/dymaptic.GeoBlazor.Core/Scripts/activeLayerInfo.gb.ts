@@ -68,13 +68,12 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
     }
     
     let dotNetActiveLayerInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.layerView)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView);
-        }
+    if (hasValue(jsObject.layerView)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetActiveLayerInfo.layerView = buildDotNetLayerView(jsObject.layerView);
+    }
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }

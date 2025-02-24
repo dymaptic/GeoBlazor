@@ -38,17 +38,16 @@ export async function buildDotNetElevationQueryResultGenerated(jsObject: any): P
     }
     
     let dotNetElevationQueryResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetElevationQueryResult.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.sampleInfo)) {
-            let { buildDotNetElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
-            dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i)));
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetElevationQueryResult.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.sampleInfo)) {
+        let { buildDotNetElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
+        dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i)));
+    }
     if (hasValue(jsObject.noDataValue)) {
         dotNetElevationQueryResult.noDataValue = jsObject.noDataValue;
     }

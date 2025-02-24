@@ -117,7 +117,6 @@ export async function buildJsIntlGenerated(dotNetObject: any, layerId: string | 
     intlWrapper.viewId = viewId;
     intlWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(intlWrapper);
     jsObjectRefs[dotNetObject.id] = intlWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsintl;
@@ -139,7 +138,6 @@ export async function buildDotNetIntlGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetIntl: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

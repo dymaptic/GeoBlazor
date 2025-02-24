@@ -70,7 +70,7 @@ export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jshistogramHistogramParams;
     
-    let dnInstantiatedObject = await buildDotNetHistogramHistogramParams(jshistogramHistogramParams);
+    let dnInstantiatedObject = await buildDotNetHistogramHistogramParams(jshistogramHistogramParams, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -87,17 +87,16 @@ export async function buildDotNetHistogramHistogramParamsGenerated(jsObject: any
     }
     
     let dotNetHistogramHistogramParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetHistogramHistogramParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetHistogramHistogramParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetHistogramHistogramParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        dotNetHistogramHistogramParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
     if (hasValue(jsObject.classificationMethod)) {
         dotNetHistogramHistogramParams.classificationMethod = jsObject.classificationMethod;
     }

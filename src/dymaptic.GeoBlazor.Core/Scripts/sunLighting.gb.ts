@@ -58,7 +58,6 @@ export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: st
     sunLightingWrapper.viewId = viewId;
     sunLightingWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sunLightingWrapper);
     jsObjectRefs[dotNetObject.id] = sunLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSunLighting;
@@ -80,7 +79,6 @@ export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<an
     }
     
     let dotNetSunLighting: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.cameraTrackingEnabled)) {

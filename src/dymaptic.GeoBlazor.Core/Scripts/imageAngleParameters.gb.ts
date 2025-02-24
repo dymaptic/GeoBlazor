@@ -9,16 +9,16 @@ export async function buildJsImageAngleParametersGenerated(dotNetObject: any, la
         let { buildJsPoint } = await import('./point');
         properties.point = buildJsPoint(dotNetObject.point) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.angleNames)) {
         properties.angleNames = dotNetObject.angleNames;
     }
     if (hasValue(dotNetObject.rasterId)) {
         properties.rasterId = dotNetObject.rasterId;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
     }
     let jsImageAngleParameters = new ImageAngleParameters(properties);
     
@@ -43,22 +43,20 @@ export async function buildDotNetImageAngleParametersGenerated(jsObject: any): P
     }
     
     let dotNetImageAngleParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.point)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageAngleParameters.point = buildDotNetPoint(jsObject.point);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageAngleParameters.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageAngleParameters.point = buildDotNetPoint(jsObject.point);
+    }
     if (hasValue(jsObject.angleNames)) {
         dotNetImageAngleParameters.angleNames = jsObject.angleNames;
     }
     if (hasValue(jsObject.rasterId)) {
         dotNetImageAngleParameters.rasterId = jsObject.rasterId;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetImageAngleParameters.spatialReference = jsObject.spatialReference;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

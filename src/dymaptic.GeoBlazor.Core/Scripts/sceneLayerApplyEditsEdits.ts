@@ -3,7 +3,7 @@ export async function buildJsSceneLayerApplyEditsEdits(dotNetObject: any, layerI
     return await buildJsSceneLayerApplyEditsEditsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSceneLayerApplyEditsEdits(jsObject: any): Promise<any> {
+export async function buildDotNetSceneLayerApplyEditsEdits(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSceneLayerApplyEditsEditsGenerated} = await import('./sceneLayerApplyEditsEdits.gb');
-    return await buildDotNetSceneLayerApplyEditsEditsGenerated(jsObject);
+    return await buildDotNetSceneLayerApplyEditsEditsGenerated(jsObject, layerId, viewId);
 }

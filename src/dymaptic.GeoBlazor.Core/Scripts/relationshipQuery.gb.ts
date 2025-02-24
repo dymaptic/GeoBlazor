@@ -5,10 +5,6 @@ import { buildDotNetRelationshipQuery } from './relationshipQuery';
 
 export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.outSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.cacheHint)) {
         properties.cacheHint = dotNetObject.cacheHint;
@@ -36,6 +32,10 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
     }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
+    }
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.relationshipId)) {
         properties.relationshipId = dotNetObject.relationshipId;
@@ -78,13 +78,8 @@ export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Prom
     }
     
     let dotNetRelationshipQuery: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.outSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetRelationshipQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
-        }
     if (hasValue(jsObject.cacheHint)) {
         dotNetRelationshipQuery.cacheHint = jsObject.cacheHint;
     }
@@ -111,6 +106,9 @@ export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.outFields)) {
         dotNetRelationshipQuery.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetRelationshipQuery.outSpatialReference = jsObject.outSpatialReference;
     }
     if (hasValue(jsObject.relationshipId)) {
         dotNetRelationshipQuery.relationshipId = jsObject.relationshipId;

@@ -52,13 +52,12 @@ export async function buildDotNetViewHoldEventGenerated(jsObject: any): Promise<
     }
     
     let dotNetViewHoldEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetViewHoldEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetViewHoldEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.button)) {
         dotNetViewHoldEvent.button = jsObject.button;
     }

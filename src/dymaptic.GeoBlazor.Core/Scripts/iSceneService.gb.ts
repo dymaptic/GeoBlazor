@@ -4,16 +4,16 @@ import { buildDotNetISceneService } from './iSceneService';
 
 export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneService: any = {};
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        jsSceneService.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.copyright)) {
         jsSceneService.copyright = dotNetObject.copyright;
     }
     if (hasValue(dotNetObject.sceneServiceLayerId)) {
         jsSceneService.layerId = dotNetObject.sceneServiceLayerId;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        jsSceneService.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.url)) {
         jsSceneService.url = dotNetObject.url;
@@ -40,18 +40,16 @@ export async function buildDotNetISceneServiceGenerated(jsObject: any): Promise<
     }
     
     let dotNetISceneService: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetISceneService.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
     if (hasValue(jsObject.copyright)) {
         dotNetISceneService.copyright = jsObject.copyright;
     }
     if (hasValue(jsObject.layerId)) {
         dotNetISceneService.sceneServiceLayerId = jsObject.layerId;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetISceneService.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.url)) {
         dotNetISceneService.url = jsObject.url;

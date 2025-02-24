@@ -34,7 +34,6 @@ export async function buildDotNetLegendViewModelLayerInfosGenerated(jsObject: an
     }
     
     let dotNetLegendViewModelLayerInfos: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.title)) {

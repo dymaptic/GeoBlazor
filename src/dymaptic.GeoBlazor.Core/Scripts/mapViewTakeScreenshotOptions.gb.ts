@@ -54,13 +54,12 @@ export async function buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject:
     }
     
     let dotNetMapViewTakeScreenshotOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.format)) {
-            let { buildDotNetFormat } = await import('./format');
-            dotNetMapViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
-        }
+    if (hasValue(jsObject.format)) {
+        let { buildDotNetFormat } = await import('./format');
+        dotNetMapViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
+    }
     if (hasValue(jsObject.area)) {
         dotNetMapViewTakeScreenshotOptions.area = jsObject.area;
     }

@@ -17,7 +17,7 @@ export async function buildJsEditedFeatureResultGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditedFeatureResult;
     
-    let dnInstantiatedObject = await buildDotNetEditedFeatureResult(jsEditedFeatureResult);
+    let dnInstantiatedObject = await buildDotNetEditedFeatureResult(jsEditedFeatureResult, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -34,13 +34,12 @@ export async function buildDotNetEditedFeatureResultGenerated(jsObject: any, lay
     }
     
     let dotNetEditedFeatureResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.editedFeatures)) {
-            let { buildDotNetEditedFeatureResultEditedFeatures } = await import('./editedFeatureResultEditedFeatures');
-            dotNetEditedFeatureResult.editedFeatures = await buildDotNetEditedFeatureResultEditedFeatures(jsObject.editedFeatures, layerId, viewId);
-        }
+    if (hasValue(jsObject.editedFeatures)) {
+        let { buildDotNetEditedFeatureResultEditedFeatures } = await import('./editedFeatureResultEditedFeatures');
+        dotNetEditedFeatureResult.editedFeatures = await buildDotNetEditedFeatureResultEditedFeatures(jsObject.editedFeatures, layerId, viewId);
+    }
     if (hasValue(jsObject.layerId)) {
         dotNetEditedFeatureResult.layerId = jsObject.layerId;
     }

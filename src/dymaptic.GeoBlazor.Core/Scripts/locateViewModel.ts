@@ -14,7 +14,7 @@ export async function buildJsLocateViewModel(dotNetObject: any, layerId: string 
     return await buildJsLocateViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLocateViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetLocateViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLocateViewModelGenerated} = await import('./locateViewModel.gb');
-    return await buildDotNetLocateViewModelGenerated(jsObject);
+    return await buildDotNetLocateViewModelGenerated(jsObject, layerId, viewId);
 }

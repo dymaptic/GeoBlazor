@@ -37,13 +37,12 @@ export async function buildDotNetBaseLayerViewGL2DRenderRenderParametersGenerate
     }
     
     let dotNetBaseLayerViewGL2DRenderRenderParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.state)) {
-            let { buildDotNetViewState } = await import('./viewState');
-            dotNetBaseLayerViewGL2DRenderRenderParameters.state = await buildDotNetViewState(jsObject.state);
-        }
+    if (hasValue(jsObject.state)) {
+        let { buildDotNetViewState } = await import('./viewState');
+        dotNetBaseLayerViewGL2DRenderRenderParameters.state = await buildDotNetViewState(jsObject.state);
+    }
     if (hasValue(jsObject.context)) {
         dotNetBaseLayerViewGL2DRenderRenderParameters.context = jsObject.context;
     }

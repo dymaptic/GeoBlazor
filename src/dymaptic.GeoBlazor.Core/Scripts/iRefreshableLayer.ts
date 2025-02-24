@@ -10,9 +10,9 @@ export default class IRefreshableLayerWrapper extends IRefreshableLayerGenerated
 
 }
 
-export async function buildJsIRefreshableLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIRefreshableLayer(dotNetObject: any): Promise<any> {
     let {buildJsIRefreshableLayerGenerated} = await import('./iRefreshableLayer.gb');
-    return await buildJsIRefreshableLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIRefreshableLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIRefreshableLayer(jsObject: any): Promise<any> {

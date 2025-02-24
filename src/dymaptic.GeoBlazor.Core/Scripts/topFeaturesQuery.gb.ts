@@ -9,10 +9,6 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.outSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
-    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
@@ -41,6 +37,10 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
+    }
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
         properties.returnGeometry = dotNetObject.returnGeometry;
@@ -89,21 +89,16 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any): Promi
     }
     
     let dotNetTopFeaturesQuery: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetTopFeaturesQuery.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.outSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetTopFeaturesQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetTopFeaturesQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetTopFeaturesQuery.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetTopFeaturesQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.cacheHint)) {
         dotNetTopFeaturesQuery.cacheHint = jsObject.cacheHint;
     }
@@ -127,6 +122,9 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.outFields)) {
         dotNetTopFeaturesQuery.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetTopFeaturesQuery.outSpatialReference = jsObject.outSpatialReference;
     }
     if (hasValue(jsObject.returnGeometry)) {
         dotNetTopFeaturesQuery.returnGeometry = jsObject.returnGeometry;

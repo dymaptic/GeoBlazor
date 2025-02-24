@@ -109,7 +109,6 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     locateViewModelWrapper.viewId = viewId;
     locateViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(locateViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = locateViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocateViewModel;
@@ -131,17 +130,16 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
     }
     
     let dotNetLocateViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetLocateViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.graphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetLocateViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.graphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
     if (hasValue(jsObject.error)) {
         dotNetLocateViewModel.error = jsObject.error;
     }

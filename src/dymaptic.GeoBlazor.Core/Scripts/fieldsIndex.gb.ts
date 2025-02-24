@@ -76,7 +76,6 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
     fieldsIndexWrapper.viewId = viewId;
     fieldsIndexWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(fieldsIndexWrapper);
     jsObjectRefs[dotNetObject.id] = fieldsIndexWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsIndex;
@@ -98,13 +97,12 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any): Promise<an
     }
     
     let dotNetFieldsIndex: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dateFields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
-        }
+    if (hasValue(jsObject.dateFields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

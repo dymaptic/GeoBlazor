@@ -5,9 +5,9 @@ export async function buildJsWebMap(dotNetObject: any, layerId: string | null, v
     return await buildJsWebMapGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebMap(jsObject: any): Promise<any> {
+export async function buildDotNetWebMap(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWebMapGenerated } = await import('./webMap.gb');
-    return await buildDotNetWebMapGenerated(jsObject);
+    return await buildDotNetWebMapGenerated(jsObject, layerId, viewId);
 }
 
 export default class WebMapWrapper extends WebMapGenerated {

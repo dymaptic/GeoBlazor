@@ -28,8 +28,8 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
     }
 
     async union(timeExtent: any): Promise<any> {
-        let { buildJsTimeExtent } = await import('./timeExtent');
-        let jsTimeExtent = await buildJsTimeExtent(timeExtent, this.layerId, this.viewId) as any;
+                let { buildJsTimeExtent } = await import('./timeExtent');
+let jsTimeExtent = await buildJsTimeExtent(timeExtent, this.layerId, this.viewId) as any;
         let result = this.component.union(jsTimeExtent);
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(result);
@@ -64,7 +64,6 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
     timeExtentWrapper.viewId = viewId;
     timeExtentWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(timeExtentWrapper);
     jsObjectRefs[dotNetObject.id] = timeExtentWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTimeExtent;

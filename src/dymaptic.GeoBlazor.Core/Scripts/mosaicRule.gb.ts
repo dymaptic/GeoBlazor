@@ -69,13 +69,12 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     }
     
     let dotNetMosaicRule: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewpoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetMosaicRule.viewpoint = buildDotNetPoint(jsObject.viewpoint);
-        }
+    if (hasValue(jsObject.viewpoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetMosaicRule.viewpoint = buildDotNetPoint(jsObject.viewpoint);
+    }
     if (hasValue(jsObject.ascending)) {
         dotNetMosaicRule.ascending = jsObject.ascending;
     }

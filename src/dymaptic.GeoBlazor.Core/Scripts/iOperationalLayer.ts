@@ -10,9 +10,9 @@ export default class IOperationalLayerWrapper extends IOperationalLayerGenerated
 
 }
 
-export async function buildJsIOperationalLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIOperationalLayer(dotNetObject: any): Promise<any> {
     let {buildJsIOperationalLayerGenerated} = await import('./iOperationalLayer.gb');
-    return await buildJsIOperationalLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIOperationalLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIOperationalLayer(jsObject: any): Promise<any> {

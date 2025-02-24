@@ -31,12 +31,12 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetEdges3D } = await import('./edges3D');
-        return await buildDotNetEdges3D(this.layer.edges);
+        return buildDotNetEdges3D(this.layer.edges);
     }
     
     async setEdges(value: any): Promise<void> {
         let { buildJsEdges3D } = await import('./edges3D');
-        this.layer.edges = await  buildJsEdges3D(value, this.layerId, this.viewId);
+        this.layer.edges =  buildJsEdges3D(value);
     }
     
     async getMaterial(): Promise<any> {
@@ -81,7 +81,7 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
     let properties: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsEdges3D } = await import('./edges3D');
-        properties.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
+        properties.edges = buildJsEdges3D(dotNetObject.edges) as any;
     }
     if (hasValue(dotNetObject.material)) {
         let { buildJsFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
@@ -107,7 +107,6 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
     iFillSymbol3DLayerWrapper.viewId = viewId;
     iFillSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iFillSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iFillSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFillSymbol3DLayer;
@@ -129,21 +128,20 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
     }
     
     let dotNetIFillSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.edges)) {
-            let { buildDotNetEdges3D } = await import('./edges3D');
-            dotNetIFillSymbol3DLayer.edges = await buildDotNetEdges3D(jsObject.edges);
-        }
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
-            dotNetIFillSymbol3DLayer.material = await buildDotNetFillSymbol3DLayerMaterial(jsObject.material);
-        }
-        if (hasValue(jsObject.outline)) {
-            let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
-            dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline);
-        }
+    if (hasValue(jsObject.edges)) {
+        let { buildDotNetEdges3D } = await import('./edges3D');
+        dotNetIFillSymbol3DLayer.edges = buildDotNetEdges3D(jsObject.edges);
+    }
+    if (hasValue(jsObject.material)) {
+        let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
+        dotNetIFillSymbol3DLayer.material = await buildDotNetFillSymbol3DLayerMaterial(jsObject.material);
+    }
+    if (hasValue(jsObject.outline)) {
+        let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
+        dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline);
+    }
     if (hasValue(jsObject.castShadows)) {
         dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
     }

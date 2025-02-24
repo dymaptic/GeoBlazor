@@ -97,7 +97,7 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         }
         
         let { buildDotNetLayerView } = await import('./layerView');
-        return await buildDotNetLayerView(this.component.layerView);
+        return buildDotNetLayerView(this.component.layerView);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -230,7 +230,6 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
     featureTableViewModelWrapper.viewId = viewId;
     featureTableViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureTableViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = featureTableViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModel;
@@ -252,21 +251,20 @@ export async function buildDotNetFeatureTableViewModelGenerated(jsObject: any): 
     }
     
     let dotNetFeatureTableViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filterGeometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetFeatureTableViewModel.filterGeometry = buildDotNetGeometry(jsObject.filterGeometry);
-        }
-        if (hasValue(jsObject.layerView)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetFeatureTableViewModel.layerView = await buildDotNetLayerView(jsObject.layerView);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetFeatureTableViewModel.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.filterGeometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetFeatureTableViewModel.filterGeometry = buildDotNetGeometry(jsObject.filterGeometry);
+    }
+    if (hasValue(jsObject.layerView)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetFeatureTableViewModel.layerView = buildDotNetLayerView(jsObject.layerView);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetFeatureTableViewModel.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.actionColumnConfig)) {
         dotNetFeatureTableViewModel.actionColumnConfig = jsObject.actionColumnConfig;
     }

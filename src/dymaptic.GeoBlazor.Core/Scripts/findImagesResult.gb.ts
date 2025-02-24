@@ -33,13 +33,12 @@ export async function buildDotNetFindImagesResultGenerated(jsObject: any): Promi
     }
     
     let dotNetFindImagesResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.images)) {
-            let { buildDotNetImageInspectionInfo } = await import('./imageInspectionInfo');
-            dotNetFindImagesResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageInspectionInfo(i)));
-        }
+    if (hasValue(jsObject.images)) {
+        let { buildDotNetImageInspectionInfo } = await import('./imageInspectionInfo');
+        dotNetFindImagesResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageInspectionInfo(i)));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

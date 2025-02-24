@@ -48,7 +48,6 @@ export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any): P
     }
     
     let dotNetSceneViewEnvironment: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.atmosphere)) {

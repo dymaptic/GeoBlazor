@@ -39,21 +39,20 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
     }
     
     let dotNetSearchViewModelDefaultSymbols: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.point)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point);
-        }
-        if (hasValue(jsObject.polygon)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon);
-        }
-        if (hasValue(jsObject.polyline)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
-        }
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point);
+    }
+    if (hasValue(jsObject.polygon)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon);
+    }
+    if (hasValue(jsObject.polyline)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

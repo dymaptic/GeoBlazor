@@ -11,7 +11,7 @@ export async function buildJsImageAreaParametersGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
 
     if (hasValue(dotNetObject.areaUnit)) {
@@ -49,17 +49,16 @@ export async function buildDotNetImageAreaParametersGenerated(jsObject: any): Pr
     }
     
     let dotNetImageAreaParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageAreaParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageAreaParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageAreaParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageAreaParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
     if (hasValue(jsObject.areaUnit)) {
         dotNetImageAreaParameters.areaUnit = jsObject.areaUnit;
     }

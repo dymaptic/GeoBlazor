@@ -3,7 +3,7 @@ export async function buildJsFeatureTableViewModelCellKeydownEvent(dotNetObject:
     return await buildJsFeatureTableViewModelCellKeydownEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureTableViewModelCellKeydownEvent(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureTableViewModelCellKeydownEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureTableViewModelCellKeydownEventGenerated} = await import('./featureTableViewModelCellKeydownEvent.gb');
-    return await buildDotNetFeatureTableViewModelCellKeydownEventGenerated(jsObject);
+    return await buildDotNetFeatureTableViewModelCellKeydownEventGenerated(jsObject, layerId, viewId);
 }

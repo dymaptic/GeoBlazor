@@ -42,7 +42,6 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any): Pr
     }
     
     let dotNetJoinTableDataSource: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.joinType)) {

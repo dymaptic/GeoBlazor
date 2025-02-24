@@ -49,17 +49,16 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promis
     }
     
     let dotNetLegendViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeLayerInfos)) {
-            let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-            dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-            dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i)));
-        }
+    if (hasValue(jsObject.activeLayerInfos)) {
+        let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
+        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
+        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i)));
+    }
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendViewModel.basemapLegendVisible = jsObject.basemapLegendVisible;
     }

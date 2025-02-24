@@ -37,15 +37,15 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
 
     async hitTest(mapPoint: any,
         screenPoint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsMapPoint = buildJsPoint(mapPoint) as any;
+                let { buildJsPoint } = await import('./point');
+let jsMapPoint = buildJsPoint(mapPoint) as any;
         return await this.component.hitTest(jsMapPoint,
             screenPoint);
     }
 
     async render(renderParameters: any): Promise<void> {
-        let { buildJsBaseLayerViewGL2DRenderRenderParameters } = await import('./baseLayerViewGL2DRenderRenderParameters');
-        let jsRenderParameters = await buildJsBaseLayerViewGL2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
+                let { buildJsBaseLayerViewGL2DRenderRenderParameters } = await import('./baseLayerViewGL2DRenderRenderParameters');
+let jsRenderParameters = await buildJsBaseLayerViewGL2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
         this.component.render(jsRenderParameters);
     }
 
@@ -54,8 +54,8 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
     }
 
     async tessellateExtent(extent: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         return await this.component.tessellateExtent(jsExtent);
     }
 
@@ -67,22 +67,22 @@ export default class BaseLayerViewGL2DGenerated implements IPropertyWrapper {
 
     async tessellatePoint(point: any,
         footprint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsPoint = buildJsPoint(point) as any;
+                let { buildJsPoint } = await import('./point');
+let jsPoint = buildJsPoint(point) as any;
         return await this.component.tessellatePoint(jsPoint,
             footprint);
     }
 
     async tessellatePolygon(polygon: any): Promise<any> {
-        let { buildJsPolygon } = await import('./polygon');
-        let jsPolygon = buildJsPolygon(polygon) as any;
+                let { buildJsPolygon } = await import('./polygon');
+let jsPolygon = buildJsPolygon(polygon) as any;
         return await this.component.tessellatePolygon(jsPolygon);
     }
 
     async tessellatePolyline(polyline: any,
         width: any): Promise<any> {
-        let { buildJsPolyline } = await import('./polyline');
-        let jsPolyline = buildJsPolyline(polyline) as any;
+                let { buildJsPolyline } = await import('./polyline');
+let jsPolyline = buildJsPolyline(polyline) as any;
         return await this.component.tessellatePolyline(jsPolyline,
             width);
     }
@@ -135,7 +135,6 @@ export async function buildJsBaseLayerViewGL2DGenerated(dotNetObject: any, layer
     baseLayerViewGL2DWrapper.viewId = viewId;
     baseLayerViewGL2DWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseLayerViewGL2DWrapper);
     jsObjectRefs[dotNetObject.id] = baseLayerViewGL2DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2D;
@@ -157,7 +156,6 @@ export async function buildDotNetBaseLayerViewGL2DGenerated(jsObject: any): Prom
     }
     
     let dotNetBaseLayerViewGL2D: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.context)) {

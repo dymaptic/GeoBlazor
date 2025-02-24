@@ -25,7 +25,7 @@ export async function buildJsSceneLayerApplyEditsEditsGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneLayerApplyEditsEdits;
     
-    let dnInstantiatedObject = await buildDotNetSceneLayerApplyEditsEdits(jsSceneLayerApplyEditsEdits);
+    let dnInstantiatedObject = await buildDotNetSceneLayerApplyEditsEdits(jsSceneLayerApplyEditsEdits, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -42,21 +42,20 @@ export async function buildDotNetSceneLayerApplyEditsEditsGenerated(jsObject: an
     }
     
     let dotNetSceneLayerApplyEditsEdits: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.addFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSceneLayerApplyEditsEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.deleteFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSceneLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.updateFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSceneLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
+    if (hasValue(jsObject.addFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSceneLayerApplyEditsEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.deleteFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSceneLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.updateFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSceneLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -11,7 +11,7 @@ export async function buildJsImageDistanceParametersGenerated(dotNetObject: any,
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
@@ -53,21 +53,20 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any)
     }
     
     let dotNetImageDistanceParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fromGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageDistanceParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageDistanceParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.toGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageDistanceParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
-        }
+    if (hasValue(jsObject.fromGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageDistanceParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageDistanceParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageDistanceParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
+    }
     if (hasValue(jsObject.angularUnit)) {
         dotNetImageDistanceParameters.angularUnit = jsObject.angularUnit;
     }

@@ -48,7 +48,6 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
     }
     
     let dotNetRotationVariable: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.axis)) {

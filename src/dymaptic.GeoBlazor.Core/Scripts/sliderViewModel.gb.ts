@@ -140,7 +140,6 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     sliderViewModelWrapper.viewId = viewId;
     sliderViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSliderViewModel;
@@ -162,7 +161,6 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promis
     }
     
     let dotNetSliderViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.effectiveMax)) {

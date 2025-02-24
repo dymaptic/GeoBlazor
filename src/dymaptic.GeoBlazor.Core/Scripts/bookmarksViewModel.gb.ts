@@ -20,24 +20,24 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
     }
     
     async createBookmark(options: any): Promise<any> {
-        let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
         return await this.component.createBookmark(jsOptions);
     }
 
     async editBookmark(bookmark: any,
         options: any): Promise<any> {
-        let { buildJsBookmark } = await import('./bookmark');
-        let jsBookmark = await buildJsBookmark(bookmark) as any;
-        let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-        let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsBookmark } = await import('./bookmark');
+let jsBookmark = await buildJsBookmark(bookmark) as any;
+                let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
         return await this.component.editBookmark(jsBookmark,
             jsOptions);
     }
 
     async goTo(bookmark: any): Promise<any> {
-        let { buildJsBookmark } = await import('./bookmark');
-        let jsBookmark = await buildJsBookmark(bookmark) as any;
+                let { buildJsBookmark } = await import('./bookmark');
+let jsBookmark = await buildJsBookmark(bookmark) as any;
         return await this.component.goTo(jsBookmark);
     }
 
@@ -152,7 +152,6 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     bookmarksViewModelWrapper.viewId = viewId;
     bookmarksViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
@@ -174,29 +173,28 @@ export async function buildDotNetBookmarksViewModelGenerated(jsObject: any): Pro
     }
     
     let dotNetBookmarksViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeBookmark)) {
-            let { buildDotNetBookmark } = await import('./bookmark');
-            dotNetBookmarksViewModel.activeBookmark = await buildDotNetBookmark(jsObject.activeBookmark);
-        }
-        if (hasValue(jsObject.bookmarks)) {
-            let { buildDotNetBookmark } = await import('./bookmark');
-            dotNetBookmarksViewModel.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
-        }
-        if (hasValue(jsObject.defaultCreateOptions)) {
-            let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-            dotNetBookmarksViewModel.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions);
-        }
-        if (hasValue(jsObject.defaultEditOptions)) {
-            let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
-            dotNetBookmarksViewModel.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetBookmarksViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
+    if (hasValue(jsObject.activeBookmark)) {
+        let { buildDotNetBookmark } = await import('./bookmark');
+        dotNetBookmarksViewModel.activeBookmark = await buildDotNetBookmark(jsObject.activeBookmark);
+    }
+    if (hasValue(jsObject.bookmarks)) {
+        let { buildDotNetBookmark } = await import('./bookmark');
+        dotNetBookmarksViewModel.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
+    }
+    if (hasValue(jsObject.defaultCreateOptions)) {
+        let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
+        dotNetBookmarksViewModel.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions);
+    }
+    if (hasValue(jsObject.defaultEditOptions)) {
+        let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
+        dotNetBookmarksViewModel.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetBookmarksViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
     if (hasValue(jsObject.capabilities)) {
         dotNetBookmarksViewModel.capabilities = jsObject.capabilities;
     }

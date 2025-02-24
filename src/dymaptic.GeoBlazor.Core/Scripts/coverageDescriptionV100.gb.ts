@@ -59,17 +59,16 @@ export async function buildDotNetCoverageDescriptionV100Generated(jsObject: any)
     }
     
     let dotNetCoverageDescriptionV100: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.domainSet)) {
-            let { buildDotNetCoverageDescriptionV100DomainSet } = await import('./coverageDescriptionV100DomainSet');
-            dotNetCoverageDescriptionV100.domainSet = await buildDotNetCoverageDescriptionV100DomainSet(jsObject.domainSet);
-        }
-        if (hasValue(jsObject.lonLatEnvelope)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetCoverageDescriptionV100.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
-        }
+    if (hasValue(jsObject.domainSet)) {
+        let { buildDotNetCoverageDescriptionV100DomainSet } = await import('./coverageDescriptionV100DomainSet');
+        dotNetCoverageDescriptionV100.domainSet = await buildDotNetCoverageDescriptionV100DomainSet(jsObject.domainSet);
+    }
+    if (hasValue(jsObject.lonLatEnvelope)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCoverageDescriptionV100.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
+    }
     if (hasValue(jsObject.description)) {
         dotNetCoverageDescriptionV100.description = jsObject.description;
     }

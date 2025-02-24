@@ -36,8 +36,8 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -141,7 +141,6 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     compassWidgetWrapper.viewId = viewId;
     compassWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
@@ -163,17 +162,16 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
     }
     
     let dotNetCompassWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetCompassWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-            dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetCompassWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetCompassViewModel } = await import('./compassViewModel');
+        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetCompassWidget.container = jsObject.container;
     }

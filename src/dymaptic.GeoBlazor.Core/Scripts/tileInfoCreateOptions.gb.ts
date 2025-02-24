@@ -4,10 +4,6 @@ import { buildDotNetTileInfoCreateOptions } from './tileInfoCreateOptions';
 
 export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTileInfoCreateOptions: any = {};
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        jsTileInfoCreateOptions.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.numLODs)) {
         jsTileInfoCreateOptions.numLODs = dotNetObject.numLODs;
@@ -17,6 +13,10 @@ export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.size)) {
         jsTileInfoCreateOptions.size = dotNetObject.size;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        jsTileInfoCreateOptions.spatialReference = sanitizedSpatialReference;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsTileInfoCreateOptions);
@@ -40,13 +40,8 @@ export async function buildDotNetTileInfoCreateOptionsGenerated(jsObject: any): 
     }
     
     let dotNetTileInfoCreateOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetTileInfoCreateOptions.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
     if (hasValue(jsObject.numLODs)) {
         dotNetTileInfoCreateOptions.numLODs = jsObject.numLODs;
     }
@@ -55,6 +50,9 @@ export async function buildDotNetTileInfoCreateOptionsGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.size)) {
         dotNetTileInfoCreateOptions.size = jsObject.size;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetTileInfoCreateOptions.spatialReference = jsObject.spatialReference;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

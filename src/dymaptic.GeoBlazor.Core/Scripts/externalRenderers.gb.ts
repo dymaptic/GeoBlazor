@@ -73,7 +73,6 @@ export async function buildJsExternalRenderersGenerated(dotNetObject: any, layer
     externalRenderersWrapper.viewId = viewId;
     externalRenderersWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(externalRenderersWrapper);
     jsObjectRefs[dotNetObject.id] = externalRenderersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsexternalRenderers;
@@ -95,7 +94,6 @@ export async function buildDotNetExternalRenderersGenerated(jsObject: any): Prom
     }
     
     let dotNetExternalRenderers: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

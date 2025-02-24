@@ -35,13 +35,12 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promis
     }
     
     let dotNetWFSCapabilities: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureTypes)) {
-            let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
-            dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
-        }
+    if (hasValue(jsObject.featureTypes)) {
+        let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
+        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
+    }
     if (hasValue(jsObject.operations)) {
         dotNetWFSCapabilities.operations = jsObject.operations;
     }

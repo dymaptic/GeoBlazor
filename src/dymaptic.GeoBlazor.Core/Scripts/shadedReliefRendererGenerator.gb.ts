@@ -20,8 +20,8 @@ export default class ShadedReliefRendererGeneratorGenerated implements IProperty
     }
     
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsShadedReliefCreateRendererParams } = await import('./shadedReliefCreateRendererParams');
-        let jsparameters = await buildJsShadedReliefCreateRendererParams(parameters, this.layerId, this.viewId) as any;
+                let { buildJsShadedReliefCreateRendererParams } = await import('./shadedReliefCreateRendererParams');
+let jsparameters = await buildJsShadedReliefCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
@@ -47,7 +47,6 @@ export async function buildJsShadedReliefRendererGeneratorGenerated(dotNetObject
     shadedReliefRendererGeneratorWrapper.viewId = viewId;
     shadedReliefRendererGeneratorWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(shadedReliefRendererGeneratorWrapper);
     jsObjectRefs[dotNetObject.id] = shadedReliefRendererGeneratorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsshadedRelief;
@@ -69,7 +68,6 @@ export async function buildDotNetShadedReliefRendererGeneratorGenerated(jsObject
     }
     
     let dotNetShadedReliefRendererGenerator: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

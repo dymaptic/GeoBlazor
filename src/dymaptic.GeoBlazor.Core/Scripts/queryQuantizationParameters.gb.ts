@@ -40,13 +40,12 @@ export async function buildDotNetQueryQuantizationParametersGenerated(jsObject: 
     }
     
     let dotNetQueryQuantizationParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetQueryQuantizationParameters.extent = buildDotNetExtent(jsObject.extent);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetQueryQuantizationParameters.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.mode)) {
         dotNetQueryQuantizationParameters.mode = jsObject.mode;
     }

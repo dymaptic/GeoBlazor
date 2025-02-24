@@ -36,8 +36,8 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -154,7 +154,6 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     basemapToggleWidgetWrapper.viewId = viewId;
     basemapToggleWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
@@ -176,21 +175,20 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
     }
     
     let dotNetBasemapToggleWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeBasemap)) {
-            let { buildDotNetBasemap } = await import('./basemap');
-            dotNetBasemapToggleWidget.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
-        }
-        if (hasValue(jsObject.nextBasemap)) {
-            let { buildDotNetBasemap } = await import('./basemap');
-            dotNetBasemapToggleWidget.nextBasemap = await buildDotNetBasemap(jsObject.nextBasemap);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-            dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.activeBasemap)) {
+        let { buildDotNetBasemap } = await import('./basemap');
+        dotNetBasemapToggleWidget.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
+    }
+    if (hasValue(jsObject.nextBasemap)) {
+        let { buildDotNetBasemap } = await import('./basemap');
+        dotNetBasemapToggleWidget.nextBasemap = await buildDotNetBasemap(jsObject.nextBasemap);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
+        dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetBasemapToggleWidget.container = jsObject.container;
     }

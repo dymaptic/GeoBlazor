@@ -25,32 +25,32 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async computeAngles(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageAngleParameters } = await import('./imageAngleParameters');
-        let jsParameters = await buildJsImageAngleParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageAngleParameters } = await import('./imageAngleParameters');
+let jsParameters = await buildJsImageAngleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeAngles(jsParameters,
             requestOptions);
     }
 
     async computeHistograms(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
-        let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeHistograms(jsParameters,
             requestOptions);
     }
 
     async computePixelSpaceLocations(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImagePixelLocationParameters } = await import('./imagePixelLocationParameters');
-        let jsParameters = await buildJsImagePixelLocationParameters(parameters) as any;
+                let { buildJsImagePixelLocationParameters } = await import('./imagePixelLocationParameters');
+let jsParameters = await buildJsImagePixelLocationParameters(parameters) as any;
         return await this.layer.computePixelSpaceLocations(jsParameters,
             requestOptions);
     }
 
     async computeStatisticsHistograms(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
-        let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeStatisticsHistograms(jsParameters,
             requestOptions);
     }
@@ -73,8 +73,8 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
             height,
@@ -83,8 +83,8 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async findImages(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsFindImagesParameters } = await import('./findImagesParameters');
-        let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsFindImagesParameters } = await import('./findImagesParameters');
+let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.findImages(jsParameters,
             requestOptions);
     }
@@ -115,128 +115,128 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async getSamples(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageSampleParameters } = await import('./imageSampleParameters');
-        let jsParameters = await buildJsImageSampleParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageSampleParameters } = await import('./imageSampleParameters');
+let jsParameters = await buildJsImageSampleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.getSamples(jsParameters,
             requestOptions);
     }
 
     async identify(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageIdentifyParameters } = await import('./imageIdentifyParameters');
-        let jsParameters = await buildJsImageIdentifyParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageIdentifyParameters } = await import('./imageIdentifyParameters');
+let jsParameters = await buildJsImageIdentifyParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsParameters,
             requestOptions);
     }
 
     async imageToMap(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageToMapParameters } = await import('./imageToMapParameters');
-        let jsParameters = await buildJsImageToMapParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageToMapParameters } = await import('./imageToMapParameters');
+let jsParameters = await buildJsImageToMapParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMap(jsParameters,
             requestOptions);
     }
 
     async imageToMapMultiray(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
-        let jsParameters = await buildJsImageToMapMultirayParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
+let jsParameters = await buildJsImageToMapMultirayParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMapMultiray(jsParameters,
             requestOptions);
     }
 
     async mapToImage(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsMapToImageParameters } = await import('./mapToImageParameters');
-        let jsParameters = await buildJsMapToImageParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsMapToImageParameters } = await import('./mapToImageParameters');
+let jsParameters = await buildJsMapToImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.mapToImage(jsParameters,
             requestOptions);
     }
 
     async measureAreaAndPerimeter(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
-        let jsParameters = await buildJsImageAreaParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
+let jsParameters = await buildJsImageAreaParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaAndPerimeter(jsParameters,
             requestOptions);
     }
 
     async measureAreaFromImage(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
-        let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaFromImage(jsParameters,
             requestOptions);
     }
 
     async measureDistanceAndAngle(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
-        let jsParameters = await buildJsImageDistanceParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
+let jsParameters = await buildJsImageDistanceParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureDistanceAndAngle(jsParameters,
             requestOptions);
     }
 
     async measureHeight(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
-        let jsParameters = await buildJsImageHeightParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
+let jsParameters = await buildJsImageHeightParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureHeight(jsParameters,
             requestOptions);
     }
 
     async measureLengthFromImage(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
-        let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureLengthFromImage(jsParameters,
             requestOptions);
     }
 
     async measurePointOrCentroid(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImagePointParameters } = await import('./imagePointParameters');
-        let jsParameters = await buildJsImagePointParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImagePointParameters } = await import('./imagePointParameters');
+let jsParameters = await buildJsImagePointParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measurePointOrCentroid(jsParameters,
             requestOptions);
     }
 
     async queryBoundary(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageBoundaryParameters } = await import('./imageBoundaryParameters');
-        let jsParameters = await buildJsImageBoundaryParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageBoundaryParameters } = await import('./imageBoundaryParameters');
+let jsParameters = await buildJsImageBoundaryParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryBoundary(jsParameters,
             requestOptions);
     }
 
     async queryGPSInfo(parameters: any,
         requestOptions: any): Promise<any> {
-        let { buildJsImageGPSInfoParameters } = await import('./imageGPSInfoParameters');
-        let jsParameters = await buildJsImageGPSInfoParameters(parameters, this.layerId, this.viewId) as any;
+                let { buildJsImageGPSInfoParameters } = await import('./imageGPSInfoParameters');
+let jsParameters = await buildJsImageGPSInfoParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryGPSInfo(jsParameters,
             requestOptions);
     }
 
     async queryObjectIds(query: any,
         requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             requestOptions);
     }
 
     async queryRasterCount(query: any,
         requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasterCount(jsQuery,
             requestOptions);
     }
 
     async queryRasters(query: any,
         requestOptions: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasters(jsQuery,
             requestOptions);
     }
@@ -257,10 +257,10 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
-        let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
+                let { buildJsPortalItem } = await import('./portalItem');
+let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+                let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
+let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -340,7 +340,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setMosaicRule(value: any): Promise<void> {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        this.layer.mosaicRule = await  buildJsMosaicRule(value, this.layerId, this.viewId);
+        this.layer.mosaicRule = await  buildJsMosaicRule(value);
     }
     
     async getMultidimensionalSubset(): Promise<any> {
@@ -354,7 +354,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.layerId, this.viewId);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -401,15 +401,6 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.layer.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -484,7 +475,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         properties.pixelFilter = async (pixelData) => {
@@ -649,12 +640,11 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     imageryLayerWrapper.viewId = viewId;
     imageryLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     let { buildDotNetImageryLayer } = await import('./imageryLayer');
-    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
+    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -671,69 +661,64 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     }
     
     let dotNetImageryLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultMosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
-        }
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetImageryLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.multidimensionalSubset)) {
-            let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-            dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.rasterFields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.serviceRasterInfo)) {
-            let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageryLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            let { buildDotNetTimeInfo } = await import('./timeInfo');
-            dotNetImageryLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.defaultMosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
+    }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetImageryLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+        dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.multidimensionalSubset)) {
+        let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
+        dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.rasterFields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.serviceRasterInfo)) {
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        dotNetImageryLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetImageryLayer.arcGISLayerId = jsObject.id;
     }
@@ -835,6 +820,9 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.sourceType)) {
         dotNetImageryLayer.sourceType = jsObject.sourceType;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetImageryLayer.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.timeOffset)) {
         dotNetImageryLayer.timeOffset = jsObject.timeOffset;

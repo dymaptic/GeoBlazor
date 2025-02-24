@@ -38,13 +38,12 @@ export async function buildDotNetSceneViewHitTestResultGenerated(jsObject: any):
     }
     
     let dotNetSceneViewHitTestResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.ground)) {
-            let { buildDotNetHitTestResultGround } = await import('./hitTestResultGround');
-            dotNetSceneViewHitTestResult.ground = await buildDotNetHitTestResultGround(jsObject.ground);
-        }
+    if (hasValue(jsObject.ground)) {
+        let { buildDotNetHitTestResultGround } = await import('./hitTestResultGround');
+        dotNetSceneViewHitTestResult.ground = await buildDotNetHitTestResultGround(jsObject.ground);
+    }
     if (hasValue(jsObject.results)) {
         dotNetSceneViewHitTestResult.results = jsObject.results;
     }

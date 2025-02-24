@@ -10,9 +10,9 @@ export default class IBlendLayerWrapper extends IBlendLayerGenerated {
 
 }
 
-export async function buildJsIBlendLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIBlendLayer(dotNetObject: any): Promise<any> {
     let {buildJsIBlendLayerGenerated} = await import('./iBlendLayer.gb');
-    return await buildJsIBlendLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIBlendLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIBlendLayer(jsObject: any): Promise<any> {

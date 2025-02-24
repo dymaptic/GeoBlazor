@@ -36,13 +36,12 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Pro
     }
     
     let dotNetBasemapGalleryItem: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.basemap)) {
-            let { buildDotNetBasemap } = await import('./basemap');
-            dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap);
-        }
+    if (hasValue(jsObject.basemap)) {
+        let { buildDotNetBasemap } = await import('./basemap');
+        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap);
+    }
     if (hasValue(jsObject.error)) {
         dotNetBasemapGalleryItem.error = jsObject.error;
     }

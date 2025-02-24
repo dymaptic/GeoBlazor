@@ -1,6 +1,6 @@
-export async function buildJsMediaElementBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMediaElementBase(dotNetObject: any): Promise<any> {
     let {buildJsMediaElementBaseGenerated} = await import('./mediaElementBase.gb');
-    return await buildJsMediaElementBaseGenerated(dotNetObject, layerId, viewId);
+    return buildJsMediaElementBaseGenerated(dotNetObject);
 }
 
 export async function buildDotNetMediaElementBase(jsObject: any): Promise<any> {

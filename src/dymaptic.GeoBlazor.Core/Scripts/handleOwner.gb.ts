@@ -31,13 +31,12 @@ export async function buildDotNetHandleOwnerGenerated(jsObject: any): Promise<an
     }
     
     let dotNetHandleOwner: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.handles)) {
-            let { buildDotNetHandles } = await import('./handles');
-            dotNetHandleOwner.handles = await buildDotNetHandles(jsObject.handles);
-        }
+    if (hasValue(jsObject.handles)) {
+        let { buildDotNetHandles } = await import('./handles');
+        dotNetHandleOwner.handles = await buildDotNetHandles(jsObject.handles);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

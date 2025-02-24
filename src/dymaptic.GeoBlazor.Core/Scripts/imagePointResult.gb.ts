@@ -39,13 +39,12 @@ export async function buildDotNetImagePointResultGenerated(jsObject: any): Promi
     }
     
     let dotNetImagePointResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.point)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImagePointResult.point = buildDotNetPoint(jsObject.point);
-        }
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImagePointResult.point = buildDotNetPoint(jsObject.point);
+    }
     if (hasValue(jsObject.name)) {
         dotNetImagePointResult.name = jsObject.name;
     }

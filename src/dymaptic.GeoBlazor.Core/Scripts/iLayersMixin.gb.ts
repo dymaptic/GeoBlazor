@@ -31,7 +31,6 @@ export async function buildDotNetILayersMixinGenerated(jsObject: any): Promise<a
     }
     
     let dotNetILayersMixin: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

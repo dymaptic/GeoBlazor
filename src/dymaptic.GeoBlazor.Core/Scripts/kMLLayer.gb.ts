@@ -189,7 +189,6 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     kMLLayerWrapper.viewId = viewId;
     kMLLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
     jsObjectRefs[dotNetObject.id] = kMLLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayer;
@@ -211,29 +210,28 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetKMLLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetKMLLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetKMLLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.sublayers)) {
-            let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-            dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetKMLLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetKMLLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.sublayers)) {
+        let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
+        dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetKMLLayer.arcGISLayerId = jsObject.id;
     }

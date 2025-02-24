@@ -37,7 +37,6 @@ export async function buildDotNetIBreakpointsOwnerGenerated(jsObject: any): Prom
     }
     
     let dotNetIBreakpointsOwner: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.breakpoints)) {

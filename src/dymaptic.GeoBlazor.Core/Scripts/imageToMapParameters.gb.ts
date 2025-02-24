@@ -9,16 +9,16 @@ export async function buildJsImageToMapParametersGenerated(dotNetObject: any, la
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.inSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.inSpatialReference = buildJsSpatialReference(dotNetObject.inSpatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.adjust)) {
         properties.adjust = dotNetObject.adjust;
     }
     if (hasValue(dotNetObject.depthOffset)) {
         properties.depthOffset = dotNetObject.depthOffset;
+    }
+    if (hasValue(dotNetObject.inSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedInSpatialReference } = dotNetObject.inSpatialReference;
+        properties.inSpatialReference = sanitizedInSpatialReference;
     }
     if (hasValue(dotNetObject.rasterId)) {
         properties.rasterId = dotNetObject.rasterId;
@@ -46,22 +46,20 @@ export async function buildDotNetImageToMapParametersGenerated(jsObject: any): P
     }
     
     let dotNetImageToMapParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageToMapParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.inSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageToMapParameters.inSpatialReference = buildDotNetSpatialReference(jsObject.inSpatialReference);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageToMapParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
     if (hasValue(jsObject.adjust)) {
         dotNetImageToMapParameters.adjust = jsObject.adjust;
     }
     if (hasValue(jsObject.depthOffset)) {
         dotNetImageToMapParameters.depthOffset = jsObject.depthOffset;
+    }
+    if (hasValue(jsObject.inSpatialReference)) {
+        dotNetImageToMapParameters.inSpatialReference = jsObject.inSpatialReference;
     }
     if (hasValue(jsObject.rasterId)) {
         dotNetImageToMapParameters.rasterId = jsObject.rasterId;

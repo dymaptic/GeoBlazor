@@ -45,7 +45,6 @@ export async function buildJsWatchHandleGenerated(dotNetObject: any, layerId: st
     watchHandleWrapper.viewId = viewId;
     watchHandleWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(watchHandleWrapper);
     jsObjectRefs[dotNetObject.id] = watchHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWatchHandle;
@@ -67,7 +66,6 @@ export async function buildDotNetWatchHandleGenerated(jsObject: any): Promise<an
     }
     
     let dotNetWatchHandle: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

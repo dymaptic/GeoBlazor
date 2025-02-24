@@ -46,17 +46,16 @@ export async function buildDotNetImageGPSInfoParametersGenerated(jsObject: any):
     }
     
     let dotNetImageGPSInfoParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageGPSInfoParameters.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetImageGPSInfoParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageGPSInfoParameters.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetImageGPSInfoParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.objectIds)) {
         dotNetImageGPSInfoParameters.objectIds = jsObject.objectIds;
     }

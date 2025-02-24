@@ -27,7 +27,6 @@ export async function buildDotNetPredominanceUtilsGenerated(jsObject: any): Prom
     }
     
     let dotNetPredominanceUtils: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

@@ -36,8 +36,8 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -137,7 +137,6 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     listItemPanelWidgetWrapper.viewId = viewId;
     listItemPanelWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(listItemPanelWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = listItemPanelWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
@@ -159,13 +158,12 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     }
     
     let dotNetListItemPanelWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.listItem)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
-        }
+    if (hasValue(jsObject.listItem)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
+    }
     if (hasValue(jsObject.className)) {
         dotNetListItemPanelWidget.className = jsObject.className;
     }

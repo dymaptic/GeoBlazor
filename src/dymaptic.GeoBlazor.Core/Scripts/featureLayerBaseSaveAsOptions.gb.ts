@@ -34,13 +34,12 @@ export async function buildDotNetFeatureLayerBaseSaveAsOptionsGenerated(jsObject
     }
     
     let dotNetFeatureLayerBaseSaveAsOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            let { buildDotNetPortalFolder } = await import('./portalFolder');
-            dotNetFeatureLayerBaseSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
-        }
+    if (hasValue(jsObject.folder)) {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        dotNetFeatureLayerBaseSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+    }
     if (hasValue(jsObject.validationOptions)) {
         dotNetFeatureLayerBaseSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

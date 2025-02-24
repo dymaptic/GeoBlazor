@@ -1,7 +1,7 @@
 
-export async function buildJsIHighlightLayerViewMixin(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIHighlightLayerViewMixin(dotNetObject: any): Promise<any> {
     let { buildJsIHighlightLayerViewMixinGenerated } = await import('./iHighlightLayerViewMixin.gb');
-    return await buildJsIHighlightLayerViewMixinGenerated(dotNetObject, layerId, viewId);
+    return buildJsIHighlightLayerViewMixinGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIHighlightLayerViewMixin(jsObject: any): Promise<any> {

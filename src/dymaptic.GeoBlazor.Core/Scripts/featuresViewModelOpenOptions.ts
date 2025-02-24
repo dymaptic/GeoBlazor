@@ -4,7 +4,7 @@ export async function buildJsFeaturesViewModelOpenOptions(dotNetObject: any, lay
     return await buildJsFeaturesViewModelOpenOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeaturesViewModelOpenOptions(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesViewModelOpenOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeaturesViewModelOpenOptionsGenerated } = await import('./featuresViewModelOpenOptions.gb');
-    return await buildDotNetFeaturesViewModelOpenOptionsGenerated(jsObject);
+    return await buildDotNetFeaturesViewModelOpenOptionsGenerated(jsObject, layerId, viewId);
 }

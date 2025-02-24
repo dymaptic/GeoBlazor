@@ -49,13 +49,12 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
     }
     
     let dotNetCoverageDescriptionV201BoundedBy: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.envelope)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope);
-        }
+    if (hasValue(jsObject.envelope)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope);
+    }
     if (hasValue(jsObject.axisLabels)) {
         dotNetCoverageDescriptionV201BoundedBy.axisLabels = jsObject.axisLabels;
     }

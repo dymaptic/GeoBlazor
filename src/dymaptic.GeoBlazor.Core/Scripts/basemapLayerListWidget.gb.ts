@@ -36,8 +36,8 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -59,10 +59,10 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 
     async triggerAction(action: any,
         item: any): Promise<void> {
-        let { buildJsActionBase } = await import('./actionBase');
-        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
-        let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
+                let { buildJsActionBase } = await import('./actionBase');
+let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
+                let { buildJsListItem } = await import('./listItem');
+let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.widget.triggerAction(jsAction,
             jsItem);
     }
@@ -228,7 +228,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     basemapLayerListWidgetWrapper.viewId = viewId;
     basemapLayerListWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
@@ -250,25 +249,24 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     }
     
     let dotNetBasemapLayerListWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.baseItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.referenceItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.selectedItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-            dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.baseItems)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.referenceItems)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.selectedItems)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
+        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.baseFilterText)) {
         dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
     }

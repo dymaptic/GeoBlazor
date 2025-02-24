@@ -40,13 +40,12 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     }
     
     let dotNetUniqueValueClass: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueClass.label = jsObject.label;
     }

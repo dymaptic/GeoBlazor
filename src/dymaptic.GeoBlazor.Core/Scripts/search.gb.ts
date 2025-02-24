@@ -46,7 +46,6 @@ export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetSearch: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.addressSearchEnabled)) {

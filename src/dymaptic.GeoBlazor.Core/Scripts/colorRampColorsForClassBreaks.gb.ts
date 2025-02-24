@@ -34,13 +34,12 @@ export async function buildDotNetColorRampColorsForClassBreaksGenerated(jsObject
     }
     
     let dotNetColorRampColorsForClassBreaks: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colors)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetColorRampColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
-        }
+    if (hasValue(jsObject.colors)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetColorRampColorsForClassBreaks.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
+    }
     if (hasValue(jsObject.numClasses)) {
         dotNetColorRampColorsForClassBreaks.numClasses = jsObject.numClasses;
     }

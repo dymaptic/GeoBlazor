@@ -52,13 +52,12 @@ export async function buildDotNetViewImmediateClickEventGenerated(jsObject: any)
     }
     
     let dotNetViewImmediateClickEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetViewImmediateClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetViewImmediateClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.button)) {
         dotNetViewImmediateClickEvent.button = jsObject.button;
     }

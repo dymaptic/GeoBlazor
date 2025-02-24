@@ -66,21 +66,20 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
     }
     
     let dotNetWMTSSublayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.tileMatrixSet)) {
-            let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-            dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
-        }
-        if (hasValue(jsObject.tileMatrixSets)) {
-            let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-            dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i)));
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.tileMatrixSet)) {
+        let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
+        dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
+    }
+    if (hasValue(jsObject.tileMatrixSets)) {
+        let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
+        dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i)));
+    }
     if (hasValue(jsObject.description)) {
         dotNetWMTSSublayer.description = jsObject.description;
     }

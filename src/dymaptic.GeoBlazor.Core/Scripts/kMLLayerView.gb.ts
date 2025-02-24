@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKMLLayerView } from './kMLLayerView';
 
-export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKMLLayerViewGenerated(dotNetObject: any): Promise<any> {
     let jsKMLLayerView: any = {};
 
     
@@ -21,31 +21,18 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     return jsKMLLayerView;
 }
 
-export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetKMLLayerView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allVisibleMapImages)) {
-            let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-            dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
-        }
-        if (hasValue(jsObject.allVisiblePoints)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetKMLLayerView.allVisiblePoints = jsObject.allVisiblePoints.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.allVisiblePolygons)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetKMLLayerView.allVisiblePolygons = jsObject.allVisiblePolygons.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.allVisiblePolylines)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetKMLLayerView.allVisiblePolylines = jsObject.allVisiblePolylines.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
+    if (hasValue(jsObject.allVisibleMapImages)) {
+        let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
+        dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
+    }
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetKMLLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }

@@ -3,7 +3,7 @@ export async function buildJsPopupViewOpenPopupOptions(dotNetObject: any, layerI
     return await buildJsPopupViewOpenPopupOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPopupViewOpenPopupOptions(jsObject: any): Promise<any> {
+export async function buildDotNetPopupViewOpenPopupOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPopupViewOpenPopupOptionsGenerated} = await import('./popupViewOpenPopupOptions.gb');
-    return await buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject);
+    return await buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject, layerId, viewId);
 }

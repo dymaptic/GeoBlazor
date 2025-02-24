@@ -37,13 +37,12 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
     }
     
     let dotNetMultidimensionalSubset: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.areaOfInterest)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetMultidimensionalSubset.areaOfInterest = buildDotNetGeometry(jsObject.areaOfInterest);
-        }
+    if (hasValue(jsObject.areaOfInterest)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetMultidimensionalSubset.areaOfInterest = buildDotNetGeometry(jsObject.areaOfInterest);
+    }
     if (hasValue(jsObject.dimensions)) {
         dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
     }

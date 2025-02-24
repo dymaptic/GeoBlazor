@@ -45,7 +45,6 @@ export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layer
     iPublishableLayerWrapper.viewId = viewId;
     iPublishableLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iPublishableLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iPublishableLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPublishableLayer;
@@ -67,7 +66,6 @@ export async function buildDotNetIPublishableLayerGenerated(jsObject: any): Prom
     }
     
     let dotNetIPublishableLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.publishingInfo)) {

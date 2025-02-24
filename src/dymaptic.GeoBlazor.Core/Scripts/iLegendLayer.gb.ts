@@ -55,7 +55,6 @@ export async function buildJsILegendLayerGenerated(dotNetObject: any, layerId: s
     iLegendLayerWrapper.viewId = viewId;
     iLegendLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iLegendLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iLegendLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegendLayer;
@@ -77,7 +76,6 @@ export async function buildDotNetILegendLayerGenerated(jsObject: any): Promise<a
     }
     
     let dotNetILegendLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.layerId)) {

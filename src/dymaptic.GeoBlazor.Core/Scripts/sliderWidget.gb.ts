@@ -36,8 +36,8 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -281,7 +281,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     sliderWidgetWrapper.viewId = viewId;
     sliderWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
@@ -303,17 +302,16 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
     }
     
     let dotNetSliderWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.tickConfigs)) {
-            let { buildDotNetTickConfig } = await import('./tickConfig');
-            dotNetSliderWidget.tickConfigs = await Promise.all(jsObject.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-            dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.tickConfigs)) {
+        let { buildDotNetTickConfig } = await import('./tickConfig');
+        dotNetSliderWidget.tickConfigs = await Promise.all(jsObject.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
+        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetSliderWidget.container = jsObject.container;
     }

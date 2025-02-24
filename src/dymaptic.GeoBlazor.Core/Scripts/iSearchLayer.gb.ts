@@ -56,7 +56,6 @@ export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: s
     iSearchLayerWrapper.viewId = viewId;
     iSearchLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSearchLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iSearchLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchLayer;
@@ -78,7 +77,6 @@ export async function buildDotNetISearchLayerGenerated(jsObject: any): Promise<a
     }
     
     let dotNetISearchLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.field)) {

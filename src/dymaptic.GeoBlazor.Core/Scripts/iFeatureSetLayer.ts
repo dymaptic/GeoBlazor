@@ -10,9 +10,9 @@ export default class IFeatureSetLayerWrapper extends IFeatureSetLayerGenerated {
 
 }
 
-export async function buildJsIFeatureSetLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIFeatureSetLayer(dotNetObject: any): Promise<any> {
     let {buildJsIFeatureSetLayerGenerated} = await import('./iFeatureSetLayer.gb');
-    return await buildJsIFeatureSetLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIFeatureSetLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIFeatureSetLayer(jsObject: any): Promise<any> {

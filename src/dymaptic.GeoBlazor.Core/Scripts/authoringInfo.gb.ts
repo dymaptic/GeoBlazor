@@ -88,17 +88,16 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
     }
     
     let dotNetAuthoringInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colorRamp)) {
-            let { buildDotNetColorRamp } = await import('./colorRamp');
-            dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
-        }
-        if (hasValue(jsObject.visualVariables)) {
-            let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-            dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
-        }
+    if (hasValue(jsObject.colorRamp)) {
+        let { buildDotNetColorRamp } = await import('./colorRamp');
+        dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
+    }
+    if (hasValue(jsObject.visualVariables)) {
+        let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
+        dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
+    }
     if (hasValue(jsObject.classificationMethod)) {
         dotNetAuthoringInfo.classificationMethod = jsObject.classificationMethod;
     }

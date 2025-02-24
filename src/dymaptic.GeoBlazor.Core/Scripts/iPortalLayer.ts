@@ -10,9 +10,9 @@ export default class IPortalLayerWrapper extends IPortalLayerGenerated {
 
 }
 
-export async function buildJsIPortalLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIPortalLayer(dotNetObject: any): Promise<any> {
     let {buildJsIPortalLayerGenerated} = await import('./iPortalLayer.gb');
-    return await buildJsIPortalLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIPortalLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIPortalLayer(jsObject: any): Promise<any> {

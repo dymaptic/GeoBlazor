@@ -29,21 +29,20 @@ export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any
     }
     
     let dotNetGroundView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.elevationSampler)) {
-            let { buildDotNetElevationSampler } = await import('./elevationSampler');
-            dotNetGroundView.elevationSampler = await buildDotNetElevationSampler(jsObject.elevationSampler);
-        }
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetGroundView.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.layerViews)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetGroundView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
-        }
+    if (hasValue(jsObject.elevationSampler)) {
+        let { buildDotNetElevationSampler } = await import('./elevationSampler');
+        dotNetGroundView.elevationSampler = await buildDotNetElevationSampler(jsObject.elevationSampler);
+    }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetGroundView.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.layerViews)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetGroundView.layerViews = jsObject.layerViews.map(i => buildDotNetLayerView(i));
+    }
     if (hasValue(jsObject.updating)) {
         dotNetGroundView.updating = jsObject.updating;
     }

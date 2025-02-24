@@ -53,17 +53,16 @@ export async function buildDotNetAgeRendererResultGenerated(jsObject: any): Prom
     }
     
     let dotNetAgeRendererResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.renderer)) {
-            let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
-            dotNetAgeRendererResult.renderer = await buildDotNetClassBreaksRenderer(jsObject.renderer);
-        }
-        if (hasValue(jsObject.visualVariable)) {
-            let { buildDotNetColorVariable } = await import('./colorVariable');
-            dotNetAgeRendererResult.visualVariable = await buildDotNetColorVariable(jsObject.visualVariable);
-        }
+    if (hasValue(jsObject.renderer)) {
+        let { buildDotNetClassBreaksRenderer } = await import('./classBreaksRenderer');
+        dotNetAgeRendererResult.renderer = await buildDotNetClassBreaksRenderer(jsObject.renderer);
+    }
+    if (hasValue(jsObject.visualVariable)) {
+        let { buildDotNetColorVariable } = await import('./colorVariable');
+        dotNetAgeRendererResult.visualVariable = await buildDotNetColorVariable(jsObject.visualVariable);
+    }
     if (hasValue(jsObject.basemapId)) {
         dotNetAgeRendererResult.basemapId = jsObject.basemapId;
     }

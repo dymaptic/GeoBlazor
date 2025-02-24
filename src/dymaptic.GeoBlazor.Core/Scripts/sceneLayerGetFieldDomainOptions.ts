@@ -3,7 +3,7 @@ export async function buildJsSceneLayerGetFieldDomainOptions(dotNetObject: any, 
     return await buildJsSceneLayerGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSceneLayerGetFieldDomainOptions(jsObject: any): Promise<any> {
+export async function buildDotNetSceneLayerGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSceneLayerGetFieldDomainOptionsGenerated} = await import('./sceneLayerGetFieldDomainOptions.gb');
-    return await buildDotNetSceneLayerGetFieldDomainOptionsGenerated(jsObject);
+    return await buildDotNetSceneLayerGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
 }

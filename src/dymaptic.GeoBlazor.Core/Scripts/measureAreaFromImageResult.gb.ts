@@ -43,17 +43,16 @@ export async function buildDotNetMeasureAreaFromImageResultGenerated(jsObject: a
     }
     
     let dotNetMeasureAreaFromImageResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.center)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetMeasureAreaFromImageResult.center = buildDotNetPoint(jsObject.center);
-        }
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetPolygon } = await import('./polygon');
-            dotNetMeasureAreaFromImageResult.geometry = buildDotNetPolygon(jsObject.geometry);
-        }
+    if (hasValue(jsObject.center)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetMeasureAreaFromImageResult.center = buildDotNetPoint(jsObject.center);
+    }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetPolygon } = await import('./polygon');
+        dotNetMeasureAreaFromImageResult.geometry = buildDotNetPolygon(jsObject.geometry);
+    }
     if (hasValue(jsObject.area)) {
         dotNetMeasureAreaFromImageResult.area = jsObject.area;
     }

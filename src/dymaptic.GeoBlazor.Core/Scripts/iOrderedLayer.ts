@@ -10,9 +10,9 @@ export default class IOrderedLayerWrapper extends IOrderedLayerGenerated {
 
 }
 
-export async function buildJsIOrderedLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIOrderedLayer(dotNetObject: any): Promise<any> {
     let {buildJsIOrderedLayerGenerated} = await import('./iOrderedLayer.gb');
-    return await buildJsIOrderedLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIOrderedLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIOrderedLayer(jsObject: any): Promise<any> {

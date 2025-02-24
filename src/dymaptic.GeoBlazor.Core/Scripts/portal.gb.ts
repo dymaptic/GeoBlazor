@@ -51,24 +51,24 @@ export default class PortalGenerated implements IPropertyWrapper {
 
     async queryGroups(queryParams: any,
         options: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
             options);
     }
 
     async queryItems(queryParams: any,
         options: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
             options);
     }
 
     async queryUsers(queryParams: any,
         options: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,
             options);
     }
@@ -345,7 +345,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     portalWrapper.viewId = viewId;
     portalWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalWrapper);
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
@@ -367,13 +366,12 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetPortal: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
-        }
+    if (hasValue(jsObject.defaultExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
+    }
     if (hasValue(jsObject.access)) {
         dotNetPortal.access = jsObject.access;
     }

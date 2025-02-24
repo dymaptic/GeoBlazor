@@ -45,13 +45,12 @@ export async function buildDotNetSceneViewMediaHitGenerated(jsObject: any): Prom
     }
     
     let dotNetSceneViewMediaHit: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetSceneViewMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetSceneViewMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetSceneViewMediaHit.distance = jsObject.distance;
     }

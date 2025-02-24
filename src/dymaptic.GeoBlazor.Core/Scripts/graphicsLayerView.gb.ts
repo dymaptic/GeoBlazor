@@ -20,8 +20,8 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
     }
     
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsTarget = buildJsGraphic(target) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
@@ -80,7 +80,6 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     graphicsLayerViewWrapper.viewId = viewId;
     graphicsLayerViewWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerView;
@@ -102,13 +101,12 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
     }
     
     let dotNetGraphicsLayerView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.highlightOptions)) {
-            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-            dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
-        }
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+    }
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }

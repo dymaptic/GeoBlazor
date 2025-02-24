@@ -5,13 +5,13 @@ import { buildDotNetImageAngleResult } from './imageAngleResult';
 
 export async function buildJsImageAngleResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.north)) {
         properties.north = dotNetObject.north;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.up)) {
         properties.up = dotNetObject.up;
@@ -39,15 +39,13 @@ export async function buildDotNetImageAngleResultGenerated(jsObject: any): Promi
     }
     
     let dotNetImageAngleResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageAngleResult.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
     if (hasValue(jsObject.north)) {
         dotNetImageAngleResult.north = jsObject.north;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetImageAngleResult.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.up)) {
         dotNetImageAngleResult.up = jsObject.up;

@@ -6,7 +6,7 @@ export async function buildJsSublayerGetFieldDomainOptions(dotNetObject: any, la
     return await buildJsSublayerGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSublayerGetFieldDomainOptions(jsObject: any): Promise<any> {
+export async function buildDotNetSublayerGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSublayerGetFieldDomainOptionsGenerated} = await import('./sublayerGetFieldDomainOptions.gb');
-    return await buildDotNetSublayerGetFieldDomainOptionsGenerated(jsObject);
+    return await buildDotNetSublayerGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
 }

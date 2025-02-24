@@ -35,7 +35,7 @@ export async function buildJsImageIdentifyResultGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyResult;
     
-    let dnInstantiatedObject = await buildDotNetImageIdentifyResult(jsImageIdentifyResult);
+    let dnInstantiatedObject = await buildDotNetImageIdentifyResult(jsImageIdentifyResult, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -52,17 +52,16 @@ export async function buildDotNetImageIdentifyResultGenerated(jsObject: any, lay
     }
     
     let dotNetImageIdentifyResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.catalogItems)) {
-            let { buildDotNetFeatureSet } = await import('./featureSet');
-            dotNetImageIdentifyResult.catalogItems = await buildDotNetFeatureSet(jsObject.catalogItems, layerId, viewId);
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageIdentifyResult.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.catalogItems)) {
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        dotNetImageIdentifyResult.catalogItems = await buildDotNetFeatureSet(jsObject.catalogItems, layerId, viewId);
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageIdentifyResult.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.catalogItemVisibilities)) {
         dotNetImageIdentifyResult.catalogItemVisibilities = jsObject.catalogItemVisibilities;
     }

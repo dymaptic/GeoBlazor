@@ -37,13 +37,12 @@ export async function buildDotNetPortalUserAddItemParamsGenerated(jsObject: any)
     }
     
     let dotNetPortalUserAddItemParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.item)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetPortalUserAddItemParams.item = await buildDotNetPortalItem(jsObject.item);
-        }
+    if (hasValue(jsObject.item)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetPortalUserAddItemParams.item = await buildDotNetPortalItem(jsObject.item);
+    }
     if (hasValue(jsObject.data)) {
         dotNetPortalUserAddItemParams.data = jsObject.data;
     }

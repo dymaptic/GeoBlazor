@@ -34,7 +34,6 @@ export async function buildDotNetElevationQueryResultSampleInfoGenerated(jsObjec
     }
     
     let dotNetElevationQueryResultSampleInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.demResolution)) {

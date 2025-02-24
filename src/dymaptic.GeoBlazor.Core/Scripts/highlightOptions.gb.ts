@@ -51,21 +51,20 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
     }
     
     let dotNetHighlightOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.color = buildDotNetMapColor(jsObject.color);
-        }
-        if (hasValue(jsObject.haloColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.haloColor = buildDotNetMapColor(jsObject.haloColor);
-        }
-        if (hasValue(jsObject.shadowColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetHighlightOptions.shadowColor = buildDotNetMapColor(jsObject.shadowColor);
-        }
+    if (hasValue(jsObject.color)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetHighlightOptions.color = buildDotNetMapColor(jsObject.color);
+    }
+    if (hasValue(jsObject.haloColor)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetHighlightOptions.haloColor = buildDotNetMapColor(jsObject.haloColor);
+    }
+    if (hasValue(jsObject.shadowColor)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetHighlightOptions.shadowColor = buildDotNetMapColor(jsObject.shadowColor);
+    }
     if (hasValue(jsObject.fillOpacity)) {
         dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
     }

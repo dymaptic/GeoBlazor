@@ -20,7 +20,7 @@ export async function buildJsMoveEventInfoGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMoveEventInfo;
     
-    let dnInstantiatedObject = await buildDotNetMoveEventInfo(jsMoveEventInfo);
+    let dnInstantiatedObject = await buildDotNetMoveEventInfo(jsMoveEventInfo, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -37,13 +37,12 @@ export async function buildDotNetMoveEventInfoGenerated(jsObject: any, layerId: 
     }
     
     let dotNetMoveEventInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mover)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetMoveEventInfo.mover = buildDotNetGraphic(jsObject.mover, layerId, viewId);
-        }
+    if (hasValue(jsObject.mover)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetMoveEventInfo.mover = buildDotNetGraphic(jsObject.mover, layerId, viewId);
+    }
     if (hasValue(jsObject.dx)) {
         dotNetMoveEventInfo.dx = jsObject.dx;
     }

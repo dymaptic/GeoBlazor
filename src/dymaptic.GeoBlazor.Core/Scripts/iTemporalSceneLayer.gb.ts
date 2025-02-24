@@ -85,7 +85,6 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     iTemporalSceneLayerWrapper.viewId = viewId;
     iTemporalSceneLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iTemporalSceneLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iTemporalSceneLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTemporalSceneLayer;
@@ -107,17 +106,16 @@ export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any): Pr
     }
     
     let dotNetITemporalSceneLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetITemporalSceneLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            let { buildDotNetTimeInfo } = await import('./timeInfo');
-            dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
-        }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetITemporalSceneLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
     if (hasValue(jsObject.timeOffset)) {
         dotNetITemporalSceneLayer.timeOffset = jsObject.timeOffset;
     }

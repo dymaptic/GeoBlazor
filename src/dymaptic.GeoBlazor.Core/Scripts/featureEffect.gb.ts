@@ -44,21 +44,20 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<
     }
     
     let dotNetFeatureEffect: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.excludedEffect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect.map(i => buildDotNetEffect(i));
-        }
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.includedEffect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetFeatureEffect.includedEffect = jsObject.includedEffect.map(i => buildDotNetEffect(i));
-        }
+    if (hasValue(jsObject.excludedEffect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect.map(i => buildDotNetEffect(i));
+    }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.includedEffect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetFeatureEffect.includedEffect = jsObject.includedEffect.map(i => buildDotNetEffect(i));
+    }
     if (hasValue(jsObject.excludedLabelsVisible)) {
         dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
     }

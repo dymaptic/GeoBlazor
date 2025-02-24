@@ -69,20 +69,6 @@ export default class BasemapGenerated implements IPropertyWrapper {
         this.component.referenceLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -107,13 +93,13 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         let { buildJsLayer } = await import('./layer');
         properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.basemapId)) {
         properties.id = dotNetObject.basemapId;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.style)) {
         const { id, dotNetComponentReference, ...sanitizedStyle } = dotNetObject.style;
@@ -133,7 +119,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     basemapWrapper.viewId = viewId;
     basemapWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
@@ -155,22 +140,20 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetBasemap: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetBasemap.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
     if (hasValue(jsObject.id)) {
         dotNetBasemap.basemapId = jsObject.id;
     }
     if (hasValue(jsObject.loaded)) {
         dotNetBasemap.loaded = jsObject.loaded;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetBasemap.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.style)) {
         dotNetBasemap.style = jsObject.style;

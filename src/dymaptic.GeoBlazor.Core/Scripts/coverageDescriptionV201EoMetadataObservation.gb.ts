@@ -46,13 +46,12 @@ export async function buildDotNetCoverageDescriptionV201EoMetadataObservationGen
     }
     
     let dotNetCoverageDescriptionV201EoMetadataObservation: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.footprint)) {
-            let { buildDotNetPolygon } = await import('./polygon');
-            dotNetCoverageDescriptionV201EoMetadataObservation.footprint = buildDotNetPolygon(jsObject.footprint);
-        }
+    if (hasValue(jsObject.footprint)) {
+        let { buildDotNetPolygon } = await import('./polygon');
+        dotNetCoverageDescriptionV201EoMetadataObservation.footprint = buildDotNetPolygon(jsObject.footprint);
+    }
     if (hasValue(jsObject.acquisitionType)) {
         dotNetCoverageDescriptionV201EoMetadataObservation.acquisitionType = jsObject.acquisitionType;
     }

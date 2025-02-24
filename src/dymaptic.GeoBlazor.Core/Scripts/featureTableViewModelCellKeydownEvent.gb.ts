@@ -26,7 +26,7 @@ export async function buildJsFeatureTableViewModelCellKeydownEventGenerated(dotN
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModelCellKeydownEvent;
     
-    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellKeydownEvent(jsFeatureTableViewModelCellKeydownEvent);
+    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellKeydownEvent(jsFeatureTableViewModelCellKeydownEvent, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -43,13 +43,12 @@ export async function buildDotNetFeatureTableViewModelCellKeydownEventGenerated(
     }
     
     let dotNetFeatureTableViewModelCellKeydownEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureTableViewModelCellKeydownEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureTableViewModelCellKeydownEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.fieldName)) {
         dotNetFeatureTableViewModelCellKeydownEvent.fieldName = jsObject.fieldName;
     }

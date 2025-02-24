@@ -36,17 +36,16 @@ export async function buildDotNetBuildingExplorerViewModelGenerated(jsObject: an
     }
     
     let dotNetBuildingExplorerViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.level)) {
-            let { buildDotNetBuildingLevel } = await import('./buildingLevel');
-            dotNetBuildingExplorerViewModel.level = await buildDotNetBuildingLevel(jsObject.level);
-        }
-        if (hasValue(jsObject.phase)) {
-            let { buildDotNetBuildingPhase } = await import('./buildingPhase');
-            dotNetBuildingExplorerViewModel.phase = await buildDotNetBuildingPhase(jsObject.phase);
-        }
+    if (hasValue(jsObject.level)) {
+        let { buildDotNetBuildingLevel } = await import('./buildingLevel');
+        dotNetBuildingExplorerViewModel.level = await buildDotNetBuildingLevel(jsObject.level);
+    }
+    if (hasValue(jsObject.phase)) {
+        let { buildDotNetBuildingPhase } = await import('./buildingPhase');
+        dotNetBuildingExplorerViewModel.phase = await buildDotNetBuildingPhase(jsObject.phase);
+    }
     if (hasValue(jsObject.state)) {
         dotNetBuildingExplorerViewModel.state = jsObject.state;
     }

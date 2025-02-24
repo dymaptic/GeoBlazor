@@ -20,8 +20,8 @@ export default class ViewStateGenerated implements IPropertyWrapper {
     }
     
     async copy(state: any): Promise<any> {
-        let { buildJsViewState } = await import('./viewState');
-        let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
+                let { buildJsViewState } = await import('./viewState');
+let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
         let result = this.component.copy(jsState);
         let { buildDotNetViewState } = await import('./viewState');
         return await buildDotNetViewState(result);
@@ -83,7 +83,6 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
     viewStateWrapper.viewId = viewId;
     viewStateWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(viewStateWrapper);
     jsObjectRefs[dotNetObject.id] = viewStateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewState;
@@ -105,13 +104,12 @@ export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetViewState: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.center)) {
         dotNetViewState.center = jsObject.center;
     }

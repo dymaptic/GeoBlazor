@@ -1,6 +1,6 @@
-export async function buildJsKMLLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKMLLayerView(dotNetObject: any): Promise<any> {
     let {buildJsKMLLayerViewGenerated} = await import('./kMLLayerView.gb');
-    return await buildJsKMLLayerViewGenerated(dotNetObject, layerId, viewId);
+    return await buildJsKMLLayerViewGenerated(dotNetObject);
 }
 
 export async function buildDotNetKMLLayerView(jsObject: any): Promise<any> {

@@ -1,7 +1,7 @@
 
-export async function buildJsIImageryTileMixin(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIImageryTileMixin(dotNetObject: any): Promise<any> {
     let { buildJsIImageryTileMixinGenerated } = await import('./iImageryTileMixin.gb');
-    return await buildJsIImageryTileMixinGenerated(dotNetObject, layerId, viewId);
+    return buildJsIImageryTileMixinGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIImageryTileMixin(jsObject: any): Promise<any> {

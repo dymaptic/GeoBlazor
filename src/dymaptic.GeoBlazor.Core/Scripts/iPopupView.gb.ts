@@ -17,7 +17,7 @@ export async function buildJsIPopupViewGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupView;
     
-    let dnInstantiatedObject = await buildDotNetIPopupView(jsPopupView);
+    let dnInstantiatedObject = await buildDotNetIPopupView(jsPopupView, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -28,19 +28,18 @@ export async function buildJsIPopupViewGenerated(dotNetObject: any, layerId: str
     return jsPopupView;
 }
 
-export async function buildDotNetIPopupViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIPopupViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetIPopupView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.popup)) {
-            let { buildDotNetPopupWidget } = await import('./popupWidget');
-            dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup);
-        }
+    if (hasValue(jsObject.popup)) {
+        let { buildDotNetPopupWidget } = await import('./popupWidget');
+        dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup, layerId, viewId);
+    }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetIPopupView.popupEnabled = jsObject.popupEnabled;
     }

@@ -42,13 +42,12 @@ export async function buildDotNetAreasAndLengthsParametersGenerated(jsObject: an
     }
     
     let dotNetAreasAndLengthsParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.polygons)) {
-            let { buildDotNetPolygon } = await import('./polygon');
-            dotNetAreasAndLengthsParameters.polygons = jsObject.polygons.map(i => buildDotNetPolygon(i));
-        }
+    if (hasValue(jsObject.polygons)) {
+        let { buildDotNetPolygon } = await import('./polygon');
+        dotNetAreasAndLengthsParameters.polygons = jsObject.polygons.map(i => buildDotNetPolygon(i));
+    }
     if (hasValue(jsObject.areaUnit)) {
         dotNetAreasAndLengthsParameters.areaUnit = jsObject.areaUnit;
     }

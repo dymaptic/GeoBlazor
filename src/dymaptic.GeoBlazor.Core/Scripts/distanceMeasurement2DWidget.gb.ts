@@ -36,8 +36,8 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -125,7 +125,6 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     distanceMeasurement2DWidgetWrapper.viewId = viewId;
     distanceMeasurement2DWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
@@ -147,13 +146,12 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
     }
     
     let dotNetDistanceMeasurement2DWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-            dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
+        dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetDistanceMeasurement2DWidget.container = jsObject.container;
     }

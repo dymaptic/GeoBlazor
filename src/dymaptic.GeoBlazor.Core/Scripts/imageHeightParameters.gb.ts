@@ -11,7 +11,7 @@ export async function buildJsImageHeightParametersGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
@@ -50,21 +50,20 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any): 
     }
     
     let dotNetImageHeightParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fromGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageHeightParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetImageHeightParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.toGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageHeightParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
-        }
+    if (hasValue(jsObject.fromGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageHeightParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetImageHeightParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageHeightParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
+    }
     if (hasValue(jsObject.linearUnit)) {
         dotNetImageHeightParameters.linearUnit = jsObject.linearUnit;
     }

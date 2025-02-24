@@ -37,7 +37,6 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promi
     }
     
     let dotNetLegendLayerInfos: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.sublayerIds)) {

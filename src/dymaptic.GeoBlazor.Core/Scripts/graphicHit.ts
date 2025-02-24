@@ -3,7 +3,7 @@ export async function buildJsGraphicHit(dotNetObject: any, layerId: string | nul
     return await buildJsGraphicHitGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGraphicHit(jsObject: any): Promise<any> {
+export async function buildDotNetGraphicHit(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGraphicHitGenerated} = await import('./graphicHit.gb');
-    return await buildDotNetGraphicHitGenerated(jsObject);
+    return await buildDotNetGraphicHitGenerated(jsObject, layerId, viewId);
 }

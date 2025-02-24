@@ -45,7 +45,6 @@ export async function buildDotNetLayerPerformanceInfoGenerated(jsObject: any): P
     }
     
     let dotNetLayerPerformanceInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.displayedNumberOfFeatures)) {

@@ -31,13 +31,12 @@ export async function buildDotNetFeaturesViewModelTriggerActionEventGenerated(js
     }
     
     let dotNetFeaturesViewModelTriggerActionEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.action)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetFeaturesViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
-        }
+    if (hasValue(jsObject.action)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetFeaturesViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

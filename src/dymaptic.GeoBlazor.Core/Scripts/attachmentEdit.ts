@@ -4,7 +4,7 @@ export async function buildJsAttachmentEdit(dotNetObject: any, layerId: string |
     return await buildJsAttachmentEditGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetAttachmentEdit(jsObject: any): Promise<any> {
+export async function buildDotNetAttachmentEdit(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetAttachmentEditGenerated } = await import('./attachmentEdit.gb');
-    return await buildDotNetAttachmentEditGenerated(jsObject);
+    return await buildDotNetAttachmentEditGenerated(jsObject, layerId, viewId);
 }

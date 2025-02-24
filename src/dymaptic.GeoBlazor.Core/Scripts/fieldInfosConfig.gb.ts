@@ -37,13 +37,12 @@ export async function buildDotNetFieldInfosConfigGenerated(jsObject: any): Promi
     }
     
     let dotNetFieldInfosConfig: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetFieldInfosConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetFieldInfosConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
     if (hasValue(jsObject.editFieldsInfo)) {
         dotNetFieldInfosConfig.editFieldsInfo = jsObject.editFieldsInfo;
     }

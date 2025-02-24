@@ -36,8 +36,8 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -59,10 +59,10 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 
     async triggerAction(action: any,
         item: any): Promise<void> {
-        let { buildJsActionBase } = await import('./actionBase');
-        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
-        let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
+                let { buildJsActionBase } = await import('./actionBase');
+let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
+                let { buildJsListItem } = await import('./listItem');
+let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.widget.triggerAction(jsAction,
             jsItem);
     }
@@ -211,7 +211,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     layerListWidgetWrapper.viewId = viewId;
     layerListWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = layerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
@@ -233,21 +232,20 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     }
     
     let dotNetLayerListWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.operationalItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.selectedItems)) {
-            let { buildDotNetListItem } = await import('./listItem');
-            dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-            dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.operationalItems)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.selectedItems)) {
+        let { buildDotNetListItem } = await import('./listItem');
+        dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
+        dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
     }

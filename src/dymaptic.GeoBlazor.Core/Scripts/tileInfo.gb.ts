@@ -43,20 +43,6 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         this.component.origin =  buildJsPoint(value);
     }
     
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -72,10 +58,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./point');
         properties.origin = buildJsPoint(dotNetObject.origin) as any;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.dpi)) {
@@ -94,6 +76,10 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.size)) {
         properties.size = dotNetObject.size;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     let jsTileInfo = new TileInfo(properties);
 
     let { default: TileInfoWrapper } = await import('./tileInfo');
@@ -102,7 +88,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     tileInfoWrapper.viewId = viewId;
     tileInfoWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
@@ -124,17 +109,12 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetTileInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.origin)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetTileInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.origin)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
+    }
     if (hasValue(jsObject.dpi)) {
         dotNetTileInfo.dpi = jsObject.dpi;
     }
@@ -149,6 +129,9 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.size)) {
         dotNetTileInfo.size = jsObject.size;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetTileInfo.spatialReference = jsObject.spatialReference;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

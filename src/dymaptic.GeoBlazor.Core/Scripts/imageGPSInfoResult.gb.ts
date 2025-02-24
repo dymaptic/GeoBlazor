@@ -36,13 +36,12 @@ export async function buildDotNetImageGPSInfoResultGenerated(jsObject: any): Pro
     }
     
     let dotNetImageGPSInfoResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.images)) {
-            let { buildDotNetImageGPSInfo } = await import('./imageGPSInfo');
-            dotNetImageGPSInfoResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageGPSInfo(i)));
-        }
+    if (hasValue(jsObject.images)) {
+        let { buildDotNetImageGPSInfo } = await import('./imageGPSInfo');
+        dotNetImageGPSInfoResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageGPSInfo(i)));
+    }
     if (hasValue(jsObject.cameras)) {
         dotNetImageGPSInfoResult.cameras = jsObject.cameras;
     }

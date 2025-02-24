@@ -34,13 +34,12 @@ export async function buildDotNetPositionGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetPosition: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetPosition.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetPosition.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.coordinate)) {
         dotNetPosition.coordinate = jsObject.coordinate;
     }

@@ -34,7 +34,6 @@ export async function buildDotNetHitTestResultGenerated(jsObject: any): Promise<
     }
     
     let dotNetHitTestResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.results)) {

@@ -73,7 +73,6 @@ export async function buildJsIWaterSymbol3DLayerGenerated(dotNetObject: any, lay
     iWaterSymbol3DLayerWrapper.viewId = viewId;
     iWaterSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iWaterSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iWaterSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWaterSymbol3DLayer;
@@ -95,13 +94,12 @@ export async function buildDotNetIWaterSymbol3DLayerGenerated(jsObject: any): Pr
     }
     
     let dotNetIWaterSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetIWaterSymbol3DLayer.color = buildDotNetMapColor(jsObject.color);
-        }
+    if (hasValue(jsObject.color)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetIWaterSymbol3DLayer.color = buildDotNetMapColor(jsObject.color);
+    }
     if (hasValue(jsObject.type)) {
         dotNetIWaterSymbol3DLayer.type = jsObject.type;
     }

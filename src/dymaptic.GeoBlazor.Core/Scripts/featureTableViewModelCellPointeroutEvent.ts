@@ -3,7 +3,7 @@ export async function buildJsFeatureTableViewModelCellPointeroutEvent(dotNetObje
     return await buildJsFeatureTableViewModelCellPointeroutEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureTableViewModelCellPointeroutEvent(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureTableViewModelCellPointeroutEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureTableViewModelCellPointeroutEventGenerated} = await import('./featureTableViewModelCellPointeroutEvent.gb');
-    return await buildDotNetFeatureTableViewModelCellPointeroutEventGenerated(jsObject);
+    return await buildDotNetFeatureTableViewModelCellPointeroutEventGenerated(jsObject, layerId, viewId);
 }

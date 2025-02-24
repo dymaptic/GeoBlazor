@@ -83,7 +83,6 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     pixelBlockWrapper.viewId = viewId;
     pixelBlockWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
@@ -105,7 +104,6 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
     }
     
     let dotNetPixelBlock: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.height)) {

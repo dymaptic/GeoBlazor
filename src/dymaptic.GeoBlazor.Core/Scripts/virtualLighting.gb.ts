@@ -49,7 +49,6 @@ export async function buildJsVirtualLightingGenerated(dotNetObject: any, layerId
     virtualLightingWrapper.viewId = viewId;
     virtualLightingWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(virtualLightingWrapper);
     jsObjectRefs[dotNetObject.id] = virtualLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVirtualLighting;
@@ -71,7 +70,6 @@ export async function buildDotNetVirtualLightingGenerated(jsObject: any): Promis
     }
     
     let dotNetVirtualLighting: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.directShadowsEnabled)) {

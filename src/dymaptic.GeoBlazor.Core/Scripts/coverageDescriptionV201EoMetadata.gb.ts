@@ -31,13 +31,12 @@ export async function buildDotNetCoverageDescriptionV201EoMetadataGenerated(jsOb
     }
     
     let dotNetCoverageDescriptionV201EoMetadata: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.observation)) {
-            let { buildDotNetCoverageDescriptionV201EoMetadataObservation } = await import('./coverageDescriptionV201EoMetadataObservation');
-            dotNetCoverageDescriptionV201EoMetadata.observation = await buildDotNetCoverageDescriptionV201EoMetadataObservation(jsObject.observation);
-        }
+    if (hasValue(jsObject.observation)) {
+        let { buildDotNetCoverageDescriptionV201EoMetadataObservation } = await import('./coverageDescriptionV201EoMetadataObservation');
+        dotNetCoverageDescriptionV201EoMetadata.observation = await buildDotNetCoverageDescriptionV201EoMetadataObservation(jsObject.observation);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -36,13 +36,12 @@ export async function buildDotNetMeasureLengthFromImageResultGenerated(jsObject:
     }
     
     let dotNetMeasureLengthFromImageResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetPolyline } = await import('./polyline');
-            dotNetMeasureLengthFromImageResult.geometry = buildDotNetPolyline(jsObject.geometry);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetPolyline } = await import('./polyline');
+        dotNetMeasureLengthFromImageResult.geometry = buildDotNetPolyline(jsObject.geometry);
+    }
     if (hasValue(jsObject.length)) {
         dotNetMeasureLengthFromImageResult.length = jsObject.length;
     }

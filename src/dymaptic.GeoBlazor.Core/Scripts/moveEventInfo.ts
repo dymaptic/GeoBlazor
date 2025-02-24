@@ -3,7 +3,7 @@ export async function buildJsMoveEventInfo(dotNetObject: any, layerId: string | 
     return await buildJsMoveEventInfoGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMoveEventInfo(jsObject: any): Promise<any> {
+export async function buildDotNetMoveEventInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMoveEventInfoGenerated} = await import('./moveEventInfo.gb');
-    return await buildDotNetMoveEventInfoGenerated(jsObject);
+    return await buildDotNetMoveEventInfoGenerated(jsObject, layerId, viewId);
 }

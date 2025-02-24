@@ -34,7 +34,6 @@ export async function buildDotNetViewLayerviewCreateErrorEventGenerated(jsObject
     }
     
     let dotNetViewLayerviewCreateErrorEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.error)) {

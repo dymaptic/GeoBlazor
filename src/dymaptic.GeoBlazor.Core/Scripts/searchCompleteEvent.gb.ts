@@ -43,13 +43,12 @@ export async function buildDotNetSearchCompleteEventGenerated(jsObject: any): Pr
     }
     
     let dotNetSearchCompleteEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.results)) {
-            let { buildDotNetSearchCompleteEventResults } = await import('./searchCompleteEventResults');
-            dotNetSearchCompleteEvent.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchCompleteEventResults(i)));
-        }
+    if (hasValue(jsObject.results)) {
+        let { buildDotNetSearchCompleteEventResults } = await import('./searchCompleteEventResults');
+        dotNetSearchCompleteEvent.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchCompleteEventResults(i)));
+    }
     if (hasValue(jsObject.activeSourceIndex)) {
         dotNetSearchCompleteEvent.activeSourceIndex = jsObject.activeSourceIndex;
     }

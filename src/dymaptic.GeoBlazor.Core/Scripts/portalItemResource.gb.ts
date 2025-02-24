@@ -75,7 +75,6 @@ export async function buildJsPortalItemResourceGenerated(dotNetObject: any, laye
     portalItemResourceWrapper.viewId = viewId;
     portalItemResourceWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalItemResourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemResourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItemResource;
@@ -97,13 +96,12 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any): Pro
     }
     
     let dotNetPortalItemResource: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
     if (hasValue(jsObject.path)) {
         dotNetPortalItemResource.path = jsObject.path;
     }

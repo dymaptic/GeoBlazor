@@ -20,8 +20,8 @@ export default class UniqueValuesGenerated implements IPropertyWrapper {
     }
     
     async uniqueValues(parameters: any): Promise<any> {
-        let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
-        let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;
+                let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
+let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.uniqueValues(jsparameters);
     }
 
@@ -48,7 +48,6 @@ export async function buildJsUniqueValuesGenerated(dotNetObject: any, layerId: s
     uniqueValuesWrapper.viewId = viewId;
     uniqueValuesWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValuesWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValuesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValues;
@@ -70,7 +69,6 @@ export async function buildDotNetUniqueValuesGenerated(jsObject: any): Promise<a
     }
     
     let dotNetUniqueValues: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

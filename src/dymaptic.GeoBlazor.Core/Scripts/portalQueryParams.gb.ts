@@ -54,13 +54,12 @@ export async function buildDotNetPortalQueryParamsGenerated(jsObject: any): Prom
     }
     
     let dotNetPortalQueryParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.categories)) {
         dotNetPortalQueryParams.categories = jsObject.categories;
     }

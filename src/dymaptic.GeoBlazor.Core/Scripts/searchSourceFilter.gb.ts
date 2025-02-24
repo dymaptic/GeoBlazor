@@ -34,13 +34,12 @@ export async function buildDotNetSearchSourceFilterGenerated(jsObject: any): Pro
     }
     
     let dotNetSearchSourceFilter: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetSearchSourceFilter.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetSearchSourceFilter.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
     if (hasValue(jsObject.where)) {
         dotNetSearchSourceFilter.where = jsObject.where;
     }

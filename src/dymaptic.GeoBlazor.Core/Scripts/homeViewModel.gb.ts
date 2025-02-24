@@ -93,7 +93,6 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     homeViewModelWrapper.viewId = viewId;
     homeViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(homeViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = homeViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHomeViewModel;
@@ -115,17 +114,16 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<
     }
     
     let dotNetHomeViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetHomeViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.viewpoint)) {
-            let { buildDotNetViewpoint } = await import('./viewpoint');
-            dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetHomeViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.viewpoint)) {
+        let { buildDotNetViewpoint } = await import('./viewpoint');
+        dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
+    }
     if (hasValue(jsObject.state)) {
         dotNetHomeViewModel.state = jsObject.state;
     }

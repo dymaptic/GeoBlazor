@@ -26,7 +26,7 @@ export async function buildJsFeatureTableViewModelCellPointeroutEventGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureTableViewModelCellPointeroutEvent;
     
-    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellPointeroutEvent(jsFeatureTableViewModelCellPointeroutEvent);
+    let dnInstantiatedObject = await buildDotNetFeatureTableViewModelCellPointeroutEvent(jsFeatureTableViewModelCellPointeroutEvent, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -43,13 +43,12 @@ export async function buildDotNetFeatureTableViewModelCellPointeroutEventGenerat
     }
     
     let dotNetFeatureTableViewModelCellPointeroutEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureTableViewModelCellPointeroutEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureTableViewModelCellPointeroutEvent.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.fieldName)) {
         dotNetFeatureTableViewModelCellPointeroutEvent.fieldName = jsObject.fieldName;
     }

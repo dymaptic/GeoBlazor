@@ -34,15 +34,15 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
 
     async getFeatureType(feature: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsFeature = buildJsGraphic(feature) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsFeature = buildJsGraphic(feature) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-        let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
-        let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
+let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.component.getFieldDomain(fieldName,
             jsOptions);
     }
@@ -55,40 +55,40 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
 
     async queryRelatedFeatures(relationshipQuery: any,
         options: any): Promise<any> {
-        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
+                let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeatures(jsRelationshipQuery,
             options);
     }
 
     async queryRelatedFeaturesCount(relationshipQuery: any,
         options: any): Promise<any> {
-        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
+                let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeaturesCount(jsRelationshipQuery,
             options);
     }
@@ -171,15 +171,6 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async setRenderer(value: any): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
         this.component.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
     }
     
     async getSublayers(): Promise<any> {
@@ -278,7 +269,6 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     sublayerWrapper.viewId = viewId;
     sublayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
@@ -300,41 +290,36 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetSublayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.labelingInfo)) {
-            let { buildDotNetLabel } = await import('./label');
-            dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.renderer)) {
-            let { buildDotNetRenderer } = await import('./renderer');
-            dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetSublayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.types)) {
-            let { buildDotNetFeatureType } = await import('./featureType');
-            dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
-        }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.labelingInfo)) {
+        let { buildDotNetLabel } = await import('./label');
+        dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.renderer)) {
+        let { buildDotNetRenderer } = await import('./renderer');
+        dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+    }
+    if (hasValue(jsObject.types)) {
+        let { buildDotNetFeatureType } = await import('./featureType');
+        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
+    }
     if (hasValue(jsObject.capabilities)) {
         dotNetSublayer.capabilities = jsObject.capabilities;
     }
@@ -376,6 +361,9 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.source)) {
         dotNetSublayer.source = jsObject.source;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetSublayer.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.id)) {
         dotNetSublayer.sublayerId = jsObject.id;

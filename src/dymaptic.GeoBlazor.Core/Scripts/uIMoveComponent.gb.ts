@@ -41,17 +41,16 @@ export async function buildDotNetUIMoveComponentGenerated(jsObject: any): Promis
     }
     
     let dotNetUIMoveComponent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.component)) {
-            let { buildDotNetWidget } = await import('./widget');
-            dotNetUIMoveComponent.component = await buildDotNetWidget(jsObject.component);
-        }
-        if (hasValue(jsObject.position)) {
-            let { buildDotNetPosition } = await import('./position');
-            dotNetUIMoveComponent.position = await buildDotNetPosition(jsObject.position);
-        }
+    if (hasValue(jsObject.component)) {
+        let { buildDotNetWidget } = await import('./widget');
+        dotNetUIMoveComponent.component = buildDotNetWidget(jsObject.component);
+    }
+    if (hasValue(jsObject.position)) {
+        let { buildDotNetPosition } = await import('./position');
+        dotNetUIMoveComponent.position = await buildDotNetPosition(jsObject.position);
+    }
     if (hasValue(jsObject.index)) {
         dotNetUIMoveComponent.index = jsObject.index;
     }

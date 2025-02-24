@@ -37,7 +37,6 @@ export async function buildDotNetRasterIdentifyOptionsGenerated(jsObject: any): 
     }
     
     let dotNetRasterIdentifyOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.multidimensionalDefinition)) {

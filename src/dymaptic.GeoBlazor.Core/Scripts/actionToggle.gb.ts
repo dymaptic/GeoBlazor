@@ -50,7 +50,6 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
     }
     
     let dotNetActionToggle: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {

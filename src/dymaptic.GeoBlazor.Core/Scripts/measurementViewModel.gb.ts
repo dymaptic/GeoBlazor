@@ -45,7 +45,6 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
     }
     
     let dotNetMeasurementViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.activeTool)) {

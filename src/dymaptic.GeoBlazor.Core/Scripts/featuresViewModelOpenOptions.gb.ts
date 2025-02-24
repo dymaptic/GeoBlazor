@@ -33,7 +33,7 @@ export async function buildJsFeaturesViewModelOpenOptionsGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelOpenOptions;
     
-    let dnInstantiatedObject = await buildDotNetFeaturesViewModelOpenOptions(jsFeaturesViewModelOpenOptions);
+    let dnInstantiatedObject = await buildDotNetFeaturesViewModelOpenOptions(jsFeaturesViewModelOpenOptions, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -50,17 +50,16 @@ export async function buildDotNetFeaturesViewModelOpenOptionsGenerated(jsObject:
     }
     
     let dotNetFeaturesViewModelOpenOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeaturesViewModelOpenOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetFeaturesViewModelOpenOptions.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeaturesViewModelOpenOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFeaturesViewModelOpenOptions.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.content)) {
         dotNetFeaturesViewModelOpenOptions.content = jsObject.content;
     }

@@ -49,13 +49,12 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
     }
     
     let dotNetColorVariable: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.stops)) {
-            let { buildDotNetColorStop } = await import('./colorStop');
-            dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
-        }
+    if (hasValue(jsObject.stops)) {
+        let { buildDotNetColorStop } = await import('./colorStop');
+        dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
+    }
     if (hasValue(jsObject.field)) {
         dotNetColorVariable.field = jsObject.field;
     }

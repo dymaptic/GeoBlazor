@@ -33,13 +33,12 @@ export async function buildDotNetViewingGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetViewing: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.search)) {
-            let { buildDotNetSearch } = await import('./search');
-            dotNetViewing.search = await buildDotNetSearch(jsObject.search);
-        }
+    if (hasValue(jsObject.search)) {
+        let { buildDotNetSearch } = await import('./search');
+        dotNetViewing.search = await buildDotNetSearch(jsObject.search);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

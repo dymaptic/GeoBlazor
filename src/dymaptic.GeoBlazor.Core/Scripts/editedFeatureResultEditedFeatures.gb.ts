@@ -12,21 +12,21 @@ export async function buildJsEditedFeatureResultEditedFeaturesGenerated(dotNetOb
         let { buildJsGraphic } = await import('./graphic');
         jsEditedFeatureResultEditedFeatures.deletes = dotNetObject.deletes.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        jsEditedFeatureResultEditedFeatures.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
     if (hasValue(dotNetObject.updates)) {
         let { buildJsEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
         jsEditedFeatureResultEditedFeatures.updates = await Promise.all(dotNetObject.updates.map(async i => await buildJsEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId))) as any;
     }
 
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        jsEditedFeatureResultEditedFeatures.spatialReference = sanitizedSpatialReference;
+    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsEditedFeatureResultEditedFeatures);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditedFeatureResultEditedFeatures;
     
-    let dnInstantiatedObject = await buildDotNetEditedFeatureResultEditedFeatures(jsEditedFeatureResultEditedFeatures);
+    let dnInstantiatedObject = await buildDotNetEditedFeatureResultEditedFeatures(jsEditedFeatureResultEditedFeatures, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -43,25 +43,23 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesGenerated(jsOb
     }
     
     let dotNetEditedFeatureResultEditedFeatures: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.adds)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetEditedFeatureResultEditedFeatures.adds = jsObject.adds.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.deletes)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetEditedFeatureResultEditedFeatures.deletes = jsObject.deletes.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetEditedFeatureResultEditedFeatures.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.updates)) {
-            let { buildDotNetEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
-            dotNetEditedFeatureResultEditedFeatures.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetEditedFeatureResultEditedFeaturesUpdates(i)));
-        }
+    if (hasValue(jsObject.adds)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeatures.adds = jsObject.adds.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.deletes)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeatures.deletes = jsObject.deletes.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.updates)) {
+        let { buildDotNetEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
+        dotNetEditedFeatureResultEditedFeatures.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId)));
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetEditedFeatureResultEditedFeatures.spatialReference = jsObject.spatialReference;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -9,9 +9,9 @@ export default class IScaleRangeLayerWrapper extends IScaleRangeLayerGenerated {
 
 }
 
-export async function buildJsIScaleRangeLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIScaleRangeLayer(dotNetObject: any): Promise<any> {
     let {buildJsIScaleRangeLayerGenerated} = await import('./iScaleRangeLayer.gb');
-    return await buildJsIScaleRangeLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsIScaleRangeLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetIScaleRangeLayer(jsObject: any): Promise<any> {

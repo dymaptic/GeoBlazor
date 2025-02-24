@@ -37,13 +37,12 @@ export async function buildDotNetDeleteItemsResultGenerated(jsObject: any): Prom
     }
     
     let dotNetDeleteItemsResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.item)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item);
-        }
+    if (hasValue(jsObject.item)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item);
+    }
     if (hasValue(jsObject.error)) {
         dotNetDeleteItemsResult.error = jsObject.error;
     }

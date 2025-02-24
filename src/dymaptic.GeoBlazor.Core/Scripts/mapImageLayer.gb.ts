@@ -27,8 +27,8 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         return this.layer.createExportImageParameters(jsExtent,
             width,
             height,
@@ -55,8 +55,8 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
             height,
@@ -130,15 +130,6 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.layer.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getSublayers(): Promise<any> {
@@ -348,7 +339,6 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     mapImageLayerWrapper.viewId = viewId;
     mapImageLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(mapImageLayerWrapper);
     jsObjectRefs[dotNetObject.id] = mapImageLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
@@ -370,45 +360,40 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     }
     
     let dotNetMapImageLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetMapImageLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetMapImageLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetMapImageLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetMapImageLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.sublayers)) {
-            let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i)));
-        }
-        if (hasValue(jsObject.subtables)) {
-            let { buildDotNetSublayer } = await import('./sublayer');
-            dotNetMapImageLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetMapImageLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            let { buildDotNetTimeInfo } = await import('./timeInfo');
-            dotNetMapImageLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetMapImageLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetMapImageLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetMapImageLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetMapImageLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.sublayers)) {
+        let { buildDotNetSublayer } = await import('./sublayer');
+        dotNetMapImageLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i)));
+    }
+    if (hasValue(jsObject.subtables)) {
+        let { buildDotNetSublayer } = await import('./sublayer');
+        dotNetMapImageLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetMapImageLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        dotNetMapImageLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetMapImageLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetMapImageLayer.arcGISLayerId = jsObject.id;
     }
@@ -474,6 +459,9 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.refreshInterval)) {
         dotNetMapImageLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetMapImageLayer.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.timeOffset)) {
         dotNetMapImageLayer.timeOffset = jsObject.timeOffset;

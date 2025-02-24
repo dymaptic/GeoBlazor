@@ -41,7 +41,6 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
     }
     
     let dotNetKMLSublayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.description)) {

@@ -26,7 +26,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetWebMap } = await import('./webMap');
-        return await buildDotNetWebMap(result);
+        return await buildDotNetWebMap(result, this.layerId, this.viewId);
     }
 
     async save(options: any): Promise<any> {
@@ -37,10 +37,10 @@ export default class WebMapGenerated implements IPropertyWrapper {
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsWebMapSaveAsOptions } = await import('./webMapSaveAsOptions');
-        let jsOptions = await buildJsWebMapSaveAsOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsPortalItem } = await import('./portalItem');
+let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+                let { buildJsWebMapSaveAsOptions } = await import('./webMapSaveAsOptions');
+let jsOptions = await buildJsWebMapSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.component.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -172,12 +172,11 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     webMapWrapper.viewId = viewId;
     webMapWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(webMapWrapper);
     jsObjectRefs[dotNetObject.id] = webMapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWebMap;
     let { buildDotNetWebMap } = await import('./webMap');
-    let dnInstantiatedObject = await buildDotNetWebMap(jsWebMap);
+    let dnInstantiatedObject = await buildDotNetWebMap(jsWebMap, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -194,25 +193,24 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     }
     
     let dotNetWebMap: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.bookmarks)) {
-            let { buildDotNetBookmark } = await import('./bookmark');
-            dotNetWebMap.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
-        }
-        if (hasValue(jsObject.geotriggersInfo)) {
-            let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
-            dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.utilityNetworks)) {
-            let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
-            dotNetWebMap.utilityNetworks = await Promise.all(jsObject.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i, layerId, viewId)));
-        }
+    if (hasValue(jsObject.bookmarks)) {
+        let { buildDotNetBookmark } = await import('./bookmark');
+        dotNetWebMap.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
+    }
+    if (hasValue(jsObject.geotriggersInfo)) {
+        let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
+        dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.utilityNetworks)) {
+        let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
+        dotNetWebMap.utilityNetworks = await Promise.all(jsObject.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i, layerId, viewId)));
+    }
     if (hasValue(jsObject.applicationProperties)) {
         dotNetWebMap.applicationProperties = jsObject.applicationProperties;
     }

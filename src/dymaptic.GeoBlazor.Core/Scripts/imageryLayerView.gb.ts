@@ -20,8 +20,8 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
     }
     
     async highlight(target: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsTarget = buildJsGraphic(target) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
@@ -95,7 +95,6 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     imageryLayerViewWrapper.viewId = viewId;
     imageryLayerViewWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(imageryLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayerView;
@@ -117,17 +116,16 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promi
     }
     
     let dotNetImageryLayerView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.highlightOptions)) {
-            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-            dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
-        }
-        if (hasValue(jsObject.pixelData)) {
-            let { buildDotNetPixelData } = await import('./pixelData');
-            dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData);
-        }
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+    }
+    if (hasValue(jsObject.pixelData)) {
+        let { buildDotNetPixelData } = await import('./pixelData');
+        dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData);
+    }
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetImageryLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }

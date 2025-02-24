@@ -43,17 +43,16 @@ export async function buildDotNetPortalQueryResultGenerated(jsObject: any): Prom
     }
     
     let dotNetPortalQueryResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.nextQueryParams)) {
-            let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
-            dotNetPortalQueryResult.nextQueryParams = await buildDotNetPortalQueryParams(jsObject.nextQueryParams);
-        }
-        if (hasValue(jsObject.queryParams)) {
-            let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
-            dotNetPortalQueryResult.queryParams = await buildDotNetPortalQueryParams(jsObject.queryParams);
-        }
+    if (hasValue(jsObject.nextQueryParams)) {
+        let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
+        dotNetPortalQueryResult.nextQueryParams = await buildDotNetPortalQueryParams(jsObject.nextQueryParams);
+    }
+    if (hasValue(jsObject.queryParams)) {
+        let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
+        dotNetPortalQueryResult.queryParams = await buildDotNetPortalQueryParams(jsObject.queryParams);
+    }
     if (hasValue(jsObject.results)) {
         dotNetPortalQueryResult.results = jsObject.results;
     }

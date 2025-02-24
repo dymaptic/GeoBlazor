@@ -3,7 +3,7 @@ export async function buildJsFetchPopupFeaturesResult(dotNetObject: any, layerId
     return await buildJsFetchPopupFeaturesResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFetchPopupFeaturesResult(jsObject: any): Promise<any> {
+export async function buildDotNetFetchPopupFeaturesResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFetchPopupFeaturesResultGenerated} = await import('./fetchPopupFeaturesResult.gb');
-    return await buildDotNetFetchPopupFeaturesResultGenerated(jsObject);
+    return await buildDotNetFetchPopupFeaturesResultGenerated(jsObject, layerId, viewId);
 }

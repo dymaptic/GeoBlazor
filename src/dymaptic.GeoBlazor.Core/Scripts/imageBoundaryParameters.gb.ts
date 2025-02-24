@@ -5,11 +5,11 @@ import { buildDotNetImageBoundaryParameters } from './imageBoundaryParameters';
 
 export async function buildJsImageBoundaryParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.outSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
-    }
 
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = sanitizedOutSpatialReference;
+    }
     let jsImageBoundaryParameters = new ImageBoundaryParameters(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsImageBoundaryParameters);
@@ -33,13 +33,11 @@ export async function buildDotNetImageBoundaryParametersGenerated(jsObject: any)
     }
     
     let dotNetImageBoundaryParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.outSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageBoundaryParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
-        }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetImageBoundaryParameters.outSpatialReference = jsObject.outSpatialReference;
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

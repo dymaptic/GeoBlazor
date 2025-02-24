@@ -36,13 +36,12 @@ export async function buildDotNetImagePixelLocationParametersGenerated(jsObject:
     }
     
     let dotNetImagePixelLocationParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.point)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImagePixelLocationParameters.point = jsObject.point.map(i => buildDotNetPoint(i));
-        }
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImagePixelLocationParameters.point = jsObject.point.map(i => buildDotNetPoint(i));
+    }
     if (hasValue(jsObject.rasterId)) {
         dotNetImagePixelLocationParameters.rasterId = jsObject.rasterId;
     }

@@ -26,8 +26,8 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
     }
 
     async queryElevation(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+                let { buildJsGeometry } = await import('./geometry');
+let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.queryElevation(jsGeometry);
     }
 
@@ -40,15 +40,6 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
         
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.extent);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
     }
     
     getProperty(prop: string): any {
@@ -75,7 +66,6 @@ export async function buildJsElevationSamplerGenerated(dotNetObject: any, layerI
     elevationSamplerWrapper.viewId = viewId;
     elevationSamplerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(elevationSamplerWrapper);
     jsObjectRefs[dotNetObject.id] = elevationSamplerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElevationSampler;
@@ -97,22 +87,20 @@ export async function buildDotNetElevationSamplerGenerated(jsObject: any): Promi
     }
     
     let dotNetElevationSampler: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetElevationSampler.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetElevationSampler.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetElevationSampler.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.demResolution)) {
         dotNetElevationSampler.demResolution = jsObject.demResolution;
     }
     if (hasValue(jsObject.noDataValue)) {
         dotNetElevationSampler.noDataValue = jsObject.noDataValue;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetElevationSampler.spatialReference = jsObject.spatialReference;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

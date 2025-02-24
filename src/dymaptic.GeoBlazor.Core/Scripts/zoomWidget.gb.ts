@@ -36,8 +36,8 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -130,7 +130,6 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     zoomWidgetWrapper.viewId = viewId;
     zoomWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
@@ -152,13 +151,12 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
     }
     
     let dotNetZoomWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-            dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
+        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetZoomWidget.container = jsObject.container;
     }

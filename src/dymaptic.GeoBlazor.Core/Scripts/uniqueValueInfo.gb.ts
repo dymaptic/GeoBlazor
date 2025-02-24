@@ -39,13 +39,12 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
     }
     
     let dotNetUniqueValueInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueInfo.label = jsObject.label;
     }

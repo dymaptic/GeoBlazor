@@ -6,7 +6,7 @@ export async function buildJsFeatureLayerBaseGetFieldDomainOptions(dotNetObject:
     return await buildJsFeatureLayerBaseGetFieldDomainOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureLayerBaseGetFieldDomainOptions(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerBaseGetFieldDomainOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerBaseGetFieldDomainOptionsGenerated} = await import('./featureLayerBaseGetFieldDomainOptions.gb');
-    return await buildDotNetFeatureLayerBaseGetFieldDomainOptionsGenerated(jsObject);
+    return await buildDotNetFeatureLayerBaseGetFieldDomainOptionsGenerated(jsObject, layerId, viewId);
 }

@@ -44,21 +44,20 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
     }
     
     let dotNetSimpleRenderer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-            dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
-        }
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
-        if (hasValue(jsObject.visualVariables)) {
-            let { buildDotNetVisualVariable } = await import('./visualVariable');
-            dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
-        }
+    if (hasValue(jsObject.authoringInfo)) {
+        let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
+        dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+    }
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
+    if (hasValue(jsObject.visualVariables)) {
+        let { buildDotNetVisualVariable } = await import('./visualVariable');
+        dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
     if (hasValue(jsObject.label)) {
         dotNetSimpleRenderer.label = jsObject.label;
     }

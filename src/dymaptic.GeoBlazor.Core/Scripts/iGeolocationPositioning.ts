@@ -1,6 +1,6 @@
-export async function buildJsIGeolocationPositioning(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIGeolocationPositioning(dotNetObject: any): Promise<any> {
     let {buildJsIGeolocationPositioningGenerated} = await import('./iGeolocationPositioning.gb');
-    return await buildJsIGeolocationPositioningGenerated(dotNetObject, layerId, viewId);
+    return buildJsIGeolocationPositioningGenerated(dotNetObject);
 }
 
 export async function buildDotNetIGeolocationPositioning(jsObject: any): Promise<any> {

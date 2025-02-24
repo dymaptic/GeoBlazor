@@ -21,8 +21,8 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
     
     async queryAggregates(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
     }
@@ -109,7 +109,6 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     featureLayerViewWrapper.viewId = viewId;
     featureLayerViewWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
@@ -131,21 +130,20 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promi
     }
     
     let dotNetFeatureLayerView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.featureEffect)) {
-            let { buildDotNetFeatureEffect } = await import('./featureEffect');
-            dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
-        }
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetFeatureFilter } = await import('./featureFilter');
-            dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.highlightOptions)) {
-            let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-            dotNetFeatureLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
-        }
+    if (hasValue(jsObject.featureEffect)) {
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+    }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.highlightOptions)) {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        dotNetFeatureLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+    }
     if (hasValue(jsObject.availableFields)) {
         dotNetFeatureLayerView.availableFields = jsObject.availableFields;
     }

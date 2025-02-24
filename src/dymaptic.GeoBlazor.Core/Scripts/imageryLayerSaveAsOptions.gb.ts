@@ -34,13 +34,12 @@ export async function buildDotNetImageryLayerSaveAsOptionsGenerated(jsObject: an
     }
     
     let dotNetImageryLayerSaveAsOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            let { buildDotNetPortalFolder } = await import('./portalFolder');
-            dotNetImageryLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
-        }
+    if (hasValue(jsObject.folder)) {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        dotNetImageryLayerSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+    }
     if (hasValue(jsObject.validationOptions)) {
         dotNetImageryLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }

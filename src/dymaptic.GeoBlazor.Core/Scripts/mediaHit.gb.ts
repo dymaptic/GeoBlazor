@@ -42,13 +42,12 @@ export async function buildDotNetMediaHitGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetMediaHit: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.element)) {
         dotNetMediaHit.element = jsObject.element;
     }

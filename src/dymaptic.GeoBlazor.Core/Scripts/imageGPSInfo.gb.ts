@@ -51,13 +51,12 @@ export async function buildDotNetImageGPSInfoGenerated(jsObject: any): Promise<a
     }
     
     let dotNetImageGPSInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.center)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageGPSInfo.center = buildDotNetPoint(jsObject.center);
-        }
+    if (hasValue(jsObject.center)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageGPSInfo.center = buildDotNetPoint(jsObject.center);
+    }
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetImageGPSInfo.acquisitionDate = jsObject.acquisitionDate;
     }

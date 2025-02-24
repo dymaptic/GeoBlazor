@@ -95,7 +95,6 @@ export async function buildJsILineSymbol3DLayerGenerated(dotNetObject: any, laye
     iLineSymbol3DLayerWrapper.viewId = viewId;
     iLineSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iLineSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iLineSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbol3DLayer;
@@ -117,17 +116,16 @@ export async function buildDotNetILineSymbol3DLayerGenerated(jsObject: any): Pro
     }
     
     let dotNetILineSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.marker)) {
-            let { buildDotNetLineStyleMarker3D } = await import('./lineStyleMarker3D');
-            dotNetILineSymbol3DLayer.marker = await buildDotNetLineStyleMarker3D(jsObject.marker);
-        }
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetLineSymbol3DLayerMaterial } = await import('./lineSymbol3DLayerMaterial');
-            dotNetILineSymbol3DLayer.material = await buildDotNetLineSymbol3DLayerMaterial(jsObject.material);
-        }
+    if (hasValue(jsObject.marker)) {
+        let { buildDotNetLineStyleMarker3D } = await import('./lineStyleMarker3D');
+        dotNetILineSymbol3DLayer.marker = await buildDotNetLineStyleMarker3D(jsObject.marker);
+    }
+    if (hasValue(jsObject.material)) {
+        let { buildDotNetLineSymbol3DLayerMaterial } = await import('./lineSymbol3DLayerMaterial');
+        dotNetILineSymbol3DLayer.material = await buildDotNetLineSymbol3DLayerMaterial(jsObject.material);
+    }
     if (hasValue(jsObject.cap)) {
         dotNetILineSymbol3DLayer.cap = jsObject.cap;
     }

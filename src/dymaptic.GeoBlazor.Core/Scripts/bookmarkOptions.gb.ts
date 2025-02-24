@@ -46,13 +46,12 @@ export async function buildDotNetBookmarkOptionsGenerated(jsObject: any): Promis
     }
     
     let dotNetBookmarkOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.screenshotSettings)) {
-            let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-            dotNetBookmarkOptions.screenshotSettings = await buildDotNetBookmarkOptionsScreenshotSettings(jsObject.screenshotSettings);
-        }
+    if (hasValue(jsObject.screenshotSettings)) {
+        let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
+        dotNetBookmarkOptions.screenshotSettings = await buildDotNetBookmarkOptionsScreenshotSettings(jsObject.screenshotSettings);
+    }
     if (hasValue(jsObject.captureRotation)) {
         dotNetBookmarkOptions.captureRotation = jsObject.captureRotation;
     }

@@ -49,7 +49,6 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
     projectionWrapper.viewId = viewId;
     projectionWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(projectionWrapper);
     jsObjectRefs[dotNetObject.id] = projectionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsprojection;
@@ -71,7 +70,6 @@ export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any
     }
     
     let dotNetProjection: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

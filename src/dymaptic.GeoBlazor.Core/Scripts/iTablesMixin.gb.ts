@@ -31,7 +31,6 @@ export async function buildDotNetITablesMixinGenerated(jsObject: any): Promise<a
     }
     
     let dotNetITablesMixin: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

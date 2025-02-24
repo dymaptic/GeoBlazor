@@ -96,7 +96,6 @@ export async function buildJsIIconSymbol3DLayerGenerated(dotNetObject: any, laye
     iIconSymbol3DLayerWrapper.viewId = viewId;
     iIconSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iIconSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iIconSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayer;
@@ -118,17 +117,16 @@ export async function buildDotNetIIconSymbol3DLayerGenerated(jsObject: any): Pro
     }
     
     let dotNetIIconSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
-            dotNetIIconSymbol3DLayer.material = await buildDotNetIconSymbol3DLayerMaterial(jsObject.material);
-        }
-        if (hasValue(jsObject.outline)) {
-            let { buildDotNetIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
-            dotNetIIconSymbol3DLayer.outline = await buildDotNetIconSymbol3DLayerOutline(jsObject.outline);
-        }
+    if (hasValue(jsObject.material)) {
+        let { buildDotNetIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
+        dotNetIIconSymbol3DLayer.material = await buildDotNetIconSymbol3DLayerMaterial(jsObject.material);
+    }
+    if (hasValue(jsObject.outline)) {
+        let { buildDotNetIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
+        dotNetIIconSymbol3DLayer.outline = await buildDotNetIconSymbol3DLayerOutline(jsObject.outline);
+    }
     if (hasValue(jsObject.anchor)) {
         dotNetIIconSymbol3DLayer.anchor = jsObject.anchor;
     }

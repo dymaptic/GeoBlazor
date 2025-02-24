@@ -6,7 +6,7 @@ export async function buildJsPortalUserFetchItemsParamsGenerated(dotNetObject: a
     let jsPortalUserFetchItemsParams: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
-        jsPortalUserFetchItemsParams.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
+        jsPortalUserFetchItemsParams.folder = await buildJsPortalFolder(dotNetObject.folder) as any;
     }
 
     if (hasValue(dotNetObject.includeSubfolderItems)) {
@@ -49,13 +49,12 @@ export async function buildDotNetPortalUserFetchItemsParamsGenerated(jsObject: a
     }
     
     let dotNetPortalUserFetchItemsParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            let { buildDotNetPortalFolder } = await import('./portalFolder');
-            dotNetPortalUserFetchItemsParams.folder = await buildDotNetPortalFolder(jsObject.folder);
-        }
+    if (hasValue(jsObject.folder)) {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        dotNetPortalUserFetchItemsParams.folder = await buildDotNetPortalFolder(jsObject.folder);
+    }
     if (hasValue(jsObject.includeSubfolderItems)) {
         dotNetPortalUserFetchItemsParams.includeSubfolderItems = jsObject.includeSubfolderItems;
     }

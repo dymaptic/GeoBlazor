@@ -42,21 +42,20 @@ export async function buildDotNetGeoJSONLayerApplyEditsEditsGenerated(jsObject: 
     }
     
     let dotNetGeoJSONLayerApplyEditsEdits: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.addFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetGeoJSONLayerApplyEditsEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.deleteFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetGeoJSONLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.updateFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetGeoJSONLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
+    if (hasValue(jsObject.addFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetGeoJSONLayerApplyEditsEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.deleteFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetGeoJSONLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.updateFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetGeoJSONLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

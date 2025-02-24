@@ -70,17 +70,16 @@ export async function buildDotNetImageInspectionInfoGenerated(jsObject: any): Pr
     }
     
     let dotNetImageInspectionInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.center)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageInspectionInfo.center = buildDotNetPoint(jsObject.center);
-        }
-        if (hasValue(jsObject.perspectiveCenter)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetImageInspectionInfo.perspectiveCenter = buildDotNetPoint(jsObject.perspectiveCenter);
-        }
+    if (hasValue(jsObject.center)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageInspectionInfo.center = buildDotNetPoint(jsObject.center);
+    }
+    if (hasValue(jsObject.perspectiveCenter)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageInspectionInfo.perspectiveCenter = buildDotNetPoint(jsObject.perspectiveCenter);
+    }
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetImageInspectionInfo.acquisitionDate = jsObject.acquisitionDate;
     }

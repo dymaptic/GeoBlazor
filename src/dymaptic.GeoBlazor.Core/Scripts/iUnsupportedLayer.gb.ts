@@ -123,7 +123,6 @@ export async function buildJsIUnsupportedLayerGenerated(dotNetObject: any, layer
     iUnsupportedLayerWrapper.viewId = viewId;
     iUnsupportedLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iUnsupportedLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iUnsupportedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
@@ -145,17 +144,16 @@ export async function buildDotNetIUnsupportedLayerGenerated(jsObject: any): Prom
     }
     
     let dotNetIUnsupportedLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetIUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetIUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetIUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetIUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetIUnsupportedLayer.arcGISLayerId = jsObject.id;
     }

@@ -36,8 +36,8 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -179,7 +179,6 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     iSmartMappingSliderBaseWidgetWrapper.viewId = viewId;
     iSmartMappingSliderBaseWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iSmartMappingSliderBaseWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = iSmartMappingSliderBaseWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderBase;
@@ -201,7 +200,6 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
     }
     
     let dotNetISmartMappingSliderBaseWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.container)) {

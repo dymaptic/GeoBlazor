@@ -52,13 +52,12 @@ export async function buildDotNetViewDoubleClickEventGenerated(jsObject: any): P
     }
     
     let dotNetViewDoubleClickEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetViewDoubleClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetViewDoubleClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.button)) {
         dotNetViewDoubleClickEvent.button = jsObject.button;
     }

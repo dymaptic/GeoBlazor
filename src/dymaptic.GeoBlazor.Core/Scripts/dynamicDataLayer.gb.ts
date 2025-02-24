@@ -33,7 +33,6 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any): Promi
     }
     
     let dotNetDynamicDataLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.dataSource)) {

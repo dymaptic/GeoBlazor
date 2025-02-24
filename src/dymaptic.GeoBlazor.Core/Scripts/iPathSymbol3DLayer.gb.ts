@@ -89,7 +89,6 @@ export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, laye
     iPathSymbol3DLayerWrapper.viewId = viewId;
     iPathSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iPathSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iPathSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPathSymbol3DLayer;
@@ -111,13 +110,12 @@ export async function buildDotNetIPathSymbol3DLayerGenerated(jsObject: any): Pro
     }
     
     let dotNetIPathSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
-            dotNetIPathSymbol3DLayer.material = await buildDotNetPathSymbol3DLayerMaterial(jsObject.material);
-        }
+    if (hasValue(jsObject.material)) {
+        let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
+        dotNetIPathSymbol3DLayer.material = await buildDotNetPathSymbol3DLayerMaterial(jsObject.material);
+    }
     if (hasValue(jsObject.anchor)) {
         dotNetIPathSymbol3DLayer.anchor = jsObject.anchor;
     }

@@ -48,13 +48,12 @@ export async function buildDotNetMapImageGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetMapImage: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetMapImage.extent = buildDotNetExtent(jsObject.extent);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetMapImage.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.height)) {
         dotNetMapImage.height = jsObject.height;
     }

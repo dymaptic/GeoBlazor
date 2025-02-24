@@ -41,17 +41,16 @@ export async function buildDotNetRasterIdentifyResultGenerated(jsObject: any): P
     }
     
     let dotNetRasterIdentifyResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dataSeries)) {
-            let { buildDotNetRasterSliceValue } = await import('./rasterSliceValue');
-            dotNetRasterIdentifyResult.dataSeries = await Promise.all(jsObject.dataSeries.map(async i => await buildDotNetRasterSliceValue(i)));
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetRasterIdentifyResult.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.dataSeries)) {
+        let { buildDotNetRasterSliceValue } = await import('./rasterSliceValue');
+        dotNetRasterIdentifyResult.dataSeries = await Promise.all(jsObject.dataSeries.map(async i => await buildDotNetRasterSliceValue(i)));
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetRasterIdentifyResult.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.processedValue)) {
         dotNetRasterIdentifyResult.processedValue = jsObject.processedValue;
     }

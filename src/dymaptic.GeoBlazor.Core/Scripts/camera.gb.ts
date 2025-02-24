@@ -46,13 +46,12 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetCamera: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.position)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetCamera.position = buildDotNetPoint(jsObject.position);
-        }
+    if (hasValue(jsObject.position)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetCamera.position = buildDotNetPoint(jsObject.position);
+    }
     if (hasValue(jsObject.fov)) {
         dotNetCamera.fov = jsObject.fov;
     }

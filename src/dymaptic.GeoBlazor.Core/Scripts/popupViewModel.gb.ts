@@ -32,19 +32,19 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.component.next();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return buildDotNetFeaturesViewModel(result);
     }
 
     async open(options: any): Promise<void> {
-        let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
-        let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
+let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
         this.component.open(jsOptions);
     }
 
     async previous(): Promise<any> {
         let result = this.component.previous();
         let { buildDotNetFeaturesViewModel } = await import('./featuresViewModel');
-        return await buildDotNetFeaturesViewModel(result);
+        return buildDotNetFeaturesViewModel(result);
     }
 
     async triggerAction(actionIndex: any): Promise<void> {
@@ -145,20 +145,6 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
     }
     
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -186,10 +172,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
         properties.location = buildJsPoint(dotNetObject.location) as any;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.autoCloseEnabled)) {
@@ -223,6 +205,10 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.selectedFeatureIndex)) {
         properties.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     if (hasValue(dotNetObject.timeZone)) {
         properties.timeZone = dotNetObject.timeZone;
     }
@@ -243,12 +229,11 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     popupViewModelWrapper.viewId = viewId;
     popupViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(popupViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = popupViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopupViewModel;
     let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-    let dnInstantiatedObject = await buildDotNetPopupViewModel(jsPopupViewModel);
+    let dnInstantiatedObject = await buildDotNetPopupViewModel(jsPopupViewModel, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -265,45 +250,40 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     
     let dotNetPopupViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.actions)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupViewModel.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
-        }
-        if (hasValue(jsObject.allActions)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupViewModel.allActions = await Promise.all(jsObject.allActions.map(async i => await buildDotNetActionBase(i)));
-        }
-        if (hasValue(jsObject.defaultActions)) {
-            let { buildDotNetActionBase } = await import('./actionBase');
-            dotNetPopupViewModel.defaultActions = await Promise.all(jsObject.defaultActions.map(async i => await buildDotNetActionBase(i)));
-        }
-        if (hasValue(jsObject.features)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetPopupViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetPopupViewModel.location = buildDotNetPoint(jsObject.location);
-        }
-        if (hasValue(jsObject.selectedClusterBoundaryFeature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.selectedClusterBoundaryFeature = buildDotNetGraphic(jsObject.selectedClusterBoundaryFeature, layerId, viewId);
-        }
-        if (hasValue(jsObject.selectedFeature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetPopupViewModel.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetPopupViewModel.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.actions)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetPopupViewModel.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
+    }
+    if (hasValue(jsObject.allActions)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetPopupViewModel.allActions = await Promise.all(jsObject.allActions.map(async i => await buildDotNetActionBase(i)));
+    }
+    if (hasValue(jsObject.defaultActions)) {
+        let { buildDotNetActionBase } = await import('./actionBase');
+        dotNetPopupViewModel.defaultActions = await Promise.all(jsObject.defaultActions.map(async i => await buildDotNetActionBase(i)));
+    }
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupViewModel.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetPopupViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetPopupViewModel.location = buildDotNetPoint(jsObject.location);
+    }
+    if (hasValue(jsObject.selectedClusterBoundaryFeature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupViewModel.selectedClusterBoundaryFeature = buildDotNetGraphic(jsObject.selectedClusterBoundaryFeature, layerId, viewId);
+    }
+    if (hasValue(jsObject.selectedFeature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupViewModel.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
+    }
     if (hasValue(jsObject.active)) {
         dotNetPopupViewModel.active = jsObject.active;
     }
@@ -348,6 +328,9 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     if (hasValue(jsObject.selectedFeatureIndex)) {
         dotNetPopupViewModel.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetPopupViewModel.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.state)) {
         dotNetPopupViewModel.state = jsObject.state;

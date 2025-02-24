@@ -59,7 +59,6 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     zoomViewModelWrapper.viewId = viewId;
     zoomViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(zoomViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = zoomViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoomViewModel;
@@ -81,7 +80,6 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<
     }
     
     let dotNetZoomViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.canZoomIn)) {

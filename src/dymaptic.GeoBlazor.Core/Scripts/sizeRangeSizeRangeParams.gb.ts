@@ -40,7 +40,6 @@ export async function buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject: any
     }
     
     let dotNetSizeRangeSizeRangeParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.forBinning)) {

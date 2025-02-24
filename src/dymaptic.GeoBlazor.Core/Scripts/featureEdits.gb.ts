@@ -50,29 +50,28 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
     }
     
     let dotNetFeatureEdits: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.addAttachments)) {
-            let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
-            dotNetFeatureEdits.addAttachments = await Promise.all(jsObject.addAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
-        }
-        if (hasValue(jsObject.addFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.deleteFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.updateAttachments)) {
-            let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
-            dotNetFeatureEdits.updateAttachments = await Promise.all(jsObject.updateAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
-        }
-        if (hasValue(jsObject.updateFeatures)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFeatureEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
+    if (hasValue(jsObject.addAttachments)) {
+        let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
+        dotNetFeatureEdits.addAttachments = await Promise.all(jsObject.addAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
+    }
+    if (hasValue(jsObject.addFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.deleteFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.updateAttachments)) {
+        let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
+        dotNetFeatureEdits.updateAttachments = await Promise.all(jsObject.updateAttachments.map(async i => await buildDotNetAttachmentEdit(i, layerId, viewId)));
+    }
+    if (hasValue(jsObject.updateFeatures)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
     if (hasValue(jsObject.deleteAttachments)) {
         dotNetFeatureEdits.deleteAttachments = jsObject.deleteAttachments;
     }

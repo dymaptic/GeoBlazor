@@ -37,13 +37,12 @@ export async function buildDotNetFetchItemsResultGenerated(jsObject: any): Promi
     }
     
     let dotNetFetchItemsResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.items)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i)));
-        }
+    if (hasValue(jsObject.items)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i)));
+    }
     if (hasValue(jsObject.nextStart)) {
         dotNetFetchItemsResult.nextStart = jsObject.nextStart;
     }

@@ -37,7 +37,6 @@ export async function buildDotNetRasterSliceValueGenerated(jsObject: any): Promi
     }
     
     let dotNetRasterSliceValue: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.magdirValue)) {

@@ -18,7 +18,7 @@ export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditedFeatureResultEditedFeaturesUpdates;
     
-    let dnInstantiatedObject = await buildDotNetEditedFeatureResultEditedFeaturesUpdates(jsEditedFeatureResultEditedFeaturesUpdates);
+    let dnInstantiatedObject = await buildDotNetEditedFeatureResultEditedFeaturesUpdates(jsEditedFeatureResultEditedFeaturesUpdates, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -35,17 +35,16 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesUpdatesGenerat
     }
     
     let dotNetEditedFeatureResultEditedFeaturesUpdates: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.current)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.original)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
+    if (hasValue(jsObject.current)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.original)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

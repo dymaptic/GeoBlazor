@@ -13,10 +13,6 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
         let { buildJsExtent } = await import('./extent');
         properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.bandCount)) {
         properties.bandCount = dotNetObject.bandCount;
@@ -58,6 +54,10 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
         const { id, dotNetComponentReference, ...sanitizedSensorInfo } = dotNetObject.sensorInfo;
         properties.sensorInfo = sanitizedSensorInfo;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     if (hasValue(dotNetObject.statistics)) {
         properties.statistics = dotNetObject.statistics;
     }
@@ -87,21 +87,16 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: str
     }
     
     let dotNetRasterInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.attributeTable)) {
-            let { buildDotNetFeatureSet } = await import('./featureSet');
-            dotNetRasterInfo.attributeTable = await buildDotNetFeatureSet(jsObject.attributeTable, layerId, viewId);
-        }
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetRasterInfo.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.attributeTable)) {
+        let { buildDotNetFeatureSet } = await import('./featureSet');
+        dotNetRasterInfo.attributeTable = await buildDotNetFeatureSet(jsObject.attributeTable, layerId, viewId);
+    }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.bandCount)) {
         dotNetRasterInfo.bandCount = jsObject.bandCount;
     }
@@ -140,6 +135,9 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: str
     }
     if (hasValue(jsObject.sensorInfo)) {
         dotNetRasterInfo.sensorInfo = jsObject.sensorInfo;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetRasterInfo.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.statistics)) {
         dotNetRasterInfo.statistics = jsObject.statistics;

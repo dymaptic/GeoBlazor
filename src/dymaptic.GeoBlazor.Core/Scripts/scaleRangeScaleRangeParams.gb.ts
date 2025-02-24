@@ -43,7 +43,6 @@ export async function buildDotNetScaleRangeScaleRangeParamsGenerated(jsObject: a
     }
     
     let dotNetScaleRangeScaleRangeParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.forBinning)) {

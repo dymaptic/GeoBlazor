@@ -31,12 +31,12 @@ export default class IExtrudeSymbol3DLayerGenerated implements IPropertyWrapper 
         }
         
         let { buildDotNetEdges3D } = await import('./edges3D');
-        return await buildDotNetEdges3D(this.layer.edges);
+        return buildDotNetEdges3D(this.layer.edges);
     }
     
     async setEdges(value: any): Promise<void> {
         let { buildJsEdges3D } = await import('./edges3D');
-        this.layer.edges = await  buildJsEdges3D(value, this.layerId, this.viewId);
+        this.layer.edges =  buildJsEdges3D(value);
     }
     
     async getMaterial(): Promise<any> {
@@ -67,7 +67,7 @@ export async function buildJsIExtrudeSymbol3DLayerGenerated(dotNetObject: any, l
     let properties: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsEdges3D } = await import('./edges3D');
-        properties.edges = await buildJsEdges3D(dotNetObject.edges, layerId, viewId) as any;
+        properties.edges = buildJsEdges3D(dotNetObject.edges) as any;
     }
     if (hasValue(dotNetObject.material)) {
         let { buildJsExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
@@ -88,7 +88,6 @@ export async function buildJsIExtrudeSymbol3DLayerGenerated(dotNetObject: any, l
     iExtrudeSymbol3DLayerWrapper.viewId = viewId;
     iExtrudeSymbol3DLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iExtrudeSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iExtrudeSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExtrudeSymbol3DLayer;
@@ -110,17 +109,16 @@ export async function buildDotNetIExtrudeSymbol3DLayerGenerated(jsObject: any): 
     }
     
     let dotNetIExtrudeSymbol3DLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.edges)) {
-            let { buildDotNetEdges3D } = await import('./edges3D');
-            dotNetIExtrudeSymbol3DLayer.edges = await buildDotNetEdges3D(jsObject.edges);
-        }
-        if (hasValue(jsObject.material)) {
-            let { buildDotNetExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
-            dotNetIExtrudeSymbol3DLayer.material = await buildDotNetExtrudeSymbol3DLayerMaterial(jsObject.material);
-        }
+    if (hasValue(jsObject.edges)) {
+        let { buildDotNetEdges3D } = await import('./edges3D');
+        dotNetIExtrudeSymbol3DLayer.edges = buildDotNetEdges3D(jsObject.edges);
+    }
+    if (hasValue(jsObject.material)) {
+        let { buildDotNetExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
+        dotNetIExtrudeSymbol3DLayer.material = await buildDotNetExtrudeSymbol3DLayerMaterial(jsObject.material);
+    }
     if (hasValue(jsObject.castShadows)) {
         dotNetIExtrudeSymbol3DLayer.castShadows = jsObject.castShadows;
     }

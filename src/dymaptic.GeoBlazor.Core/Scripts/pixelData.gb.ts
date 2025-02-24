@@ -35,17 +35,16 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetPixelData: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetPixelData.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.pixelBlock)) {
-            let { buildDotNetPixelBlock } = await import('./pixelBlock');
-            dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPixelData.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.pixelBlock)) {
+        let { buildDotNetPixelBlock } = await import('./pixelBlock');
+        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

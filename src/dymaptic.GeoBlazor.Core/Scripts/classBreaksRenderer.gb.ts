@@ -22,16 +22,16 @@ export default class ClassBreaksRendererGenerated implements IPropertyWrapper {
     async addClassBreakInfo(min: any,
         max: any,
         symbol: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
-        let jsSymbol = buildJsSymbol(symbol) as any;
+                let { buildJsSymbol } = await import('./symbol');
+let jsSymbol = buildJsSymbol(symbol) as any;
         this.component.addClassBreakInfo(min,
             max,
             jsSymbol);
     }
 
     async getClassBreakInfo(graphic: any): Promise<any> {
-        let { buildJsGraphic } = await import('./graphic');
-        let jsGraphic = buildJsGraphic(graphic) as any;
+                let { buildJsGraphic } = await import('./graphic');
+let jsGraphic = buildJsGraphic(graphic) as any;
         return await this.component.getClassBreakInfo(jsGraphic);
     }
 
@@ -164,7 +164,6 @@ export async function buildJsClassBreaksRendererGenerated(dotNetObject: any, lay
     classBreaksRendererWrapper.viewId = viewId;
     classBreaksRendererWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(classBreaksRendererWrapper);
     jsObjectRefs[dotNetObject.id] = classBreaksRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsClassBreaksRenderer;
@@ -186,25 +185,24 @@ export async function buildDotNetClassBreaksRendererGenerated(jsObject: any): Pr
     }
     
     let dotNetClassBreaksRenderer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.authoringInfo)) {
-            let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-            dotNetClassBreaksRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
-        }
-        if (hasValue(jsObject.classBreakInfos)) {
-            let { buildDotNetClassBreakInfo } = await import('./classBreakInfo');
-            dotNetClassBreaksRenderer.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetClassBreakInfo(i)));
-        }
-        if (hasValue(jsObject.defaultSymbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetClassBreaksRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
-        }
-        if (hasValue(jsObject.visualVariables)) {
-            let { buildDotNetVisualVariable } = await import('./visualVariable');
-            dotNetClassBreaksRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
-        }
+    if (hasValue(jsObject.authoringInfo)) {
+        let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
+        dotNetClassBreaksRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+    }
+    if (hasValue(jsObject.classBreakInfos)) {
+        let { buildDotNetClassBreakInfo } = await import('./classBreakInfo');
+        dotNetClassBreaksRenderer.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetClassBreakInfo(i)));
+    }
+    if (hasValue(jsObject.defaultSymbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetClassBreaksRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
+    }
+    if (hasValue(jsObject.visualVariables)) {
+        let { buildDotNetVisualVariable } = await import('./visualVariable');
+        dotNetClassBreaksRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
     if (hasValue(jsObject.backgroundFillSymbol)) {
         dotNetClassBreaksRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
     }

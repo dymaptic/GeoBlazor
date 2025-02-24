@@ -43,13 +43,12 @@ export async function buildDotNetSearchViewModelSearchResponseGenerated(jsObject
     }
     
     let dotNetSearchViewModelSearchResponse: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.results)) {
-            let { buildDotNetSearchViewModelSearchResponseResults } = await import('./searchViewModelSearchResponseResults');
-            dotNetSearchViewModelSearchResponse.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResponseResults(i)));
-        }
+    if (hasValue(jsObject.results)) {
+        let { buildDotNetSearchViewModelSearchResponseResults } = await import('./searchViewModelSearchResponseResults');
+        dotNetSearchViewModelSearchResponse.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResponseResults(i)));
+    }
     if (hasValue(jsObject.activeSourceIndex)) {
         dotNetSearchViewModelSearchResponse.activeSourceIndex = jsObject.activeSourceIndex;
     }

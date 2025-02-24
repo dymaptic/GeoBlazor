@@ -34,13 +34,12 @@ export async function buildDotNetCoverageDescriptionV100DomainSetGenerated(jsObj
     }
     
     let dotNetCoverageDescriptionV100DomainSet: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialDomain)) {
-            let { buildDotNetCoverageDescriptionV100DomainSetSpatialDomain } = await import('./coverageDescriptionV100DomainSetSpatialDomain');
-            dotNetCoverageDescriptionV100DomainSet.spatialDomain = await buildDotNetCoverageDescriptionV100DomainSetSpatialDomain(jsObject.spatialDomain);
-        }
+    if (hasValue(jsObject.spatialDomain)) {
+        let { buildDotNetCoverageDescriptionV100DomainSetSpatialDomain } = await import('./coverageDescriptionV100DomainSetSpatialDomain');
+        dotNetCoverageDescriptionV100DomainSet.spatialDomain = await buildDotNetCoverageDescriptionV100DomainSetSpatialDomain(jsObject.spatialDomain);
+    }
     if (hasValue(jsObject.temporalDomain)) {
         dotNetCoverageDescriptionV100DomainSet.temporalDomain = jsObject.temporalDomain;
     }

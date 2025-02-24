@@ -20,8 +20,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
     
     async addItem(parameters: any): Promise<any> {
-        let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
-        let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
+                let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
+let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsparameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
@@ -29,8 +29,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
 
     async deleteItem(item: any,
         permanentDelete: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
+                let { buildJsPortalItem } = await import('./portalItem');
+let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         return await this.component.deleteItem(jsItem,
             permanentDelete);
     }
@@ -54,8 +54,8 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async fetchItems(parameters: any): Promise<any> {
-        let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
-        let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
+                let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
+let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.fetchItems(jsparameters);
     }
 
@@ -68,17 +68,17 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async queryFavorites(queryParams: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryFavorites(jsQueryParams);
     }
 
     async restoreItem(item: any,
         folder: any): Promise<any> {
-        let { buildJsPortalItem } = await import('./portalItem');
-        let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
-        let { buildJsPortalFolder } = await import('./portalFolder');
-        let jsFolder = await buildJsPortalFolder(folder, this.layerId, this.viewId) as any;
+                let { buildJsPortalItem } = await import('./portalItem');
+let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
+                let { buildJsPortalFolder } = await import('./portalFolder');
+let jsFolder = await buildJsPortalFolder(folder) as any;
         return await this.component.restoreItem(jsItem,
             jsFolder);
     }
@@ -165,7 +165,6 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     portalUserWrapper.viewId = viewId;
     portalUserWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalUserWrapper);
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
@@ -187,7 +186,6 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
     }
     
     let dotNetPortalUser: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.access)) {

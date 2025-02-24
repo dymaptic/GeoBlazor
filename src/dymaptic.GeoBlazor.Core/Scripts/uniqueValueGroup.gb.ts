@@ -36,13 +36,12 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
     }
     
     let dotNetUniqueValueGroup: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.classes)) {
-            let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-            dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i)));
-        }
+    if (hasValue(jsObject.classes)) {
+        let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
+        dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i)));
+    }
     if (hasValue(jsObject.heading)) {
         dotNetUniqueValueGroup.heading = jsObject.heading;
     }

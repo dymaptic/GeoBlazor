@@ -21,10 +21,10 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     
     async add(component: any,
         position: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
-        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+                let { buildJsWidget } = await import('./widget');
+let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+                let { buildJsUIAddPosition } = await import('./uIAddPosition');
+let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.add(jsComponent,
             jsPosition);
     }
@@ -32,30 +32,30 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     async find(id: any): Promise<any> {
         let result = this.component.find(id);
         let { buildDotNetWidget } = await import('./widget');
-        return await buildDotNetWidget(result);
+        return buildDotNetWidget(result);
     }
 
     async getComponents(position: any): Promise<any> {
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
-        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+                let { buildJsUIAddPosition } = await import('./uIAddPosition');
+let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         let result = this.component.getComponents(jsPosition);
         let { buildDotNetWidget } = await import('./widget');
-        return await Promise.all(result.map(async i => await buildDotNetWidget(i)));
+        return result.map(i => buildDotNetWidget(i));
     }
 
     async move(component: any,
         position: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
-        let { buildJsUIAddPosition } = await import('./uIAddPosition');
-        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+                let { buildJsWidget } = await import('./widget');
+let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+                let { buildJsUIAddPosition } = await import('./uIAddPosition');
+let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.move(jsComponent,
             jsPosition);
     }
 
     async remove(component: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+                let { buildJsWidget } = await import('./widget');
+let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
         this.component.remove(jsComponent);
     }
 
@@ -91,7 +91,6 @@ export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: stri
     defaultUIWrapper.viewId = viewId;
     defaultUIWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(defaultUIWrapper);
     jsObjectRefs[dotNetObject.id] = defaultUIWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDefaultUI;
@@ -113,7 +112,6 @@ export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetDefaultUI: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.components)) {

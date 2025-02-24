@@ -1,7 +1,7 @@
 
-export async function buildJsIFeatureLayerBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIFeatureLayerBase(dotNetObject: any): Promise<any> {
     let { buildJsIFeatureLayerBaseGenerated } = await import('./iFeatureLayerBase.gb');
-    return await buildJsIFeatureLayerBaseGenerated(dotNetObject, layerId, viewId);
+    return buildJsIFeatureLayerBaseGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIFeatureLayerBase(jsObject: any): Promise<any> {

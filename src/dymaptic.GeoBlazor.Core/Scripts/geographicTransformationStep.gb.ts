@@ -57,7 +57,6 @@ export async function buildJsGeographicTransformationStepGenerated(dotNetObject:
     geographicTransformationStepWrapper.viewId = viewId;
     geographicTransformationStepWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(geographicTransformationStepWrapper);
     jsObjectRefs[dotNetObject.id] = geographicTransformationStepWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeographicTransformationStep;
@@ -79,7 +78,6 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
     }
     
     let dotNetGeographicTransformationStep: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.isInverse)) {

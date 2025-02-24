@@ -6,12 +6,13 @@ export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, l
     let jsSearchResponseResults: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsSearchResult } = await import('./searchResult');
-        jsSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i, layerId, viewId))) as any;
+        jsSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i))) as any;
+    }
+    if (hasValue(dotNetObject.source)) {
+        let { buildJsSearchSource } = await import('./searchSource');
+        jsSearchResponseResults.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.source)) {
-        jsSearchResponseResults.source = dotNetObject.source;
-    }
     if (hasValue(dotNetObject.sourceIndex)) {
         jsSearchResponseResults.sourceIndex = dotNetObject.sourceIndex;
     }
@@ -37,15 +38,15 @@ export async function buildDotNetSearchResponseResultsGenerated(jsObject: any): 
     }
     
     let dotNetSearchResponseResults: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.results)) {
-            let { buildDotNetSearchResult } = await import('./searchResult');
-            dotNetSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
-        }
+    if (hasValue(jsObject.results)) {
+        let { buildDotNetSearchResult } = await import('./searchResult');
+        dotNetSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
+    }
     if (hasValue(jsObject.source)) {
-        dotNetSearchResponseResults.source = jsObject.source;
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchResponseResults.source = await buildDotNetSearchSource(jsObject.source);
     }
     if (hasValue(jsObject.sourceIndex)) {
         dotNetSearchResponseResults.sourceIndex = jsObject.sourceIndex;

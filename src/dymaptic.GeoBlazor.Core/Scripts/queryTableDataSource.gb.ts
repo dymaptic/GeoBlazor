@@ -4,10 +4,6 @@ import { buildDotNetQueryTableDataSource } from './queryTableDataSource';
 
 export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsQueryTableDataSource: any = {};
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        jsQueryTableDataSource.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
 
     if (hasValue(dotNetObject.geometryType)) {
         jsQueryTableDataSource.geometryType = dotNetObject.geometryType;
@@ -17,6 +13,10 @@ export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.query)) {
         jsQueryTableDataSource.query = dotNetObject.query;
+    }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        jsQueryTableDataSource.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.workspaceId)) {
         jsQueryTableDataSource.workspaceId = dotNetObject.workspaceId;
@@ -43,13 +43,8 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): P
     }
     
     let dotNetQueryTableDataSource: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetQueryTableDataSource.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
     if (hasValue(jsObject.geometryType)) {
         dotNetQueryTableDataSource.geometryType = jsObject.geometryType;
     }
@@ -58,6 +53,9 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.query)) {
         dotNetQueryTableDataSource.query = jsObject.query;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetQueryTableDataSource.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.type)) {
         dotNetQueryTableDataSource.type = jsObject.type;

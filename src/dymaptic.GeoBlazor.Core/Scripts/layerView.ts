@@ -1,6 +1,61 @@
-export async function buildJsLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsLayerViewGenerated} = await import('./layerView.gb');
-    return await buildJsLayerViewGenerated(dotNetObject, layerId, viewId);
+import {hasValue} from "./arcGisJsInterop";
+
+export async function buildJsLayerView(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject?.layer)) {
+        return null;
+    }
+    
+    switch (dotNetObject.layer.type) {
+        case 'feature':
+            let { buildJsFeatureLayerView } = await import('./featureLayerView');
+            return await buildJsFeatureLayerView(dotNetObject);
+        case 'graphics':
+            let { buildJsGraphicsLayerView } = await import('./graphicsLayerView');
+            return await buildJsGraphicsLayerView(dotNetObject);
+        case 'imagery':
+            let { buildJsImageryLayerView } = await import('./imageryLayerView');
+            return await buildJsImageryLayerView(dotNetObject);
+        case 'kml':
+            let { buildJsKMLLayerView } = await import('./kMLLayerView');
+            return await buildJsKMLLayerView(dotNetObject);
+        case 'building-scene':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsBuildingSceneLayerView } = await import('./buildingSceneLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsBuildingSceneLayerView(dotNetObject);
+        case 'catalog':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsCatalogLayerView } = await import('./catalogLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsCatalogLayerView(dotNetObject);
+        case 'dimension':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsDimensionLayerView } = await import('./dimensionLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsDimensionLayerView(dotNetObject);
+        case 'media':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsMediaLayerView } = await import('./mediaLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsMediaLayerView(dotNetObject);
+        case 'point-cloud':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsPointCloudLayerView } = await import('./pointCloudLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsPointCloudLayerView(dotNetObject);
+        case 'scene':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsSceneLayerView } = await import('./sceneLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsSceneLayerView(dotNetObject);
+        case 'stream':
+            // @ts-ignore GeoBlazor Pro Only
+            let { buildJsStreamLayerView } = await import('./streamLayerView');
+            // @ts-ignore GeoBlazor Pro Only
+            return await buildJsStreamLayerView(dotNetObject);
+        default:
+            let { buildJsLayerViewGenerated } = await import('./layerView.gb');
+            return await buildJsLayerViewGenerated(dotNetObject);
 }
 
 export async function buildDotNetLayerView(jsObject: any): Promise<any> {

@@ -53,7 +53,6 @@ export async function buildJsFrameTaskHandleGenerated(dotNetObject: any, layerId
     frameTaskHandleWrapper.viewId = viewId;
     frameTaskHandleWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(frameTaskHandleWrapper);
     jsObjectRefs[dotNetObject.id] = frameTaskHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFrameTaskHandle;
@@ -75,7 +74,6 @@ export async function buildDotNetFrameTaskHandleGenerated(jsObject: any): Promis
     }
     
     let dotNetFrameTaskHandle: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

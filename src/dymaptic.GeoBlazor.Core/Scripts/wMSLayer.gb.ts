@@ -37,8 +37,8 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
             height,
@@ -127,20 +127,6 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
-    }
-    
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.layer.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference =  buildJsSpatialReference(value);
     }
     
     async getSublayers(): Promise<any> {
@@ -239,10 +225,6 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
-    }
     if (hasValue(dotNetObject.sublayers)) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
         properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
@@ -317,6 +299,10 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     if (hasValue(dotNetObject.spatialReferences)) {
         properties.spatialReferences = dotNetObject.spatialReferences;
     }
@@ -364,7 +350,6 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     wMSLayerWrapper.viewId = viewId;
     wMSLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wMSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
@@ -386,45 +371,40 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetWMSLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetWMSLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.fullExtents)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetWMSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.sublayers)) {
-            let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-            dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
-        if (hasValue(jsObject.timeInfo)) {
-            let { buildDotNetTimeInfo } = await import('./timeInfo');
-            dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetWMSLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.fullExtents)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.sublayers)) {
+        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    if (hasValue(jsObject.timeInfo)) {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetWMSLayer.arcGISLayerId = jsObject.id;
     }
@@ -493,6 +473,9 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.refreshInterval)) {
         dotNetWMSLayer.refreshInterval = jsObject.refreshInterval;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetWMSLayer.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.spatialReferences)) {
         dotNetWMSLayer.spatialReferences = jsObject.spatialReferences;

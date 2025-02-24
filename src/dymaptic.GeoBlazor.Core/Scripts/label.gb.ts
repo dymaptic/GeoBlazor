@@ -69,13 +69,12 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetLabel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.symbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
-        }
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
     if (hasValue(jsObject.allowOverrun)) {
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
     }

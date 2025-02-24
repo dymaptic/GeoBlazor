@@ -50,13 +50,12 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
     }
     
     let dotNetRelationshipRampElement: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.colors)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetRelationshipRampElement.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
-        }
+    if (hasValue(jsObject.colors)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetRelationshipRampElement.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
+    }
     if (hasValue(jsObject.focus)) {
         dotNetRelationshipRampElement.focus = jsObject.focus;
     }

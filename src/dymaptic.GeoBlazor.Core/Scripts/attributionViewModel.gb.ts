@@ -32,13 +32,12 @@ export async function buildDotNetAttributionViewModelGenerated(jsObject: any): P
     }
     
     let dotNetAttributionViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.items)) {
-            let { buildDotNetAttributionItem } = await import('./attributionItem');
-            dotNetAttributionViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetAttributionItem(i)));
-        }
+    if (hasValue(jsObject.items)) {
+        let { buildDotNetAttributionItem } = await import('./attributionItem');
+        dotNetAttributionViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetAttributionItem(i)));
+    }
     if (hasValue(jsObject.state)) {
         dotNetAttributionViewModel.state = jsObject.state;
     }

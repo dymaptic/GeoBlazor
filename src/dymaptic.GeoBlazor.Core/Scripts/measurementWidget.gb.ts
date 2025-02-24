@@ -40,8 +40,8 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -145,7 +145,6 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     measurementWidgetWrapper.viewId = viewId;
     measurementWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
@@ -167,17 +166,16 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
     }
     
     let dotNetMeasurementWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeWidget)) {
-            let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
-            dotNetMeasurementWidget.activeWidget = await buildDotNetIMeasurementWidgetActiveWidget(jsObject.activeWidget);
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-            dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.activeWidget)) {
+        let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
+        dotNetMeasurementWidget.activeWidget = await buildDotNetIMeasurementWidgetActiveWidget(jsObject.activeWidget);
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
+        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementWidget.activeTool = jsObject.activeTool;
     }

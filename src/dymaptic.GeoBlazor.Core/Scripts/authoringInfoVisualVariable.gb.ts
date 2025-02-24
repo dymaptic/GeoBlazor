@@ -67,13 +67,12 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     }
     
     let dotNetAuthoringInfoVisualVariable: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.theme)) {
-            let { buildDotNetTheme } = await import('./theme');
-            dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
-        }
+    if (hasValue(jsObject.theme)) {
+        let { buildDotNetTheme } = await import('./theme');
+        dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
+    }
     if (hasValue(jsObject.endTime)) {
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
     }

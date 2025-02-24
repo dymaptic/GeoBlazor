@@ -46,17 +46,16 @@ export async function buildDotNetFindImagesParametersGenerated(jsObject: any): P
     }
     
     let dotNetFindImagesParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fromGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetFindImagesParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
-        }
-        if (hasValue(jsObject.toGeometry)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
-        }
+    if (hasValue(jsObject.fromGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFindImagesParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
+    }
     if (hasValue(jsObject.maxCount)) {
         dotNetFindImagesParameters.maxCount = jsObject.maxCount;
     }

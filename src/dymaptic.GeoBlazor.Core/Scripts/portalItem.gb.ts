@@ -26,8 +26,8 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async addResource(resource: any,
         content: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
+                let { buildJsPortalItemResource } = await import('./portalItemResource');
+let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
         return await this.component.addResource(jsResource,
             content,
             options);
@@ -77,8 +77,8 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async removeResource(resource: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
+                let { buildJsPortalItemResource } = await import('./portalItemResource');
+let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
         return await this.component.removeResource(jsResource,
             options);
     }
@@ -229,7 +229,6 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     portalItemWrapper.viewId = viewId;
     portalItemWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(portalItemWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
@@ -251,17 +250,16 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     }
     
     let dotNetPortalItem: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.portal)) {
-            let { buildDotNetPortal } = await import('./portal');
-            dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.portal)) {
+        let { buildDotNetPortal } = await import('./portal');
+        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
+    }
     if (hasValue(jsObject.access)) {
         dotNetPortalItem.access = jsObject.access;
     }

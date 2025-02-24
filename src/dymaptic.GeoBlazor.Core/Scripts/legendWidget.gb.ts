@@ -36,8 +36,8 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -173,7 +173,6 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     legendWidgetWrapper.viewId = viewId;
     legendWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = legendWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegend;
@@ -195,21 +194,20 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
     }
     
     let dotNetLegendWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeLayerInfos)) {
-            let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-            dotNetLegendWidget.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
-        }
-        if (hasValue(jsObject.layerInfos)) {
-            let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
-            dotNetLegendWidget.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendLayerInfos(i)));
-        }
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetLegendViewModel } = await import('./legendViewModel');
-            dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.activeLayerInfos)) {
+        let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
+        dotNetLegendWidget.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
+    }
+    if (hasValue(jsObject.layerInfos)) {
+        let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
+        dotNetLegendWidget.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendLayerInfos(i)));
+    }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetLegendViewModel } = await import('./legendViewModel');
+        dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
     }

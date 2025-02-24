@@ -34,13 +34,12 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Pr
     }
     
     let dotNetHitTestResultGround: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.mapPoint)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetHitTestResultGround.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-        }
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetHitTestResultGround.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetHitTestResultGround.distance = jsObject.distance;
     }

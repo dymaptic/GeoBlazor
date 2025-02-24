@@ -9,7 +9,7 @@ export async function buildJsLayerViewCreateEventGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
-        jsFeatureLayerLayerviewCreateEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
+        jsFeatureLayerLayerviewCreateEvent.layerView = buildJsLayerView(dotNetObject.layerView) as any;
     }
 
     
@@ -34,13 +34,12 @@ export async function buildDotNetLayerViewCreateEventGenerated(jsObject: any): P
     }
     
     let dotNetLayerViewCreateEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.layerView)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetLayerViewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
-        }
+    if (hasValue(jsObject.layerView)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetLayerViewCreateEvent.layerView = buildDotNetLayerView(jsObject.layerView);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

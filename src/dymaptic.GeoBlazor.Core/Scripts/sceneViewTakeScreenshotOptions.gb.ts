@@ -47,13 +47,12 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsGenerated(jsObjec
     }
     
     let dotNetSceneViewTakeScreenshotOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.format)) {
-            let { buildDotNetFormat } = await import('./format');
-            dotNetSceneViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
-        }
+    if (hasValue(jsObject.format)) {
+        let { buildDotNetFormat } = await import('./format');
+        dotNetSceneViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
+    }
     if (hasValue(jsObject.area)) {
         dotNetSceneViewTakeScreenshotOptions.area = jsObject.area;
     }

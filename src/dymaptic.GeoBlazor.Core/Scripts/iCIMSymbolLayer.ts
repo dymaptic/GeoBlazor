@@ -10,9 +10,9 @@ export default class ICIMSymbolLayerWrapper extends ICIMSymbolLayerGenerated {
 
 }
 
-export async function buildJsICIMSymbolLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsICIMSymbolLayer(dotNetObject: any): Promise<any> {
     let {buildJsICIMSymbolLayerGenerated} = await import('./iCIMSymbolLayer.gb');
-    return await buildJsICIMSymbolLayerGenerated(dotNetObject, layerId, viewId);
+    return buildJsICIMSymbolLayerGenerated(dotNetObject);
 }
 
 export async function buildDotNetICIMSymbolLayer(jsObject: any): Promise<any> {

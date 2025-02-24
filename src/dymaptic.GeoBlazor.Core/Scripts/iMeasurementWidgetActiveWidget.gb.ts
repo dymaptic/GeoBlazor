@@ -41,7 +41,6 @@ export async function buildJsIMeasurementWidgetActiveWidgetGenerated(dotNetObjec
     iMeasurementWidgetActiveWidgetWrapper.viewId = viewId;
     iMeasurementWidgetActiveWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iMeasurementWidgetActiveWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = iMeasurementWidgetActiveWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementWidgetActiveWidget;
@@ -63,7 +62,6 @@ export async function buildDotNetIMeasurementWidgetActiveWidgetGenerated(jsObjec
     }
     
     let dotNetIMeasurementWidgetActiveWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

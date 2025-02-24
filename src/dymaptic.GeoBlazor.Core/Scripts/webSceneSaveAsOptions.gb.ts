@@ -6,7 +6,7 @@ export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, l
     let jsWebSceneSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');
-        jsWebSceneSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder, layerId, viewId) as any;
+        jsWebSceneSaveAsOptions.folder = await buildJsPortalFolder(dotNetObject.folder) as any;
     }
 
     if (hasValue(dotNetObject.ignoreUnsupported)) {
@@ -34,13 +34,12 @@ export async function buildDotNetWebSceneSaveAsOptionsGenerated(jsObject: any): 
     }
     
     let dotNetWebSceneSaveAsOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.folder)) {
-            let { buildDotNetPortalFolder } = await import('./portalFolder');
-            dotNetWebSceneSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
-        }
+    if (hasValue(jsObject.folder)) {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        dotNetWebSceneSaveAsOptions.folder = await buildDotNetPortalFolder(jsObject.folder);
+    }
     if (hasValue(jsObject.ignoreUnsupported)) {
         dotNetWebSceneSaveAsOptions.ignoreUnsupported = jsObject.ignoreUnsupported;
     }

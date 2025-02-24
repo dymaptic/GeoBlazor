@@ -53,7 +53,6 @@ export async function buildJsSymbologyLocationGenerated(dotNetObject: any, layer
     symbologyLocationWrapper.viewId = viewId;
     symbologyLocationWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(symbologyLocationWrapper);
     jsObjectRefs[dotNetObject.id] = symbologyLocationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbologyLocation;
@@ -75,7 +74,6 @@ export async function buildDotNetSymbologyLocationGenerated(jsObject: any): Prom
     }
     
     let dotNetSymbologyLocation: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

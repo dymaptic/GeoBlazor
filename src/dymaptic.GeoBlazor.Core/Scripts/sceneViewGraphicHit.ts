@@ -3,7 +3,7 @@ export async function buildJsSceneViewGraphicHit(dotNetObject: any, layerId: str
     return await buildJsSceneViewGraphicHitGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSceneViewGraphicHit(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewGraphicHit(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSceneViewGraphicHitGenerated} = await import('./sceneViewGraphicHit.gb');
-    return await buildDotNetSceneViewGraphicHitGenerated(jsObject);
+    return await buildDotNetSceneViewGraphicHitGenerated(jsObject, layerId, viewId);
 }

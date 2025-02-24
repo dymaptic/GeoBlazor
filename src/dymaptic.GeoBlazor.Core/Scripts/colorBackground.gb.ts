@@ -33,13 +33,12 @@ export async function buildDotNetColorBackgroundGenerated(jsObject: any): Promis
     }
     
     let dotNetColorBackground: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.color)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetColorBackground.color = buildDotNetMapColor(jsObject.color);
-        }
+    if (hasValue(jsObject.color)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetColorBackground.color = buildDotNetMapColor(jsObject.color);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

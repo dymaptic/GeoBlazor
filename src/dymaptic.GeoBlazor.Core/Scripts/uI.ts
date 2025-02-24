@@ -10,9 +10,9 @@ export default class UIWrapper extends UIGenerated {
 
 }
 
-export async function buildJsUI(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsUI(dotNetObject: any): Promise<any> {
     let {buildJsUIGenerated} = await import('./uI.gb');
-    return await buildJsUIGenerated(dotNetObject, layerId, viewId);
+    return buildJsUIGenerated(dotNetObject);
 }
 
 export async function buildDotNetUI(jsObject: any): Promise<any> {

@@ -47,40 +47,40 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-        let { buildJsWFSLayerGetFieldDomainOptions } = await import('./wFSLayerGetFieldDomainOptions');
-        let jsOptions = await buildJsWFSLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsWFSLayerGetFieldDomainOptions } = await import('./wFSLayerGetFieldDomainOptions');
+let jsOptions = await buildJsWFSLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.layer.getFieldDomain(fieldName,
             jsOptions);
     }
 
     async queryExtent(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-        let { buildJsQuery } = await import('./query');
-        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+                let { buildJsQuery } = await import('./query');
+let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }
@@ -212,20 +212,6 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         this.layer.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
     }
     
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.layer.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.layer.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.layer.spatialReference =  buildJsSpatialReference(value);
-    }
-    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -297,10 +283,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
         properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -391,6 +373,10 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
@@ -425,7 +411,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     wFSLayerWrapper.viewId = viewId;
     wFSLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wFSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayer;
@@ -447,57 +432,52 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetWFSLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.effect)) {
-            let { buildDotNetEffect } = await import('./effect');
-            dotNetWFSLayer.effect = buildDotNetEffect(jsObject.effect);
-        }
-        if (hasValue(jsObject.featureEffect)) {
-            let { buildDotNetFeatureEffect } = await import('./featureEffect');
-            dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
-        }
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetWFSLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWFSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.labelingInfo)) {
-            let { buildDotNetLabel } = await import('./label');
-            dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.portalItem)) {
-            let { buildDotNetPortalItem } = await import('./portalItem');
-            dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
-        }
-        if (hasValue(jsObject.renderer)) {
-            let { buildDotNetRenderer } = await import('./renderer');
-            dotNetWFSLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetWFSLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetWFSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
-        if (hasValue(jsObject.wfsCapabilities)) {
-            let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-            dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
-        }
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetWFSLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.featureEffect)) {
+        let { buildDotNetFeatureEffect } = await import('./featureEffect');
+        dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+    }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+        dotNetWFSLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWFSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.labelingInfo)) {
+        let { buildDotNetLabel } = await import('./label');
+        dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.portalItem)) {
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    if (hasValue(jsObject.renderer)) {
+        let { buildDotNetRenderer } = await import('./renderer');
+        dotNetWFSLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetWFSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
+    if (hasValue(jsObject.wfsCapabilities)) {
+        let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
+        dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
+    }
     if (hasValue(jsObject.id)) {
         dotNetWFSLayer.arcGISLayerId = jsObject.id;
     }
@@ -584,6 +564,9 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
         dotNetWFSLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetWFSLayer.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.title)) {
         dotNetWFSLayer.title = jsObject.title;

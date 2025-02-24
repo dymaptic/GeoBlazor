@@ -43,7 +43,6 @@ export async function buildDotNetPredominantCategoriesPredominantCategoriesParam
     }
     
     let dotNetPredominantCategoriesPredominantCategoriesParams: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.fields)) {

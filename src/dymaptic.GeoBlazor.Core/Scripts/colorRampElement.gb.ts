@@ -34,13 +34,12 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any): Promi
     }
     
     let dotNetColorRampElement: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.infos)) {
-            let { buildDotNetColorRampStop } = await import('./colorRampStop');
-            dotNetColorRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetColorRampStop(i)));
-        }
+    if (hasValue(jsObject.infos)) {
+        let { buildDotNetColorRampStop } = await import('./colorRampStop');
+        dotNetColorRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetColorRampStop(i)));
+    }
     if (hasValue(jsObject.title)) {
         dotNetColorRampElement.title = jsObject.title;
     }

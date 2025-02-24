@@ -69,13 +69,12 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
     }
     
     let dotNetMapViewConstraints: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetMapViewConstraints.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetMapViewConstraints.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
     if (hasValue(jsObject.effectiveLODs)) {
         dotNetMapViewConstraints.effectiveLODs = jsObject.effectiveLODs;
     }

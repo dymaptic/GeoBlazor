@@ -31,13 +31,12 @@ export async function buildDotNetIdentityManagerCredentialCreateEventGenerated(j
     }
     
     let dotNetIdentityManagerCredentialCreateEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.credential)) {
-            let { buildDotNetCredential } = await import('./credential');
-            dotNetIdentityManagerCredentialCreateEvent.credential = await buildDotNetCredential(jsObject.credential);
-        }
+    if (hasValue(jsObject.credential)) {
+        let { buildDotNetCredential } = await import('./credential');
+        dotNetIdentityManagerCredentialCreateEvent.credential = await buildDotNetCredential(jsObject.credential);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

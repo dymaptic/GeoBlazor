@@ -35,17 +35,16 @@ export async function buildDotNetTemplatesGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetTemplates: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.primaryTemplate)) {
-            let { buildDotNetTemplate } = await import('./template');
-            dotNetTemplates.primaryTemplate = await buildDotNetTemplate(jsObject.primaryTemplate);
-        }
-        if (hasValue(jsObject.secondaryTemplates)) {
-            let { buildDotNetTemplate } = await import('./template');
-            dotNetTemplates.secondaryTemplates = await Promise.all(jsObject.secondaryTemplates.map(async i => await buildDotNetTemplate(i)));
-        }
+    if (hasValue(jsObject.primaryTemplate)) {
+        let { buildDotNetTemplate } = await import('./template');
+        dotNetTemplates.primaryTemplate = await buildDotNetTemplate(jsObject.primaryTemplate);
+    }
+    if (hasValue(jsObject.secondaryTemplates)) {
+        let { buildDotNetTemplate } = await import('./template');
+        dotNetTemplates.secondaryTemplates = await Promise.all(jsObject.secondaryTemplates.map(async i => await buildDotNetTemplate(i)));
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

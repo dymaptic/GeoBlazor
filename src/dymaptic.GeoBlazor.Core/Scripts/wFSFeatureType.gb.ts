@@ -55,13 +55,12 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise
     }
     
     let dotNetWFSFeatureType: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
-        }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.defaultSpatialReference)) {
         dotNetWFSFeatureType.defaultSpatialReference = jsObject.defaultSpatialReference;
     }

@@ -102,7 +102,6 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     sizeVariableWrapper.viewId = viewId;
     sizeVariableWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
@@ -124,7 +123,6 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
     }
     
     let dotNetSizeVariable: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.axis)) {

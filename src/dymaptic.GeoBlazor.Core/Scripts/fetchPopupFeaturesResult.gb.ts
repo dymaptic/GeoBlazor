@@ -18,7 +18,7 @@ export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFetchPopupFeaturesResult;
     
-    let dnInstantiatedObject = await buildDotNetFetchPopupFeaturesResult(jsFetchPopupFeaturesResult);
+    let dnInstantiatedObject = await buildDotNetFetchPopupFeaturesResult(jsFetchPopupFeaturesResult, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -35,17 +35,16 @@ export async function buildDotNetFetchPopupFeaturesResultGenerated(jsObject: any
     }
     
     let dotNetFetchPopupFeaturesResult: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.allGraphicsPromise)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetFetchPopupFeaturesResult.allGraphicsPromise = jsObject.allGraphicsPromise.map(i => buildDotNetGraphic(i, layerId, viewId));
-        }
-        if (hasValue(jsObject.location)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location);
-        }
+    if (hasValue(jsObject.allGraphicsPromise)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFetchPopupFeaturesResult.allGraphicsPromise = jsObject.allGraphicsPromise.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

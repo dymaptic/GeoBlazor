@@ -75,7 +75,6 @@ export async function buildJsCredentialGenerated(dotNetObject: any, layerId: str
     credentialWrapper.viewId = viewId;
     credentialWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(credentialWrapper);
     jsObjectRefs[dotNetObject.id] = credentialWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCredential;
@@ -97,7 +96,6 @@ export async function buildDotNetCredentialGenerated(jsObject: any): Promise<any
     }
     
     let dotNetCredential: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.expires)) {

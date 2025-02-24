@@ -20,7 +20,7 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSelectResultEvent;
     
-    let dnInstantiatedObject = await buildDotNetSearchViewModelSelectResultEvent(jsSearchViewModelSelectResultEvent);
+    let dnInstantiatedObject = await buildDotNetSearchViewModelSelectResultEvent(jsSearchViewModelSelectResultEvent, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -31,19 +31,18 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
     return jsSearchViewModelSelectResultEvent;
 }
 
-export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetSearchViewModelSelectResultEvent: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.result)) {
-            let { buildDotNetSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
-            dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result);
-        }
+    if (hasValue(jsObject.result)) {
+        let { buildDotNetSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
+        dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result, layerId, viewId);
+    }
     if (hasValue(jsObject.source)) {
         dotNetSearchViewModelSelectResultEvent.source = jsObject.source;
     }

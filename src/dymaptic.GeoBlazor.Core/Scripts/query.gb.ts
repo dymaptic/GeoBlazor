@@ -9,10 +9,6 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.outSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
-    }
     if (hasValue(dotNetObject.pixelSize)) {
         let { buildJsPoint } = await import('./point');
         properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
@@ -69,6 +65,10 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
+    }
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.outStatistics)) {
         properties.outStatistics = dotNetObject.outStatistics;
@@ -147,25 +147,20 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetQuery: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometry)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetQuery.geometry = buildDotNetGeometry(jsObject.geometry);
-        }
-        if (hasValue(jsObject.outSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetQuery.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
-        }
-        if (hasValue(jsObject.pixelSize)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetQuery.pixelSize = buildDotNetPoint(jsObject.pixelSize);
-        }
-        if (hasValue(jsObject.timeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
-        }
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetQuery.geometry = buildDotNetGeometry(jsObject.geometry);
+    }
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetQuery.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
     if (hasValue(jsObject.aggregateIds)) {
         dotNetQuery.aggregateIds = jsObject.aggregateIds;
     }
@@ -213,6 +208,9 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.outFields)) {
         dotNetQuery.outFields = jsObject.outFields;
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetQuery.outSpatialReference = jsObject.outSpatialReference;
     }
     if (hasValue(jsObject.outStatistics)) {
         dotNetQuery.outStatistics = jsObject.outStatistics;

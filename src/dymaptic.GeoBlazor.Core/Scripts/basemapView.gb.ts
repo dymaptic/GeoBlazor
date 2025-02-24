@@ -30,17 +30,16 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<an
     }
     
     let dotNetBasemapView: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.baseLayerViews)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetBasemapView.baseLayerViews = await Promise.all(jsObject.baseLayerViews.map(async i => await buildDotNetLayerView(i)));
-        }
-        if (hasValue(jsObject.referenceLayerViews)) {
-            let { buildDotNetLayerView } = await import('./layerView');
-            dotNetBasemapView.referenceLayerViews = await Promise.all(jsObject.referenceLayerViews.map(async i => await buildDotNetLayerView(i)));
-        }
+    if (hasValue(jsObject.baseLayerViews)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetBasemapView.baseLayerViews = jsObject.baseLayerViews.map(i => buildDotNetLayerView(i));
+    }
+    if (hasValue(jsObject.referenceLayerViews)) {
+        let { buildDotNetLayerView } = await import('./layerView');
+        dotNetBasemapView.referenceLayerViews = jsObject.referenceLayerViews.map(i => buildDotNetLayerView(i));
+    }
     if (hasValue(jsObject.updating)) {
         dotNetBasemapView.updating = jsObject.updating;
     }

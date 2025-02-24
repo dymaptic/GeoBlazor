@@ -3,7 +3,7 @@ export async function buildJsSearchViewModelSelectResultEvent(dotNetObject: any,
     return await buildJsSearchViewModelSelectResultEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSearchViewModelSelectResultEvent(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelSelectResultEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSearchViewModelSelectResultEventGenerated} = await import('./searchViewModelSelectResultEvent.gb');
-    return await buildDotNetSearchViewModelSelectResultEventGenerated(jsObject);
+    return await buildDotNetSearchViewModelSelectResultEventGenerated(jsObject, layerId, viewId);
 }

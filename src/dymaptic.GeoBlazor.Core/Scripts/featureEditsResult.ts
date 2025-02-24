@@ -3,7 +3,7 @@ export async function buildJsFeatureEditsResult(dotNetObject: any, layerId: stri
     return await buildJsFeatureEditsResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureEditsResult(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureEditsResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureEditsResultGenerated} = await import('./featureEditsResult.gb');
-    return await buildDotNetFeatureEditsResultGenerated(jsObject);
+    return await buildDotNetFeatureEditsResultGenerated(jsObject, layerId, viewId);
 }

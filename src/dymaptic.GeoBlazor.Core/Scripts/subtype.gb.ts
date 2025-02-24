@@ -42,13 +42,12 @@ export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetSubtype: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.domains)) {
-            let { buildDotNetDomain } = await import('./domain');
-            dotNetSubtype.domains = buildDotNetDomain(jsObject.domains);
-        }
+    if (hasValue(jsObject.domains)) {
+        let { buildDotNetDomain } = await import('./domain');
+        dotNetSubtype.domains = buildDotNetDomain(jsObject.domains);
+    }
     if (hasValue(jsObject.code)) {
         dotNetSubtype.code = jsObject.code;
     }

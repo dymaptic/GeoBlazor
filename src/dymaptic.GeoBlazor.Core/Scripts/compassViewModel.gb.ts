@@ -67,7 +67,6 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     compassViewModelWrapper.viewId = viewId;
     compassViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(compassViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = compassViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompassViewModel;
@@ -89,13 +88,12 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
     }
     
     let dotNetCompassViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetCompassViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetCompassViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
     if (hasValue(jsObject.orientation)) {
         dotNetCompassViewModel.orientation = jsObject.orientation;
     }

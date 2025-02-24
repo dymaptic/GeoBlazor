@@ -17,7 +17,7 @@ export async function buildJsAttachmentEditGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentEdit;
     
-    let dnInstantiatedObject = await buildDotNetAttachmentEdit(jsAttachmentEdit);
+    let dnInstantiatedObject = await buildDotNetAttachmentEdit(jsAttachmentEdit, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -34,13 +34,12 @@ export async function buildDotNetAttachmentEditGenerated(jsObject: any, layerId:
     }
     
     let dotNetAttachmentEdit: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetAttachmentEdit.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetAttachmentEdit.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.attachment)) {
         dotNetAttachmentEdit.attachment = jsObject.attachment;
     }

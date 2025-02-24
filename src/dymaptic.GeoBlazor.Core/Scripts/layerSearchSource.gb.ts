@@ -119,21 +119,20 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
     }
     
     let dotNetLayerSearchSource: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.filter)) {
-            let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
-            dotNetLayerSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.resultSymbol)) {
-            let { buildDotNetSymbol } = await import('./symbol');
-            dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
-        }
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
+        dotNetLayerSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.resultSymbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
+    }
     if (hasValue(jsObject.autoNavigate)) {
         dotNetLayerSearchSource.autoNavigate = jsObject.autoNavigate;
     }

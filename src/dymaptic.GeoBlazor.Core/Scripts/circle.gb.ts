@@ -26,8 +26,8 @@ export default class CircleGenerated implements IPropertyWrapper {
     }
 
     async contains(point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsPoint = buildJsPoint(point) as any;
+                let { buildJsPoint } = await import('./point');
+let jsPoint = buildJsPoint(point) as any;
         return this.component.contains(jsPoint);
     }
 
@@ -40,8 +40,8 @@ export default class CircleGenerated implements IPropertyWrapper {
     async insertPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsPoint = buildJsPoint(point) as any;
+                let { buildJsPoint } = await import('./point');
+let jsPoint = buildJsPoint(point) as any;
         return this.component.insertPoint(ringIndex,
             pointIndex,
             jsPoint);
@@ -66,8 +66,8 @@ export default class CircleGenerated implements IPropertyWrapper {
     async setPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsPoint = buildJsPoint(point) as any;
+                let { buildJsPoint } = await import('./point');
+let jsPoint = buildJsPoint(point) as any;
         return this.component.setPoint(ringIndex,
             pointIndex,
             jsPoint);
@@ -112,20 +112,6 @@ export default class CircleGenerated implements IPropertyWrapper {
         return buildDotNetExtent(this.component.extent);
     }
     
-    async getSpatialReference(): Promise<any> {
-        if (!hasValue(this.component.spatialReference)) {
-            return null;
-        }
-        
-        let { buildDotNetSpatialReference } = await import('./spatialReference');
-        return buildDotNetSpatialReference(this.component.spatialReference);
-    }
-    
-    async setSpatialReference(value: any): Promise<void> {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        this.component.spatialReference =  buildJsSpatialReference(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -145,10 +131,6 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.centroid)) {
         let { buildJsPoint } = await import('./point');
         properties.centroid = buildJsPoint(dotNetObject.centroid) as any;
-    }
-    if (hasValue(dotNetObject.spatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
     }
 
     if (hasValue(dotNetObject.geodesic)) {
@@ -175,6 +157,10 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.rings)) {
         properties.rings = dotNetObject.rings;
     }
+    if (hasValue(dotNetObject.spatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        properties.spatialReference = sanitizedSpatialReference;
+    }
     let jsCircle = new Circle(properties);
 
     let { default: CircleWrapper } = await import('./circle');
@@ -183,7 +169,6 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
     circleWrapper.viewId = viewId;
     circleWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(circleWrapper);
     jsObjectRefs[dotNetObject.id] = circleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCircle;
@@ -205,25 +190,20 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetCircle: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.center)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetCircle.center = buildDotNetPoint(jsObject.center);
-        }
-        if (hasValue(jsObject.centroid)) {
-            let { buildDotNetPoint } = await import('./point');
-            dotNetCircle.centroid = buildDotNetPoint(jsObject.centroid);
-        }
-        if (hasValue(jsObject.extent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetCircle.extent = buildDotNetExtent(jsObject.extent);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetCircle.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.center)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetCircle.center = buildDotNetPoint(jsObject.center);
+    }
+    if (hasValue(jsObject.centroid)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetCircle.centroid = buildDotNetPoint(jsObject.centroid);
+    }
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCircle.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.cache)) {
         dotNetCircle.cache = jsObject.cache;
     }
@@ -250,6 +230,9 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.rings)) {
         dotNetCircle.rings = jsObject.rings;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetCircle.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.type)) {
         dotNetCircle.type = jsObject.type;

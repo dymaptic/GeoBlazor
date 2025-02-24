@@ -29,15 +29,15 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
 
     async hitTest(mapPoint: any,
         screenPoint: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsMapPoint = buildJsPoint(mapPoint) as any;
+                let { buildJsPoint } = await import('./point');
+let jsMapPoint = buildJsPoint(mapPoint) as any;
         return await this.component.hitTest(jsMapPoint,
             screenPoint);
     }
 
     async render(renderParameters: any): Promise<void> {
-        let { buildJsBaseLayerView2DRenderRenderParameters } = await import('./baseLayerView2DRenderRenderParameters');
-        let jsRenderParameters = await buildJsBaseLayerView2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
+                let { buildJsBaseLayerView2DRenderRenderParameters } = await import('./baseLayerView2DRenderRenderParameters');
+let jsRenderParameters = await buildJsBaseLayerView2DRenderRenderParameters(renderParameters, this.layerId, this.viewId) as any;
         this.component.render(jsRenderParameters);
     }
 
@@ -90,7 +90,6 @@ export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId
     baseLayerView2DWrapper.viewId = viewId;
     baseLayerView2DWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(baseLayerView2DWrapper);
     jsObjectRefs[dotNetObject.id] = baseLayerView2DWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerView2D;
@@ -112,7 +111,6 @@ export async function buildDotNetBaseLayerView2DGenerated(jsObject: any): Promis
     }
     
     let dotNetBaseLayerView2D: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.spatialReferenceSupported)) {

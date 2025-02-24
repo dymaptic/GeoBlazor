@@ -50,17 +50,16 @@ export async function buildDotNetScaleDependentIconsGenerated(jsObject: any): Pr
     }
     
     let dotNetScaleDependentIcons: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.maxSize)) {
-            let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
-            dotNetScaleDependentIcons.maxSize = await buildDotNetScaleDependentStops(jsObject.maxSize);
-        }
-        if (hasValue(jsObject.minSize)) {
-            let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
-            dotNetScaleDependentIcons.minSize = await buildDotNetScaleDependentStops(jsObject.minSize);
-        }
+    if (hasValue(jsObject.maxSize)) {
+        let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
+        dotNetScaleDependentIcons.maxSize = await buildDotNetScaleDependentStops(jsObject.maxSize);
+    }
+    if (hasValue(jsObject.minSize)) {
+        let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
+        dotNetScaleDependentIcons.minSize = await buildDotNetScaleDependentStops(jsObject.minSize);
+    }
     if (hasValue(jsObject.field)) {
         dotNetScaleDependentIcons.field = jsObject.field;
     }

@@ -9,11 +9,11 @@ export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject:
         let { buildJsGeometry } = await import('./geometry');
         properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
-    if (hasValue(dotNetObject.outSpatialReference)) {
-        let { buildJsSpatialReference } = await import('./spatialReference');
-        properties.outSpatialReference = buildJsSpatialReference(dotNetObject.outSpatialReference) as any;
-    }
 
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        properties.outSpatialReference = sanitizedOutSpatialReference;
+    }
     if (hasValue(dotNetObject.rasterIds)) {
         properties.rasterIds = dotNetObject.rasterIds;
     }
@@ -40,17 +40,15 @@ export async function buildDotNetImageToMapMultirayParametersGenerated(jsObject:
     }
     
     let dotNetImageToMapMultirayParameters: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.geometries)) {
-            let { buildDotNetGeometry } = await import('./geometry');
-            dotNetImageToMapMultirayParameters.geometries = jsObject.geometries.map(i => buildDotNetGeometry(i));
-        }
-        if (hasValue(jsObject.outSpatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetImageToMapMultirayParameters.outSpatialReference = buildDotNetSpatialReference(jsObject.outSpatialReference);
-        }
+    if (hasValue(jsObject.geometries)) {
+        let { buildDotNetGeometry } = await import('./geometry');
+        dotNetImageToMapMultirayParameters.geometries = jsObject.geometries.map(i => buildDotNetGeometry(i));
+    }
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetImageToMapMultirayParameters.outSpatialReference = jsObject.outSpatialReference;
+    }
     if (hasValue(jsObject.rasterIds)) {
         dotNetImageToMapMultirayParameters.rasterIds = jsObject.rasterIds;
     }

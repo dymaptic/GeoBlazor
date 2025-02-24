@@ -49,13 +49,12 @@ export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGener
     }
     
     let dotNetCoverageDescriptionV110DomainSpatialDomain: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.envelope)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
-        }
+    if (hasValue(jsObject.envelope)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
+    }
     if (hasValue(jsObject.columns)) {
         dotNetCoverageDescriptionV110DomainSpatialDomain.columns = jsObject.columns;
     }

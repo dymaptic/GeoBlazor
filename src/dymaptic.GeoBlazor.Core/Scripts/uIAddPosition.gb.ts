@@ -34,13 +34,12 @@ export async function buildDotNetUIAddPositionGenerated(jsObject: any): Promise<
     }
     
     let dotNetUIAddPosition: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.position)) {
-            let { buildDotNetPosition } = await import('./position');
-            dotNetUIAddPosition.position = await buildDotNetPosition(jsObject.position);
-        }
+    if (hasValue(jsObject.position)) {
+        let { buildDotNetPosition } = await import('./position');
+        dotNetUIAddPosition.position = await buildDotNetPosition(jsObject.position);
+    }
     if (hasValue(jsObject.index)) {
         dotNetUIAddPosition.index = jsObject.index;
     }

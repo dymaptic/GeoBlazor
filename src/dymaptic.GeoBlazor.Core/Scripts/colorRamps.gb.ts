@@ -28,14 +28,14 @@ export default class ColorRampsGenerated implements IPropertyWrapper {
     }
 
     async createColorRamp(options: any): Promise<any> {
-        let { buildJsColorRampsCreateColorRampOptions } = await import('./colorRampsCreateColorRampOptions');
-        let jsOptions = await buildJsColorRampsCreateColorRampOptions(options, this.layerId, this.viewId) as any;
+                let { buildJsColorRampsCreateColorRampOptions } = await import('./colorRampsCreateColorRampOptions');
+let jsOptions = await buildJsColorRampsCreateColorRampOptions(options, this.layerId, this.viewId) as any;
         return this.component.createColorRamp(jsOptions);
     }
 
     async getColorRampName(colorRamp: any): Promise<any> {
-        let { buildJsColorRamp } = await import('./colorRamp');
-        let jsColorRamp = buildJsColorRamp(colorRamp) as any;
+                let { buildJsColorRamp } = await import('./colorRamp');
+let jsColorRamp = buildJsColorRamp(colorRamp) as any;
         return this.component.getColorRampName(jsColorRamp);
     }
 
@@ -65,7 +65,6 @@ export async function buildJsColorRampsGenerated(dotNetObject: any, layerId: str
     colorRampsWrapper.viewId = viewId;
     colorRampsWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(colorRampsWrapper);
     jsObjectRefs[dotNetObject.id] = colorRampsWrapper;
     arcGisObjectRefs[dotNetObject.id] = jscolorRamps;
@@ -87,7 +86,6 @@ export async function buildDotNetColorRampsGenerated(jsObject: any): Promise<any
     }
     
     let dotNetColorRamps: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

@@ -34,13 +34,12 @@ export async function buildDotNetDOMContainerGenerated(jsObject: any): Promise<a
     }
     
     let dotNetDOMContainer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.ui)) {
-            let { buildDotNetDefaultUI } = await import('./defaultUI');
-            dotNetDOMContainer.ui = await buildDotNetDefaultUI(jsObject.ui);
-        }
+    if (hasValue(jsObject.ui)) {
+        let { buildDotNetDefaultUI } = await import('./defaultUI');
+        dotNetDOMContainer.ui = await buildDotNetDefaultUI(jsObject.ui);
+    }
     if (hasValue(jsObject.container)) {
         dotNetDOMContainer.container = jsObject.container;
     }

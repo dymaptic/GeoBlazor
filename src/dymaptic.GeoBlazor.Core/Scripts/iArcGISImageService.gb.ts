@@ -10,11 +10,11 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsArcGISImageService.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        jsArcGISImageService.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        jsArcGISImageService.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
+        jsArcGISImageService.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         jsArcGISImageService.pixelFilter = async (pixelData) => {
@@ -93,7 +93,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageService;
     
-    let dnInstantiatedObject = await buildDotNetIArcGISImageService(jsArcGISImageService);
+    let dnInstantiatedObject = await buildDotNetIArcGISImageService(jsArcGISImageService, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -110,41 +110,36 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     
     let dotNetIArcGISImageService: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.defaultMosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetIArcGISImageService.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
-        }
-        if (hasValue(jsObject.fields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetIArcGISImageService.fields = jsObject.fields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.fieldsIndex)) {
-            let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-            dotNetIArcGISImageService.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
-        }
-        if (hasValue(jsObject.mosaicRule)) {
-            let { buildDotNetMosaicRule } = await import('./mosaicRule');
-            dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
-        }
-        if (hasValue(jsObject.multidimensionalSubset)) {
-            let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-            dotNetIArcGISImageService.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
-        }
-        if (hasValue(jsObject.rasterFields)) {
-            let { buildDotNetField } = await import('./field');
-            dotNetIArcGISImageService.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
-        }
-        if (hasValue(jsObject.serviceRasterInfo)) {
-            let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
-        }
-        if (hasValue(jsObject.spatialReference)) {
-            let { buildDotNetSpatialReference } = await import('./spatialReference');
-            dotNetIArcGISImageService.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
-        }
+    if (hasValue(jsObject.defaultMosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetIArcGISImageService.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
+    }
+    if (hasValue(jsObject.fields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetIArcGISImageService.fields = jsObject.fields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.fieldsIndex)) {
+        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
+        dotNetIArcGISImageService.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+    }
+    if (hasValue(jsObject.mosaicRule)) {
+        let { buildDotNetMosaicRule } = await import('./mosaicRule');
+        dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    if (hasValue(jsObject.multidimensionalSubset)) {
+        let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
+        dotNetIArcGISImageService.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
+    }
+    if (hasValue(jsObject.rasterFields)) {
+        let { buildDotNetField } = await import('./field');
+        dotNetIArcGISImageService.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
+    }
+    if (hasValue(jsObject.serviceRasterInfo)) {
+        let { buildDotNetRasterInfo } = await import('./rasterInfo');
+        dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+    }
     if (hasValue(jsObject.bandIds)) {
         dotNetIArcGISImageService.bandIds = jsObject.bandIds;
     }
@@ -210,6 +205,9 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     if (hasValue(jsObject.sourceType)) {
         dotNetIArcGISImageService.sourceType = jsObject.sourceType;
+    }
+    if (hasValue(jsObject.spatialReference)) {
+        dotNetIArcGISImageService.spatialReference = jsObject.spatialReference;
     }
     if (hasValue(jsObject.url)) {
         dotNetIArcGISImageService.url = jsObject.url;

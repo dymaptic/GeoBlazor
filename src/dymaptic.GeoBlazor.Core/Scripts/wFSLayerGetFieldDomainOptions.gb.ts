@@ -14,7 +14,7 @@ export async function buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerGetFieldDomainOptions;
     
-    let dnInstantiatedObject = await buildDotNetWFSLayerGetFieldDomainOptions(jsWFSLayerGetFieldDomainOptions);
+    let dnInstantiatedObject = await buildDotNetWFSLayerGetFieldDomainOptions(jsWFSLayerGetFieldDomainOptions, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -31,13 +31,12 @@ export async function buildDotNetWFSLayerGetFieldDomainOptionsGenerated(jsObject
     }
     
     let dotNetWFSLayerGetFieldDomainOptions: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.feature)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetWFSLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
-        }
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetWFSLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -123,7 +123,6 @@ export async function buildJsIUnknownLayerGenerated(dotNetObject: any, layerId: 
     iUnknownLayerWrapper.viewId = viewId;
     iUnknownLayerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(iUnknownLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iUnknownLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
@@ -145,17 +144,16 @@ export async function buildDotNetIUnknownLayerGenerated(jsObject: any): Promise<
     }
     
     let dotNetIUnknownLayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetIUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
-        if (hasValue(jsObject.visibilityTimeExtent)) {
-            let { buildDotNetTimeExtent } = await import('./timeExtent');
-            dotNetIUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetIUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
+    if (hasValue(jsObject.visibilityTimeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetIUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
+    }
     if (hasValue(jsObject.id)) {
         dotNetIUnknownLayer.arcGISLayerId = jsObject.id;
     }

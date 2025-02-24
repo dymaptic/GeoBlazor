@@ -115,7 +115,7 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWidget } = await import('./widget');
-        return await buildDotNetWidget(this.component.dialog);
+        return buildDotNetWidget(this.component.dialog);
     }
     
     async setDialog(value: any): Promise<void> {
@@ -161,7 +161,6 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     identityManagerWrapper.viewId = viewId;
     identityManagerWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(identityManagerWrapper);
     jsObjectRefs[dotNetObject.id] = identityManagerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManager;
@@ -183,13 +182,12 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
     }
     
     let dotNetIdentityManager: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.dialog)) {
-            let { buildDotNetWidget } = await import('./widget');
-            dotNetIdentityManager.dialog = await buildDotNetWidget(jsObject.dialog);
-        }
+    if (hasValue(jsObject.dialog)) {
+        let { buildDotNetWidget } = await import('./widget');
+        dotNetIdentityManager.dialog = buildDotNetWidget(jsObject.dialog);
+    }
     if (hasValue(jsObject.tokenValidity)) {
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
     }

@@ -36,8 +36,8 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
     }
 
     async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+                let { buildJsWatchHandle } = await import('./watchHandle');
+let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -125,7 +125,6 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     areaMeasurement2DWidgetWrapper.viewId = viewId;
     areaMeasurement2DWidgetWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
@@ -147,13 +146,12 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
     }
     
     let dotNetAreaMeasurement2DWidget: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.viewModel)) {
-            let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-            dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
-        }
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
+        dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetAreaMeasurement2DWidget.container = jsObject.container;
     }

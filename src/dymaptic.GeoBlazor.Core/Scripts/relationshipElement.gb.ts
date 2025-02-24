@@ -54,13 +54,12 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any): Pr
     }
     
     let dotNetRelationshipElement: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelationshipElement.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
-        }
+    if (hasValue(jsObject.orderByFields)) {
+        let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
+        dotNetRelationshipElement.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
+    }
     if (hasValue(jsObject.description)) {
         dotNetRelationshipElement.description = jsObject.description;
     }

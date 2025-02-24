@@ -36,13 +36,12 @@ export async function buildDotNetRelatedRecordsInfoGenerated(jsObject: any): Pro
     }
     
     let dotNetRelatedRecordsInfo: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.orderByFields)) {
-            let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
-            dotNetRelatedRecordsInfo.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
-        }
+    if (hasValue(jsObject.orderByFields)) {
+        let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
+        dotNetRelatedRecordsInfo.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
+    }
     if (hasValue(jsObject.showRelatedRecords)) {
         dotNetRelatedRecordsInfo.showRelatedRecords = jsObject.showRelatedRecords;
     }

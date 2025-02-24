@@ -1,7 +1,7 @@
 
-export async function buildJsIFeatureLayerViewMixin(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIFeatureLayerViewMixin(dotNetObject: any): Promise<any> {
     let { buildJsIFeatureLayerViewMixinGenerated } = await import('./iFeatureLayerViewMixin.gb');
-    return await buildJsIFeatureLayerViewMixinGenerated(dotNetObject, layerId, viewId);
+    return buildJsIFeatureLayerViewMixinGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIFeatureLayerViewMixin(jsObject: any): Promise<any> {

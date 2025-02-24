@@ -34,7 +34,6 @@ export async function buildDotNetAttributionItemGenerated(jsObject: any): Promis
     }
     
     let dotNetAttributionItem: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.text)) {

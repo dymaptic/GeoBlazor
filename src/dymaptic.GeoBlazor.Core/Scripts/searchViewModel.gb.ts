@@ -260,7 +260,6 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     searchViewModelWrapper.viewId = viewId;
     searchViewModelWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(searchViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = searchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModel;
@@ -282,45 +281,44 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     }
     
     let dotNetSearchViewModel: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.activeSource)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchViewModel.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
-        }
-        if (hasValue(jsObject.allSources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchViewModel.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
-        }
-        if (hasValue(jsObject.defaultSources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchViewModel.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
-        }
-        if (hasValue(jsObject.defaultSymbols)) {
-            let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-            dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols);
-        }
-        if (hasValue(jsObject.goToOverride)) {
-            let { buildDotNetGoToOverride } = await import('./goToOverride');
-            dotNetSearchViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-        }
-        if (hasValue(jsObject.popupTemplate)) {
-            let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-            dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
-        }
-        if (hasValue(jsObject.portal)) {
-            let { buildDotNetPortal } = await import('./portal');
-            dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal);
-        }
-        if (hasValue(jsObject.resultGraphic)) {
-            let { buildDotNetGraphic } = await import('./graphic');
-            dotNetSearchViewModel.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
-        }
-        if (hasValue(jsObject.sources)) {
-            let { buildDotNetSearchSource } = await import('./searchSource');
-            dotNetSearchViewModel.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
-        }
+    if (hasValue(jsObject.activeSource)) {
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchViewModel.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
+    }
+    if (hasValue(jsObject.allSources)) {
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchViewModel.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.defaultSources)) {
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchViewModel.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.defaultSymbols)) {
+        let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
+        dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols);
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetSearchViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    if (hasValue(jsObject.portal)) {
+        let { buildDotNetPortal } = await import('./portal');
+        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal);
+    }
+    if (hasValue(jsObject.resultGraphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSearchViewModel.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
+    }
+    if (hasValue(jsObject.sources)) {
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchViewModel.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
+    }
     if (hasValue(jsObject.activeSourceIndex)) {
         dotNetSearchViewModel.activeSourceIndex = jsObject.activeSourceIndex;
     }

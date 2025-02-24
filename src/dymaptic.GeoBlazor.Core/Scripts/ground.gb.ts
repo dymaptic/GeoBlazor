@@ -21,8 +21,8 @@ export default class GroundGenerated implements IPropertyWrapper {
     
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
-        let { buildJsExtent } = await import('./extent');
-        let jsExtent = buildJsExtent(extent) as any;
+                let { buildJsExtent } = await import('./extent');
+let jsExtent = buildJsExtent(extent) as any;
         let result = await this.component.createElevationSampler(jsExtent,
             options);
         let { buildDotNetElevationSampler } = await import('./elevationSampler');
@@ -37,8 +37,8 @@ export default class GroundGenerated implements IPropertyWrapper {
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+                let { buildJsGeometry } = await import('./geometry');
+let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.queryElevation(jsGeometry,
             options);
     }
@@ -109,7 +109,6 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     groundWrapper.viewId = viewId;
     groundWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(groundWrapper);
     jsObjectRefs[dotNetObject.id] = groundWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGround;
@@ -131,13 +130,12 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
     }
     
     let dotNetGround: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.surfaceColor)) {
-            let { buildDotNetMapColor } = await import('./mapColor');
-            dotNetGround.surfaceColor = buildDotNetMapColor(jsObject.surfaceColor);
-        }
+    if (hasValue(jsObject.surfaceColor)) {
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetGround.surfaceColor = buildDotNetMapColor(jsObject.surfaceColor);
+    }
     if (hasValue(jsObject.loaded)) {
         dotNetGround.loaded = jsObject.loaded;
     }

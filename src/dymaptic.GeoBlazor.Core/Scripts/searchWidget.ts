@@ -10,7 +10,6 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     constructor(search: Search) {
         super(search);
-        this.searchWidget = search;
     }
 
     async getActiveSource() {

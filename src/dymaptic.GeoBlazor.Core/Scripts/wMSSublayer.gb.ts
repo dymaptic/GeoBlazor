@@ -66,13 +66,12 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
     }
     
     let dotNetWMSSublayer: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-        if (hasValue(jsObject.fullExtent)) {
-            let { buildDotNetExtent } = await import('./extent');
-            dotNetWMSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-        }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.description)) {
         dotNetWMSSublayer.description = jsObject.description;
     }
