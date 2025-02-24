@@ -1,6 +1,8 @@
 // override generated code in this file
 import LayerListWidgetGenerated from './layerListWidget.gb';
 import LayerList from '@arcgis/core/widgets/LayerList';
+import {DotNetListItem} from "./definitions";
+import {hasValue, updateListItem} from "./arcGisJsInterop";
 
 export default class LayerListWidgetWrapper extends LayerListWidgetGenerated {
 
@@ -12,7 +14,17 @@ export default class LayerListWidgetWrapper extends LayerListWidgetGenerated {
 
 export async function buildJsLayerListWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsLayerListWidgetGenerated} = await import('./layerListWidget.gb');
-    return await buildJsLayerListWidgetGenerated(dotNetObject, layerId, viewId);
+    let widget = await buildJsLayerListWidgetGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.hasCustomHandler) && dotNetObject.hasCustomHandler) {
+        let {buildDotNetListItem} = await import('./listItem');
+        widget.listItemCreatedFunction = async (evt) => {
+            const dotNetListItem = await buildDotNetListItem(evt.item);
+            const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
+            if (hasValue(returnItem) && hasValue(evt.item)) {
+                await updateListItem(evt.item, returnItem, dotNetListItem?.layerId, viewId);
+            }
+        };
+    }
 }
 
 export async function buildDotNetLayerListWidget(jsObject: any): Promise<any> {

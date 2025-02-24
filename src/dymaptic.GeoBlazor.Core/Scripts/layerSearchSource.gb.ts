@@ -7,7 +7,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
-        properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter, layerId, viewId) as any;
+        properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter) as any;
     }
     if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
         properties.getResults = async (parameters) => {

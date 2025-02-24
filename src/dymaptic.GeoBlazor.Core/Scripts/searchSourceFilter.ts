@@ -1,6 +1,6 @@
-export async function buildJsSearchSourceFilter(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSearchSourceFilter(dotNetObject: any): Promise<any> {
     let {buildJsSearchSourceFilterGenerated} = await import('./searchSourceFilter.gb');
-    return await buildJsSearchSourceFilterGenerated(dotNetObject, layerId, viewId);
+    return await buildJsSearchSourceFilterGenerated(dotNetObject);
 }
 
 export async function buildDotNetSearchSourceFilter(jsObject: any): Promise<any> {

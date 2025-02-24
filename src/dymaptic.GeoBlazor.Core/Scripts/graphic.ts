@@ -47,8 +47,12 @@ export function buildJsGraphic(graphicObject: any): Graphic {
             layerIndex: graphicObject.origin.layerIndex
         }
     }
+    
+    if (hasValue(graphicObject.layerId)) {
+        graphic.layer = arcGisObjectRefs[graphicObject.layerId] as any;
+    }
 
-    copyValuesIfExists(graphicObject, graphic, 'visible', 'aggregateGeometries', '');
+    copyValuesIfExists(graphicObject, graphic, 'visible', 'aggregateGeometries');
 
     let groupId = graphicObject.layerId ?? graphicObject.viewId;
     if (hasValue(groupId)) {

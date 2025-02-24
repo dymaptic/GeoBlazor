@@ -27,24 +27,14 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
         jsSource = await buildJsLayerSearchSource(dotNetSource, layerId, viewId);
     }
 
-    if (dotNetSource.hasGetResultsHandler) {
+    if (dotNetSource.hasGetResults) {
         jsSource.getResults = async (params: any) => {
             let viewId: string | null = lookupGeoBlazorId(params.view);
 
-            let dnParams = {
-                exactMatch: params.exactMatch,
-                location: buildDotNetPoint(params.location),
-                maxResults: params.maxResults,
-                sourceIndex: params.sourceIndex,
-                spatialReference: buildDotNetSpatialReference(params.spatialReference),
-                suggestResult: {
-                    key: params.suggestResult.key,
-                    text: params.suggestResult.text,
-                    sourceIndex: params.suggestResult.sourceIndex
-                },
-                viewId: viewId
-            }
-            let dnResults = await dotNetSource.dotNetComponentReference.invokeMethodAsync('OnJsGetResults', dnParams);
+            let dnResults = await dotNetSource.dotNetComponentReference
+                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location),
+                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference),
+                    params.suggestResult, viewId);
 
             let results: any[] = [];
 
@@ -63,7 +53,7 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
         }
     }
 
-    if (dotNetSource.hasGetSuggestionsHandler) {
+    if (dotNetSource.hasGetSuggestions) {
         jsSource.getSuggestions = async (params: any) => {
             let viewId: string | null = null;
 
@@ -81,7 +71,9 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
                 suggestTerm: params.suggestTerm,
                 viewId: viewId
             }
-            let dnResults = await dotNetSource.dotNetComponentReference.invokeMethodAsync('OnJsGetSuggestions', dnParams);
+            let dnResults = await dotNetSource.dotNetComponentReference
+                .invokeMethodAsync('OnJsGetSuggestions', params.maxSuggestions, params.sourceIndex,
+                    buildDotNetSpatialReference(params.spatialReference), params.suggestTerm, viewId);
 
             let results: any[] = [];
 

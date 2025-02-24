@@ -671,10 +671,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
         return new ValueTask<MapComponent?>(instantiatedComponent);
     }
-    
-    internal void CopyProperties(MapComponent component)
+
+    private void CopyProperties(MapComponent component)
     {
-        foreach (PropertyInfo prop in GetType().GetProperties())
+        foreach (PropertyInfo prop in GetType().GetProperties()
+            .Where(p => p.SetMethod is not null))
         {
             object? value = prop.GetValue(component);
             if (value is null)

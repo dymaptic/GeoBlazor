@@ -97,7 +97,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics!.map(i => buildDotNetGraphic(i));
+        return this.layer.graphics!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setGraphics(value: any): Promise<void> {

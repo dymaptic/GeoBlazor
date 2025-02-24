@@ -3,7 +3,7 @@ import PortalFolder from '@arcgis/core/portal/PortalFolder';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalFolder } from './portalFolder';
 
-export async function buildJsPortalFolderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.created)) {

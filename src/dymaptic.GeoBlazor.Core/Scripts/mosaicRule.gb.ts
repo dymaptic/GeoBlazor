@@ -3,7 +3,7 @@ import MosaicRule from '@arcgis/core/layers/support/MosaicRule';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMosaicRule } from './mosaicRule';
 
-export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsPoint } = await import('./point');

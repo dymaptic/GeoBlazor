@@ -1,8 +1,8 @@
 // override generated code in this file
 
-export async function buildJsMosaicRule(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMosaicRule(dotNetObject: any): Promise<any> {
     let {buildJsMosaicRuleGenerated} = await import('./mosaicRule.gb');
-    return await buildJsMosaicRuleGenerated(dotNetObject, layerId, viewId);
+    return await buildJsMosaicRuleGenerated(dotNetObject);
 }
 
 export async function buildDotNetMosaicRule(jsObject: any): Promise<any> {

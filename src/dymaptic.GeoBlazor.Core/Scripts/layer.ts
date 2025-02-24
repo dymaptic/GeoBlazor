@@ -37,18 +37,18 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         case 'map-image':
             let {buildJsMapImageLayer} = await import('./mapImageLayer');
             return await buildJsMapImageLayer(dotNetObject, layerId, viewId);
-        // case 'open-street-map':
-        //     let { buildJsOpenStreetMapsLayer } = await import('./openStreetMapLayer');
-        //     return await buildJsOpenStreetMapsLayer(dotNetObject, layerId, viewId);
+        case 'open-street-map':
+            let { buildJsOpenStreetMapLayer } = await import('./openStreetMapLayer');
+            return await buildJsOpenStreetMapLayer(dotNetObject, layerId, viewId);
         case 'tile':
             let {buildJsTileLayer} = await import('./tileLayer');
             return await buildJsTileLayer(dotNetObject, layerId, viewId);
         case 'vector-tile':
             let {buildJsVectorTileLayer} = await import('./vectorTileLayer');
             return await buildJsVectorTileLayer(dotNetObject, layerId, viewId);
-        // case 'wcs':
-        //     let { buildJsWCSLayer } = await import('./wCSLayer');
-        //    return await buildJsWCSLayer(dotNetObject, layerId, viewId);
+        case 'wcs':
+            let { buildJsWCSLayer } = await import('./wCSLayer');
+           return await buildJsWCSLayer(dotNetObject, layerId, viewId);
         case 'web-tile':
             let {buildJsWebTileLayer} = await import('./webTileLayer');
             return await buildJsWebTileLayer(dotNetObject, layerId, viewId);

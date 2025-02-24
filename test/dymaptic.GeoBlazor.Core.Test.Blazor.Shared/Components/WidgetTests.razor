@@ -10,16 +10,16 @@
     public async Task TestCanRenderBasemapGalleryWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <BasemapGalleryWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <BasemapGalleryWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapGallery");
@@ -47,22 +47,22 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <TileLayer>
-                    <PortalItem PortalItemId="1b243539f4514b6ba35e7d995890db1d" />
-                </TileLayer>
-                <VectorTileLayer Opacity="0.75" IsBasemapReferenceLayer="true">
-                    <PortalItem PortalItemId="6976148c11bd497d8624206f9ee03e30" />
-                </VectorTileLayer>
-            </Basemap>
-        </Map>
-        <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler"
-                                OnBaseListItemCreatedHandler="OnBaseListItemCreatedHandler" />
+                <Map>
+                    <Basemap>
+                        <TileLayer>
+                            <PortalItem PortalItemId="1b243539f4514b6ba35e7d995890db1d" />
+                        </TileLayer>
+                        <VectorTileLayer Opacity="0.75" IsBasemapReferenceLayer="true">
+                            <PortalItem PortalItemId="6976148c11bd497d8624206f9ee03e30" />
+                        </VectorTileLayer>
+                    </Basemap>
+                </Map>
+                <BasemapLayerListWidget OnReferenceListItemCreatedHandler="OnReferenceListItemCreatedHandler"
+                                        OnBaseListItemCreatedHandler="OnBaseListItemCreatedHandler" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.BasemapLayerList");
@@ -364,19 +364,19 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget @ref="widget">
-            <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-                                 GetResultsHandler="GetResultsHandler" />
-        </SearchWidget>
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget @ref="widget">
+                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+                                         GetResultsHandler="GetResultsHandler" />
+                </SearchWidget>
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -400,19 +400,19 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget>
-            <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" 
-                                 GetSuggestionsHandler="GetSuggestionsHandler" />
-        </SearchWidget>
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget>
+                    <LocatorSearchSource Url="https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer" 
+                                         GetSuggestionsHandler="GetSuggestionsHandler" />
+                </SearchWidget>
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");

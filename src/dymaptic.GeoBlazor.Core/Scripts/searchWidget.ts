@@ -10,6 +10,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     constructor(search: Search) {
         super(search);
+        this.searchWidget = search;
     }
 
     async getActiveSource() {
@@ -87,12 +88,15 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         return this.searchWidget.searchTerm;
     }
 
-    search(term: any) {
+    async search(term: any) {
         if (term.hasOwnProperty('id') && term.hasOwnProperty('type')) {
             // if there's an id, this is probably a geometry, we should convert it
             term = buildJsGeometry(term);
         }
-        return this.searchWidget.search(term);
+        let response = await this.searchWidget.search(term);
+        let {buildDotNetSearchResponse} = await import('./searchResponse');
+        let dnresponse = await buildDotNetSearchResponse(response);
+        return dnresponse;
     }
 
     suggest(term: string) {

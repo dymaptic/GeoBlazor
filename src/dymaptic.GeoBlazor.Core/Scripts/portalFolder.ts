@@ -1,7 +1,7 @@
 
-export async function buildJsPortalFolder(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPortalFolder(dotNetObject: any): Promise<any> {
     let { buildJsPortalFolderGenerated } = await import('./portalFolder.gb');
-    return await buildJsPortalFolderGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPortalFolderGenerated(dotNetObject);
 }     
 
 export async function buildDotNetPortalFolder(jsObject: any): Promise<any> {

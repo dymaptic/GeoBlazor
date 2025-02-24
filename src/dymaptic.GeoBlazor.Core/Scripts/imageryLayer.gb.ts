@@ -260,7 +260,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
         let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
-        let jsOptions = await buildJsImageryLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
+        let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -480,7 +480,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
@@ -654,7 +654,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     let { buildDotNetImageryLayer } = await import('./imageryLayer');
-    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

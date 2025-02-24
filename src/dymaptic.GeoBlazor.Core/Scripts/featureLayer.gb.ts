@@ -215,7 +215,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.source!.map(i => buildDotNetGraphic(i));
+        return this.layer.source!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setSource(value: any): Promise<void> {

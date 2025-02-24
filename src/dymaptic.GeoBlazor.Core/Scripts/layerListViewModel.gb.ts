@@ -25,9 +25,7 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         newIndex: any): Promise<void> {
         let { buildJsListItem } = await import('./listItem');
         let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
         let jsFromParentItem = await buildJsListItem(fromParentItem, this.layerId, this.viewId) as any;
-        let { buildJsListItem } = await import('./listItem');
         let jsToParentItem = await buildJsListItem(toParentItem, this.layerId, this.viewId) as any;
         this.component.moveListItem(jsTargetItem,
             jsFromParentItem,

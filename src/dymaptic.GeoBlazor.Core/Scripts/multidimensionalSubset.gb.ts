@@ -3,7 +3,7 @@ import MultidimensionalSubset from '@arcgis/core/layers/support/Multidimensional
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMultidimensionalSubset } from './multidimensionalSubset';
 
-export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.areaOfInterest)) {
         let { buildJsGeometry } = await import('./geometry');

@@ -1,6 +1,8 @@
 // override generated code in this file
 import BasemapLayerListWidgetGenerated from './basemapLayerListWidget.gb';
 import BasemapLayerList from '@arcgis/core/widgets/BasemapLayerList';
+import {DotNetListItem} from "./definitions";
+import {hasValue, updateListItem} from "./arcGisJsInterop";
 
 export default class BasemapLayerListWidgetWrapper extends BasemapLayerListWidgetGenerated {
 
@@ -12,7 +14,27 @@ export default class BasemapLayerListWidgetWrapper extends BasemapLayerListWidge
 
 export async function buildJsBasemapLayerListWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsBasemapLayerListWidgetGenerated} = await import('./basemapLayerListWidget.gb');
-    return await buildJsBasemapLayerListWidgetGenerated(dotNetObject, layerId, viewId);
+    let widget = await buildJsBasemapLayerListWidgetGenerated(dotNetObject, layerId, viewId);
+    if (hasValue(dotNetObject.hasCustomBaseListHandler) && dotNetObject.hasCustomBaseListHandler) {
+        let {buildDotNetListItem} = await import('./listItem');
+        widget.baseListItemCreatedFunction = async (evt) => {
+            const dotNetBaseListItem = await buildDotNetListItem(evt.item);
+            const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
+            if (hasValue(returnItem) && hasValue(evt.item)) {
+                await updateListItem(evt.item, returnItem, dotNetBaseListItem?.layerId, viewId);
+            }
+        };
+    }
+    if (hasValue(dotNetObject.hasCustomReferenceListHandler) && dotNetObject.hasCustomReferenceListHandler) {
+        let {buildDotNetListItem} = await import('./listItem');
+        widget.referenceListItemCreatedFunction = async (evt) => {
+            const dotNetReferenceListItem = await buildDotNetListItem(evt.item);
+            const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
+            if (hasValue(returnItem) && hasValue(evt.item)) {
+                await updateListItem(evt.item, returnItem, dotNetReferenceListItem?.layerId, viewId);
+            }
+        };
+    }
 }
 
 export async function buildDotNetBasemapLayerListWidget(jsObject: any): Promise<any> {

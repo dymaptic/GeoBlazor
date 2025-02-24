@@ -4,7 +4,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
 }
 
 export async function buildDotNetLayerView(jsObject: any): Promise<any> {
-    switch (jsObject?.layer.type) {
+    switch (jsObject?.layer?.type) {
         case 'feature':
             let { buildDotNetFeatureLayerView } = await import('./featureLayerView');
             return await buildDotNetFeatureLayerView(jsObject);
