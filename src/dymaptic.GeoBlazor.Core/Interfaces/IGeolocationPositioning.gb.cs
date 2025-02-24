@@ -60,11 +60,6 @@ public partial interface IGeolocationPositioning
     /// </summary>
     Task SetScale(double? value);
     
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    Task SetView(MapView? value);
-    
 #endregion
 
 #region Property Getters
@@ -88,11 +83,6 @@ public partial interface IGeolocationPositioning
     ///     Asynchronously retrieve the current value of the Scale property.
     /// </summary>
     Task<double?> GetScale();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    Task<MapView?> GetView();
 
 #endregion
 

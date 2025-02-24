@@ -109,6 +109,18 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getDialog(): Promise<any> {
+        if (!hasValue(this.component.dialog)) {
+            return null;
+        }
+        
+        let { buildDotNetWidget } = await import('./widget');
+        return await buildDotNetWidget(this.component.dialog);
+    }
+    async setDialog(value: any): Promise<void> {
+        let { buildJsWidget } = await import('./widget');
+        this.component.dialog = await  buildJsWidget(value, this.layerId, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -121,16 +133,19 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
 
 export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.dialog)) {
-        properties.dialog = dotNetObject.dialog;
+        let { buildJsWidget } = await import('./widget');
+        properties.dialog = await buildJsWidget(dotNetObject.dialog, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.tokenValidity)) {
         properties.tokenValidity = dotNetObject.tokenValidity;
     }
     let jsIdentityManager = new IdentityManager(properties);
     jsIdentityManager.on('credential-create', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCredentialCreate', evt);
+        let { buildDotNetIdentityManagerCredentialCreateEvent } = await import('./identityManagerCredentialCreateEvent');
+        let dnEvent = await buildDotNetIdentityManagerCredentialCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCredentialCreate', dnEvent);
     });
     
     jsIdentityManager.on('dialog-create', async (evt: any) => {
@@ -169,9 +184,10 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.dialog)) {
-        dotNetIdentityManager.dialog = jsObject.dialog;
-    }
+        if (hasValue(jsObject.dialog)) {
+            let { buildDotNetWidget } = await import('./widget');
+            dotNetIdentityManager.dialog = await buildDotNetWidget(jsObject.dialog);
+        }
     if (hasValue(jsObject.tokenValidity)) {
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
     }

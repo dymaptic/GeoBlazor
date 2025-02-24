@@ -170,6 +170,22 @@ export async function buildJsIBaseElevationLayerGenerated(dotNetObject: any, lay
         properties.title = dotNetObject.title;
     }
     let jsBaseElevationLayer = new BaseElevationLayer(properties);
+    jsBaseElevationLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsBaseElevationLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsBaseElevationLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: IBaseElevationLayerWrapper } = await import('./iBaseElevationLayer');
     let iBaseElevationLayerWrapper = new IBaseElevationLayerWrapper(jsBaseElevationLayer);

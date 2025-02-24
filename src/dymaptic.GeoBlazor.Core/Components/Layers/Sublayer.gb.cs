@@ -1916,25 +1916,6 @@ public partial class Sublayer
     {
         switch (child)
         {
-            case Field fields:
-                Fields ??= [];
-                if (!Fields.Contains(fields))
-                {
-                    Fields = [..Fields, fields];
-                    
-                    ModifiedParameters[nameof(Fields)] = Fields;
-                }
-                
-                return true;
-            case Extent fullExtent:
-                if (fullExtent != FullExtent)
-                {
-                    FullExtent = fullExtent;
-                    
-                    ModifiedParameters[nameof(FullExtent)] = FullExtent;
-                }
-                
-                return true;
             case Label labelingInfo:
                 LabelingInfo ??= [];
                 if (!LabelingInfo.Contains(labelingInfo))
@@ -1963,15 +1944,6 @@ public partial class Sublayer
                 }
                 
                 return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
             case Sublayer sublayers:
                 Sublayers ??= [];
                 if (!Sublayers.Contains(sublayers))
@@ -1991,16 +1963,6 @@ public partial class Sublayer
     {
         switch (child)
         {
-            case Field fields:
-                Fields = Fields?.Where(f => f != fields).ToList();
-                
-                ModifiedParameters[nameof(Fields)] = Fields;
-                return true;
-            case Extent _:
-                FullExtent = null;
-                
-                ModifiedParameters[nameof(FullExtent)] = FullExtent;
-                return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 
@@ -2016,11 +1978,6 @@ public partial class Sublayer
                 
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
             case Sublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
                 
@@ -2035,14 +1992,6 @@ public partial class Sublayer
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Fields is not null)
-        {
-            foreach (Field child in Fields)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        FullExtent?.ValidateRequiredGeneratedChildren();
         if (LabelingInfo is not null)
         {
             foreach (Label child in LabelingInfo)
@@ -2052,7 +2001,6 @@ public partial class Sublayer
         }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
         if (Sublayers is not null)
         {
             foreach (Sublayer child in Sublayers)

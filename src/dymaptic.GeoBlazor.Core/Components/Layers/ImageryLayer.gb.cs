@@ -3792,6 +3792,16 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
+            case Field fields:
+                Fields ??= [];
+                if (!Fields.Contains(fields))
+                {
+                    Fields = [..Fields, fields];
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(Fields)] = Fields;
+                }
+                
+                return true;
             case MultidimensionalSubset multidimensionalSubset:
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
@@ -3828,15 +3838,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -3850,6 +3851,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 Capabilities = null;
                 LayerChanged = true;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
+                return true;
+            case Field fields:
+                Fields = Fields?.Where(f => f != fields).ToList();
+                LayerChanged = true;
+                ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
@@ -3871,11 +3877,6 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = true;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -3890,10 +3891,16 @@ public partial class ImageryLayer : IArcGISImageService,
             throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer), [nameof(PortalItem), nameof(Url)]);
         }
         Capabilities?.ValidateRequiredGeneratedChildren();
+        if (Fields is not null)
+        {
+            foreach (Field child in Fields)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

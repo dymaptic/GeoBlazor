@@ -28,7 +28,7 @@ export async function buildJsIPopupViewGenerated(dotNetObject: any, layerId: str
     return jsPopupView;
 }
 
-export async function buildDotNetIPopupViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIPopupViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +39,7 @@ export async function buildDotNetIPopupViewGenerated(jsObject: any, layerId: str
     };
         if (hasValue(jsObject.popup)) {
             let { buildDotNetPopupWidget } = await import('./popupWidget');
-            dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup, layerId, viewId);
+            dotNetIPopupView.popup = await buildDotNetPopupWidget(jsObject.popup);
         }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetIPopupView.popupEnabled = jsObject.popupEnabled;

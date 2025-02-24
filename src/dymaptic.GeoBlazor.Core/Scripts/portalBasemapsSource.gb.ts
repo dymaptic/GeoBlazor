@@ -71,9 +71,14 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         properties.filterFunction = async (item,
         index,
         array) => {
-            return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', item,
+            let { buildDotNetBasemap } = await import('./basemap');
+            let dnItem = await buildDotNetBasemap(item);
+            let { buildDotNetBasemap } = await import('./basemap');
+            let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i)));
+
+            return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', dnItem,
             index,
-            array);
+            dnArray);
         };
     }
     if (hasValue(dotNetObject.portal)) {
@@ -82,7 +87,12 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.hasUpdateBasemapsCallback) && dotNetObject.hasUpdateBasemapsCallback) {
         properties.updateBasemapsCallback = async (items) => {
-            return await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', items);
+            let { buildDotNetBasemap } = await import('./basemap');
+            let dnItems = await Promise.all(items.map(async i => await buildDotNetBasemap(i)));
+
+            let result = await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', dnItems);
+            let { buildJsBasemap } = await import('./basemap');
+            return await Promise.all(result.map(async i => await buildJsBasemap(i)));
         };
     }
 

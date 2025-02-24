@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     slides of your scene and it can be shared across multiple ArcGIS web and desktop applications
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class WebScene : Map
 {
     /// <summary>

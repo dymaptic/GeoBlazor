@@ -19,6 +19,50 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getListItem(): Promise<any> {
@@ -53,6 +97,9 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.className)) {
         properties.className = dotNetObject.className;
     }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.content)) {
         properties.content = dotNetObject.content;
     }
@@ -62,14 +109,23 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.flowEnabled)) {
         properties.flowEnabled = dotNetObject.flowEnabled;
     }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
     if (hasValue(dotNetObject.image)) {
         properties.image = dotNetObject.image;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.open)) {
         properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
     }
     let jsListItemPanel = new ListItemPanel(properties);
 
@@ -111,6 +167,9 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     if (hasValue(jsObject.className)) {
         dotNetListItemPanelWidget.className = jsObject.className;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetListItemPanelWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.content)) {
         dotNetListItemPanelWidget.content = jsObject.content;
     }
@@ -120,8 +179,14 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     if (hasValue(jsObject.flowEnabled)) {
         dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetListItemPanelWidget.icon = jsObject.icon;
+    }
     if (hasValue(jsObject.image)) {
         dotNetListItemPanelWidget.image = jsObject.image;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetListItemPanelWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.open)) {
         dotNetListItemPanelWidget.open = jsObject.open;
@@ -131,6 +196,9 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.type)) {
         dotNetListItemPanelWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetListItemPanelWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

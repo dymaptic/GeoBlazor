@@ -73,6 +73,18 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         this.layer.allSublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -189,9 +201,16 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
         properties.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.hasFetchFeatureInfoFunction) && dotNetObject.hasFetchFeatureInfoFunction) {
         properties.fetchFeatureInfoFunction = async (query) => {
-            return await dotNetObject.invokeMethodAsync('OnJsFetchFeatureInfoFunction', query);
+
+            let result = await dotNetObject.invokeMethodAsync('OnJsFetchFeatureInfoFunction', query);
+            let { buildJsGraphic } = await import('./graphic');
+            return await Promise.all(result.map(async i => await buildJsGraphic(i)));
         };
     }
     if (hasValue(dotNetObject.fullExtent)) {
@@ -244,9 +263,6 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.featureInfoFormat)) {
         properties.featureInfoFormat = dotNetObject.featureInfoFormat;
@@ -307,6 +323,22 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         properties.version = dotNetObject.version;
     }
     let jsWMSLayer = new WMSLayer(properties);
+    jsWMSLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsWMSLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsWMSLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsWMSLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -343,6 +375,10 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetWMSLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -395,9 +431,6 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.dimensions)) {
         dotNetWMSLayer.dimensions = jsObject.dimensions;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetWMSLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.featureInfoFormat)) {
         dotNetWMSLayer.featureInfoFormat = jsObject.featureInfoFormat;

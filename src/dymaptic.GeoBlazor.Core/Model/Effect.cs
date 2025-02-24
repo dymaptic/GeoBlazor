@@ -3,6 +3,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureEffect.html#Effect">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public record Effect
 {
     /// <summary>

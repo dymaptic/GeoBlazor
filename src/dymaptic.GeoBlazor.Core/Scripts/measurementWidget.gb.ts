@@ -19,12 +19,56 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async clear(): Promise<void> {
         this.widget.clear();
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
     async startMeasurement(): Promise<void> {
         this.widget.startMeasurement();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -72,8 +116,20 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;
     }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.linearUnit)) {
         properties.linearUnit = dotNetObject.linearUnit;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
     }
     let jsMeasurement = new Measurement(properties);
 
@@ -122,11 +178,23 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetMeasurementWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetMeasurementWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetMeasurementWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.linearUnit)) {
         dotNetMeasurementWidget.linearUnit = jsObject.linearUnit;
     }
     if (hasValue(jsObject.type)) {
         dotNetMeasurementWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetMeasurementWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -13,7 +13,8 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
             let {buildJsUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildJsUniqueValueRenderer(dotNetObject, layerId, viewId);
         default:
-            throw new Error('Unknown renderer type');
+            let { id, dotNetComponentReference, sanitizedRenderer } = dotNetObject;
+            return sanitizedRenderer;
     }
 }
 
@@ -26,10 +27,11 @@ export async function buildDotNetRenderer(jsObject: any): Promise<any> {
         case 'unique-value':
             let {buildDotNetUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildDotNetUniqueValueRenderer(jsObject);
-        case 'pie-chart': // only available in Pro
-                        let {buildDotNetPieChartRenderer} = await import('./pieChartRenderer');
+        case 'pie-chart':
+            // @ts-ignore only available in Pro
+            let {buildDotNetPieChartRenderer} = await import('./pieChartRenderer');
             return await buildDotNetPieChartRenderer(jsObject);
         default:
-            return null;
+            return jsObject;
     }
 }

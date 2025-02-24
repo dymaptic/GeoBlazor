@@ -190,19 +190,27 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
     }
     let jsFeatureTableViewModel = new FeatureTableViewModel(properties);
     jsFeatureTableViewModel.on('cell-click', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', evt);
+        let { buildDotNetFeatureTableViewModelCellClickEvent } = await import('./featureTableViewModelCellClickEvent');
+        let dnEvent = await buildDotNetFeatureTableViewModelCellClickEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellClick', dnEvent);
     });
     
     jsFeatureTableViewModel.on('cell-keydown', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellKeydown', evt);
+        let { buildDotNetFeatureTableViewModelCellKeydownEvent } = await import('./featureTableViewModelCellKeydownEvent');
+        let dnEvent = await buildDotNetFeatureTableViewModelCellKeydownEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellKeydown', dnEvent);
     });
     
     jsFeatureTableViewModel.on('cell-pointerout', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellPointerout', evt);
+        let { buildDotNetFeatureTableViewModelCellPointeroutEvent } = await import('./featureTableViewModelCellPointeroutEvent');
+        let dnEvent = await buildDotNetFeatureTableViewModelCellPointeroutEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellPointerout', dnEvent);
     });
     
     jsFeatureTableViewModel.on('cell-pointerover', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellPointerover', evt);
+        let { buildDotNetFeatureTableViewModelCellPointeroverEvent } = await import('./featureTableViewModelCellPointeroverEvent');
+        let dnEvent = await buildDotNetFeatureTableViewModelCellPointeroverEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCellPointerover', dnEvent);
     });
     
 

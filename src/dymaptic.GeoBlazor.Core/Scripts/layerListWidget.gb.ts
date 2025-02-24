@@ -19,12 +19,58 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.widget.triggerAction(action,
+        this.widget.triggerAction(jsAction,
             jsItem);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -77,8 +123,9 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        properties.listItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+        properties.listItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {
@@ -96,6 +143,9 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
     }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
@@ -108,8 +158,14 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
         properties.knowledgeGraphOptions = dotNetObject.knowledgeGraphOptions;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.minDragEnabledItems)) {
         properties.minDragEnabledItems = dotNetObject.minDragEnabledItems;
@@ -133,9 +189,14 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         properties.visibleElements = sanitizedVisibleElements;
     }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
+    }
     let jsLayerList = new LayerList(properties);
     jsLayerList.on('trigger-action', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
+        let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
+        let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
 
@@ -191,6 +252,9 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.collapsed)) {
         dotNetLayerListWidget.collapsed = jsObject.collapsed;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetLayerListWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
@@ -203,8 +267,14 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.headingLevel)) {
         dotNetLayerListWidget.headingLevel = jsObject.headingLevel;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetLayerListWidget.icon = jsObject.icon;
+    }
     if (hasValue(jsObject.knowledgeGraphOptions)) {
         dotNetLayerListWidget.knowledgeGraphOptions = jsObject.knowledgeGraphOptions;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetLayerListWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.listItemCreatedFunction)) {
         dotNetLayerListWidget.listItemCreatedFunction = jsObject.listItemCreatedFunction;
@@ -235,6 +305,9 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetLayerListWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetLayerListWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

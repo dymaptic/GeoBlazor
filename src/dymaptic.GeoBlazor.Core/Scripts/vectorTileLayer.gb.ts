@@ -105,6 +105,18 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
         return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo);
     }
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -189,6 +201,10 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -226,9 +242,6 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
     }
@@ -254,6 +267,22 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
         properties.url = dotNetObject.url;
     }
     let jsVectorTileLayer = new VectorTileLayer(properties);
+    jsVectorTileLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsVectorTileLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsVectorTileLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');
     let vectorTileLayerWrapper = new VectorTileLayerWrapper(jsVectorTileLayer);
@@ -289,6 +318,10 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         if (hasValue(jsObject.currentStyleInfo)) {
             let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
             dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo);
+        }
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetVectorTileLayer.effect = buildDotNetEffect(jsObject.effect);
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
@@ -331,9 +364,6 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetVectorTileLayer.customParameters = jsObject.customParameters;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetVectorTileLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetVectorTileLayer.listMode = jsObject.listMode;

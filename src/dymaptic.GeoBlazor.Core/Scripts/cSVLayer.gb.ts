@@ -91,6 +91,18 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFeatureEffect(): Promise<any> {
         if (!hasValue(this.layer.featureEffect)) {
             return null;
@@ -247,6 +259,10 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
@@ -312,9 +328,6 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.displayField)) {
         properties.displayField = dotNetObject.displayField;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
@@ -386,6 +399,22 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         properties.useViewTime = dotNetObject.useViewTime;
     }
     let jsCSVLayer = new CSVLayer(properties);
+    jsCSVLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsCSVLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsCSVLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsCSVLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -422,6 +451,10 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetCSVLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.featureEffect)) {
             let { buildDotNetFeatureEffect } = await import('./featureEffect');
             dotNetCSVLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
@@ -496,9 +529,6 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.displayField)) {
         dotNetCSVLayer.displayField = jsObject.displayField;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetCSVLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.elevationInfo)) {
         dotNetCSVLayer.elevationInfo = jsObject.elevationInfo;

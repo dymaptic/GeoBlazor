@@ -60,15 +60,6 @@ public partial class BookmarksWidget : IGoTo
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="icon">
-    ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -76,10 +67,6 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="visibleElements">
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="widgetId">
-    ///     The unique ID assigned to the widget when the widget is created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BookmarksWidget(
         IReadOnlyList<Bookmark>? bookmarks = null,
@@ -91,11 +78,8 @@ public partial class BookmarksWidget : IGoTo
         string? filterText = null,
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
-        string? icon = null,
-        string? label = null,
         BookmarksViewModel? viewModel = null,
-        BookmarksVisibleElements? visibleElements = null,
-        string? widgetId = null)
+        BookmarksVisibleElements? visibleElements = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -108,11 +92,8 @@ public partial class BookmarksWidget : IGoTo
         FilterText = filterText;
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
-        Icon = icon;
-        Label = label;
         ViewModel = viewModel;
         VisibleElements = visibleElements;
-        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     
@@ -242,17 +223,17 @@ public partial class BookmarksWidget : IGoTo
             return DefaultCreateOptions;
         }
 
-        // get the property value
-        BookmarkOptions? result = await JsComponentReference!.InvokeAsync<BookmarkOptions?>("getProperty",
-            CancellationTokenSource.Token, "defaultCreateOptions");
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultCreateOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultCreateOptions = result;
+            DefaultCreateOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
+            ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
         }
-         
+        
         return DefaultCreateOptions;
     }
     
@@ -272,17 +253,17 @@ public partial class BookmarksWidget : IGoTo
             return DefaultEditOptions;
         }
 
-        // get the property value
-        BookmarkOptions? result = await JsComponentReference!.InvokeAsync<BookmarkOptions?>("getProperty",
-            CancellationTokenSource.Token, "defaultEditOptions");
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultEditOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultEditOptions = result;
+            DefaultEditOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
+            ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
         }
-         
+        
         return DefaultEditOptions;
     }
     
@@ -437,36 +418,6 @@ public partial class BookmarksWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
     public async Task<BookmarksViewModel?> GetViewModel()
@@ -561,8 +512,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "bookmarks", value);
     }
     
     /// <summary>
@@ -776,36 +727,6 @@ public partial class BookmarksWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -950,6 +871,16 @@ public partial class BookmarksWidget : IGoTo
     {
         switch (child)
         {
+            case Bookmark bookmarks:
+                Bookmarks ??= [];
+                if (!Bookmarks.Contains(bookmarks))
+                {
+                    Bookmarks = [..Bookmarks, bookmarks];
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                }
+                
+                return true;
             case BookmarksViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -977,6 +908,11 @@ public partial class BookmarksWidget : IGoTo
     {
         switch (child)
         {
+            case Bookmark bookmarks:
+                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
+                WidgetChanged = true;
+                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                return true;
             case BookmarksViewModel _:
                 ViewModel = null;
                 WidgetChanged = true;
@@ -996,6 +932,13 @@ public partial class BookmarksWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (Bookmarks is not null)
+        {
+            foreach (Bookmark child in Bookmarks)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

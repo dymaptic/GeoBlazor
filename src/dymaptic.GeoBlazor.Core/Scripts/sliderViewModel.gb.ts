@@ -72,9 +72,10 @@ export default class SliderViewModelGenerated implements IPropertyWrapper {
 export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.hasInputFormatFunction) && dotNetObject.hasInputFormatFunction) {
-        properties.inputFormatFunction = (value,
+        properties.inputFormatFunction = async (value,
         type,
         index) => {
+
             let func = new Function('value',
             'type',
             'index', dotNetObject.inputFormatFunction.javaScriptFunction);
@@ -84,9 +85,10 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
         };
     }
     if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
-        properties.inputParseFunction = (value,
+        properties.inputParseFunction = async (value,
         type,
         index) => {
+
             let func = new Function('value',
             'type',
             'index', dotNetObject.inputParseFunction.javaScriptFunction);
@@ -96,9 +98,10 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
         };
     }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        properties.labelFormatFunction = (value,
+        properties.labelFormatFunction = async (value,
         type,
         index) => {
+
             let func = new Function('value',
             'type',
             'index', dotNetObject.labelFormatFunction.javaScriptFunction);

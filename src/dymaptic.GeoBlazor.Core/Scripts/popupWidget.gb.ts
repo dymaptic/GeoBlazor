@@ -23,31 +23,89 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.blur();
     }
 
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async focus(): Promise<void> {
         this.widget.focus();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
     }
 
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result);
+        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
     }
 
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result);
+        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
     }
 
     async reposition(): Promise<void> {
         this.widget.reposition();
     }
 
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
     async triggerAction(actionIndex: any): Promise<void> {
         this.widget.triggerAction(actionIndex);
     }
 
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
+    
+    async getActions(): Promise<any> {
+        if (!hasValue(this.widget.actions)) {
+            return null;
+        }
+        
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return await Promise.all(this.widget.actions.map(async i => await buildDotNetActionBase(i)));
+    }
+    
+    async setActions(value: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+    }
     
     async getFeatures(): Promise<any> {
         if (!hasValue(this.widget.features)) {
@@ -63,6 +121,18 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     async getLocation(): Promise<any> {
         if (!hasValue(this.widget.location)) {
             return null;
@@ -75,21 +145,13 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         let { buildJsPoint } = await import('./point');
         this.widget.location =  buildJsPoint(value);
     }
-    async getSelectedFeatureWidget(): Promise<any> {
-        if (!hasValue(this.widget.selectedFeatureWidget)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
-    }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
         
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(this.widget.viewModel);
+        return await buildDotNetPopupViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     async setViewModel(value: any): Promise<void> {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
@@ -107,9 +169,17 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
 
 export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.actions)) {
+        let { buildJsActionBase } = await import('./actionBase');
+        properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+    }
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
@@ -120,9 +190,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         properties.viewModel = await buildJsPopupViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.actions)) {
-        properties.actions = dotNetObject.actions;
-    }
     if (hasValue(dotNetObject.alignment)) {
         properties.alignment = dotNetObject.alignment;
     }
@@ -131,6 +198,9 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.collapseEnabled)) {
         properties.collapseEnabled = dotNetObject.collapseEnabled;
+    }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.content)) {
         properties.content = dotNetObject.content;
@@ -145,14 +215,17 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDockOptions } = dotNetObject.dockOptions;
         properties.dockOptions = sanitizedDockOptions;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        properties.goToOverride = dotNetObject.goToOverride;
-    }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
         properties.highlightEnabled = dotNetObject.highlightEnabled;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.promises)) {
         properties.promises = dotNetObject.promises;
@@ -170,7 +243,16 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         properties.visibleElements = sanitizedVisibleElements;
     }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
+    }
     let jsPopup = new Popup(properties);
+    jsPopup.on('trigger-action', async (evt: any) => {
+        let { buildDotNetPopupTriggerActionEvent } = await import('./popupTriggerActionEvent');
+        let dnEvent = await buildDotNetPopupTriggerActionEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
+    });
+    
 
     let { default: PopupWidgetWrapper } = await import('./popupWidget');
     let popupWidgetWrapper = new PopupWidgetWrapper(jsPopup);
@@ -203,9 +285,17 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.actions)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
+        }
         if (hasValue(jsObject.features)) {
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetPopupWidget.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+        }
+        if (hasValue(jsObject.goToOverride)) {
+            let { buildDotNetGoToOverride } = await import('./goToOverride');
+            dotNetPopupWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
         }
         if (hasValue(jsObject.location)) {
             let { buildDotNetPoint } = await import('./point');
@@ -215,17 +305,10 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetPopupWidget.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
         }
-        if (hasValue(jsObject.selectedFeatureWidget)) {
-            let { buildDotNetFeatureWidget } = await import('./featureWidget');
-            dotNetPopupWidget.selectedFeatureWidget = await buildDotNetFeatureWidget(jsObject.selectedFeatureWidget, layerId, viewId);
-        }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel);
+            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
         }
-    if (hasValue(jsObject.actions)) {
-        dotNetPopupWidget.actions = jsObject.actions;
-    }
     if (hasValue(jsObject.active)) {
         dotNetPopupWidget.active = jsObject.active;
     }
@@ -240,6 +323,9 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.collapseEnabled)) {
         dotNetPopupWidget.collapseEnabled = jsObject.collapseEnabled;
+    }
+    if (hasValue(jsObject.container)) {
+        dotNetPopupWidget.container = jsObject.container;
     }
     if (hasValue(jsObject.content)) {
         dotNetPopupWidget.content = jsObject.content;
@@ -259,20 +345,26 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.featureCount)) {
         dotNetPopupWidget.featureCount = jsObject.featureCount;
     }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetPopupWidget.goToOverride = jsObject.goToOverride;
-    }
     if (hasValue(jsObject.headingLevel)) {
         dotNetPopupWidget.headingLevel = jsObject.headingLevel;
     }
     if (hasValue(jsObject.highlightEnabled)) {
         dotNetPopupWidget.highlightEnabled = jsObject.highlightEnabled;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetPopupWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetPopupWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.promises)) {
         dotNetPopupWidget.promises = jsObject.promises;
     }
     if (hasValue(jsObject.selectedFeatureIndex)) {
         dotNetPopupWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
+    }
+    if (hasValue(jsObject.selectedFeatureWidget)) {
+        dotNetPopupWidget.selectedFeatureWidget = jsObject.selectedFeatureWidget;
     }
     if (hasValue(jsObject.spinnerEnabled)) {
         dotNetPopupWidget.spinnerEnabled = jsObject.spinnerEnabled;
@@ -285,6 +377,9 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetPopupWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetPopupWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

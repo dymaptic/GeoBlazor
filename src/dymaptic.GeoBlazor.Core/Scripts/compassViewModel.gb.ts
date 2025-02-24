@@ -25,6 +25,18 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -37,10 +49,11 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.goToOverride)) {
-        properties.goToOverride = dotNetObject.goToOverride;
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
+
     let jsCompassViewModel = new CompassViewModel(properties);
 
     let { default: CompassViewModelWrapper } = await import('./compassViewModel');
@@ -74,9 +87,10 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetCompassViewModel.goToOverride = jsObject.goToOverride;
-    }
+        if (hasValue(jsObject.goToOverride)) {
+            let { buildDotNetGoToOverride } = await import('./goToOverride');
+            dotNetCompassViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+        }
     if (hasValue(jsObject.orientation)) {
         dotNetCompassViewModel.orientation = jsObject.orientation;
     }

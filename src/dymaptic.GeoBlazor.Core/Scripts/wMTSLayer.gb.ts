@@ -65,6 +65,18 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         this.layer.activeLayer = await  buildJsWMTSSublayer(value, this.layerId, this.viewId);
     }
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -131,6 +143,10 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         properties.activeLayer = await buildJsWMTSSublayer(dotNetObject.activeLayer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -163,9 +179,6 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
     }
@@ -197,6 +210,22 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         properties.version = dotNetObject.version;
     }
     let jsWMTSLayer = new WMTSLayer(properties);
+    jsWMTSLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsWMTSLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsWMTSLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: WMTSLayerWrapper } = await import('./wMTSLayer');
     let wMTSLayerWrapper = new WMTSLayerWrapper(jsWMTSLayer);
@@ -233,6 +262,10 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
             let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
             dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer);
         }
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetWMTSLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetWMTSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -263,9 +296,6 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetWMTSLayer.customParameters = jsObject.customParameters;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetWMTSLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetWMTSLayer.listMode = jsObject.listMode;

@@ -19,6 +19,50 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     getProperty(prop: string): any {
@@ -34,6 +78,15 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
 export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
 
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.style)) {
         properties.style = dotNetObject.style;
     }
@@ -43,6 +96,9 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.viewModel)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedViewModel } = dotNetObject.viewModel;
         properties.viewModel = sanitizedViewModel;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
     }
     let jsScaleBar = new ScaleBar(properties);
 
@@ -77,6 +133,15 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.container)) {
+        dotNetScaleBarWidget.container = jsObject.container;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetScaleBarWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetScaleBarWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.style)) {
         dotNetScaleBarWidget.style = jsObject.style;
     }
@@ -88,6 +153,9 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.viewModel)) {
         dotNetScaleBarWidget.viewModel = jsObject.viewModel;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetScaleBarWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

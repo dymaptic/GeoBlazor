@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
+[CodeGenerationIgnore]
 public abstract partial class Widget : MapComponent
 {
     /// <summary>

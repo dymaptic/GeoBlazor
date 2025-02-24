@@ -30,4 +30,6 @@ export function buildJsAttributes(attributes: any): any {
             return attributes;
         }
     }
+    
+    return null;
 }

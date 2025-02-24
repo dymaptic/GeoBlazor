@@ -53,7 +53,8 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsWebTileLayer} = await import('./webTileLayer');
             return await buildJsWebTileLayer(dotNetObject, layerId, viewId);
         default:
-            throw new Error(`Unsupported layer type: ${dotNetObject.type}`);
+            let { id, dotNetComponentReference, sanitizedLayer } = dotNetObject;
+            return sanitizedLayer;
     }
 }
 

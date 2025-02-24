@@ -67,15 +67,6 @@ public partial class PopupWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="icon">
-    ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="location">
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
@@ -100,10 +91,6 @@ public partial class PopupWidget : IGoTo
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="widgetId">
-    ///     The unique ID assigned to the widget when the widget is created.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     public PopupWidget(
         IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
@@ -115,15 +102,12 @@ public partial class PopupWidget : IGoTo
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
         bool? highlightEnabled = null,
-        string? icon = null,
-        string? label = null,
         Point? location = null,
         string? promises = null,
         int? selectedFeatureIndex = null,
         string? title = null,
         PopupViewModel? viewModel = null,
-        PopupVisibleElements? visibleElements = null,
-        string? widgetId = null)
+        PopupVisibleElements? visibleElements = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -137,15 +121,12 @@ public partial class PopupWidget : IGoTo
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
         HighlightEnabled = highlightEnabled;
-        Icon = icon;
-        Label = label;
         Location = location;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
         Title = title;
         ViewModel = viewModel;
         VisibleElements = visibleElements;
-        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     
@@ -246,7 +227,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public FeatureWidget? SelectedFeatureWidget { get; protected set; }
+    public IFeatureWidget? SelectedFeatureWidget { get; protected set; }
     
     /// <summary>
     ///     This is a class that contains all the logic (properties and methods) that controls this widget's behavior.
@@ -707,7 +688,7 @@ public partial class PopupWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedFeatureWidget property.
     /// </summary>
-    public async Task<FeatureWidget?> GetSelectedFeatureWidget()
+    public async Task<IFeatureWidget?> GetSelectedFeatureWidget()
     {
         if (CoreJsModule is null)
         {
@@ -720,22 +701,17 @@ public partial class PopupWidget : IGoTo
             return SelectedFeatureWidget;
         }
 
-        FeatureWidget? result = await JsComponentReference.InvokeAsync<FeatureWidget?>(
-            "getSelectedFeatureWidget", CancellationTokenSource.Token);
-        
+        // get the property value
+        IFeatureWidget? result = await JsComponentReference!.InvokeAsync<IFeatureWidget?>("getProperty",
+            CancellationTokenSource.Token, "selectedFeatureWidget");
         if (result is not null)
         {
-            if (SelectedFeatureWidget is not null)
-            {
-                result.Id = SelectedFeatureWidget.Id;
-            }
-            
 #pragma warning disable BL0005
-            SelectedFeatureWidget = result;
+             SelectedFeatureWidget = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
+             ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
         }
-        
+         
         return SelectedFeatureWidget;
     }
     
@@ -797,36 +773,6 @@ public partial class PopupWidget : IGoTo
         }
          
         return Title;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -910,22 +856,17 @@ public partial class PopupWidget : IGoTo
             return WidgetContent;
         }
 
-        Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
-            "getWidgetContent", CancellationTokenSource.Token);
-        
+        // get the property value
+        Widget? result = await JsComponentReference!.InvokeAsync<Widget?>("getProperty",
+            CancellationTokenSource.Token, "widgetContent");
         if (result is not null)
         {
-            if (WidgetContent is not null)
-            {
-                result.Id = WidgetContent.Id;
-            }
-            
 #pragma warning disable BL0005
-            WidgetContent = result;
+             WidgetContent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+             ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
         }
-        
+         
         return WidgetContent;
     }
     
@@ -1354,36 +1295,6 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -1635,21 +1546,22 @@ public partial class PopupWidget : IGoTo
                 }
                 
                 return true;
+            case Graphic features:
+                Features ??= [];
+                if (!Features.Contains(features))
+                {
+                    Features = [..Features, features];
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(Features)] = Features;
+                }
+                
+                return true;
             case Point location:
                 if (location != Location)
                 {
                     Location = location;
                     WidgetChanged = true;
                     ModifiedParameters[nameof(Location)] = Location;
-                }
-                
-                return true;
-            case FeatureWidget selectedFeatureWidget:
-                if (selectedFeatureWidget != SelectedFeatureWidget)
-                {
-                    SelectedFeatureWidget = selectedFeatureWidget;
-                    WidgetChanged = true;
-                    ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
                 }
                 
                 return true;
@@ -1685,15 +1597,15 @@ public partial class PopupWidget : IGoTo
                 WidgetChanged = true;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
                 return true;
+            case Graphic features:
+                Features = Features?.Where(f => f != features).ToList();
+                WidgetChanged = true;
+                ModifiedParameters[nameof(Features)] = Features;
+                return true;
             case Point _:
                 Location = null;
                 WidgetChanged = true;
                 ModifiedParameters[nameof(Location)] = Location;
-                return true;
-            case FeatureWidget _:
-                SelectedFeatureWidget = null;
-                WidgetChanged = true;
-                ModifiedParameters[nameof(SelectedFeatureWidget)] = SelectedFeatureWidget;
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
@@ -1715,8 +1627,14 @@ public partial class PopupWidget : IGoTo
     {
     
         DockOptions?.ValidateRequiredGeneratedChildren();
+        if (Features is not null)
+        {
+            foreach (Graphic child in Features)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         Location?.ValidateRequiredGeneratedChildren();
-        SelectedFeatureWidget?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

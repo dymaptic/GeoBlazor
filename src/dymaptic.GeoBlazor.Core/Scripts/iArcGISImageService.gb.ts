@@ -17,8 +17,11 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
-        jsArcGISImageService.pixelFilter = (pixelData) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', pixelData);
+        jsArcGISImageService.pixelFilter = async (pixelData) => {
+            let { buildDotNetPixelData } = await import('./pixelData');
+            let dnPixelData = await buildDotNetPixelData(pixelData);
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
     }
 
@@ -101,7 +104,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     return jsArcGISImageService;
 }
 
-export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -136,7 +139,7 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any): Pr
         }
         if (hasValue(jsObject.serviceRasterInfo)) {
             let { buildDotNetRasterInfo } = await import('./rasterInfo');
-            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+            dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
         }
         if (hasValue(jsObject.spatialReference)) {
             let { buildDotNetSpatialReference } = await import('./spatialReference');

@@ -4,22 +4,32 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetActionToggle } from './actionToggle';
 
 export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsActionToggle = new ActionToggle();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.actionId)) {
-        jsActionToggle.id = dotNetObject.actionId;
+        properties.id = dotNetObject.actionId;
+    }
+    if (hasValue(dotNetObject.active)) {
+        properties.active = dotNetObject.active;
+    }
+    if (hasValue(dotNetObject.className)) {
+        properties.className = dotNetObject.className;
+    }
+    if (hasValue(dotNetObject.disabled)) {
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsActionToggle.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.title)) {
-        jsActionToggle.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.value)) {
-        jsActionToggle.value = dotNetObject.value;
+        properties.value = dotNetObject.value;
     }
+    let jsActionToggle = new ActionToggle(properties);
     
-        let jsObjectRef = DotNet.createJSObjectReference(jsActionToggle);
+    let jsObjectRef = DotNet.createJSObjectReference(jsActionToggle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
     
@@ -40,10 +50,20 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
     }
     
     let dotNetActionToggle: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionToggle.actionId = jsObject.id;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetActionToggle.active = jsObject.active;
+    }
+    if (hasValue(jsObject.className)) {
+        dotNetActionToggle.className = jsObject.className;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetActionToggle.disabled = jsObject.disabled;
     }
     if (hasValue(jsObject.icon)) {
         dotNetActionToggle.icon = jsObject.icon;

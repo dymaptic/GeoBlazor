@@ -19,6 +19,50 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getActiveBasemap(): Promise<any> {
@@ -66,15 +110,27 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         properties.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
+    }
     if (hasValue(dotNetObject.source)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSource } = dotNetObject.source;
         properties.source = sanitizedSource;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
     }
     let jsBasemapGallery = new BasemapGallery(properties);
 
@@ -117,17 +173,29 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
             let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
             dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetBasemapGalleryWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.disabled)) {
         dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
     }
     if (hasValue(jsObject.headingLevel)) {
         dotNetBasemapGalleryWidget.headingLevel = jsObject.headingLevel;
     }
+    if (hasValue(jsObject.icon)) {
+        dotNetBasemapGalleryWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetBasemapGalleryWidget.label = jsObject.label;
+    }
     if (hasValue(jsObject.source)) {
         dotNetBasemapGalleryWidget.source = jsObject.source;
     }
     if (hasValue(jsObject.type)) {
         dotNetBasemapGalleryWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetBasemapGalleryWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

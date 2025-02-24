@@ -8,7 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
-    ISearchViewModelDefaultSymbolsPolygon,
     ISketchViewModelPolygonSymbol,
     ISymbol2D,
     ISymbolsFillSymbol

@@ -4661,15 +4661,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
-            case Capabilities effectiveCapabilities:
-                if (effectiveCapabilities != EffectiveCapabilities)
-                {
-                    EffectiveCapabilities = effectiveCapabilities;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
-                }
-                
-                return true;
             case FeatureLayerBaseElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -4809,11 +4800,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
-            case Capabilities _:
-                EffectiveCapabilities = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
-                return true;
             case FeatureLayerBaseElevationInfo _:
                 ElevationInfo = null;
                 LayerChanged = true;
@@ -4897,7 +4883,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(PortalItem), nameof(Source), nameof(Url)]);
         }
-        EffectiveCapabilities?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)

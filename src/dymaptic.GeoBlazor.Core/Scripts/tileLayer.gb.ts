@@ -84,6 +84,18 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -175,6 +187,10 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -211,9 +227,6 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.legendEnabled)) {
         properties.legendEnabled = dotNetObject.legendEnabled;
     }
@@ -248,6 +261,22 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
         properties.url = dotNetObject.url;
     }
     let jsTileLayer = new TileLayer(properties);
+    jsTileLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsTileLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsTileLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -284,6 +313,10 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetTileLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -332,9 +365,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetTileLayer.customParameters = jsObject.customParameters;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetTileLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.hasAttributionData)) {
         dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;

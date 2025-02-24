@@ -96,6 +96,22 @@ export async function buildJsIUnsupportedLayerGenerated(dotNetObject: any, layer
         properties.title = dotNetObject.title;
     }
     let jsUnsupportedLayer = new UnsupportedLayer(properties);
+    jsUnsupportedLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsUnsupportedLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsUnsupportedLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: IUnsupportedLayerWrapper } = await import('./iUnsupportedLayer');
     let iUnsupportedLayerWrapper = new IUnsupportedLayerWrapper(jsUnsupportedLayer);

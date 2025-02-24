@@ -251,7 +251,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<FeatureViewModel>? FeatureViewModels { get; protected set; }
+    public IReadOnlyList<IFeatureViewModel>? FeatureViewModels { get; protected set; }
     
     /// <summary>
     ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
@@ -281,16 +281,6 @@ public partial class FeaturesViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Point? Location { get; set; }
-    
-    /// <summary>
-    ///     A map is required when the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a> have a popupTemplate that contains <a target="_blank" href="https://developers.arcgis.com/arcade">Arcade</a> expressions in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ExpressionInfo</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ExpressionContent</a> that may use the `$map` profile variable to access data from layers within a map.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#map">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Map? Map { get; set; }
     
     /// <summary>
     ///     The number of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a> remaining to be resolved.
@@ -775,7 +765,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the FeatureViewModels property.
     /// </summary>
-    public async Task<IReadOnlyList<FeatureViewModel>?> GetFeatureViewModels()
+    public async Task<IReadOnlyList<IFeatureViewModel>?> GetFeatureViewModels()
     {
         if (CoreJsModule is null)
         {
@@ -788,17 +778,17 @@ public partial class FeaturesViewModel : MapComponent,
             return FeatureViewModels;
         }
 
-        IReadOnlyList<FeatureViewModel>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FeatureViewModel>?>(
-            "getFeatureViewModels", CancellationTokenSource.Token);
-        
+        // get the property value
+        IReadOnlyList<IFeatureViewModel>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IFeatureViewModel>?>("getProperty",
+            CancellationTokenSource.Token, "featureViewModels");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            FeatureViewModels = result;
+             FeatureViewModels = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
+             ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
         }
-        
+         
         return FeatureViewModels;
     }
     
@@ -895,36 +885,6 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         return Location;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Map property.
-    /// </summary>
-    public async Task<Map?> GetMap()
-    {
-        if (CoreJsModule is null)
-        {
-            return Map;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return Map;
-        }
-
-        // get the property value
-        Map? result = await JsComponentReference!.InvokeAsync<Map?>("getProperty",
-            CancellationTokenSource.Token, "map");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Map = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Map)] = Map;
-        }
-         
-        return Map;
     }
     
     /// <summary>
@@ -1268,36 +1228,6 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the WaitingForResult property.
     /// </summary>
     public async Task<bool?> GetWaitingForResult()
@@ -1343,22 +1273,17 @@ public partial class FeaturesViewModel : MapComponent,
             return WidgetContent;
         }
 
-        Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
-            "getWidgetContent", CancellationTokenSource.Token);
-        
+        // get the property value
+        Widget? result = await JsComponentReference!.InvokeAsync<Widget?>("getProperty",
+            CancellationTokenSource.Token, "widgetContent");
         if (result is not null)
         {
-            if (WidgetContent is not null)
-            {
-                result.Id = WidgetContent.Id;
-            }
-            
 #pragma warning disable BL0005
-            WidgetContent = result;
+             WidgetContent = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+             ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
         }
-        
+         
         return WidgetContent;
     }
     
@@ -1697,36 +1622,6 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Map property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetMap(Map? value)
-    {
-#pragma warning disable BL0005
-        Map = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Map)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "map", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Promises property after render.
     /// </summary>
     /// <param name="value">
@@ -1907,36 +1802,6 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the WidgetContent property after render.
     /// </summary>
     /// <param name="value">
@@ -2080,7 +1945,7 @@ public partial class FeaturesViewModel : MapComponent,
             "fetchFeatures", 
             CancellationTokenSource.Token,
             screenPoint,
-            new { Event = options.Event, Signal = abortSignal });
+            new { @event = options.Event, signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -2179,22 +2044,22 @@ public partial class FeaturesViewModel : MapComponent,
     {
         switch (child)
         {
+            case Graphic features:
+                Features ??= [];
+                if (!Features.Contains(features))
+                {
+                    Features = [..Features, features];
+                    
+                    ModifiedParameters[nameof(Features)] = Features;
+                }
+                
+                return true;
             case Abilities featureViewModelAbilities:
                 if (featureViewModelAbilities != FeatureViewModelAbilities)
                 {
                     FeatureViewModelAbilities = featureViewModelAbilities;
                     
                     ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
-                }
-                
-                return true;
-            case FeatureViewModel featureViewModels:
-                FeatureViewModels ??= [];
-                if (!FeatureViewModels.Contains(featureViewModels))
-                {
-                    FeatureViewModels = [..FeatureViewModels, featureViewModels];
-                    
-                    ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
                 }
                 
                 return true;
@@ -2225,15 +2090,15 @@ public partial class FeaturesViewModel : MapComponent,
     {
         switch (child)
         {
+            case Graphic features:
+                Features = Features?.Where(f => f != features).ToList();
+                
+                ModifiedParameters[nameof(Features)] = Features;
+                return true;
             case Abilities _:
                 FeatureViewModelAbilities = null;
                 
                 ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
-                return true;
-            case FeatureViewModel featureViewModels:
-                FeatureViewModels = FeatureViewModels?.Where(f => f != featureViewModels).ToList();
-                
-                ModifiedParameters[nameof(FeatureViewModels)] = FeatureViewModels;
                 return true;
             case Point _:
                 Location = null;
@@ -2254,14 +2119,14 @@ public partial class FeaturesViewModel : MapComponent,
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
-        if (FeatureViewModels is not null)
+        if (Features is not null)
         {
-            foreach (FeatureViewModel child in FeatureViewModels)
+            foreach (Graphic child in Features)
             {
                 child.ValidateRequiredGeneratedChildren();
             }
         }
+        FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
         Location?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

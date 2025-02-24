@@ -225,17 +225,17 @@ public partial class BookmarksViewModel : IGoTo,
             return DefaultCreateOptions;
         }
 
-        // get the property value
-        BookmarkOptions? result = await JsComponentReference!.InvokeAsync<BookmarkOptions?>("getProperty",
-            CancellationTokenSource.Token, "defaultCreateOptions");
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultCreateOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultCreateOptions = result;
+            DefaultCreateOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
+            ModifiedParameters[nameof(DefaultCreateOptions)] = DefaultCreateOptions;
         }
-         
+        
         return DefaultCreateOptions;
     }
     
@@ -255,17 +255,17 @@ public partial class BookmarksViewModel : IGoTo,
             return DefaultEditOptions;
         }
 
-        // get the property value
-        BookmarkOptions? result = await JsComponentReference!.InvokeAsync<BookmarkOptions?>("getProperty",
-            CancellationTokenSource.Token, "defaultEditOptions");
+        BookmarkOptions? result = await JsComponentReference.InvokeAsync<BookmarkOptions?>(
+            "getDefaultEditOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultEditOptions = result;
+            DefaultEditOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
+            ModifiedParameters[nameof(DefaultEditOptions)] = DefaultEditOptions;
         }
-         
+        
         return DefaultEditOptions;
     }
     
@@ -299,36 +299,6 @@ public partial class BookmarksViewModel : IGoTo,
         return State;
     }
     
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
 #endregion
 
 #region Property Setters
@@ -359,8 +329,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "bookmarks", value);
     }
     
     /// <summary>
@@ -451,36 +421,6 @@ public partial class BookmarksViewModel : IGoTo,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "defaultEditOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion
@@ -594,6 +534,16 @@ public partial class BookmarksViewModel : IGoTo,
     {
         switch (child)
         {
+            case Bookmark bookmarks:
+                Bookmarks ??= [];
+                if (!Bookmarks.Contains(bookmarks))
+                {
+                    Bookmarks = [..Bookmarks, bookmarks];
+                    
+                    ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                }
+                
+                return true;
             case BookmarksCapabilities capabilities:
                 if (capabilities != Capabilities)
                 {
@@ -612,6 +562,11 @@ public partial class BookmarksViewModel : IGoTo,
     {
         switch (child)
         {
+            case Bookmark bookmarks:
+                Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
+                
+                ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                return true;
             case BookmarksCapabilities _:
                 Capabilities = null;
                 
@@ -626,6 +581,13 @@ public partial class BookmarksViewModel : IGoTo,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (Bookmarks is not null)
+        {
+            foreach (Bookmark child in Bookmarks)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         Capabilities?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

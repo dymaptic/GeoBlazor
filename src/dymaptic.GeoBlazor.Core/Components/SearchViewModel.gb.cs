@@ -2123,11 +2123,11 @@ public partial class SearchViewModel : IViewModel
     ///     findAddressCandidates with geometry instead of text (featurelayer).
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchViewModelSearchResponse?> Search(string searchTerm)
+    public async Task<SearchResponse?> Search(string searchTerm)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<SearchViewModelSearchResponse?>(
+        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "search", 
             CancellationTokenSource.Token,
             searchTerm);
@@ -2138,11 +2138,11 @@ public partial class SearchViewModel : IViewModel
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#searchNearby">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<SearchViewModelSearchResponse?> SearchNearby()
+    public async Task<SearchResponse?> SearchNearby()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<SearchViewModelSearchResponse?>(
+        return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "searchNearby", 
             CancellationTokenSource.Token);
     }
@@ -2156,11 +2156,11 @@ public partial class SearchViewModel : IViewModel
     ///     nothing is passed in, takes the current value of the widget.
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchViewModelSuggestResponse?> Suggest(string value)
+    public async Task<SuggestResponse?> Suggest(string value)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<SearchViewModelSuggestResponse?>(
+        return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
             "suggest", 
             CancellationTokenSource.Token,
             value);

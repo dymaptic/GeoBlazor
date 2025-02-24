@@ -21,32 +21,42 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     
     async add(component: any,
         position: any): Promise<void> {
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
         let { buildJsUIAddPosition } = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
-        this.component.add(component,
+        this.component.add(jsComponent,
             jsPosition);
     }
 
     async find(id: any): Promise<any> {
-        return this.component.find(id);
+        let result = this.component.find(id);
+        let { buildDotNetWidget } = await import('./widget');
+        return await buildDotNetWidget(result);
     }
 
     async getComponents(position: any): Promise<any> {
         let { buildJsUIAddPosition } = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
-        return this.component.getComponents(jsPosition);
+        let result = this.component.getComponents(jsPosition);
+        let { buildDotNetWidget } = await import('./widget');
+        return await Promise.all(result.map(async i => await buildDotNetWidget(i)));
     }
 
     async move(component: any,
         position: any): Promise<void> {
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
         let { buildJsUIAddPosition } = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
-        this.component.move(component,
+        this.component.move(jsComponent,
             jsPosition);
     }
 
     async remove(component: any): Promise<void> {
-        this.component.remove(component);
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        this.component.remove(jsComponent);
     }
 
     // region properties

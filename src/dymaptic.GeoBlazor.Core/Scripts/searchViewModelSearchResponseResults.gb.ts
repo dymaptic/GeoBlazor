@@ -5,8 +5,8 @@ import { buildDotNetSearchViewModelSearchResponseResults } from './searchViewMod
 export async function buildJsSearchViewModelSearchResponseResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSearchResponseResults: any = {};
     if (hasValue(dotNetObject.results)) {
-        let { buildJsSearchViewModelSearchResult } = await import('./searchViewModelSearchResult');
-        jsSearchViewModelSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchViewModelSearchResult(i, layerId, viewId))) as any;
+        let { buildJsSearchResult } = await import('./searchResult');
+        jsSearchViewModelSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.source)) {
@@ -41,8 +41,8 @@ export async function buildDotNetSearchViewModelSearchResponseResultsGenerated(j
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.results)) {
-            let { buildDotNetSearchViewModelSearchResult } = await import('./searchViewModelSearchResult');
-            dotNetSearchViewModelSearchResponseResults.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchViewModelSearchResult(i)));
+            let { buildDotNetSearchResult } = await import('./searchResult');
+            dotNetSearchViewModelSearchResponseResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
         }
     if (hasValue(jsObject.source)) {
         dotNetSearchViewModelSearchResponseResults.source = jsObject.source;

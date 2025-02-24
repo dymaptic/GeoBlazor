@@ -1022,15 +1022,6 @@ public partial class WebTileLayer : IBlendLayer,
                 }
                 
                 return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
             case TileInfo tileInfo:
                 if (tileInfo != TileInfo)
                 {
@@ -1054,11 +1045,6 @@ public partial class WebTileLayer : IBlendLayer,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
             case TileInfo _:
                 TileInfo = null;
                 LayerChanged = true;
@@ -1074,7 +1060,6 @@ public partial class WebTileLayer : IBlendLayer,
     {
     
         PortalItem?.ValidateRequiredGeneratedChildren();
-        SpatialReference?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

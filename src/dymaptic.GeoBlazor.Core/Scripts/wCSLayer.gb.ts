@@ -67,11 +67,23 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        return await buildDotNetCoverageInfo(this.layer.coverageInfo);
+        return await buildDotNetCoverageInfo(this.layer.coverageInfo, this.layerId, this.viewId);
     }
     async setCoverageInfo(value: any): Promise<void> {
         let { buildJsCoverageInfo } = await import('./coverageInfo');
         this.layer.coverageInfo = await  buildJsCoverageInfo(value, this.layerId, this.viewId);
+    }
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
     }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
@@ -203,6 +215,10 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsCoverageInfo } = await import('./coverageInfo');
         properties.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -254,9 +270,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
     }
@@ -305,6 +318,22 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         properties.version = dotNetObject.version;
     }
     let jsWCSLayer = new WCSLayer(properties);
+    jsWCSLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsWCSLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsWCSLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: WCSLayerWrapper } = await import('./wCSLayer');
     let wCSLayerWrapper = new WCSLayerWrapper(jsWCSLayer);
@@ -339,7 +368,11 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
     };
         if (hasValue(jsObject.coverageInfo)) {
             let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo);
+            dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo, layerId, viewId);
+        }
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetWCSLayer.effect = buildDotNetEffect(jsObject.effect);
         }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
@@ -398,9 +431,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetWCSLayer.customParameters = jsObject.customParameters;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetWCSLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.interpolation)) {
         dotNetWCSLayer.interpolation = jsObject.interpolation;

@@ -19,12 +19,58 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.widget.triggerAction(action,
+        this.widget.triggerAction(jsAction,
             jsItem);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -86,13 +132,15 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        properties.baseListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+        properties.baseListItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        properties.referenceListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
+        properties.referenceListItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.selectedItems)) {
@@ -116,6 +164,9 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
     }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
@@ -130,6 +181,12 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.minFilterItems)) {
         properties.minFilterItems = dotNetObject.minFilterItems;
@@ -149,9 +206,14 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.visibleElements)) {
         properties.visibleElements = dotNetObject.visibleElements;
     }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
+    }
     let jsBasemapLayerList = new BasemapLayerList(properties);
     jsBasemapLayerList.on('trigger-action', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
+        let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
+        let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
 
@@ -220,6 +282,9 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     if (hasValue(jsObject.collapsed)) {
         dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetBasemapLayerListWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
@@ -234,6 +299,12 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     }
     if (hasValue(jsObject.headingLevel)) {
         dotNetBasemapLayerListWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetBasemapLayerListWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetBasemapLayerListWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.minFilterItems)) {
         dotNetBasemapLayerListWidget.minFilterItems = jsObject.minFilterItems;
@@ -258,6 +329,9 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetBasemapLayerListWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

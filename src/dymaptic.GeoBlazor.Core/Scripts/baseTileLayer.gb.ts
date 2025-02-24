@@ -61,6 +61,14 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -121,6 +129,10 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -144,9 +156,6 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
     }
@@ -169,6 +178,22 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
         properties.title = dotNetObject.title;
     }
     let jsBaseTileLayer = new BaseTileLayer(properties);
+    jsBaseTileLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsBaseTileLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsBaseTileLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsBaseTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -205,6 +230,10 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetBaseTileLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetBaseTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -226,9 +255,6 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.blendMode)) {
         dotNetBaseTileLayer.blendMode = jsObject.blendMode;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetBaseTileLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetBaseTileLayer.listMode = jsObject.listMode;

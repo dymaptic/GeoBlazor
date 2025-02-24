@@ -4,6 +4,10 @@ import { buildDotNetFeatureEdits } from './featureEdits';
 
 export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseApplyEditsEdits: any = {};
+    if (hasValue(dotNetObject.addAttachments)) {
+        let { buildJsAttachmentEdit } = await import('./attachmentEdit');
+        jsFeatureLayerBaseApplyEditsEdits.addAttachments = await Promise.all(dotNetObject.addAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.addFeatures)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
@@ -12,19 +16,17 @@ export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: s
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.deleteFeatures = dotNetObject.deleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
+    if (hasValue(dotNetObject.updateAttachments)) {
+        let { buildJsAttachmentEdit } = await import('./attachmentEdit');
+        jsFeatureLayerBaseApplyEditsEdits.updateAttachments = await Promise.all(dotNetObject.updateAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.updateFeatures)) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
     }
 
-    if (hasValue(dotNetObject.addAttachments)) {
-        jsFeatureLayerBaseApplyEditsEdits.addAttachments = dotNetObject.addAttachments;
-    }
     if (hasValue(dotNetObject.deleteAttachments)) {
         jsFeatureLayerBaseApplyEditsEdits.deleteAttachments = dotNetObject.deleteAttachments;
-    }
-    if (hasValue(dotNetObject.updateAttachments)) {
-        jsFeatureLayerBaseApplyEditsEdits.updateAttachments = dotNetObject.updateAttachments;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseApplyEditsEdits);
@@ -51,6 +53,10 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.addAttachments)) {
+            let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
+            dotNetFeatureEdits.addAttachments = await Promise.all(jsObject.addAttachments.map(async i => await buildDotNetAttachmentEdit(i)));
+        }
         if (hasValue(jsObject.addFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
@@ -59,18 +65,16 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
+        if (hasValue(jsObject.updateAttachments)) {
+            let { buildDotNetAttachmentEdit } = await import('./attachmentEdit');
+            dotNetFeatureEdits.updateAttachments = await Promise.all(jsObject.updateAttachments.map(async i => await buildDotNetAttachmentEdit(i)));
+        }
         if (hasValue(jsObject.updateFeatures)) {
             let { buildDotNetGraphic } = await import('./graphic');
             dotNetFeatureEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
         }
-    if (hasValue(jsObject.addAttachments)) {
-        dotNetFeatureEdits.addAttachments = jsObject.addAttachments;
-    }
     if (hasValue(jsObject.deleteAttachments)) {
         dotNetFeatureEdits.deleteAttachments = jsObject.deleteAttachments;
-    }
-    if (hasValue(jsObject.updateAttachments)) {
-        dotNetFeatureEdits.updateAttachments = jsObject.updateAttachments;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

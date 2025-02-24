@@ -10,7 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     IRouteSymbolsPolylineBarriers,
     IRouteSymbolsRouteInfo,
-    ISearchViewModelDefaultSymbolsPolyline,
     ISketchViewModelPolylineSymbol,
     ISymbol2D
 {

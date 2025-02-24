@@ -27,7 +27,9 @@ export function buildJsGraphic(graphicObject: any): Graphic {
         });
     }
 
-    graphic.attributes = buildJsAttributes(graphicObject.attributes);
+    if (hasValue(graphicObject.attributes)) {
+        graphic.attributes = buildJsAttributes(graphicObject.attributes);
+    }
 
     if (hasValue(graphicObject.popupTemplate)) {
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, graphicObject.layerId, graphicObject.viewId) as PopupTemplate;

@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class WebMap : Map
 {
     /// <summary>

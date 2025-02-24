@@ -798,12 +798,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         
         if (Parent is not null && !_registered)
         {
-            if (await Parent.RegisterGeneratedChildComponent(this))
+            if (!await Parent.RegisterGeneratedChildComponent(this))
             {
-                _registered = true;
-                return;
+                await Parent.RegisterChildComponent(this);
             }
-            await Parent.RegisterChildComponent(this);
             
             if (Parent is Layer layer)
             {

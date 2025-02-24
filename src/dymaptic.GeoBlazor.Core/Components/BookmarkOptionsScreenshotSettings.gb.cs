@@ -305,8 +305,8 @@ public partial class BookmarkOptionsScreenshotSettings
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayers", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layers", value);
     }
     
     /// <summary>

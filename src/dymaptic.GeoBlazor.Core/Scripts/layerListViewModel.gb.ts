@@ -37,9 +37,11 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
 
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.component.triggerAction(action,
+        this.component.triggerAction(jsAction,
             jsItem);
     }
 
@@ -67,8 +69,9 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
 export async function buildJsLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
-        properties.listItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
+        properties.listItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
 
@@ -80,7 +83,9 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     }
     let jsLayerListViewModel = new LayerListViewModel(properties);
     jsLayerListViewModel.on('trigger-action', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', evt);
+        let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
+        let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
 

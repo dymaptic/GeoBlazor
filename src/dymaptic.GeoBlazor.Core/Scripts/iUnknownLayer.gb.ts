@@ -96,6 +96,22 @@ export async function buildJsIUnknownLayerGenerated(dotNetObject: any, layerId: 
         properties.title = dotNetObject.title;
     }
     let jsUnknownLayer = new UnknownLayer(properties);
+    jsUnknownLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsUnknownLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsUnknownLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: IUnknownLayerWrapper } = await import('./iUnknownLayer');
     let iUnknownLayerWrapper = new IUnknownLayerWrapper(jsUnknownLayer);

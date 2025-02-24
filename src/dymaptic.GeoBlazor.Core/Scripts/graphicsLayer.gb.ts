@@ -63,6 +63,18 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -113,6 +125,10 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -131,9 +147,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
@@ -161,6 +174,22 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         properties.title = dotNetObject.title;
     }
     let jsGraphicsLayer = new GraphicsLayer(properties);
+    jsGraphicsLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
 
     let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');
     let graphicsLayerWrapper = new GraphicsLayerWrapper(jsGraphicsLayer);
@@ -193,6 +222,10 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -206,9 +239,6 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.blendMode)) {
         dotNetGraphicsLayer.blendMode = jsObject.blendMode;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetGraphicsLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.elevationInfo)) {
         dotNetGraphicsLayer.elevationInfo = jsObject.elevationInfo;

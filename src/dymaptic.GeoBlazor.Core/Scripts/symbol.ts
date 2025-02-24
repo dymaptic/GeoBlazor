@@ -6,8 +6,12 @@ import {buildDotNetPictureMarkerSymbol, buildJsPictureMarkerSymbol} from "./pict
 import {buildDotNetPictureFillSymbol, buildJsPictureFillSymbol} from "./pictureFillSymbol";
 import {buildDotNetSimpleFillSymbol, buildJsSimpleFillSymbol} from './simpleFillSymbol';
 import {buildDotNetTextSymbol, buildJsTextSymbol} from "./textSymbol";
+import {hasValue} from "./arcGisJsInterop";
 
 export function buildJsSymbol(symbol: any): any {
+    if (!hasValue(symbol)) {
+        return null;
+    }
     switch (symbol?.type) {
         case "simple-marker":
             return buildJsSimpleMarkerSymbol(symbol);
@@ -22,11 +26,15 @@ export function buildJsSymbol(symbol: any): any {
         case "text":
             return buildJsTextSymbol(symbol);
         default:
-            throw new Error('Unknown symbol type');
+            let { id, dotNetComponentReference, sanitizedSymbol } = symbol;
+            return sanitizedSymbol;
     }
 }
 
 export function buildDotNetSymbol(symbol: Symbol): any {
+    if (!hasValue(symbol)) {
+        return null;
+    }
     switch (symbol.type) {
         case 'picture-fill':
             return buildDotNetPictureFillSymbol(symbol);
@@ -41,6 +49,6 @@ export function buildDotNetSymbol(symbol: Symbol): any {
         case 'text':
             return buildDotNetTextSymbol(symbol);
         default:
-            throw new Error('Unknown symbol type');
+            return symbol;
     }
 }

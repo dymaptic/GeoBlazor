@@ -5,15 +5,16 @@ import { buildDotNetSubtype } from './subtype';
 
 export async function buildJsSubtypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.domains)) {
+        let { buildJsDomain } = await import('./domain');
+        properties.domains = buildJsDomain(dotNetObject.domains) as any;
+    }
 
     if (hasValue(dotNetObject.code)) {
         properties.code = dotNetObject.code;
     }
     if (hasValue(dotNetObject.defaultValues)) {
         properties.defaultValues = dotNetObject.defaultValues;
-    }
-    if (hasValue(dotNetObject.domains)) {
-        properties.domains = dotNetObject.domains;
     }
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
@@ -44,14 +45,15 @@ export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.domains)) {
+            let { buildDotNetDomain } = await import('./domain');
+            dotNetSubtype.domains = buildDotNetDomain(jsObject.domains);
+        }
     if (hasValue(jsObject.code)) {
         dotNetSubtype.code = jsObject.code;
     }
     if (hasValue(jsObject.defaultValues)) {
         dotNetSubtype.defaultValues = jsObject.defaultValues;
-    }
-    if (hasValue(jsObject.domains)) {
-        dotNetSubtype.domains = jsObject.domains;
     }
     if (hasValue(jsObject.name)) {
         dotNetSubtype.name = jsObject.name;

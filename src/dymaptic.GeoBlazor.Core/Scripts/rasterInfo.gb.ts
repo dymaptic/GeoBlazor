@@ -70,7 +70,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterInfo;
     
-    let dnInstantiatedObject = await buildDotNetRasterInfo(jsRasterInfo);
+    let dnInstantiatedObject = await buildDotNetRasterInfo(jsRasterInfo, layerId, viewId);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));

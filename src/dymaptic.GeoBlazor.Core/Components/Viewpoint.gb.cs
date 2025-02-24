@@ -94,17 +94,17 @@ public partial class Viewpoint
             return Camera;
         }
 
-        // get the property value
-        Camera? result = await JsComponentReference!.InvokeAsync<Camera?>("getProperty",
-            CancellationTokenSource.Token, "camera");
+        Camera? result = await JsComponentReference.InvokeAsync<Camera?>(
+            "getCamera", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Camera = result;
+            Camera = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Camera)] = Camera;
+            ModifiedParameters[nameof(Camera)] = Camera;
         }
-         
+        
         return Camera;
     }
     

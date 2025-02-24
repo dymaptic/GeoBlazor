@@ -57,6 +57,18 @@ export default class IOpenStreetMapLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -121,6 +133,10 @@ export default class IOpenStreetMapLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsIOpenStreetMapLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -142,9 +158,6 @@ export async function buildJsIOpenStreetMapLayerGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.copyright)) {
         properties.copyright = dotNetObject.copyright;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -175,7 +188,9 @@ export async function buildJsIOpenStreetMapLayerGenerated(dotNetObject: any, lay
     }
     let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsayerviewCreate', evt);
+        let { buildDotNetOpenStreetMapLayerLayerviewCreateEvent } = await import('./openStreetMapLayerLayerviewCreateEvent');
+        let dnEvent = await buildDotNetOpenStreetMapLayerLayerviewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsayerviewCreate', dnEvent);
     });
     
     jsOpenStreetMapLayer.on('layerview-create-error', async (evt: any) => {
@@ -183,7 +198,25 @@ export async function buildJsIOpenStreetMapLayerGenerated(dotNetObject: any, lay
     });
     
     jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsayerviewDestroy', evt);
+        let { buildDotNetOpenStreetMapLayerLayerviewDestroyEvent } = await import('./openStreetMapLayerLayerviewDestroyEvent');
+        let dnEvent = await buildDotNetOpenStreetMapLayerLayerviewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsayerviewDestroy', dnEvent);
+    });
+    
+    jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsOpenStreetMapLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
     jsOpenStreetMapLayer.on('refresh', async (evt: any) => {
@@ -226,6 +259,10 @@ export async function buildDotNetIOpenStreetMapLayerGenerated(jsObject: any): Pr
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetIOpenStreetMapLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetIOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -254,9 +291,6 @@ export async function buildDotNetIOpenStreetMapLayerGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.copyright)) {
         dotNetIOpenStreetMapLayer.copyright = jsObject.copyright;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetIOpenStreetMapLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetIOpenStreetMapLayer.listMode = jsObject.listMode;

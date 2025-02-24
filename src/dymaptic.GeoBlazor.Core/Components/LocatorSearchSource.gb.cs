@@ -51,16 +51,6 @@ public partial class LocatorSearchSource
     ///     For filtering suggests or search results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="getResultsHandler">
-    ///     Function used to get search results.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getResults">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="getSuggestionsHandler">
-    ///     Function used to get search suggestions.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getSuggestions">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="localSearchDisabled">
     ///     This property controls prioritization of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget result candidates depending on the view scale.
     ///     default false
@@ -152,8 +142,6 @@ public partial class LocatorSearchSource
         string? countryCode = null,
         double? defaultZoomScale = null,
         SearchSourceFilter? filter = null,
-        GetResultsHandler? getResultsHandler = null,
-        GetSuggestionsHandler? getSuggestionsHandler = null,
         bool? localSearchDisabled = null,
         LocatorSearchLocationType? locationType = null,
         int? maxResults = null,
@@ -186,8 +174,6 @@ public partial class LocatorSearchSource
         CountryCode = countryCode;
         DefaultZoomScale = defaultZoomScale;
         Filter = filter;
-        GetResultsHandler = getResultsHandler;
-        GetSuggestionsHandler = getSuggestionsHandler;
         LocalSearchDisabled = localSearchDisabled;
         LocationType = locationType;
         MaxResults = maxResults;

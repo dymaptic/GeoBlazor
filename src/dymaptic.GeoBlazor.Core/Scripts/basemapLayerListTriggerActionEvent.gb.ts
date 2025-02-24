@@ -4,14 +4,15 @@ import { buildDotNetBasemapLayerListTriggerActionEvent } from './basemapLayerLis
 
 export async function buildJsBasemapLayerListTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBasemapLayerListTriggerActionEvent: any = {};
+    if (hasValue(dotNetObject.action)) {
+        let { buildJsActionBase } = await import('./actionBase');
+        jsBasemapLayerListTriggerActionEvent.action = await buildJsActionBase(dotNetObject.action, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');
         jsBasemapLayerListTriggerActionEvent.item = await buildJsListItem(dotNetObject.item, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.action)) {
-        jsBasemapLayerListTriggerActionEvent.action = dotNetObject.action;
-    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapLayerListTriggerActionEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -37,13 +38,14 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.action)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetBasemapLayerListTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        }
         if (hasValue(jsObject.item)) {
             let { buildDotNetListItem } = await import('./listItem');
             dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
         }
-    if (hasValue(jsObject.action)) {
-        dotNetBasemapLayerListTriggerActionEvent.action = jsObject.action;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

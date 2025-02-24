@@ -34,9 +34,9 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SearchViewModelDefaultSymbols(
-        ISearchViewModelDefaultSymbolsPoint? point = null,
-        ISearchViewModelDefaultSymbolsPolygon? polygon = null,
-        ISearchViewModelDefaultSymbolsPolyline? polyline = null)
+        Symbol? point = null,
+        Symbol? polygon = null,
+        Symbol? polyline = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -56,7 +56,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchViewModelDefaultSymbolsPoint? Point { get; set; }
+    public Symbol? Point { get; set; }
     
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">SimpleFillSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PolygonSymbol3D.html">PolygonSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polygon geometry that is being drawn for the search result.
@@ -65,7 +65,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchViewModelDefaultSymbolsPolygon? Polygon { get; set; }
+    public Symbol? Polygon { get; set; }
     
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbol3D.html">LineSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polyline geometry that is being drawn for the search result.
@@ -74,7 +74,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ISearchViewModelDefaultSymbolsPolyline? Polyline { get; set; }
+    public Symbol? Polyline { get; set; }
     
 #endregion
 
@@ -83,7 +83,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Point property.
     /// </summary>
-    public async Task<ISearchViewModelDefaultSymbolsPoint?> GetPoint()
+    public async Task<Symbol?> GetPoint()
     {
         if (CoreJsModule is null)
         {
@@ -96,24 +96,29 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Point;
         }
 
-        // get the property value
-        ISearchViewModelDefaultSymbolsPoint? result = await JsComponentReference!.InvokeAsync<ISearchViewModelDefaultSymbolsPoint?>("getProperty",
-            CancellationTokenSource.Token, "point");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Point is not null)
+            {
+                result.Id = Point.Id;
+            }
+            
 #pragma warning disable BL0005
-             Point = result;
+            Point = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Point)] = Point;
+            ModifiedParameters[nameof(Point)] = Point;
         }
-         
+        
         return Point;
     }
     
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polygon property.
     /// </summary>
-    public async Task<ISearchViewModelDefaultSymbolsPolygon?> GetPolygon()
+    public async Task<Symbol?> GetPolygon()
     {
         if (CoreJsModule is null)
         {
@@ -126,24 +131,29 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polygon;
         }
 
-        // get the property value
-        ISearchViewModelDefaultSymbolsPolygon? result = await JsComponentReference!.InvokeAsync<ISearchViewModelDefaultSymbolsPolygon?>("getProperty",
-            CancellationTokenSource.Token, "polygon");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolygon", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Polygon is not null)
+            {
+                result.Id = Polygon.Id;
+            }
+            
 #pragma warning disable BL0005
-             Polygon = result;
+            Polygon = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Polygon)] = Polygon;
+            ModifiedParameters[nameof(Polygon)] = Polygon;
         }
-         
+        
         return Polygon;
     }
     
     /// <summary>
     ///     Asynchronously retrieve the current value of the Polyline property.
     /// </summary>
-    public async Task<ISearchViewModelDefaultSymbolsPolyline?> GetPolyline()
+    public async Task<Symbol?> GetPolyline()
     {
         if (CoreJsModule is null)
         {
@@ -156,17 +166,22 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polyline;
         }
 
-        // get the property value
-        ISearchViewModelDefaultSymbolsPolyline? result = await JsComponentReference!.InvokeAsync<ISearchViewModelDefaultSymbolsPolyline?>("getProperty",
-            CancellationTokenSource.Token, "polyline");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolyline", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Polyline is not null)
+            {
+                result.Id = Polyline.Id;
+            }
+            
 #pragma warning disable BL0005
-             Polyline = result;
+            Polyline = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Polyline)] = Polyline;
+            ModifiedParameters[nameof(Polyline)] = Polyline;
         }
-         
+        
         return Polyline;
     }
     
@@ -180,7 +195,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPoint(ISearchViewModelDefaultSymbolsPoint? value)
+    public async Task SetPoint(Symbol? value)
     {
 #pragma warning disable BL0005
         Point = value;
@@ -210,7 +225,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPolygon(ISearchViewModelDefaultSymbolsPolygon? value)
+    public async Task SetPolygon(Symbol? value)
     {
 #pragma warning disable BL0005
         Polygon = value;
@@ -240,7 +255,7 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPolyline(ISearchViewModelDefaultSymbolsPolyline? value)
+    public async Task SetPolyline(Symbol? value)
     {
 #pragma warning disable BL0005
         Polyline = value;
@@ -265,5 +280,15 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     }
     
 #endregion
-
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Point?.ValidateRequiredGeneratedChildren();
+        Polygon?.ValidateRequiredGeneratedChildren();
+        Polyline?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

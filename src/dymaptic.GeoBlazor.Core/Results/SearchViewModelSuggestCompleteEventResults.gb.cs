@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// </param>
 public partial record SearchViewModelSuggestCompleteEventResults(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<SearchViewModelSuggestResult>? Results = null,
+    IReadOnlyCollection<SuggestResult>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

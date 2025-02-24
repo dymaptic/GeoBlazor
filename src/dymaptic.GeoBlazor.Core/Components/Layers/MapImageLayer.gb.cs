@@ -2187,15 +2187,6 @@ public partial class MapImageLayer : IArcGISMapService,
                 }
                 
                 return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
-                {
-                    SpatialReference = spatialReference;
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                }
-                
-                return true;
             case TimeInterval timeOffset:
                 if (timeOffset != TimeOffset)
                 {
@@ -2219,11 +2210,6 @@ public partial class MapImageLayer : IArcGISMapService,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case SpatialReference _:
-                SpatialReference = null;
-                LayerChanged = true;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                return true;
             case TimeInterval _:
                 TimeOffset = null;
                 LayerChanged = true;
@@ -2242,7 +2228,6 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(MapImageLayer), [nameof(PortalItem), nameof(Url)]);
         }
-        SpatialReference?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

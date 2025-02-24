@@ -57,6 +57,18 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -125,6 +137,10 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -150,9 +166,6 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.copyright)) {
         properties.copyright = dotNetObject.copyright;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -182,6 +195,22 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
         properties.urlTemplate = dotNetObject.urlTemplate;
     }
     let jsWebTileLayer = new WebTileLayer(properties);
+    jsWebTileLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsWebTileLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsWebTileLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsWebTileLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -218,6 +247,10 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetWebTileLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetWebTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -246,9 +279,6 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.copyright)) {
         dotNetWebTileLayer.copyright = jsObject.copyright;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetWebTileLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetWebTileLayer.listMode = jsObject.listMode;

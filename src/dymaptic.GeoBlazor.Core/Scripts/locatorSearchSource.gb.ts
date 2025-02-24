@@ -11,11 +11,15 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
         properties.getResults = async (parameters) => {
-            return await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
+
+            let result = await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
+            let { buildJsSearchResult } = await import('./searchResult');
+            return await Promise.all(result.map(async i => await buildJsSearchResult(i)));
         };
     }
     if (hasValue(dotNetObject.hasGetSuggestionsHandler) && dotNetObject.hasGetSuggestionsHandler) {
         properties.getSuggestions = async (parameters) => {
+
             return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
         };
     }

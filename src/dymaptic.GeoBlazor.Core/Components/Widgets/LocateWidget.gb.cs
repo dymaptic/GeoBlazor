@@ -304,36 +304,6 @@ public partial class LocateWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
     public async Task<LocateViewModel?> GetViewModel()
@@ -349,17 +319,22 @@ public partial class LocateWidget : IGoTo
             return ViewModel;
         }
 
-        // get the property value
-        LocateViewModel? result = await JsComponentReference!.InvokeAsync<LocateViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        LocateViewModel? result = await JsComponentReference.InvokeAsync<LocateViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -518,36 +493,6 @@ public partial class LocateWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -659,6 +604,15 @@ public partial class LocateWidget : IGoTo
                 }
                 
                 return true;
+            case LocateViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    WidgetChanged = true;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -673,6 +627,11 @@ public partial class LocateWidget : IGoTo
                 WidgetChanged = true;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
                 return true;
+            case LocateViewModel _:
+                ViewModel = null;
+                WidgetChanged = true;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -683,6 +642,7 @@ public partial class LocateWidget : IGoTo
     {
     
         Graphic?.ValidateRequiredGeneratedChildren();
+        ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

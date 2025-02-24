@@ -23,10 +23,10 @@ import LinearUnits = __esri.LinearUnits;
 import SpatialReferenceInfo = __esri.SpatialReferenceInfo;
 import AreaUnits = __esri.AreaUnits;
 import NearestPointResult = __esri.NearestPointResult;
+import Mesh from "@arcgis/core/geometry/Mesh";
+import Multipoint from "@arcgis/core/geometry/Multipoint";
 
-export default class GeometryEngineWrapper extends GeometryEngineGenerated {
-    private component: any;
-    
+export default class GeometryEngineWrapper extends GeometryEngineGenerated {    
     constructor(component) {
         super(component);
     }
@@ -472,6 +472,12 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
                 break;
             case "Extent":
                 jsGeometry = Extent.fromJSON(jsonObject);
+                break;
+            case "Mesh":
+                jsGeometry = Mesh.fromJSON(jsonObject);
+                break;
+            case "Multipoint":
+                jsGeometry = Multipoint.fromJSON(jsonObject);
                 break;
             default:
                 throw new Error("Invalid geometry type");

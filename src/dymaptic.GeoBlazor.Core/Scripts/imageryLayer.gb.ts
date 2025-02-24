@@ -277,6 +277,18 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         return await buildDotNetMosaicRule(this.layer.defaultMosaicRule);
     }
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -432,6 +444,10 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -449,8 +465,11 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
-        properties.pixelFilter = (pixelData) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', pixelData);
+        properties.pixelFilter = async (pixelData) => {
+            let { buildDotNetPixelData } = await import('./pixelData');
+            let dnPixelData = await buildDotNetPixelData(pixelData);
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
@@ -501,9 +520,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.definitionExpression)) {
         properties.definitionExpression = dotNetObject.definitionExpression;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.format)) {
         properties.format = dotNetObject.format;
@@ -584,6 +600,22 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         properties.useViewTime = dotNetObject.useViewTime;
     }
     let jsImageryLayer = new ImageryLayer(properties);
+    jsImageryLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsImageryLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsImageryLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsImageryLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -623,6 +655,10 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
         if (hasValue(jsObject.defaultMosaicRule)) {
             let { buildDotNetMosaicRule } = await import('./mosaicRule');
             dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
+        }
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetImageryLayer.effect = buildDotNetEffect(jsObject.effect);
         }
         if (hasValue(jsObject.fields)) {
             let { buildDotNetField } = await import('./field');
@@ -702,9 +738,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.definitionExpression)) {
         dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetImageryLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.format)) {
         dotNetImageryLayer.format = jsObject.format;

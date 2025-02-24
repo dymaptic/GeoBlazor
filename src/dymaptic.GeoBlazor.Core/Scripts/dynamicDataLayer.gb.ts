@@ -3,7 +3,7 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDynamicDataLayer } from './dynamicDataLayer';
 
 export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsDynamicDataLayer: any = {}
+    let jsDynamicDataLayer: any = {};
 
     if (hasValue(dotNetObject.dataSource)) {
         jsDynamicDataLayer.dataSource = dotNetObject.dataSource;
@@ -12,7 +12,6 @@ export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerI
         jsDynamicDataLayer.fields = dotNetObject.fields;
     }
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(jsDynamicDataLayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayer;

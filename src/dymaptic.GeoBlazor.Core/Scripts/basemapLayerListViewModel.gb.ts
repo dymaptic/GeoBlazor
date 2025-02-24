@@ -21,9 +21,11 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
     
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.component.triggerAction(action,
+        this.component.triggerAction(jsAction,
             jsItem);
     }
 
@@ -60,13 +62,15 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
 export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
-        properties.baseListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+        properties.baseListItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
-        properties.referenceListItemCreatedFunction = (event) => {
-            dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
+        properties.referenceListItemCreatedFunction = async (event) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
 

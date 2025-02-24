@@ -22,7 +22,8 @@ export function buildJsPopupContent(dotNetObject: any): any {
         case 'text':
             return buildJsTextPopupContent(dotNetObject);
         default:
-            throw new Error('Unknown popup content type');
+            let { id, dotNetComponentReference, sanitizedPopupTemplate } = dotNetObject;
+            return sanitizedPopupTemplate;
     }
 }
 
@@ -39,6 +40,6 @@ export function buildDotNetPopupContent(jsObject: any): any {
         case 'text':
             return buildDotNetTextPopupContent(jsObject);
         default:
-            throw new Error('Unknown popup content type');
+            return jsObject;
     }
 }

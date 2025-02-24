@@ -115,17 +115,17 @@ public partial class SearchWidget : IGoTo
             return ActiveSource;
         }
 
-        // get the property value
-        SearchSource? result = await JsComponentReference!.InvokeAsync<SearchSource?>("getProperty",
-            CancellationTokenSource.Token, "activeSource");
+        SearchSource? result = await JsComponentReference.InvokeAsync<SearchSource?>(
+            "getActiveSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveSource = result;
+            ActiveSource = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+            ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
         }
-         
+        
         return ActiveSource;
     }
     
@@ -175,17 +175,17 @@ public partial class SearchWidget : IGoTo
             return AllSources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "allSources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getAllSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AllSources = result;
+            AllSources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllSources)] = AllSources;
+            ModifiedParameters[nameof(AllSources)] = AllSources;
         }
-         
+        
         return AllSources;
     }
     
@@ -235,17 +235,17 @@ public partial class SearchWidget : IGoTo
             return DefaultSources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "defaultSources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getDefaultSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultSources = result;
+            DefaultSources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultSources)] = DefaultSources;
+            ModifiedParameters[nameof(DefaultSources)] = DefaultSources;
         }
-         
+        
         return DefaultSources;
     }
     
@@ -600,17 +600,17 @@ public partial class SearchWidget : IGoTo
             return Sources;
         }
 
-        // get the property value
-        IReadOnlyList<SearchSource>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchSource>?>("getProperty",
-            CancellationTokenSource.Token, "sources");
+        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
+            "getSources", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Sources = result;
+            Sources = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Sources)] = Sources;
+            ModifiedParameters[nameof(Sources)] = Sources;
         }
-         
+        
         return Sources;
     }
     
@@ -642,36 +642,6 @@ public partial class SearchWidget : IGoTo
         }
          
         return SuggestionsEnabled;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -1219,36 +1189,6 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -1493,12 +1433,13 @@ public partial class SearchWidget : IGoTo
     {
         switch (child)
         {
-            case Graphic resultGraphic:
-                if (resultGraphic != ResultGraphic)
+            case SearchSource sources:
+                Sources ??= [];
+                if (!Sources.Contains(sources))
                 {
-                    ResultGraphic = resultGraphic;
+                    Sources = [..Sources, sources];
                     WidgetChanged = true;
-                    ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
+                    ModifiedParameters[nameof(Sources)] = Sources;
                 }
                 
                 return true;
@@ -1511,10 +1452,10 @@ public partial class SearchWidget : IGoTo
     {
         switch (child)
         {
-            case Graphic _:
-                ResultGraphic = null;
+            case SearchSource sources:
+                Sources = Sources?.Where(s => s != sources).ToList();
                 WidgetChanged = true;
-                ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
+                ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -1525,7 +1466,13 @@ public partial class SearchWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        ResultGraphic?.ValidateRequiredGeneratedChildren();
+        if (Sources is not null)
+        {
+            foreach (SearchSource child in Sources)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         base.ValidateRequiredGeneratedChildren();
     }
       

@@ -110,6 +110,7 @@ import HitTestResult = __esri.HitTestResult;
 import LegendLayerInfos = __esri.LegendLayerInfos;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
+import {buildDotNetViewLayerviewCreateErrorEvent} from "./viewLayerviewCreateErrorEvent";
 
 // region exports
 
@@ -694,14 +695,18 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
     });
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
-        view.on('layerview-create-error', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', evt);
+        view.on('layerview-create-error', async (evt) => {
+            let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
+            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt);
+            await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
         });
     }
 
     if (activeEventHandlers.includes('OnLayerViewDestroy')) {
-        view.on('layerview-destroy', (evt) => {
-            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', evt);
+        view.on('layerview-destroy', async (evt) => {
+            let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
+            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt);
+            dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', dnEvent);
         });
     }
 
@@ -2025,17 +2030,9 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     let wrapper: any;
     switch (dotNetWidget.type) {
         case 'locate':
-            const locate = new Locate({
-                view: view,
-                rotationEnabled: dotNetWidget.rotationEnabled ?? undefined,
-                scale: dotNetWidget.scale ?? undefined
-            });
-            newWidget = locate;
-
-            if (dotNetWidget.hasGoToOverride) {
-                locate.goToOverride = buildJsGoToOverride(dotNetWidget, viewId);
-            }
-
+            let { buildJsLocateWidget } = await import('./locateWidget');
+            newWidget = await buildJsLocateWidget(dotNetWidget, dotNetWidget?.layerId, viewId);
+            
             break;
         case 'search':
             const search = new Search({
@@ -2070,7 +2067,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             search.on('select-result', async (evt) => {
                 const {buildDotNetGraphic} = await import('./graphic');
-                dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
+                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
                     extent: buildDotNetExtent(evt.result.extent),
                     feature: buildDotNetGraphic(evt.result.feature, null, viewId),
                     name: evt.result.name
@@ -2084,6 +2081,7 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
 
             wrapper = new SearchWidgetWrapper(search);
             jsObjectRefs[dotNetWidget.id] = wrapper;
+            
             break;
         case 'basemap-toggle':
             // the esri definition file is missing basemapToggle.nextBasemap, but it is in the docs.
@@ -2486,10 +2484,10 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     dotNetRefs[dotNetWidget.id] = dotNetWidget.dotNetComponentReference;
     jsObjectRefs[dotNetWidget.id] = wrapper;
 
-        const jsRef = DotNet.createJSObjectReference(wrapper);
+    const jsRef = DotNet.createJSObjectReference(wrapper);
 
     // register, to be removed when we finish code generation of all widgets
-    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef);
+    await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsRef, null);
 
     return newWidget;
 }

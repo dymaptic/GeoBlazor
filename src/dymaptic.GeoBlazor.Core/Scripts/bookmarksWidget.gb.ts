@@ -19,10 +19,54 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
     async goTo(bookmark: any): Promise<any> {
         let { buildJsBookmark } = await import('./bookmark');
         let jsBookmark = await buildJsBookmark(bookmark) as any;
         return await this.widget.goTo(jsBookmark);
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
     }
 
     // region properties
@@ -65,6 +109,18 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         this.widget.defaultEditOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -101,11 +157,18 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBookmarksViewModel } = await import('./bookmarksViewModel');
         properties.viewModel = await buildJsBookmarksViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -121,19 +184,27 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.filterText)) {
         properties.filterText = dotNetObject.filterText;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        properties.goToOverride = dotNetObject.goToOverride;
-    }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         properties.visibleElements = sanitizedVisibleElements;
     }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
+    }
     let jsBookmarks = new Bookmarks(properties);
     jsBookmarks.on('bookmark-edit', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkEdit', evt);
+        let { buildDotNetBookmarksBookmarkEditEvent } = await import('./bookmarksBookmarkEditEvent');
+        let dnEvent = await buildDotNetBookmarksBookmarkEditEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkEdit', dnEvent);
     });
     
     jsBookmarks.on('bookmark-select', async (evt: any) => {
@@ -184,10 +255,17 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
             let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
             dotNetBookmarksWidget.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
         }
+        if (hasValue(jsObject.goToOverride)) {
+            let { buildDotNetGoToOverride } = await import('./goToOverride');
+            dotNetBookmarksWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+        }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
             dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel);
         }
+    if (hasValue(jsObject.container)) {
+        dotNetBookmarksWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.disabled)) {
         dotNetBookmarksWidget.disabled = jsObject.disabled;
     }
@@ -203,17 +281,23 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.filterText)) {
         dotNetBookmarksWidget.filterText = jsObject.filterText;
     }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetBookmarksWidget.goToOverride = jsObject.goToOverride;
-    }
     if (hasValue(jsObject.headingLevel)) {
         dotNetBookmarksWidget.headingLevel = jsObject.headingLevel;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetBookmarksWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetBookmarksWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.type)) {
         dotNetBookmarksWidget.type = jsObject.type;
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetBookmarksWidget.visibleElements = jsObject.visibleElements;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetBookmarksWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

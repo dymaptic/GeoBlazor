@@ -2151,16 +2151,6 @@ public partial class ImageryTileLayer : IBlendLayer,
                 }
                 
                 return true;
-            case Field rasterFields:
-                RasterFields ??= [];
-                if (!RasterFields.Contains(rasterFields))
-                {
-                    RasterFields = [..RasterFields, rasterFields];
-                    LayerChanged = true;
-                    ModifiedParameters[nameof(RasterFields)] = RasterFields;
-                }
-                
-                return true;
             case RasterFunction rasterFunction:
                 if (rasterFunction != RasterFunction)
                 {
@@ -2203,11 +2193,6 @@ public partial class ImageryTileLayer : IBlendLayer,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case Field rasterFields:
-                RasterFields = RasterFields?.Where(r => r != rasterFields).ToList();
-                LayerChanged = true;
-                ModifiedParameters[nameof(RasterFields)] = RasterFields;
-                return true;
             case RasterFunction _:
                 RasterFunction = null;
                 LayerChanged = true;
@@ -2239,13 +2224,6 @@ public partial class ImageryTileLayer : IBlendLayer,
             }
         }
         PixelDataSource?.ValidateRequiredGeneratedChildren();
-        if (RasterFields is not null)
-        {
-            foreach (Field child in RasterFields)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         RasterFunction?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

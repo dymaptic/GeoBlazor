@@ -1670,12 +1670,13 @@ public partial class TileLayer : IAPIKeyMixin,
                 }
                 
                 return true;
-            case SpatialReference spatialReference:
-                if (spatialReference != SpatialReference)
+            case Sublayer subtables:
+                Subtables ??= [];
+                if (!Subtables.Contains(subtables))
                 {
-                    SpatialReference = spatialReference;
+                    Subtables = [..Subtables, subtables];
                     LayerChanged = true;
-                    ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    ModifiedParameters[nameof(Subtables)] = Subtables;
                 }
                 
                 return true;
@@ -1693,10 +1694,10 @@ public partial class TileLayer : IAPIKeyMixin,
                 LayerChanged = true;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case SpatialReference _:
-                SpatialReference = null;
+            case Sublayer subtables:
+                Subtables = Subtables?.Where(s => s != subtables).ToList();
                 LayerChanged = true;
-                ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                ModifiedParameters[nameof(Subtables)] = Subtables;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -1711,7 +1712,13 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(TileLayer), [nameof(PortalItem), nameof(Url)]);
         }
-        SpatialReference?.ValidateRequiredGeneratedChildren();
+        if (Subtables is not null)
+        {
+            foreach (Sublayer child in Subtables)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         base.ValidateRequiredGeneratedChildren();
     }
       

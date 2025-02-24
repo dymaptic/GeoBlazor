@@ -11,6 +11,10 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.actions)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetPopupTemplate.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
+        }
         if (hasValue(jsObject.content)) {
             let { buildDotNetPopupContent } = await import('./popupContent');
             dotNetPopupTemplate.content = jsObject.content.map(i => buildDotNetPopupContent(i));
@@ -27,9 +31,6 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
             let { buildDotNetLayerOptions } = await import('./layerOptions');
             dotNetPopupTemplate.layerOptions = buildDotNetLayerOptions(jsObject.layerOptions);
         }
-    if (hasValue(jsObject.actions)) {
-        dotNetPopupTemplate.actions = jsObject.actions;
-    }
     if (hasValue(jsObject.lastEditInfoEnabled)) {
         dotNetPopupTemplate.lastEditInfoEnabled = jsObject.lastEditInfoEnabled;
     }

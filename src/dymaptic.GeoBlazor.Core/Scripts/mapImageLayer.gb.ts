@@ -90,6 +90,18 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -198,6 +210,10 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -241,9 +257,6 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.dpi)) {
         properties.dpi = dotNetObject.dpi;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -295,6 +308,22 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
         properties.useViewTime = dotNetObject.useViewTime;
     }
     let jsMapImageLayer = new MapImageLayer(properties);
+    jsMapImageLayer.on('layerview-create', async (evt: any) => {
+        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
+    });
+    
+    jsMapImageLayer.on('layerview-create-error', async (evt: any) => {
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+    });
+    
+    jsMapImageLayer.on('layerview-destroy', async (evt: any) => {
+        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
+    });
+    
     jsMapImageLayer.on('refresh', async (evt: any) => {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', evt);
     });
@@ -331,6 +360,10 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetMapImageLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
         if (hasValue(jsObject.fullExtent)) {
             let { buildDotNetExtent } = await import('./extent');
             dotNetMapImageLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -386,9 +419,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.dpi)) {
         dotNetMapImageLayer.dpi = jsObject.dpi;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetMapImageLayer.effect = jsObject.effect;
     }
     if (hasValue(jsObject.gdbVersion)) {
         dotNetMapImageLayer.gdbVersion = jsObject.gdbVersion;

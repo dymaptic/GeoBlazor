@@ -25,6 +25,18 @@ export default class IBlendLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -37,12 +49,13 @@ export default class IBlendLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsIBlendLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBlendLayer: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        jsBlendLayer.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
 
     if (hasValue(dotNetObject.blendMode)) {
         jsBlendLayer.blendMode = dotNetObject.blendMode;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        jsBlendLayer.effect = dotNetObject.effect;
     }
 
     let { default: IBlendLayerWrapper } = await import('./iBlendLayer');
@@ -76,11 +89,12 @@ export async function buildDotNetIBlendLayerGenerated(jsObject: any): Promise<an
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.effect)) {
+            let { buildDotNetEffect } = await import('./effect');
+            dotNetIBlendLayer.effect = buildDotNetEffect(jsObject.effect);
+        }
     if (hasValue(jsObject.blendMode)) {
         dotNetIBlendLayer.blendMode = jsObject.blendMode;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetIBlendLayer.effect = jsObject.effect;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

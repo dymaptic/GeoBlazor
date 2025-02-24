@@ -1,6 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(ActionBaseConverter))]
+[CodeGenerationIgnore]
 public abstract partial class ActionBase : MapComponent
 {
     /// <summary>

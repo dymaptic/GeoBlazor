@@ -1173,7 +1173,7 @@ public partial class MapView : MapComponent
 
         if (CoreJsModule is null || !MapRendered) return;
 
-        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
@@ -1301,7 +1301,7 @@ public partial class MapView : MapComponent
 
             if (CoreJsModule is null) return;
 
-            ProtoGraphicCollection collection = new(new[] { graphic.ToSerializationRecord() });
+            ProtoGraphicCollection collection = new([graphic.ToSerializationRecord(true)]);
             MemoryStream ms = new();
             Serializer.Serialize(ms, collection);
             ms.Seek(0, SeekOrigin.Begin);

@@ -24,4 +24,4 @@ public partial record SearchViewModelSuggestResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? SourceIndex = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Text = null) : ISearchViewModelSelectedSuggestion;
+    string? Text = null);

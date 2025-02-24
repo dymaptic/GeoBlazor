@@ -4,14 +4,15 @@ import { buildDotNetLayerListViewModelTriggerActionEvent } from './layerListView
 
 export async function buildJsLayerListViewModelTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLayerListViewModelTriggerActionEvent: any = {};
+    if (hasValue(dotNetObject.action)) {
+        let { buildJsActionBase } = await import('./actionBase');
+        jsLayerListViewModelTriggerActionEvent.action = await buildJsActionBase(dotNetObject.action, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');
         jsLayerListViewModelTriggerActionEvent.item = await buildJsListItem(dotNetObject.item, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.action)) {
-        jsLayerListViewModelTriggerActionEvent.action = dotNetObject.action;
-    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerListViewModelTriggerActionEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -37,13 +38,14 @@ export async function buildDotNetLayerListViewModelTriggerActionEventGenerated(j
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.action)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetLayerListViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
+        }
         if (hasValue(jsObject.item)) {
             let { buildDotNetListItem } = await import('./listItem');
             dotNetLayerListViewModelTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
         }
-    if (hasValue(jsObject.action)) {
-        dotNetLayerListViewModelTriggerActionEvent.action = jsObject.action;
-    }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
         for (const k of Object.keys(arcGisObjectRefs)) {

@@ -2,8 +2,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 public partial class GraphicsLayer : Layer
 {
-
-    
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
     /// </summary>
@@ -43,11 +41,11 @@ public partial class GraphicsLayer : Layer
     ///     A collection of <see cref="Graphic" />s in the layer.
     /// </summary>
     [JsonConverter(typeof(GraphicsToSerializationConverter))]
-[CodeGenerationIgnore]
+    [CodeGenerationIgnore]
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
-        set => _graphics = new HashSet<Graphic>(value);
+        init => _graphics = [..value];
     }
 
     /// <inheritdoc />
@@ -62,7 +60,7 @@ public partial class GraphicsLayer : Layer
 [ArcGISMethod]
     public Task Add(Graphic graphic)
     {
-        return Add(new[] { graphic });
+        return Add([graphic]);
     }
 
     /// <summary>
@@ -95,7 +93,7 @@ public partial class GraphicsLayer : Layer
             return;
         }
 
-        var records = newGraphics.Select(g => g.ToSerializationRecord()).ToList();
+        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -239,7 +237,6 @@ public partial class GraphicsLayer : Layer
     public async Task Clear()
     {
         AllowRender = false;
-        _graphicsToRender.Clear();
         _graphics.Clear();
         await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
         AllowRender = true;
@@ -251,8 +248,7 @@ public partial class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                _graphicsToRender.Add(graphic);
-                UpdateState(false);
+                await Add(graphic);
 
                 break;
             default:
@@ -268,12 +264,10 @@ public partial class GraphicsLayer : Layer
         switch (child)
         {
             case Graphic graphic:
-                if (_graphics.Remove(graphic) && CoreJsModule is not null)
+                if (_graphics.Remove(graphic) && CoreJsModule is not null && !graphic.IsDisposed)
                 {
                     try
                     {
-                        _graphicsToRender.Remove(graphic);
-
                         await CoreJsModule.InvokeVoidAsync("removeGraphic",
                             CancellationTokenSource.Token, graphic.Id, View?.Id, Id);
                     }
@@ -324,24 +318,7 @@ public partial class GraphicsLayer : Layer
         await base.UpdateFromJavaScript(renderedLayer);
     }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        if (!firstRender && _graphicsToRender.Any(g => !g.IsDisposed) && !_rendering && View?.MapRendered == true)
-        {
-            _rendering = true;
-            AllowRender = false;
-            await Add(_graphicsToRender.Where(g => !g.IsDisposed));
-            _graphicsToRender.Clear();
-            AllowRender = true;
-            _rendering = false;
-        }
-    }
-
     private HashSet<Graphic> _graphics = new();
-    private HashSet<Graphic> _graphicsToRender = new();
-    private bool _rendering;
 }
 
 internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>
@@ -376,7 +353,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
 
         foreach (Graphic graphic in value)
         {
-            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(), options);
+            JsonSerializer.Serialize(writer, graphic.ToSerializationRecord(true), options);
         }
 
         writer.WriteEndArray();

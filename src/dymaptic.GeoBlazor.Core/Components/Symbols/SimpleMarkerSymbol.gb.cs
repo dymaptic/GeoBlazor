@@ -15,7 +15,6 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     IRouteStopSymbolsWaypoint,
     IRouteSymbolsDirectionPoints,
     IRouteSymbolsPointBarriers,
-    ISearchViewModelDefaultSymbolsPoint,
     ISketchViewModelPointSymbol,
     ISymbol2D,
     ISymbolsMarkerSymbol

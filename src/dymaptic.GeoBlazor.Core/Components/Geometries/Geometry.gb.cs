@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 ///    The base class for geometry objects.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public abstract partial class Geometry : ISearchViewModelSelectedSuggestion
+public abstract partial class Geometry
 {
 
 #region Public Properties / Blazor Parameters

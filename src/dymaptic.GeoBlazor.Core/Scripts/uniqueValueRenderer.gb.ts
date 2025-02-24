@@ -49,7 +49,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     }
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
     }
     async getUniqueValueGroups(): Promise<any> {
         if (!hasValue(this.component.uniqueValueGroups)) {
@@ -107,7 +107,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');

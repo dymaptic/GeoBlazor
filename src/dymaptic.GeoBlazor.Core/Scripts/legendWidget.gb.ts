@@ -19,6 +19,50 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         return this.widget;
     }
     
+    async classes(): Promise<any> {
+        return this.widget.classes();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.widget.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.widget.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.widget.isResolved();
+    }
+
+    async own(handleOrHandles: any): Promise<void> {
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        this.widget.own(jsHandleOrHandles);
+    }
+
+    async postInitialize(): Promise<void> {
+        this.widget.postInitialize();
+    }
+
+    async render(): Promise<any> {
+        return this.widget.render();
+    }
+
+    async renderNow(): Promise<void> {
+        this.widget.renderNow();
+    }
+
+    async scheduleRender(): Promise<void> {
+        this.widget.scheduleRender();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.widget.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getActiveLayerInfos(): Promise<any> {
@@ -89,11 +133,20 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.basemapLegendVisible)) {
         properties.basemapLegendVisible = dotNetObject.basemapLegendVisible;
     }
+    if (hasValue(dotNetObject.container)) {
+        properties.container = dotNetObject.container;
+    }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
         properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.respectLayerDefinitionExpression)) {
         properties.respectLayerDefinitionExpression = dotNetObject.respectLayerDefinitionExpression;
@@ -103,6 +156,9 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.style)) {
         properties.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
     }
     let jsLegend = new Legend(properties);
 
@@ -152,11 +208,20 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
     }
+    if (hasValue(jsObject.container)) {
+        dotNetLegendWidget.container = jsObject.container;
+    }
     if (hasValue(jsObject.headingLevel)) {
         dotNetLegendWidget.headingLevel = jsObject.headingLevel;
     }
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetLegendWidget.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
+    }
+    if (hasValue(jsObject.icon)) {
+        dotNetLegendWidget.icon = jsObject.icon;
+    }
+    if (hasValue(jsObject.label)) {
+        dotNetLegendWidget.label = jsObject.label;
     }
     if (hasValue(jsObject.respectLayerDefinitionExpression)) {
         dotNetLegendWidget.respectLayerDefinitionExpression = jsObject.respectLayerDefinitionExpression;
@@ -169,6 +234,9 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetLegendWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.id)) {
+        dotNetLegendWidget.widgetId = jsObject.id;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

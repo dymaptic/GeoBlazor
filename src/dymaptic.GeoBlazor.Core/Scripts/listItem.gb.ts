@@ -5,6 +5,10 @@ import { buildDotNetListItem } from './listItem';
 
 export async function buildJsListItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.actionsSections)) {
+        let { buildJsActionBase } = await import('./actionBase');
+        properties.actionsSections = await Promise.all(dotNetObject.actionsSections.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -12,9 +16,6 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
 
     if (hasValue(dotNetObject.actionsOpen)) {
         properties.actionsOpen = dotNetObject.actionsOpen;
-    }
-    if (hasValue(dotNetObject.actionsSections)) {
-        properties.actionsSections = dotNetObject.actionsSections;
     }
     if (hasValue(dotNetObject.childrenSortable)) {
         properties.childrenSortable = dotNetObject.childrenSortable;
@@ -60,15 +61,16 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
         // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+        if (hasValue(jsObject.actionsSections)) {
+            let { buildDotNetActionBase } = await import('./actionBase');
+            dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
+        }
         if (hasValue(jsObject.layerView)) {
             let { buildDotNetLayerView } = await import('./layerView');
             dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView);
         }
     if (hasValue(jsObject.actionsOpen)) {
         dotNetListItem.actionsOpen = jsObject.actionsOpen;
-    }
-    if (hasValue(jsObject.actionsSections)) {
-        dotNetListItem.actionsSections = jsObject.actionsSections;
     }
     if (hasValue(jsObject.childrenSortable)) {
         dotNetListItem.childrenSortable = jsObject.childrenSortable;

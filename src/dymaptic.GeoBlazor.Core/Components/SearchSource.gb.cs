@@ -108,17 +108,17 @@ public abstract partial class SearchSource
             return Filter;
         }
 
-        // get the property value
-        SearchSourceFilter? result = await JsComponentReference!.InvokeAsync<SearchSourceFilter?>("getProperty",
-            CancellationTokenSource.Token, "filter");
+        SearchSourceFilter? result = await JsComponentReference.InvokeAsync<SearchSourceFilter?>(
+            "getFilter", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Filter = result;
+            Filter = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Filter)] = Filter;
+            ModifiedParameters[nameof(Filter)] = Filter;
         }
-         
+        
         return Filter;
     }
     
@@ -1121,6 +1121,7 @@ public abstract partial class SearchSource
         {
             throw new MissingRequiredOptionsChildElementException(nameof(SearchSource), [nameof(Layer), nameof(LayerId)]);
         }
+        
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         ResultSymbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

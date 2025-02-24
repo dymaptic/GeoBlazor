@@ -4,22 +4,32 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetActionButton } from './actionButton';
 
 export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsActionButton = new ActionButton();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.actionId)) {
-        jsActionButton.id = dotNetObject.actionId;
+        properties.id = dotNetObject.actionId;
+    }
+    if (hasValue(dotNetObject.active)) {
+        properties.active = dotNetObject.active;
+    }
+    if (hasValue(dotNetObject.className)) {
+        properties.className = dotNetObject.className;
+    }
+    if (hasValue(dotNetObject.disabled)) {
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsActionButton.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.image)) {
-        jsActionButton.image = dotNetObject.image;
+        properties.image = dotNetObject.image;
     }
     if (hasValue(dotNetObject.title)) {
-        jsActionButton.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
+    let jsActionButton = new ActionButton(properties);
     
-        let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
+    let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
     
@@ -40,10 +50,20 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
     }
     
     let dotNetActionButton: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionButton.actionId = jsObject.id;
+    }
+    if (hasValue(jsObject.active)) {
+        dotNetActionButton.active = jsObject.active;
+    }
+    if (hasValue(jsObject.className)) {
+        dotNetActionButton.className = jsObject.className;
+    }
+    if (hasValue(jsObject.disabled)) {
+        dotNetActionButton.disabled = jsObject.disabled;
     }
     if (hasValue(jsObject.icon)) {
         dotNetActionButton.icon = jsObject.icon;

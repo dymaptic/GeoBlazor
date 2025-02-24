@@ -423,4 +423,54 @@ public abstract partial class Layer : IHitTestItem,
     
 #endregion
 
+#region Event Handlers
+
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsCreate(LayerViewCreateEvent createEvent)
+    {
+        await OnCreate.InvokeAsync(createEvent);
+    }
+    
+    /// <summary>
+    ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is created and rendered in a view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewCreateEvent> OnCreate { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsCreateError(LayerViewCreateErrorEvent createErrorEvent)
+    {
+        await OnCreateError.InvokeAsync(createErrorEvent);
+    }
+    
+    /// <summary>
+    ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>
+    ///     after a layer has been added to the map.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewCreateErrorEvent> OnCreateError { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsDestroy(LayerViewDestroyEvent destroyEvent)
+    {
+        await OnDestroy.InvokeAsync(destroyEvent);
+    }
+    
+    /// <summary>
+    ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is destroyed and no longer renders in a view.
+    /// </summary>
+    [Parameter]
+    public EventCallback<LayerViewDestroyEvent> OnDestroy { get; set; }
+   
+#endregion
+
 }

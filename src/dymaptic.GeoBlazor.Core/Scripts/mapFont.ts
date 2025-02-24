@@ -5,35 +5,28 @@ import Font from "@arcgis/core/symbols/Font";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsMapFont(dotNetObject: any): any {
-    let jsFont = new Font();
+    let properties: any = {};
 
     if (hasValue(dotNetObject.decoration)) {
-        jsFont.decoration = dotNetObject.decoration;
+        properties.decoration = dotNetObject.decoration;
     }
     if (hasValue(dotNetObject.family)) {
-        jsFont.family = dotNetObject.family;
+        properties.family = dotNetObject.family;
     }
     if (hasValue(dotNetObject.size)) {
-        jsFont.size = dotNetObject.size;
+        properties.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.style)) {
-        jsFont.style = dotNetObject.style;
+        properties.style = dotNetObject.style;
     }
     if (hasValue(dotNetObject.weight)) {
-        jsFont.weight = dotNetObject.weight;
+        properties.weight = dotNetObject.weight;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsFont);
+    let jsFont = new Font(properties);
+    let jsObjectRef = DotNet.createJSObjectReference(jsFont);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFont;
-
-    let dnInstantiatedObject = buildDotNetMapFont(jsFont);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MapFont', e);
-    }
 
     return jsFont;
 }
