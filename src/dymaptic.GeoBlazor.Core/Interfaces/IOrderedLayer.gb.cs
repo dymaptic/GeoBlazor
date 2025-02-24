@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, WFSLayer
 /// </summary>
-public partial interface IOrderedLayer 
+public partial interface IOrderedLayer : IMapComponent
 {
 #region Properties
 

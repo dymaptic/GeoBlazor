@@ -19,7 +19,6 @@ public partial class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ExactMatch { get; set; }
 
-
     /// <summary>
     ///     A template string used to display multiple fields in a defined order when suggestions are displayed. This takes precedence over displayField. Field names in the template must have the following format: {FieldName}. An example suggestionTemplate could look something like: Name: {OWNER}, Parcel: {PARCEL_ID}.
     /// </summary>
@@ -27,13 +26,11 @@ public partial class LayerSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SuggestionTemplate { get; set; }
 
-
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-
             case Layer layer:
                 if (!layer.Equals(Layer))
                 {
@@ -52,7 +49,6 @@ public partial class LayerSearchSource : SearchSource
     {
         switch (child)
         {
-
             case Layer _:
                 Layer = null;
                 break;
@@ -68,6 +64,5 @@ public partial class LayerSearchSource : SearchSource
         base.ValidateRequiredChildren();
     }
 }
-
 
 

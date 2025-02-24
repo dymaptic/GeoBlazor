@@ -3,9 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, SceneLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///    Interface for types CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, OpenStreetMapLayer, SceneLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
-public partial interface IPortalLayer 
+public partial interface IPortalLayer : IMapComponent
 {
 #region Properties
 

@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    This property is only relevant when symbolizing polygon features with marker symbols (or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a>) in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> of this renderer.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IUniqueValueRendererBackgroundFillSymbol 
+public partial interface IUniqueValueRendererBackgroundFillSymbol : IMapComponent
 {
 }

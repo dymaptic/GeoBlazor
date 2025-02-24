@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types GroupLayer
 /// </summary>
-public partial interface ILayersMixin 
+public partial interface ILayersMixin : IMapComponent
 {
 #region Properties
 

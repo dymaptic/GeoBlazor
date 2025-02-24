@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types HeatmapRenderer
 /// </summary>
-public partial interface IRenderersRenderer 
+public partial interface IRenderersRenderer : IMapComponent
 {
 }

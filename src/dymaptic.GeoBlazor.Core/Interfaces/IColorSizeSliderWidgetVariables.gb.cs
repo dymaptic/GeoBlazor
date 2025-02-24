@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types ColorVariable, SizeVariable
 /// </summary>
-public partial interface IColorSizeSliderWidgetVariables 
+public partial interface IColorSizeSliderWidgetVariables : IMapComponent
 {
 }

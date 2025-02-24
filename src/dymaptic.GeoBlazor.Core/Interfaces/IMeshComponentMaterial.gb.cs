@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    The material determines how the component is visualized.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-MeshComponent.html#material">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IMeshComponentMaterial 
+public partial interface IMeshComponentMaterial : IMapComponent
 {
 }

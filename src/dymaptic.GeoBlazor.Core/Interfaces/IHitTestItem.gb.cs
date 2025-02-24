@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    A list of layers and graphics to include in the hitTest.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IHitTestItem 
+public partial interface IHitTestItem : IMapComponent
 {
 }

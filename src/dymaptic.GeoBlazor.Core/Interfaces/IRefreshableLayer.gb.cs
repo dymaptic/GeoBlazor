@@ -3,9 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BaseTileLayer, BingMapsLayer, CatalogLayer, ImageryLayer, MapImageLayer, TileLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///    Interface for types BaseTileLayer, BingMapsLayer, CatalogLayer, ImageryLayer, MapImageLayer, OpenStreetMapLayer, TileLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
-public partial interface IRefreshableLayer 
+public partial interface IRefreshableLayer : IMapComponent
 {
 #region Properties
 

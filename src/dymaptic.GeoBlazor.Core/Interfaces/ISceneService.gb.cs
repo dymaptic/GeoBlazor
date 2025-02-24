@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types SceneLayer
 /// </summary>
-public partial interface ISceneService 
+public partial interface ISceneService : IMapComponent
 {
 #region Properties
 

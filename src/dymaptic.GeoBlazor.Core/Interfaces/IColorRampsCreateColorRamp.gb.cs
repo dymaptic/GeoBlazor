@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types AlgorithmicColorRamp, MultipartColorRamp
 /// </summary>
-public partial interface IColorRampsCreateColorRamp 
+public partial interface IColorRampsCreateColorRamp : IMapComponent
 {
 }

@@ -3,9 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, SceneLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///    Interface for types BaseTileLayer, BingMapsLayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, GraphicsLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OpenStreetMapLayer, SceneLayer, TileLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
-public partial interface IScaleRangeLayer 
+public partial interface IScaleRangeLayer : IMapComponent
 {
 #region Properties
 

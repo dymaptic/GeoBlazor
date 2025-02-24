@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    default { type: "simple-line", color: [0, 122, 194], width: 6 }
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#directionLines">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IRouteSymbolsDirectionLines 
+public partial interface IRouteSymbolsDirectionLines : IMapComponent
 {
 }

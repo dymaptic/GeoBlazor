@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types CatalogFootprintLayer, CatalogLayer, FeatureLayer, SubtypeSublayer
 /// </summary>
-public partial interface IFeatureSetLayer 
+public partial interface IFeatureSetLayer : IMapComponent
 {
 }

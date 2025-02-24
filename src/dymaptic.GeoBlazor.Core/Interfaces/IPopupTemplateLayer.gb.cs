@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    
 /// </summary>
-public partial interface IPopupTemplateLayer 
+public partial interface IPopupTemplateLayer : IMapComponent
 {
 }

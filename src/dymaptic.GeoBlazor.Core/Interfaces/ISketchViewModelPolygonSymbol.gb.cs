@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">SimpleFillSymbol</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PolygonSymbol3D.html">PolygonSymbol3D</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-CIMSymbol.html">CIMSymbol</a> used for representing the polygon geometry that is being drawn.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch-SketchViewModel.html#polygonSymbol">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface ISketchViewModelPolygonSymbol 
+public partial interface ISketchViewModelPolygonSymbol : IMapComponent
 {
 }

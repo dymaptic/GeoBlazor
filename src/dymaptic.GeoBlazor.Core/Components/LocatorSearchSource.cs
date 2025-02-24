@@ -12,7 +12,6 @@ public partial class LocatorSearchSource : SearchSource
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
 
-
     /// <summary>
     ///     Constricts search results to a specified country code. For example, US for United States or SE for Sweden. Only applies to the World Geocode Service.
     /// </summary>
@@ -51,8 +50,6 @@ public partial class LocatorSearchSource : SearchSource
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? SingleLineFieldName { get; set; }
-
 }
-
 
 

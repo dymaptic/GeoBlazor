@@ -1,0 +1,128 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedOpenStreetMapLayer(Action renderHandler)
+    {
+        OpenStreetMapLayer? openStreetMapLayer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <OpenStreetMapLayer 
+                        Title="@("voluptas laboriosam illo")"
+                        BlendMode="@(BlendMode.SourceIn)"
+                        Copyright="@("neque")"
+                        MaxScale="@(4508809.4103)"
+                        MinScale="@(6416.1317)"
+                        RefreshInterval="@(972.4977)"
+                        SubDomains="@(["et",
+                            "sunt"])"
+                        Opacity="@(0.4000)"
+                        Visible="@(true)"
+                        ListMode="@(ListMode.Show)"
+                        Effect="@(new Effect("tempore",
+                            43510797.6081))"
+                        PersistenceEnabled="@(true)"
+                        UrlTemplate="@("https://ethyl.net")">
+                        <TimeExtent 
+                            Start="@(new DateTime(2006, 7, 22, 17, 10, 43))"
+                            End="@(new DateTime(2010, 8, 8, 1, 36, 28))">
+                        </TimeExtent>
+                        <TileInfo 
+                            Dpi="@(147.3648)"
+                            Format="@(TileInfoFormat.Pdf)"
+                            IsWrappable="@(true)"
+                            Size="@([2,
+                                6])">
+                            <LOD 
+                                Level="@(9)"
+                                LevelValue="@("aspernatur")"
+                                Resolution="@(24.2644)"
+                                Scale="@(8382032.1566)">
+                            </LOD>
+                            <Point 
+                                Longitude="@(155.8686)"
+                                Latitude="@(-19.1707)"
+                                X="@(157.7919)"
+                                Y="@(-60.6860)"
+                                Z="@(484.3431)"
+                                HasM="@(true)"
+                                HasZ="@(true)"
+                                M="@(46.0909)">
+                                <SpatialReference 
+                                    Wkid="@(5)"
+                                    ImageCoordinateSystem="@("corrupti")"
+                                    Wkt="@("et")"
+                                    Wkt2="@("molestias")">
+                                </SpatialReference>
+                            </Point>
+                            <SpatialReference 
+                                Wkid="@(5)"
+                                ImageCoordinateSystem="@("necessitatibus")"
+                                Wkt="@("hic")"
+                                Wkt2="@("et")">
+                            </SpatialReference>
+                        </TileInfo>
+                        <PortalItem />
+                    </OpenStreetMapLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(openStreetMapLayer!);
+        await AssertJavaScript("assertLayerExists", args: "web-tile");
+        PortalItem testPortalItem = new PortalItem();
+        await openStreetMapLayer.SetPortalItem(testPortalItem);
+        var portalItem = await openStreetMapLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        BlendMode testBlendMode = BlendMode.Exclusion;
+        await openStreetMapLayer.SetBlendMode(testBlendMode);
+        var blendMode = await openStreetMapLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        TileInfo testTileInfo = new TileInfo(468.7940,
+                    TileInfoFormat.Png,
+                    true,
+                [new LOD(9,
+                        "fugiat",
+                        86.4993,
+                        46457282.1258)],
+                new Point(-33.8617,
+                        -13.6789,
+                        -84.6590,
+                        -56.0121,
+                        23.2068,
+                    new SpatialReference(2,
+                            "autem",
+                            "qui",
+                            "aut"),
+                        true,
+                        true,
+                        223.4131),
+                    [8,
+                        4],
+                new SpatialReference(8,
+                        "nisi",
+                        "animi",
+                        "aut"));
+        await openStreetMapLayer.SetTileInfo(testTileInfo);
+        var tileInfo = await openStreetMapLayer.GetTileInfo();
+        Assert.AreEqual(testTileInfo, tileInfo);
+        ListMode testListMode = ListMode.Show;
+        await openStreetMapLayer.SetListMode(testListMode);
+        var listMode = await openStreetMapLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2023, 4, 5, 8, 2, 4),
+                    new DateTime(2016, 4, 24, 11, 36, 9));
+        await openStreetMapLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await openStreetMapLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

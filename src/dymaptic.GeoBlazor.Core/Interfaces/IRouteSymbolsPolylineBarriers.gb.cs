@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    default { type: "simple-line", color: [255, 85, 0, 0.7], width: 7.5 }
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#polylineBarriers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IRouteSymbolsPolylineBarriers 
+public partial interface IRouteSymbolsPolylineBarriers : IMapComponent
 {
 }

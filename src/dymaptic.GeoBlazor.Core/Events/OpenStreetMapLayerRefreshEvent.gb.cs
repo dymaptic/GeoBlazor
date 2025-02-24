@@ -3,10 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    
+///    Event result type for the IOpenStreetMapLayer.Onefresh event.
 /// </summary>
-/// <param name="Error">
+/// <param name="DataChanged">
 /// </param>
-public partial record CSVLayerLayerviewCreateErrorEvent(
+public partial record OpenStreetMapLayerRefreshEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Error? Error = null);
+    bool? DataChanged = null);

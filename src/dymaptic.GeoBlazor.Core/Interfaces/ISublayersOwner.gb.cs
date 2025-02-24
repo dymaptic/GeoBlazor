@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types MapImageLayer, TileLayer
 /// </summary>
-public partial interface ISublayersOwner 
+public partial interface ISublayersOwner : IMapComponent
 {
 #region Properties
 

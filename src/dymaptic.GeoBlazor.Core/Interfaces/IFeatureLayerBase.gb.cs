@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types CatalogLayer, FeatureLayer
 /// </summary>
-public partial interface IFeatureLayerBase 
+public partial interface IFeatureLayerBase : IMapComponent
 {
 #region Properties
 

@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    default { type: "simple-marker", color: [255, 255, 255], size: 12, outline: { color: [0, 122, 194], width: 3 } }
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteStopSymbols.html#break">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IRouteStopSymbolsBreak 
+public partial interface IRouteStopSymbolsBreak : IMapComponent
 {
 }

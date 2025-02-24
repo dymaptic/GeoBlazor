@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    The color ramp to apply to the renderer.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-raster-renderers-shadedRelief.html#createRenderer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IShadedReliefCreateRendererParamsColorRamp 
+public partial interface IShadedReliefCreateRendererParamsColorRamp : IMapComponent
 {
 }

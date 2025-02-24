@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types PictureFillSymbol, SimpleFillSymbol
 /// </summary>
-public partial interface ISymbolsFillSymbol 
+public partial interface ISymbolsFillSymbol : IMapComponent
 {
 }

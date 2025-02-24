@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types PictureMarkerSymbol, SimpleMarkerSymbol
 /// </summary>
-public partial interface ISymbolsMarkerSymbol 
+public partial interface ISymbolsMarkerSymbol : IMapComponent
 {
 }

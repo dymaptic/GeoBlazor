@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types ImageryLayer
 /// </summary>
-public partial interface IArcGISImageService 
+public partial interface IArcGISImageService : IMapComponent
 {
 #region Properties
 

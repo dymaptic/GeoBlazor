@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, GraphicsLayerView, OGCFeatureLayerView, StreamLayerView, WFSLayerView
 /// </summary>
-public partial interface IHighlightLayerViewMixin 
+public partial interface IHighlightLayerViewMixin : IMapComponent
 {
 #region Properties
 

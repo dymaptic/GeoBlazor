@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types ImageryTileLayer, WCSLayer
 /// </summary>
-public partial interface IImageryTileMixin 
+public partial interface IImageryTileMixin : IMapComponent
 {
 #region Properties
 

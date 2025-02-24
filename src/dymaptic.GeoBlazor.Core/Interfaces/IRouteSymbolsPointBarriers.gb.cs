@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    default { type: "simple-marker", style: "x", size: 10, outline: { color: [255, 0, 0], width: 3 } }
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#pointBarriers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IRouteSymbolsPointBarriers 
+public partial interface IRouteSymbolsPointBarriers : IMapComponent
 {
 }

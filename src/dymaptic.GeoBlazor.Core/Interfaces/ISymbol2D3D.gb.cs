@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    
 /// </summary>
-public partial interface ISymbol2D3D : ISymbolsSymbol
+public partial interface ISymbol2D3D : ISymbolsSymbol,
+    IMapComponent
 {
 }

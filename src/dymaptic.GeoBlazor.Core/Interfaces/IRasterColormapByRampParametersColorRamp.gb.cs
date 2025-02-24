@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    A colorramp
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-rasterFunctionUtils.html#RasterColormapByRampParameters">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IRasterColormapByRampParametersColorRamp 
+public partial interface IRasterColormapByRampParametersColorRamp : IMapComponent
 {
 }

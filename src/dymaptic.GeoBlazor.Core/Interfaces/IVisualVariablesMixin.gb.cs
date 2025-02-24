@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types ClassBreaksRenderer, DictionaryRenderer, SimpleRenderer, UniqueValueRenderer
 /// </summary>
-public partial interface IVisualVariablesMixin 
+public partial interface IVisualVariablesMixin : IMapComponent
 {
 #region Properties
 

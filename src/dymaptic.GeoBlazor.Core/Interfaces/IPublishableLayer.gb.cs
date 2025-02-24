@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types FeatureLayer
 /// </summary>
-public partial interface IPublishableLayer 
+public partial interface IPublishableLayer : IMapComponent
 {
 #region Property Getters
 

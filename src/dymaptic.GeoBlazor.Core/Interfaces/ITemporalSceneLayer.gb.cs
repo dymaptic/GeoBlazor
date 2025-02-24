@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types SceneLayer
 /// </summary>
-public partial interface ITemporalSceneLayer 
+public partial interface ITemporalSceneLayer : IMapComponent
 {
 #region Properties
 

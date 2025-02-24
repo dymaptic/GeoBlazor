@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types CatalogLayer, FeatureLayer, MapImageLayer, SceneLayer, TileLayer
 /// </summary>
-public partial interface ICustomParametersMixin 
+public partial interface ICustomParametersMixin : IMapComponent
 {
 #region Properties
 

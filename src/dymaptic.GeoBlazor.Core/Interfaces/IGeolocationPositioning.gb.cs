@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types LocateViewModel, TrackViewModel
 /// </summary>
-public partial interface IGeolocationPositioning 
+public partial interface IGeolocationPositioning : IMapComponent
 {
 #region Properties
 
