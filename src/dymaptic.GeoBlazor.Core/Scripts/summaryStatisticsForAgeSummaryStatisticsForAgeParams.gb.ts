@@ -5,7 +5,7 @@ import { buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams } from 
 export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jssummaryStatisticsForAgeSummaryStatisticsForAgeParams: any = {};
     if (hasValue(viewId)) {
-        jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = arcGisObjectRefs[viewId];
+        jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

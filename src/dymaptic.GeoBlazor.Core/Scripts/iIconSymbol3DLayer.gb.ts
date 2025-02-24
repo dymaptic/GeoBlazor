@@ -33,10 +33,12 @@ export default class IIconSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
         return await buildDotNetIconSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
         this.layer.material = await  buildJsIconSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     async getOutline(): Promise<any> {
         if (!hasValue(this.layer.outline)) {
             return null;
@@ -45,10 +47,12 @@ export default class IIconSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
         return await buildDotNetIconSymbol3DLayerOutline(this.layer.outline);
     }
+    
     async setOutline(value: any): Promise<void> {
         let { buildJsIconSymbol3DLayerOutline } = await import('./iconSymbol3DLayerOutline');
         this.layer.outline = await  buildJsIconSymbol3DLayerOutline(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -74,11 +78,11 @@ export async function buildJsIIconSymbol3DLayerGenerated(dotNetObject: any, laye
         properties.anchor = dotNetObject.anchor;
     }
     if (hasValue(dotNetObject.anchorPosition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
+        const { id, dotNetComponentReference, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
         properties.anchorPosition = sanitizedAnchorPosition;
     }
     if (hasValue(dotNetObject.resource)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResource } = dotNetObject.resource;
+        const { id, dotNetComponentReference, ...sanitizedResource } = dotNetObject.resource;
         properties.resource = sanitizedResource;
     }
     if (hasValue(dotNetObject.size)) {

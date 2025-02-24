@@ -49,10 +49,12 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }
+    
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

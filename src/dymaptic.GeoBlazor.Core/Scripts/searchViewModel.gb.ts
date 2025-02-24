@@ -45,6 +45,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetSearchSource } = await import('./searchSource');
         return await buildDotNetSearchSource(this.component.activeSource);
     }
+    
     async getAllSources(): Promise<any> {
         if (!hasValue(this.component.allSources)) {
             return null;
@@ -71,10 +72,12 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         return await buildDotNetSearchViewModelDefaultSymbols(this.component.defaultSymbols);
     }
+    
     async setDefaultSymbols(value: any): Promise<void> {
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         this.component.defaultSymbols = await  buildJsSearchViewModelDefaultSymbols(value, this.layerId, this.viewId);
     }
+    
     async getGoToOverride(): Promise<any> {
         if (!hasValue(this.component.goToOverride)) {
             return null;
@@ -83,10 +86,12 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.component.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
@@ -95,10 +100,12 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
+    
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+    
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
@@ -107,10 +114,12 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }
+    
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
+    
     async getResultGraphic(): Promise<any> {
         if (!hasValue(this.component.resultGraphic)) {
             return null;
@@ -119,6 +128,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.resultGraphic, this.layerId, this.viewId);
     }
+    
     async getSources(): Promise<any> {
         if (!hasValue(this.component.sources)) {
             return null;
@@ -146,7 +156,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
 export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.defaultSymbols)) {
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');

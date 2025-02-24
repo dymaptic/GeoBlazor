@@ -61,6 +61,7 @@ export default class ViewStateGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

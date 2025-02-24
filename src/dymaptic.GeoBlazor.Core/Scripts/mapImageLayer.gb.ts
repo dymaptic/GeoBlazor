@@ -98,10 +98,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEffect } = await import('./effect');
         return buildDotNetEffect(this.layer.effect);
     }
+    
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
     }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -110,10 +112,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+    
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtent =  buildJsExtent(value);
     }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -122,10 +126,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
@@ -134,6 +140,7 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+    
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
             return null;
@@ -170,10 +177,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+    
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     async getTimeInfo(): Promise<any> {
         if (!hasValue(this.layer.timeInfo)) {
             return null;
@@ -182,10 +191,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
+    
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -194,10 +205,12 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+    
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -295,7 +308,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {

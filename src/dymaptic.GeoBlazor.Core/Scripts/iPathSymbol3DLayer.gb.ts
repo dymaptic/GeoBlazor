@@ -33,10 +33,12 @@ export default class IPathSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
         return await buildDotNetPathSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsPathSymbol3DLayerMaterial } = await import('./pathSymbol3DLayerMaterial');
         this.layer.material = await  buildJsPathSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -70,7 +72,7 @@ export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, laye
         properties.join = dotNetObject.join;
     }
     if (hasValue(dotNetObject.profile)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedProfile } = dotNetObject.profile;
+        const { id, dotNetComponentReference, ...sanitizedProfile } = dotNetObject.profile;
         properties.profile = sanitizedProfile;
     }
     if (hasValue(dotNetObject.profileRotation)) {

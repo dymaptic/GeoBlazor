@@ -29,7 +29,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const { id, dotNetComponentReference, ...sanitizedCapabilities } = dotNetObject.capabilities;
         jsArcGISImageService.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.compressionQuality)) {
@@ -72,14 +72,14 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
+        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
         jsArcGISImageService.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.renderer)) {
         jsArcGISImageService.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
+        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
         jsArcGISImageService.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.sourceJSON)) {

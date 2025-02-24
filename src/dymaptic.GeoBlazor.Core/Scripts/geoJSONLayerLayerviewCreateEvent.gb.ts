@@ -5,7 +5,7 @@ import { buildDotNetGeoJSONLayerLayerviewCreateEvent } from './geoJSONLayerLayer
 export async function buildJsGeoJSONLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayerLayerviewCreateEvent: any = {};
     if (hasValue(viewId)) {
-        jsGeoJSONLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+        jsGeoJSONLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

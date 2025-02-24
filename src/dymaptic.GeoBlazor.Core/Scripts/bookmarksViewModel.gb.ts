@@ -51,6 +51,7 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetBookmark } = await import('./bookmark');
         return await buildDotNetBookmark(this.component.activeBookmark);
     }
+    
     async getBookmarks(): Promise<any> {
         if (!hasValue(this.component.bookmarks)) {
             return null;
@@ -73,10 +74,12 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         return await buildDotNetBookmarkOptions(this.component.defaultCreateOptions);
     }
+    
     async setDefaultCreateOptions(value: any): Promise<void> {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         this.component.defaultCreateOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
+    
     async getDefaultEditOptions(): Promise<any> {
         if (!hasValue(this.component.defaultEditOptions)) {
             return null;
@@ -85,10 +88,12 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         return await buildDotNetBookmarkOptions(this.component.defaultEditOptions);
     }
+    
     async setDefaultEditOptions(value: any): Promise<void> {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         this.component.defaultEditOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
+    
     async getGoToOverride(): Promise<any> {
         if (!hasValue(this.component.goToOverride)) {
             return null;
@@ -97,10 +102,12 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.component.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -114,7 +121,7 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
 export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.bookmarks)) {
         let { buildJsBookmark } = await import('./bookmark');
@@ -134,7 +141,7 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     }
 
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const { id, dotNetComponentReference, ...sanitizedCapabilities } = dotNetObject.capabilities;
         properties.capabilities = sanitizedCapabilities;
     }
     let jsBookmarksViewModel = new BookmarksViewModel(properties);

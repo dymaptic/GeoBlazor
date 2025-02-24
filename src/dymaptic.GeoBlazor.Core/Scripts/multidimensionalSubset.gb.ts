@@ -11,7 +11,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     }
 
     if (hasValue(dotNetObject.subsetDefinitions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSubsetDefinitions } = dotNetObject.subsetDefinitions;
+        const { id, dotNetComponentReference, ...sanitizedSubsetDefinitions } = dotNetObject.subsetDefinitions;
         properties.subsetDefinitions = sanitizedSubsetDefinitions;
     }
     let jsMultidimensionalSubset = new MultidimensionalSubset(properties);

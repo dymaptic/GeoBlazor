@@ -5,7 +5,7 @@ import { buildDotNetSceneLayerLayerviewDestroyEvent } from './sceneLayerLayervie
 export async function buildJsSceneLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
-        jsSceneLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+        jsSceneLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

@@ -33,10 +33,12 @@ export default class ITemporalSceneLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+    
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     async getTimeInfo(): Promise<any> {
         if (!hasValue(this.layer.timeInfo)) {
             return null;
@@ -45,10 +47,12 @@ export default class ITemporalSceneLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
+    
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -71,7 +75,7 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     }
 
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsTemporalSceneLayer.timeOffset = sanitizedTimeOffset;
     }
 

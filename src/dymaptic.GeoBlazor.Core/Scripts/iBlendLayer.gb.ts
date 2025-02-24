@@ -33,10 +33,12 @@ export default class IBlendLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEffect } = await import('./effect');
         return buildDotNetEffect(this.layer.effect);
     }
+    
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

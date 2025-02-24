@@ -3,7 +3,7 @@ import RotationVariable from '@arcgis/core/renderers/visualVariables/RotationVar
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRotationVariable } from './rotationVariable';
 
-export async function buildJsRotationVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRotationVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.axis)) {
@@ -13,7 +13,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
         properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
         properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.rotationType)) {

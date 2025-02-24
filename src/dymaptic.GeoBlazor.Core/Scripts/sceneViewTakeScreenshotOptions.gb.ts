@@ -10,7 +10,7 @@ export async function buildJsSceneViewTakeScreenshotOptionsGenerated(dotNetObjec
     }
 
     if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedArea } = dotNetObject.area;
+        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
         jsSceneViewTakeScreenshotOptions.area = sanitizedArea;
     }
     if (hasValue(dotNetObject.height)) {

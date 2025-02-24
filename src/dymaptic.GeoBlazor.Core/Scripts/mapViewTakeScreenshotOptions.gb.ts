@@ -14,7 +14,7 @@ export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject:
     }
 
     if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedArea } = dotNetObject.area;
+        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
         jsMapViewTakeScreenshotOptions.area = sanitizedArea;
     }
     if (hasValue(dotNetObject.height)) {

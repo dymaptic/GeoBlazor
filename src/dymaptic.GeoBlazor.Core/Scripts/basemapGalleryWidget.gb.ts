@@ -73,10 +73,12 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.widget.activeBasemap);
     }
+    
     async setActiveBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
         this.widget.activeBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -85,10 +87,12 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         return await buildDotNetBasemapGalleryViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         this.widget.viewModel = await  buildJsBasemapGalleryViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -102,7 +106,7 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
 export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.activeBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
@@ -129,7 +133,7 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.source)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSource } = dotNetObject.source;
+        const { id, dotNetComponentReference, ...sanitizedSource } = dotNetObject.source;
         properties.source = sanitizedSource;
     }
     if (hasValue(dotNetObject.widgetId)) {

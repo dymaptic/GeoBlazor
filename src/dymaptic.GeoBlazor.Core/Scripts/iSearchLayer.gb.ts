@@ -39,7 +39,7 @@ export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: s
     let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedField } = dotNetObject.field;
+        const { id, dotNetComponentReference, ...sanitizedField } = dotNetObject.field;
         properties.field = sanitizedField;
     }
     if (hasValue(dotNetObject.iSearchLayerId)) {

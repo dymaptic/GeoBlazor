@@ -121,7 +121,7 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         jsSmartMappingSliderBase.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.histogramConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
+        const { id, dotNetComponentReference, ...sanitizedHistogramConfig } = dotNetObject.histogramConfig;
         jsSmartMappingSliderBase.histogramConfig = sanitizedHistogramConfig;
     }
     if (hasValue(dotNetObject.icon)) {
@@ -143,7 +143,7 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         jsSmartMappingSliderBase.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         jsSmartMappingSliderBase.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {

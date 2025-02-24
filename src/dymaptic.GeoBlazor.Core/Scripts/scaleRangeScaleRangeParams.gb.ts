@@ -5,7 +5,7 @@ import { buildDotNetScaleRangeScaleRangeParams } from './scaleRangeScaleRangePar
 export async function buildJsScaleRangeScaleRangeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsscaleRangeScaleRangeParams: any = {};
     if (hasValue(viewId)) {
-        jsscaleRangeScaleRangeParams.view = arcGisObjectRefs[viewId];
+        jsscaleRangeScaleRangeParams.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

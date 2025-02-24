@@ -37,6 +37,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         return await buildDotNetFeatureEffect(this.component.featureEffect);
     }
+    
     async getFilter(): Promise<any> {
         if (!hasValue(this.component.filter)) {
             return null;
@@ -45,6 +46,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         return await buildDotNetFeatureFilter(this.component.filter);
     }
+    
     async getHighlightOptions(): Promise<any> {
         if (!hasValue(this.component.highlightOptions)) {
             return null;
@@ -53,10 +55,12 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
+    
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
         this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
     }
+    
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -65,6 +69,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
         return await buildDotNetFeatureLayer(this.component.layer);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

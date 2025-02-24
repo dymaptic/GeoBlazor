@@ -33,6 +33,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         let { buildDotNetSizeRendererGenerator } = await import('./sizeRendererGenerator');
         return await buildDotNetSizeRendererGenerator(this.component.type);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -53,7 +54,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
         properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
         properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.maxDataValue)) {
@@ -72,7 +73,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
         properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const { id, dotNetComponentReference, ...sanitizedStops } = dotNetObject.stops;
         properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.target)) {

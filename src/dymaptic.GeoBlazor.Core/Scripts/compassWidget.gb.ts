@@ -77,10 +77,12 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.widget.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -89,10 +91,12 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
         return await buildDotNetCompassViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsCompassViewModel } = await import('./compassViewModel');
         this.widget.viewModel = await  buildJsCompassViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -106,7 +110,7 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
 export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');

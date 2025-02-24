@@ -10,7 +10,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId
     }
 
     if (hasValue(dotNetObject.operations)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOperations } = dotNetObject.operations;
+        const { id, dotNetComponentReference, ...sanitizedOperations } = dotNetObject.operations;
         jsWFSCapabilities.operations = sanitizedOperations;
     }
     

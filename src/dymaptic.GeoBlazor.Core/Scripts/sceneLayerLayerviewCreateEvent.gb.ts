@@ -5,7 +5,7 @@ import { buildDotNetSceneLayerLayerviewCreateEvent } from './sceneLayerLayerview
 export async function buildJsSceneLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneLayerLayerviewCreateEvent: any = {};
     if (hasValue(viewId)) {
-        jsSceneLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+        jsSceneLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

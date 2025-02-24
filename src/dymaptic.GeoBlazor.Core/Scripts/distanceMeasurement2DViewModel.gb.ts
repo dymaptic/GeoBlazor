@@ -42,7 +42,7 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
 export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
 
     if (hasValue(dotNetObject.geodesicDistanceThreshold)) {

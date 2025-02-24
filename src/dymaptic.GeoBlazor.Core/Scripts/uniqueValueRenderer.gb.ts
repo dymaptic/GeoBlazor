@@ -47,10 +47,12 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
         return await buildDotNetAuthoringInfo(this.component.authoringInfo);
     }
+    
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
     }
+    
     async getUniqueValueGroups(): Promise<any> {
         if (!hasValue(this.component.uniqueValueGroups)) {
             return null;
@@ -107,7 +109,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
@@ -123,7 +125,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     }
 
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBackgroundFillSymbol } = dotNetObject.backgroundFillSymbol;
+        const { id, dotNetComponentReference, ...sanitizedBackgroundFillSymbol } = dotNetObject.backgroundFillSymbol;
         properties.backgroundFillSymbol = sanitizedBackgroundFillSymbol;
     }
     if (hasValue(dotNetObject.defaultLabel)) {
@@ -145,7 +147,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         properties.fieldDelimiter = dotNetObject.fieldDelimiter;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
         properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.orderByClassesEnabled)) {

@@ -47,10 +47,12 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEffect } = await import('./effect');
         return buildDotNetEffect(this.layer.effect);
     }
+    
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
     }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -59,10 +61,12 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+    
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtent =  buildJsExtent(value);
     }
+    
     async getLineSymbol(): Promise<any> {
         if (!hasValue(this.layer.lineSymbol)) {
             return null;
@@ -71,10 +75,12 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
         return buildDotNetSimpleLineSymbol(this.layer.lineSymbol);
     }
+    
     async setLineSymbol(value: any): Promise<void> {
         let { buildJsSimpleLineSymbol } = await import('./simpleLineSymbol');
         this.layer.lineSymbol =  buildJsSimpleLineSymbol(value);
     }
+    
     async getPolygonSymbol(): Promise<any> {
         if (!hasValue(this.layer.polygonSymbol)) {
             return null;
@@ -83,10 +89,12 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
         return buildDotNetSimpleFillSymbol(this.layer.polygonSymbol);
     }
+    
     async setPolygonSymbol(value: any): Promise<void> {
         let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
         this.layer.polygonSymbol =  buildJsSimpleFillSymbol(value);
     }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -95,10 +103,12 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+    
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

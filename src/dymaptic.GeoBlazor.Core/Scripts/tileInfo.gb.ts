@@ -37,10 +37,12 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(this.component.origin);
     }
+    
     async setOrigin(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.component.origin =  buildJsPoint(value);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
@@ -49,10 +51,12 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.component.spatialReference =  buildJsSpatialReference(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -84,7 +88,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
         properties.isWrappable = dotNetObject.isWrappable;
     }
     if (hasValue(dotNetObject.lods)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLods } = dotNetObject.lods;
+        const { id, dotNetComponentReference, ...sanitizedLods } = dotNetObject.lods;
         properties.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.size)) {

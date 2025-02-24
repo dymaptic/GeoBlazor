@@ -26,11 +26,11 @@ export async function buildJsIFeatureLayerBaseGenerated(dotNetObject: any, layer
         jsFeatureLayerBase.displayField = dotNetObject.displayField;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
+        const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         jsFeatureLayerBase.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.floorInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
+        const { id, dotNetComponentReference, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
         jsFeatureLayerBase.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.gdbVersion)) {

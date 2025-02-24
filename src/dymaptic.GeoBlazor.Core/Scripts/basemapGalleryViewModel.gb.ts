@@ -39,10 +39,12 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.activeBasemap);
     }
+    
     async setActiveBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
         this.component.activeBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
+    
     async getItems(): Promise<any> {
         if (!hasValue(this.component.items)) {
             return null;
@@ -70,7 +72,7 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
 export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.activeBasemap)) {
         let { buildJsBasemap } = await import('./basemap');
@@ -82,7 +84,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     }
 
     if (hasValue(dotNetObject.source)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSource } = dotNetObject.source;
+        const { id, dotNetComponentReference, ...sanitizedSource } = dotNetObject.source;
         properties.source = sanitizedSource;
     }
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);

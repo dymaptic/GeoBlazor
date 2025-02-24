@@ -6,7 +6,7 @@ import { buildDotNetBuildingExplorerViewModel } from './buildingExplorerViewMode
 export async function buildJsBuildingExplorerViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layers)) {
         let { buildJsBuildingSceneLayer } = await import('./buildingSceneLayer');

@@ -71,10 +71,12 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         let { buildDotNetGeometry } = await import('./geometry');
         return buildDotNetGeometry(this.component.filterGeometry);
     }
+    
     async setFilterGeometry(value: any): Promise<void> {
         let { buildJsGeometry } = await import('./geometry');
         this.component.filterGeometry =  buildJsGeometry(value);
     }
+    
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -83,10 +85,12 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+    
     async setLayer(value: any): Promise<void> {
         let { buildJsLayer } = await import('./layer');
         this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
     }
+    
     async getLayerView(): Promise<any> {
         if (!hasValue(this.component.layerView)) {
             return null;
@@ -95,6 +99,7 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         let { buildDotNetLayerView } = await import('./layerView');
         return await buildDotNetLayerView(this.component.layerView);
     }
+    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.component.timeExtent)) {
             return null;
@@ -103,10 +108,12 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.component.timeExtent);
     }
+    
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -120,7 +127,7 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
 export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.filterGeometry)) {
         let { buildJsGeometry } = await import('./geometry');
@@ -136,7 +143,7 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
     }
 
     if (hasValue(dotNetObject.actionColumnConfig)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedActionColumnConfig } = dotNetObject.actionColumnConfig;
+        const { id, dotNetComponentReference, ...sanitizedActionColumnConfig } = dotNetObject.actionColumnConfig;
         properties.actionColumnConfig = sanitizedActionColumnConfig;
     }
     if (hasValue(dotNetObject.attachmentsEnabled)) {
@@ -185,7 +192,7 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
         properties.rowHighlightIds = dotNetObject.rowHighlightIds;
     }
     if (hasValue(dotNetObject.tableTemplate)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTableTemplate } = dotNetObject.tableTemplate;
+        const { id, dotNetComponentReference, ...sanitizedTableTemplate } = dotNetObject.tableTemplate;
         properties.tableTemplate = sanitizedTableTemplate;
     }
     if (hasValue(dotNetObject.timeZone)) {

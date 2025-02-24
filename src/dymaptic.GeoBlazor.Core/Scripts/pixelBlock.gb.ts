@@ -66,7 +66,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
         properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.statistics)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStatistics } = dotNetObject.statistics;
+        const { id, dotNetComponentReference, ...sanitizedStatistics } = dotNetObject.statistics;
         properties.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.validPixelCount)) {

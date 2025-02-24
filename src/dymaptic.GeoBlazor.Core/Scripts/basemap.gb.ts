@@ -49,10 +49,12 @@ export default class BasemapGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getReferenceLayers(): Promise<any> {
         if (!hasValue(this.component.referenceLayers)) {
             return null;
@@ -75,10 +77,12 @@ export default class BasemapGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.component.spatialReference =  buildJsSpatialReference(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -112,7 +116,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         properties.id = dotNetObject.basemapId;
     }
     if (hasValue(dotNetObject.style)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStyle } = dotNetObject.style;
+        const { id, dotNetComponentReference, ...sanitizedStyle } = dotNetObject.style;
         properties.style = sanitizedStyle;
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {

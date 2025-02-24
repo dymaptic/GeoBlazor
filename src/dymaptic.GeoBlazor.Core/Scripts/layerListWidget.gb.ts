@@ -106,10 +106,12 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
         return await buildDotNetLayerListViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsLayerListViewModel } = await import('./layerListViewModel');
         this.widget.viewModel = await  buildJsLayerListViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -123,7 +125,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         properties.listItemCreatedFunction = async (event) => {
@@ -189,7 +191,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         properties.visibilityAppearance = dotNetObject.visibilityAppearance;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {

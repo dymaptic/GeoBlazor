@@ -73,10 +73,12 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
         return await buildDotNetAreaMeasurement2DViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
         this.widget.viewModel = await  buildJsAreaMeasurement2DViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -90,7 +92,7 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
 export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');

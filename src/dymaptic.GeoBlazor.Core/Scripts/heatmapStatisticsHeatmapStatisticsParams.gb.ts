@@ -5,7 +5,7 @@ import { buildDotNetHeatmapStatisticsHeatmapStatisticsParams } from './heatmapSt
 export async function buildJsHeatmapStatisticsHeatmapStatisticsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsheatmapStatisticsHeatmapStatisticsParams: any = {};
     if (hasValue(viewId)) {
-        jsheatmapStatisticsHeatmapStatisticsParams.view = arcGisObjectRefs[viewId];
+        jsheatmapStatisticsHeatmapStatisticsParams.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

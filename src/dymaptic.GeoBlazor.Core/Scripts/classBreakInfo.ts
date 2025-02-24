@@ -1,6 +1,6 @@
-export async function buildJsClassBreakInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsClassBreakInfo(dotNetObject: any): Promise<any> {
     let {buildJsClassBreakInfoGenerated} = await import('./classBreakInfo.gb');
-    return await buildJsClassBreakInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsClassBreakInfoGenerated(dotNetObject);
 }
 
 export async function buildDotNetClassBreakInfo(jsObject: any): Promise<any> {

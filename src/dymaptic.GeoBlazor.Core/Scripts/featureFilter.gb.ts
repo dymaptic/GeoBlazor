@@ -33,10 +33,12 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         let { buildDotNetGeometry } = await import('./geometry');
         return buildDotNetGeometry(this.component.geometry);
     }
+    
     async setGeometry(value: any): Promise<void> {
         let { buildJsGeometry } = await import('./geometry');
         this.component.geometry =  buildJsGeometry(value);
     }
+    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.component.timeExtent)) {
             return null;
@@ -45,10 +47,12 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.component.timeExtent);
     }
+    
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

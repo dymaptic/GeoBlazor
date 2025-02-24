@@ -6,7 +6,7 @@ import { buildDotNetActiveLayerInfo } from './activeLayerInfo';
 export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
@@ -24,7 +24,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
         properties.isScaleDriven = dotNetObject.isScaleDriven;
     }
     if (hasValue(dotNetObject.legendElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendElements } = dotNetObject.legendElements;
+        const { id, dotNetComponentReference, ...sanitizedLegendElements } = dotNetObject.legendElements;
         properties.legendElements = sanitizedLegendElements;
     }
     if (hasValue(dotNetObject.ready)) {

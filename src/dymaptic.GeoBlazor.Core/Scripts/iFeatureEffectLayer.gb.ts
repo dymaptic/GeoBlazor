@@ -33,10 +33,12 @@ export default class IFeatureEffectLayerGenerated implements IPropertyWrapper {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         return await buildDotNetFeatureEffect(this.layer.featureEffect);
     }
+    
     async setFeatureEffect(value: any): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

@@ -41,6 +41,7 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
@@ -49,6 +50,7 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

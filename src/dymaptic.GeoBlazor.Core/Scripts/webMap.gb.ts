@@ -77,10 +77,12 @@ export default class WebMapGenerated implements IPropertyWrapper {
         let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
         return await buildDotNetGeotriggersInfo(this.component.geotriggersInfo);
     }
+    
     async setGeotriggersInfo(value: any): Promise<void> {
         let { buildJsGeotriggersInfo } = await import('./geotriggersInfo');
         this.component.geotriggersInfo = await  buildJsGeotriggersInfo(value, this.layerId, this.viewId);
     }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.component.portalItem)) {
             return null;
@@ -89,10 +91,12 @@ export default class WebMapGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getUtilityNetworks(): Promise<any> {
         if (!hasValue(this.component.utilityNetworks)) {
             return null;

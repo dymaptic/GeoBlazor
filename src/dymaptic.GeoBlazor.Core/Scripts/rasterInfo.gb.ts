@@ -55,7 +55,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
         properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.sensorInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSensorInfo } = dotNetObject.sensorInfo;
+        const { id, dotNetComponentReference, ...sanitizedSensorInfo } = dotNetObject.sensorInfo;
         properties.sensorInfo = sanitizedSensorInfo;
     }
     if (hasValue(dotNetObject.statistics)) {

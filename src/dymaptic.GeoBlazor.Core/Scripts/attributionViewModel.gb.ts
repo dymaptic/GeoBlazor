@@ -6,7 +6,7 @@ import { buildDotNetAttributionViewModel } from './attributionViewModel';
 export async function buildJsAttributionViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
 
     let jsAttributionViewModel = new AttributionViewModel(properties);

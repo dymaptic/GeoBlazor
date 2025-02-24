@@ -31,7 +31,7 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
         jsImageryTileMixin.legendEnabled = dotNetObject.legendEnabled;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
+        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
         jsImageryTileMixin.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
@@ -41,7 +41,7 @@ export async function buildJsIImageryTileMixinGenerated(dotNetObject: any, layer
         jsImageryTileMixin.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         jsImageryTileMixin.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.useViewTime)) {

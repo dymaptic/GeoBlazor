@@ -3,18 +3,18 @@ import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable'
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorVariable } from './colorVariable';
 
-export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.stops)) {
         let { buildJsColorStop } = await import('./colorStop');
-        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
         properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {

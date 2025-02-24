@@ -81,10 +81,12 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
         return await buildDotNetZoomViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsZoomViewModel } = await import('./zoomViewModel');
         this.widget.viewModel = await  buildJsZoomViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -98,7 +100,7 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
 export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsZoomViewModel } = await import('./zoomViewModel');

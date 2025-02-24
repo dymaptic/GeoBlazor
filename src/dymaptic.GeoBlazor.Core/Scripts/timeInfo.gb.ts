@@ -14,7 +14,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
         properties.endField = dotNetObject.endField;
     }
     if (hasValue(dotNetObject.interval)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedInterval } = dotNetObject.interval;
+        const { id, dotNetComponentReference, ...sanitizedInterval } = dotNetObject.interval;
         properties.interval = sanitizedInterval;
     }
     if (hasValue(dotNetObject.startField)) {

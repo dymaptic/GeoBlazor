@@ -6,14 +6,14 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
     let jsSceneViewEnvironment: any = {};
 
     if (hasValue(dotNetObject.atmosphere)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAtmosphere } = dotNetObject.atmosphere;
+        const { id, dotNetComponentReference, ...sanitizedAtmosphere } = dotNetObject.atmosphere;
         jsSceneViewEnvironment.atmosphere = sanitizedAtmosphere;
     }
     if (hasValue(dotNetObject.atmosphereEnabled)) {
         jsSceneViewEnvironment.atmosphereEnabled = dotNetObject.atmosphereEnabled;
     }
     if (hasValue(dotNetObject.background)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBackground } = dotNetObject.background;
+        const { id, dotNetComponentReference, ...sanitizedBackground } = dotNetObject.background;
         jsSceneViewEnvironment.background = sanitizedBackground;
     }
     if (hasValue(dotNetObject.lighting)) {
@@ -23,7 +23,7 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
         jsSceneViewEnvironment.starsEnabled = dotNetObject.starsEnabled;
     }
     if (hasValue(dotNetObject.weather)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedWeather } = dotNetObject.weather;
+        const { id, dotNetComponentReference, ...sanitizedWeather } = dotNetObject.weather;
         jsSceneViewEnvironment.weather = sanitizedWeather;
     }
     

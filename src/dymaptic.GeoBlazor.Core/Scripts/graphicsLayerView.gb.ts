@@ -41,10 +41,12 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
+    
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
         this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
     }
+    
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -53,6 +55,7 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

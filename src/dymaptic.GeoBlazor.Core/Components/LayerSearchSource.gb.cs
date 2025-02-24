@@ -786,9 +786,9 @@ public partial class LayerSearchSource
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Layer is null)
+        if (Layer is null && LayerId is null)
         {
-            throw new MissingRequiredChildElementException(nameof(LayerSearchSource), nameof(Layer));
+            throw new MissingRequiredOptionsChildElementException(nameof(LayerSearchSource), [nameof(Layer), nameof(LayerId)]);
         }
         base.ValidateRequiredGeneratedChildren();
     }

@@ -5,7 +5,7 @@ import { buildDotNetWFSLayerLayerviewDestroyEvent } from './wFSLayerLayerviewDes
 export async function buildJsWFSLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
-        jsWFSLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+        jsWFSLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

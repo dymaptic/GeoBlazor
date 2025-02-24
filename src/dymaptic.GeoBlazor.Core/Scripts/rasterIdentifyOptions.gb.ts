@@ -6,7 +6,7 @@ export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, l
     let jsRasterIdentifyOptions: any = {};
 
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
+        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
         jsRasterIdentifyOptions.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.signal)) {

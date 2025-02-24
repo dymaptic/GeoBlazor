@@ -61,10 +61,12 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
         return await buildDotNetWMTSSublayer(this.layer.activeLayer);
     }
+    
     async setActiveLayer(value: any): Promise<void> {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         this.layer.activeLayer = await  buildJsWMTSSublayer(value, this.layerId, this.viewId);
     }
+    
     async getEffect(): Promise<any> {
         if (!hasValue(this.layer.effect)) {
             return null;
@@ -73,10 +75,12 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEffect } = await import('./effect');
         return buildDotNetEffect(this.layer.effect);
     }
+    
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
     }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -85,10 +89,12 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+    
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtent =  buildJsExtent(value);
     }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -97,10 +103,12 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
             return null;
@@ -123,10 +131,12 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+    
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

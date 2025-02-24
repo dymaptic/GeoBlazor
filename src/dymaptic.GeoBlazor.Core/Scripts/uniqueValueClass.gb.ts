@@ -14,7 +14,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
         properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.values)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedValues } = dotNetObject.values;
+        const { id, dotNetComponentReference, ...sanitizedValues } = dotNetObject.values;
         properties.values = sanitizedValues;
     }
     let jsUniqueValueClass = new UniqueValueClass(properties);

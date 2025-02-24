@@ -16,7 +16,7 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
         jsRelationshipRampElement.infos = dotNetObject.infos;
     }
     if (hasValue(dotNetObject.labels)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLabels } = dotNetObject.labels;
+        const { id, dotNetComponentReference, ...sanitizedLabels } = dotNetObject.labels;
         jsRelationshipRampElement.labels = sanitizedLabels;
     }
     if (hasValue(dotNetObject.numClasses)) {

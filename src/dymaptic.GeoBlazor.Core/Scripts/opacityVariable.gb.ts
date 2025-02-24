@@ -3,21 +3,21 @@ import OpacityVariable from '@arcgis/core/renderers/visualVariables/OpacityVaria
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityVariable } from './opacityVariable';
 
-export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
     }
     if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
+        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
         properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {
         properties.normalizationField = dotNetObject.normalizationField;
     }
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const { id, dotNetComponentReference, ...sanitizedStops } = dotNetObject.stops;
         properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.valueExpression)) {

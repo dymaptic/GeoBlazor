@@ -6,14 +6,14 @@ import { buildDotNetMeasurementViewModel } from './measurementViewModel';
 export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
 
     if (hasValue(dotNetObject.activeTool)) {
         properties.activeTool = dotNetObject.activeTool;
     }
     if (hasValue(dotNetObject.activeViewModel)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedActiveViewModel } = dotNetObject.activeViewModel;
+        const { id, dotNetComponentReference, ...sanitizedActiveViewModel } = dotNetObject.activeViewModel;
         properties.activeViewModel = sanitizedActiveViewModel;
     }
     if (hasValue(dotNetObject.areaUnit)) {

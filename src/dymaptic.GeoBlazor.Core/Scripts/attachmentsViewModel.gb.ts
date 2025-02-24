@@ -33,10 +33,12 @@ export default class AttachmentsViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
     }
+    
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
         this.component.graphic =  buildJsGraphic(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -58,7 +60,7 @@ export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, la
         properties.activeAttachmentInfo = dotNetObject.activeAttachmentInfo;
     }
     if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedCapabilities } = dotNetObject.capabilities;
+        const { id, dotNetComponentReference, ...sanitizedCapabilities } = dotNetObject.capabilities;
         properties.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.mode)) {

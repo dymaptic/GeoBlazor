@@ -3,11 +3,11 @@ import AuthoringInfoVisualVariable from '@arcgis/core/renderers/support/Authorin
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
-export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.theme)) {
         let { buildJsTheme } = await import('./theme');
-        properties.theme = await buildJsTheme(dotNetObject.theme, layerId, viewId) as any;
+        properties.theme = await buildJsTheme(dotNetObject.theme) as any;
     }
 
     if (hasValue(dotNetObject.endTime)) {
@@ -32,7 +32,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
         properties.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
     }
     if (hasValue(dotNetObject.sizeStops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSizeStops } = dotNetObject.sizeStops;
+        const { id, dotNetComponentReference, ...sanitizedSizeStops } = dotNetObject.sizeStops;
         properties.sizeStops = sanitizedSizeStops;
     }
     if (hasValue(dotNetObject.startTime)) {

@@ -37,10 +37,12 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.component.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getViewpoint(): Promise<any> {
         if (!hasValue(this.component.viewpoint)) {
             return null;
@@ -49,10 +51,12 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         return buildDotNetViewpoint(this.component.viewpoint);
     }
+    
     async setViewpoint(value: any): Promise<void> {
         let { buildJsViewpoint } = await import('./viewpoint');
         this.component.viewpoint =  buildJsViewpoint(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -66,7 +70,7 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
 export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');

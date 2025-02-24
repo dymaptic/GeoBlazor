@@ -105,10 +105,12 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+    
     async setExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.component.extent =  buildJsExtent(value);
     }
+    
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
@@ -117,10 +119,12 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.component.portal);
     }
+    
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

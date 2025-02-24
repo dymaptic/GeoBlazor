@@ -33,10 +33,12 @@ export default class ILineSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetLineStyleMarker3D } = await import('./lineStyleMarker3D');
         return await buildDotNetLineStyleMarker3D(this.layer.marker);
     }
+    
     async setMarker(value: any): Promise<void> {
         let { buildJsLineStyleMarker3D } = await import('./lineStyleMarker3D');
         this.layer.marker = await  buildJsLineStyleMarker3D(value, this.layerId, this.viewId);
     }
+    
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
@@ -45,10 +47,12 @@ export default class ILineSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetLineSymbol3DLayerMaterial } = await import('./lineSymbol3DLayerMaterial');
         return await buildDotNetLineSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsLineSymbol3DLayerMaterial } = await import('./lineSymbol3DLayerMaterial');
         this.layer.material = await  buildJsLineSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -77,7 +81,7 @@ export async function buildJsILineSymbol3DLayerGenerated(dotNetObject: any, laye
         properties.join = dotNetObject.join;
     }
     if (hasValue(dotNetObject.pattern)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPattern } = dotNetObject.pattern;
+        const { id, dotNetComponentReference, ...sanitizedPattern } = dotNetObject.pattern;
         properties.pattern = sanitizedPattern;
     }
     if (hasValue(dotNetObject.size)) {

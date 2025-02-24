@@ -1,7 +1,7 @@
 
-export async function buildJsColorStop(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsColorStop(dotNetObject: any): Promise<any> {
     let { buildJsColorStopGenerated } = await import('./colorStop.gb');
-    return await buildJsColorStopGenerated(dotNetObject, layerId, viewId);
+    return await buildJsColorStopGenerated(dotNetObject);
 }     
 
 export async function buildDotNetColorStop(jsObject: any): Promise<any> {

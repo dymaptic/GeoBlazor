@@ -6,7 +6,7 @@ export async function buildJsIBreakpointsOwnerGenerated(dotNetObject: any, layer
     let jsBreakpointsOwner: any = {};
 
     if (hasValue(dotNetObject.breakpoints)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBreakpoints } = dotNetObject.breakpoints;
+        const { id, dotNetComponentReference, ...sanitizedBreakpoints } = dotNetObject.breakpoints;
         jsBreakpointsOwner.breakpoints = sanitizedBreakpoints;
     }
     if (hasValue(dotNetObject.heightBreakpoint)) {

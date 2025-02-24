@@ -24,16 +24,16 @@ export async function buildJsVisualVariable(dotNetVisualVariable, layerId: strin
     switch (dotNetVisualVariable?.type) {
         case 'color':
             let {buildJsColorVariable} = await import('./colorVariable');
-            return await buildJsColorVariable(dotNetVisualVariable, layerId, viewId);
+            return await buildJsColorVariable(dotNetVisualVariable);
         case 'size':
             let {buildJsSizeVariable} = await import('./sizeVariable');
             return await buildJsSizeVariable(dotNetVisualVariable, layerId, viewId);
         case 'opacity':
             let {buildJsOpacityVariable} = await import('./opacityVariable');
-            return await buildJsOpacityVariable(dotNetVisualVariable, layerId, viewId);
+            return await buildJsOpacityVariable(dotNetVisualVariable);
         case 'rotation':
             let {buildJsRotationVariable} = await import('./rotationVariable');
-            return await buildJsRotationVariable(dotNetVisualVariable, layerId, viewId);
+            return await buildJsRotationVariable(dotNetVisualVariable);
         default:
             throw new Error('Unknown visual variable type');
     }

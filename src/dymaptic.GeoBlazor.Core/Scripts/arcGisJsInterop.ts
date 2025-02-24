@@ -2031,56 +2031,12 @@ async function createWidget(dotNetWidget: any, viewId: string): Promise<Widget |
     switch (dotNetWidget.type) {
         case 'locate':
             let { buildJsLocateWidget } = await import('./locateWidget');
-            newWidget = await buildJsLocateWidget(dotNetWidget, dotNetWidget?.layerId, viewId);
+            newWidget = await buildJsLocateWidget(dotNetWidget, dotNetWidget.layerId, viewId);
             
             break;
         case 'search':
-            const search = new Search({
-                view: view
-            });
-            newWidget = search;
-
-            if (hasValue(dotNetWidget.sources)) {
-                const sources: SearchSource[] = [];
-                let {buildJsSearchSource} = await import('./searchSource');
-                for (const source of dotNetWidget.sources) {
-                    const jsSource = await buildJsSearchSource(source, viewId);
-                    sources.push(jsSource);
-                }
-                search.sources.addMany(sources);
-            }
-
-            if (hasValue(dotNetWidget.popupTemplate)) {
-                let {buildJsPopupTemplate} = await import('./popupTemplate');
-                search.popupTemplate = await buildJsPopupTemplate(dotNetWidget.popupTemplate, null, viewId) as PopupTemplate;
-            }
-
-            if (hasValue(dotNetWidget.portal)) {
-                search.portal = new Portal({
-                    url: dotNetWidget.portal.url
-                });
-            }
-
-            if (dotNetWidget.hasGoToOverride) {
-                search.goToOverride = buildJsGoToOverride(dotNetWidget, viewId);
-            }
-
-            search.on('select-result', async (evt) => {
-                const {buildDotNetGraphic} = await import('./graphic');
-                await dotNetWidget.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
-                    extent: buildDotNetExtent(evt.result.extent),
-                    feature: buildDotNetGraphic(evt.result.feature, null, viewId),
-                    name: evt.result.name
-                });
-            });
-
-            copyValuesIfExists(dotNetWidget, search, 'activeMenu', 'activeSourceIndex', 'allPlaceholder',
-                'autoSelect', 'disabled', 'includeDefaultSources', 'locationEnabled', 'maxResults',
-                'maxSuggestions', 'minSuggestCharacters', 'popupEnabled', 'resultGraphicEnabled', 'searchAllEnabled',
-                'searchTerm', 'suggestionsEnabled');
-
-            wrapper = new SearchWidgetWrapper(search);
-            jsObjectRefs[dotNetWidget.id] = wrapper;
+            let { buildJsSearchWidget } = await import('./searchWidget');
+            newWidget = await buildJsSearchWidget(dotNetWidget, dotNetWidget.layerId, viewId);
             
             break;
         case 'basemap-toggle':

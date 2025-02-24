@@ -33,10 +33,12 @@ export default class IWaterSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.layer.color);
     }
+    
     async setColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
         this.layer.color =  buildJsMapColor(value);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

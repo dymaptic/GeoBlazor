@@ -9,7 +9,7 @@ export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerI
         jsRasterSliceValue.magdirValue = dotNetObject.magdirValue;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
+        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
         jsRasterSliceValue.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.value)) {

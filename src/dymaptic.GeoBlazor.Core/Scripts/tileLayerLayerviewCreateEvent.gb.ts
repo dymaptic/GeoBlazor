@@ -5,7 +5,7 @@ import { buildDotNetTileLayerLayerviewCreateEvent } from './tileLayerLayerviewCr
 export async function buildJsTileLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTileLayerLayerviewCreateEvent: any = {};
     if (hasValue(viewId)) {
-        jsTileLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+        jsTileLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

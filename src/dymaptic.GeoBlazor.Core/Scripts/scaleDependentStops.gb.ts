@@ -6,7 +6,7 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
     let jsScaleDependentStops: any = {};
 
     if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStops } = dotNetObject.stops;
+        const { id, dotNetComponentReference, ...sanitizedStops } = dotNetObject.stops;
         jsScaleDependentStops.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.target)) {

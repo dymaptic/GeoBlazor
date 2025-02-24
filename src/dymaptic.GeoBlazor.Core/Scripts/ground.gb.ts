@@ -67,10 +67,12 @@ export default class GroundGenerated implements IPropertyWrapper {
         let { buildDotNetMapColor } = await import('./mapColor');
         return buildDotNetMapColor(this.component.surfaceColor);
     }
+    
     async setSurfaceColor(value: any): Promise<void> {
         let { buildJsMapColor } = await import('./mapColor');
         this.component.surfaceColor =  buildJsMapColor(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -93,7 +95,7 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     }
 
     if (hasValue(dotNetObject.navigationConstraint)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedNavigationConstraint } = dotNetObject.navigationConstraint;
+        const { id, dotNetComponentReference, ...sanitizedNavigationConstraint } = dotNetObject.navigationConstraint;
         properties.navigationConstraint = sanitizedNavigationConstraint;
     }
     if (hasValue(dotNetObject.opacity)) {

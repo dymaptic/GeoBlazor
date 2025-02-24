@@ -81,10 +81,12 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.widget.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -93,10 +95,12 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
         return await buildDotNetHomeViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsHomeViewModel } = await import('./homeViewModel');
         this.widget.viewModel = await  buildJsHomeViewModel(value, this.layerId, this.viewId);
     }
+    
     async getViewpoint(): Promise<any> {
         if (!hasValue(this.widget.viewpoint)) {
             return null;
@@ -105,10 +109,12 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         return buildDotNetViewpoint(this.widget.viewpoint);
     }
+    
     async setViewpoint(value: any): Promise<void> {
         let { buildJsViewpoint } = await import('./viewpoint');
         this.widget.viewpoint =  buildJsViewpoint(value);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -122,7 +128,7 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
 export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');

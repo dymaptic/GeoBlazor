@@ -20,7 +20,7 @@ export async function buildJsSceneViewMediaHitGenerated(dotNetObject: any, layer
         jsSceneViewMediaHit.element = dotNetObject.element;
     }
     if (hasValue(dotNetObject.sourcePoint)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
+        const { id, dotNetComponentReference, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
         jsSceneViewMediaHit.sourcePoint = sanitizedSourcePoint;
     }
     

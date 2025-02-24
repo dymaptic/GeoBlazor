@@ -17,7 +17,7 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
         properties.heading = dotNetObject.heading;
     }
     if (hasValue(dotNetObject.layout)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLayout } = dotNetObject.layout;
+        const { id, dotNetComponentReference, ...sanitizedLayout } = dotNetObject.layout;
         properties.layout = sanitizedLayout;
     }
     if (hasValue(dotNetObject.tilt)) {

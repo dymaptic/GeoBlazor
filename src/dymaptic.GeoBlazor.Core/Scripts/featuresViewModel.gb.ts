@@ -107,10 +107,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.component.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
             return null;
@@ -119,10 +121,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(this.component.location);
     }
+    
     async setLocation(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.component.location =  buildJsPoint(value);
     }
+    
     async getSelectedClusterBoundaryFeature(): Promise<any> {
         if (!hasValue(this.component.selectedClusterBoundaryFeature)) {
             return null;
@@ -131,6 +135,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.selectedClusterBoundaryFeature, this.layerId, this.viewId);
     }
+    
     async getSelectedFeature(): Promise<any> {
         if (!hasValue(this.component.selectedFeature)) {
             return null;
@@ -139,6 +144,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
@@ -147,10 +153,12 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.component.spatialReference =  buildJsSpatialReference(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -164,7 +172,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.actions)) {
         let { buildJsActionBase } = await import('./actionBase');
@@ -203,7 +211,7 @@ export async function buildJsFeaturesViewModelGenerated(dotNetObject: any, layer
         properties.featuresPerPage = dotNetObject.featuresPerPage;
     }
     if (hasValue(dotNetObject.featureViewModelAbilities)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
+        const { id, dotNetComponentReference, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
         properties.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {

@@ -101,10 +101,12 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetLegendViewModel } = await import('./legendViewModel');
         return await buildDotNetLegendViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsLegendViewModel } = await import('./legendViewModel');
         this.widget.viewModel = await  buildJsLegendViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -118,7 +120,7 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
 export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.activeLayerInfos)) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');

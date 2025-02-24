@@ -17,7 +17,7 @@ export async function buildJsMediaHitGenerated(dotNetObject: any, layerId: strin
         jsMediaHit.element = dotNetObject.element;
     }
     if (hasValue(dotNetObject.sourcePoint)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
+        const { id, dotNetComponentReference, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
         jsMediaHit.sourcePoint = sanitizedSourcePoint;
     }
     

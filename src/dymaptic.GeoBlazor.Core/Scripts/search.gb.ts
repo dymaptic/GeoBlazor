@@ -20,7 +20,7 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
         properties.hintText = dotNetObject.hintText;
     }
     if (hasValue(dotNetObject.tables)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTables } = dotNetObject.tables;
+        const { id, dotNetComponentReference, ...sanitizedTables } = dotNetObject.tables;
         properties.tables = sanitizedTables;
     }
     let jsSearch = new Search(properties);

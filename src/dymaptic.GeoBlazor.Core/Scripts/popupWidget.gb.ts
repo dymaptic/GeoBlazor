@@ -46,7 +46,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async next(): Promise<any> {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result);
+        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
     }
 
     async own(handleOrHandles: any): Promise<void> {
@@ -62,7 +62,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async previous(): Promise<any> {
         let result = this.widget.previous();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(result);
+        return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
     }
 
     async render(): Promise<any> {
@@ -129,10 +129,12 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.widget.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getLocation(): Promise<any> {
         if (!hasValue(this.widget.location)) {
             return null;
@@ -141,22 +143,26 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(this.widget.location);
     }
+    
     async setLocation(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.widget.location =  buildJsPoint(value);
     }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
         }
         
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-        return await buildDotNetPopupViewModel(this.widget.viewModel);
+        return await buildDotNetPopupViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
         this.widget.viewModel = await  buildJsPopupViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -170,7 +176,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
 export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.actions)) {
         let { buildJsActionBase } = await import('./actionBase');
@@ -215,7 +221,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         properties.dockEnabled = dotNetObject.dockEnabled;
     }
     if (hasValue(dotNetObject.dockOptions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedDockOptions } = dotNetObject.dockOptions;
+        const { id, dotNetComponentReference, ...sanitizedDockOptions } = dotNetObject.dockOptions;
         properties.dockOptions = sanitizedDockOptions;
     }
     if (hasValue(dotNetObject.headingLevel)) {
@@ -243,7 +249,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
+        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
         properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {
@@ -310,7 +316,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         }
         if (hasValue(jsObject.viewModel)) {
             let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel);
+            dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
         }
     if (hasValue(jsObject.active)) {
         dotNetPopupWidget.active = jsObject.active;

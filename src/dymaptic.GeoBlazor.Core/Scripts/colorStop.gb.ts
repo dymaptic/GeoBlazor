@@ -3,7 +3,7 @@ import ColorStop from '@arcgis/core/renderers/visualVariables/support/ColorStop'
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorStop } from './colorStop';
 
-export async function buildJsColorStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');

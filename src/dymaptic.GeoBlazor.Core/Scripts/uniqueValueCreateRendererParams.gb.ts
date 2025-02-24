@@ -13,18 +13,18 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
         jsuniqueValueCreateRendererParams.classFieldName = dotNetObject.classFieldName;
     }
     if (hasValue(dotNetObject.colorRamp)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedColorRamp } = dotNetObject.colorRamp;
+        const { id, dotNetComponentReference, ...sanitizedColorRamp } = dotNetObject.colorRamp;
         jsuniqueValueCreateRendererParams.colorRamp = sanitizedColorRamp;
     }
     if (hasValue(dotNetObject.colors)) {
         jsuniqueValueCreateRendererParams.colors = dotNetObject.colors;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
+        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
         jsuniqueValueCreateRendererParams.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
+        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
         jsuniqueValueCreateRendererParams.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.signal)) {

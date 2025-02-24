@@ -10,7 +10,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     }
 
     if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedArea } = dotNetObject.area;
+        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
         jsBookmarkOptionsScreenshotSettings.area = sanitizedArea;
     }
     if (hasValue(dotNetObject.height)) {

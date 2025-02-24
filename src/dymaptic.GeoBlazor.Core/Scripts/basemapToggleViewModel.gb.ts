@@ -39,6 +39,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.activeBasemap);
     }
+    
     async getNextBasemap(): Promise<any> {
         if (!hasValue(this.component.nextBasemap)) {
             return null;
@@ -47,10 +48,12 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(this.component.nextBasemap);
     }
+    
     async setNextBasemap(value: any): Promise<void> {
         let { buildJsBasemap } = await import('./basemap');
         this.component.nextBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -64,7 +67,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
 export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.nextBasemap)) {
         let { buildJsBasemap } = await import('./basemap');

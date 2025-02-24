@@ -39,7 +39,7 @@ export async function buildJsIOrderedLayerGenerated(dotNetObject: any, layerId: 
     let jsOrderedLayer: any = {};
 
     if (hasValue(dotNetObject.orderBy)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
+        const { id, dotNetComponentReference, ...sanitizedOrderBy } = dotNetObject.orderBy;
         jsOrderedLayer.orderBy = sanitizedOrderBy;
     }
 

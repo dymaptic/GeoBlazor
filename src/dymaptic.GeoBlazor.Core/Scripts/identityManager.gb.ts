@@ -117,10 +117,12 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         let { buildDotNetWidget } = await import('./widget');
         return await buildDotNetWidget(this.component.dialog);
     }
+    
     async setDialog(value: any): Promise<void> {
         let { buildJsWidget } = await import('./widget');
         this.component.dialog = await  buildJsWidget(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

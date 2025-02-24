@@ -85,10 +85,12 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.widget.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.widget.popupTemplate)) {
             return null;
@@ -97,10 +99,12 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.widget.popupTemplate);
     }
+    
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.widget.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+    
     async getPortal(): Promise<any> {
         if (!hasValue(this.widget.portal)) {
             return null;
@@ -109,10 +113,12 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetPortal } = await import('./portal');
         return await buildDotNetPortal(this.widget.portal);
     }
+    
     async setPortal(value: any): Promise<void> {
         let { buildJsPortal } = await import('./portal');
         this.widget.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
+    
     async getSources(): Promise<any> {
         if (!hasValue(this.widget.sources)) {
             return null;
@@ -135,10 +141,12 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetSearchViewModel } = await import('./searchViewModel');
         return await buildDotNetSearchViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsSearchViewModel } = await import('./searchViewModel');
         this.widget.viewModel = await  buildJsSearchViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -152,7 +160,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
 export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');

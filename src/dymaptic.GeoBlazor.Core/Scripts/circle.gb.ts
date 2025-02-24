@@ -83,10 +83,12 @@ export default class CircleGenerated implements IPropertyWrapper {
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(this.component.center);
     }
+    
     async setCenter(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.component.center =  buildJsPoint(value);
     }
+    
     async getCentroid(): Promise<any> {
         if (!hasValue(this.component.centroid)) {
             return null;
@@ -95,10 +97,12 @@ export default class CircleGenerated implements IPropertyWrapper {
         let { buildDotNetPoint } = await import('./point');
         return buildDotNetPoint(this.component.centroid);
     }
+    
     async setCentroid(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.component.centroid =  buildJsPoint(value);
     }
+    
     async getExtent(): Promise<any> {
         if (!hasValue(this.component.extent)) {
             return null;
@@ -107,6 +111,7 @@ export default class CircleGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.extent);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
@@ -115,10 +120,12 @@ export default class CircleGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.component.spatialReference =  buildJsSpatialReference(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

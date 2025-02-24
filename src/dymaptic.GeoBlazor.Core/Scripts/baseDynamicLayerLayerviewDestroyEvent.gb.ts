@@ -5,7 +5,7 @@ import { buildDotNetBaseDynamicLayerLayerviewDestroyEvent } from './baseDynamicL
 export async function buildJsBaseDynamicLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBaseDynamicLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
-        jsBaseDynamicLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+        jsBaseDynamicLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

@@ -6,7 +6,7 @@ import { buildDotNetLegendViewModel } from './legendViewModel';
 export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.activeLayerInfos)) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');

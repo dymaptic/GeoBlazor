@@ -33,10 +33,12 @@ export default class IObjectSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetObjectSymbol3DLayerMaterial } = await import('./objectSymbol3DLayerMaterial');
         return await buildDotNetObjectSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsObjectSymbol3DLayerMaterial } = await import('./objectSymbol3DLayerMaterial');
         this.layer.material = await  buildJsObjectSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -58,7 +60,7 @@ export async function buildJsIObjectSymbol3DLayerGenerated(dotNetObject: any, la
         properties.anchor = dotNetObject.anchor;
     }
     if (hasValue(dotNetObject.anchorPosition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
+        const { id, dotNetComponentReference, ...sanitizedAnchorPosition } = dotNetObject.anchorPosition;
         properties.anchorPosition = sanitizedAnchorPosition;
     }
     if (hasValue(dotNetObject.castShadows)) {
@@ -74,7 +76,7 @@ export async function buildJsIObjectSymbol3DLayerGenerated(dotNetObject: any, la
         properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.resource)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedResource } = dotNetObject.resource;
+        const { id, dotNetComponentReference, ...sanitizedResource } = dotNetObject.resource;
         properties.resource = sanitizedResource;
     }
     if (hasValue(dotNetObject.roll)) {

@@ -31,7 +31,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
         properties.styleId = dotNetObject.styleId;
     }
     if (hasValue(dotNetObject.styles)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStyles } = dotNetObject.styles;
+        const { id, dotNetComponentReference, ...sanitizedStyles } = dotNetObject.styles;
         properties.styles = sanitizedStyles;
     }
     if (hasValue(dotNetObject.tileMatrixSetId)) {

@@ -33,10 +33,12 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
         return await buildDotNetTextSymbol3DLayerBackground(this.layer.background);
     }
+    
     async setBackground(value: any): Promise<void> {
         let { buildJsTextSymbol3DLayerBackground } = await import('./textSymbol3DLayerBackground');
         this.layer.background = await  buildJsTextSymbol3DLayerBackground(value, this.layerId, this.viewId);
     }
+    
     async getFont(): Promise<any> {
         if (!hasValue(this.layer.font)) {
             return null;
@@ -45,10 +47,12 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetMapFont } = await import('./mapFont');
         return buildDotNetMapFont(this.layer.font);
     }
+    
     async setFont(value: any): Promise<void> {
         let { buildJsMapFont } = await import('./mapFont');
         this.layer.font =  buildJsMapFont(value);
     }
+    
     async getHalo(): Promise<any> {
         if (!hasValue(this.layer.halo)) {
             return null;
@@ -57,10 +61,12 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
         return await buildDotNetTextSymbol3DLayerHalo(this.layer.halo);
     }
+    
     async setHalo(value: any): Promise<void> {
         let { buildJsTextSymbol3DLayerHalo } = await import('./textSymbol3DLayerHalo');
         this.layer.halo = await  buildJsTextSymbol3DLayerHalo(value, this.layerId, this.viewId);
     }
+    
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
@@ -69,10 +75,12 @@ export default class ITextSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
         return await buildDotNetTextSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsTextSymbol3DLayerMaterial } = await import('./textSymbol3DLayerMaterial');
         this.layer.material = await  buildJsTextSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

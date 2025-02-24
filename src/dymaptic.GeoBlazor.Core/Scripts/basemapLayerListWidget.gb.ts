@@ -115,10 +115,12 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
         return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
         this.widget.viewModel = await  buildJsBasemapLayerListViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -132,7 +134,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
         properties.baseListItemCreatedFunction = async (event) => {

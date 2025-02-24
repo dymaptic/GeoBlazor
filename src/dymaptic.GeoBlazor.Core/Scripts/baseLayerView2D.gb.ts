@@ -61,6 +61,7 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -74,11 +75,11 @@ export default class BaseLayerView2DGenerated implements IPropertyWrapper {
 export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
 
     if (hasValue(dotNetObject.tiles)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTiles } = dotNetObject.tiles;
+        const { id, dotNetComponentReference, ...sanitizedTiles } = dotNetObject.tiles;
         properties.tiles = sanitizedTiles;
     }
     let jsBaseLayerView2D = new BaseLayerView2D(properties);

@@ -10,7 +10,7 @@ export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: st
         properties.atmosphereEnabled = dotNetObject.atmosphereEnabled;
     }
     if (hasValue(dotNetObject.background)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedBackground } = dotNetObject.background;
+        const { id, dotNetComponentReference, ...sanitizedBackground } = dotNetObject.background;
         properties.background = sanitizedBackground;
     }
     if (hasValue(dotNetObject.lighting)) {
@@ -20,7 +20,7 @@ export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: st
         properties.starsEnabled = dotNetObject.starsEnabled;
     }
     if (hasValue(dotNetObject.weather)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedWeather } = dotNetObject.weather;
+        const { id, dotNetComponentReference, ...sanitizedWeather } = dotNetObject.weather;
         properties.weather = sanitizedWeather;
     }
     let jsEnvironment = new Environment(properties);

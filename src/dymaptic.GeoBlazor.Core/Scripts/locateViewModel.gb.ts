@@ -37,10 +37,12 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         return await buildDotNetGoToOverride(this.component.goToOverride);
     }
+    
     async setGoToOverride(value: any): Promise<void> {
         let { buildJsGoToOverride } = await import('./goToOverride');
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
+    
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
             return null;
@@ -49,10 +51,12 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
     }
+    
     async setGraphic(value: any): Promise<void> {
         let { buildJsGraphic } = await import('./graphic');
         this.component.graphic =  buildJsGraphic(value);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

@@ -3,7 +3,7 @@ import Theme from '@arcgis/core/views/Theme';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTheme } from './theme';
 
-export async function buildJsThemeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsThemeGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.accentColor)) {
         let { buildJsMapColor } = await import('./mapColor');

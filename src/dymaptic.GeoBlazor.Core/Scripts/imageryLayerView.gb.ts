@@ -37,10 +37,12 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
+    
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
         this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
     }
+    
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;
@@ -49,6 +51,7 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+    
     async getPixelData(): Promise<any> {
         if (!hasValue(this.component.pixelData)) {
             return null;
@@ -57,10 +60,12 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         let { buildDotNetPixelData } = await import('./pixelData');
         return await buildDotNetPixelData(this.component.pixelData);
     }
+    
     async setPixelData(value: any): Promise<void> {
         let { buildJsPixelData } = await import('./pixelData');
         this.component.pixelData = await  buildJsPixelData(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

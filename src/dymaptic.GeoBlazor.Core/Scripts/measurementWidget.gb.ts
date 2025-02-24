@@ -81,6 +81,7 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
         return await buildDotNetIMeasurementWidgetActiveWidget(this.widget.activeWidget);
     }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -89,10 +90,12 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
         return await buildDotNetMeasurementViewModel(this.widget.viewModel);
     }
+    
     async setViewModel(value: any): Promise<void> {
         let { buildJsMeasurementViewModel } = await import('./measurementViewModel');
         this.widget.viewModel = await  buildJsMeasurementViewModel(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -106,7 +109,7 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
 export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsMeasurementViewModel } = await import('./measurementViewModel');

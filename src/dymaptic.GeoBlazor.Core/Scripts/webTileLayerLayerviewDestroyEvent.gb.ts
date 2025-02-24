@@ -5,7 +5,7 @@ import { buildDotNetWebTileLayerLayerviewDestroyEvent } from './webTileLayerLaye
 export async function buildJsWebTileLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWebTileLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
-        jsWebTileLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId];
+        jsWebTileLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

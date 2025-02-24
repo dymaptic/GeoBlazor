@@ -14,11 +14,11 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: str
         properties.ascending = dotNetObject.ascending;
     }
     if (hasValue(dotNetObject.itemRasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItemRasterFunction } = dotNetObject.itemRasterFunction;
+        const { id, dotNetComponentReference, ...sanitizedItemRasterFunction } = dotNetObject.itemRasterFunction;
         properties.itemRasterFunction = sanitizedItemRasterFunction;
     }
     if (hasValue(dotNetObject.itemRenderingRule)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedItemRenderingRule } = dotNetObject.itemRenderingRule;
+        const { id, dotNetComponentReference, ...sanitizedItemRenderingRule } = dotNetObject.itemRenderingRule;
         properties.itemRenderingRule = sanitizedItemRenderingRule;
     }
     if (hasValue(dotNetObject.lockRasterIds)) {
@@ -28,7 +28,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: str
         properties.method = dotNetObject.method;
     }
     if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
+        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
         properties.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.objectIds)) {

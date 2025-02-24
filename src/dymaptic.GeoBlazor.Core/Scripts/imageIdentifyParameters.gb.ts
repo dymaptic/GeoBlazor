@@ -28,18 +28,18 @@ export async function buildJsImageIdentifyParametersGenerated(dotNetObject: any,
         properties.processAsMultidimensional = dotNetObject.processAsMultidimensional;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
+        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
         properties.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.rasterFunctions)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunctions } = dotNetObject.rasterFunctions;
+        const { id, dotNetComponentReference, ...sanitizedRasterFunctions } = dotNetObject.rasterFunctions;
         properties.rasterFunctions = sanitizedRasterFunctions;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         properties.renderingRule = dotNetObject.renderingRule;
     }
     if (hasValue(dotNetObject.renderingRules)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRules } = dotNetObject.renderingRules;
+        const { id, dotNetComponentReference, ...sanitizedRenderingRules } = dotNetObject.renderingRules;
         properties.renderingRules = sanitizedRenderingRules;
     }
     if (hasValue(dotNetObject.returnCatalogItems)) {

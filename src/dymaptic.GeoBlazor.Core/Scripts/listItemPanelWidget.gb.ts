@@ -73,10 +73,12 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         let { buildDotNetListItem } = await import('./listItem');
         return await buildDotNetListItem(this.widget.listItem);
     }
+    
     async setListItem(value: any): Promise<void> {
         let { buildJsListItem } = await import('./listItem');
         this.widget.listItem = await  buildJsListItem(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }

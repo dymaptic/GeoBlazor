@@ -6,7 +6,7 @@ import { buildDotNetListItem } from './listItem';
 export async function buildJsListItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(viewId)) {
-        properties.view = arcGisObjectRefs[viewId];
+        properties.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.actionsSections)) {
         let { buildJsActionBase } = await import('./actionBase');

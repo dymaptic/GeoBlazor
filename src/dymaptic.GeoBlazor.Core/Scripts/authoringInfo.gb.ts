@@ -3,7 +3,7 @@ import AuthoringInfo from '@arcgis/core/renderers/support/AuthoringInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfo } from './authoringInfo';
 
-export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./colorRamp');
@@ -11,7 +11,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i))) as any;
     }
 
     if (hasValue(dotNetObject.classificationMethod)) {
@@ -21,11 +21,11 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
         properties.fadeRatio = dotNetObject.fadeRatio;
     }
     if (hasValue(dotNetObject.field1)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedField1 } = dotNetObject.field1;
+        const { id, dotNetComponentReference, ...sanitizedField1 } = dotNetObject.field1;
         properties.field1 = sanitizedField1;
     }
     if (hasValue(dotNetObject.field2)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedField2 } = dotNetObject.field2;
+        const { id, dotNetComponentReference, ...sanitizedField2 } = dotNetObject.field2;
         properties.field2 = sanitizedField2;
     }
     if (hasValue(dotNetObject.fields)) {
@@ -56,7 +56,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
         properties.standardDeviationInterval = dotNetObject.standardDeviationInterval;
     }
     if (hasValue(dotNetObject.statistics)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedStatistics } = dotNetObject.statistics;
+        const { id, dotNetComponentReference, ...sanitizedStatistics } = dotNetObject.statistics;
         properties.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.univariateSymbolStyle)) {

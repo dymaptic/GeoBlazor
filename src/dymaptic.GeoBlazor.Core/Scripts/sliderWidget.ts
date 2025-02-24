@@ -52,8 +52,8 @@ export default class SliderWidgetWrapper extends SliderWidgetGenerated {
 }
 
 export async function buildJsSliderWidget(dotNetObject: any): Promise<any> {
-    let slider = new Slider(dotNetObject);
-    return new SliderWidgetWrapper(slider);
+    let { buildJsSliderWidgetGenerated } = await import('./sliderWidget.gb');
+    return await buildJsSliderWidgetGenerated(dotNetObject);
 }
 
 export async function buildDotNetSliderWidget(jsObject: any): Promise<any> {

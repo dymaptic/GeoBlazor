@@ -33,10 +33,12 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEdges3D } = await import('./edges3D');
         return await buildDotNetEdges3D(this.layer.edges);
     }
+    
     async setEdges(value: any): Promise<void> {
         let { buildJsEdges3D } = await import('./edges3D');
         this.layer.edges = await  buildJsEdges3D(value, this.layerId, this.viewId);
     }
+    
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
@@ -45,10 +47,12 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
         return await buildDotNetFillSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
         this.layer.material = await  buildJsFillSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     async getOutline(): Promise<any> {
         if (!hasValue(this.layer.outline)) {
             return null;
@@ -57,10 +61,12 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
         return await buildDotNetFillSymbol3DLayerOutline(this.layer.outline);
     }
+    
     async setOutline(value: any): Promise<void> {
         let { buildJsFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
         this.layer.outline = await  buildJsFillSymbol3DLayerOutline(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -90,7 +96,7 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
         properties.castShadows = dotNetObject.castShadows;
     }
     if (hasValue(dotNetObject.pattern)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedPattern } = dotNetObject.pattern;
+        const { id, dotNetComponentReference, ...sanitizedPattern } = dotNetObject.pattern;
         properties.pattern = sanitizedPattern;
     }
     let jsFillSymbol3DLayer = new FillSymbol3DLayer(properties);

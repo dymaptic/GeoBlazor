@@ -4,47 +4,48 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTableListListItemPanelWidget } from './tableListListItemPanelWidget';
 
 export async function buildJsTableListListItemPanelWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let jsTableListListItemPanel = new TableListListItemPanel();
+    let properties: any = {};
     if (hasValue(dotNetObject.listItem)) {
         let { buildJsTableListListItem } = await import('./tableListListItem');
-        jsTableListListItemPanel.listItem = await buildJsTableListListItem(dotNetObject.listItem, layerId, viewId) as any;
+        properties.listItem = await buildJsTableListListItem(dotNetObject.listItem, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.className)) {
-        jsTableListListItemPanel.className = dotNetObject.className;
+        properties.className = dotNetObject.className;
     }
     if (hasValue(dotNetObject.container)) {
-        jsTableListListItemPanel.container = dotNetObject.container;
+        properties.container = dotNetObject.container;
     }
     if (hasValue(dotNetObject.content)) {
-        jsTableListListItemPanel.content = dotNetObject.content;
+        properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.disabled)) {
-        jsTableListListItemPanel.disabled = dotNetObject.disabled;
+        properties.disabled = dotNetObject.disabled;
     }
     if (hasValue(dotNetObject.flowEnabled)) {
-        jsTableListListItemPanel.flowEnabled = dotNetObject.flowEnabled;
+        properties.flowEnabled = dotNetObject.flowEnabled;
     }
     if (hasValue(dotNetObject.icon)) {
-        jsTableListListItemPanel.icon = dotNetObject.icon;
+        properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.image)) {
-        jsTableListListItemPanel.image = dotNetObject.image;
+        properties.image = dotNetObject.image;
     }
     if (hasValue(dotNetObject.label)) {
-        jsTableListListItemPanel.label = dotNetObject.label;
+        properties.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.open)) {
-        jsTableListListItemPanel.open = dotNetObject.open;
+        properties.open = dotNetObject.open;
     }
     if (hasValue(dotNetObject.title)) {
-        jsTableListListItemPanel.title = dotNetObject.title;
+        properties.title = dotNetObject.title;
     }
     if (hasValue(dotNetObject.widgetId)) {
-        jsTableListListItemPanel.id = dotNetObject.widgetId;
+        properties.id = dotNetObject.widgetId;
     }
+    let jsTableListListItemPanel = new TableListListItemPanel(properties);
     
-        let jsObjectRef = DotNet.createJSObjectReference(jsTableListListItemPanel);
+    let jsObjectRef = DotNet.createJSObjectReference(jsTableListListItemPanel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTableListListItemPanel;
     
@@ -65,7 +66,8 @@ export async function buildDotNetTableListListItemPanelWidgetGenerated(jsObject:
     }
     
     let dotNetTableListListItemPanelWidget: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        // @ts-ignore
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
         if (hasValue(jsObject.listItem)) {
             let { buildDotNetTableListListItem } = await import('./tableListListItem');

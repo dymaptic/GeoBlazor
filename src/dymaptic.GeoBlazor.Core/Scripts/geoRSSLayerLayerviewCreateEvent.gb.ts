@@ -5,7 +5,7 @@ import { buildDotNetGeoRSSLayerLayerviewCreateEvent } from './geoRSSLayerLayervi
 export async function buildJsGeoRSSLayerLayerviewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoRSSLayerLayerviewCreateEvent: any = {};
     if (hasValue(viewId)) {
-        jsGeoRSSLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId];
+        jsGeoRSSLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId!];
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');

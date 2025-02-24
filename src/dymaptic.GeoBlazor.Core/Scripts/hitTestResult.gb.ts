@@ -9,7 +9,7 @@ export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: 
         jsHitTestResult.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.screenPoint)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedScreenPoint } = dotNetObject.screenPoint;
+        const { id, dotNetComponentReference, ...sanitizedScreenPoint } = dotNetObject.screenPoint;
         jsHitTestResult.screenPoint = sanitizedScreenPoint;
     }
     

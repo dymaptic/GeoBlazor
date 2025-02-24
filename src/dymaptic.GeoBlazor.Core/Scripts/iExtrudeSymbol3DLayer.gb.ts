@@ -33,10 +33,12 @@ export default class IExtrudeSymbol3DLayerGenerated implements IPropertyWrapper 
         let { buildDotNetEdges3D } = await import('./edges3D');
         return await buildDotNetEdges3D(this.layer.edges);
     }
+    
     async setEdges(value: any): Promise<void> {
         let { buildJsEdges3D } = await import('./edges3D');
         this.layer.edges = await  buildJsEdges3D(value, this.layerId, this.viewId);
     }
+    
     async getMaterial(): Promise<any> {
         if (!hasValue(this.layer.material)) {
             return null;
@@ -45,10 +47,12 @@ export default class IExtrudeSymbol3DLayerGenerated implements IPropertyWrapper 
         let { buildDotNetExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
         return await buildDotNetExtrudeSymbol3DLayerMaterial(this.layer.material);
     }
+    
     async setMaterial(value: any): Promise<void> {
         let { buildJsExtrudeSymbol3DLayerMaterial } = await import('./extrudeSymbol3DLayerMaterial');
         this.layer.material = await  buildJsExtrudeSymbol3DLayerMaterial(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }

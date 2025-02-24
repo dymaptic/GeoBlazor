@@ -3,7 +3,7 @@ import ClassBreakInfo from '@arcgis/core/renderers/support/ClassBreakInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetClassBreakInfo } from './classBreakInfo';
 
-export async function buildJsClassBreakInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsClassBreakInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');

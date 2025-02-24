@@ -105,10 +105,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetEffect } = await import('./effect');
         return buildDotNetEffect(this.layer.effect);
     }
+    
     async setEffect(value: any): Promise<void> {
         let { buildJsEffect } = await import('./effect');
         this.layer.effect =  buildJsEffect(value);
     }
+    
     async getFeatureEffect(): Promise<any> {
         if (!hasValue(this.layer.featureEffect)) {
             return null;
@@ -117,10 +119,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         return await buildDotNetFeatureEffect(this.layer.featureEffect);
     }
+    
     async setFeatureEffect(value: any): Promise<void> {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         this.layer.featureEffect = await  buildJsFeatureEffect(value, this.layerId, this.viewId);
     }
+    
     async getFields(): Promise<any> {
         if (!hasValue(this.layer.fields)) {
             return null;
@@ -143,6 +147,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
     }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -151,10 +156,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.layer.fullExtent);
     }
+    
     async setFullExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtent =  buildJsExtent(value);
     }
+    
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.layer.labelingInfo)) {
             return null;
@@ -177,10 +184,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
+    
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -189,10 +198,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.layer.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getRenderer(): Promise<any> {
         if (!hasValue(this.layer.renderer)) {
             return null;
@@ -201,10 +212,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetRenderer } = await import('./renderer');
         return await buildDotNetRenderer(this.layer.renderer);
     }
+    
     async setRenderer(value: any): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
         this.layer.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.layer.spatialReference)) {
             return null;
@@ -213,10 +226,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.layer.spatialReference);
     }
+    
     async setSpatialReference(value: any): Promise<void> {
         let { buildJsSpatialReference } = await import('./spatialReference');
         this.layer.spatialReference =  buildJsSpatialReference(value);
     }
+    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
@@ -225,10 +240,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.timeExtent);
     }
+    
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     async getTimeInfo(): Promise<any> {
         if (!hasValue(this.layer.timeInfo)) {
             return null;
@@ -237,10 +254,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
+    
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -249,10 +268,12 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         return buildDotNetTimeExtent(this.layer.visibilityTimeExtent);
     }
+    
     async setVisibilityTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         this.layer.visibilityTimeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -336,7 +357,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         properties.editingEnabled = dotNetObject.editingEnabled;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
+        const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.featureReduction)) {
@@ -367,7 +388,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         properties.opacity = dotNetObject.opacity;
     }
     if (hasValue(dotNetObject.orderBy)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOrderBy } = dotNetObject.orderBy;
+        const { id, dotNetComponentReference, ...sanitizedOrderBy } = dotNetObject.orderBy;
         properties.orderBy = sanitizedOrderBy;
     }
     if (hasValue(dotNetObject.outFields)) {
@@ -389,7 +410,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         properties.templates = dotNetObject.templates;
     }
     if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
+        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
         properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {

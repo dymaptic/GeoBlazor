@@ -63,10 +63,12 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.clippingArea);
     }
+    
     async setClippingArea(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.component.clippingArea =  buildJsExtent(value);
     }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.component.portalItem)) {
             return null;
@@ -75,10 +77,12 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(this.component.portalItem);
     }
+    
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.component.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
+    
     async getPresentation(): Promise<any> {
         if (!hasValue(this.component.presentation)) {
             return null;
@@ -87,10 +91,12 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         let { buildDotNetPresentation } = await import('./presentation');
         return await buildDotNetPresentation(this.component.presentation);
     }
+    
     async setPresentation(value: any): Promise<void> {
         let { buildJsPresentation } = await import('./presentation');
         this.component.presentation = await  buildJsPresentation(value, this.layerId, this.viewId);
     }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

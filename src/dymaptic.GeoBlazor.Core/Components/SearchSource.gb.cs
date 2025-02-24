@@ -1117,10 +1117,6 @@ public abstract partial class SearchSource
     public override void ValidateRequiredGeneratedChildren()
     {
     
-        if (Layer is null && LayerId is null)
-        {
-            throw new MissingRequiredOptionsChildElementException(nameof(SearchSource), [nameof(Layer), nameof(LayerId)]);
-        }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         ResultSymbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

@@ -22,11 +22,11 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
         properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
+        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
         properties.rasterFunction = sanitizedRasterFunction;
     }
     if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
+        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
         properties.renderingRule = sanitizedRenderingRule;
     }
     let jsImageHistogramParameters = new ImageHistogramParameters(properties);

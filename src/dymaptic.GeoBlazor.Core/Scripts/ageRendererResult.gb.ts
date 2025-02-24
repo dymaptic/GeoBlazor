@@ -10,7 +10,7 @@ export async function buildJsAgeRendererResultGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.visualVariable)) {
         let { buildJsColorVariable } = await import('./colorVariable');
-        jsAgeRendererResult.visualVariable = await buildJsColorVariable(dotNetObject.visualVariable, layerId, viewId) as any;
+        jsAgeRendererResult.visualVariable = await buildJsColorVariable(dotNetObject.visualVariable) as any;
     }
 
     if (hasValue(dotNetObject.basemapId)) {

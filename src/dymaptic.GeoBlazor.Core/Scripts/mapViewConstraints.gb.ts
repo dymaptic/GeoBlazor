@@ -10,7 +10,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
     }
 
     if (hasValue(dotNetObject.effectiveLODs)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedEffectiveLODs } = dotNetObject.effectiveLODs;
+        const { id, dotNetComponentReference, ...sanitizedEffectiveLODs } = dotNetObject.effectiveLODs;
         jsMapViewConstraints.effectiveLODs = sanitizedEffectiveLODs;
     }
     if (hasValue(dotNetObject.effectiveMaxScale)) {
@@ -26,7 +26,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
         jsMapViewConstraints.effectiveMinZoom = dotNetObject.effectiveMinZoom;
     }
     if (hasValue(dotNetObject.lods)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedLods } = dotNetObject.lods;
+        const { id, dotNetComponentReference, ...sanitizedLods } = dotNetObject.lods;
         jsMapViewConstraints.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.maxScale)) {

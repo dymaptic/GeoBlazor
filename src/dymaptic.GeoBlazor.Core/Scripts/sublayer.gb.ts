@@ -112,6 +112,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         return await buildDotNetFieldsIndex(this.component.fieldsIndex);
     }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.component.fullExtent)) {
             return null;
@@ -120,6 +121,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetExtent } = await import('./extent');
         return buildDotNetExtent(this.component.fullExtent);
     }
+    
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.component.labelingInfo)) {
             return null;
@@ -142,6 +144,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetLayer } = await import('./layer');
         return await buildDotNetLayer(this.component.layer);
     }
+    
     async getPopupTemplate(): Promise<any> {
         if (!hasValue(this.component.popupTemplate)) {
             return null;
@@ -150,10 +153,12 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
+    
     async setPopupTemplate(value: any): Promise<void> {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         this.component.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
+    
     async getRenderer(): Promise<any> {
         if (!hasValue(this.component.renderer)) {
             return null;
@@ -162,10 +167,12 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetRenderer } = await import('./renderer');
         return await buildDotNetRenderer(this.component.renderer);
     }
+    
     async setRenderer(value: any): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
         this.component.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
     }
+    
     async getSpatialReference(): Promise<any> {
         if (!hasValue(this.component.spatialReference)) {
             return null;
@@ -174,6 +181,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         let { buildDotNetSpatialReference } = await import('./spatialReference');
         return buildDotNetSpatialReference(this.component.spatialReference);
     }
+    
     async getSublayers(): Promise<any> {
         if (!hasValue(this.component.sublayers)) {
             return null;
@@ -226,7 +234,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         properties.definitionExpression = dotNetObject.definitionExpression;
     }
     if (hasValue(dotNetObject.floorInfo)) {
-        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
+        const { id, dotNetComponentReference, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
         properties.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
