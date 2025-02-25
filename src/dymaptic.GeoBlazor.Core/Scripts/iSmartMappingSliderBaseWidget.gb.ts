@@ -191,7 +191,7 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         console.error('Error invoking OnJsComponentCreated for ISmartMappingSliderBaseWidget', e);
     }
     
-    return jsSmartMappingSliderBase;
+    return iSmartMappingSliderBaseWidgetWrapper;
 }
 
 export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject: any): Promise<any> {

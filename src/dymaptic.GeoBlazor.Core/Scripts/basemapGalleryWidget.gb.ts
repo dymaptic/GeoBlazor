@@ -159,7 +159,7 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         console.error('Error invoking OnJsComponentCreated for BasemapGalleryWidget', e);
     }
     
-    return jsBasemapGallery;
+    return basemapGalleryWidgetWrapper;
 }
 
 export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): Promise<any> {

@@ -149,7 +149,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for ListItemPanelWidget', e);
     }
     
-    return jsListItemPanel;
+    return listItemPanelWidgetWrapper;
 }
 
 export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Promise<any> {

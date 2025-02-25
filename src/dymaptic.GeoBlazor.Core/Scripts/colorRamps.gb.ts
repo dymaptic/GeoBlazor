@@ -77,7 +77,7 @@ export async function buildJsColorRampsGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for ColorRamps', e);
     }
     
-    return jscolorRamps;
+    return colorRampsWrapper;
 }
 
 export async function buildDotNetColorRampsGenerated(jsObject: any): Promise<any> {

@@ -85,7 +85,7 @@ export async function buildJsIWaterSymbol3DLayerGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for IWaterSymbol3DLayer', e);
     }
     
-    return jsWaterSymbol3DLayer;
+    return iWaterSymbol3DLayerWrapper;
 }
 
 export async function buildDotNetIWaterSymbol3DLayerGenerated(jsObject: any): Promise<any> {

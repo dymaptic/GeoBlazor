@@ -182,7 +182,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for HomeWidget', e);
     }
     
-    return jsHome;
+    return homeWidgetWrapper;
 }
 
 export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any> {

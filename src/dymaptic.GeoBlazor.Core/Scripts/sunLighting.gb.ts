@@ -70,7 +70,7 @@ export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for SunLighting', e);
     }
     
-    return jsSunLighting;
+    return sunLightingWrapper;
 }
 
 export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<any> {

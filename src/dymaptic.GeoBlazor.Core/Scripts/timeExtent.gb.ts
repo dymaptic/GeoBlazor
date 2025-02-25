@@ -76,5 +76,5 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for TimeExtent', e);
     }
     
-    return jsTimeExtent;
+    return timeExtentWrapper;
 }

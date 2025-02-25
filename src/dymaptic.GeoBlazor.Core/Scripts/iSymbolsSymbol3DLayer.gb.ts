@@ -57,7 +57,7 @@ export async function buildJsISymbolsSymbol3DLayerGenerated(dotNetObject: any, l
         console.error('Error invoking OnJsComponentCreated for ISymbolsSymbol3DLayer', e);
     }
     
-    return jssymbolsSymbol3DLayer;
+    return iSymbolsSymbol3DLayerWrapper;
 }
 
 export async function buildDotNetISymbolsSymbol3DLayerGenerated(jsObject: any): Promise<any> {

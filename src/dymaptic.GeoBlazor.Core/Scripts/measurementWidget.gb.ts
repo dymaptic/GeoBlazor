@@ -73,15 +73,6 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     // region properties
     
-    async getActiveWidget(): Promise<any> {
-        if (!hasValue(this.widget.activeWidget)) {
-            return null;
-        }
-        
-        let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
-        return await buildDotNetIMeasurementWidgetActiveWidget(this.widget.activeWidget);
-    }
-    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -157,7 +148,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for MeasurementWidget', e);
     }
     
-    return jsMeasurement;
+    return measurementWidgetWrapper;
 }
 
 export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Promise<any> {
@@ -168,16 +159,15 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
     let dotNetMeasurementWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.activeWidget)) {
-        let { buildDotNetIMeasurementWidgetActiveWidget } = await import('./iMeasurementWidgetActiveWidget');
-        dotNetMeasurementWidget.activeWidget = await buildDotNetIMeasurementWidgetActiveWidget(jsObject.activeWidget);
-    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
         dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
     }
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementWidget.activeTool = jsObject.activeTool;
+    }
+    if (hasValue(jsObject.activeWidget)) {
+        dotNetMeasurementWidget.activeWidget = jsObject.activeWidget;
     }
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;

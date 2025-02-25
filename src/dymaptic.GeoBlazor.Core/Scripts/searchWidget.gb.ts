@@ -296,7 +296,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for SearchWidget', e);
     }
     
-    return jswidgetsSearch;
+    return searchWidgetWrapper;
 }
 
 export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

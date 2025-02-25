@@ -114,7 +114,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for SizeVariable', e);
     }
     
-    return jsSizeVariable;
+    return sizeVariableWrapper;
 }
 
 export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<any> {

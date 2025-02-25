@@ -79,7 +79,7 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for CompassViewModel', e);
     }
     
-    return jsCompassViewModel;
+    return compassViewModelWrapper;
 }
 
 export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promise<any> {

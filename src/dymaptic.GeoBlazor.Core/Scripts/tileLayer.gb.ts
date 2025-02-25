@@ -302,7 +302,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
         console.error('Error invoking OnJsComponentCreated for TileLayer', e);
     }
     
-    return jsTileLayer;
+    return tileLayerWrapper;
 }
 
 export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any> {

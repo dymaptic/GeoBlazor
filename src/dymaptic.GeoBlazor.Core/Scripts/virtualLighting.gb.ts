@@ -61,7 +61,7 @@ export async function buildJsVirtualLightingGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for VirtualLighting', e);
     }
     
-    return jsVirtualLighting;
+    return virtualLightingWrapper;
 }
 
 export async function buildDotNetVirtualLightingGenerated(jsObject: any): Promise<any> {

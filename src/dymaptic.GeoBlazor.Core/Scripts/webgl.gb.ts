@@ -95,7 +95,7 @@ export async function buildJsWebglGenerated(dotNetObject: any, layerId: string |
         console.error('Error invoking OnJsComponentCreated for Webgl', e);
     }
     
-    return jswebgl;
+    return webglWrapper;
 }
 
 export async function buildDotNetWebglGenerated(jsObject: any): Promise<any> {

@@ -57,7 +57,7 @@ export async function buildJsHighlightHandleGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for HighlightHandle', e);
     }
     
-    return jsHandle;
+    return highlightHandleWrapper;
 }
 
 export async function buildDotNetHighlightHandleGenerated(jsObject: any): Promise<any> {

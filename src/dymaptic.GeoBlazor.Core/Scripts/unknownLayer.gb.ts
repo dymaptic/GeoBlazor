@@ -135,7 +135,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for UnknownLayer', e);
     }
     
-    return jsUnknownLayer;
+    return unknownLayerWrapper;
 }
 
 export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<any> {

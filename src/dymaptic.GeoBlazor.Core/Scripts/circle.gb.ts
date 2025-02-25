@@ -181,7 +181,7 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
         console.error('Error invoking OnJsComponentCreated for Circle', e);
     }
     
-    return jsCircle;
+    return circleWrapper;
 }
 
 export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {

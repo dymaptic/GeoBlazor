@@ -121,7 +121,7 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for LocateViewModel', e);
     }
     
-    return jsLocateViewModel;
+    return locateViewModelWrapper;
 }
 
 export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

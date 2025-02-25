@@ -373,7 +373,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for WCSLayer', e);
     }
     
-    return jsWCSLayer;
+    return wCSLayerWrapper;
 }
 
 export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> {

@@ -241,7 +241,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for PortalItem', e);
     }
     
-    return jsPortalItem;
+    return portalItemWrapper;
 }
 
 export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {

@@ -394,7 +394,7 @@ export async function buildJsGeometryEngineAsyncGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for GeometryEngineAsync', e);
     }
     
-    return jsgeometryEngineAsync;
+    return geometryEngineAsyncWrapper;
 }
 
 export async function buildDotNetGeometryEngineAsyncGenerated(jsObject: any): Promise<any> {

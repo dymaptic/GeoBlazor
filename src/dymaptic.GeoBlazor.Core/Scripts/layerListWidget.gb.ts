@@ -223,7 +223,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for LayerListWidget', e);
     }
     
-    return jsLayerList;
+    return layerListWidgetWrapper;
 }
 
 export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promise<any> {

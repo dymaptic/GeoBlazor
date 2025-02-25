@@ -122,7 +122,7 @@ export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for PortalGroup', e);
     }
     
-    return jsPortalGroup;
+    return portalGroupWrapper;
 }
 
 export async function buildDotNetPortalGroupGenerated(jsObject: any): Promise<any> {

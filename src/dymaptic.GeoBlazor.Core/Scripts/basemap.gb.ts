@@ -131,7 +131,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         console.error('Error invoking OnJsComponentCreated for Basemap', e);
     }
     
-    return jsBasemap;
+    return basemapWrapper;
 }
 
 export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {

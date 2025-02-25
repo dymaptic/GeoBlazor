@@ -179,7 +179,7 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for UniqueValueRenderer', e);
     }
     
-    return jsUniqueValueRenderer;
+    return uniqueValueRendererWrapper;
 }
 
 export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Promise<any> {

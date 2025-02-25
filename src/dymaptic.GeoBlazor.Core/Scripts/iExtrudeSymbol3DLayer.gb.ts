@@ -100,7 +100,7 @@ export async function buildJsIExtrudeSymbol3DLayerGenerated(dotNetObject: any, l
         console.error('Error invoking OnJsComponentCreated for IExtrudeSymbol3DLayer', e);
     }
     
-    return jsExtrudeSymbol3DLayer;
+    return iExtrudeSymbol3DLayerWrapper;
 }
 
 export async function buildDotNetIExtrudeSymbol3DLayerGenerated(jsObject: any): Promise<any> {

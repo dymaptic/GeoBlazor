@@ -162,7 +162,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for ExpandWidget', e);
     }
     
-    return jsExpand;
+    return expandWidgetWrapper;
 }
 
 export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<any> {

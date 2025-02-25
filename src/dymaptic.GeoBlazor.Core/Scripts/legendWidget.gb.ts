@@ -185,7 +185,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for LegendWidget', e);
     }
     
-    return jsLegend;
+    return legendWidgetWrapper;
 }
 
 export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<any> {

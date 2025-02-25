@@ -255,7 +255,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         console.error('Error invoking OnJsComponentCreated for WMTSLayer', e);
     }
     
-    return jsWMTSLayer;
+    return wMTSLayerWrapper;
 }
 
 export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any> {

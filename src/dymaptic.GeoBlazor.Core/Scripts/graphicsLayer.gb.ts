@@ -215,7 +215,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for GraphicsLayer', e);
     }
     
-    return jsGraphicsLayer;
+    return graphicsLayerWrapper;
 }
 
 export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<any> {

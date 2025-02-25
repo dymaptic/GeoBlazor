@@ -85,7 +85,7 @@ export async function buildJsExternalRenderersGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for ExternalRenderers', e);
     }
     
-    return jsexternalRenderers;
+    return externalRenderersWrapper;
 }
 
 export async function buildDotNetExternalRenderersGenerated(jsObject: any): Promise<any> {

@@ -164,7 +164,7 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for BookmarksViewModel', e);
     }
     
-    return jsBookmarksViewModel;
+    return bookmarksViewModelWrapper;
 }
 
 export async function buildDotNetBookmarksViewModelGenerated(jsObject: any): Promise<any> {

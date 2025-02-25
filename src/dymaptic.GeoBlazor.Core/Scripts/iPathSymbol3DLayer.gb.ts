@@ -101,7 +101,7 @@ export async function buildJsIPathSymbol3DLayerGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for IPathSymbol3DLayer', e);
     }
     
-    return jsPathSymbol3DLayer;
+    return iPathSymbol3DLayerWrapper;
 }
 
 export async function buildDotNetIPathSymbol3DLayerGenerated(jsObject: any): Promise<any> {

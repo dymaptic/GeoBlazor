@@ -107,7 +107,7 @@ export async function buildJsILineSymbol3DLayerGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for ILineSymbol3DLayer', e);
     }
     
-    return jsLineSymbol3DLayer;
+    return iLineSymbol3DLayerWrapper;
 }
 
 export async function buildDotNetILineSymbol3DLayerGenerated(jsObject: any): Promise<any> {

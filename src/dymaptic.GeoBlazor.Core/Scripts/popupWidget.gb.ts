@@ -281,7 +281,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for PopupWidget', e);
     }
     
-    return jsPopup;
+    return popupWidgetWrapper;
 }
 
 export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

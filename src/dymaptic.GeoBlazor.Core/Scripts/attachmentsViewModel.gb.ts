@@ -89,7 +89,7 @@ export async function buildJsAttachmentsViewModelGenerated(dotNetObject: any, la
         console.error('Error invoking OnJsComponentCreated for AttachmentsViewModel', e);
     }
     
-    return jsAttachmentsViewModel;
+    return attachmentsViewModelWrapper;
 }
 
 export async function buildDotNetAttachmentsViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

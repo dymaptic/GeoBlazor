@@ -123,7 +123,7 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
         console.error('Error invoking OnJsComponentCreated for ScaleBarWidget', e);
     }
     
-    return jsScaleBar;
+    return scaleBarWidgetWrapper;
 }
 
 export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise<any> {

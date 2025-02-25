@@ -67,7 +67,7 @@ export async function buildJsILegendLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for ILegendLayer', e);
     }
     
-    return jsLegendLayer;
+    return iLegendLayerWrapper;
 }
 
 export async function buildDotNetILegendLayerGenerated(jsObject: any): Promise<any> {

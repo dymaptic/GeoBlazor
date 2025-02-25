@@ -109,7 +109,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for FeatureFilter', e);
     }
     
-    return jsFeatureFilter;
+    return featureFilterWrapper;
 }
 
 export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<any> {

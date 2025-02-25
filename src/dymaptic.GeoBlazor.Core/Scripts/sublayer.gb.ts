@@ -281,7 +281,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for Sublayer', e);
     }
     
-    return jsSublayer;
+    return sublayerWrapper;
 }
 
 export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> {

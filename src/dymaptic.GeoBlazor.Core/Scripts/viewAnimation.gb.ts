@@ -80,7 +80,7 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for ViewAnimation', e);
     }
     
-    return jsViewAnimation;
+    return viewAnimationWrapper;
 }
 
 export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<any> {

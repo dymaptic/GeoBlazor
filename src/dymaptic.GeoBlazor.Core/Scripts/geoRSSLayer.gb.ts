@@ -219,7 +219,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for GeoRSSLayer', e);
     }
     
-    return jsGeoRSSLayer;
+    return geoRSSLayerWrapper;
 }
 
 export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<any> {

@@ -176,7 +176,7 @@ export async function buildJsClassBreaksRendererGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for ClassBreaksRenderer', e);
     }
     
-    return jsClassBreaksRenderer;
+    return classBreaksRendererWrapper;
 }
 
 export async function buildDotNetClassBreaksRendererGenerated(jsObject: any): Promise<any> {

@@ -61,7 +61,7 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for Projection', e);
     }
     
-    return jsprojection;
+    return projectionWrapper;
 }
 
 export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any> {

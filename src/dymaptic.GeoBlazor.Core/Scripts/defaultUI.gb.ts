@@ -99,7 +99,7 @@ export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: stri
         console.error('Error invoking OnJsComponentCreated for DefaultUI', e);
     }
     
-    return jsDefaultUI;
+    return defaultUIWrapper;
 }
 
 export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any> {

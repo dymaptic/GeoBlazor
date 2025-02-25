@@ -392,7 +392,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for ImageryTileLayer', e);
     }
     
-    return jsImageryTileLayer;
+    return imageryTileLayerWrapper;
 }
 
 export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {

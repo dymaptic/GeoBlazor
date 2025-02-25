@@ -198,7 +198,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for LocateWidget', e);
     }
     
-    return jsLocate;
+    return locateWidgetWrapper;
 }
 
 export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

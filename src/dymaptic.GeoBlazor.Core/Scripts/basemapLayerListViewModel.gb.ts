@@ -106,7 +106,7 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
         console.error('Error invoking OnJsComponentCreated for BasemapLayerListViewModel', e);
     }
     
-    return jsBasemapLayerListViewModel;
+    return basemapLayerListViewModelWrapper;
 }
 
 export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any): Promise<any> {

@@ -106,7 +106,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
         console.error('Error invoking OnJsComponentCreated for BasemapGalleryViewModel', e);
     }
     
-    return jsBasemapGalleryViewModel;
+    return basemapGalleryViewModelWrapper;
 }
 
 export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any): Promise<any> {

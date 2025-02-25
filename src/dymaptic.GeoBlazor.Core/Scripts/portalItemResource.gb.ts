@@ -87,7 +87,7 @@ export async function buildJsPortalItemResourceGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for PortalItemResource', e);
     }
     
-    return jsPortalItemResource;
+    return portalItemResourceWrapper;
 }
 
 export async function buildDotNetPortalItemResourceGenerated(jsObject: any): Promise<any> {

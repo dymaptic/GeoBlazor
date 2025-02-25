@@ -73,7 +73,7 @@ export async function buildJsSymbologyPredominanceGenerated(dotNetObject: any, l
         console.error('Error invoking OnJsComponentCreated for SymbologyPredominance', e);
     }
     
-    return jssymbologyPredominance;
+    return symbologyPredominanceWrapper;
 }
 
 export async function buildDotNetSymbologyPredominanceGenerated(jsObject: any): Promise<any> {

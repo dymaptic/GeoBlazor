@@ -88,7 +88,7 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for FieldsIndex', e);
     }
     
-    return jsFieldsIndex;
+    return fieldsIndexWrapper;
 }
 
 export async function buildDotNetFieldsIndexGenerated(jsObject: any): Promise<any> {

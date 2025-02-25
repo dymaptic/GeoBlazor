@@ -423,7 +423,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for WFSLayer', e);
     }
     
-    return jsWFSLayer;
+    return wFSLayerWrapper;
 }
 
 export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> {

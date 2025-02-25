@@ -169,7 +169,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for WebScene', e);
     }
     
-    return jsWebScene;
+    return webSceneWrapper;
 }
 
 export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> {

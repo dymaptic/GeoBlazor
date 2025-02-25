@@ -69,7 +69,7 @@ export async function buildJsNormalizeUtilsGenerated(dotNetObject: any, layerId:
         console.error('Error invoking OnJsComponentCreated for NormalizeUtils', e);
     }
     
-    return jsnormalizeUtils;
+    return normalizeUtilsWrapper;
 }
 
 export async function buildDotNetNormalizeUtilsGenerated(jsObject: any): Promise<any> {

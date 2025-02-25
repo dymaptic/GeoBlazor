@@ -68,7 +68,7 @@ export async function buildJsISearchLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for ISearchLayer', e);
     }
     
-    return jsSearchLayer;
+    return iSearchLayerWrapper;
 }
 
 export async function buildDotNetISearchLayerGenerated(jsObject: any): Promise<any> {

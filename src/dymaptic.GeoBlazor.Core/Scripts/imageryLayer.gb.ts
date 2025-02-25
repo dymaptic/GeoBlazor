@@ -652,7 +652,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for ImageryLayer', e);
     }
     
-    return jsImageryLayer;
+    return imageryLayerWrapper;
 }
 
 export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<any> {

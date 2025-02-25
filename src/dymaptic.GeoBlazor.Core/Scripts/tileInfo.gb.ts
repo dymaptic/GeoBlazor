@@ -100,7 +100,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for TileInfo', e);
     }
     
-    return jsTileInfo;
+    return tileInfoWrapper;
 }
 
 export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {

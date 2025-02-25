@@ -74,7 +74,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
         console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DViewModel', e);
     }
     
-    return jsDistanceMeasurement2DViewModel;
+    return distanceMeasurement2DViewModelWrapper;
 }
 
 export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any): Promise<any> {

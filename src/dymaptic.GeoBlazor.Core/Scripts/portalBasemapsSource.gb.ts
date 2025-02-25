@@ -121,7 +121,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         console.error('Error invoking OnJsComponentCreated for PortalBasemapsSource', e);
     }
     
-    return jsPortalBasemapsSource;
+    return portalBasemapsSourceWrapper;
 }
 
 export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): Promise<any> {

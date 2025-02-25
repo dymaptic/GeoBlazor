@@ -107,7 +107,7 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for ImageryLayerView', e);
     }
     
-    return jsImageryLayerView;
+    return imageryLayerViewWrapper;
 }
 
 export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promise<any> {

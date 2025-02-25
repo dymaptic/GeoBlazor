@@ -74,7 +74,7 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
         console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DViewModel', e);
     }
     
-    return jsAreaMeasurement2DViewModel;
+    return areaMeasurement2DViewModelWrapper;
 }
 
 export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: any): Promise<any> {
