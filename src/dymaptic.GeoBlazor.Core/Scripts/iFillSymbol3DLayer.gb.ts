@@ -119,7 +119,7 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for IFillSymbol3DLayer', e);
     }
     
-    return iFillSymbol3DLayerWrapper;
+    return jsFillSymbol3DLayer;
 }
 
 export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Promise<any> {

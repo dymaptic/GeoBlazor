@@ -121,7 +121,7 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
         console.error('Error invoking OnJsComponentCreated for Ground', e);
     }
     
-    return groundWrapper;
+    return jsGround;
 }
 
 export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {

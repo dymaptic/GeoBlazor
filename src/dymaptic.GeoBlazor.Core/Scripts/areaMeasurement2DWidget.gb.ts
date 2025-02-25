@@ -137,7 +137,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
         console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DWidget', e);
     }
     
-    return areaMeasurement2DWidgetWrapper;
+    return jsAreaMeasurement2D;
 }
 
 export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {

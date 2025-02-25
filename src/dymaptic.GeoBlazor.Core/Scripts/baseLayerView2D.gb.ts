@@ -102,7 +102,7 @@ export async function buildJsBaseLayerView2DGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for BaseLayerView2D', e);
     }
     
-    return baseLayerView2DWrapper;
+    return jsBaseLayerView2D;
 }
 
 export async function buildDotNetBaseLayerView2DGenerated(jsObject: any): Promise<any> {

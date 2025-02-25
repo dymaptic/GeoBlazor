@@ -64,7 +64,7 @@ export async function buildJsCodedValueDomainGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for CodedValueDomain', e);
     }
     
-    return codedValueDomainWrapper;
+    return jsCodedValueDomain;
 }
 
 export async function buildDotNetCodedValueDomainGenerated(jsObject: any): Promise<any> {

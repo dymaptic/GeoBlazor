@@ -303,7 +303,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for SliderWidget', e);
     }
     
-    return sliderWidgetWrapper;
+    return jsSlider;
 }
 
 export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<any> {

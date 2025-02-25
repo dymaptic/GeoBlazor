@@ -78,5 +78,5 @@ export async function buildJsGeographicTransformationGenerated(dotNetObject: any
         console.error('Error invoking OnJsComponentCreated for GeographicTransformation', e);
     }
     
-    return geographicTransformationWrapper;
+    return jsGeographicTransformation;
 }

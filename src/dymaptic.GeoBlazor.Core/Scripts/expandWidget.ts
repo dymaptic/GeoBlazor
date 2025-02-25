@@ -43,7 +43,7 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
     
     let view = arcGisObjectRefs[viewId!];
     view.ui.remove(content);
-    jsExpand.widget.content = expandWidgetDiv;
+    jsExpand.content = expandWidgetDiv;
     
     return jsExpand;
 }

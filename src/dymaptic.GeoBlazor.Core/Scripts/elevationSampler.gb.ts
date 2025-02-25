@@ -78,7 +78,7 @@ export async function buildJsElevationSamplerGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for ElevationSampler', e);
     }
     
-    return elevationSamplerWrapper;
+    return jsElevationSampler;
 }
 
 export async function buildDotNetElevationSamplerGenerated(jsObject: any): Promise<any> {

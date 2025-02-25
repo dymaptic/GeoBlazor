@@ -145,7 +145,7 @@ export async function buildJsITextSymbol3DLayerGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for ITextSymbol3DLayer', e);
     }
     
-    return iTextSymbol3DLayerWrapper;
+    return jsTextSymbol3DLayer;
 }
 
 export async function buildDotNetITextSymbol3DLayerGenerated(jsObject: any): Promise<any> {

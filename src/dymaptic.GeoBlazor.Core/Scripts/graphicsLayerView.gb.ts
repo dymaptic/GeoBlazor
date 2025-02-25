@@ -92,7 +92,7 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for GraphicsLayerView', e);
     }
     
-    return graphicsLayerViewWrapper;
+    return jsGraphicsLayerView;
 }
 
 export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Promise<any> {

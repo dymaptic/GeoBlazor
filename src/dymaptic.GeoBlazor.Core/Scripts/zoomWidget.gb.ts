@@ -142,7 +142,7 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for ZoomWidget', e);
     }
     
-    return zoomWidgetWrapper;
+    return jsZoom;
 }
 
 export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any> {

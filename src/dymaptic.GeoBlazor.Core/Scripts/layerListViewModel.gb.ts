@@ -108,7 +108,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for LayerListViewModel', e);
     }
     
-    return layerListViewModelWrapper;
+    return jsLayerListViewModel;
 }
 
 export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Promise<any> {

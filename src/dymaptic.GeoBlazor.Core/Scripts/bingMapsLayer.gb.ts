@@ -230,7 +230,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for BingMapsLayer', e);
     }
     
-    return bingMapsLayerWrapper;
+    return jsBingMapsLayer;
 }
 
 export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {

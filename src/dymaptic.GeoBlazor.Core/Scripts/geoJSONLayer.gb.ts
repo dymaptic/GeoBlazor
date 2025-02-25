@@ -452,7 +452,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for GeoJSONLayer', e);
     }
     
-    return geoJSONLayerWrapper;
+    return jsGeoJSONLayer;
 }
 
 export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<any> {

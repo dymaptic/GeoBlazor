@@ -166,7 +166,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         console.error('Error invoking OnJsComponentCreated for BasemapToggleWidget', e);
     }
     
-    return basemapToggleWidgetWrapper;
+    return jsBasemapToggle;
 }
 
 export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Promise<any> {

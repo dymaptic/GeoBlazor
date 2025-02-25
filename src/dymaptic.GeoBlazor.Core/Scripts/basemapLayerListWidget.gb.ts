@@ -240,7 +240,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
         console.error('Error invoking OnJsComponentCreated for BasemapLayerListWidget', e);
     }
     
-    return basemapLayerListWidgetWrapper;
+    return jsBasemapLayerList;
 }
 
 export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any): Promise<any> {

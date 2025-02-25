@@ -57,7 +57,7 @@ export async function buildJsWatchHandleGenerated(dotNetObject: any, layerId: st
         console.error('Error invoking OnJsComponentCreated for WatchHandle', e);
     }
     
-    return watchHandleWrapper;
+    return jsWatchHandle;
 }
 
 export async function buildDotNetWatchHandleGenerated(jsObject: any): Promise<any> {

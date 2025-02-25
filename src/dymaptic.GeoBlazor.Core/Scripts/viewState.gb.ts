@@ -95,7 +95,7 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
         console.error('Error invoking OnJsComponentCreated for ViewState', e);
     }
     
-    return viewStateWrapper;
+    return jsViewState;
 }
 
 export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any> {

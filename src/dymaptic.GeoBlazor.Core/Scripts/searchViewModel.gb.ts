@@ -272,7 +272,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for SearchViewModel', e);
     }
     
-    return searchViewModelWrapper;
+    return jsSearchViewModel;
 }
 
 export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

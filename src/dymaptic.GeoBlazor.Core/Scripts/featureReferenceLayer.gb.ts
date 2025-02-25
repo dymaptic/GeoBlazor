@@ -63,7 +63,7 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
         console.error('Error invoking OnJsComponentCreated for FeatureReferenceLayer', e);
     }
     
-    return featureReferenceLayerWrapper;
+    return jsFeatureReferenceLayer;
 }
 
 export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): Promise<any> {

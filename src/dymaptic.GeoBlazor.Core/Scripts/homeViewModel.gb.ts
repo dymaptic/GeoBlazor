@@ -105,7 +105,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for HomeViewModel', e);
     }
     
-    return homeViewModelWrapper;
+    return jsHomeViewModel;
 }
 
 export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<any> {

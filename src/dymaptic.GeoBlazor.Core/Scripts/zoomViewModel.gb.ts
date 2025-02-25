@@ -71,7 +71,7 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for ZoomViewModel', e);
     }
     
-    return zoomViewModelWrapper;
+    return jsZoomViewModel;
 }
 
 export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<any> {

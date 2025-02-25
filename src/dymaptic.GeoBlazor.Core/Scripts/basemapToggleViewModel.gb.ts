@@ -94,7 +94,7 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
         console.error('Error invoking OnJsComponentCreated for BasemapToggleViewModel', e);
     }
     
-    return basemapToggleViewModelWrapper;
+    return jsBasemapToggleViewModel;
 }
 
 export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any): Promise<any> {

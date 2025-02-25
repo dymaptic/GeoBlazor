@@ -152,7 +152,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for SliderViewModel', e);
     }
     
-    return sliderViewModelWrapper;
+    return jsSliderViewModel;
 }
 
 export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promise<any> {

@@ -533,7 +533,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
     }
     
-    return featureLayerWrapper;
+    return jsFeatureLayer;
 }
 
 export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {

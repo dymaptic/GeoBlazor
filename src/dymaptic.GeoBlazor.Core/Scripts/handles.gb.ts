@@ -74,7 +74,7 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
         console.error('Error invoking OnJsComponentCreated for Handles', e);
     }
     
-    return handlesWrapper;
+    return jsHandles;
 }
 
 export async function buildDotNetHandlesGenerated(jsObject: any): Promise<any> {

@@ -227,7 +227,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
         console.error('Error invoking OnJsComponentCreated for OpenStreetMapLayer', e);
     }
     
-    return openStreetMapLayerWrapper;
+    return jsOpenStreetMapLayer;
 }
 
 export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Promise<any> {

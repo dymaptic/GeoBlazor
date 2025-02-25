@@ -147,7 +147,7 @@ export async function buildJsBaseLayerViewGL2DGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for BaseLayerViewGL2D', e);
     }
     
-    return baseLayerViewGL2DWrapper;
+    return jsBaseLayerViewGL2D;
 }
 
 export async function buildDotNetBaseLayerViewGL2DGenerated(jsObject: any): Promise<any> {

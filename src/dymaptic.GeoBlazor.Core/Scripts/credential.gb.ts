@@ -87,7 +87,7 @@ export async function buildJsCredentialGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for Credential', e);
     }
     
-    return credentialWrapper;
+    return jsCredential;
 }
 
 export async function buildDotNetCredentialGenerated(jsObject: any): Promise<any> {

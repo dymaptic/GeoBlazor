@@ -177,7 +177,7 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for PortalUser', e);
     }
     
-    return portalUserWrapper;
+    return jsPortalUser;
 }
 
 export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any> {

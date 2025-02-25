@@ -60,7 +60,7 @@ export async function buildJsUniqueValuesGenerated(dotNetObject: any, layerId: s
         console.error('Error invoking OnJsComponentCreated for UniqueValues', e);
     }
     
-    return uniqueValuesWrapper;
+    return jsuniqueValues;
 }
 
 export async function buildDotNetUniqueValuesGenerated(jsObject: any): Promise<any> {

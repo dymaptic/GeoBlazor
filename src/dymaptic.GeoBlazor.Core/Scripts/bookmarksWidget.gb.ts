@@ -241,7 +241,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for BookmarksWidget', e);
     }
     
-    return bookmarksWidgetWrapper;
+    return jsBookmarks;
 }
 
 export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promise<any> {

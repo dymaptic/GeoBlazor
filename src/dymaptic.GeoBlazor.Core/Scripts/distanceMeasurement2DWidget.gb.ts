@@ -137,7 +137,7 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
         console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
     }
     
-    return distanceMeasurement2DWidgetWrapper;
+    return jsDistanceMeasurement2D;
 }
 
 export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {

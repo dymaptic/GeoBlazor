@@ -69,7 +69,7 @@ export async function buildJsGeographicTransformationStepGenerated(dotNetObject:
         console.error('Error invoking OnJsComponentCreated for GeographicTransformationStep', e);
     }
     
-    return geographicTransformationStepWrapper;
+    return jsGeographicTransformationStep;
 }
 
 export async function buildDotNetGeographicTransformationStepGenerated(jsObject: any): Promise<any> {

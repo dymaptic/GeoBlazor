@@ -65,7 +65,7 @@ export async function buildJsFrameTaskHandleGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for FrameTaskHandle', e);
     }
     
-    return frameTaskHandleWrapper;
+    return jsFrameTaskHandle;
 }
 
 export async function buildDotNetFrameTaskHandleGenerated(jsObject: any): Promise<any> {

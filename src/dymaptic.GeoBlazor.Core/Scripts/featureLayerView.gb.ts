@@ -121,7 +121,7 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for FeatureLayerView', e);
     }
     
-    return featureLayerViewWrapper;
+    return jsFeatureLayerView;
 }
 
 export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promise<any> {

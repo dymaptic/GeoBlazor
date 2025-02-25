@@ -129,7 +129,7 @@ export async function buildJsIntlGenerated(dotNetObject: any, layerId: string | 
         console.error('Error invoking OnJsComponentCreated for Intl', e);
     }
     
-    return intlWrapper;
+    return jsintl;
 }
 
 export async function buildDotNetIntlGenerated(jsObject: any): Promise<any> {

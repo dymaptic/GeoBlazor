@@ -201,7 +201,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for KMLLayer', e);
     }
     
-    return kMLLayerWrapper;
+    return jsKMLLayer;
 }
 
 export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> {

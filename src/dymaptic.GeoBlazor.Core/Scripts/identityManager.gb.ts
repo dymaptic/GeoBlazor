@@ -173,7 +173,7 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for IdentityManager', e);
     }
     
-    return identityManagerWrapper;
+    return jsIdentityManager;
 }
 
 export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promise<any> {

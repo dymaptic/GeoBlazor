@@ -351,7 +351,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for MapImageLayer', e);
     }
     
-    return mapImageLayerWrapper;
+    return jsMapImageLayer;
 }
 
 export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<any> {

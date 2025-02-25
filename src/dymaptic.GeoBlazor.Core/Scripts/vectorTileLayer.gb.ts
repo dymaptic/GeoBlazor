@@ -303,7 +303,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
         console.error('Error invoking OnJsComponentCreated for VectorTileLayer', e);
     }
     
-    return vectorTileLayerWrapper;
+    return jsVectorTileLayer;
 }
 
 export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {

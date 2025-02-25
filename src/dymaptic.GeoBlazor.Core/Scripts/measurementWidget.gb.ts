@@ -148,7 +148,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for MeasurementWidget', e);
     }
     
-    return measurementWidgetWrapper;
+    return jsMeasurement;
 }
 
 export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Promise<any> {

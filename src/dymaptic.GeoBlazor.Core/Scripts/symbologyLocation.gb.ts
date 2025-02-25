@@ -65,7 +65,7 @@ export async function buildJsSymbologyLocationGenerated(dotNetObject: any, layer
         console.error('Error invoking OnJsComponentCreated for SymbologyLocation', e);
     }
     
-    return symbologyLocationWrapper;
+    return jssymbologyLocation;
 }
 
 export async function buildDotNetSymbologyLocationGenerated(jsObject: any): Promise<any> {

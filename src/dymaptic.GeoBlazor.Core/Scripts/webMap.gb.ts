@@ -184,7 +184,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
         console.error('Error invoking OnJsComponentCreated for WebMap', e);
     }
     
-    return webMapWrapper;
+    return jsWebMap;
 }
 
 export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

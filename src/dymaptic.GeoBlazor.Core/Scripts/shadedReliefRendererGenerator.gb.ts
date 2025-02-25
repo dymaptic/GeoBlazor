@@ -59,7 +59,7 @@ export async function buildJsShadedReliefRendererGeneratorGenerated(dotNetObject
         console.error('Error invoking OnJsComponentCreated for ShadedReliefRendererGenerator', e);
     }
     
-    return shadedReliefRendererGeneratorWrapper;
+    return jsshadedRelief;
 }
 
 export async function buildDotNetShadedReliefRendererGeneratorGenerated(jsObject: any): Promise<any> {

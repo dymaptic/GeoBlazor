@@ -153,7 +153,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         console.error('Error invoking OnJsComponentCreated for CompassWidget', e);
     }
     
-    return compassWidgetWrapper;
+    return jsCompass;
 }
 
 export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<any> {

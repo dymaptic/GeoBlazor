@@ -95,7 +95,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
         console.error('Error invoking OnJsComponentCreated for PixelBlock', e);
     }
     
-    return pixelBlockWrapper;
+    return jsPixelBlock;
 }
 
 export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any> {

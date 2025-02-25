@@ -445,7 +445,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         console.error('Error invoking OnJsComponentCreated for CSVLayer', e);
     }
     
-    return cSVLayerWrapper;
+    return jsCSVLayer;
 }
 
 export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> {

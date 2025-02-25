@@ -242,7 +242,7 @@ export async function buildJsFeatureTableViewModelGenerated(dotNetObject: any, l
         console.error('Error invoking OnJsComponentCreated for FeatureTableViewModel', e);
     }
     
-    return featureTableViewModelWrapper;
+    return jsFeatureTableViewModel;
 }
 
 export async function buildDotNetFeatureTableViewModelGenerated(jsObject: any): Promise<any> {

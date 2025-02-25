@@ -135,7 +135,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
         console.error('Error invoking OnJsComponentCreated for UnsupportedLayer', e);
     }
     
-    return unsupportedLayerWrapper;
+    return jsUnsupportedLayer;
 }
 
 export async function buildDotNetUnsupportedLayerGenerated(jsObject: any): Promise<any> {
