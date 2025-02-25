@@ -22,7 +22,7 @@ export function buildJsPopupContent(dotNetObject: any): any {
         case 'text':
             return buildJsTextPopupContent(dotNetObject);
         default:
-            let { id, dotNetComponentReference, sanitizedPopupTemplate } = dotNetObject;
+            let { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject;
             return sanitizedPopupTemplate;
     }
 }

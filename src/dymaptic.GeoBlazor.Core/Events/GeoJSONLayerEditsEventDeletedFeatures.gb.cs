@@ -3,7 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    
+///    An array of successfully deleted features.
 /// </summary>
 /// <param name="ObjectId">
 /// </param>

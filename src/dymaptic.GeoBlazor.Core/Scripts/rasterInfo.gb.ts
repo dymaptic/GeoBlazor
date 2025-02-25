@@ -3,7 +3,7 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
@@ -70,7 +70,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterInfo;
     
-    let dnInstantiatedObject = await buildDotNetRasterInfo(jsRasterInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetRasterInfo(jsRasterInfo);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -81,7 +81,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     return jsRasterInfo;
 }
 
-export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -89,10 +89,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: str
     let dotNetRasterInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.attributeTable)) {
-        let { buildDotNetFeatureSet } = await import('./featureSet');
-        dotNetRasterInfo.attributeTable = await buildDotNetFeatureSet(jsObject.attributeTable, layerId, viewId);
-    }
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);

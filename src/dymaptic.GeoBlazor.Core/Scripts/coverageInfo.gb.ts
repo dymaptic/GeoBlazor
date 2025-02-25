@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageInfo } from './coverageInfo';
 
-export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<any> {
     let jsCoverageInfo: any = {};
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
@@ -10,7 +10,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.rasterInfo)) {
         let { buildJsRasterInfo } = await import('./rasterInfo');
-        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo, layerId, viewId) as any;
+        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo) as any;
     }
 
     if (hasValue(dotNetObject.bandNames)) {
@@ -45,7 +45,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageInfo;
     
-    let dnInstantiatedObject = await buildDotNetCoverageInfo(jsCoverageInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCoverageInfo(jsCoverageInfo);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -56,7 +56,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     return jsCoverageInfo;
 }
 
-export async function buildDotNetCoverageInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -70,7 +70,7 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.rasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo, layerId, viewId);
+        dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
     }
     if (hasValue(jsObject.bandNames)) {
         dotNetCoverageInfo.bandNames = jsObject.bandNames;

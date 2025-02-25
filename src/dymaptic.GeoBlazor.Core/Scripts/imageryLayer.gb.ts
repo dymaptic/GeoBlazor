@@ -400,7 +400,7 @@ let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
+        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -644,7 +644,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     let { buildDotNetImageryLayer } = await import('./imageryLayer');
-    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
     
     try {
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
@@ -655,7 +655,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     return jsImageryLayer;
 }
 
-export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -705,7 +705,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+        dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
     }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');

@@ -18,7 +18,7 @@ export function buildDotNetGeometry(geometry): any {
         case "extent":
             return buildDotNetExtent(geometry);
         default:
-            let { id, dotNetComponentReference, sanitizedGeometry } = geometry;
+            let { id, dotNetComponentReference, ...sanitizedGeometry } = geometry;
             return sanitizedGeometry;
     }
 }

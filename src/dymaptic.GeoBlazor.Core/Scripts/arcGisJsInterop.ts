@@ -635,6 +635,9 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                     }
                     seenObjects.set(value, true);
                 }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 return value;
             });
             
@@ -646,6 +649,9 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                         return '[Circular]';
                     }
                     seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
                 }
                 return value;
             });
@@ -1209,7 +1215,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.multidimensionalSubset)) {
                     let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
                     (currentLayer as ImageryLayer).multidimensionalSubset =
-                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
+                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
                 }
                 break;
 
@@ -1230,7 +1236,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                 if (hasValue(layerObject.multidimensionalSubset)) {
                     let {buildJsMultidimensionalSubset} = await import('./multidimensionalSubset');
                     (currentLayer as ImageryTileLayer).multidimensionalSubset =
-                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset, layerObject.id, viewId);
+                        await buildJsMultidimensionalSubset(layerObject.multidimensionalSubset);
                 }
 
                 break;
@@ -2114,7 +2120,7 @@ export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?
 
         const newLayer = await buildJsLayer(layerObject, layerObject.id, viewId);
 
-        if (newLayer === null) return;
+        if (!hasValue(newLayer)) return;
 
         if (isBasemapLayer) {
             if (layerObject.isBasemapReferenceLayer) {
@@ -2627,10 +2633,10 @@ export function toLowerFirstChar(str: string): string {
 function findCircularReferences(obj: any, path = '') {
     const seen = new WeakMap();
     const circularPaths: string[] = [];
+    path = typeof obj;
 
     function detect(obj: any, currentPath: string) {
         if (obj === null || typeof obj !== 'object') return;
-
         if (seen.has(obj)) {
             let circularMessage = `Circular reference found at: ${currentPath} -> ${seen.get(obj)}`;
             circularPaths.push(circularMessage);
@@ -2641,6 +2647,9 @@ function findCircularReferences(obj: any, path = '') {
         seen.set(obj, currentPath);
 
         for (const [key, value] of Object.entries(obj)) {
+            if (key.startsWith('_')) {
+                continue;
+            }
             detect(value, `${currentPath}${currentPath ? '.' : ''}${key}`);
         }
     }

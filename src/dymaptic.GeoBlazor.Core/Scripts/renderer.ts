@@ -13,7 +13,7 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
             let {buildJsUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildJsUniqueValueRenderer(dotNetObject, layerId, viewId);
         default:
-            let { id, dotNetComponentReference, sanitizedRenderer } = dotNetObject;
+            let { id, dotNetComponentReference, ...sanitizedRenderer } = dotNetObject;
             return sanitizedRenderer;
     }
 }

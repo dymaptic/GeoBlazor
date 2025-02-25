@@ -14,7 +14,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
-        properties.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
+        properties.layerView = buildJsLayerView(dotNetObject.layerView) as any;
     }
 
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {

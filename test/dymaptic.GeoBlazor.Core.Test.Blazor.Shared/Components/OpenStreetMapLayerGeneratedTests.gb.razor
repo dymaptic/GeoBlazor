@@ -18,58 +18,57 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                     </Basemap>
                     <OpenStreetMapLayer 
-                        Title="@("aliquam architecto id")"
-                        BlendMode="@(BlendMode.Reflect)"
-                        Copyright="@("voluptatem")"
-                        MaxScale="@(29296645.9707)"
-                        MinScale="@(36269.6173)"
-                        RefreshInterval="@(154.1683)"
-                        SubDomains="@(["distinctio",
-                            "enim"])"
-                        Opacity="@(0.6100)"
+                        Title="@("similique in enim")"
+                        BlendMode="@(BlendMode.ColorBurn)"
+                        Copyright="@("ipsum")"
+                        MaxScale="@(31920547.6745)"
+                        MinScale="@(12929.7936)"
+                        RefreshInterval="@(118.6704)"
+                        SubDomains="@(["voluptatem"])"
+                        Opacity="@(0.0630)"
                         Visible="@(true)"
                         ListMode="@(ListMode.Show)"
-                        Effect="@(new Effect("assumenda",
-                            36963452.0436))"
+                        Effect="@(new Effect("nesciunt",
+                            7218835.0776))"
                         PersistenceEnabled="@(true)"
-                        UrlTemplate="@("https://ole.name")">
+                        UrlTemplate="@("http://laron.com")">
                         <TimeExtent 
-                            Start="@(new DateTime(2006, 8, 4, 12, 45, 33))"
-                            End="@(new DateTime(2015, 8, 19, 5, 9, 1))">
+                            Start="@(new DateTime(2021, 3, 21, 15, 27, 29))"
+                            End="@(new DateTime(2015, 5, 10, 10, 7, 54))">
                         </TimeExtent>
                         <TileInfo 
-                            Dpi="@(677.6496)"
-                            Format="@(TileInfoFormat.Ps)"
+                            Dpi="@(85.2436)"
+                            Format="@(TileInfoFormat.Png32)"
                             IsWrappable="@(true)"
-                            Size="@([6,
-                                3])">
+                            Size="@([2,
+                                1])">
                             <LOD 
-                                Level="@(8)"
-                                LevelValue="@("quo")"
-                                Resolution="@(37.5634)"
-                                Scale="@(1905028.2628)">
+                                Level="@(5)"
+                                LevelValue="@("eos")"
+                                Resolution="@(19.4209)"
+                                Scale="@(38055891.3635)">
                             </LOD>
                             <Point 
-                                Longitude="@(3.9541)"
-                                Latitude="@(-37.2360)"
-                                X="@(166.4413)"
-                                Y="@(-1.1467)"
-                                Z="@(413.5719)"
+                                Longitude="@(-145.3814)"
+                                Latitude="@(89.7226)"
+                                X="@(108.6626)"
+                                Y="@(-42.6898)"
+                                Z="@(263.5013)"
                                 HasM="@(true)"
                                 HasZ="@(true)"
-                                M="@(889.8290)">
+                                M="@(699.1118)">
                                 <SpatialReference 
-                                    Wkid="@(3)"
-                                    ImageCoordinateSystem="@("explicabo")"
-                                    Wkt="@("quia")"
-                                    Wkt2="@("quis")">
+                                    Wkid="@(9)"
+                                    ImageCoordinateSystem="@("magni")"
+                                    Wkt="@("sequi")"
+                                    Wkt2="@("repellendus")">
                                 </SpatialReference>
                             </Point>
                             <SpatialReference 
-                                Wkid="@(2)"
-                                ImageCoordinateSystem="@("consectetur")"
-                                Wkt="@("odio")"
-                                Wkt2="@("nemo")">
+                                Wkid="@(8)"
+                                ImageCoordinateSystem="@("possimus")"
+                                Wkt="@("voluptatem")"
+                                Wkt2="@("sint")">
                             </SpatialReference>
                         </TileInfo>
                         <PortalItem />
@@ -83,38 +82,34 @@
         await openStreetMapLayer.SetPortalItem(testPortalItem);
         var portalItem = await openStreetMapLayer.GetPortalItem();
         Assert.AreEqual(testPortalItem, portalItem);
-        BlendMode testBlendMode = BlendMode.Screen;
+        BlendMode testBlendMode = BlendMode.ColorDodge;
         await openStreetMapLayer.SetBlendMode(testBlendMode);
         var blendMode = await openStreetMapLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        TileInfo testTileInfo = new TileInfo(214.3007,
-                    TileInfoFormat.Ps,
+        TileInfo testTileInfo = new TileInfo(21.1482,
+                    TileInfoFormat.Pdf,
                     true,
-                [new LOD(9,
-                        "labore",
-                        41.9238,
-                        8255727.7482),
-                new LOD(1,
-                        "illum",
-                        45.8602,
-                        34173046.1785)],
-                new Point(8.9880,
-                        -72.2967,
-                        -136.9982,
-                        11.3004,
-                        303.8473,
-                    new SpatialReference(7,
+                [new LOD(3,
+                        "voluptates",
+                        29.4845,
+                        28593822.1515)],
+                new Point(-55.2356,
+                        82.7791,
+                        142.6627,
+                        -80.4037,
+                        743.6503,
+                    new SpatialReference(5,
                             "et",
-                            "autem",
-                            "a"),
+                            "modi",
+                            "consequatur"),
                         true,
                         true,
-                        336.8507),
-                    [3],
-                new SpatialReference(3,
-                        "expedita",
-                        "libero",
-                        "voluptatem"));
+                        527.9658),
+                    [9],
+                new SpatialReference(4,
+                        "rerum",
+                        "minima",
+                        "assumenda"));
         await openStreetMapLayer.SetTileInfo(testTileInfo);
         var tileInfo = await openStreetMapLayer.GetTileInfo();
         Assert.AreEqual(testTileInfo, tileInfo);
@@ -122,8 +117,8 @@
         await openStreetMapLayer.SetListMode(testListMode);
         var listMode = await openStreetMapLayer.GetListMode();
         Assert.AreEqual(testListMode, listMode);
-        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2006, 8, 15, 19, 35, 50),
-                    new DateTime(2012, 11, 7, 19, 22, 9));
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2015, 10, 20, 3, 43, 31),
+                    new DateTime(2018, 10, 15, 18, 20, 54));
         await openStreetMapLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
         var visibilityTimeExtent = await openStreetMapLayer.GetVisibilityTimeExtent();
         Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);

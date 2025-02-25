@@ -138,7 +138,7 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
+        dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
     }
     if (hasValue(jsObject.bandIds)) {
         dotNetIArcGISImageService.bandIds = jsObject.bandIds;
