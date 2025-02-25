@@ -1,13 +1,8 @@
-namespace dymaptic.GeoBlazor.Core.Functions;
-
-/// <summary>
-///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="FilterName">
-///    The name of the template item to filter.
+namespace dymaptic.GeoBlazor.Core.Functions;/// <param name="JavaScriptFunction">
+///     The JavaScript function to call, passed as a string.
 /// </param>
-/// <param name="JavaScriptFunction">
-///     The JavaScript function to call, passed as a string. Reference the other parameters with lowercase first letters inside the JS function. Function should return a boolean value.
-/// </param>
-public record FilterFunction(string FilterName,
-    string JavaScriptFunction);
+/// <remarks>
+///    You may reference the following input parameters by name in your JavaScript: filterName.
+/// </remarks>
+public record FilterFunction(string JavaScriptFunction);
 

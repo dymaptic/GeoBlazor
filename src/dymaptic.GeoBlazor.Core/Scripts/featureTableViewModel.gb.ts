@@ -97,7 +97,7 @@ export default class FeatureTableViewModelGenerated implements IPropertyWrapper 
         }
         
         let { buildDotNetLayerView } = await import('./layerView');
-        return buildDotNetLayerView(this.component.layerView);
+        return await buildDotNetLayerView(this.component.layerView);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -259,7 +259,7 @@ export async function buildDotNetFeatureTableViewModelGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetFeatureTableViewModel.layerView = buildDotNetLayerView(jsObject.layerView);
+        dotNetFeatureTableViewModel.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');

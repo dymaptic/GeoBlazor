@@ -1,21 +1,8 @@
-namespace dymaptic.GeoBlazor.Core.Functions;
-
-/// <summary>
-///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="Value">
-///    
+namespace dymaptic.GeoBlazor.Core.Functions;/// <param name="JavaScriptFunction">
+///     The JavaScript function to call, passed as a string.
 /// </param>
-/// <param name="Type">
-///    
-/// </param>
-/// <param name="Index">
-///    
-/// </param>
-/// <param name="JavaScriptFunction">
-///     The JavaScript function to call, passed as a string. Reference the other parameters with lowercase first letters inside the JS function. Function should return number value.
-/// </param>
-public record InputParser(string Value,
-    InputParserType Type,
-    int Index,
-    string JavaScriptFunction);
+/// <remarks>
+///    You may reference the following input parameters by name in your JavaScript: value, type, index.
+/// </remarks>
+public record InputParser(string JavaScriptFunction);
 

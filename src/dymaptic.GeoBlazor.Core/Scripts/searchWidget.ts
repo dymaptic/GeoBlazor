@@ -110,7 +110,7 @@ export async function buildJsSearchWidget(dotNetObject: any, layerId: string | n
     let jsSearch = await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
     
     // obsolete/deprecated call for backwards compatibility
-    jsSearch.on('select-result', async (evt) => {
+    jsSearch.widget.on('select-result', async (evt) => {
         const {buildDotNetGraphic} = await import('./graphic');
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
             extent: buildDotNetExtent(evt.result.extent),

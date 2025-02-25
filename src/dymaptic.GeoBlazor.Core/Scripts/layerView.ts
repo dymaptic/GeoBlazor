@@ -54,8 +54,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
             // @ts-ignore GeoBlazor Pro Only
             return await buildJsStreamLayerView(dotNetObject);
         default:
-            let {buildJsLayerViewGenerated} = await import('./layerView.gb');
-            return await buildJsLayerViewGenerated(dotNetObject);
+            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            return sanitizedDotNetObject;
     }
 }
 
@@ -109,7 +109,6 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
             // @ts-ignore GeoBlazor Pro Only
             return await buildDotNetStreamLayerView(jsObject);
         default:
-            let {buildDotNetLayerViewGenerated} = await import('./layerView.gb');
-            return await buildDotNetLayerViewGenerated(jsObject);
+            return jsObject;
     }
 }

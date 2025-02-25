@@ -30,17 +30,13 @@ let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId)
     }
 
     async find(id: any): Promise<any> {
-        let result = this.component.find(id);
-        let { buildDotNetWidget } = await import('./widget');
-        return buildDotNetWidget(result);
+        return this.component.find(id);
     }
 
     async getComponents(position: any): Promise<any> {
                 let { buildJsUIAddPosition } = await import('./uIAddPosition');
 let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
-        let result = this.component.getComponents(jsPosition);
-        let { buildDotNetWidget } = await import('./widget');
-        return result.map(i => buildDotNetWidget(i));
+        return this.component.getComponents(jsPosition);
     }
 
     async move(component: any,

@@ -54,7 +54,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         };
     }
 
-    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, viewId: string | null, queryId: string):
+    async queryFeatures(query: DotNetQuery | null, options: any, dotNetRef: any, queryId: string):
         Promise<DotNetFeatureSet | null> {
         try {
             let jsQuery: Query | undefined = undefined;
@@ -67,7 +67,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
             let featureSet = await this.layer.queryFeatures(jsQuery, options);
 
             let {buildDotNetFeatureSet} = await import('./featureSet');
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorId, this.viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);
@@ -171,27 +171,26 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     }
 
     async applyGraphicEditsFromStream(streamRef: any, editType: string, options: any,
-                                      viewId: string, abortSignal: AbortSignal): Promise<any> {
+                                      abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) {
             return;
         }
         let graphics = await getGraphicsFromProtobufStream(streamRef) as any[];
-        let result = await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+        let result = await this.applyGraphicEdits(graphics, editType, options, abortSignal);
         return result;
     }
 
-    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any,
-                                         viewId: string, abortSignal: AbortSignal): Promise<any> {
+    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any, 
+                                         abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) {
             return;
         }
         let graphics = decodeProtobufGraphics(graphicsArray);
-        let result = await this.applyGraphicEdits(graphics, editType, options, viewId, abortSignal);
+        let result = await this.applyGraphicEdits(graphics, editType, options, abortSignal);
         return result;
     }
 
-    async applyGraphicEdits(graphics: any[], editType: string, options: any, viewId: string,
-                            abortSignal: AbortSignal): Promise<any> {
+    async applyGraphicEdits(graphics: any[], editType: string, options: any, abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
         let {buildJsGraphic} = await import('./graphic');
         for (const g of graphics) {
@@ -224,13 +223,12 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return buildDotNetEditsResult(result, this.geoBlazorId as string);
     }
 
-    async applyAttachmentEdits(edits: any, options: any, viewId: string,
-                               abortSignal: AbortSignal): Promise<any> {
+    async applyAttachmentEdits(edits: any, options: any, abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) return;
         let addAttachments = edits.addAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, viewId),
+                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, this.viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -243,7 +241,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let updateAttachments = edits.updateAttachments?.map(e => {
             if (hasValue(e.feature)) {
                 return {
-                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, viewId),
+                    feature: lookupJsGraphicById(e.feature.id, this.geoBlazorId, this.viewId),
                     attachment: e.attachment
                 }
             } else {
@@ -270,9 +268,9 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return buildDotNetEditsResult(result, this.geoBlazorId as string);
     }
 
-    async getFeatureType(graphic: DotNetGraphic, viewId: string | null): Promise<any> {
+    async getFeatureType(graphic: DotNetGraphic): Promise<any> {
 
-        let feature = lookupJsGraphicById(graphic.id as string, this.geoBlazorId, viewId);
+        let feature = lookupJsGraphicById(graphic.id as string, this.geoBlazorId, this.viewId);
 
         let result = this.layer.getFeatureType(feature as Graphic);
 

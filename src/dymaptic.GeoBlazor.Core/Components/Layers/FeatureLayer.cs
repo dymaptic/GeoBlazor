@@ -335,8 +335,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             if (View!.IsWebAssembly)
             {
                 result = await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyGraphicEditsSynchronously",
-                    cancellationToken, ms.ToArray(), editType, options,
-                    View!.Id, abortSignal);
+                    cancellationToken, ms.ToArray(), editType, options, abortSignal);
                 await ms.DisposeAsync();
                 await Task.Delay(1, cancellationToken);
             }
@@ -367,7 +366,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISMethod]
     public async Task<FeatureType?> GetFeatureType(Graphic feature)
     {
-        return await JsComponentReference!.InvokeAsync<FeatureType>("getFeatureType", feature, View?.Id);
+        return await JsComponentReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
     }
 
     /// <summary>
@@ -402,7 +401,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>
     public async Task<FeatureLayer> Clone()
     {
-        return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone", View?.Id);
+        return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone");
     }
 
     /// <summary>
@@ -610,7 +609,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         Guid queryId = Guid.NewGuid();
 
         FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryFeatures", cancellationToken,
-            query, new { signal = abortSignal }, DotNetComponentReference, View?.Id, queryId))!;
+            query, new { signal = abortSignal }, DotNetComponentReference, queryId))!;
 
         if (_activeQueries.ContainsKey(queryId))
         {

@@ -1,13 +1,8 @@
-namespace dymaptic.GeoBlazor.Core.Functions;
-
-/// <summary>
-///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="Name">
-///    Name of the sprite to get the information for.
+namespace dymaptic.GeoBlazor.Core.Functions;/// <param name="JavaScriptFunction">
+///     The JavaScript function to call, passed as a string.
 /// </param>
-/// <param name="JavaScriptFunction">
-///     The JavaScript function to call, passed as a string. Reference the other parameters with lowercase first letters inside the JS function. Function should return SpriteInfo value.
-/// </param>
-public record GetSpriteInfo(string Name,
-    string JavaScriptFunction);
+/// <remarks>
+///    You may reference the following input parameters by name in your JavaScript: name.
+/// </remarks>
+public record GetSpriteInfo(string JavaScriptFunction);
 

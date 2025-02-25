@@ -128,6 +128,19 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
             index);
         };
     }
+    if (hasValue(dotNetObject.hasInputParseFunction) && dotNetObject.hasInputParseFunction) {
+        properties.inputParseFunction = async (value,
+        type,
+        index) => {
+
+            let func = new Function('value',
+            'type',
+            'index', dotNetObject.inputParseFunction.javaScriptFunction);
+            return func(value,
+            type,
+            index);
+        };
+    }
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
         properties.labelFormatFunction = async (value,
         type,
@@ -179,9 +192,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
-    }
-    if (hasValue(dotNetObject.inputParseFunction)) {
-        properties.inputParseFunction = dotNetObject.inputParseFunction;
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;

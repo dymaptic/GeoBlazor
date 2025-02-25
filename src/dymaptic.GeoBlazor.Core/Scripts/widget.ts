@@ -1,16 +1,5 @@
-import WidgetGenerated from './widget.gb';
 // override generated code in this file
-import Widget from '@arcgis/core/widgets/Widget';
 import {hasValue} from "./arcGisJsInterop";
-import WidgetGenerated from "./widget.gb";
-
-export default class WidgetWrapper extends WidgetGenerated {
-
-    constructor(widget: Widget) {
-        super(widget);
-    }
-    
-}
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {

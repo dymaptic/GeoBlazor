@@ -9,7 +9,7 @@ export async function buildJsLayerViewDestroyEventGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
-        jsFeatureLayerLayerviewDestroyEvent.layerView = buildJsLayerView(dotNetObject.layerView) as any;
+        jsFeatureLayerLayerviewDestroyEvent.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
     
@@ -38,7 +38,7 @@ export async function buildDotNetLayerViewDestroyEventGenerated(jsObject: any): 
     };
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetLayerViewDestroyEvent.layerView = buildDotNetLayerView(jsObject.layerView);
+        dotNetLayerViewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

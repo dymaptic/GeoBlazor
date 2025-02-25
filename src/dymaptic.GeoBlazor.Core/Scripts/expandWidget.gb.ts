@@ -108,9 +108,6 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.container)) {
         properties.container = dotNetObject.container;
     }
-    if (hasValue(dotNetObject.content)) {
-        properties.content = dotNetObject.content;
-    }
     if (hasValue(dotNetObject.expanded)) {
         properties.expanded = dotNetObject.expanded;
     }

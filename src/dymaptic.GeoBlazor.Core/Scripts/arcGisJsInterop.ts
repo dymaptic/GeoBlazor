@@ -620,8 +620,9 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 return;
             }
             
-            findCircularReferences(result.layer);
-            findCircularReferences(result.layerView);
+            // for debugging issues below
+            // findCircularReferences(result.layer);
+            // findCircularReferences(result.layerView);
 
             // return dotNetResult in small chunks to avoid memory issues in Blazor Server
             // SignalR has a maximum message size of 32KB
@@ -1982,7 +1983,7 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         const view = arcGisObjectRefs[viewId] as MapView;
         if (view === undefined || view === null) return;
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
-        if (newWidget === null || newWidget instanceof Popup) return;
+        if (!hasValue(newWidget) || newWidget instanceof Popup) return;
 
         if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
             const container = document.getElementById(widget.containerId);
@@ -2630,6 +2631,7 @@ export function toLowerFirstChar(str: string): string {
     return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
+// this is here for if we have issues serializing in `layerview-create`
 function findCircularReferences(obj: any, path = '') {
     const seen = new WeakMap();
     const circularPaths: string[] = [];

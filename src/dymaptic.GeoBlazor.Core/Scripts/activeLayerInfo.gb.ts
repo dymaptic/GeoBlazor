@@ -14,7 +14,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
-        properties.layerView = buildJsLayerView(dotNetObject.layerView) as any;
+        properties.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
@@ -72,7 +72,7 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
     };
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetActiveLayerInfo.layerView = buildDotNetLayerView(jsObject.layerView);
+        dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;

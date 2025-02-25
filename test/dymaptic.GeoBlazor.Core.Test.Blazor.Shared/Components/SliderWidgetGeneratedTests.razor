@@ -93,18 +93,9 @@
                     ThumbsConstrained="@(true)"
                     Values="@([353.8442,
                         419.7618])"
-                    InputFormatFunction="@(new SliderLabelFormatter(88.4984,
-                        SliderLabelFormatterType.Max,
-                            9,
-                            "velit"))"
-                    InputParseFunction="@(new InputParserFunction("natus",
-                        SliderInputParserType.Average,
-                        8,
-                        "porro"))"
-                    LabelFormatFunction="@(new SliderLabelFormatter(722.4891,
-                        SliderLabelFormatterType.Tick,
-                            9,
-                            "laudantium"))"
+                    InputFormatFunction="@(new SliderLabelFormatter("velit"))"
+                    InputParseFunction="@(new InputParser("porro"))"
+                    LabelFormatFunction="@(new SliderLabelFormatter("laudantium"))"
                     Visible="@(true)"
                     Icon="@("minima")"
                     WidgetId="@("qui")"
@@ -126,18 +117,9 @@
                     <SliderViewModel 
                         EffectiveMax="@(963.3812)"
                         EffectiveMin="@(708.9228)"
-                        InputFormatFunction="@(new SliderLabelFormatter(466.2165,
-                            SliderLabelFormatterType.Min,
-                                4,
-                                "voluptatum"))"
-                        InputParseFunction="@(new InputParser("necessitatibus",
-                            InputParserType.Min,
-                                5,
-                                "sunt"))"
-                        LabelFormatFunction="@(new SliderLabelFormatter(17.5012,
-                            SliderLabelFormatterType.Max,
-                                2,
-                                "eum"))"
+                        InputFormatFunction="@(new SliderLabelFormatter("voluptatum"))"
+                        InputParseFunction="@(new InputParser("sunt"))"
+                        LabelFormatFunction="@(new SliderLabelFormatter("eum"))"
                         Max="@(154.5543)"
                         Min="@(807.8994)"
                         Precision="@(267.4045)"
@@ -149,10 +131,7 @@
                         Mode="@(TickConfigMode.Percent)"
                         DoubleCollectionValues="@([126.2948])"
                         DoubleValues="@(828.9581)"
-                        LabelFormatFunction="@(new SliderLabelFormatter(70.7606,
-                            SliderLabelFormatterType.Average,
-                                6,
-                                "repellat"))"
+                        LabelFormatFunction="@(new SliderLabelFormatter("repellat"))"
                         LabelsVisible="@(true)">
                     </TickConfig>
                 </SliderWidget>
@@ -207,10 +186,7 @@
                     [808.3390,
                         492.3187],
                     561.2420,
-                new SliderLabelFormatter(284.2368,
-                    SliderLabelFormatterType.Average,
-                        6,
-                        "placeat"),
+                new SliderLabelFormatter("placeat"),
                     true,
                 null)];
         await sliderWidget.SetTickConfigs(testTickConfigs);
@@ -223,18 +199,9 @@
         Assert.AreEqual(testVisibleElements, visibleElements);
         SliderViewModel testViewModel = new SliderViewModel(403.1238,
                     823.9323,
-                new SliderLabelFormatter(438.4205,
-                    SliderLabelFormatterType.Average,
-                        6,
-                        "dolorum"),
-                new InputParser("facere",
-                    InputParserType.Max,
-                        2,
-                        "minima"),
-                new SliderLabelFormatter(343.4375,
-                    SliderLabelFormatterType.Tick,
-                        9,
-                        "omnis"),
+                new SliderLabelFormatter("dolorum"),
+                new InputParser("minima"),
+                new SliderLabelFormatter("omnis"),
                     460.6519,
                     807.1987,
                     515.0056,

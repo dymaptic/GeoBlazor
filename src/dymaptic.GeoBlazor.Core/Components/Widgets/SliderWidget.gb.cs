@@ -168,7 +168,7 @@ public partial class SliderWidget
         IReadOnlyList<double>? values = null,
         InputCreatedFunction? inputCreatedFunction = null,
         SliderLabelFormatter? inputFormatFunction = null,
-        InputParserFunction? inputParseFunction = null,
+        InputParser? inputParseFunction = null,
         SliderLabelFormatter? labelFormatFunction = null,
         ThumbCreatedFunction? thumbCreatedFunction = null,
         IReadOnlyList<TickConfig>? tickConfigs = null,
@@ -302,8 +302,12 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public InputParserFunction? InputParseFunction { get; set; }
+    public InputParser? InputParseFunction { get; set; }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="InputParseFunction" /> function was registered.
+    /// </summary>
+    public bool HasInputParseFunction => InputParseFunction is not null;
     
     /// <summary>
     ///     The HTML Element nodes representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labels">labels</a> attached to slider thumbs.
@@ -633,36 +637,6 @@ public partial class SliderWidget
         }
          
         return EffectiveMin;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the InputParseFunction property.
-    /// </summary>
-    public async Task<InputParserFunction?> GetInputParseFunction()
-    {
-        if (CoreJsModule is null)
-        {
-            return InputParseFunction;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return InputParseFunction;
-        }
-
-        // get the property value
-        InputParserFunction? result = await JsComponentReference!.InvokeAsync<InputParserFunction?>("getProperty",
-            CancellationTokenSource.Token, "inputParseFunction");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             InputParseFunction = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(InputParseFunction)] = InputParseFunction;
-        }
-         
-        return InputParseFunction;
     }
     
     /// <summary>
@@ -1242,36 +1216,6 @@ public partial class SliderWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "effectiveMin", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the InputParseFunction property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInputParseFunction(InputParserFunction? value)
-    {
-#pragma warning disable BL0005
-        InputParseFunction = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InputParseFunction)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "inputParseFunction", value);
     }
     
     /// <summary>

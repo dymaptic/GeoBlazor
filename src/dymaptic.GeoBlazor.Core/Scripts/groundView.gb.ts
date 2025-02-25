@@ -41,7 +41,7 @@ export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.layerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetGroundView.layerViews = jsObject.layerViews.map(i => buildDotNetLayerView(i));
+        dotNetGroundView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
     }
     if (hasValue(jsObject.updating)) {
         dotNetGroundView.updating = jsObject.updating;

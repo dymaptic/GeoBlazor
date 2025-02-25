@@ -672,29 +672,40 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         return new ValueTask<MapComponent?>(instantiatedComponent);
     }
 
-    private void CopyProperties(MapComponent component)
+    private void CopyProperties(MapComponent deserializedComponent)
     {
         foreach (PropertyInfo prop in GetType().GetProperties()
             .Where(p => p.SetMethod is not null))
         {
-            object? value = prop.GetValue(component);
-            if (value is null)
-            {
-                continue;
-            }
+            CopyProperty(prop, deserializedComponent);
+        }
+    }
+
+    private void CopyProperty(PropertyInfo prop, MapComponent deserializedComponent)
+    {
+        object? newValue = prop.GetValue(deserializedComponent);
+        if (newValue is null)
+        {
+            return;
+        }
             
-            if (prop.PropertyType.IsAssignableTo(typeof(MapComponent)))
-            {
-                MapComponent? currentProp = (MapComponent?)prop.GetValue(this);
-                if (currentProp is not null)
-                {
-                    currentProp.CopyProperties((MapComponent)value);
-                }
-            }
-            else
-            {
-                prop.SetValue(this, value);
-            }
+        object? currentValue = prop.GetValue(this);
+
+        if (currentValue is not null 
+            && (currentValue is not IEnumerable collection || collection.Cast<object>().Any())
+            && currentValue is not MapComponent)
+        {
+            // don't overwrite existing values and non-empty collections
+            return;
+        }
+            
+        if (currentValue is MapComponent currentPropComponent)
+        {
+            currentPropComponent.CopyProperties((MapComponent)newValue);
+        }
+        else
+        {
+            prop.SetValue(this, newValue);
         }
     }
 

@@ -1,21 +1,10 @@
-// override generated code in this file
-import IPortalLayerGenerated from './iPortalLayer.gb';
-import PortalLayer = __esri.PortalLayer;
-
-export default class IPortalLayerWrapper extends IPortalLayerGenerated {
-
-    constructor(layer: PortalLayer) {
-        super(layer);
-    }
-
-}
 
 export async function buildJsIPortalLayer(dotNetObject: any): Promise<any> {
-    let {buildJsIPortalLayerGenerated} = await import('./iPortalLayer.gb');
-    return buildJsIPortalLayerGenerated(dotNetObject);
-}
+    let { buildJsIPortalLayerGenerated } = await import('./iPortalLayer.gb');
+    return await buildJsIPortalLayerGenerated(dotNetObject);
+}     
 
 export async function buildDotNetIPortalLayer(jsObject: any): Promise<any> {
-    let {buildDotNetIPortalLayerGenerated} = await import('./iPortalLayer.gb');
+    let { buildDotNetIPortalLayerGenerated } = await import('./iPortalLayer.gb');
     return await buildDotNetIPortalLayerGenerated(jsObject);
 }

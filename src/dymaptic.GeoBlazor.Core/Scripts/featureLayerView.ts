@@ -4,8 +4,7 @@ import {DotNetQuery} from './definitions';
 import {getProtobufGraphicStream, hasValue} from './arcGisJsInterop';
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
-    private geoBlazorLayerId: string | null = null;
-
+    
     constructor(component) {
         super(component);
     }
@@ -52,7 +51,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
         return await this.component.queryFeatureCount(jsQuery, options);
     }
 
-    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, viewId: string | null, queryId: string)
+    async queryFeatures(query: DotNetQuery, options: any, dotNetRef: any, queryId: string)
         : Promise<any | null> {
         try {
             let jsQuery: Query | undefined = undefined;
@@ -65,7 +64,7 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
             let featureSet = await this.component.queryFeatures(jsQuery, options);
             let {buildDotNetFeatureSet} = await import('./featureSet');
 
-            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.geoBlazorLayerId, viewId);
+            let dotNetFeatureSet = await buildDotNetFeatureSet(featureSet, this.layerId, this.viewId);
             if (dotNetFeatureSet.features.length > 0) {
                 let graphics = getProtobufGraphicStream(dotNetFeatureSet.features, this.component.layer);
                 await dotNetRef.invokeMethodAsync('OnQueryFeaturesStreamCallback', graphics, queryId);

@@ -69,7 +69,7 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
-        dotNetListItem.layerView = buildDotNetLayerView(jsObject.layerView);
+        dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
     if (hasValue(jsObject.actionsOpen)) {
         dotNetListItem.actionsOpen = jsObject.actionsOpen;

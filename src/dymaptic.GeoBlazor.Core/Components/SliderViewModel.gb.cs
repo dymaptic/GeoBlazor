@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">Slider</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SliderViewModel : IViewModel
+public partial class SliderViewModel
 {
 
     /// <summary>
