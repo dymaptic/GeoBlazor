@@ -114,17 +114,33 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
+    
     let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
     let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ScaleBarWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleBarWidget', e);
     }
     
     return jsScaleBar;
 }
+
 
 export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

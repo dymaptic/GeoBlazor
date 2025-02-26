@@ -44,7 +44,7 @@ import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 import Layer from "@arcgis/core/layers/Layer";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
-import LocatorWrapper from "./locator";
+import LocatorWrapper from "./locationService";
 import LOD from "@arcgis/core/layers/support/LOD";
 import Map from "@arcgis/core/Map";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";

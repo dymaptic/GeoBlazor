@@ -20,16 +20,32 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentStops;
     
+    let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
     let dnInstantiatedObject = await buildDotNetScaleDependentStops(jsScaleDependentStops);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ScaleDependentStops detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleDependentStops', e);
     }
     
     return jsScaleDependentStops;
 }
+
 
 export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -55,17 +55,33 @@ export async function buildJsCodedValueDomainGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(codedValueDomainWrapper);
     jsObjectRefs[dotNetObject.id] = codedValueDomainWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCodedValueDomain;
+    
     let { buildDotNetCodedValueDomain } = await import('./codedValueDomain');
     let dnInstantiatedObject = await buildDotNetCodedValueDomain(jsCodedValueDomain);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type CodedValueDomain detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CodedValueDomain', e);
     }
     
     return jsCodedValueDomain;
 }
+
 
 export async function buildDotNetCodedValueDomainGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

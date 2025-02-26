@@ -128,17 +128,33 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
+    
     let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
     let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type DistanceMeasurement2DWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
     }
     
     return jsDistanceMeasurement2D;
 }
+
 
 export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

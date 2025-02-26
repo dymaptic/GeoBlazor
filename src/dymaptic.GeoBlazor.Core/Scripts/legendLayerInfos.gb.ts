@@ -20,16 +20,32 @@ export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendLayerInfos;
     
+    let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
     let dnInstantiatedObject = await buildDotNetLegendLayerInfos(jsLegendLayerInfos);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type LegendLayerInfos detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for LegendLayerInfos', e);
     }
     
     return jsLegendLayerInfos;
 }
+
 
 export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

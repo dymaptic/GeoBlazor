@@ -293,17 +293,33 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     let jsObjectRef = DotNet.createJSObjectReference(tileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = tileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
+    
     let { buildDotNetTileLayer } = await import('./tileLayer');
     let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type TileLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for TileLayer', e);
     }
     
     return jsTileLayer;
 }
+
 
 export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

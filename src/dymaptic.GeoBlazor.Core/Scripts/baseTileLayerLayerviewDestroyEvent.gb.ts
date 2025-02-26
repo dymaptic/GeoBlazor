@@ -17,16 +17,32 @@ export async function buildJsBaseTileLayerLayerviewDestroyEventGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayerLayerviewDestroyEvent;
     
+    let { buildDotNetBaseTileLayerLayerviewDestroyEvent } = await import('./baseTileLayerLayerviewDestroyEvent');
     let dnInstantiatedObject = await buildDotNetBaseTileLayerLayerviewDestroyEvent(jsBaseTileLayerLayerviewDestroyEvent);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type BaseTileLayerLayerviewDestroyEvent detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BaseTileLayerLayerviewDestroyEvent', e);
     }
     
     return jsBaseTileLayerLayerviewDestroyEvent;
 }
+
 
 export async function buildDotNetBaseTileLayerLayerviewDestroyEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

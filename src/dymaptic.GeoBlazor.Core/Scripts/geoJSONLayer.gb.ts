@@ -443,17 +443,33 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayer;
+    
     let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
     let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type GeoJSONLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeoJSONLayer', e);
     }
     
     return jsGeoJSONLayer;
 }
+
 
 export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

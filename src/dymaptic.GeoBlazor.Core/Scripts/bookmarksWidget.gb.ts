@@ -232,17 +232,33 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarks;
+    
     let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
     let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type BookmarksWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BookmarksWidget', e);
     }
     
     return jsBookmarks;
 }
+
 
 export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

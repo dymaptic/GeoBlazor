@@ -133,17 +133,33 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
+    
     let { buildDotNetZoomWidget } = await import('./zoomWidget');
     let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ZoomWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ZoomWidget', e);
     }
     
     return jsZoom;
 }
+
 
 export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

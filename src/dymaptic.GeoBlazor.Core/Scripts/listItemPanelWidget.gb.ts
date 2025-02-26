@@ -140,17 +140,33 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(listItemPanelWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = listItemPanelWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
+    
     let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
     let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ListItemPanelWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ListItemPanelWidget', e);
     }
     
     return jsListItemPanel;
 }
+
 
 export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

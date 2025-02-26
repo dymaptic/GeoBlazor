@@ -97,17 +97,33 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListViewModel;
+    
     let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type BasemapLayerListViewModel detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapLayerListViewModel', e);
     }
     
     return jsBasemapLayerListViewModel;
 }
+
 
 export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

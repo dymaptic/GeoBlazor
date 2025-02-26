@@ -153,17 +153,33 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
+    
     let { buildDotNetExpandWidget } = await import('./expandWidget');
     let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ExpandWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ExpandWidget', e);
     }
     
     return jsExpand;
 }
+
 
 export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

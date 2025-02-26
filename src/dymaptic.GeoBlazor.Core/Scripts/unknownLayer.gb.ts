@@ -126,17 +126,33 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
     jsObjectRefs[dotNetObject.id] = unknownLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
+    
     let { buildDotNetUnknownLayer } = await import('./unknownLayer');
     let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type UnknownLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UnknownLayer', e);
     }
     
     return jsUnknownLayer;
 }
+
 
 export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

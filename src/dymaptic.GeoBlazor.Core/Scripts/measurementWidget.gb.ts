@@ -139,17 +139,33 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
+    
     let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
     let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type MeasurementWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for MeasurementWidget', e);
     }
     
     return jsMeasurement;
 }
+
 
 export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

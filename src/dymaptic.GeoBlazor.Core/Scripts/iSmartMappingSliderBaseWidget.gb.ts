@@ -182,17 +182,33 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(iSmartMappingSliderBaseWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = iSmartMappingSliderBaseWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderBase;
+    
     let { buildDotNetISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
     let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ISmartMappingSliderBaseWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ISmartMappingSliderBaseWidget', e);
     }
     
     return jsSmartMappingSliderBase;
 }
+
 
 export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

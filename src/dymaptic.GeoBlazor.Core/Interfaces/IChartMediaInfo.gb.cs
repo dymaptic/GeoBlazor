@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types BarChartMediaInfo, ColumnChartMediaInfo, LineChartMediaInfo, PieChartMediaInfo
 /// </summary>
-public partial interface IChartMediaInfo 
+public partial interface IChartMediaInfo : IMapComponent
 {
 #region Properties
 

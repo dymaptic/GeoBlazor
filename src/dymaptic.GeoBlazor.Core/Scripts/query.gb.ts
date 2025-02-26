@@ -130,16 +130,32 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsQuery;
     
+    let { buildDotNetQuery } = await import('./query');
     let dnInstantiatedObject = await buildDotNetQuery(jsQuery);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type Query detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Query', e);
     }
     
     return jsQuery;
 }
+
 
 export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

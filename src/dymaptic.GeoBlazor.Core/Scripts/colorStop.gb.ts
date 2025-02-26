@@ -22,16 +22,32 @@ export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any>
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
     
+    let { buildDotNetColorStop } = await import('./colorStop');
     let dnInstantiatedObject = await buildDotNetColorStop(jsColorStop);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ColorStop detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ColorStop', e);
     }
     
     return jsColorStop;
 }
+
 
 export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

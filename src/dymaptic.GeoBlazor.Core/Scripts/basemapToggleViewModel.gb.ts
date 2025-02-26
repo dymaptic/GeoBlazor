@@ -85,17 +85,33 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     let jsObjectRef = DotNet.createJSObjectReference(basemapToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
+    
     let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
     let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type BasemapToggleViewModel detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapToggleViewModel', e);
     }
     
     return jsBasemapToggleViewModel;
 }
+
 
 export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

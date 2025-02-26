@@ -24,16 +24,32 @@ export async function buildJsUIMoveComponentGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUIMoveComponent;
     
+    let { buildDotNetUIMoveComponent } = await import('./uIMoveComponent');
     let dnInstantiatedObject = await buildDotNetUIMoveComponent(jsUIMoveComponent);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type UIMoveComponent detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for UIMoveComponent', e);
     }
     
     return jsUIMoveComponent;
 }
+
 
 export async function buildDotNetUIMoveComponentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
@@ -45,7 +61,7 @@ export async function buildDotNetUIMoveComponentGenerated(jsObject: any): Promis
     };
     if (hasValue(jsObject.component)) {
         let { buildDotNetWidget } = await import('./widget');
-        dotNetUIMoveComponent.component = buildDotNetWidget(jsObject.component);
+        dotNetUIMoveComponent.component = await buildDotNetWidget(jsObject.component);
     }
     if (hasValue(jsObject.position)) {
         let { buildDotNetPosition } = await import('./position');

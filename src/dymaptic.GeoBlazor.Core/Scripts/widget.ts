@@ -25,6 +25,9 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
         case 'compass':
             let { buildJsCompassWidget } = await import('./compassWidget');
             return await buildJsCompassWidget(dotNetObject, layerId, viewId);
+        case 'distance-measurement-2d':
+            let { buildJsDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
+            return await buildJsDistanceMeasurement2DWidget(dotNetObject, layerId, viewId);
         case 'expand':
             let { buildJsExpandWidget } = await import('./expandWidget');
             return await buildJsExpandWidget(dotNetObject, layerId, viewId);
@@ -109,6 +112,19 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
 }     
 
 export async function buildDotNetWidget(jsObject: any): Promise<any> {
-    let { buildDotNetWidgetGenerated } = await import('./widget.gb');
-    return await buildDotNetWidgetGenerated(jsObject);
+    let seenObjects = new WeakMap();
+    let jsonSanitizedObject = JSON.stringify(jsObject, function (key, value) {
+        if (typeof value === 'object' && value !== null) {
+            if (seenObjects.has(value)) {
+                console.warn(`Circular reference in serializing type widget detected at path: ${key}, value: ${value}`);
+                return undefined;
+            }
+            seenObjects.set(value, true);
+        }
+        if (key.startsWith('_')) {
+            return undefined;
+        }
+        return value;
+    });
+    return JSON.parse(jsonSanitizedObject);
 }

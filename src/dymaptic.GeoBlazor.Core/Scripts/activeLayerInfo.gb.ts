@@ -51,16 +51,32 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
+    let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
     let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ActiveLayerInfo detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ActiveLayerInfo', e);
     }
     
     return jsActiveLayerInfo;
 }
+
 
 export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

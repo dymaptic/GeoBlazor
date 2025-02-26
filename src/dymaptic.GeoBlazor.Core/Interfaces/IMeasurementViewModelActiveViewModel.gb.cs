@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    View model of the active measurement widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#activeViewModel">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IMeasurementViewModelActiveViewModel 
+public partial interface IMeasurementViewModelActiveViewModel : IMapComponent
 {
 }

@@ -23,16 +23,32 @@ export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageToMapMultirayParameters;
     
+    let { buildDotNetImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
     let dnInstantiatedObject = await buildDotNetImageToMapMultirayParameters(jsImageToMapMultirayParameters);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ImageToMapMultirayParameters detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageToMapMultirayParameters', e);
     }
     
     return jsImageToMapMultirayParameters;
 }
+
 
 export async function buildDotNetImageToMapMultirayParametersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -179,6 +179,7 @@ public partial class FeatureLayerView : LayerView
     /// <exception cref="ArgumentException">
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
+    [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<long> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
@@ -205,6 +206,7 @@ public partial class FeatureLayerView : LayerView
     /// <exception cref="ArgumentException">
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
+    [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<string> objectIds)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
@@ -231,6 +233,7 @@ public partial class FeatureLayerView : LayerView
     /// <exception cref="InvalidOperationException">
     ///     Throws if the graphic has no OBJECTID attribute and was not queried via GeoBlazor.
     /// </exception>
+    [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(Graphic graphic)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
@@ -266,6 +269,7 @@ public partial class FeatureLayerView : LayerView
     /// <exception cref="InvalidOperationException">
     ///     Throws if the graphics have no OBJECTID attribute and were not queried via GeoBlazor.
     /// </exception>
+    [CodeGenerationIgnore]
     public async Task<HighlightHandle> Highlight(IReadOnlyCollection<Graphic> graphics)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");

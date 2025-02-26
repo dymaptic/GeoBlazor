@@ -35,16 +35,32 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageHistogramParameters;
     
+    let { buildDotNetImageHistogramParameters } = await import('./imageHistogramParameters');
     let dnInstantiatedObject = await buildDotNetImageHistogramParameters(jsImageHistogramParameters);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ImageHistogramParameters detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ImageHistogramParameters', e);
     }
     
     return jsImageHistogramParameters;
 }
+
 
 export async function buildDotNetImageHistogramParametersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

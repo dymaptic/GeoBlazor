@@ -1,0 +1,418 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedWMTSLayer(Action renderHandler)
+    {
+        WMTSLayer? wMTSLayer = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <WMTSLayer 
+                        BlendMode="@(BlendMode.Difference)"
+                        Copyright="@("ut")"
+                        CustomLayerParameters="@("nulla")"
+                        Effect="@(new Effect("voluptas",
+                            9127089.3759))"
+                        ListMode="@(ListMode.Hide)"
+                        MaxScale="@(26404498.1887)"
+                        MinScale="@(25482.7765)"
+                        Opacity="@(0.3847)"
+                        PersistenceEnabled="@(true)"
+                        RefreshInterval="@(650.2190)"
+                        ServiceMode="@(ServiceMode.KVP)"
+                        Title="@("maiores aliquam saepe")"
+                        Url="@("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/IncidentsReport/FeatureServer/0")"
+                        Version="@("5.2.5.6")">
+                        <TimeExtent 
+                            Start="@(new DateTime(2023, 5, 23, 5, 25, 53))"
+                            End="@(new DateTime(2000, 10, 15, 13, 57, 12))">
+                        </TimeExtent>
+                        <WMTSSublayer 
+                            Description="@("eveniet sit quia")"
+                            ImageFormat="@("suscipit")"
+                            ImageFormats="@(["voluptatem"])"
+                            StyleId="@("consequatur")"
+                            TileMatrixSetId="@("necessitatibus")"
+                            Title="@("magnam est odio")"
+                            WMTSSublayerId="@("et")">
+                            <Extent 
+                                Xmax="@(-62.7754)"
+                                Xmin="@(-163.0550)"
+                                Ymax="@(-72.2032)"
+                                Ymin="@(-36.2852)"
+                                Zmax="@(419.5818)"
+                                Zmin="@(525.5400)"
+                                Mmax="@(905.7326)"
+                                Mmin="@(973.5753)"
+                                HasM="@(true)"
+                                HasZ="@(true)">
+                                <SpatialReference 
+                                    Wkid="@(7)"
+                                    ImageCoordinateSystem="@("est")"
+                                    Wkt="@("quia")"
+                                    Wkt2="@("error")">
+                                </SpatialReference>
+                            </Extent>
+                            <WMTSStyle 
+                                Description="@("delectus ut")"
+                                LegendUrl="@("https://dario.net")"
+                                Title="@("qui sit deleniti")"
+                                WMTSStyleId="@("deserunt")">
+                            </WMTSStyle>
+                            <TileMatrixSet 
+                                TileMatrixSetId="@("in")">
+                                <TileInfo 
+                                    Dpi="@(959.8171)"
+                                    Format="@(TileInfoFormat.Svgz)"
+                                    IsWrappable="@(true)"
+                                    Size="@([9,
+                                        8])">
+                                    <LOD 
+                                        Level="@(7)"
+                                        LevelValue="@("quibusdam")"
+                                        Resolution="@(59.1435)"
+                                        Scale="@(27634815.1352)">
+                                    </LOD>
+                                    <Point 
+                                        Longitude="@(122.7384)"
+                                        Latitude="@(-63.9127)"
+                                        X="@(35.4777)"
+                                        Y="@(-36.4206)"
+                                        Z="@(799.0581)"
+                                        HasM="@(true)"
+                                        HasZ="@(true)"
+                                        M="@(748.7887)">
+                                        <SpatialReference 
+                                            Wkid="@(2)"
+                                            ImageCoordinateSystem="@("repellendus")"
+                                            Wkt="@("nostrum")"
+                                            Wkt2="@("et")">
+                                        </SpatialReference>
+                                    </Point>
+                                    <SpatialReference 
+                                        Wkid="@(3)"
+                                        ImageCoordinateSystem="@("ut")"
+                                        Wkt="@("magni")"
+                                        Wkt2="@("quisquam")">
+                                    </SpatialReference>
+                                </TileInfo>
+                                <Extent 
+                                    Xmax="@(126.5825)"
+                                    Xmin="@(-80.1946)"
+                                    Ymax="@(83.7571)"
+                                    Ymin="@(74.1346)"
+                                    Zmax="@(305.3551)"
+                                    Zmin="@(887.3056)"
+                                    Mmax="@(971.1317)"
+                                    Mmin="@(839.4419)"
+                                    HasM="@(true)"
+                                    HasZ="@(true)">
+                                    <SpatialReference 
+                                        Wkid="@(5)"
+                                        ImageCoordinateSystem="@("laborum")"
+                                        Wkt="@("dolor")"
+                                        Wkt2="@("reiciendis")">
+                                    </SpatialReference>
+                                </Extent>
+                            </TileMatrixSet>
+                        </WMTSSublayer>
+                        <PortalItem />
+                        <Extent 
+                            Xmax="@(-128.7174)"
+                            Xmin="@(-53.3929)"
+                            Ymax="@(-12.6521)"
+                            Ymin="@(64.9811)"
+                            Zmax="@(906.9362)"
+                            Zmin="@(965.5674)"
+                            Mmax="@(535.2162)"
+                            Mmin="@(133.7615)"
+                            HasM="@(true)"
+                            HasZ="@(true)">
+                            <SpatialReference 
+                                Wkid="@(5)"
+                                ImageCoordinateSystem="@("qui")"
+                                Wkt="@("repudiandae")"
+                                Wkt2="@("qui")">
+                            </SpatialReference>
+                        </Extent>
+                    </WMTSLayer>
+                </Map>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(wMTSLayer!);
+        await AssertJavaScript("assertLayerExists", args: "w-m-t-s");
+        var fetchTileMethodResult = await wMTSLayer.FetchTile(51.2446,
+                306.2932,
+                788.6418,
+                default);
+        Assert.IsNotNull(fetchTileMethodResult);
+        var findSublayerByIdMethodResult = await wMTSLayer.FindSublayerById("fc0912cb-f1e0-7759-700c-93c74d0f1b31");
+        Assert.IsNotNull(findSublayerByIdMethodResult);
+        await wMTSLayer.Refresh();
+        WMTSSublayer testActiveLayer = new WMTSSublayer("qui iste perferendis sint",
+                new Extent(-162.1128,
+                        -131.1119,
+                        -42.7508,
+                        -56.8817,
+                        271.7310,
+                        558.1796,
+                        835.9079,
+                        964.4254,
+                    new SpatialReference(7,
+                            "quasi",
+                            "minus",
+                            "voluptatum"),
+                        true,
+                        true),
+                    "inventore",
+                    ["quaerat"],
+                    "praesentium",
+                [new WMTSStyle("rerum reiciendis cum",
+                        "http://jailyn.biz",
+                        "libero quas deleniti",
+                        "dolor"),
+                new WMTSStyle("aut dignissimos dicta",
+                        "https://camylle.com",
+                        "nulla aspernatur deleniti",
+                        "quas")],
+                new TileMatrixSet(new Extent(91.6811,
+                            97.1816,
+                            15.8117,
+                            29.1324,
+                            746.7011,
+                            285.2814,
+                            963.6864,
+                            270.2811,
+                        new SpatialReference(8,
+                                "similique",
+                                "doloribus",
+                                "id"),
+                            true,
+                            true),
+                    new TileInfo(332.1701,
+                            TileInfoFormat.Svg,
+                            true,
+                        [new LOD(8,
+                                "facere",
+                                69.2591,
+                                29038794.1378)],
+                        new Point(-39.7309,
+                                -34.2290,
+                                -132.9785,
+                                27.3088,
+                                879.2929,
+                            new SpatialReference(3,
+                                    "doloremque",
+                                    "culpa",
+                                    "voluptas"),
+                                true,
+                                true,
+                                972.4171),
+                            [2],
+                        new SpatialReference(4,
+                                "dolorem",
+                                "sed",
+                                "porro")),
+                        "accusantium"),
+                    "qui",
+                [new TileMatrixSet(new Extent(-114.3808,
+                            -48.3445,
+                            -51.4208,
+                            20.0040,
+                            197.9896,
+                            728.0650,
+                            116.6741,
+                            569.3104,
+                        new SpatialReference(7,
+                                "omnis",
+                                "corrupti",
+                                "rem"),
+                            true,
+                            true),
+                    new TileInfo(768.1416,
+                            TileInfoFormat.Png,
+                            true,
+                        [new LOD(8,
+                                "veritatis",
+                                79.6066,
+                                884122.6983)],
+                        new Point(44.7371,
+                                42.7906,
+                                3.7518,
+                                70.4946,
+                                459.9138,
+                            new SpatialReference(1,
+                                    "aut",
+                                    "provident",
+                                    "aspernatur"),
+                                true,
+                                true,
+                                928.1087),
+                            [7],
+                        new SpatialReference(1,
+                                "eveniet",
+                                "dignissimos",
+                                "id")),
+                        "saepe")],
+                    "corporis consequuntur nulla",
+                    "earum");
+        await wMTSLayer.SetActiveLayer(testActiveLayer);
+        var activeLayer = await wMTSLayer.GetActiveLayer();
+        Assert.AreEqual(testActiveLayer, activeLayer);
+        BlendMode testBlendMode = BlendMode.Normal;
+        await wMTSLayer.SetBlendMode(testBlendMode);
+        var blendMode = await wMTSLayer.GetBlendMode();
+        Assert.AreEqual(testBlendMode, blendMode);
+        Extent testFullExtent = new Extent(-94.2470,
+                    76.5329,
+                    16.3837,
+                    -78.7472,
+                    210.8104,
+                    711.5726,
+                    880.0749,
+                    165.3931,
+                new SpatialReference(2,
+                        "inventore",
+                        "ea",
+                        "eligendi"),
+                    true,
+                    true);
+        await wMTSLayer.SetFullExtent(testFullExtent);
+        var fullExtent = await wMTSLayer.GetFullExtent();
+        Assert.AreEqual(testFullExtent, fullExtent);
+        ListMode testListMode = ListMode.Show;
+        await wMTSLayer.SetListMode(testListMode);
+        var listMode = await wMTSLayer.GetListMode();
+        Assert.AreEqual(testListMode, listMode);
+        PortalItem testPortalItem = new PortalItem();
+        await wMTSLayer.SetPortalItem(testPortalItem);
+        var portalItem = await wMTSLayer.GetPortalItem();
+        Assert.AreEqual(testPortalItem, portalItem);
+        ServiceMode testServiceMode = ServiceMode.KVP;
+        await wMTSLayer.SetServiceMode(testServiceMode);
+        var serviceMode = await wMTSLayer.GetServiceMode();
+        Assert.AreEqual(testServiceMode, serviceMode);
+        IReadOnlyList<WMTSSublayer> testSublayers = [new WMTSSublayer("et sed",
+                new Extent(-86.2552,
+                        28.7007,
+                        -61.0989,
+                        -18.1066,
+                        303.7992,
+                        417.9143,
+                        373.6460,
+                        110.6136,
+                    new SpatialReference(7,
+                            "ea",
+                            "qui",
+                            "provident"),
+                        true,
+                        true),
+                    "aut",
+                    ["quia"],
+                    "ut",
+                [new WMTSStyle("nihil nostrum doloribus",
+                        "http://eloise.org",
+                        "harum harum fugit",
+                        "ut")],
+                new TileMatrixSet(new Extent(66.7540,
+                            102.0411,
+                            -44.0306,
+                            24.0858,
+                            699.4461,
+                            639.4506,
+                            97.2726,
+                            151.9182,
+                        new SpatialReference(3,
+                                "maiores",
+                                "corrupti",
+                                "facilis"),
+                            true,
+                            true),
+                    new TileInfo(861.4068,
+                            TileInfoFormat.Lerc,
+                            true,
+                        [new LOD(9,
+                                "possimus",
+                                92.5449,
+                                49256623.6882)],
+                        new Point(24.3869,
+                                30.1387,
+                                20.7339,
+                                -27.0511,
+                                475.1308,
+                            new SpatialReference(3,
+                                    "molestias",
+                                    "nam",
+                                    "aut"),
+                                true,
+                                true,
+                                526.1263),
+                            [7,
+                                5],
+                        new SpatialReference(8,
+                                "omnis",
+                                "alias",
+                                "id")),
+                        "et"),
+                    "aut",
+                [new TileMatrixSet(new Extent(-113.7020,
+                            54.5144,
+                            63.1188,
+                            -36.9996,
+                            269.7630,
+                            892.7985,
+                            903.3088,
+                            32.3378,
+                        new SpatialReference(3,
+                                "quas",
+                                "nihil",
+                                "qui"),
+                            true,
+                            true),
+                    new TileInfo(164.2049,
+                            TileInfoFormat.Svg,
+                            true,
+                        [new LOD(7,
+                                "ut",
+                                54.8639,
+                                26641270.1921)],
+                        new Point(54.7562,
+                                -21.8864,
+                                -94.0329,
+                                -48.4572,
+                                915.6632,
+                            new SpatialReference(1,
+                                    "optio",
+                                    "et",
+                                    "enim"),
+                                true,
+                                true,
+                                550.2995),
+                            [7],
+                        new SpatialReference(7,
+                                "aliquam",
+                                "architecto",
+                                "possimus")),
+                        "aliquid")],
+                    "id sunt in",
+                    "natus")];
+        await wMTSLayer.SetSublayers(testSublayers);
+        var sublayers = await wMTSLayer.GetSublayers();
+        Assert.AreEqual(testSublayers, sublayers);
+        TimeExtent testVisibilityTimeExtent = new TimeExtent(new DateTime(2015, 7, 3, 14, 24, 54),
+                    new DateTime(2016, 5, 16, 18, 7, 55));
+        await wMTSLayer.SetVisibilityTimeExtent(testVisibilityTimeExtent);
+        var visibilityTimeExtent = await wMTSLayer.GetVisibilityTimeExtent();
+        Assert.AreEqual(testVisibilityTimeExtent, visibilityTimeExtent);
+    }
+}

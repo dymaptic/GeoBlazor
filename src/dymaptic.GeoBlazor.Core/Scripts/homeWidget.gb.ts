@@ -173,17 +173,33 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHome;
+    
     let { buildDotNetHomeWidget } = await import('./homeWidget');
     let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type HomeWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HomeWidget', e);
     }
     
     return jsHome;
 }
+
 
 export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

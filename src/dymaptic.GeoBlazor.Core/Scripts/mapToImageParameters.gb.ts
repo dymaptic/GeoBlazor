@@ -22,16 +22,32 @@ export async function buildJsMapToImageParametersGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapToImageParameters;
     
+    let { buildDotNetMapToImageParameters } = await import('./mapToImageParameters');
     let dnInstantiatedObject = await buildDotNetMapToImageParameters(jsMapToImageParameters);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type MapToImageParameters detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for MapToImageParameters', e);
     }
     
     return jsMapToImageParameters;
 }
+
 
 export async function buildDotNetMapToImageParametersGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

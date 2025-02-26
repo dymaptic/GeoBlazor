@@ -120,17 +120,33 @@ export async function buildJsIntlGenerated(dotNetObject: any, layerId: string | 
     let jsObjectRef = DotNet.createJSObjectReference(intlWrapper);
     jsObjectRefs[dotNetObject.id] = intlWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsintl;
+    
     let { buildDotNetIntl } = await import('./intl');
     let dnInstantiatedObject = await buildDotNetIntl(jsintl);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type Intl detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Intl', e);
     }
     
     return jsintl;
 }
+
 
 export async function buildDotNetIntlGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

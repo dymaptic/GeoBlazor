@@ -35,16 +35,32 @@ export async function buildJsViewClickEventGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewClickEvent;
     
+    let { buildDotNetViewClickEvent } = await import('./viewClickEvent');
     let dnInstantiatedObject = await buildDotNetViewClickEvent(jsViewClickEvent);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ViewClickEvent detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ViewClickEvent', e);
     }
     
     return jsViewClickEvent;
 }
+
 
 export async function buildDotNetViewClickEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

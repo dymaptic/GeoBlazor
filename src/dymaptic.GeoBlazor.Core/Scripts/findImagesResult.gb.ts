@@ -16,16 +16,32 @@ export async function buildJsFindImagesResultGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFindImagesResult;
     
+    let { buildDotNetFindImagesResult } = await import('./findImagesResult');
     let dnInstantiatedObject = await buildDotNetFindImagesResult(jsFindImagesResult);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type FindImagesResult detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FindImagesResult', e);
     }
     
     return jsFindImagesResult;
 }
+
 
 export async function buildDotNetFindImagesResultGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

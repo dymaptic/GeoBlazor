@@ -33,16 +33,32 @@ export async function buildJsScaleDependentIconsGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentIcons;
     
+    let { buildDotNetScaleDependentIcons } = await import('./scaleDependentIcons');
     let dnInstantiatedObject = await buildDotNetScaleDependentIcons(jsScaleDependentIcons);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ScaleDependentIcons detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ScaleDependentIcons', e);
     }
     
     return jsScaleDependentIcons;
 }
+
 
 export async function buildDotNetScaleDependentIconsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

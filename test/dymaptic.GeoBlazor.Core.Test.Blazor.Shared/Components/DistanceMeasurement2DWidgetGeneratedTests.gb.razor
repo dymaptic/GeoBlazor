@@ -1,0 +1,50 @@
+@inherits TestRunnerBase
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+
+    [TestMethod]
+    public async Task TestCanRenderGeneratedDistanceMeasurement2DWidget(Action renderHandler)
+    {
+        DistanceMeasurement2DWidget? distanceMeasurement2DWidget = null;
+
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                </Map>
+                <DistanceMeasurement2DWidget 
+                    Icon="@("distinctio")"
+                    Label="@("tenetur")"
+                    Unit="@(SystemOrLengthUnit.Metric)"
+                    UnitOptions="@([SystemOrLengthUnit.Imperial])"
+                    WidgetId="@("eum")">
+                    <DistanceMeasurement2DViewModel 
+                        Unit="@(SystemOrLengthUnit.Yards)"
+                        UnitOptions="@([SystemOrLengthUnit.UsFeet])">
+                    </DistanceMeasurement2DViewModel>
+                </DistanceMeasurement2DWidget>
+            </MapView>);
+        await WaitForMapToRender();
+        Assert.IsNotNull(distanceMeasurement2DWidget!);
+        await AssertJavaScript("assertWidgetExists", args: "distance-measurement2-d");
+        SystemOrLengthUnit testUnit = SystemOrLengthUnit.NauticalMiles;
+        await distanceMeasurement2DWidget.SetUnit(testUnit);
+        var unit = await distanceMeasurement2DWidget.GetUnit();
+        Assert.AreEqual(testUnit, unit);
+        IReadOnlyList<SystemOrLengthUnit> testUnitOptions = [SystemOrLengthUnit.Centimeters];
+        await distanceMeasurement2DWidget.SetUnitOptions(testUnitOptions);
+        var unitOptions = await distanceMeasurement2DWidget.GetUnitOptions();
+        Assert.AreEqual(testUnitOptions, unitOptions);
+        DistanceMeasurement2DViewModel testViewModel = new DistanceMeasurement2DViewModel(SystemOrLengthUnit.Yards,
+                [SystemOrLengthUnit.Decimeters]);
+        await distanceMeasurement2DWidget.SetViewModel(testViewModel);
+        var viewModel = await distanceMeasurement2DWidget.GetViewModel();
+        Assert.AreEqual(testViewModel, viewModel);
+    }
+}

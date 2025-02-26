@@ -342,17 +342,33 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(mapImageLayerWrapper);
     jsObjectRefs[dotNetObject.id] = mapImageLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
+    
     let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
     let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type MapImageLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for MapImageLayer', e);
     }
     
     return jsMapImageLayer;
 }
+
 
 export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

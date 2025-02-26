@@ -294,17 +294,33 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = vectorTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
+    
     let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
     let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type VectorTileLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for VectorTileLayer', e);
     }
     
     return jsVectorTileLayer;
 }
+
 
 export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -69,14 +69,30 @@ export async function buildJsGeographicTransformationGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(geographicTransformationWrapper);
     jsObjectRefs[dotNetObject.id] = geographicTransformationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeographicTransformation;
+    
     let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
     let dnInstantiatedObject = buildDotNetGeographicTransformation(jsGeographicTransformation);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type GeographicTransformation detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for GeographicTransformation', e);
     }
     
     return jsGeographicTransformation;
 }
+

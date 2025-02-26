@@ -26,16 +26,32 @@ export async function buildJsPortalQueryResultGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalQueryResult;
     
+    let { buildDotNetPortalQueryResult } = await import('./portalQueryResult');
     let dnInstantiatedObject = await buildDotNetPortalQueryResult(jsPortalQueryResult);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type PortalQueryResult detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for PortalQueryResult', e);
     }
     
     return jsPortalQueryResult;
 }
+
 
 export async function buildDotNetPortalQueryResultGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -71,17 +71,33 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(viewAnimationWrapper);
     jsObjectRefs[dotNetObject.id] = viewAnimationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewAnimation;
+    
     let { buildDotNetViewAnimation } = await import('./viewAnimation');
     let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type ViewAnimation detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for ViewAnimation', e);
     }
     
     return jsViewAnimation;
 }
+
 
 export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

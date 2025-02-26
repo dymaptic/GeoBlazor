@@ -99,17 +99,33 @@ export async function buildJsIIconSymbol3DLayerGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(iIconSymbol3DLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iIconSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayer;
+    
     let { buildDotNetIIconSymbol3DLayer } = await import('./iIconSymbol3DLayer');
     let dnInstantiatedObject = await buildDotNetIIconSymbol3DLayer(jsIconSymbol3DLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type IIconSymbol3DLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IIconSymbol3DLayer', e);
     }
     
     return jsIconSymbol3DLayer;
 }
+
 
 export async function buildDotNetIIconSymbol3DLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

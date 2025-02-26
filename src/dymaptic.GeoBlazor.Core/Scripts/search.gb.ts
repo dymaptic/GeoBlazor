@@ -6,7 +6,7 @@ import { buildDotNetSearch } from './search';
 export async function buildJsSearchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.layers)) {
-        let { buildJsISearchLayer } = await import('./iSearchLayer');
+        let { buildJsSearchLayer } = await import('./searchLayer');
         properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsISearchLayer(i, layerId, viewId))) as any;
     }
 
@@ -29,16 +29,32 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearch;
     
+    let { buildDotNetSearch } = await import('./search');
     let dnInstantiatedObject = await buildDotNetSearch(jsSearch);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type Search detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Search', e);
     }
     
     return jsSearch;
 }
+
 
 export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

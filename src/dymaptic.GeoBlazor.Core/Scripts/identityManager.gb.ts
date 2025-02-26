@@ -115,7 +115,7 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWidget } = await import('./widget');
-        return buildDotNetWidget(this.component.dialog);
+        return await buildDotNetWidget(this.component.dialog);
     }
     
     async setDialog(value: any): Promise<void> {
@@ -164,17 +164,33 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(identityManagerWrapper);
     jsObjectRefs[dotNetObject.id] = identityManagerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManager;
+    
     let { buildDotNetIdentityManager } = await import('./identityManager');
     let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type IdentityManager detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IdentityManager', e);
     }
     
     return jsIdentityManager;
 }
+
 
 export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
@@ -186,7 +202,7 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
     };
     if (hasValue(jsObject.dialog)) {
         let { buildDotNetWidget } = await import('./widget');
-        dotNetIdentityManager.dialog = buildDotNetWidget(jsObject.dialog);
+        dotNetIdentityManager.dialog = await buildDotNetWidget(jsObject.dialog);
     }
     if (hasValue(jsObject.tokenValidity)) {
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;

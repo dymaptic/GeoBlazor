@@ -44,3 +44,85 @@
 public record DomPointerEvent(long? PointerId, double? Width, double? Height, double? Pressure,
     double? TangentialPressure, double? TiltX, double? TiltY, double? Twist, PointerType? PointerType, bool? IsPrimary,
     bool? IsTrusted);
+    
+    
+/// <summary>
+///     Represents the native mouse event in the DOM.
+/// </summary>
+/// <param name="AltKey">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/altKey">MDN Reference</a>
+/// </param>
+/// <param name="Button">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/button">MDN Reference</a>
+/// </param>
+/// <param name="Buttons">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/buttons">MDN Reference</a>
+/// </param>
+/// <param name="ClientX">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/clientX">MDN Reference</a>
+/// </param>
+/// <param name="ClientY">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/clientY">MDN Reference</a>
+/// </param>
+/// <param name="CtrlKey">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/ctrlKey">MDN Reference</a>
+/// </param>
+/// <param name="MetaKey">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/metaKey">MDN Reference</a>
+/// </param>
+/// <param name="MovementX">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/movementX">MDN Reference</a>
+/// </param>
+/// <param name="MovementY">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/movementY">MDN Reference</a>
+/// </param>
+/// <param name="OffsetX">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/offsetX">MDN Reference</a>
+/// </param>
+/// <param name="OffsetY">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/offsetY">MDN Reference</a>
+/// </param>
+/// <param name="PageX">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/pageX">MDN Reference</a>
+/// </param>
+/// <param name="PageY">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/pageY">MDN Reference</a>
+/// </param>
+/// <param name="RelatedTarget">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/relatedTarget">MDN Reference</a>
+/// </param>
+/// <param name="ScreenX">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/screenX">MDN Reference</a>
+/// </param>
+/// <param name="ScreenY">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/screenY">MDN Reference</a>
+/// </param>
+/// <param name="ShiftKey">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/shiftKey">MDN Reference</a>
+/// </param>
+/// <param name="X">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/x">MDN Reference</a>
+/// </param>
+/// <param name="Y">
+/// <a href="https://developer.mozilla.org/docs/Web/API/MouseEvent/y">MDN Reference</a>
+/// </param>
+public record DomMouseEvent(
+    bool AltKey,
+    int Button,
+    int Buttons,
+    int ClientX,
+    int ClientY,
+    bool CtrlKey,
+    bool MetaKey,
+    double? MovementX,
+    double? MovementY,
+    double OffsetX,
+    double OffsetY,
+    double PageX,
+    double PageY,
+    ElementReference? RelatedTarget,
+    int ScreenX,
+    int ScreenY,
+    bool ShiftKey,
+    int X,
+    int Y);

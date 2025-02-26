@@ -48,17 +48,33 @@ export async function buildJsHighlightHandleGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(highlightHandleWrapper);
     jsObjectRefs[dotNetObject.id] = highlightHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandle;
+    
     let { buildDotNetHighlightHandle } = await import('./highlightHandle');
     let dnInstantiatedObject = await buildDotNetHighlightHandle(jsHandle);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type HighlightHandle detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for HighlightHandle', e);
     }
     
     return jsHandle;
 }
+
 
 export async function buildDotNetHighlightHandleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

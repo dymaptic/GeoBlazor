@@ -17,16 +17,32 @@ export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebSceneSaveAsOptions;
     
+    let { buildDotNetWebSceneSaveAsOptions } = await import('./webSceneSaveAsOptions');
     let dnInstantiatedObject = await buildDotNetWebSceneSaveAsOptions(jsWebSceneSaveAsOptions);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type WebSceneSaveAsOptions detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WebSceneSaveAsOptions', e);
     }
     
     return jsWebSceneSaveAsOptions;
 }
+
 
 export async function buildDotNetWebSceneSaveAsOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

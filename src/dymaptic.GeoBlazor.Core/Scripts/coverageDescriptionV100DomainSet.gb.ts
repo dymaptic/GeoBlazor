@@ -17,16 +17,32 @@ export async function buildJsCoverageDescriptionV100DomainSetGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV100DomainSet;
     
+    let { buildDotNetCoverageDescriptionV100DomainSet } = await import('./coverageDescriptionV100DomainSet');
     let dnInstantiatedObject = await buildDotNetCoverageDescriptionV100DomainSet(jsCoverageDescriptionV100DomainSet);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type CoverageDescriptionV100DomainSet detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CoverageDescriptionV100DomainSet', e);
     }
     
     return jsCoverageDescriptionV100DomainSet;
 }
+
 
 export async function buildDotNetCoverageDescriptionV100DomainSetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

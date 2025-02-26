@@ -294,17 +294,33 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
+    
     let { buildDotNetSliderWidget } = await import('./sliderWidget');
     let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type SliderWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SliderWidget', e);
     }
     
     return jsSlider;
 }
+
 
 export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -61,17 +61,33 @@ export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: st
     let jsObjectRef = DotNet.createJSObjectReference(sunLightingWrapper);
     jsObjectRefs[dotNetObject.id] = sunLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSunLighting;
+    
     let { buildDotNetSunLighting } = await import('./sunLighting');
     let dnInstantiatedObject = await buildDotNetSunLighting(jsSunLighting);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type SunLighting detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SunLighting', e);
     }
     
     return jsSunLighting;
 }
+
 
 export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

@@ -32,16 +32,32 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promis
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
+    let { buildDotNetOpacityVariable } = await import('./opacityVariable');
     let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type OpacityVariable detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OpacityVariable', e);
     }
     
     return jsOpacityVariable;
 }
+
 
 export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

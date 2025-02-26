@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Provides the logic for the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html">AreaMeasurement2D</a> widget.
+///    The view from which the widget will operate.
+///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#view">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AreaMeasurement2DViewModel : MapComponent,
     IMeasurementViewModelActiveViewModel
@@ -240,36 +241,6 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         return UnitOptions;
     }
     
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
 #endregion
 
 #region Property Setters
@@ -332,36 +303,6 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion
@@ -436,60 +377,4 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     
 #endregion
 
-
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case AreaMeasurement2DViewModelMeasurement measurement:
-                if (measurement != Measurement)
-                {
-                    Measurement = measurement;
-                    
-                    ModifiedParameters[nameof(Measurement)] = Measurement;
-                }
-                
-                return true;
-            case AreaMeasurement2DViewModelMeasurementLabel measurementLabel:
-                if (measurementLabel != MeasurementLabel)
-                {
-                    MeasurementLabel = measurementLabel;
-                    
-                    ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case AreaMeasurement2DViewModelMeasurement _:
-                Measurement = null;
-                
-                ModifiedParameters[nameof(Measurement)] = Measurement;
-                return true;
-            case AreaMeasurement2DViewModelMeasurementLabel _:
-                MeasurementLabel = null;
-                
-                ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Measurement?.ValidateRequiredGeneratedChildren();
-        MeasurementLabel?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

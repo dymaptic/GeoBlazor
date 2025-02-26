@@ -218,17 +218,33 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
     jsObjectRefs[dotNetObject.id] = openStreetMapLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
+    
     let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
     let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type OpenStreetMapLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for OpenStreetMapLayer', e);
     }
     
     return jsOpenStreetMapLayer;
 }
+
 
 export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

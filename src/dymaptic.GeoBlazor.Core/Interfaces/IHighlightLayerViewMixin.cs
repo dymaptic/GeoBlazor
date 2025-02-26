@@ -12,7 +12,7 @@ public partial interface IHighlightLayerViewMixin
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
     [CodeGenerationIgnore]
-Task<HighlightHandle> Highlight(long objectId);
+    Task<HighlightHandle> Highlight(long objectId);
     
     /// <summary>
     ///     Highlights the given feature(s).
@@ -23,6 +23,7 @@ Task<HighlightHandle> Highlight(long objectId);
     /// <returns>
     ///     A handle that allows the highlight to be removed later.
     /// </returns>
+    [CodeGenerationIgnore]
     Task<HighlightHandle> Highlight(string objectId);
     
     /// <summary>
@@ -37,6 +38,7 @@ Task<HighlightHandle> Highlight(long objectId);
     /// <exception cref="ArgumentException">
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
+    [CodeGenerationIgnore]
     Task<HighlightHandle> Highlight(IReadOnlyCollection<long> objectIds);
     
     /// <summary>
@@ -51,6 +53,7 @@ Task<HighlightHandle> Highlight(long objectId);
     /// <exception cref="ArgumentException">
     ///     Throws if no ObjectIDs are provided.
     /// </exception>
+    [CodeGenerationIgnore]
     Task<HighlightHandle> Highlight(IReadOnlyCollection<string> objectIds);
     
     /// <summary>
@@ -65,6 +68,7 @@ Task<HighlightHandle> Highlight(long objectId);
     /// <exception cref="InvalidOperationException">
     ///     Throws if the graphic has no OBJECTID attribute and was not queried via GeoBlazor.
     /// </exception>
+    [CodeGenerationIgnore]
     Task<HighlightHandle> Highlight(Graphic graphic);
     
     /// <summary>
@@ -79,5 +83,6 @@ Task<HighlightHandle> Highlight(long objectId);
     /// <exception cref="InvalidOperationException">
     ///     Throws if the graphics have no OBJECTID attribute and were not queried via GeoBlazor.
     /// </exception>
+    [CodeGenerationIgnore]
     Task<HighlightHandle> Highlight(IReadOnlyCollection<Graphic> graphics);
 }

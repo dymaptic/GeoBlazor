@@ -65,17 +65,33 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
     let jsObjectRef = DotNet.createJSObjectReference(handlesWrapper);
     jsObjectRefs[dotNetObject.id] = handlesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandles;
+    
     let { buildDotNetHandles } = await import('./handles');
     let dnInstantiatedObject = await buildDotNetHandles(jsHandles);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type Handles detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Handles', e);
     }
     
     return jsHandles;
 }
+
 
 export async function buildDotNetHandlesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

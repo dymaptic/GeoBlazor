@@ -524,17 +524,33 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
+    
     let { buildDotNetFeatureLayer } = await import('./featureLayer');
     let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type FeatureLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureLayer', e);
     }
     
     return jsFeatureLayer;
 }
+
 
 export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

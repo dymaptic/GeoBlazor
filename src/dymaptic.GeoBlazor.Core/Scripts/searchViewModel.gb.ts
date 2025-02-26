@@ -263,17 +263,33 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(searchViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = searchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModel;
+    
     let { buildDotNetSearchViewModel } = await import('./searchViewModel');
     let dnInstantiatedObject = await buildDotNetSearchViewModel(jsSearchViewModel, layerId, viewId);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type SearchViewModel detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SearchViewModel', e);
     }
     
     return jsSearchViewModel;
 }
+
 
 export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {

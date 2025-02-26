@@ -9,7 +9,6 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
 
     constructor(popup: Popup) {
         super(popup);
-        this.popup = popup;
     }
 
 

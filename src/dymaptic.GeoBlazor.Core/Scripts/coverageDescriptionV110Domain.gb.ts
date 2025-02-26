@@ -17,16 +17,32 @@ export async function buildJsCoverageDescriptionV110DomainGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110Domain;
     
+    let { buildDotNetCoverageDescriptionV110Domain } = await import('./coverageDescriptionV110Domain');
     let dnInstantiatedObject = await buildDotNetCoverageDescriptionV110Domain(jsCoverageDescriptionV110Domain);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type CoverageDescriptionV110Domain detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CoverageDescriptionV110Domain', e);
     }
     
     return jsCoverageDescriptionV110Domain;
 }
+
 
 export async function buildDotNetCoverageDescriptionV110DomainGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

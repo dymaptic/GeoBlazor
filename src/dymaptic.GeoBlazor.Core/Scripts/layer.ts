@@ -342,6 +342,20 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
             let {buildDotNetVoxelLayer} = await import('./voxelLayer');
             return await buildDotNetVoxelLayer(jsObject);
         default:
-            return jsObject;
+            let seenObjects = new WeakMap();
+            let jsonSanitizedObject = JSON.stringify(jsObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing layer type ${jsObject.type} detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            });
+            return JSON.parse(jsonSanitizedObject);
     }
 }

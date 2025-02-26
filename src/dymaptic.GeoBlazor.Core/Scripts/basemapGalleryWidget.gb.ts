@@ -150,17 +150,33 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapGalleryWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGallery;
+    
     let { buildDotNetBasemapGalleryWidget } = await import('./basemapGalleryWidget');
     let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type BasemapGalleryWidget detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for BasemapGalleryWidget', e);
     }
     
     return jsBasemapGallery;
 }
+
 
 export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

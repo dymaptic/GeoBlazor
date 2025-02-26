@@ -26,16 +26,32 @@ export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSearchCompleteEvent;
     
+    let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
     let dnInstantiatedObject = await buildDotNetSearchCompleteEvent(jsSearchSearchCompleteEvent);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type SearchCompleteEvent detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for SearchCompleteEvent', e);
     }
     
     return jsSearchSearchCompleteEvent;
 }
+
 
 export async function buildDotNetSearchCompleteEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

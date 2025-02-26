@@ -353,17 +353,33 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wMSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
+    
     let { buildDotNetWMSLayer } = await import('./wMSLayer');
     let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type WMSLayer detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for WMSLayer', e);
     }
     
     return jsWMSLayer;
 }
+
 
 export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

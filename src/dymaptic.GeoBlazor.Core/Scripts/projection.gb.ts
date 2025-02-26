@@ -52,17 +52,33 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(projectionWrapper);
     jsObjectRefs[dotNetObject.id] = projectionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsprojection;
+    
     let { buildDotNetProjection } = await import('./projection');
     let dnInstantiatedObject = await buildDotNetProjection(jsprojection);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type Projection detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for Projection', e);
     }
     
     return jsprojection;
 }
+
 
 export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

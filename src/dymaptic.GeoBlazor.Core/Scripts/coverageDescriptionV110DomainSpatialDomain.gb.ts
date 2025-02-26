@@ -32,16 +32,32 @@ export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110DomainSpatialDomain;
     
+    let { buildDotNetCoverageDescriptionV110DomainSpatialDomain } = await import('./coverageDescriptionV110DomainSpatialDomain');
     let dnInstantiatedObject = await buildDotNetCoverageDescriptionV110DomainSpatialDomain(jsCoverageDescriptionV110DomainSpatialDomain);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type CoverageDescriptionV110DomainSpatialDomain detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CoverageDescriptionV110DomainSpatialDomain', e);
     }
     
     return jsCoverageDescriptionV110DomainSpatialDomain;
 }
+
 
 export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

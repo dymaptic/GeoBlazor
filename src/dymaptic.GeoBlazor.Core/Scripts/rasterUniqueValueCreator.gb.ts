@@ -20,8 +20,8 @@ export default class RasterUniqueValueCreatorGenerated implements IPropertyWrapp
     }
     
     async createRenderer(parameters: any): Promise<any> {
-        let { buildJsUniqueValueCreateRendererParams } = await import('./uniqueValueCreateRendererParams');
-        let jsparameters = await buildJsUniqueValueCreateRendererParams(parameters, this.layerId, this.viewId) as any;
+                let { buildJsUniqueValueCreateRendererParams } = await import('./uniqueValueCreateRendererParams');
+let jsparameters = await buildJsUniqueValueCreateRendererParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.createRenderer(jsparameters);
     }
 
@@ -47,15 +47,29 @@ export async function buildJsRasterUniqueValueCreatorGenerated(dotNetObject: any
     rasterUniqueValueCreatorWrapper.viewId = viewId;
     rasterUniqueValueCreatorWrapper.layerId = layerId;
     
-    // @ts-ignore
     let jsObjectRef = DotNet.createJSObjectReference(rasterUniqueValueCreatorWrapper);
     jsObjectRefs[dotNetObject.id] = rasterUniqueValueCreatorWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValue;
+    
     let { buildDotNetRasterUniqueValueCreator } = await import('./rasterUniqueValueCreator');
     let dnInstantiatedObject = await buildDotNetRasterUniqueValueCreator(jsuniqueValue);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type RasterUniqueValueCreator detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RasterUniqueValueCreator', e);
     }
@@ -63,13 +77,13 @@ export async function buildJsRasterUniqueValueCreatorGenerated(dotNetObject: any
     return jsuniqueValue;
 }
 
+
 export async function buildDotNetRasterUniqueValueCreatorGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
     let dotNetRasterUniqueValueCreator: any = {
-        // @ts-ignore
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 

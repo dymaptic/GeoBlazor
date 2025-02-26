@@ -20,16 +20,32 @@ export async function buildJsFetchResourceGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFetchResource;
     
+    let { buildDotNetFetchResource } = await import('./fetchResource');
     let dnInstantiatedObject = await buildDotNetFetchResource(jsFetchResource);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type FetchResource detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FetchResource', e);
     }
     
     return jsFetchResource;
 }
+
 
 export async function buildDotNetFetchResourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

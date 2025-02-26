@@ -31,16 +31,32 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
     
+    let { buildDotNetRotationVariable } = await import('./rotationVariable');
     let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type RotationVariable detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for RotationVariable', e);
     }
     
     return jsRotationVariable;
 }
+
 
 export async function buildDotNetRotationVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {

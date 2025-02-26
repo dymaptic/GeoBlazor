@@ -27,16 +27,32 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
     
+    let { buildDotNetFeatureEffect } = await import('./featureEffect');
     let dnInstantiatedObject = await buildDotNetFeatureEffect(jsFeatureEffect);
-    
+
     try {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
+        let seenObjects = new WeakMap();
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (typeof value === 'object' && value !== null) {
+                    if (seenObjects.has(value)) {
+                        console.warn(`Circular reference in serializing type FeatureEffect detected at path: ${key}, value: ${value}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
+                return value;
+            }));
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for FeatureEffect', e);
     }
     
     return jsFeatureEffect;
 }
+
 
 export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
